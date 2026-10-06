@@ -4,12 +4,12 @@ import { cookies } from "next/headers";
 import type { NextRequest, NextResponse } from "next/server";
 
 export function authEnabled(): boolean {
-  return !!(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
+  return !!(process.env.NEXT_PUBLIC_SUPABASE_URL && (process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY));
 }
 
 export function createServerSupabase() {
   const cookieStore = cookies();
-  return createServerClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!, {
+  return createServerClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, (process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)!, {
     cookies: {
       getAll() { return cookieStore.getAll(); },
       setAll(toSet: { name: string; value: string; options: CookieOptions }[]) {
@@ -20,7 +20,7 @@ export function createServerSupabase() {
 }
 
 export function createMiddlewareSupabase(req: NextRequest, res: NextResponse) {
-  return createServerClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!, {
+  return createServerClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, (process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)!, {
     cookies: {
       getAll() { return req.cookies.getAll(); },
       setAll(toSet: { name: string; value: string; options: CookieOptions }[]) { toSet.forEach(({ name, value, options }) => res.cookies.set(name, value, options)); },
