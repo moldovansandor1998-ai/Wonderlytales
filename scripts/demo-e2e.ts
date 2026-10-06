@@ -95,7 +95,7 @@ async function main() {
     // 9. QC ffprobe-alapú render ellenőrzéssel
     const probe = await probeFile(outPath);
     const qcs = await runQc(db, (await db.get<ShotRow>("shots", sh.id))!, job.id, true);
-    step(`8-9. SH${String(sh.shot_number).padStart(3,"0")} preview+QC`, { video: path.basename(outPath), probe: `${probe.width}x${probe.height}@${Math.round(probe.fps)}fps`, qc: qcs.map((q) => `${q.check}:${q.status}`) });
+    step(`8-9. SH${String(sh.shot_number).padStart(3,"0")} preview+QC`, { video: path.basename(outPath), probe: `${probe.width}x${probe.height}@${Math.round(probe.fps)}fps`, qc: qcs.map((q) => `${q.check_name}:${q.status}`) });
   }
 
   // 10-11. approve + final render (a preview klipek szolgálnak final outputként a demóban)
