@@ -105,7 +105,7 @@ export async function runQc(db: Db, shot: ShotRow, jobId: string | null, renderE
   const checks = shot.data.qc.required_checks.length ? shot.data.qc.required_checks : [...QC_CHECKS];
   for (const check of checks) {
     const r = DETERMINISTIC[check] ? DETERMINISTIC[check](ctx) : visionCheck(check);
-    results.push(await db.insert<QcResult>("qc_results", { id: newId(), shot_id: shot.id, job_id: jobId, check, status: r.status, score: r.score, details: r.details, created_at: now() }));
+    results.push(await db.insert<QcResult>("qc_results", { id: newId(), shot_id: shot.id, job_id: jobId, check_name: check, status: r.status, score: r.score, details: r.details, created_at: now() }));
   }
   const min = shot.data.qc.minimum_score;
   const worst = results.reduce((a, r) => Math.min(a, r.score), 100);
