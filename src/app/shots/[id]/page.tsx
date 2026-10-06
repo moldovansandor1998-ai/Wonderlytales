@@ -67,7 +67,7 @@ export default async function ShotPage({ params }: { params: { id: string } }) {
         </Card>
         <Card><h2 className="font-semibold mb-3">QC eredmények</h2>
           {qcs.length === 0 ? <p className="text-sm text-zinc-500">Még nem futott QC.</p> :
-            <Table head={["Check","Státusz","Score"]}>{qcs.map((q) => <tr key={q.id}><td className="text-xs">{q.check}</td><td><Badge text={q.status} tone={statusTone(q.status)} /></td><td>{q.score}</td></tr>)}</Table>}
+            <Table head={["Check","Státusz","Score"]}>{qcs.map((q) => <tr key={q.id}><td className="text-xs">{q.check_name}</td><td><Badge text={q.status} tone={statusTone(q.status)} /></td><td>{q.score}</td></tr>)}</Table>}
         </Card>
         <Card><h2 className="font-semibold mb-2">Dialógus</h2>
           {shot.data.dialogue.length === 0 ? <p className="text-sm text-zinc-500">Nincs dialógus.</p> :
