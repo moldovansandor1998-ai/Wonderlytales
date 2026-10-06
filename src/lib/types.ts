@@ -31,7 +31,7 @@ export interface ContinuityStateData {
   story_variables: Record<string, string | number | boolean>;
 }
 export interface RenderJob { id: string; shot_id: string; type: "PREVIEW"|"FINAL"|"AUDIO"|"FACIAL"|"VFX"|"ASSEMBLY"; status: JobStatus; worker: string; provider: string; attempt: number; max_attempts: number; input_snapshot: Record<string, unknown>; output_path: string | null; gpu_seconds: number; cost_usd: number; error: string | null; created_at: string; updated_at: string; }
-export interface QcResult { id: string; shot_id: string; job_id: string | null; check: string; status: QcStatus; score: number; details: string; created_at: string; }
+export interface QcResult { id: string; shot_id: string; job_id: string | null; check_name: string; status: QcStatus; score: number; details: string; created_at: string; }
 export interface CostEvent { id: string; project_id: string | null; series_id: string | null; episode_id: string | null; shot_id: string | null; job_id?: string | null; language?: string | null; retry?: boolean; category: "GPU"|"TTS"|"STORAGE"|"GENVIDEO"|"TRANSLATION"|"LLM"|"RETRY"; provider: string; service?: string; amount_usd: number; quantity: number; unit: string; unit_price_usd?: number; currency?: string; created_at: string; }
 export interface TranslationJob { id: string; episode_id: string; language: string; status: LocStatus; provider: string; cost_usd: number; }
 export interface EpisodeLocalization { id: string; episode_id: string; language: string; status: LocStatus; audio_master_path: string | null; subtitle_path: string | null; }
