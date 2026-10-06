@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body { @apply bg-zinc-950 text-zinc-100 antialiased; }
+input, select, textarea { @apply bg-zinc-900 border border-zinc-700 rounded px-2 py-1.5 text-sm w-full text-zinc-100; }
+label { @apply block text-xs text-zinc-400 mb-1; }
