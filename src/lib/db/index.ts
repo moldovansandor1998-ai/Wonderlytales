@@ -21,6 +21,7 @@ export async function getDb(): Promise<Db> {
   if (cached) return cached;
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (process.env.VERCEL && (!url || !key)) throw new Error("Production database configuration missing: NEXT_PUBLIC_SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY");
   if (url && key) {
     const { SupabaseDb } = await import("./supabase");
     cached = new SupabaseDb(url, key);
