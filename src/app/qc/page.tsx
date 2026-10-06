@@ -15,7 +15,7 @@ export default async function QcPage() {
     <Table head={["Shot","Check","Státusz","Score","Részletek","Időpont"]}>
       {results.map((r) => (<tr key={r.id}>
         <td><Link href={`/shots/${r.shot_id}`} className="text-amber-400 hover:underline">{shotLabel(r.shot_id)}</Link></td>
-        <td className="text-xs">{r.check}</td><td><Badge text={r.status} tone={statusTone(r.status)} /></td>
+        <td className="text-xs">{r.check_name}</td><td><Badge text={r.status} tone={statusTone(r.status)} /></td>
         <td>{r.score}</td><td className="text-xs text-zinc-400">{r.details}</td>
         <td className="text-xs text-zinc-500">{new Date(r.created_at).toLocaleString("hu")}</td></tr>))}
       {results.length === 0 && <tr><td colSpan={6} className="text-center text-zinc-500 py-4">Még nincs QC eredmény.</td></tr>}
