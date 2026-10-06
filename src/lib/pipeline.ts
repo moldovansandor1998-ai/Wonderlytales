@@ -52,7 +52,7 @@ export async function generatePreview(db: Db, shotId: string): Promise<RenderJob
   if (done?.status === "SUCCEEDED") {
     const results = await runQc(db, (await db.get<ShotRow>("shots", shotId))!, done.id, !!done.output_path, done.output_path);
     for (const r of results) {
-      if (shouldAutoRetry(r.check, r.status, done.attempt, done.max_attempts)) {
+      if (shouldAutoRetry(r.check_name, r.status, done.attempt, done.max_attempts)) {
         await enqueueJob(db, { shot_id: shotId, type: "PREVIEW", worker: "mock-worker-1", provider: "mock", max_attempts: 3, input_snapshot: { ...shot.data }, output_path: null, gpu_seconds: 0, cost_usd: 0, error: null });
       }
     }
