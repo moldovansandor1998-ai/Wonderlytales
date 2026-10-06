@@ -1,7 +1,38 @@
 {
-  "name":"wonderly-tales-studio",
-  "private":true,
-  "scripts":{"dev":"next dev","build":"next build","start":"next start","typecheck":"tsc --noEmit"},
-  "dependencies":{"@supabase/ssr":"latest","@supabase/supabase-js":"latest","next":"latest","react":"latest","react-dom":"latest","zod":"latest"},
-  "devDependencies":{"@types/node":"latest","@types/react":"latest","@types/react-dom":"latest","typescript":"latest"}
+  "name": "wonderly-tales-studio",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "seed": "tsx scripts/seed.ts",
+    "demo:e2e": "tsx scripts/demo-e2e.ts"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.0",
+    "next": "14.2.15",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "zod": "^3.23.8",
+    "@supabase/ssr": "^0.5.2",
+    "@aws-sdk/client-s3": "^3.650.0",
+    "@aws-sdk/s3-request-presigner": "^3.650.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "14.2.15",
+    "postcss": "^8.4.45",
+    "tailwindcss": "^3.4.12",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0"
+  }
 }
