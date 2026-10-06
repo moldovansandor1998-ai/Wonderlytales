@@ -12,7 +12,7 @@ export function decideRoute(pathname: string, authEnabled: boolean, hasUser: boo
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
-  const enabled = !!(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
+  const enabled = !!(process.env.NEXT_PUBLIC_SUPABASE_URL && (process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY));
   if (!enabled) return NextResponse.next();
   if (PUBLIC_PATHS.some((p) => pathname.startsWith(p))) return NextResponse.next();
 
