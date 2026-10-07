@@ -73,6 +73,7 @@ def author(event):
         if PIPELINE is None:
             from trellis2.pipelines import Trellis2ImageTo3DPipeline
             PIPELINE = Trellis2ImageTo3DPipeline.from_pretrained('microsoft/TRELLIS.2-4B')
+            PIPELINE.low_vram = True
             PIPELINE.cuda()
         image = Image.open(image_path)
         image.load()

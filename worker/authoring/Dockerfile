@@ -1,6 +1,6 @@
 FROM pytorch/pytorch:2.6.0-cuda12.4-cudnn9-devel
 ENV DEBIAN_FRONTEND=noninteractive PYTHONUNBUFFERED=1 \
-    TORCH_CUDA_ARCH_LIST="8.0" MAX_JOBS=2 CUDA_HOME=/usr/local/cuda \
+    TORCH_CUDA_ARCH_LIST="8.6" MAX_JOBS=2 CUDA_HOME=/usr/local/cuda \
     OPENCV_IO_ENABLE_OPENEXR=1 PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
     PYTHONPATH=/opt/trellis2 HF_HOME=/tmp/huggingface
 RUN apt-get update && apt-get install -y --no-install-recommends \
