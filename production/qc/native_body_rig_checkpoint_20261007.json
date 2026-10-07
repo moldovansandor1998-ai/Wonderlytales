@@ -1,0 +1,49 @@
+{
+  "status": "DRAFT_BODY_RIG",
+  "production_approved": false,
+  "facial_ready": false,
+  "characters": [
+    {
+      "character": "CHAR_MARK",
+      "status": "DRAFT_BODY_RIG_REQUIRES_DEFORMATION_REVIEW",
+      "bones": 18,
+      "vertices": 264589,
+      "body_rig_created": true,
+      "facial_ready": false,
+      "production_approved": false,
+      "maximum_pose_displacement": 0.03532386850584583,
+      "moving_vertices": 11535,
+      "retopology_completed": false,
+      "eyes_independent": false,
+      "source_sha256": "d4a5478d00a164d7d76852f4afe1c3b27fba9dcec5d6e7d11fc2b74df23904ed",
+      "sha256": "6e37635f106312c1f3dfe032ef567fe5d23cebb9eff2dc8ebad74aa5ca1199d4"
+    },
+    {
+      "character": "CHAR_LILI",
+      "status": "DRAFT_BODY_RIG_REQUIRES_DEFORMATION_REVIEW",
+      "bones": 16,
+      "vertices": 328209,
+      "body_rig_created": true,
+      "facial_ready": false,
+      "production_approved": false,
+      "maximum_pose_displacement": 0.06237253111385344,
+      "moving_vertices": 109836,
+      "retopology_completed": false,
+      "eyes_independent": false,
+      "source_sha256": "8dbf551e8f077be096d4d5fbcb7390b1bf59ba0ede08c118182a99cd9f983972",
+      "sha256": "45f1ce494bb72fa3763ae58661a4e2089748d8055d21e2c6186c91e2c7dd822d"
+    }
+  ],
+  "audio_access": "ELEVENLABS_API_KEY_MISSING",
+  "final_episode_created": false,
+  "format_validation": {
+    "validator": "Khronos glTF Validator",
+    "errors": 0,
+    "warnings": 0,
+    "visual_approval": false
+  },
+  "saved_drafts": {
+    "CHAR_MARK": "libfile_76d38c65662c8191bcfba5030ffd9a0f",
+    "CHAR_LILI": "libfile_0d90c448b55c8191a06d4fd776dfe777"
+  }
+}
