@@ -29,3 +29,17 @@ verified in R2. Other account endpoints are incompatible with this handler.
 
 Production storage verification: `node --import tsx scripts/storage-smoke.ts`.
 Credentials must be supplied by the environment; the test never prints them.
+
+## Storybook character preview
+
+Choose “Mesés erdő – Márk és Lili karakterpróba” in the shot editor, or send
+`render.visual_style = "STORYBOOK_DRAFT_V002"`. The image bakes two versioned
+`.blend` draft assets at build time, then appends those same assets for each
+shot. It supports Márk and Lili, a fixed forest set, articulated walking and
+waving, blinking, tail motion and a camera dolly. These draft assets do not
+replace or approve the locked production asset records. FINAL remains blocked.
+
+The preview uses Cycles on two CPU threads, 12 samples with denoising, at a
+maximum of 768×432. It has no synthesized dialogue or lip sync. Camera lens,
+framing and static/dolly moves are supported; other camera motions need further
+implementation. Use `fixtures/shot_storybook.json` for a reproducible trial.

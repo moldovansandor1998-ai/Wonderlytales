@@ -97,6 +97,21 @@ def character(code,location):
             for x in [-.17,.17]:line('spectacles',[(x+.14*math.cos(a),-.36,.055+.15*math.sin(a)) for a in [i*math.tau/16 for i in range(17)]],.012,mat('brass',(.55,.31,.08)),head)
     return root,limbs,lids,tail
 
+def load_master(code,location):
+    path=os.path.join(os.path.dirname(__file__),'assets',code+'_DRAFT_V002.blend')
+    if not os.path.isfile(path):
+        raise RuntimeError('Packaged draft master is missing: '+code)
+    with bpy.data.libraries.load(path,link=False) as (source,target):
+        target.objects=source.objects
+    objects=[o for o in target.objects if o is not None]
+    for o in objects:bpy.context.collection.objects.link(o)
+    root=next(o for o in objects if o.parent is None and o.name.startswith(code))
+    root.location=location
+    limbs=sorted([o for o in objects if o.name.split('.')[0] in ('hip','shoulder')],key=lambda o:o.name)
+    lids=[o for o in objects if o.name.split('.')[0]=='blink']
+    tail=next((o for o in objects if o.name.split('.')[0]=='tail' and o.type=='EMPTY'),None)
+    return root,limbs,lids,tail
+
 def forest():
     rng=random.Random(1978)
     ground=mat('moss',(.16,.32,.10));bark=mat('bark',(.20,.105,.045));path=mat('ochre path',(.57,.35,.16));stone=mat('stone',(.30,.36,.31))
@@ -130,28 +145,41 @@ def forest():
     for i in range(20):ell('floating firefly',(rng.uniform(-1.3,1.3),rng.uniform(3.7,4.2),rng.uniform(.5,2.6)),(.023,)*3,mat('firefly',(1,.70,.16),emission=4))
 
 def render(shot,out_dir):
+    supported={"CHAR_MARK", "CHAR_LILI"}
+    if any(ch['asset_id'].split('_V')[0] not in supported for ch in shot['characters']):
+        raise ValueError("Storybook draft currently supports Márk and Lili only")
     bpy.ops.wm.read_factory_settings(use_empty=True);PALETTE.clear();sc=bpy.context.scene
-    sc.render.engine='CYCLES';sc.cycles.samples=12;sc.cycles.use_denoising=True;sc.cycles.max_bounces=3
+    sc.render.threads_mode='FIXED';sc.render.threads=2
+    sc.render.engine='CYCLES';sc.cycles.samples=12;sc.cycles.use_denoising=True;sc.cycles.max_bounces=3;sc.render.use_persistent_data=True
     sc.render.resolution_x=min(shot['render']['width'],768);sc.render.resolution_y=min(shot['render']['height'],432);sc.render.resolution_percentage=100
     fps=shot['render']['fps'];sc.render.fps=fps;frames=max(2,round(shot['duration_sec']*fps))
     forest()
+    for pr in shot.get('props',[]):
+        p=pr.get('position',[0,0,0]);glowing=pr.get('state') in ('GLOWING','ACTIVE')
+        bpy.ops.mesh.primitive_ico_sphere_add(subdivisions=1,radius=.13,location=(p[0],p[2],p[1]+.13))
+        o=bpy.context.object;o.name=pr.get('asset_id','prop');o.data.materials.append(mat('star fragment',(1,.64,.14),emission=2 if glowing else 0))
     for ch in shot['characters']:
-        p=ch.get('position',[0,0,0]);root,limbs,lids,tail=character(ch['asset_id'].split('_V')[0],(p[0],p[2],p[1]))
+        p=ch.get('position',[0,0,0]);root,limbs,lids,tail=load_master(ch['asset_id'].split('_V')[0],(p[0],p[2],p[1]))
         walk=(ch.get('animation_code','').startswith(('walk','run')))
+        head=next(o for o in root.children if o.name.split('.')[0]=='head')
         for f in range(1,frames+1):
             t=(f-1)/fps;phase=t*math.tau*1.25
             root.location.z=p[1]+(.025*abs(math.sin(phase)) if walk else .012*math.sin(t*2))
             root.location.x=p[0]+(.35*(f-1)/(frames-1) if walk else 0);root.keyframe_insert('location',frame=f)
             for j,limb in enumerate(limbs):limb.rotation_euler.x=(.30*math.sin(phase+(j%2)*math.pi) if walk else .045*math.sin(t*2+j));limb.keyframe_insert('rotation_euler',frame=f)
+            head.rotation_euler.z=.05*math.sin(t*1.8);head.keyframe_insert('rotation_euler',frame=f)
+            if ch.get('animation_code') == 'wave_hello':
+                arm=limbs[3];arm.rotation_euler.y=-1.9;arm.rotation_euler.x=.25*math.sin(t*6);arm.keyframe_insert('rotation_euler',frame=f)
             for lid in lids:
                 blink=(t%2.8)>2.60 and (t%2.8)<2.75;lid.scale.z=.08 if blink else 1;lid.keyframe_insert('scale',frame=f)
             if tail:tail.rotation_euler.z=.20*math.sin(t*5);tail.keyframe_insert('rotation_euler',frame=f)
     world=bpy.data.worlds.new('soft sky');sc.world=world;world.use_nodes=True;world.node_tree.nodes['Background'].inputs[0].default_value=(.46,.65,.80,1);world.node_tree.nodes['Background'].inputs[1].default_value=.45
     for name,pos,energy,color,size in [('sunlight',(-3,-4,7),1100,(1,.78,.51),5),('sky fill',(4,-1,5),650,(.55,.76,1),5),('rim',(0,5,5),1300,(1,.68,.31),4)]:
         d=bpy.data.lights.new(name,'AREA');d.energy=energy;d.color=color;d.shape='DISK';d.size=size;o=bpy.data.objects.new(name,d);sc.collection.objects.link(o);o.location=pos;o.rotation_euler=(Vector((0,0,1))-o.location).to_track_quat('-Z','Y').to_euler()
-    d=bpy.data.cameras.new('story camera');cam=bpy.data.objects.new('story camera',d);sc.collection.objects.link(cam);sc.camera=cam;d.lens=42
-    xs=[c.get('position',[0,0,0])[0] for c in shot['characters']];center=sum(xs)/max(1,len(xs));target=Vector((center,.30,1.05))
-    for f,pos in [(1,(center+1,-8.6,3.2)),(frames,(center+.4,-7.5,2.9))]:cam.location=pos;cam.rotation_euler=(target-cam.location).to_track_quat('-Z','Y').to_euler();cam.keyframe_insert('location',frame=f);cam.keyframe_insert('rotation_euler',frame=f)
+    d=bpy.data.cameras.new('story camera');cam=bpy.data.objects.new('story camera',d);sc.collection.objects.link(cam);sc.camera=cam;d.lens=shot['camera'].get('lens_mm',42)
+    xs=[c.get('position',[0,0,0])[0] for c in shot['characters']];center=sum(xs)/max(1,len(xs));kind=shot['camera'].get('shot_type','WIDE');dist={'WIDE':8.6,'MEDIUM_WIDE':7.2,'MEDIUM':6.0,'MEDIUM_CLOSE':4.8,'CLOSE_UP':4.0}.get(kind,8.6);target=Vector((center,.30,1.55 if kind in ('CLOSE_UP','MEDIUM_CLOSE') else 1.05))
+    movement=shot['camera'].get('movement','STATIC');start=(center+1,-dist,3.2);end=(center+.4,-dist*.87,2.9) if movement=='DOLLY_IN' else ((center+1,-dist*1.13,3.2) if movement=='DOLLY_OUT' else start)
+    for f,pos in [(1,start),(frames,end)]:cam.location=pos;cam.rotation_euler=(target-cam.location).to_track_quat('-Z','Y').to_euler();cam.keyframe_insert('location',frame=f);cam.keyframe_insert('rotation_euler',frame=f)
     sc.view_settings.view_transform='AgX';sc.render.image_settings.file_format='FFMPEG';sc.render.ffmpeg.format='MPEG4';sc.render.ffmpeg.codec='H264';sc.render.ffmpeg.constant_rate_factor='HIGH'
     sc.frame_start=1;sc.frame_end=frames;out=os.path.join(out_dir,f"{shot['shot_id']}_r{shot.get('revision',1)}.mp4");sc.render.filepath=out
     bpy.ops.render.render(animation=True);return out,frames

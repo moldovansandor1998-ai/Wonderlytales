@@ -19,6 +19,10 @@ describe("SHOT_SCHEMA_V1 validáció", () => {
     expect(s.render.fps).toBe(24);
     expect(s.camera.movement).toBe("STATIC");
   });
+  it("megőrzi a karakterpróba nézetet mentés és újraolvasás során", () => {
+    const shot = validateShot({ ...valid, render: { visual_style: "STORYBOOK_DRAFT_V002" } });
+    expect(validateShot(JSON.parse(JSON.stringify(shot))).render.visual_style).toBe("STORYBOOK_DRAFT_V002");
+  });
   it("elutasítja a rossz schema_versiont", () => {
     expect(() => validateShot({ ...valid, schema_version: "V2" })).toThrow();
   });

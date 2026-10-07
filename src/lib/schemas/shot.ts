@@ -46,6 +46,7 @@ export const ShotLighting = z.object({
   time_of_day: z.string().default("12:00"),
 });
 export const ShotRender = z.object({
+  visual_style: z.enum(["TECHNICAL_PROXY", "STORYBOOK_DRAFT_V002"]).optional(),
   engine: z.enum(["BLENDER_EEVEE","BLENDER_CYCLES","MOCK"]).default("BLENDER_EEVEE"),
   width: z.number().int().default(1920),
   height: z.number().int().default(1080),
