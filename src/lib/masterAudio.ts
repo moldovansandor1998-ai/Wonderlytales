@@ -20,7 +20,11 @@ export async function masterAudioBatch(db: Db, episodeId: string, batchSize = 3,
     const voice = voices.find(v => v.character_id === line.character_id && v.language === 'hu' && v.provider === 'elevenlabs');
     if (!voice?.voice_id) throw new Error('Hiányzó magyar ElevenLabs karakterhang.');
     if (!line.text.trim() || line.text.length > 250) throw new Error('A dialógus legfeljebb 250 karakter lehet; bontsd megszólalásokra.');
-    const config = { language: 'hu', voiceId: voice.voice_id, model: resolveTtsModel({ language: 'hu', voiceId: voice.voice_id, model: voice.model }), stability: voice.stability, style: voice.style, budgetService: 'tts_dialogue' as const };
+    const model = resolveTtsModel({ language: 'hu', voiceId: voice.voice_id, model: voice.model });
+    if (!['eleven_flash_v2_5', 'eleven_v3'].includes(model) || !/^[a-zA-Z0-9]+$/.test(voice.voice_id)) {
+      throw new Error('Nem támogatott magyar ElevenLabs karakterhang.');
+    }
+    const config = { language: 'hu', voiceId: voice.voice_id, model, stability: voice.stability, style: voice.style, budgetService: 'tts_dialogue' as const };
     const path = `audio/tts/hu/${voice.voice_id}/${ttsCacheKey(line.text, config)}.mp3`;
     return { line, config, path };
   });
@@ -47,3 +51,5 @@ export async function masterAudioBatch(db: Db, episodeId: string, batchSize = 3,
   const completed = planned.filter(i => i.line.audio_path === i.path).length;
   return { completed, total: planned.length, done: completed === planned.length };
 }
+
+

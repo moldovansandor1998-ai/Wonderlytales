@@ -1,8 +1,8 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-const mocks = vi.hoisted(() => ({ user: vi.fn(), from: vi.fn(), exists: vi.fn(), sign: vi.fn() }));
+const mocks = vi.hoisted(() => ({ user: vi.fn(), from: vi.fn(), exists: vi.fn(), get: vi.fn(), sign: vi.fn() }));
 vi.mock("@/lib/auth", () => ({ getStudioUser: mocks.user, createServerSupabase: () => ({ from: mocks.from }) }));
-vi.mock("@/lib/providers/storage", () => ({ getStorage: () => ({ exists: mocks.exists, signedUrl: mocks.sign }) }));
+vi.mock("@/lib/providers/storage", () => ({ getStorage: () => ({ exists: mocks.exists, get: mocks.get, signedUrl: mocks.sign }) }));
 import { GET } from "@/app/api/authoring/draft/[character]/route";
 
 const hash = "a".repeat(64);
@@ -20,7 +20,7 @@ const request = () => GET(new Request("https://studio.example/api/authoring/draf
 describe("Private draft downloads", () => {
   beforeEach(() => {
     vi.clearAllMocks(); mocks.user.mockResolvedValue({ role: "admin" });
-    mocks.exists.mockResolvedValue(true); mocks.sign.mockResolvedValue("https://storage.example/draft.glb"); records();
+    mocks.exists.mockResolvedValue(true); mocks.get.mockResolvedValue(Buffer.from("private-glb-bytes")); mocks.sign.mockResolvedValue("https://storage.example/draft.glb"); records();
   });
   it("denies anonymous requests before accessing the bucket", async () => {
     mocks.user.mockResolvedValue(null); expect((await request()).status).toBe(401);
@@ -38,10 +38,18 @@ describe("Private draft downloads", () => {
     records(key, "LOCKED"); expect((await request()).status).toBe(409);
     expect(mocks.sign).not.toHaveBeenCalled();
   });
-  it("checks object existence and grants a short-lived uncached download", async () => {
-    const response = await request(); expect(response.status).toBe(307);
-    expect(mocks.exists).toHaveBeenCalledWith(key); expect(mocks.sign).toHaveBeenCalledWith(key, 900);
+  it("streams private model bytes as an uncached download", async () => {
+    const response = await request(); expect(response.status).toBe(200);
+    expect(mocks.exists).toHaveBeenCalledWith(key); expect(mocks.get).toHaveBeenCalledWith(key); expect(mocks.sign).not.toHaveBeenCalled();
+    expect(response.headers.get("Content-Type")).toBe("model/gltf-binary");
+    expect(response.headers.get("Content-Disposition")).toContain("CHAR_MARK_V005_UNRIGGED_DRAFT.glb");
+    expect(Buffer.from(await response.arrayBuffer()).toString()).toBe("private-glb-bytes");
     expect(response.headers.get("Cache-Control")).toBe("private, no-store");
+  });
+  it("reports an unavailable private object without a misleading download", async () => {
+    mocks.get.mockRejectedValueOnce(new Error("storage unavailable"));
+    expect((await request()).status).toBe(503);
+    expect(mocks.sign).not.toHaveBeenCalled();
   });
   it("does not issue a signed link for a missing object", async () => {
     mocks.exists.mockResolvedValue(false); expect((await request()).status).toBe(404);

@@ -15,6 +15,12 @@ function fixture() {
   return {rows,db,stored,storage,tts};
 }
 describe('Hungarian master recordings',()=>{
+  it('rejects unsupported models throughout the batch before any paid recording',async()=>{
+    const f=fixture(); f.rows.dialogue_lines.push({...f.rows.dialogue_lines[0],id:'b',sequence:2,character_id:'lili'});
+    f.rows.voices.push({...f.rows.voices[0],character_id:'lili',model:'unsupported'});
+    await expect(masterAudioBatch(f.db,'ep',3,f)).rejects.toThrow('Nem támogatott magyar');
+    expect(f.tts.synthesize).not.toHaveBeenCalled();
+  });
   it('records a selected dialogue without replacing unrelated recordings',async()=>{
     const f=fixture(); f.rows.dialogue_lines.push({...f.rows.dialogue_lines[0],id:'b',sequence:2});
     expect(await masterAudioBatch(f.db,'ep',1,f,'b')).toEqual({completed:1,total:1,done:true});
@@ -53,3 +59,5 @@ describe('Hungarian master recordings',()=>{
     expect(f.tts.synthesize).not.toHaveBeenCalled();
   });
 });
+
+

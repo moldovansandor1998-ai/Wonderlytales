@@ -1,5 +1,12 @@
 # Márk native expression authoring — V010 draft
 
+**Audio correction (V011):** The V010 speech recording is rejected. Its
+Eleven Multilingual V2 model did not support Hungarian. Earlier MP4/audio
+checks verified decoding and timing, not intelligibility or spoken language.
+Use the V011 supported-model recording and authoring checkpoint for speech.
+The V010 native geometry remains a reversible source asset.
+
+
 This is a reversible authoring fork of the V009 Blender asset. It adds
 `mouth_spread`, `mouth_press`, `smile`, `brow_raise` and `brow_worry` controls,
 while retaining `jaw_open`, `mouth_round`, gaze, blink and native body rig.
@@ -22,7 +29,7 @@ Blender may exit zero after a Python exception.
 
 `animate_mark_face.py` adds the original RMS-driven jaw, manual estimated
 vowel cues, blink, gaze, smile, eyebrows and slight native head movement.
-It uses the recorded Hungarian line “Hallod? Ropogós az egész erdő.”
+It uses the original recording for the Hungarian script line “Hallod? Ropogós az egész erdő.”
 The estimated vowel centers have NOT been verified against phonemes.
 `phoneme_alignment`, `alignment_verified`, `production_approved` and
 `quality_gate_passed` remain false. This is an acting draft, not final lip sync.
@@ -48,3 +55,4 @@ blender -b -t 2 --python production/qc/check_mark_expression_pose.py -- OUT/CHAR
 blender -b -t 2 --python production/qc/animate_mark_face.py -- OUT/CHAR_MARK_FACE_V010_DRAFT.blend envelope.json ACTING
 python production/qc/render_mark_expression_test.py BLENDER ACTING/CHAR_MARK_ACTING_V010_DRAFT.blend envelope.json VIDEO
 ```
+

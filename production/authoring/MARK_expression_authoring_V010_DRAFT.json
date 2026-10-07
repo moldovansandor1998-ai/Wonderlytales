@@ -26,10 +26,10 @@
       "controls": {},
       "reopened": true,
       "maximum_mesh_deltas": {
-        "geometry_0": 0.0,
-        "EYELIDS.R": 0.0,
-        "EYELIDS.L": 0.0,
-        "MOUTH_LIPS": 0.0
+        "geometry_0": 0,
+        "EYELIDS.R": 0,
+        "EYELIDS.L": 0,
+        "MOUTH_LIPS": 0
       },
       "body_weight_range": [
         0.9999999105930328,
@@ -58,7 +58,7 @@
     "worry": {
       "pose": "worry",
       "controls": {
-        "brow_worry": 1.0,
+        "brow_worry": 1,
         "blink": 0.15
       },
       "reopened": true,
@@ -66,7 +66,7 @@
         "geometry_0": 0.0020248889923095703,
         "EYELIDS.R": 0.0020751445351105693,
         "EYELIDS.L": 0.002061344675293416,
-        "MOUTH_LIPS": 0.0
+        "MOUTH_LIPS": 0
       },
       "body_weight_range": [
         0.9999999105930328,
@@ -76,13 +76,13 @@
     "press": {
       "pose": "press",
       "controls": {
-        "mouth_press": 1.0
+        "mouth_press": 1
       },
       "reopened": true,
       "maximum_mesh_deltas": {
-        "geometry_0": 0.0,
-        "EYELIDS.R": 0.0,
-        "EYELIDS.L": 0.0,
+        "geometry_0": 0,
+        "EYELIDS.R": 0,
+        "EYELIDS.L": 0,
         "MOUTH_LIPS": 0.005899596767354293
       },
       "body_weight_range": [
@@ -94,13 +94,13 @@
       "pose": "spread",
       "controls": {
         "jaw_open": 0.18,
-        "mouth_spread": 1.0
+        "mouth_spread": 1
       },
       "reopened": true,
       "maximum_mesh_deltas": {
         "geometry_0": 0.0021446963198626765,
-        "EYELIDS.R": 0.0,
-        "EYELIDS.L": 0.0,
+        "EYELIDS.R": 0,
+        "EYELIDS.L": 0,
         "MOUTH_LIPS": 0.004455874180151562
       },
       "body_weight_range": [
@@ -116,8 +116,8 @@
       "reopened": true,
       "maximum_mesh_deltas": {
         "geometry_0": 0.009517173352366539,
-        "EYELIDS.R": 0.0,
-        "EYELIDS.L": 0.0,
+        "EYELIDS.R": 0,
+        "EYELIDS.L": 0,
         "MOUTH_LIPS": 0.01207079828602097
       },
       "body_weight_range": [
@@ -129,13 +129,13 @@
       "pose": "round",
       "controls": {
         "jaw_open": 0.45,
-        "mouth_round": 1.0
+        "mouth_round": 1
       },
       "reopened": true,
       "maximum_mesh_deltas": {
         "geometry_0": 0.005359494541055764,
-        "EYELIDS.R": 0.0,
-        "EYELIDS.L": 0.0,
+        "EYELIDS.R": 0,
+        "EYELIDS.L": 0,
         "MOUTH_LIPS": 0.007109225757565553
       },
       "body_weight_range": [
@@ -166,7 +166,7 @@
   "acting_track_summary": {
     "frame_count": 91,
     "fps": 24,
-    "recorded_dialogue": "Hallod? Ropog\u00f3s az eg\u00e9sz erd\u0151.",
+    "recorded_dialogue": "Hallod? Ropogós az egész erdő.",
     "audio_sha256": "65e57e36502ecf0d2027b4ddf0af1c0c81bddeffd251aad96f8c927343fe36c9",
     "audio_offset_sec": 0.5,
     "alignment_method": "MANUAL_VOWEL_CENTERS_INITIAL_ESTIMATE",
@@ -198,7 +198,7 @@
     ],
     "phoneme_alignment": false,
     "production_approved": false,
-    "leading_silence_rms": 0.0,
+    "leading_silence_rms": 0,
     "speech_rms": 0.1599397361278534,
     "sampled_distinct_frames": [
       1,
@@ -226,5 +226,14 @@
     "Wonderly_Tales_Mark_mimika_V010_20261008.txt": "libfile_2ac3cf488f688191a92229eb057c706c"
   },
   "studio_asset_promoted": false,
-  "intro_produced": false
+  "intro_produced": false,
+  "audio_language_review": {
+    "status": "REJECTED_UNSUPPORTED_HUNGARIAN_MODEL",
+    "model": "eleven_multilingual_v2",
+    "hungarian_language_verified": false,
+    "audio_rejected": true,
+    "replacement_version": "V011",
+    "notes": "Original user-reported unintelligible speech is not valid Hungarian dubbing. Earlier decode/timing checks established bytes and timing only."
+  }
 }
+

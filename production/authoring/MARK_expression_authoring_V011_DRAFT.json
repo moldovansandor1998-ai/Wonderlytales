@@ -1,0 +1,122 @@
+{
+  "version": "V011",
+  "status": "DRAFT_NOT_PRODUCTION_APPROVED",
+  "source": {
+    "version": "V010",
+    "sha256": "50096838c515bff320cb61d66027f9d26ff1028d34fef6dc44c1625f422783be",
+    "library_file_id": "libfile_4ed5c4f5c6688191add605efaba1bdd1",
+    "audio_status": "REJECTED_UNSUPPORTED_HUNGARIAN_MODEL"
+  },
+  "face_sha256": "1c93a215a3ff6e251e90c6a9c7662f7fd094433f45f57c618052b17b1ca0a284",
+  "acting_sha256": "da47ad1617d0ee282398cd8a681d39f43eae206876fa0c356dc5a1fd86669c98",
+  "audio_sha256": "fb467588f48ffb37da24f49d27cef583d4cdf48c826ade1e4430dab901a7ef29",
+  "assets": {
+    "CHAR_MARK_FACE_V011_DRAFT.blend": {
+      "library_file_id": "libfile_afa8f4ea74688191b6339bf764953b14",
+      "file_id": "file_00000000187481f79f64a95ad8505a22"
+    },
+    "CHAR_MARK_ACTING_V011_DRAFT.blend": {
+      "library_file_id": "libfile_7d6376cb2e7c8191bffceae141ca5dae",
+      "file_id": "file_000000001cac81fd8119c94a635c0e16"
+    },
+    "Mark_magyar_hang_V011.mp3": {
+      "library_file_id": "libfile_bb1a10d1499081919b343c356ed347fb",
+      "file_id": "file_000000000f0081fd963f11a8e8c496bc"
+    },
+    "Mark_magyar_mimikaproba_V011_DRAFT.mp4": {
+      "library_file_id": "libfile_787b87c3d05c81919bdc763ca349a5ae",
+      "file_id": "file_00000000f36882309b99ffbc1fa090fc"
+    },
+    "Csodakapu_S1E1_magyar_dialogusok_V011_DRAFT.zip": {
+      "library_file_id": "libfile_f6b2bf24fb448191a871a0228275281f",
+      "file_id": "file_00000000ebf481f784c8ba466872648e"
+    },
+    "Mark_magyar_mimikaproba_V011_DRAFT.jpg": {
+      "library_file_id": "libfile_98e442405d108191b9d591f21999ec27",
+      "file_id": "file_000000005cf081fd97ed13f51e3c13ab"
+    },
+    "Wonderly_Tales_hangjavitas_V011.txt": {
+      "library_file_id": "libfile_72d8f339f7f48191adee7c60098103f5",
+      "file_id": "file_00000000996881fd9ca5708e051d64c3"
+    }
+  },
+  "lid_clearance": {
+    "sampled_blink_positions": 101,
+    "tested_projected_vertices": 123206,
+    "worst_eye_surface_offset": -0.0008498540352066541,
+    "no_vertex_penetration": true,
+    "production_approved": false
+  },
+  "native_reopen": {
+    "freshly_reopened": true,
+    "native_control_frames_checked": 97,
+    "maximum_control_error": 7.323007000792359e-08,
+    "packed_audio_sha256": "fb467588f48ffb37da24f49d27cef583d4cdf48c826ade1e4430dab901a7ef29",
+    "sound_strip_frame_start": 13,
+    "textures_packed": true,
+    "phoneme_alignment": false,
+    "production_approved": false
+  },
+  "video_validation": {
+    "status": "DECODE_AND_TIMING_CHECKED_DRAFT",
+    "frames": 97,
+    "fps": 24,
+    "duration_sec": 4.041666666666667,
+    "audio_offset_sec": 0.5,
+    "video_sha256": "809e37289ed9f9d805e614d2d990068d2cef6d07919fe2d26970855d39a46622",
+    "video_resolution": [
+      320,
+      320
+    ],
+    "phoneme_alignment": false,
+    "production_approved": false,
+    "source_audio_sha256": "fb467588f48ffb37da24f49d27cef583d4cdf48c826ade1e4430dab901a7ef29",
+    "decoded_source_audio_correlation": 0.9896197360127962,
+    "leading_silence_rms": 0.0,
+    "speech_rms": 0.08141130954027176
+  },
+  "speech_review": {
+    "model": "scribe_v2",
+    "language_hint_sent": false,
+    "expected_text_sent": false,
+    "mark_D001": {
+      "language": "hun",
+      "expected_text": "Hallod? Ropogós az egész erdő.",
+      "normalized_words_match": true
+    },
+    "lili_first_line": {
+      "language": "hun",
+      "normalized_words_match": true
+    },
+    "potty_first_line": {
+      "normalized_words_match": true
+    },
+    "manual_review_pending": [
+      "Morzsi pronunciation: uzsonnakereső",
+      "Zizi compound word: mindenmérő"
+    ],
+    "all_131_intelligibility_approved": false
+  },
+  "episode_audio": {
+    "recordings": 131,
+    "decoded_recordings": 131,
+    "dialogue_duration_sec": 317.910202,
+    "current_model_keys_verified": true,
+    "character_models": {
+      "Márk": "eleven_v3",
+      "Lili": "eleven_v3",
+      "Morzsi": "eleven_v3",
+      "Pötty": "eleven_flash_v2_5",
+      "Zizi": "eleven_flash_v2_5"
+    },
+    "language_code": "hu",
+    "episode_runtime_verified": false
+  },
+  "production_approved": false,
+  "facial_ready": false,
+  "lip_sync_ready": false,
+  "phoneme_alignment": false,
+  "intro_complete": false,
+  "studio_asset_promoted": false,
+  "animation_method": "RMS-driven jaw plus manually estimated vowel poses; phoneme timing not verified"
+}
