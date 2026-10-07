@@ -9,11 +9,23 @@
 ## RunPod proxy preview
 
 `Dockerfile.runpod` runs the Serverless handler and uploads a real Blender MP4
-into R2. Build with `docker build -f worker/Dockerfile.runpod -t YOUR_IMAGE worker/`.
+into R2. Build from the repository root with
+`docker build -f worker/Dockerfile.runpod -t YOUR_IMAGE .`.
 The endpoint needs S3_ENDPOINT, S3_BUCKET, S3_ACCESS_KEY_ID and S3_SECRET_ACCESS_KEY.
 Input: `{ "shot": SHOT_SCHEMA_V1, "type": "PREVIEW" }`.
 FINAL intentionally fails until locked master assets replace the proxy primitives.
 The Docker image and live endpoint still require a real deployment smoke test.
+Run the container render check with
+`docker run --rm --entrypoint sh YOUR_IMAGE /worker/container_smoke.sh`.
+It renders the four-second fixture, probes the H.264 output, and decodes every frame.
+
+For RunPod's GitHub deployment, choose this repository, branch `main`, and
+Dockerfile path `worker/Dockerfile.runpod`. Use a Queue endpoint with zero
+active workers and one maximum worker. Set an execution timeout of 900000 ms
+and an idle timeout of 5 seconds. Add the four R2 variables above as runtime
+environment variables, never build args. Keep `RUNPOD_ENDPOINT_ID` unset in the
+Studio until this endpoint passes a live PREVIEW job and the uploaded video is
+verified in R2. Other account endpoints are incompatible with this handler.
 
 Production storage verification: `node --import tsx scripts/storage-smoke.ts`.
 Credentials must be supplied by the environment; the test never prints them.

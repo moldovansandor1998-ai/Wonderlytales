@@ -53,7 +53,6 @@ def build_scene_blender(shot: dict, out_dir: str) -> tuple[str, int]:
         sc.display.shading.color_type = "DIFFUSE" if hasattr(sc.display.shading, "color_type") else "MATERIAL"
         sc.display.shading.show_shadows = True
     except Exception: pass
-    except Exception: sc.render.engine = "BLENDER_EEVEE"
 
     # talaj + erdő-hangulat proxy
     bpy.ops.mesh.primitive_plane_add(size=30)
@@ -116,6 +115,8 @@ def build_scene_blender(shot: dict, out_dir: str) -> tuple[str, int]:
     if q == "PREVIEW":
         out = os.path.join(out_dir, f"{shot['shot_id']}_r{shot.get('revision',1)}.mp4")
         sc.render.filepath = out; sc.render.image_settings.file_format = "FFMPEG"; sc.render.ffmpeg.format = "MPEG4"
+        sc.render.ffmpeg.codec = "H264"
+        sc.render.ffmpeg.constant_rate_factor = "MEDIUM"
         bpy.ops.render.render(animation=True)
     else:
         out = os.path.join(out_dir, f"{shot['shot_id']}_r{shot.get('revision',1)}_####.png")
