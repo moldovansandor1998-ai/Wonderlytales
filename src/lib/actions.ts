@@ -308,3 +308,13 @@ export async function masterAudioBatchAction(episodeId: string) {
   const { masterAudioBatch } = await import("./masterAudio");
   return masterAudioBatch(await getDb(), episodeId);
 }
+
+export async function reviewDialogueSpeechAction(dialogueId: string) {
+  await requireStudioUser();
+  const { getStorage } = await import('./providers/storage');
+  const { reviewHungarianSpeech } = await import('./speechReview');
+  const line = await (await getDb()).get<import('./types').DialogueLine>('dialogue_lines', dialogueId);
+  if (!line || line.language !== 'hu' || !line.audio_path?.startsWith('audio/tts/hu/')) throw new Error('Magyar hangfelvétel szükséges.');
+  const result = await reviewHungarianSpeech(await getStorage().get(line.audio_path), line.text, process.env.ELEVENLABS_API_KEY ?? '');
+  return `${result.hungarian && result.textMatches ? 'Magyar szövegegyezés igazolva' : 'Eltérés: meghallgatás szükséges'} · ${result.language} · Felismert szöveg: ${result.transcript}`;
+}
