@@ -33,7 +33,7 @@ def check_model_access():
 def checked_reference(payload, manifest):
     character = payload.get('character')
     reference = next((a for a in manifest['assets'] if a['id'] == f'{character}_mesh_input'), None)
-    if character not in ('CHAR_MARK', 'CHAR_LILI') or reference is None:
+    if character not in ('CHAR_MARK', 'CHAR_LILI', 'CHAR_MORZSI', 'CHAR_POTTY', 'CHAR_BOGYO', 'CHAR_ZIZI') or reference is None:
         raise ValueError('No versioned isolated reference for character')
     if payload.get('reference_sha256') != reference['sha256']:
         raise ValueError('Reference identity mismatch')

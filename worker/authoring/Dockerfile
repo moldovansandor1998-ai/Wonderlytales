@@ -28,8 +28,9 @@ COPY worker/authoring/configure_upstream.py /opt/wonderly/configure_upstream.py
 RUN python configure_upstream.py
 COPY worker/authoring/handler.py /opt/wonderly/handler.py
 COPY runpod_authoring.py /opt/wonderly/runpod_authoring.py
-COPY production/references/V005/manifest.json /opt/wonderly/manifest.json
+COPY production/references/V006/manifest.json /opt/wonderly/manifest.json
 COPY production/references/V005/CHAR_LILI_mesh_input.png /opt/wonderly/CHAR_LILI_mesh_input.png
+COPY production/references/supporting/V001/*_reference_DRAFT_V001.png /opt/wonderly/
 RUN python -m py_compile handler.py runpod_authoring.py
 # No token or model weights in the image. GPU work begins only on an explicit job.
 CMD ["python", "-u", "/opt/wonderly/runpod_authoring.py"]

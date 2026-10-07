@@ -38,6 +38,25 @@ class AuthoringContract(unittest.TestCase):
         self.assertEqual(handler.checked_reference(p, v5)[0], 'CHAR_LILI')
         p['reference_version'] = 'V004'
         with self.assertRaises(ValueError): handler.checked_reference(p, v5)
+    def test_supporting_inputs_are_pinned_and_transparent(self):
+        import hashlib
+        from PIL import Image
+        folder = Path(__file__).parents[2] / 'production/references'
+        v6 = json.loads((folder/'V006/manifest.json').read_text())
+        for character in ('CHAR_MORZSI', 'CHAR_POTTY', 'CHAR_BOGYO', 'CHAR_ZIZI'):
+            reference = next(a for a in v6['assets'] if a['id'] == character+'_mesh_input')
+            path = folder/'supporting/V001'/reference['packaged_file']
+            raw = path.read_bytes()
+            self.assertEqual(len(raw), reference['bytes'])
+            self.assertEqual(hashlib.sha256(raw).hexdigest(), reference['sha256'])
+            with Image.open(path) as image:
+                self.assertEqual(image.mode, 'RGBA')
+                self.assertEqual(image.getchannel('A').getextrema()[0], 0)
+            payload = {'character':character, 'reference_version':'V006', 'reference_sha256':reference['sha256']}
+            self.assertEqual(handler.checked_reference(payload, v6)[0], character)
+            payload['reference_sha256'] = '0'*64
+            with self.assertRaises(ValueError): handler.checked_reference(payload, v6)
+
     def test_glb_requires_geometry(self):
         raw = json.dumps({'asset': {'version': '2.0'}}).encode()
         raw += b' ' * (-len(raw)%4)
