@@ -1,0 +1,1958 @@
+{
+  "schema": "WONDERLY_EPISODE_SCRIPT_BREAKDOWN_V1",
+  "episode": "S1E1",
+  "script_version": "SCRIPT_V001",
+  "status": "SCRIPT_DRAFT_BLOCKED_RIGGING",
+  "actual_duration_sec": null,
+  "planned_duration_sec": 1320,
+  "render_shots_created": 0,
+  "dialogue_lines": 131,
+  "spoken_words_hu": 806,
+  "scenes": [
+    {
+      "scene_code": "S1E1_SC001",
+      "title_hu": "AZ ERDŐ EGY PILLANATRA ELHALLGAT",
+      "planned_start_sec": 0,
+      "planned_end_sec": 70,
+      "planned_duration_sec": 70,
+      "location_notes": "Erdő, késő délután.",
+      "beats": [
+        {
+          "kind": "ACTION",
+          "direction_hu": "Márk és Lili egy falevelekkel teli ösvényen halad. Márk a lehullott levelekre lépked: roppanás, roppanás, szünet. Lili a föld mellé hajló páfrányt kerülgeti. Nem egyforma ritmusban járnak. Márk megáll, hogy bevárja."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MARK",
+          "direction": "",
+          "text_hu": "Hallod? Ropogós az egész erdő.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "0b4fdc91-8abb-5fe5-b580-e3df1366c953",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/5902aa9a27c65fcdaf05a57b.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_LILI",
+          "direction": "",
+          "text_hu": "Igen. Főleg az a része, amelyiken te mész.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "91110003-0776-5f27-a63e-dae2a57ca5ad",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/c32dcff23e52ea875154a655.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Márk még egy levelet keres. Egy különösen nagyot szemel ki. Mire rálépne, a levél felemelkedik, és egy vékony türkiz fénycsík suhan el alatta."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MARK",
+          "direction": "",
+          "text_hu": "Ezt nem én csináltam.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "2b64d328-61f2-5379-b56b-0195a2c7b536",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/f846da96860c427e3770cbd1.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_LILI",
+          "direction": "",
+          "text_hu": "A levelet vagy a fényt?",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "5e163a2b-1ad7-5c05-b46c-78c325f459de",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/f51f44cc5f39c948d04c9422.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MARK",
+          "direction": "",
+          "text_hu": "Egyiket sem. De a fény érdekel jobban.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "f6021a21-b5fb-5d83-b867-5a4c3fc193ae",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/ef6210061c2e0beb93a4382d.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "A fény a gyökerek között villan. Lili füle fordul, követi az irányát. A madárhangok egy pillanatra elcsendesednek. Márk lehajol; a fény már nincs ott. Mögöttük újra felvillan. Három rövid fény, aztán sötét."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_LILI",
+          "direction": "",
+          "text_hu": "Nem fut el. Mintha jelezne.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "b0d01e4a-b5d1-5a5c-899d-3c80e82b8865",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/d4f45e70e19274e9cab6491f.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MARK",
+          "direction": "",
+          "text_hu": "Kinek?",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "d3ce5ece-87d6-5224-9e1c-66621884ac4f",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/5a1bdf65de700fd31c758496.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Egy lapos kő mögött derengés jelenik meg. Márk odalép, de Lili eléteszi a mancsát."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_LILI",
+          "direction": "",
+          "text_hu": "Előbb nézzük meg. Aztán nyúlunk hozzá.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "5bc6fc09-9560-502d-a614-2cd62ed757cb",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/3f50a94debff7767b2016071.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "A kamera a kőre közelít: az alatta megbújó, csillag alakú apró szilánk fényt vet a levelek erezetére."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MARK",
+          "direction": "halkan",
+          "text_hu": "Szerintem nekünk.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "c486e74d-7c86-59bd-a8d0-d1e8ec922f6d",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/9fa269ab9f942682e281d52a.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "A szilánk egy tiszta, üveges hangot ad."
+        }
+      ],
+      "director_shot_status": "NOT_YET_BLOCKED_IN_3D"
+    },
+    {
+      "scene_code": "S1E1_SC003",
+      "title_hu": "EGY DARAB CSILLAG",
+      "planned_start_sec": 90,
+      "planned_end_sec": 180,
+      "planned_duration_sec": 90,
+      "location_notes": "Ugyanaz az erdőrész.",
+      "beats": [
+        {
+          "kind": "ACTION",
+          "direction_hu": "Márk a hátizsákból összehajtott kendőt vesz elő. A kő mellett guggol. Lili megvizsgálja a talajt: nincs égés, nincs füst, a moha ép."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_LILI",
+          "direction": "",
+          "text_hu": "Nem forró. A moha nem száradt ki körülötte.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "225ebeac-c6fb-5641-a488-fede3eb27b90",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/a0ac45ccc9ce7bc321dbb3c1.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MARK",
+          "direction": "",
+          "text_hu": "Akkor lehet, hogy csak egy szép kavics.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "cef6b5f3-6050-54bf-a715-e18f410dc821",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/72e5eb5ddba0fdb83d40c9f4.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_LILI",
+          "direction": "",
+          "text_hu": "Az én kavicsaim ritkán világítanak.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "2386fc17-10d1-5170-95a2-0b36f3ff120a",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/1e97b5dccd6d3e1d4020f240.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Márk a kendőre emeli a szilánkot. A kézmozdulat lassú, mindkét tenyér látszik. A szilánk eleinte halvány; amikor az ösvény régi tisztás felőli részére fordulnak, erősebb lesz."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MARK",
+          "direction": "",
+          "text_hu": "Nézd! Tetszik neki a kendő.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "f7008600-293c-55a7-90be-29a90764b6e3",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/c7ef6db20c424b89b4aa44d9.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Lili megkerüli Márkot. A fiú vele együtt fordul, a fény csökken."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_LILI",
+          "direction": "",
+          "text_hu": "Fordulj vissza egy kicsit.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "d1511295-d1f5-529c-b534-8b393bee23b7",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/f59f054fc6f3208e4aef8fd5.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "A fény erősödik."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MARK",
+          "direction": "",
+          "text_hu": "Erre akar menni.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "2f0930b8-161f-5239-abbf-399526e65171",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/01ce0baab23079b45ce20ad6.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_LILI",
+          "direction": "",
+          "text_hu": "Vagy valami arra válaszol neki.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "7e33345c-135c-5737-b2c2-3fabd3bff89c",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/19c9a8554b3d9ccfafe515eb.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Márk a szilánk peremét figyeli. A csillag egyik oldala szabályos, a másik törött, nem éles; a törésben halvány kék szál fut."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MARK",
+          "direction": "",
+          "text_hu": "Hiányzik belőle egy rész.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "936df75a-cbdc-58e7-b8fb-9421d2e61981",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/580dbca032ea106459815d85.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_LILI",
+          "direction": "",
+          "text_hu": "Lehet, hogy valamiből ez hiányzik.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "b6bb4029-79d5-549f-a385-4f9a86280cae",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/396e894f8170851bdf1b30c5.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Márk elindulna a derengés felé. Megáll, Lilit nézi."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MARK",
+          "direction": "",
+          "text_hu": "Előbb nézzük meg?",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "25db74df-0d73-592f-82d8-642847187bac",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/0c7e7b0a9fc4862982a6877a.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Lili elmosolyodik, bólint. A fiú letakarja a szilánkot a kendő egyik szélével. A fény átdereng. Együtt követik az ösvényt. A fény rövid időre megvilágít egy régi, kőbe vésett körjelet a gyökerek alatt. Lili megjegyzi a formáját."
+        }
+      ],
+      "director_shot_status": "NOT_YET_BLOCKED_IN_3D"
+    },
+    {
+      "scene_code": "S1E1_SC004",
+      "title_hu": "MAKKFALVA BARÁTAI",
+      "planned_start_sec": 180,
+      "planned_end_sec": 265,
+      "planned_duration_sec": 85,
+      "location_notes": "Ösvényelágazás, a falu felőli oldal.",
+      "beats": [
+        {
+          "kind": "ACTION",
+          "direction_hu": "Morzsi kosárral, Pötty kulaccsal érkezik. Bogyó előttük szaglászik. Zizi egy guruló kis szerkezetet húz; az egyik kerék mindig más irányba akar menni."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MORZSI",
+          "direction": "",
+          "text_hu": "Uzsonnakereső túra?",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "4cfef011-a42a-57d4-8b9d-6f605fe93fc8",
+          "audio_storage_key": "audio/tts/hu/tWNlc7uUtaorMxxrhH9s/3ceeaca2b3f1b83e08e105a0.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MARK",
+          "direction": "",
+          "text_hu": "Csillagkereső. Az uzsonna még a táskámban van.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "2d7aa7ed-e315-5ec9-8b53-3c7a23c3dc54",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/63992bd2078e92c76b0ae60d.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MORZSI",
+          "direction": "",
+          "text_hu": "Ez a legjobb fajta túra.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "14ccb186-e1eb-5ce3-b03a-a89334d9bf2b",
+          "audio_storage_key": "audio/tts/hu/tWNlc7uUtaorMxxrhH9s/e853f0844b2879b1b4c5e5c9.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Bogyó megszagolja a kendőt, halk vakkantással hátralép, aztán kíváncsian előre. Pötty óvatosan belenéz."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_POTTY",
+          "direction": "",
+          "text_hu": "Ez biztos nem egy villám? A villámok szoktak világítani.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "ba27c505-1cba-5f36-8ca5-3d29a83ec974",
+          "audio_storage_key": "audio/tts/hu/gvuelryL3NskaN44p9vz/a6ec668325e49f58d02bb59f.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_LILI",
+          "direction": "",
+          "text_hu": "A villámok nem szoktak kendőben üldögélni.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "5309e767-5148-5c2c-b78b-78fd8bcff5d1",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/e5c801ce3ddb8004551245c7.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Zizi a szilánk fölé tartja az eszközét. A mutató egyszer jobbra, egyszer balra ugrik, majd a hátuljára fordul."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_ZIZI",
+          "direction": "",
+          "text_hu": "A világ legelső mindenmérője. Most épp azt méri, hogy…",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "b21ab5f7-c8d6-5378-a9a4-e5bb316c2866",
+          "audio_storage_key": "audio/tts/hu/8ik405hgdHADnz9lglMf/88886bd6f06d9be1c0d1070c.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MORZSI",
+          "direction": "",
+          "text_hu": "Hogy fejjel lefelé van?",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "73956111-1041-505c-9c41-f4fe9b53d960",
+          "audio_storage_key": "audio/tts/hu/tWNlc7uUtaorMxxrhH9s/be2d15c6852d2a241316e0ef.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_ZIZI",
+          "direction": "",
+          "text_hu": "Pontosan. Ezt nagyon pontosan méri.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "3511b9ad-52e2-5666-910c-fa9ceb5e4803",
+          "audio_storage_key": "audio/tts/hu/8ik405hgdHADnz9lglMf/b4b66218ef57d3140c1084ee.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Zizi visszafordítja. A mutató a régi tisztásra mutat."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_ZIZI",
+          "direction": "",
+          "text_hu": "Van benne egy egyszerű iránytű is. Az nem az én találmányom.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "971cb9b5-361f-5309-a44b-d87c0d7e1256",
+          "audio_storage_key": "audio/tts/hu/8ik405hgdHADnz9lglMf/f3425089df81fa7bf8f7c427.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Lili megmutatja a fény változását. Zizi kikapcsolja a gépét, hogy ne zavarja a halk csilingelést."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_POTTY",
+          "direction": "",
+          "text_hu": "A régi kapuhoz megyünk? Ahhoz, ami sosem nyílik ki?",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "0a415faa-7978-5324-892e-2070fe388496",
+          "audio_storage_key": "audio/tts/hu/gvuelryL3NskaN44p9vz/8b841d87377506a6261efbe2.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MARK",
+          "direction": "",
+          "text_hu": "Csak megnézzük, miért arra világít.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "165ae290-a683-5036-a462-cb44fd4c9d9f",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/b97e1f3025768a8e1586e225.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MORZSI",
+          "direction": "",
+          "text_hu": "Együtt megyünk. Én viszem a kosarat.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "e2ba4057-2070-539d-abba-804b021f4d92",
+          "audio_storage_key": "audio/tts/hu/tWNlc7uUtaorMxxrhH9s/fbaaaa3d9679001e8fc8ee96.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Bogyó két rövid ugatással körbeszaladja őket. Pötty megsimítja a füle tövét."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_POTTY",
+          "direction": "",
+          "text_hu": "Jól van. De ha a kapu köszön, én is köszönök. És aztán gondolkodom.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "3ac5a262-fbc1-5a72-89c5-93b37fbefcff",
+          "audio_storage_key": "audio/tts/hu/gvuelryL3NskaN44p9vz/57d1e418569a84f97204fb9f.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "A csapat elindul. Zizi felveszi a szerkezetet, ne akadjon a gyökerekbe."
+        }
+      ],
+      "director_shot_status": "NOT_YET_BLOCKED_IN_3D"
+    },
+    {
+      "scene_code": "S1E1_SC005",
+      "title_hu": "A CSODAKAPU FELÉBRED",
+      "planned_start_sec": 265,
+      "planned_end_sec": 360,
+      "planned_duration_sec": 95,
+      "location_notes": "Kaputisztás. A V004 képen rögzített helyszín.",
+      "beats": [
+        {
+          "kind": "ACTION",
+          "direction_hu": "A kapu mohos, öreg köveket és fény nélküli türkiz hornyokat mutat. Az előtérben lapos kövek. Márk és Lili az elfogadott képre emlékeztető pozícióban, de ténylegesen mozognak. A többiek mögöttük érnek be."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MARK",
+          "direction": "",
+          "text_hu": "Ugyanolyan, mint mindig.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "a245e68c-538b-5b61-8afd-9dfe0dcdef90",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/628d161d6e0a244fd20972ae.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_LILI",
+          "direction": "",
+          "text_hu": "A szilánk viszont nem.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "a1507187-0bb2-5117-8ce6-feac27ea8b0d",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/c1367116432cc7430d1ede44.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "A fény a szilánkból a földön lévő egyik jelre vetül. Fényfolyam fut végig a kövek közti réseken. A kapu három felső jele sorban felragyog. Morzsi maga mellé húzza a kosarat; Pötty megkapaszkodik a kosár fülében."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_POTTY",
+          "direction": "",
+          "text_hu": "Jó napot kívánok.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "f4bf4416-7a04-5e2e-8acb-257f5c8ea78c",
+          "audio_storage_key": "audio/tts/hu/gvuelryL3NskaN44p9vz/b6748c305823b1389f928119.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Semmi válasz. Halk kőrezgés. Zizi nem nyúl a kapuhoz, hanem a felvillanó jeleket rajzolja le egy noteszbe."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_ZIZI",
+          "direction": "",
+          "text_hu": "A fény három helyen áll meg. Utána visszamegy a közepére.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "0f70cefc-a76f-57ee-b88f-d843e0f71a2b",
+          "audio_storage_key": "audio/tts/hu/8ik405hgdHADnz9lglMf/71165c7f8fcf88aead9e3d4a.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MARK",
+          "direction": "",
+          "text_hu": "Lehet, hogy oda kell tenni.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "1da1be2c-df22-5c11-8756-c9a55d466feb",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/ffdf99497996046e0bf102cf.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "A középső üreg nem szilánk alakú, hanem egy teljes csillag körvonala. Márk óvatosan közelebb tartja a kendőt. A kapu belsejében kör alakú fényfelület jelenik meg."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_LILI",
+          "direction": "",
+          "text_hu": "Nem érintetted hozzá.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "feeb63a3-af1f-54c0-88d1-e744fdd66163",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/5f310fd0b5e5644db995032e.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MARK",
+          "direction": "",
+          "text_hu": "Akkor most kivételesen jó, hogy nem érintettem hozzá.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "53c5f26f-2f3e-5aa5-8782-da57667dfaef",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/76c6e07ff5b9c1f43a81841d.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "A felületből áttűnik egy másik táj: füves szigetek lebegnek a felhők között. Keskeny fényutak kötik össze őket, a középen lévő torony három arany harangot tart. Egyetlen harang sem mozdul. A levelek ott különösen lassan hullanak."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MORZSI",
+          "direction": "",
+          "text_hu": "Az ott… az ég?",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "8901d1fc-e3d1-5cf9-8cdd-18cc230da21a",
+          "audio_storage_key": "audio/tts/hu/tWNlc7uUtaorMxxrhH9s/2b9137e386c01b2845ae5462.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_POTTY",
+          "direction": "",
+          "text_hu": "Remélem, van rajta föld is.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "43187395-39a5-5b09-adb3-3b827e3f80bd",
+          "audio_storage_key": "audio/tts/hu/gvuelryL3NskaN44p9vz/91ec2ae5477da1fca9475aa8.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Bogyó a kapu mellett ül le. A farka megáll. A saját erdőjük madarai tovább énekelnek; a túloldalon szokatlan csend van."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_LILI",
+          "direction": "",
+          "text_hu": "Ott valami nem működik.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "5c05627c-9300-5543-b355-aba67c5f8556",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/e6d312233a830b8353356a41.mp3"
+        }
+      ],
+      "director_shot_status": "NOT_YET_BLOCKED_IN_3D"
+    },
+    {
+      "scene_code": "S1E1_SC006",
+      "title_hu": "EGYÜTT, VISSZAÚTTAL",
+      "planned_start_sec": 360,
+      "planned_end_sec": 435,
+      "planned_duration_sec": 75,
+      "location_notes": "Kaputisztás / túloldali kapusziget.",
+      "beats": [
+        {
+          "kind": "ACTION",
+          "direction_hu": "Márk a kapukerethez lép, és egy leesett levelet átnyújt a fényen. Elengedi. A levél a túloldali fűre esik. Bogyó kíváncsian nyújtaná utána az orrát; Lili visszahívja."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_LILI",
+          "direction": "",
+          "text_hu": "Várj, Bogyó. Előbb megbeszéljük.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "1c101b7b-c767-523a-be6e-e85916fe0bd2",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/2d202f30a612be00885169ab.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MARK",
+          "direction": "",
+          "text_hu": "Menjünk át arra az első szigetre. A kaput végig látjuk. Nem indulunk el egyedül.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "12e7c19e-723b-55ac-885d-0f8f33a484b3",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/acc3d112c2f0e68c0334cc82.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_POTTY",
+          "direction": "",
+          "text_hu": "És ha onnan ez a kapu nem látszik?",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "181a5c89-2658-56a3-a39b-86b931d531e4",
+          "audio_storage_key": "audio/tts/hu/gvuelryL3NskaN44p9vz/cfc588049196cebf80a7b07e.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Zizi egy narancsszínű szalagot vesz elő. A túloldalon álló bokor ágára rögzíthetik; a kapukerethez nem kötnek semmit."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_ZIZI",
+          "direction": "",
+          "text_hu": "Ezt látni fogjuk. És ha el akarunk menni messzebb, előbb megint megállunk.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "50346244-a4fa-59c0-a5a0-8fabfebdbfcc",
+          "audio_storage_key": "audio/tts/hu/8ik405hgdHADnz9lglMf/dd756f39115aa56d37e10f8a.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MORZSI",
+          "direction": "",
+          "text_hu": "Én leszek az utolsó. Megnézem, hogy mind megvagyunk.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "11a1c913-8fec-52e8-b266-f1b5682cc1ff",
+          "audio_storage_key": "audio/tts/hu/tWNlc7uUtaorMxxrhH9s/4ed58a89ec054b5d5c08e0f3.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Pötty a többieket számolja, Bogyót kétszer is."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_POTTY",
+          "direction": "",
+          "text_hu": "Hat. Azaz hét… Nem. Hat. Bogyó gyors.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "86fdd780-a61a-5f91-b880-203935fa329e",
+          "audio_storage_key": "audio/tts/hu/gvuelryL3NskaN44p9vz/17d907b92f3f32a70b365117.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Márk és Lili együtt lép át. Szilánk a kendőben, Márk két kezében. A többiek követik. Morzsi hátrafordul: az erdő a kapun belül ugyanott marad. Leteszi a kosarat a fűre. Zizi a közeli bokorra köti a szalagot."
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "A szigeten kis lapos körkő áll, rajta három lehajtott levélalak. A harmadik levél alól fény villan. A szilánk válaszol."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MARK",
+          "direction": "",
+          "text_hu": "Itt is ugyanaz a jel.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "b20e0877-47fd-5ba3-ac43-7aaa1c2c3dea",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/0caeff1f9ce075a5043dc0a9.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Lili belenéz a körkő üres közepébe: kerek, sekély vájat, ahonnan mintha hiányozna valami."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_LILI",
+          "direction": "",
+          "text_hu": "És itt is hiányzik egy darab.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "c04f419e-03c7-53a6-bb13-b9543040fb73",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/d321995d293174fceae610e5.mp3"
+        }
+      ],
+      "director_shot_status": "NOT_YET_BLOCKED_IN_3D"
+    },
+    {
+      "scene_code": "S1E1_SC007",
+      "title_hu": "A SZÉLKERT",
+      "planned_start_sec": 435,
+      "planned_end_sec": 515,
+      "planned_duration_sec": 80,
+      "location_notes": "Kapusziget, első híd.",
+      "beats": [
+        {
+          "kind": "ACTION",
+          "direction_hu": "A csapat nem megy azonnal a toronyhoz. Körülnéznek. A szigetek közti fényhíd a következő füves kis szigetre vezet. Vastag fonott korlátja van. Mögötte a második híd csukva; a fénykövei a földre simulnak."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MORZSI",
+          "direction": "",
+          "text_hu": "A fák nem mozognak.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "9c116b9d-be6a-54b8-8b66-40da4b03542d",
+          "audio_storage_key": "audio/tts/hu/tWNlc7uUtaorMxxrhH9s/2a8dc2798df70e43183c4c78.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_POTTY",
+          "direction": "",
+          "text_hu": "Az jó. Akkor nem hajolnak ránk.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "e7b1a4b0-4761-5cf5-93e0-dbd505ec87f8",
+          "audio_storage_key": "audio/tts/hu/gvuelryL3NskaN44p9vz/d4bc7bbd687124c289895640.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_LILI",
+          "direction": "",
+          "text_hu": "A levelek sem. Pedig azoknak mozogniuk kellene.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "dc000e91-6703-577f-bf9d-35b4c7c8d78c",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/84256ec81cb0b6d59ab6e0d8.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Zizi megmutat egy megszáradt virágot és egy lecsukott szélkereket. A talajon apró vízcsatorna fut, de a csatornában megállt a víz. Egy felhő a virág fölé ér, két cseppet ejt, majd tovább nem tud mozdulni."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_ZIZI",
+          "direction": "",
+          "text_hu": "A szélkerék emelné a vizet. Ha nem forog, a virág sem kap eleget.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "e29fe777-50de-5af5-b5c5-2d6949471507",
+          "audio_storage_key": "audio/tts/hu/8ik405hgdHADnz9lglMf/5da867dcceb38d305a983fdc.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MARK",
+          "direction": "",
+          "text_hu": "Akkor a toronyból kell szelet csinálnunk.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "914e5854-cdf4-5652-a7d1-2e3e0d2b0f92",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/3bd599ecc90a844d181df2c8.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_LILI",
+          "direction": "",
+          "text_hu": "Nézzük meg előbb, miért állt meg.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "d4e5157c-0775-537a-bae2-556ba9969460",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/2507766fb0cdeeb63d772d05.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Bogyó megszagolja a hídkorlátot, aztán a körkő felé fordul. A körkő három levéljele három külön színben villan: arany, türkiz, arany. A torony felől egy elakadó haranghang érkezik."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_POTTY",
+          "direction": "",
+          "text_hu": "Olyan, mintha valaki tüsszenteni akarna, csak nem sikerül neki.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "5ac5de6c-78b8-53ae-8b1b-ab99b7712446",
+          "audio_storage_key": "audio/tts/hu/gvuelryL3NskaN44p9vz/91c761df916b0d3e2206b491.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Morzsi játékosan tüsszent egyet. Bogyó felkapja a fejét; a feszültség oldódik."
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "A csapat átsétál az első hídon. Pötty középen, Morzsi mellette; a nyúl a fonott korláton csúsztatja a kezét. Lili ellenőrzi, hogy a kapu mögöttük látható marad."
+        }
+      ],
+      "director_shot_status": "NOT_YET_BLOCKED_IN_3D"
+    },
+    {
+      "scene_code": "S1E1_SC008",
+      "title_hu": "A HÁROM HANG",
+      "planned_start_sec": 515,
+      "planned_end_sec": 595,
+      "planned_duration_sec": 80,
+      "location_notes": "Harangsziget lába.",
+      "beats": [
+        {
+          "kind": "ACTION",
+          "direction_hu": "A csukott második híd mellett három alacsony, levél alakú fújtató áll. Mindegyikhez áttetsző cső tartozik. A csövek a torony harangjai felé mennek. Az első alatt kör, a második alatt két pont, a harmadik alatt hullám jelölés."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_ZIZI",
+          "direction": "",
+          "text_hu": "Nyomásra levegőt küldenek. Csak azt nem tudom még, mennyit.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "eea8fcc5-ff88-550b-859a-73e55c01920f",
+          "audio_storage_key": "audio/tts/hu/8ik405hgdHADnz9lglMf/68feb45ea0327d6147e51022.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Morzsi megnyomja az elsőt. Egy kis légörvény a bajusza alá fúj. A távoli harang mélyen kong. Morzsi szőre felborzolódik."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MORZSI",
+          "direction": "",
+          "text_hu": "Ezt a frizurát nem kértem.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "abdc8951-fbfe-5612-845d-0754af954d23",
+          "audio_storage_key": "audio/tts/hu/tWNlc7uUtaorMxxrhH9s/b596ce4dd06c12a05198b414.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Pötty megnyomja a másodikat. Magasabb hang szól. Bogyó a harmadikra lépne, de a közös ellenőrzés kedvéért Lili finoman maga mellé hívja."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_LILI",
+          "direction": "",
+          "text_hu": "Egyszerre csak egyet. Halljuk, mit csinál.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "3dc5484a-1823-5628-a624-1cb7c39dd315",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/346f96cdd6e06a8057ae4c0f.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Márk megnyomja a harmadikat. A középső hang szól; egy fénykő a híd előtt felemelkedik, aztán visszaereszkedik."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MARK",
+          "direction": "",
+          "text_hu": "Láttátok? Már majdnem megnyílt!",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "9e589d4b-bbd0-589b-957f-e3a29bdf267c",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/e4d2f5ecbc2fca9558b7ca73.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "A kapusziget körköve most távolról is látszik. Fényjelei ugyanolyan sorrendben pulzálnak. Lili a jeleket figyeli, de Márk már a fújtatók elé áll."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_LILI",
+          "direction": "",
+          "text_hu": "Márk, várj. Szerintem megmutatja…",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "d7682d33-cc19-52bf-8215-a0aa73284dfd",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/2767fa4e9eeb5b5c07916d7f.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MARK",
+          "direction": "",
+          "text_hu": "Mind a három kell hozzá. Morzsi, ezt nyomd. Zizi, azt!",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "69bda51c-238d-5d36-87ec-70827da6e985",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/26889abfe87546cd72db5d42.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Az első terv gyorsabb, mint a megfigyelés. Pötty tétován hátralép."
+        }
+      ],
+      "director_shot_status": "NOT_YET_BLOCKED_IN_3D"
+    },
+    {
+      "scene_code": "S1E1_SC009",
+      "title_hu": "TÚL SOK EGYSZERRE",
+      "planned_start_sec": 595,
+      "planned_end_sec": 675,
+      "planned_duration_sec": 80,
+      "location_notes": "Ugyanaz a hely.",
+      "beats": [
+        {
+          "kind": "ACTION",
+          "direction_hu": "Márk jelére hárman egyszerre nyomják meg a fújtatókat. A harangok összevissza szólnak. Rövid, erős légpöffenés támad. Csak levelek és a kendő egyik szabad sarka mozdul; senkit nem fúj a szakadékba. Márk két kézzel védi a szilánkot."
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "A híd fényköve elfordul, a három levéljel elsötétül. Egy kis arany körlap ugrik ki a torony csövének nyitott foglalatából, és a híd melletti, sekély kőhoronyba gurul. A nyílás fedett; a lap elérhető, de a rés szűk. Pötty követi a tekintetével."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_POTTY",
+          "direction": "",
+          "text_hu": "Ott állt meg! A cső alatt!",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "a7993871-29ed-5821-a378-a251bfd6433d",
+          "audio_storage_key": "audio/tts/hu/gvuelryL3NskaN44p9vz/a84238514ca4e79008d109d1.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Zizi rögtön elengedi a fújtatót. Morzsi is. A szél elül. Bogyó megrázza a füleit, majd odabújik Pöttyhöz."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MARK",
+          "direction": "",
+          "text_hu": "Elrontottam.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "210224fd-cf25-5021-b9fd-d80fdcc0b358",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/2457d20b2104d65333f566c0.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_LILI",
+          "direction": "",
+          "text_hu": "Valami elmozdult. Még meg tudjuk nézni.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "d6dcb9b5-eb6b-53a2-8992-d575e8eb4010",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/1a2d50121958797aab21a436.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MARK",
+          "direction": "",
+          "text_hu": "Mondtad, hogy várjak.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "a18e0c90-9ac4-59fa-b965-b97b394c5aae",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/d9230835849b51f827ee7e20.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Lili nem válaszol rögtön. Megnézi, hogy mindenki biztonságban van."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_LILI",
+          "direction": "",
+          "text_hu": "Igen. Most megvárunk mindenkit. És kitaláljuk együtt.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "6e6fcabe-9017-5cbf-a6ac-851dec1f881d",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/92551469ca2ba0e9cfdf3761.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "A kapu fénye még látszik, de a három körjel közül kettő egyre halványabb. Nincs visszaszámlálás vagy indokolatlan pánik."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_ZIZI",
+          "direction": "",
+          "text_hu": "A körlap nélkül a levegő rossz irányba megy. Úgy, mint amikor lyukas a kulacs.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "5b59473b-9530-5ad2-bb72-ec157576bbf4",
+          "audio_storage_key": "audio/tts/hu/8ik405hgdHADnz9lglMf/1795f409dfe20464fe6cce82.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MORZSI",
+          "direction": "",
+          "text_hu": "Akkor először visszatesszük a körlapot.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "981060f2-444a-5e0b-b663-16993c2ce4e5",
+          "audio_storage_key": "audio/tts/hu/tWNlc7uUtaorMxxrhH9s/3ec7a3c3d364e819d7cac956.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Márk a szilánkot letakarja, a kendőt összehajtva a hátizsák felső zsebébe teszi. Látszik a teljes mozdulat. Kezei szabaddá válnak. A csillag nem kerül önkényesen másik szereplőhöz."
+        }
+      ],
+      "director_shot_status": "NOT_YET_BLOCKED_IN_3D"
+    },
+    {
+      "scene_code": "S1E1_SC010",
+      "title_hu": "BOGYÓ NYOMA",
+      "planned_start_sec": 675,
+      "planned_end_sec": 745,
+      "planned_duration_sec": 70,
+      "location_notes": "Kőhorony és szerviznyílás.",
+      "beats": [
+        {
+          "kind": "ACTION",
+          "direction_hu": "Bogyó a lap fölötti rácsot megszagolja, aztán a cső mellett húzódó keskeny fedett járathoz fut. A járatba egy emberi kar nem fér be, de egy nyúl oldalazva be tud menni. Morzsi óvatosan megtámasztja a meglazult külső fedelet; nem bontanak le terhet tartó építményt."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MORZSI",
+          "direction": "",
+          "text_hu": "Itt belül a föld van. Nem az ég fölött megy.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "3ec452c0-170c-590c-88b1-bf9700ec540f",
+          "audio_storage_key": "audio/tts/hu/tWNlc7uUtaorMxxrhH9s/24e1ba54c52284b8374a3f36.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Pötty leguggol, a belső padlót látja. Megérinti, aztán visszahúzza a kezét."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_POTTY",
+          "direction": "",
+          "text_hu": "Azért elég szűk. És sötét is.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "cec8c9e4-2f95-54f6-bb60-380351ca96d2",
+          "audio_storage_key": "audio/tts/hu/gvuelryL3NskaN44p9vz/7273066567edc0c8e301a4dc.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MARK",
+          "direction": "",
+          "text_hu": "Nem kell bemenned. Keressünk más megoldást.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "af93bfbd-b920-51e9-a751-09d3d0b7fa27",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/84d221cc63923de1abb0e578.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Zizi egy hosszú pálcát próbál a nyílásba vezetni. A pálca a kanyarban megakad. Nem ismétlik sokszor ugyanazt a kudarcot."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_ZIZI",
+          "direction": "",
+          "text_hu": "A kanyar után én nem tudom mozgatni.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "394e46dd-52c9-5377-ac7a-73908bd76496",
+          "audio_storage_key": "audio/tts/hu/8ik405hgdHADnz9lglMf/0872909a306cad41bcc25c4a.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Bogyó halkan nyüszít, a rácson át Pöttyre néz. A nyúl a rácson keresztül a körlapot is meglátja."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_POTTY",
+          "direction": "",
+          "text_hu": "Ha bemegyek, a rácsnál látlak benneteket?",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "94da9bb5-4069-5b99-868c-f71edb2e1611",
+          "audio_storage_key": "audio/tts/hu/gvuelryL3NskaN44p9vz/06528030ffc7119b9ca83cbc.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_LILI",
+          "direction": "",
+          "text_hu": "Igen. Itt maradok. Végig beszélünk.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "a2b70aba-09e6-5714-8f69-c4b6c46bb1ae",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/9ea330cf29bd5cff7b8579dd.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Morzsi stabilan tartja a fedelet. Márk a nyílás mellett marad. Zizi leteszi az eszközét, hogy egyik keze se mozgassa meg véletlenül a tartót."
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Pötty nagy levegőt vesz. A füleit lehajtja, lassan oldalazva belép. A kamera vele azonos magasságban, a fényes kijáratot is mutatva követi."
+        }
+      ],
+      "director_shot_status": "NOT_YET_BLOCKED_IN_3D"
+    },
+    {
+      "scene_code": "S1E1_SC011",
+      "title_hu": "PÖTTY BÁTORSÁGA",
+      "planned_start_sec": 745,
+      "planned_end_sec": 830,
+      "planned_duration_sec": 85,
+      "location_notes": "Fedett szervizjárat.",
+      "beats": [
+        {
+          "kind": "ACTION",
+          "direction_hu": "Pötty első lépése óvatos. A másodiknál a puha moha megcsiklandozza a talpát; hirtelen megáll."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_POTTY",
+          "direction": "",
+          "text_hu": "Mi volt ez?",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "80731a80-0238-50a9-bee7-148b77de4b89",
+          "audio_storage_key": "audio/tts/hu/gvuelryL3NskaN44p9vz/fd44bf42322758db7d849a7d.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_LILI",
+          "direction": "kívülről",
+          "text_hu": "A fal alján moha. A fényben itt is látom.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "3caddc7c-40a6-5359-aa22-da4d15bd9a12",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/3acd9af0f69f85e4f696a615.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Pötty megérinti a mohát. Elmosolyodik."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_POTTY",
+          "direction": "",
+          "text_hu": "Jó. A mohától nem félek. Csak meglepett.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "408609dd-4214-57b7-9a0b-85730ee8d0eb",
+          "audio_storage_key": "audio/tts/hu/gvuelryL3NskaN44p9vz/143a3dc49e2631206e3ce57c.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Márk a rács túloldalán megjelenik; nem siettet."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MARK",
+          "direction": "",
+          "text_hu": "Látlak. Még két kicsi lépés, és a lap mellett vagy.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "392a3618-532a-54f7-8a29-577dfe8ef638",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/47586ce9dc0c38eb1dfe912d.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Pötty letérdel. A körlap egy kis mélyedésben van; nem veszélyes szerkezet mellett. A nyúl két kézzel megemeli. Alatta keskeny gyökér nő át egy légnyíláson."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_POTTY",
+          "direction": "",
+          "text_hu": "Megvan! És van itt valami növény is. Bent nőtt a csőben.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "49d1b961-34e2-52e6-a3a7-499348944a3d",
+          "audio_storage_key": "audio/tts/hu/gvuelryL3NskaN44p9vz/a0e778056d76e5f0789b067e.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_ZIZI",
+          "direction": "",
+          "text_hu": "Attól is elakadhatott a levegő. Ne tépd ki. Megnézzük, hol tud elférni.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "18db4bbc-ee44-5e6b-8bed-a557ddc42177",
+          "audio_storage_key": "audio/tts/hu/8ik405hgdHADnz9lglMf/be30e2208895038eefca903f.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Pötty úgy fordítja a lapot, hogy a kijáraton kiférjen. A füle a falhoz ér; megáll, eligazítja, továbbhalad. Bogyó a kijáratnál hasra fekszik, csóvál."
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Kint Morzsi átveszi a lapot, majd elengedi a fedelet, amikor Zizi visszazárta. Pötty leül egy pillanatra a biztos talajra."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MARK",
+          "direction": "",
+          "text_hu": "Nagyon bátor voltál.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "3c516a6e-20ad-5c70-a370-20c0382b55d5",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/77e1cc6bd483583acddd9b05.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_POTTY",
+          "direction": "",
+          "text_hu": "Én közben féltem.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "513e043e-c5d5-5751-9787-58a8c45e6e11",
+          "audio_storage_key": "audio/tts/hu/gvuelryL3NskaN44p9vz/bcce787224c416fd318b37c8.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MORZSI",
+          "direction": "",
+          "text_hu": "Attól még bátor voltál.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "56c9b251-87bc-5c2c-96d2-6bdb58980379",
+          "audio_storage_key": "audio/tts/hu/tWNlc7uUtaorMxxrhH9s/c2c5c54b63377fe3516de91a.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Bogyó a nyúl mellé ül, a fejét a vállának dönti. Pötty nevetve megsimogatja. Nincs külön kimondott tanulságmondat vagy hosszú beszéd."
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Lili megnézi a körlapot: ugyanaz a három jel van rajta, mint a fújtatóknál."
+        }
+      ],
+      "director_shot_status": "NOT_YET_BLOCKED_IN_3D"
+    },
+    {
+      "scene_code": "S1E1_SC012",
+      "title_hu": "A KERT NEM ELLENSÉG",
+      "planned_start_sec": 830,
+      "planned_end_sec": 905,
+      "planned_duration_sec": 75,
+      "location_notes": "Torony alapja, a gyökér mellett.",
+      "beats": [
+        {
+          "kind": "ACTION",
+          "direction_hu": "A lapot a levélformájú nyitott foglalat mellett tartják. Zizi az egyik elzáródott légcsövet mutatja. A gyökér a kő alatti nedves rész felé nőtt. A kert földje ott is kiszáradóban van."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MARK",
+          "direction": "",
+          "text_hu": "Csak útban van. Arrébb tehetjük?",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "cd53ddc8-0cd1-5c4e-9613-2c7df219b8b6",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/adf6945bc3a764f8b343671e.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_LILI",
+          "direction": "",
+          "text_hu": "Óvatosan. Ez is ide tartozik.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "36a562ad-6160-5c46-8f22-62fac899c321",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/e32a663ab46ead35ac619765.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Morzsi megtámasztja a könnyű kőfedelet. Zizi felnyit egy külön oldalsó tartót; az nem a kapu része. Márk megtölti Pötty kulacsából a kis földmélyedést, hogy fellazuljon. Pötty nézi a vízmennyiséget, visszakéri a kupakot."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_POTTY",
+          "direction": "",
+          "text_hu": "Elég lesz nekünk is?",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "a719fa0a-8c3b-56e2-8ad4-f718c6072676",
+          "audio_storage_key": "audio/tts/hu/gvuelryL3NskaN44p9vz/c193ee01b7a6eb4c50dd02a4.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MORZSI",
+          "direction": "",
+          "text_hu": "Van még nálam. A kert is kaphat.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "471f2a9b-389f-5f19-84f3-97d909229f31",
+          "audio_storage_key": "audio/tts/hu/tWNlc7uUtaorMxxrhH9s/4c65dad0cab7c2f74af346c2.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Márk két ujjal a földdel együtt tereli a puha gyökeret az oldalsó üregbe. Lili ellenőrzi, hogy nincs törés. Nem húzza vagy tépi a növényt. Zizi a kis tartót a nyitott légcső mellé zárja, a gyökér új helye szabad marad."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_ZIZI",
+          "direction": "",
+          "text_hu": "Most a gyökér kap vizet. A levegő pedig kap utat.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "9ba962c2-276b-5245-8cd5-23d695eb9b90",
+          "audio_storage_key": "audio/tts/hu/8ik405hgdHADnz9lglMf/521354fc0a2dd5ec07b5a5b1.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Pötty a körlapot a foglalat felé nyújtja. A lap egyik kis bemetszése mutatja a jó irányt. Lili jelzi; Morzsi helyreteszi, Zizi kattanásig rögzíti."
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "A torony egyik harangja finoman megmozdul, de nem szól. Egy virág szirma felemelkedik."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MARK",
+          "direction": "",
+          "text_hu": "Most már csak a három hang.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "3412d83c-0d82-50d9-b7ff-02fd13065e1a",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/d12cbd8af72410cec874e643.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_LILI",
+          "direction": "",
+          "text_hu": "Igen. De ezúttal meghallgatjuk a kertet.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "97a800e1-d55f-52b3-bb7e-8128a65d0451",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/caa3072c44e2c2a502b894b7.mp3"
+        }
+      ],
+      "director_shot_status": "NOT_YET_BLOCKED_IN_3D"
+    },
+    {
+      "scene_code": "S1E1_SC013",
+      "title_hu": "HALLGATNI IS KALAND",
+      "planned_start_sec": 905,
+      "planned_end_sec": 985,
+      "planned_duration_sec": 80,
+      "location_notes": "A három fújtató.",
+      "beats": [
+        {
+          "kind": "ACTION",
+          "direction_hu": "A csapat leül vagy leguggol. A kapusziget felől a jel halk dallamot ad: mély, magas, középső hang, utána szünet. A szilánk a hátizsák zsebében dereng; Márk újra előveszi a kendőben. A tárgyátadás látható."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MARK",
+          "direction": "",
+          "text_hu": "Ugyanaz a három fény, mint az erdőben.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "aac62198-9652-559d-811a-9bc8547e40c4",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/71aa674876ea86dfab2fb692.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Zizi a noteszében összehasonlítja a kapunál rajzolt jelekkel. Nem titkos új tudásból találja ki a választ."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_ZIZI",
+          "direction": "",
+          "text_hu": "Kör, két pont, hullám. És utána semmi.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "9e35573c-e306-5155-943c-e7304024bc53",
+          "audio_storage_key": "audio/tts/hu/8ik405hgdHADnz9lglMf/962c002e1e292ef3b41899a9.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MORZSI",
+          "direction": "",
+          "text_hu": "A semmit is meg kell nyomni?",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "69edecc2-f6da-576b-a4e9-1d875f86cfa0",
+          "audio_storage_key": "audio/tts/hu/tWNlc7uUtaorMxxrhH9s/41501843b5ffa3668509f718.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_LILI",
+          "direction": "",
+          "text_hu": "A semminél nem nyomunk. Várunk.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "f1dd89c2-4283-5baa-a1c5-4770f915c2b4",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/27ecf198ae85ad1017de05a6.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Morzsi a kezét demonstratívan a háta mögé teszi. Bogyó is leül, nagyon komolyan. Pötty majdnem nevet, aztán figyel. Márk sorban a fújtatók felé mutat. Nem nyomja meg őket."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MARK",
+          "direction": "",
+          "text_hu": "Mély. Magas. Középső. Szünet.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "e8c053e2-c61e-59f7-a061-5988b8a79bd0",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/e76ca1b0490b973df1e85969.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "A dallam újra hallatszik. A csapat apró kéz- és fejmozdulatokkal követi a ritmust. Egy rövid próbában Morzsi túl korán emeli a kezét; saját magát állítja meg."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MORZSI",
+          "direction": "",
+          "text_hu": "Ez még a szünet volt.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "3ac88256-1c44-5352-a032-cb1d16d4171b",
+          "audio_storage_key": "audio/tts/hu/tWNlc7uUtaorMxxrhH9s/82f9976c8cf6762272553fa9.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_POTTY",
+          "direction": "",
+          "text_hu": "Én figyelem a fényt. Szólok, amikor vége.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "38ca4798-272e-514c-9641-768f0eb14756",
+          "audio_storage_key": "audio/tts/hu/gvuelryL3NskaN44p9vz/9e5097de1394c9129ec3f1d6.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_ZIZI",
+          "direction": "",
+          "text_hu": "Én a csöveket. Ha bármi rossz irányba indul, megállunk.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "861e8900-fb6e-53d4-9a7c-2c0bfa918ee1",
+          "audio_storage_key": "audio/tts/hu/8ik405hgdHADnz9lglMf/a65ecdc20b2f8933a6687a68.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MARK",
+          "direction": "",
+          "text_hu": "És én… most bevárok mindenkit.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "13330cc6-eb66-56bc-b189-afa0e69e9aec",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/fb90febf73e73855ae3358b2.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Lili mosolyog. Bogyó egyetlen csendes vakkantással jelzi a készülődést. Márk a kendővel együtt a körkő melletti stabil kis mélyedésbe helyezi a szilánkot; nem a teljes csillag alakú nyílásba illeszti."
+        }
+      ],
+      "director_shot_status": "NOT_YET_BLOCKED_IN_3D"
+    },
+    {
+      "scene_code": "S1E1_SC014",
+      "title_hu": "AZ ELSŐ HELYES SOR",
+      "planned_start_sec": 985,
+      "planned_end_sec": 1065,
+      "planned_duration_sec": 80,
+      "location_notes": "Fújtatók / fényhíd.",
+      "beats": [
+        {
+          "kind": "ACTION",
+          "direction_hu": "Morzsi az első fújtatót nyomja. Mély hang. Lili bólint. Márk a másodikat nyomja. Magas hang. Zizi a harmadikat. Középső hang. Mind elengedik, várnak."
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Pötty a fényjelet figyeli. Az utolsó jel kihuny, a körkő közepén új kör kezd ragyogni."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_POTTY",
+          "direction": "",
+          "text_hu": "Most!",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "b459671f-c801-5242-9447-e27687e3be33",
+          "audio_storage_key": "audio/tts/hu/gvuelryL3NskaN44p9vz/03ecc9718d39e96271d78459.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Az első fénykő felemelkedik. Utána a második, a harmadik. Egy széles, korlátos híd összeáll a következő szigetig. A csapat nem rohan rá a mozgás közben."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MARK",
+          "direction": "",
+          "text_hu": "Megcsináltuk!",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "02292cf7-2659-51f7-bc25-bdb628b9aec5",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/b2bee9a840a22256a95db11a.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Lili a tornyot nézi. A felső szélkerék megmozdul, de fél fordulat után megáll. A híd másik végén egy kis lehajtható szélterelő továbbra is csukva van. Az oda vezető út szilárd, korlátos."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_ZIZI",
+          "direction": "",
+          "text_hu": "A levegő most jó helyre megy. Csak még nem tud kijönni.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "65a30093-c1cc-50c2-9f9e-fa19723df8ef",
+          "audio_storage_key": "audio/tts/hu/8ik405hgdHADnz9lglMf/e6e0f4511f0d32bf9f3af890.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MORZSI",
+          "direction": "",
+          "text_hu": "Akkor megnyitjuk az utat neki.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "5b1c80f7-57e2-5cd4-ab27-b21999f0577e",
+          "audio_storage_key": "audio/tts/hu/tWNlc7uUtaorMxxrhH9s/e4c6827a906b11f929a9d738.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Lili visszanéz a kapura: halványabban fénylik, a csillag mellett viszont kis arany szál látszik."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_LILI",
+          "direction": "",
+          "text_hu": "Együtt maradunk. És nem visszük el a szilánkot, amíg meg nem nézzük, mit tart nyitva.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "56223298-0436-565c-ab61-f6a706247f82",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/eee6d87889cef17b25878ac6.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Márk nem hagyja őrizetlenül: Pötty és Bogyó a körkőnél marad, látják a többieket. A sziget és az átjáró kicsi, a távolság áttekinthető."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_POTTY",
+          "direction": "",
+          "text_hu": "Itt leszünk. Ha változik a fény, szólok.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "4c11a870-0cb6-513f-89b7-8c2911f56517",
+          "audio_storage_key": "audio/tts/hu/gvuelryL3NskaN44p9vz/9fc2ad12a00206442c3c6c64.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Márk, Lili, Morzsi és Zizi átlép a már stabil hídra."
+        }
+      ],
+      "director_shot_status": "NOT_YET_BLOCKED_IN_3D"
+    },
+    {
+      "scene_code": "S1E1_SC015",
+      "title_hu": "A SZÉLTERELŐ",
+      "planned_start_sec": 1065,
+      "planned_end_sec": 1155,
+      "planned_duration_sec": 90,
+      "location_notes": "Toronysziget, szélterelő.",
+      "beats": [
+        {
+          "kind": "ACTION",
+          "direction_hu": "A terelő nem varázslatosan oldódik meg: Morzsi egy fogantyún tartja a súlyát, Zizi kis reteszt nyit, Márk a másik oldalon megemeli a levélalakú lapot. Lili alulról nézi a vezetősínt; egy kis kő akadt bele."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_LILI",
+          "direction": "",
+          "text_hu": "Álljatok meg egy kicsit.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "8bb5238c-aebf-562f-95f9-4341cb5f7b7e",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/50c0c53022a06d8ce705c5e9.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Mind megállnak. Lili kikotorja a kavicsot; a terelő ezután könnyen mozog. Zizi az új állásban rögzíti."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_ZIZI",
+          "direction": "",
+          "text_hu": "Ez volt az utolsó akadály. Most nem egyszerre erősebben kell. Hanem sorban újra.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "71b47e3e-f643-56ef-b31a-3bcd4dd35988",
+          "audio_storage_key": "audio/tts/hu/8ik405hgdHADnz9lglMf/745752e5d95f36439f07a1f0.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Morzsi visszateszi a fogantyút, ellenőrzi, hogy stabil. A csapat visszamegy Pöttyékhez, ugyanazon az úton. A szilánk helyén maradt; Pötty egy pillanatra sem vette fel."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MARK",
+          "direction": "",
+          "text_hu": "Köszönöm, hogy szóltál, Lili.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "67d12ae7-e8f2-5ed1-92ec-7f9c33a31c5a",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/64897ee35f5c022ffb5fcc5b.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_LILI",
+          "direction": "",
+          "text_hu": "Köszönöm, hogy megálltatok.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "a0ae3697-0f8e-5de6-bbac-e230739ddb6e",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/92a21c64108fcff91ab825d8.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Morzsi a fújtatóhoz áll, Márk a másodikhoz, Zizi a harmadikhoz. A dallam lassabban ismétlődik. Bogyó felismeri: három apró farokmozdulat, aztán megáll. Pötty nevetve figyel tovább."
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Mély hang. Magas hang. Középső hang. Szünet."
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Ezúttal a fény nem áll meg a hídnál, hanem a torony tetejéig fut. A harangok tisztán szólnak. A szélterelő megnyílt irányában puha légáram indul el."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_POTTY",
+          "direction": "",
+          "text_hu": "Most!",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "a53e5c58-b51f-5b06-b8a6-d3bd933980ef",
+          "audio_storage_key": "audio/tts/hu/gvuelryL3NskaN44p9vz/03ecc9718d39e96271d78459.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "A teljes kert válaszol: a szélkerék forogni kezd, a víz megemelkedik, az apró csatornák megtelnek. A lecsukott virágok kinyílnak. A lebegő szigetek finoman visszatérnek az eredeti magasságukra, a hidak stabilak maradnak. Senki sem zuhan, a térbeli mozgás lassú és áttekinthető."
+        }
+      ],
+      "director_shot_status": "NOT_YET_BLOCKED_IN_3D"
+    },
+    {
+      "scene_code": "S1E1_SC016",
+      "title_hu": "A KERT MEGKÖSZÖNI",
+      "planned_start_sec": 1155,
+      "planned_end_sec": 1220,
+      "planned_duration_sec": 65,
+      "location_notes": "Kapusziget / Szélkert panoráma.",
+      "beats": [
+        {
+          "kind": "ACTION",
+          "direction_hu": "A csapat biztonságos talajon áll. A szél egyetlen nagy kört ír le, majd gyengül. Morzsi visszasimítja a bundáját; most rögtön újra felborzolja egy kis fuvallat. Bogyó a levél után ugrik, aztán Pöttyhöz hozza."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MORZSI",
+          "direction": "",
+          "text_hu": "Úgy látom, ez marad a mai frizurám.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "4d3b6367-69ec-5059-a821-7135139a7731",
+          "audio_storage_key": "audio/tts/hu/tWNlc7uUtaorMxxrhH9s/1369af4a78016a2a14caa971.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Zizi a vízzel telt csatorna mellett kikapcsolva hagyja a mindenmérőt."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_ZIZI",
+          "direction": "",
+          "text_hu": "Ezt műszer nélkül is látom. Működik.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "99926520-6c22-5525-b6ae-02aa7ec4871d",
+          "audio_storage_key": "audio/tts/hu/8ik405hgdHADnz9lglMf/59f34e7ef673a6a5f6950360.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Márk visszaveszi a szilánkot a kendőben. A kapu tovább ragyog: most a kert szélkereke is táplálja a fénykört. A körkő közepén egy rövid térkép körvonala jelenik meg: sok kör, középen egy csillag. Egyetlen kör tartósan felvillan. A többi halvány."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MARK",
+          "direction": "",
+          "text_hu": "Olyan, mintha a kapuhoz tartozna.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "79e0b3f8-a01f-5075-97ee-737c5eaadbf2",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/d65265542b2cf001fdf4fb16.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_LILI",
+          "direction": "",
+          "text_hu": "És nem csak ehhez a kerthez.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "78cc3f49-e8bd-57fd-bc08-ecf2f11d82c0",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/2661ceb044c2c24270bb9fc0.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "A szilánk törött oldala mellett egy második, hiányzó rész körvonala látszik. Nem új szilánkot kapnak jutalmul; csak nyomot."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_POTTY",
+          "direction": "",
+          "text_hu": "Hány darab lehet még?",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "b9f4b12e-ae6d-534e-8074-31f5d5f3a50f",
+          "audio_storage_key": "audio/tts/hu/gvuelryL3NskaN44p9vz/27cc6a8714e8a18cc0b34d9f.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_ZIZI",
+          "direction": "",
+          "text_hu": "Ezt most még a mindenmérő sem tudná.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "2c5042b2-27c7-5789-b638-cdb73d17840d",
+          "audio_storage_key": "audio/tts/hu/8ik405hgdHADnz9lglMf/cd78e6f336fa978001ecebbd.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Morzsi felveszi a kosarat. Mind visszatérnek a kapusziget bokrához. Zizi leoldja a narancsszalagot, elteszi. Pötty megszámolja őket, Bogyót ezúttal maga mellett tartja."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_POTTY",
+          "direction": "",
+          "text_hu": "Hat. Most biztos.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "a92c5bd8-ddb1-5e64-9051-1cfab1bce788",
+          "audio_storage_key": "audio/tts/hu/gvuelryL3NskaN44p9vz/ed67e87aa659cf164b914fef.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MARK",
+          "direction": "",
+          "text_hu": "Hazamegyünk. De ezt nem felejtjük el.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "fba4250d-7c5d-576c-93fb-e4b21120ef68",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/b8dd9e34b38b773d923540c2.mp3"
+        }
+      ],
+      "director_shot_status": "NOT_YET_BLOCKED_IN_3D"
+    },
+    {
+      "scene_code": "S1E1_SC017",
+      "title_hu": "HAZA, EGYÜTT",
+      "planned_start_sec": 1220,
+      "planned_end_sec": 1285,
+      "planned_duration_sec": 65,
+      "location_notes": "Kaputisztás, majd Makkfalva felőli ösvény.",
+      "beats": [
+        {
+          "kind": "ACTION",
+          "direction_hu": "A csapat ugyanabban a sorrendben lép vissza az erdőbe, Morzsi utolsóként. Lili ellenőrzi a hátizsákot, a kendőt, a csapatot. Márk kezében a szilánk. A kapun át még látszik a mozgó Szélkert; a fényfelület lassan bezárul. A kő türkiz jelei halványan megmaradnak."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_POTTY",
+          "direction": "",
+          "text_hu": "Most már köszöntünk, beszéltünk, és haza is jöttünk.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "24f1ab63-c1e2-5b8b-81de-1da5322ba8e1",
+          "audio_storage_key": "audio/tts/hu/gvuelryL3NskaN44p9vz/304fe61734fe42fdb87c03a0.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MORZSI",
+          "direction": "",
+          "text_hu": "Akkor jöhet a túra másik fele.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "38889253-51e7-56a4-adad-782ec64e5497",
+          "audio_storage_key": "audio/tts/hu/tWNlc7uUtaorMxxrhH9s/9ac27b8b5ce2ce28aadc6d5e.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Márk előveszi az uzsonnát. Morzsi nem kapja el, hanem az összes szereplőnek jut egy falat; Bogyónak külön kutyafalat a kosárból. Közben a szilánk a kendőn a fiú ölében marad."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MARK",
+          "direction": "",
+          "text_hu": "Majdnem úgy csináltam végig, mintha csak nekem lenne ötletem.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "3a8c4427-a2c2-5645-ba62-20a5eae5894e",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/2122954300cb95f1b02ee903.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_ZIZI",
+          "direction": "",
+          "text_hu": "Pedig nekem nagyon sok ötletem van. Néha túl sok.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "02bb84bd-8e89-5095-a35c-ee7cc562c378",
+          "audio_storage_key": "audio/tts/hu/8ik405hgdHADnz9lglMf/a30819a65c3b5d137c1aa213.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_LILI",
+          "direction": "",
+          "text_hu": "Nekünk ma pont hat kellett.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "89f36e19-0d54-504e-8083-74e66ce72c5f",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/8f1830b7a39d0878a3060265.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_POTTY",
+          "direction": "",
+          "text_hu": "Az enyém az volt, hogy féljek egy kicsit, aztán mégis bemenjek.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "c90094a3-97a0-5f14-bafd-fc223bdc754c",
+          "audio_storage_key": "audio/tts/hu/gvuelryL3NskaN44p9vz/512bd3b96e7b4ae5fd83e4f1.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MORZSI",
+          "direction": "",
+          "text_hu": "Az enyém, hogy ne essen le a fedél.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "df5a9b77-32ef-5694-8eba-cd95c99a0a4d",
+          "audio_storage_key": "audio/tts/hu/tWNlc7uUtaorMxxrhH9s/68f841698a74ffa61c74ff3a.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MARK",
+          "direction": "",
+          "text_hu": "Bogyóé meg, hogy mutassa az utat.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "80340fc7-c517-5440-977c-2918254b62b1",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/f0a4e574700966b5b4df50f7.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Bogyó magára ismer a nevében, büszkén kihúzza magát. A levele, amit hozott, lecsúszik az orráról. Mind nevetnek."
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "A csapat az ösvényen Makkfalva felé indul. A nap már alacsonyabb, de még világos. Nincs indokolatlan éjszakai időugrás."
+        }
+      ],
+      "director_shot_status": "NOT_YET_BLOCKED_IN_3D"
+    },
+    {
+      "scene_code": "S1E1_SC018",
+      "title_hu": "NEM AZ EGYETLEN",
+      "planned_start_sec": 1285,
+      "planned_end_sec": 1305,
+      "planned_duration_sec": 20,
+      "location_notes": "Kaputisztás; rövid rejtélynyom.",
+      "beats": [
+        {
+          "kind": "ACTION",
+          "direction_hu": "Márk egyszer visszafordul az ösvényről. Felnyitja a kendőt. A szilánk törött oldala más irányba villan: a kapu egy eddig sötét felső körjelére. A jelben egy kicsi tollforma jelenik meg, aztán elhalványul."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MARK",
+          "direction": "",
+          "text_hu": "Lili…",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "92ad3c8c-3676-52c7-89be-ab090706e6d0",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/c3475b28fe00c1972459a626.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Lili megáll mellette. Mindketten látják, nem csak a néző."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_LILI",
+          "direction": "",
+          "text_hu": "Láttam.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "13d0a321-d2ac-5dd0-b137-d79f91e0ef3e",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/c6b94859d283e3d5a50b04e0.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MARK",
+          "direction": "",
+          "text_hu": "Ez tényleg csak az első darab.",
+          "voice_id": null,
+          "recording_status": "CURRENT_RECORDING_DRAFT_REQUIRES_REVIEW",
+          "recording_id": "3d93996b-7582-55f2-bee8-c1426f417a7f",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/9472760f1c28bc4253eadad3.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "A szilánk három rövid fényt ad. Márk visszatakarja, csatlakoznak a többiekhez. A kamera a kapun marad: a tollforma halványan egyszer visszafénylik. Új célvilág még nincs megnyitva, nincs ismert eredet, nincs új beszélő gonosz vagy megmagyarázott Csillagkulcs."
+        }
+      ],
+      "director_shot_status": "NOT_YET_BLOCKED_IN_3D"
+    },
+    {
+      "scene_code": "S1E1_SC019",
+      "title_hu": "STÁBLISTA",
+      "planned_start_sec": 1305,
+      "planned_end_sec": 1320,
+      "planned_duration_sec": 15,
+      "location_notes": "",
+      "beats": [
+        {
+          "kind": "ACTION",
+          "direction_hu": "Saját rövid zenei levezetés, hiteles stáblista. Nem használhatunk kitalált gyártói neveket, nem mondhatjuk elkészültnek a riget, amely még nincs meg. A végleges stáblista tényleges hozzájárulók és licencelt assetek alapján készül. Ez a tizenöt másodperc nem történeti kitöltés."
+        }
+      ],
+      "director_shot_status": "NOT_YET_BLOCKED_IN_3D"
+    }
+  ],
+  "characters": [
+    "CHAR_MARK",
+    "CHAR_LILI",
+    "CHAR_MORZSI",
+    "CHAR_POTTY",
+    "CHAR_ZIZI",
+    "CHAR_BOGYO"
+  ],
+  "master_asset_status": {
+    "CHAR_MARK": "MISSING_RIGGED_MASTER",
+    "CHAR_LILI": "MISSING_RIGGED_MASTER",
+    "CHAR_MORZSI": "MISSING_RIGGED_MASTER",
+    "CHAR_POTTY": "MISSING_RIGGED_MASTER",
+    "CHAR_ZIZI": "MISSING_RIGGED_MASTER",
+    "CHAR_BOGYO": "MISSING_RIGGED_MASTER"
+  },
+  "voice_bindings_verified": false,
+  "animatic_verified": false,
+  "final_output": null,
+  "draft_model_assets": {
+    "CHAR_MARK": "assets/characters/CHAR_MARK/drafts/V005/d4a5478d00a164d7d76852f4afe1c3b27fba9dcec5d6e7d11fc2b74df23904ed.glb",
+    "CHAR_LILI": "assets/characters/CHAR_LILI/drafts/V005/8dbf551e8f077be096d4d5fbcb7390b1bf59ba0ede08c118182a99cd9f983972.glb"
+  },
+  "audio_recordings_status": "CURRENT_131_RECORDINGS_MEASURED_NOT_PERFORMANCE_APPROVED",
+  "audio_review_required": true,
+  "spoken_audio_duration_sec": 317.910202,
+  "recording_package_sha256": "f92be3d8bd2ae172c918eb1b3ecd209d029562bcdc82ff0642b93a465775866d",
+  "source_script_sha256": "12f20cfb85ed21393091c1ca628cc206a8376ab03ab6b2796b5a3c5be4fb93f5",
+  "series_intro": {
+    "duration_sec": 15,
+    "fps": 24,
+    "frames": 360,
+    "placement": "BEFORE_STORY",
+    "fixed_master_required": true,
+    "only_variable": "episode_number",
+    "master_created": false
+  }
+}
