@@ -97,14 +97,16 @@ def author(event):
         raw = image_path.read_bytes()
         if len(raw) != reference['bytes'] or hashlib.sha256(raw).hexdigest() != reference['sha256']:
             raise ValueError('Stored reference checksum mismatch')
+        image = Image.open(image_path)
+        image.load()
+        if image.mode != 'RGBA' or image.getchannel('A').getextrema()[0] == 255:
+            raise ValueError('An isolated transparent reference is required')
         # First load runs inside the bounded authoring job, not unbounded startup.
         if PIPELINE is None:
             from trellis2.pipelines import Trellis2ImageTo3DPipeline
             PIPELINE = Trellis2ImageTo3DPipeline.from_pretrained('microsoft/TRELLIS.2-4B')
             PIPELINE.low_vram = True
             PIPELINE.cuda()
-        image = Image.open(image_path)
-        image.load()
         mesh = PIPELINE.run(image, seed=seed, pipeline_type=resolution)[0]
         mesh.simplify(16777216)
         import o_voxel

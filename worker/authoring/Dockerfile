@@ -24,6 +24,8 @@ RUN git clone --recursive https://github.com/JeffreyXiang/FlexGEMM.git /opt/Flex
     && pip install /opt/FlexGEMM --no-build-isolation \
     && pip install /opt/trellis2/o-voxel --no-build-isolation
 WORKDIR /opt/wonderly
+COPY worker/authoring/configure_upstream.py /opt/wonderly/configure_upstream.py
+RUN python configure_upstream.py
 COPY worker/authoring/handler.py /opt/wonderly/handler.py
 COPY runpod_authoring.py /opt/wonderly/runpod_authoring.py
 COPY production/references/V005/manifest.json /opt/wonderly/manifest.json
