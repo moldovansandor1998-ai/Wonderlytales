@@ -31,7 +31,7 @@ export default async function MasterAudioPage({ params }: { params: { id: string
     {scenes.map(s=><section key={s.id} className="my-6"><h2 className="font-semibold">{s.number}. {s.title}</h2>
       {lines.filter(l=>l.scene_id===s.id).sort((a,b)=>a.sequence-b.sequence).map(l=><div key={l.id} className="my-3">
         <p>{chars.find(c=>c.id===l.character_id)?.name}: {l.text}</p>
-        {currentAudio(l) && <audio controls preload="none" src={`/api/dialogue/${l.id}/audio`} />}
+        {currentAudio(l) && <><audio controls preload="none" src={`/api/dialogue/${l.id}/audio`} /><a className="text-amber-400 inline-block my-2" href={`/api/dialogue/${l.id}/audio`} download={`magyar_dialogus_${l.id}.mp3`}>Magyar hang letöltése</a></>}
         <div><ActionButton label="Felvétel új hangbeállítással" action={recordDialogueSpeechAction.bind(null,l.id)} /></div>
         {currentAudio(l) && <div><ActionButton label="Magyar szöveg ellenőrzése" action={reviewDialogueSpeechAction.bind(null,l.id)} /></div>}
         {l.audio_path && !currentAudio(l) && <p className="text-amber-400">Korábbi hang: új magyar felvétel szükséges.</p>}
