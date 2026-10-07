@@ -1,3 +1,4 @@
+import { reserveProductionBudget } from "../budget";
 import { requireConfiguration, rejectProductionMock } from "../config";
 import { z } from "zod";
 import { fetchWithTimeout } from "./translation";
@@ -59,6 +60,7 @@ ${repairNote ? `Előző válasz hibás volt: ${repairNote}. Javítsd és add vis
   }
 
   private async call(i: StoryInput, repairNote?: string): Promise<string> {
+    await reserveProductionBudget("story");
     const res = await fetchWithTimeout(`${this.baseUrl}/chat/completions`, {
       method: "POST",
       headers: { Authorization: `Bearer ${this.apiKey}`, "Content-Type": "application/json" },

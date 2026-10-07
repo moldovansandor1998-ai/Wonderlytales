@@ -1,3 +1,4 @@
+import { reserveProductionBudget } from "../budget";
 import { fetchWithTimeout } from "./translation";
 import { getPricing } from "../pricing";
 
@@ -23,6 +24,7 @@ export class RemoteGenVideo implements GenVideoProvider {
       throw new Error(`Becsült költség meghaladja a max_cost_usd keretet (${req.maxCostUsd} USD)`);
     let lastErr = "";
     for (let attempt = 0; attempt < 2; attempt++) {
+      await reserveProductionBudget("genvideo");
       try {
         const submit = await fetchWithTimeout(`${this.baseUrl}/run`, {
           method: "POST",

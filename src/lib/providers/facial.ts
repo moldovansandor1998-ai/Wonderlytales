@@ -1,3 +1,4 @@
+import { reserveProductionBudget } from "../budget";
 import { requireConfiguration, rejectProductionMock } from "../config";
 /** FacialAnimationProvider: audio + facial profile + emotion → viseme/blendshape timeline JSON */
 export interface BlendshapeKey { t: number; shapes: Record<string, number>; }
@@ -45,6 +46,7 @@ export class Audio2FaceProvider implements FacialProvider {
   constructor(private endpoint: string) {}
   async generate(input: { audioPath: string; audioDurationSec: number; facialProfile: string; emotion: string }): Promise<FacialTrack> {
     const { fetchWithTimeout } = await import("./translation");
+    await reserveProductionBudget("facial");
     const submit = await fetchWithTimeout(`${this.endpoint}/audio2face/jobs`, {
       method: "POST", headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ audio_path: input.audioPath, facial_profile: input.facialProfile, emotion: input.emotion }),

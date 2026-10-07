@@ -1,3 +1,4 @@
+import { reserveProductionBudget } from "./budget";
 import { requireConfiguration, rejectProductionMock } from "./config";
 /** Render worker adapterek: MockRenderWorker (helyben) + RemoteRenderWorker (RunPod serverless) */
 import { fetchWithTimeout } from "./providers/translation";
@@ -29,6 +30,7 @@ export class RemoteRenderWorker implements RenderWorker {
   private base() { return `https://api.runpod.ai/v2/${this.endpointId}`; }
 
   async submit(input: Record<string, unknown>, type: "PREVIEW"|"FINAL"): Promise<WorkerResult> {
+    await reserveProductionBudget("runpod");
     const submit = await fetchWithTimeout(`${this.base()}/run`, {
       method: "POST",
       headers: { Authorization: `Bearer ${this.apiKey}`, "Content-Type": "application/json" },

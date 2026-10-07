@@ -1,11 +1,17 @@
+import { getProductionBudget } from "@/lib/budget";
 import { getDb } from "@/lib/db";
 import { PageTitle, Card, Badge } from "@/components/ui";
 
 export default async function SettingsPage() {
   const db = await getDb();
+  const budget = await getProductionBudget();
   const row = (k: string, set: boolean) => (<div className="flex justify-between py-1.5 border-b border-zinc-800 text-sm"><span className="font-mono">{k}</span><Badge text={set ? "BEÁLLÍTVA" : "HIÁNYZIK"} tone={set ? "green" : "amber"} /></div>);
   return (<>
     <PageTitle title="Settings" sub="Éles gyártási szolgáltatások állapota – hiányzó beállítás esetén a művelet leáll" />
+    {budget && <Card><h2 className="font-semibold">Napi gyártási keret: {budget.daily_limit_usd} USD</h2>
+      <p className="text-sm">Nap: {budget.budget_day} · Időzóna: {budget.timezone} · Foglalt: {budget.reserved_usd} USD · Szabad: {budget.remaining_usd} USD</p>
+      <p className="text-sm text-amber-400">A RunPod számlázási korlátja még nincs ellenőrizve. Fizetős művelet csak ellenőrzött munkánkénti költségplafonnal indulhat.</p>
+    </Card>}
     <div className="grid lg:grid-cols-2 gap-6">
       <Card><h2 className="font-semibold mb-3">Adatbázis</h2>
         <div className="flex justify-between py-1.5 border-b border-zinc-800 text-sm"><span>Aktív mód</span><Badge text={db.mode().toUpperCase()} tone={db.mode() === "supabase" ? "green" : "amber"} /></div>

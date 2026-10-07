@@ -1,3 +1,4 @@
+import { reserveProductionBudget } from "../budget";
 import { requireConfiguration, rejectProductionMock } from "../config";
 import { createHash } from "crypto";
 import { fetchWithTimeout } from "./translation";
@@ -31,6 +32,7 @@ export class ElevenLabsTts implements TtsProvider {
     });
     let lastErr = "";
     for (let attempt = 0; attempt < 3; attempt++) {
+      await reserveProductionBudget("tts");
       try {
         const res = await fetchWithTimeout(url, { method: "POST", headers: { "xi-api-key": this.apiKey, "Content-Type": "application/json", Accept: "audio/mpeg" }, body }, 45000);
         if (res.status === 429) { // rate-limit: Retry-After tiszteletben tartása

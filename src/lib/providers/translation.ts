@@ -1,3 +1,4 @@
+import { reserveProductionBudget } from "../budget";
 import { requireConfiguration, rejectProductionMock } from "../config";
 /** TranslationProvider: mock + production LLM-alapú adapter */
 export interface TranslationRequest { text: string; sourceLang: string; targetLang: string; characterName: string; emotion: string; timingSec: number; ageRange: string; }
@@ -17,6 +18,7 @@ export class ProductionTranslationProvider implements TranslationProvider {
   constructor(private apiKey: string, private baseUrl = process.env.TRANSLATION_BASE_URL ?? "https://api.openai.com/v1", private model = process.env.TRANSLATION_MODEL ?? "gpt-4o-mini") {}
   async translate(req: TranslationRequest): Promise<TranslationResult> {
     const prompt = `Fordítsd le a következő gyermekműsor-párbeszédet ${req.sourceLang} → ${req.targetLang} nyelvre. Szabályok: a karakter neve (${req.characterName}) maradjon változatlan; őrizd meg a jelentést, a gyerekbarát stílust (${req.ageRange} év) és az érzelmi töltetet (${req.emotion}); a mondat nagyjából ${req.timingSec} másodperc alatt kimondható legyen. Csak a fordítást add vissza, idézőjel nélkül.\n\nSzöveg: ${req.text}`;
+    await reserveProductionBudget("translation");
     const res = await fetchWithTimeout(`${this.baseUrl}/chat/completions`, {
       method: "POST",
       headers: { Authorization: `Bearer ${this.apiKey}`, "Content-Type": "application/json" },
