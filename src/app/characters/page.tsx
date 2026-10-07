@@ -11,6 +11,7 @@ export default async function CharactersPage({ searchParams }: { searchParams: {
   const versions = await db.list<CharacterVersion>("character_versions");
   return (<>
     <PageTitle title="Character Library" sub="CORE / RECURRING / GUEST karakterek, verziózott 3D master assetekkel" />
+    <Link className="text-amber-400 block mb-4" href="/characters/native-models">Csodakapu natív 3D-modellek ellenőrzése</Link>
     <form className="mb-4"><input name="q" placeholder="Keresés…" defaultValue={searchParams.q} className="max-w-xs" /></form>
     <Table head={["Kód","Név","Típus","Faj","Verziók","Státusz"]}>
       {chars.map((c) => (<tr key={c.id} className="hover:bg-zinc-900">
