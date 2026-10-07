@@ -112,7 +112,7 @@ for side,c,uv_samples in zip(['R','L'],centers,lid_uvs):
     cap('PUPIL.'+side,.235,.01812,pupil,anchor)
     eyes.append(ball)
     # Conforming lid strips. Blink moves the inner edge to the closure line.
-    verts=[];closed=[];faces=[];N=96;R=6
+    verts=[];closed=[];faces=[];N=96;R=12
     for k in range(R):
         f=k/(R-1);w=.017+.006*f;h=.0115+.008*f
         for j in range(N):
@@ -121,7 +121,7 @@ for side,c,uv_samples in zip(['R','L'],centers,lid_uvs):
             opening_z=z;closure_z=z*f
             def depth(local_z):
                 r2=.018**2-x*x-(local_z/.86)**2
-                globe=c.y-math.sqrt(max(0,r2))-.00035
+                globe=c.y-math.sqrt(max(0,r2))-.0015
                 return min(base-.0003,globe) if r2>0 else base-.0003
             verts.append((c.x+x,depth(opening_z),c.z+opening_z))
             closed.append((c.x+x,depth(closure_z),c.z+closure_z))

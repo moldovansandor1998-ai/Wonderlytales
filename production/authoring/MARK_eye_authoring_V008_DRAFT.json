@@ -1,0 +1,146 @@
+{
+  "source_sha256": "ea908b40eadb3ce98cdeb570ce1875ea6fcf4f12ed054fe354778c0673520ecd",
+  "character": "CHAR_MARK",
+  "status": "DRAFT_EYE_AUTHORING_NOT_APPROVED",
+  "original_vertices": 264589,
+  "local_refinement_added_vertices": 4203,
+  "removed_socket_vertices": 1424,
+  "output_vertices": 267368,
+  "independent_eyes": 2,
+  "blink_shape_keys": 2,
+  "controls": [
+    "gaze_yaw",
+    "gaze_pitch",
+    "blink"
+  ],
+  "facial_ready": false,
+  "lip_sync_ready": false,
+  "production_approved": false,
+  "eye_centers": [
+    [
+      -0.03400000184774399,
+      -0.1068039983510971,
+      0.8220000267028809
+    ],
+    [
+      0.03400000184774399,
+      -0.10598115622997284,
+      0.8220000267028809
+    ]
+  ],
+  "validation": {
+    "reopened": true,
+    "pupil_world_displacement": [
+      0.004368174159998451,
+      0.004368176033882197
+    ],
+    "blink_moving_vertices": [
+      1034,
+      1034
+    ],
+    "head_follow_displacement": 0.011203854798836514,
+    "packed_images": 2,
+    "full_face_ready": false,
+    "skin_weight_range": [
+      0.9999999552965164,
+      1.0000000447034836
+    ]
+  },
+  "render_comparison": {
+    "gaze": {
+      "difference_bounds": [
+        0,
+        36,
+        613,
+        640
+      ],
+      "mean_absolute_rgb_difference": [
+        0.43354736328125,
+        0.45523681640625,
+        0.467314453125
+      ]
+    },
+    "blink": {
+      "difference_bounds": [
+        0,
+        0,
+        640,
+        640
+      ],
+      "mean_absolute_rgb_difference": [
+        1.19637451171875,
+        1.16769287109375,
+        1.298798828125
+      ]
+    }
+  },
+  "art_review": {
+    "status": "DRAFT_NOT_APPROVED",
+    "remaining": [
+      "lid_contour_and_material_blending",
+      "expression_and_brows",
+      "mouth_interior_and_jaw",
+      "lip_shapes_and_sync",
+      "hair_detail"
+    ],
+    "full_face_ready": false
+  },
+  "outputs": [
+    {
+      "file": "CHAR_MARK_EYE_DRAFT.blend",
+      "sha256": "14e679e64db964de531bbd8bb1ae921c300c3d7c86a52edec51401073a91f756",
+      "bytes": 16094628
+    },
+    {
+      "file": "mark_eye_blink.png",
+      "sha256": "029751a7ccd8f4f9db111de5fcc6661372d250181c8196ad0987d8bf7c0f15e2",
+      "bytes": 520540
+    },
+    {
+      "file": "mark_eye_gaze.png",
+      "sha256": "17974a8d30654381b7d07add0cfd0065c3d468f83dff6a065a240129fcd56ff8",
+      "bytes": 526441
+    },
+    {
+      "file": "mark_eye_neutral.png",
+      "sha256": "6fa192dafe8a2c3261f672676293d3d084f9ab223818dc8c47a9696d26ab4665",
+      "bytes": 526689
+    }
+  ],
+  "version": "V008_EYE_DRAFT",
+  "artifact_store": "CHATGPT_LIBRARY",
+  "artifacts": [
+    {
+      "file": "CHAR_MARK_EYE_DRAFT.blend",
+      "library_file_id": "libfile_0675a1c0f2ac8191a9773ee0c009bafe",
+      "file_id": "file_00000000c80081f58cd2e4bdd7e9d39a"
+    },
+    {
+      "file": "mark_eye_neutral.png",
+      "library_file_id": "libfile_9e20f8efcb24819193aa57bb5dcb813d",
+      "file_id": "file_00000000868481fbaa753844a665d4f6"
+    },
+    {
+      "file": "mark_eye_gaze.png",
+      "library_file_id": "libfile_a2f3955342788191ac9eac0d9fc4bfaa",
+      "file_id": "file_00000000cbdc81f5bc0f5a1f5c36d32b"
+    },
+    {
+      "file": "mark_eye_blink.png",
+      "library_file_id": "libfile_8d7e3b7a09ec8191b87aeaf53e909723",
+      "file_id": "file_000000008ea48230a5f58644f396397f"
+    },
+    {
+      "file": "eye_authoring_report.json",
+      "library_file_id": "libfile_f0f9bfd441d881918bc9858cbeb66575",
+      "file_id": "file_00000000c16081f5b38c70e15d741c12"
+    },
+    {
+      "file": "Wonderly_Tales_Mark_szemvezerles_20261008.txt",
+      "library_file_id": "libfile_47b2538e980881919781ce5ff5f7fbe3",
+      "file_id": "file_000000004efc8230b41a21c57a17c103"
+    }
+  ],
+  "studio_asset_promoted": false,
+  "intro_produced": false
+}
