@@ -29,5 +29,10 @@ export async function GET(_request:Request,{params}:{params:{id:string}}) {
     entries.push({name:'manifest.json',data:Buffer.from(JSON.stringify({episode:ep.title,script:ep.script_version,status:'DIALOGUE_RECORDINGS_DRAFT',dialogue:manifest},null,2))});
     await storage.put(key,audioZip(entries),'application/zip');
   }
-  return NextResponse.redirect(await storage.signedUrl(key,900),{status:307,headers:{'Cache-Control':'private, no-store'}});
+  const data=await storage.get(key);
+  const stream=new ReadableStream<Uint8Array>({start(controller){
+    for(let offset=0;offset<data.length;offset+=65536) controller.enqueue(data.subarray(offset,offset+65536));
+    controller.close();
+  }});
+  return new NextResponse(stream,{headers:{'Content-Type':'application/zip','Content-Disposition':'attachment; filename="Csodakapu_S1E1_magyar_dialogusok_DRAFT.zip"','Cache-Control':'private, no-store'}});
 }

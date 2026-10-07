@@ -9,5 +9,5 @@ export async function GET(_req:Request,{params}:{params:{id:string}}) {
   if (!user || !['admin','studio'].includes(user.role)) return NextResponse.json({error:'UNAUTHORIZED'},{status:401});
   const line=await (await getDb()).get<DialogueLine>('dialogue_lines',params.id);
   if (!line?.audio_path?.startsWith('audio/tts/hu/')) return NextResponse.json({error:'NOT_RECORDED'},{status:404});
-  return NextResponse.redirect(await getStorage().signedUrl(line.audio_path,900),{status:307,headers:{'Cache-Control':'private, no-store'}});
+  return new NextResponse(new Uint8Array(await getStorage().get(line.audio_path)),{headers:{'Content-Type':'audio/mpeg','Cache-Control':'private, no-store'}});
 }

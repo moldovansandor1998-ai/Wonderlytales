@@ -1,0 +1,72 @@
+{
+  "schema": "WONDERLY_SUPPORTING_REFERENCE_V1",
+  "version": "V001",
+  "status": "DRAFT",
+  "approval": false,
+  "assets": [
+    {
+      "id": "CHAR_MORZSI_mesh_input",
+      "character": "CHAR_MORZSI",
+      "path": "CHAR_MORZSI_reference_DRAFT_V001.png",
+      "sha256": "da3d0a54d200d6eeeb6fbc633da2c7b1869f2131b000698736efb0d221303ede",
+      "bytes": 2678299,
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "size": [
+        1024,
+        1536
+      ],
+      "status": "DESIGN_DRAFT_NOT_LOCKED"
+    },
+    {
+      "id": "CHAR_POTTY_mesh_input",
+      "character": "CHAR_POTTY",
+      "path": "CHAR_POTTY_reference_DRAFT_V001.png",
+      "sha256": "84b16513d98f58328ad77243b46561643fb6a09371065c3fb6143196ea75dbeb",
+      "bytes": 1958772,
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "size": [
+        1024,
+        1536
+      ],
+      "status": "DESIGN_DRAFT_NOT_LOCKED"
+    },
+    {
+      "id": "CHAR_BOGYO_mesh_input",
+      "character": "CHAR_BOGYO",
+      "path": "CHAR_BOGYO_reference_DRAFT_V001.png",
+      "sha256": "4ad6663bbda8b201fd703eadef7e3f63e7c2dfc408b69efdf5e10475942f2c1c",
+      "bytes": 1327920,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "size": [
+        1374,
+        1145
+      ],
+      "status": "DESIGN_DRAFT_NOT_LOCKED"
+    },
+    {
+      "id": "CHAR_ZIZI_mesh_input",
+      "character": "CHAR_ZIZI",
+      "path": "CHAR_ZIZI_reference_DRAFT_V001.png",
+      "sha256": "561fabd62aa3a32f34fbd98723da0c011824dda29335e27fdde1c15aa13a7ba9",
+      "bytes": 2408182,
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "size": [
+        1024,
+        1536
+      ],
+      "status": "DESIGN_DRAFT_NOT_LOCKED"
+    }
+  ]
+}
