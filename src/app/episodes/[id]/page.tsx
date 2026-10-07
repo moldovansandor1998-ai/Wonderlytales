@@ -1,7 +1,7 @@
 import { getDb } from "@/lib/db";
 import { PageTitle, Card, Badge, statusTone, SubmitButton, Table } from "@/components/ui";
 import type { Episode, Scene, ShotRow, Location, EpisodeLocalization } from "@/lib/types";
-import { createSceneAction, createShotAction, generateStoryAction, updateEpisodeAction, deleteEpisodeAction, archiveEpisodeAction, updateSceneAction, reorderSceneAction, reorderShotAction, duplicateShotAction } from "@/lib/actions";
+import { createSceneAction, createShotAction, updateEpisodeAction, deleteEpisodeAction, archiveEpisodeAction, updateSceneAction, reorderSceneAction, reorderShotAction, duplicateShotAction } from "@/lib/actions";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -13,7 +13,6 @@ export default async function EpisodeDetail({ params }: { params: { id: string }
   const shots = await db.list<ShotRow>("shots");
   const locs = await db.list<Location>("locations");
   const localizations = await db.find<EpisodeLocalization>("episode_localizations", (l) => l.episode_id === ep.id);
-  const story = await generateStoryAction(ep.id);
   return (<>
     <PageTitle title={`E${String(ep.number).padStart(2,"0")} – ${ep.title}`} sub={ep.brief} />
     <Link className="text-amber-400 block mb-4" href={`/episodes/${ep.id}/audio`}>Magyar szinkron és hangfelvételek</Link>
@@ -37,9 +36,9 @@ export default async function EpisodeDetail({ params }: { params: { id: string }
       <Badge text={ep.script_version} />
       {localizations.sort((a,b)=>a.language.localeCompare(b.language)).map((l) => <Badge key={l.id} text={`${l.language.toUpperCase()} ${l.status}`} tone={statusTone(l.status)} />)}
     </div>
-    <Card className="mb-6"><h2 className="font-semibold mb-2">StoryEngine (mock) – epizódvázlat</h2>
-      <div className="text-sm text-zinc-300"><strong>{story.title}</strong> – {story.synopsis}</div>
-      <div className="mt-2 text-xs text-zinc-400">{story.acts.map((a) => a.title).join(" → ")}</div>
+    <Card className="mb-6"><h2 className="font-semibold mb-2">Mentett epizódterv</h2>
+      <p className="text-sm text-zinc-300">{scenes.length} jelenet · {shots.filter((shot) => scenes.some((scene) => scene.id === shot.scene_id)).length} shot</p>
+      <p className="mt-2 text-xs text-zinc-400">Célhossz: {Math.round(ep.target_duration_sec / 60)} perc. A tényleges játékidőt az animáció időzítése és a renderelt felvételek határozzák meg.</p>
     </Card>
     {scenes.map((sc) => (
       <Card key={sc.id} className="mb-4">
