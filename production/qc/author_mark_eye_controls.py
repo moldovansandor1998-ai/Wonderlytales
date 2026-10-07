@@ -3,7 +3,7 @@
 Blender --python this.py -- native.blend output_directory
 This is a reversible authoring fork, not a production-approved facial rig.
 """
-import bpy, bmesh, math, json, sys, hashlib, numpy as np
+import bpy, bmesh, math, json, sys, hashlib, subprocess, numpy as np
 from pathlib import Path
 from mathutils import Vector, Matrix
 from mathutils.bvhtree import BVHTree
@@ -152,5 +152,13 @@ s.frame_set(1);bpy.ops.file.pack_all();bpy.ops.wm.save_as_mainfile(filepath=str(
 report={'source_sha256':source_sha,'character':'CHAR_MARK','status':'DRAFT_EYE_AUTHORING_NOT_APPROVED','original_vertices':before,'local_refinement_added_vertices':subdivided_vertices,'removed_socket_vertices':socket_vertices_removed,'output_vertices':len(mesh.data.vertices),'independent_eyes':len(eyes),'blink_shape_keys':len(lids),'controls':['gaze_yaw','gaze_pitch','blink'],'facial_ready':False,'lip_sync_ready':False,'production_approved':False,'eye_centers':[list(c) for c in centers]}
 (out/'eye_authoring_report.json').write_text(json.dumps(report,indent=2))
 for frame,name in [(1,'neutral'),(9,'gaze'),(18,'blink')]:
-    s.frame_set(frame);rig.update_tag(refresh={'OBJECT'});bpy.context.view_layer.update()
-    s.render.filepath=str(out/('mark_eye_'+name+'.png'));bpy.ops.render.render(write_still=True)
+    # A fresh render dependency graph avoids cached driver states after a
+    # manual render in this authoring session. Reopen the same packed asset.
+    expression=("import bpy; s=bpy.context.scene; "
+        "r=next(o for o in s.objects if o.type=='ARMATURE'); "
+        f"s.frame_set({frame}); r.update_tag(refresh={{'OBJECT'}}); "
+        "bpy.context.view_layer.update(); "
+        f"s.render.filepath={str(out/('mark_eye_'+name+'.png'))!r}; "
+        "bpy.ops.render.render(write_still=True)")
+    subprocess.run([bpy.app.binary_path,'-b','-t','2',str(out/'CHAR_MARK_EYE_DRAFT.blend'),
+                    '--python-expr',expression],check=True)

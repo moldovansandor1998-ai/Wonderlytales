@@ -16,6 +16,9 @@ Controls on `CHAR_MARK_BODY_DRAFT`: `gaze_yaw` and `gaze_pitch` in degrees, and
 `blink` from zero to one. A 48-frame / 24 fps mechanical test is keyed into the
 scene. The default command renders three 640×640 comparison states, not the
 whole animation or an episode. Frames 1, 9 and 18 show neutral, gaze and blink.
+Each state is rendered by a fresh background Blender process reopening the
+same packed scene. Sequential manual renders in the authoring process were
+observed to reuse the first driver state; those previews are rejected.
 
 ```bash
 BLENDER_PATH=/path/to/blender python3 scripts/run-blender-checked.py -- \
