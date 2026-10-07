@@ -1,0 +1,23 @@
+{
+  "schema": "WONDERLY_AUTHORING_JOB_V1",
+  "endpoint_id": "028tej1nj5rlo6",
+  "job_id": "9cdd5c6e-aa7f-4fb9-8b08-0263d78f3667-u1",
+  "character": "CHAR_MARK",
+  "reference_version": "V004",
+  "status": "FAILED_NO_MESH",
+  "error_type": "RepositoryNotFoundError",
+  "preceding_warning": "5 GB ephemeral disk insufficient for 2584.57 MB checkpoint; 1668.94 MB free",
+  "budget_reservation_id": "209b2aaf-f698-44ba-90b5-4378c46d7632",
+  "reserved_usd": 2,
+  "actual_provider_charge_usd": null,
+  "balance_display_before_usd": 24.4,
+  "balance_display_after_usd": 24.38,
+  "remediation": {
+    "container_disk_gb": 60,
+    "model_access_probe_added": true,
+    "unnecessary_background_model_removed_for_transparent_inputs": true,
+    "source_commit": "6b1c442786a19d58aaaf01399d7e5999a753f673"
+  },
+  "mesh_created": false,
+  "final_episode_created": false
+}

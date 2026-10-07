@@ -7,7 +7,7 @@
     "user_message": "Igen ilyen legyen , csin\u00e1ld",
     "date": "2026-10-07"
   },
-  "production_status": "NATIVE_AUTHORING_IN_PROGRESS",
+  "production_status": "BLOCKED_RIGGING_AND_VISUAL_REVIEW",
   "master_models_ready": false,
   "character_models_locked": false,
   "assets": [
@@ -102,7 +102,55 @@
     "Own GPU TRELLIS.2 requires authorized access to facebook/dinov3-vitl16-pretrain-lvd1689m; anonymous fetch returned HTTP 401."
   ],
   "blockers": [
-    "No verified native textured mesh or rig exists yet.",
-    "Retopology, body/facial rigs and visual identity review required."
-  ]
+    "Visual identity and complete geometry require review of actual GLBs.",
+    "Both GLBs are unrigged: retopology, body/facial rigs, eye controls and groom required.",
+    "Other four character masters, scenes, voice recordings and final episode remain incomplete."
+  ],
+  "generated_meshes": [
+    {
+      "bytes": 12629452,
+      "character": "CHAR_MARK",
+      "elapsed_seconds": 211.31,
+      "facial_ready": false,
+      "materials": 1,
+      "meshes": 1,
+      "production_approved": false,
+      "reference_sha256": "57c317be49c3151110e18311c001ab496ce940e059de20948217e04a5264310d",
+      "reference_version": "V005",
+      "resolution": "512",
+      "rig_ready": false,
+      "seed": 1978,
+      "sha256": "d4a5478d00a164d7d76852f4afe1c3b27fba9dcec5d6e7d11fc2b74df23904ed",
+      "skins": 0,
+      "source": "microsoft/TRELLIS.2-4B",
+      "status": "DRAFT_UNRIGGED",
+      "storage_key": "assets/characters/CHAR_MARK/drafts/V005/d4a5478d00a164d7d76852f4afe1c3b27fba9dcec5d6e7d11fc2b74df23904ed.glb",
+      "textures": 2
+    },
+    {
+      "bytes": 15255788,
+      "character": "CHAR_LILI",
+      "elapsed_seconds": 241.08,
+      "facial_ready": false,
+      "materials": 1,
+      "meshes": 1,
+      "production_approved": false,
+      "reference_sha256": "8a2064730a3e9d80c8dfa8a91b5f3c6bb5d5ba9fa78615665bc1ba9e79d94443",
+      "reference_version": "V005",
+      "resolution": "512",
+      "rig_ready": false,
+      "seed": 1978,
+      "sha256": "8dbf551e8f077be096d4d5fbcb7390b1bf59ba0ede08c118182a99cd9f983972",
+      "skins": 0,
+      "source": "microsoft/TRELLIS.2-4B",
+      "status": "DRAFT_UNRIGGED",
+      "storage_key": "assets/characters/CHAR_LILI/drafts/V005/8dbf551e8f077be096d4d5fbcb7390b1bf59ba0ede08c118182a99cd9f983972.glb",
+      "textures": 2
+    }
+  ],
+  "model_access_verified": {
+    "identity": 200,
+    "trellis2": 200,
+    "dinov3": 200
+  }
 }

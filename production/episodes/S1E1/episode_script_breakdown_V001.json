@@ -2,7 +2,7 @@
   "schema": "WONDERLY_EPISODE_SCRIPT_BREAKDOWN_V1",
   "episode": "S1E1",
   "script_version": "SCRIPT_V001",
-  "status": "SCRIPT_DRAFT_BLOCKED_AUTHORING",
+  "status": "SCRIPT_DRAFT_BLOCKED_RIGGING",
   "actual_duration_sec": null,
   "planned_duration_sec": 1320,
   "render_shots_created": 0,
@@ -1689,5 +1689,9 @@
   },
   "voice_bindings_verified": false,
   "animatic_verified": false,
-  "final_output": null
+  "final_output": null,
+  "draft_model_assets": {
+    "CHAR_MARK": "assets/characters/CHAR_MARK/drafts/V005/d4a5478d00a164d7d76852f4afe1c3b27fba9dcec5d6e7d11fc2b74df23904ed.glb",
+    "CHAR_LILI": "assets/characters/CHAR_LILI/drafts/V005/8dbf551e8f077be096d4d5fbcb7390b1bf59ba0ede08c118182a99cd9f983972.glb"
+  }
 }

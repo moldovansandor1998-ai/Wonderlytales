@@ -1,0 +1,13 @@
+{
+  "schema": "WONDERLY_AUTHORING_JOB_V1",
+  "endpoint_id": "028tej1nj5rlo6",
+  "job_id": "78dc69a8-c390-406c-980c-4ec785432689-u2",
+  "status": "VERIFIED",
+  "http_status": {
+    "identity": 200,
+    "trellis2": 200,
+    "dinov3": 200
+  },
+  "execution_ms": 228,
+  "budget_reservation_id": "1014cc93-b2bc-4fb7-abfd-b788e6df8708"
+}

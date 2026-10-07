@@ -1,0 +1,29 @@
+{
+  "schema": "WONDERLY_AUTHORING_JOB_V1",
+  "endpoint_id": "028tej1nj5rlo6",
+  "job_id": "c57ff69b-15d7-47d4-be6d-b3bba66c5d92-u1",
+  "status": "SUCCEEDED",
+  "execution_ms": 244414,
+  "mesh_created": true,
+  "budget_reservation_id": "102f136e-e20e-4cf2-8869-26d34d5bdbcf",
+  "metadata": {
+    "bytes": 15255788,
+    "character": "CHAR_LILI",
+    "elapsed_seconds": 241.08,
+    "facial_ready": false,
+    "materials": 1,
+    "meshes": 1,
+    "production_approved": false,
+    "reference_sha256": "8a2064730a3e9d80c8dfa8a91b5f3c6bb5d5ba9fa78615665bc1ba9e79d94443",
+    "reference_version": "V005",
+    "resolution": "512",
+    "rig_ready": false,
+    "seed": 1978,
+    "sha256": "8dbf551e8f077be096d4d5fbcb7390b1bf59ba0ede08c118182a99cd9f983972",
+    "skins": 0,
+    "source": "microsoft/TRELLIS.2-4B",
+    "status": "DRAFT_UNRIGGED",
+    "storage_key": "assets/characters/CHAR_LILI/drafts/V005/8dbf551e8f077be096d4d5fbcb7390b1bf59ba0ede08c118182a99cd9f983972.glb",
+    "textures": 2
+  }
+}
