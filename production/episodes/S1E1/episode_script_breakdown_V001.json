@@ -1,6 +1,3 @@
-Warning: truncated output (original token count: 21321)
-Total output lines: 1962
-
 {
   "schema": "WONDERLY_EPISODE_SCRIPT_BREAKDOWN_V1",
   "episode": "S1E1",
@@ -928,7 +925,127 @@ Total output lines: 1962
           "direction": "",
           "text_hu": "Ott állt meg! A cső alatt!",
           "voice_id": null,
-    …1321 tokens truncated…GUE",
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "a7993871-29ed-5821-a378-a251bfd6433d",
+          "audio_storage_key": "audio/tts/hu/gvuelryL3NskaN44p9vz/74758104e47124734e4e00bd.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Zizi rögtön elengedi a fújtatót. Morzsi is. A szél elül. Bogyó megrázza a füleit, majd odabújik Pöttyhöz."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MARK",
+          "direction": "",
+          "text_hu": "Elrontottam.",
+          "voice_id": null,
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "210224fd-cf25-5021-b9fd-d80fdcc0b358",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/6ac70d061ed3cee9e1224fa9.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_LILI",
+          "direction": "",
+          "text_hu": "Valami elmozdult. Még meg tudjuk nézni.",
+          "voice_id": null,
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "d6dcb9b5-eb6b-53a2-8992-d575e8eb4010",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/3c4c081ff51cd476fb148909.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MARK",
+          "direction": "",
+          "text_hu": "Mondtad, hogy várjak.",
+          "voice_id": null,
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "a18e0c90-9ac4-59fa-b965-b97b394c5aae",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/17a2618f02cb95705e0ae5cb.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Lili nem válaszol rögtön. Megnézi, hogy mindenki biztonságban van."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_LILI",
+          "direction": "",
+          "text_hu": "Igen. Most megvárunk mindenkit. És kitaláljuk együtt.",
+          "voice_id": null,
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "6e6fcabe-9017-5cbf-a6ac-851dec1f881d",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/5afa06048cb4bc113588dfcb.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "A kapu fénye még látszik, de a három körjel közül kettő egyre halványabb. Nincs visszaszámlálás vagy indokolatlan pánik."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_ZIZI",
+          "direction": "",
+          "text_hu": "A körlap nélkül a levegő rossz irányba megy. Úgy, mint amikor lyukas a kulacs.",
+          "voice_id": null,
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "5b59473b-9530-5ad2-bb72-ec157576bbf4",
+          "audio_storage_key": "audio/tts/hu/8ik405hgdHADnz9lglMf/cb838efcc2caba1d5fd57d88.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MORZSI",
+          "direction": "",
+          "text_hu": "Akkor először visszatesszük a körlapot.",
+          "voice_id": null,
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "981060f2-444a-5e0b-b663-16993c2ce4e5",
+          "audio_storage_key": "audio/tts/hu/tWNlc7uUtaorMxxrhH9s/ef6365df205636c89273f65c.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Márk a szilánkot letakarja, a kendőt összehajtva a hátizsák felső zsebébe teszi. Látszik a teljes mozdulat. Kezei szabaddá válnak. A csillag nem kerül önkényesen másik szereplőhöz."
+        }
+      ],
+      "director_shot_status": "NOT_YET_BLOCKED_IN_3D"
+    },
+    {
+      "scene_code": "S1E1_SC010",
+      "title_hu": "BOGYÓ NYOMA",
+      "planned_start_sec": 675,
+      "planned_end_sec": 745,
+      "planned_duration_sec": 70,
+      "location_notes": "Kőhorony és szerviznyílás.",
+      "beats": [
+        {
+          "kind": "ACTION",
+          "direction_hu": "Bogyó a lap fölötti rácsot megszagolja, aztán a cső mellett húzódó keskeny fedett járathoz fut. A járatba egy emberi kar nem fér be, de egy nyúl oldalazva be tud menni. Morzsi óvatosan megtámasztja a meglazult külső fedelet; nem bontanak le terhet tartó építményt."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_MORZSI",
+          "direction": "",
+          "text_hu": "Itt belül a föld van. Nem az ég fölött megy.",
+          "voice_id": null,
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "3ec452c0-170c-590c-88b1-bf9700ec540f",
+          "audio_storage_key": "audio/tts/hu/tWNlc7uUtaorMxxrhH9s/a61674aabdafa246a320beb1.mp3"
+        },
+        {
+          "kind": "ACTION",
+          "direction_hu": "Pötty leguggol, a belső padlót látja. Megérinti, aztán visszahúzza a kezét."
+        },
+        {
+          "kind": "DIALOGUE",
+          "character": "CHAR_POTTY",
+          "direction": "",
+          "text_hu": "Azért elég szűk. És sötét is.",
+          "voice_id": null,
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "cec8c9e4-2f95-54f6-bb60-380351ca96d2",
+          "audio_storage_key": "audio/tts/hu/gvuelryL3NskaN44p9vz/f8834e3e2d7a24f6bdd8176a.mp3"
+        },
+        {
+          "kind": "DIALOGUE",
           "character": "CHAR_MARK",
           "direction": "",
           "text_hu": "Nem kell bemenned. Keressünk más megoldást.",
