@@ -1,0 +1,168 @@
+{
+  "schema": "WONDERLY_SUPPORTING_BODY_CHECKPOINT_V1",
+  "status": "DRAFT_BODY_ONLY",
+  "production_approved": false,
+  "facial_ready": false,
+  "full_episode_render_created": false,
+  "body_rigs": [
+    {
+      "character": "CHAR_BOGYO",
+      "status": "DRAFT_BODY_RIG_REQUIRES_DEFORMATION_REVIEW",
+      "bones": 18,
+      "vertices": 305049,
+      "body_rig_created": true,
+      "normal_vectors_repaired": 2,
+      "facial_ready": false,
+      "production_approved": false,
+      "maximum_pose_displacement": 0.061938982677765826,
+      "moving_vertices": 77834,
+      "retopology_completed": false,
+      "eyes_independent": false,
+      "source_sha256": "b68f8a33fa16f87a252a5f1369f7ec8fedd8eb3faa6e5de1e699cf9fb437d35b",
+      "sha256": "71636191d1b2273413a1af5369d60ceb96b909533e2a5417026f617c5d2f2dec"
+    },
+    {
+      "character": "CHAR_MORZSI",
+      "status": "DRAFT_BODY_RIG_REQUIRES_DEFORMATION_REVIEW",
+      "bones": 18,
+      "vertices": 311245,
+      "body_rig_created": true,
+      "normal_vectors_repaired": 0,
+      "facial_ready": false,
+      "production_approved": false,
+      "maximum_pose_displacement": 0.03653133447530502,
+      "moving_vertices": 39109,
+      "retopology_completed": false,
+      "eyes_independent": false,
+      "source_sha256": "5e6c31f319ddb29741e3803c68005ca38dfd145735e44176ca496748a66ad616",
+      "sha256": "b14f5b2b4bf3ee8f35a6269f2ba47bc3fa3ad213545ffe0a6106db6ed33454fe"
+    },
+    {
+      "character": "CHAR_POTTY",
+      "status": "DRAFT_BODY_RIG_REQUIRES_DEFORMATION_REVIEW",
+      "bones": 23,
+      "vertices": 209866,
+      "body_rig_created": true,
+      "normal_vectors_repaired": 0,
+      "facial_ready": false,
+      "production_approved": false,
+      "maximum_pose_displacement": 0.0395754834175251,
+      "moving_vertices": 40035,
+      "retopology_completed": false,
+      "eyes_independent": false,
+      "source_sha256": "d92320b7979656047a3d4bdacca83d0af7f0909e4cfd701be1c4cab677b163ff",
+      "sha256": "5eb0ce7af6baecd0100157ca77627c3c3c5be1b3a7027f996441c1190daae8a2"
+    },
+    {
+      "character": "CHAR_ZIZI",
+      "status": "DRAFT_BODY_RIG_REQUIRES_DEFORMATION_REVIEW",
+      "bones": 21,
+      "vertices": 307777,
+      "body_rig_created": true,
+      "normal_vectors_repaired": 0,
+      "facial_ready": false,
+      "production_approved": false,
+      "maximum_pose_displacement": 0.03823970017169154,
+      "moving_vertices": 40595,
+      "retopology_completed": false,
+      "eyes_independent": false,
+      "source_sha256": "371d30e21625c5dfe069d94924008b44ddb76c30d609b7354dca63536b7e81bd",
+      "sha256": "59bcbb0333841838f99caa5acb1f15fd6856cc56ea26a31ed4f5b4c047f234fc"
+    }
+  ],
+  "blender_reopen": {
+    "blender": "4.5.3 LTS",
+    "characters": [
+      {
+        "character": "CHAR_MORZSI",
+        "file": "CHAR_MORZSI_V008_BLENDER_BODY_DRAFT.blend",
+        "bytes": 17496118,
+        "sha256": "9b311626f981d963ac89269a0e6c5fcd05f7b44e15e12ee225a4d9e8c618660c",
+        "reopened": true,
+        "maximum_pose_displacement": 0.036531321704387665,
+        "moving_vertices": 39109,
+        "armatures": 1,
+        "bones": 18,
+        "meshes": 1,
+        "actions": 1,
+        "images": 2,
+        "status": "DRAFT_BODY_RIG",
+        "facial_ready": false,
+        "production_approved": false
+      },
+      {
+        "character": "CHAR_POTTY",
+        "file": "CHAR_POTTY_V008_BLENDER_BODY_DRAFT.blend",
+        "bytes": 15316933,
+        "sha256": "d8a144a832d9aa87cbc396c069fd7c4b0827f7740b78d996b8dad3cc38e60a7d",
+        "reopened": true,
+        "maximum_pose_displacement": 0.0395754836499691,
+        "moving_vertices": 40032,
+        "armatures": 1,
+        "bones": 23,
+        "meshes": 1,
+        "actions": 1,
+        "images": 2,
+        "status": "DRAFT_BODY_RIG",
+        "facial_ready": false,
+        "production_approved": false
+      },
+      {
+        "character": "CHAR_BOGYO",
+        "file": "CHAR_BOGYO_V008_BLENDER_BODY_DRAFT.blend",
+        "bytes": 17410817,
+        "sha256": "7f6c19c4f340bda63fd6131ff4a5a83a8bab4e9a7b55e14301e6879fd4606158",
+        "reopened": true,
+        "maximum_pose_displacement": 0.06193895637989044,
+        "moving_vertices": 77834,
+        "armatures": 1,
+        "bones": 18,
+        "meshes": 1,
+        "actions": 1,
+        "images": 2,
+        "status": "DRAFT_BODY_RIG",
+        "facial_ready": false,
+        "production_approved": false
+      },
+      {
+        "character": "CHAR_ZIZI",
+        "file": "CHAR_ZIZI_V008_BLENDER_BODY_DRAFT.blend",
+        "bytes": 17808627,
+        "sha256": "d3e3d8f8e8cd214f586348218bf15489385422eed16e8dded3070ef59cbfbfb5",
+        "reopened": true,
+        "maximum_pose_displacement": 0.03823968395590782,
+        "moving_vertices": 40595,
+        "armatures": 1,
+        "bones": 21,
+        "meshes": 1,
+        "actions": 1,
+        "images": 2,
+        "status": "DRAFT_BODY_RIG",
+        "facial_ready": false,
+        "production_approved": false
+      }
+    ]
+  },
+  "validator": [
+    {
+      "file": "CHAR_BOGYO_V007_BODY_DRAFT_validation.json",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "file": "CHAR_MORZSI_V007_BODY_DRAFT_validation.json",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "file": "CHAR_POTTY_V007_BODY_DRAFT_validation.json",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "file": "CHAR_ZIZI_V007_BODY_DRAFT_validation.json",
+      "errors": 0,
+      "warnings": 0
+    }
+  ]
+}

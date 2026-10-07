@@ -20,6 +20,7 @@ A fájlok mért összideje 329.247352 másodperc (5:29); nem a film időtartama.
 A 131 megszólalásból 388.329 másodperces (6:28) egybefüggő hangellenőrző anyag és pontos VTT készült.
 A hangok rendezői/hallási ellenőrzésre várnak; nem jelöltem őket final szinkronnak.
 Bogyó nonverbal hangjai, zene, környezeti hangok és végleges hangkeverés még hiányoznak.
+A 19 jelenet 131 mért felvételre és explicit akcióidő-becslésekre épített, folytonos draft beat-ütemezése 29553 képkocka, 24 fps mellett 20:31.375. Mind a 131 audio SHA256-a és a szöveg/karakter azonosítása ellenőrizve; nincs idősávrés vagy átfedés. Ez még nem mozgó animatic és nem igazolt filmhossz.
 A 22 perces forgatókönyvidő továbbra is terv. A 806 beszélt szó önmagában nem tesz ki 22 perces filmet.
 
 MELLÉKSZEREPLŐK
@@ -29,18 +30,21 @@ A teljes SHA256 és képméret rögzítve. A pinned V006 authoring manifest és 
 A worker csak hat engedélyezett karaktert fogad; a referencia verzióját, hashét és méretét ellenőrzi.
 Új modellező commit: 98bdc1045e2cd4a43eb5241d205dfe481388dcec. A build sikeres. Mind a négy GPU-modellezési feladat COMPLETED/SUCCEEDED. A textúrázott GLB-k a szerveroldali tárba kerültek és DRAFT verzióként kapcsolódtak a karakterekhez. A worker már üres (0 aktív job, 0 futó worker).
 Morzsi, Pötty és Bogyó letöltött GLB-jének teljes SHA256-a és fájlmérete egyezik a gyártási metadata adataival. Mindháromról valódi geometria alapján elöl-, háromnegyed-, oldal- és hátulnézeti ellenőrző kép készült.
-Zizi szerveroldali modellje elkészült, de helyi letöltése még nem sikerült; ezt külön letöltési problémaként kezelem.
+Zizi tömörített letöltése is sikeres; a kibontott GLB teljes SHA256-a és fájlmérete egyezik a gyártási metadata értékeivel. Mind a négy új natív modelldraft ténylegesen megvan helyben és több nézetből ellenőrizhető.
+Morzsi/Pötty/Bogyó/Zizi 18/23/18/21 csontos testváz-draftja elkészült. A mért mozdulat ténylegesen deformálja a mesh csúcsait.
+Mind a négy modell szerkeszthető Blender-fájlban is elmentődött (V008), újranyitás után is sikeres deformációs ellenőrzéssel.
+Bogyó két hibás nulla normálvektorát a származtatott draftban javítottam, a karaktergeometria megváltoztatása nélkül. A négy riges GLB Khronos validátora 0 hibát és 0 figyelmeztetést adott.
+Így mind a hat karakterhez megvan natív modelldraft és testváz-draft; ezek nem final/LOCKED mesterek.
 
 KÖLTSÉG
 A felhasználó által engedélyezett napi keret 100 USD, Asia/Saigon napi határral.
-A Studio megosztott előzetes költségfoglalása aktív. A mai foglalt összeg 54.50 USD, ebből 8 USD a következő négy natív modellezési kísérletre.
+A Studio megosztott előzetes költségfoglalása aktív. A mai foglalt összeg 54.50 USD, ebből 8 USD a négy már befejezett natív modellezési kísérlet előzetes foglalása.
 Ez biztonsági foglalás, nem valós számla és nem költési tény.
 Az új 131 szinkron becsült karakteralapú díja 0.3732 USD; a szolgáltatói számla és adó eltérhet.
 A Studio kerete nem RunPod fiókszintű billing cap; más külső vagy kézi jobokat nem korlátoz.
 A worker maximum egy párhuzamos GPU-munkát használ. Nincs worker-szám emelés vagy új előfizetés.
 
 MI HIÁNYZIK A TELJES FILMHEZ
-A négy további 3D-modell tényleges létrehozása és ellenőrzése.
 Mind a hat karakter végleges test-/arcrigje, szemvezérlése, visemei, szükséges retopológia és anyag-/szőrzetellenőrzés.
 Helyszín- és kellékmesterek, térbeli shotblocking és mozgó animatic alapján igazolt időzítés.
 Folytonos karakterjáték, arcanimáció és lipsync; minden jelenet renderje; zene, effektek, keverés és összeállítás.
