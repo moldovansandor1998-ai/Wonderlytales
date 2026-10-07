@@ -171,10 +171,10 @@ def render(shot,out_dir):
         raise ValueError("Storybook draft currently supports Márk and Lili only")
     bpy.ops.wm.read_factory_settings(use_empty=True);PALETTE.clear();sc=bpy.context.scene
     sc.render.threads_mode='FIXED';sc.render.threads=2
-    sc.render.engine='CYCLES';sc.cycles.samples=8;sc.cycles.use_denoising=True;sc.cycles.max_bounces=3;sc.render.use_persistent_data=True
+    sc.render.engine='CYCLES';sc.cycles.samples=4;sc.cycles.use_denoising=True;sc.cycles.max_bounces=3;sc.render.use_persistent_data=True
     if shot['render'].get('engine') == 'BLENDER_EEVEE':
         sc.render.engine='BLENDER_EEVEE_NEXT';sc.eevee.taa_render_samples=16;sc.eevee.use_fast_gi=True
-    sc.render.resolution_x=min(shot['render']['width'],768);sc.render.resolution_y=min(shot['render']['height'],432);sc.render.resolution_percentage=100
+    sc.render.resolution_x=min(shot['render']['width'],640);sc.render.resolution_y=min(shot['render']['height'],360);sc.render.resolution_percentage=100
     fps=shot['render']['fps'];sc.render.fps=fps;frames=max(2,round(shot['duration_sec']*fps))
     version='V003' if shot['render'].get('visual_style')=='STORYBOOK_DRAFT_V003' else 'V002'
     forest(version)

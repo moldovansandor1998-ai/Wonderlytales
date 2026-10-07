@@ -39,7 +39,10 @@ shot. It supports Márk and Lili, a fixed forest set, articulated walking and
 waving, blinking, tail motion and a camera dolly. These draft assets do not
 replace or approve the locked production asset records. FINAL remains blocked.
 
-The preview supports EEVEE or Cycles (two CPU threads, 8 samples with denoising), at a
-maximum of 768×432. It has no synthesized dialogue or lip sync. Camera lens,
+The CPU endpoint uses Cycles (two CPU threads, 4 samples with denoising), at a
+maximum of 640×360. Selecting the character preview in the editor selects Cycles
+automatically. The CPU endpoint rejects EEVEE for these character drafts: its
+software graphics render was too slow for a full clip. Local GPU workstations
+can still use the Blender scene builder with EEVEE. It has no synthesized dialogue or lip sync. Camera lens,
 framing and static/dolly moves are supported; other camera motions need further
 implementation. Use `fixtures/shot_storybook.json` for a reproducible trial.

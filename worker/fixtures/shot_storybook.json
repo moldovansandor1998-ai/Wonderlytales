@@ -98,7 +98,7 @@
     "output_state_id": null
   },
   "render": {
-    "engine": "BLENDER_EEVEE",
+    "engine": "BLENDER_CYCLES",
     "width": 640,
     "height": 360,
     "fps": 24,

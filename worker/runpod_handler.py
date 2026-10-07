@@ -13,6 +13,8 @@ def handler(event):
     shot = copy.deepcopy(payload.get("shot", {}))
     if payload.get("type") != "PREVIEW":
         raise ValueError("FINAL requires locked master assets; this worker supports proxy PREVIEW only")
+    if shot.get("render", {}).get("visual_style") in ("STORYBOOK_DRAFT_V002", "STORYBOOK_DRAFT_V003") and shot["render"].get("engine") != "BLENDER_CYCLES":
+        raise ValueError("A CPU karakterpróbához válaszd a BLENDER_CYCLES renderelőt")
     from blender_worker import validate_shot
     errors = validate_shot(shot)
     if errors:
