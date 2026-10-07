@@ -1,0 +1,230 @@
+{
+  "version": "V010_EXPRESSION_DRAFT",
+  "status": "DRAFT_EXPRESSION_AUTHORING_NOT_APPROVED",
+  "source_sha256": "d4478514f6ff3087b1b5e4ac4f2fe6dbe72e705e38cac8ec3f958ed4fd8e1f50",
+  "output_sha256": "d55fc6a5ec43159d5b23f0b122531adebcb3faef4aa8f6b5e29c6dc5dedcdfbd",
+  "sculpted_vertices": 3853,
+  "skin_fit_samples": 263,
+  "controls": [
+    "jaw_open",
+    "mouth_round",
+    "mouth_spread",
+    "mouth_press",
+    "smile",
+    "brow_raise",
+    "brow_worry",
+    "gaze_yaw",
+    "gaze_pitch",
+    "blink"
+  ],
+  "phoneme_alignment": false,
+  "production_approved": false,
+  "quality_gate_passed": false,
+  "reopened_pose_checks": {
+    "neutral": {
+      "pose": "neutral",
+      "controls": {},
+      "reopened": true,
+      "maximum_mesh_deltas": {
+        "geometry_0": 0.0,
+        "EYELIDS.R": 0.0,
+        "EYELIDS.L": 0.0,
+        "MOUTH_LIPS": 0.0
+      },
+      "body_weight_range": [
+        0.9999999105930328,
+        1.000000059604645
+      ]
+    },
+    "happy": {
+      "pose": "happy",
+      "controls": {
+        "smile": 0.9,
+        "brow_raise": 0.45,
+        "blink": 0.12
+      },
+      "reopened": true,
+      "maximum_mesh_deltas": {
+        "geometry_0": 0.003469365235258961,
+        "EYELIDS.R": 0.0016600862545852507,
+        "EYELIDS.L": 0.001649099398500257,
+        "MOUTH_LIPS": 0.003468310328108912
+      },
+      "body_weight_range": [
+        0.9999999105930328,
+        1.000000059604645
+      ]
+    },
+    "worry": {
+      "pose": "worry",
+      "controls": {
+        "brow_worry": 1.0,
+        "blink": 0.15
+      },
+      "reopened": true,
+      "maximum_mesh_deltas": {
+        "geometry_0": 0.0020248889923095703,
+        "EYELIDS.R": 0.0020751445351105693,
+        "EYELIDS.L": 0.002061344675293416,
+        "MOUTH_LIPS": 0.0
+      },
+      "body_weight_range": [
+        0.9999999105930328,
+        1.000000059604645
+      ]
+    },
+    "press": {
+      "pose": "press",
+      "controls": {
+        "mouth_press": 1.0
+      },
+      "reopened": true,
+      "maximum_mesh_deltas": {
+        "geometry_0": 0.0,
+        "EYELIDS.R": 0.0,
+        "EYELIDS.L": 0.0,
+        "MOUTH_LIPS": 0.005899596767354293
+      },
+      "body_weight_range": [
+        0.9999999105930328,
+        1.000000059604645
+      ]
+    },
+    "spread": {
+      "pose": "spread",
+      "controls": {
+        "jaw_open": 0.18,
+        "mouth_spread": 1.0
+      },
+      "reopened": true,
+      "maximum_mesh_deltas": {
+        "geometry_0": 0.0021446963198626765,
+        "EYELIDS.R": 0.0,
+        "EYELIDS.L": 0.0,
+        "MOUTH_LIPS": 0.004455874180151562
+      },
+      "body_weight_range": [
+        0.9999999105930328,
+        1.000000059604645
+      ]
+    },
+    "open": {
+      "pose": "open",
+      "controls": {
+        "jaw_open": 0.8
+      },
+      "reopened": true,
+      "maximum_mesh_deltas": {
+        "geometry_0": 0.009517173352366539,
+        "EYELIDS.R": 0.0,
+        "EYELIDS.L": 0.0,
+        "MOUTH_LIPS": 0.01207079828602097
+      },
+      "body_weight_range": [
+        0.9999999105930328,
+        1.000000059604645
+      ]
+    },
+    "round": {
+      "pose": "round",
+      "controls": {
+        "jaw_open": 0.45,
+        "mouth_round": 1.0
+      },
+      "reopened": true,
+      "maximum_mesh_deltas": {
+        "geometry_0": 0.005359494541055764,
+        "EYELIDS.R": 0.0,
+        "EYELIDS.L": 0.0,
+        "MOUTH_LIPS": 0.007109225757565553
+      },
+      "body_weight_range": [
+        0.9999999105930328,
+        1.000000059604645
+      ]
+    }
+  },
+  "source_library_file_id": "libfile_a6e99af61eb8819185ed97dc4ce31efe",
+  "artist_review": {
+    "status": "DRAFT_BELOW_PRODUCTION_TARGET",
+    "quality_gate_passed": false,
+    "remaining": [
+      "Lip corner shading and lower-face transition still visible",
+      "Eye socket transition and stylized eyelid contour",
+      "Hair topology and groom",
+      "Validated Hungarian phoneme alignment",
+      "Other five characters need facial authoring"
+    ]
+  },
+  "acting_manifest": {
+    "face_source_sha256": "d55fc6a5ec43159d5b23f0b122531adebcb3faef4aa8f6b5e29c6dc5dedcdfbd",
+    "output_sha256": "50096838c515bff320cb61d66027f9d26ff1028d34fef6dc44c1625f422783be",
+    "frames": 91,
+    "phoneme_alignment": false,
+    "quality_gate_passed": false
+  },
+  "acting_track_summary": {
+    "frame_count": 91,
+    "fps": 24,
+    "recorded_dialogue": "Hallod? Ropog\u00f3s az eg\u00e9sz erd\u0151.",
+    "audio_sha256": "65e57e36502ecf0d2027b4ddf0af1c0c81bddeffd251aad96f8c927343fe36c9",
+    "audio_offset_sec": 0.5,
+    "alignment_method": "MANUAL_VOWEL_CENTERS_INITIAL_ESTIMATE",
+    "alignment_verified": false,
+    "source_recording_packed": true,
+    "portable_recording_sha_checked": true
+  },
+  "recovery": {
+    "source_library_file_id": "libfile_a6e99af61eb8819185ed97dc4ce31efe",
+    "source_commit": "a35c0d022dd1a6ce211589777745ded0f3f959e5",
+    "blender_version": "4.5.3 LTS",
+    "scripts": [
+      "production/qc/refine_mark_face.py",
+      "production/qc/check_mark_expression_pose.py",
+      "production/qc/animate_mark_face.py",
+      "production/qc/render_mark_expression_test.py"
+    ]
+  },
+  "speech_video_validation": {
+    "status": "DECODE_AND_TIMING_CHECKED_DRAFT",
+    "frames": 91,
+    "fps": 24,
+    "duration_sec": 3.7916666666666665,
+    "audio_offset_sec": 0.5,
+    "video_sha256": "5af06446e0989ad316727b0a8f4a49e0a6ebfcb159f10ca692ffaec834981dab",
+    "video_resolution": [
+      480,
+      480
+    ],
+    "phoneme_alignment": false,
+    "production_approved": false,
+    "leading_silence_rms": 0.0,
+    "speech_rms": 0.1599397361278534,
+    "sampled_distinct_frames": [
+      1,
+      19,
+      34,
+      50,
+      66,
+      79,
+      91
+    ],
+    "consecutive_sample_pixel_mae": [
+      4.239913194444444,
+      2.633851273148148,
+      7.172044270833333,
+      6.570175057870371,
+      3.367110821759259,
+      6.051947337962963
+    ]
+  },
+  "portable_authoring_guarded_track_identical": true,
+  "library_artifacts": {
+    "CHAR_MARK_ACTING_V010_DRAFT.blend": "libfile_4ed5c4f5c6688191add605efaba1bdd1",
+    "Wonderly_Tales_Mark_mimika_V010_DRAFT.mp4": "libfile_820aadbaeacc8191aa9c450ab356342f",
+    "Wonderly_Tales_Mark_arcvezerlok_V010_DRAFT.jpg": "libfile_79a96a9eb658819185faf516e8c54f21",
+    "Wonderly_Tales_Mark_mimika_V010_20261008.txt": "libfile_2ac3cf488f688191a92229eb057c706c"
+  },
+  "studio_asset_promoted": false,
+  "intro_produced": false
+}
