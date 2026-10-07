@@ -14,7 +14,7 @@ export default function LoginPage() {
   async function signIn(mode: "password" | "magic") {
     setBusy(true); setMsg("");
     try {
-      const supabase = createBrowserClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!);
+      const supabase = createBrowserClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, (process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)!);
       if (mode === "password") {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
