@@ -1,0 +1,24 @@
+{
+  "schema": "WONDERLY_SERIES_INTRO_V1",
+  "status": "REQUIRED_NOT_PRODUCED",
+  "series": "Csodakapu",
+  "brand": "Wonderly Tales",
+  "user_requirement": "Állandó 15 másodperces felvezető minden epizód elején; csak a rész száma változzon.",
+  "duration_sec": 15,
+  "fps": 24,
+  "frame_count": 360,
+  "resolution": [1920, 1080],
+  "placement": "BEFORE_EPISODE_CONTENT",
+  "episode_content_start_frame": 360,
+  "unchanged_between_episodes": ["character_animation", "camera", "environment", "lighting", "music", "sound_effects", "series_logo", "editing"],
+  "only_variable": "episode_number",
+  "episode_number_overlay": {"start_frame": 288, "end_frame_exclusive": 360, "text_template": "{episode_number}. rész", "episode_title_allowed": false},
+  "proposed_shots": [
+    {"id": "INTRO_001", "start_frame": 0, "end_frame_exclusive": 96, "description_hu": "Kamera közelít a napfényes erdei Csodakapuhoz; felragyognak a türkiz jelek."},
+    {"id": "INTRO_002", "start_frame": 96, "end_frame_exclusive": 240, "description_hu": "Márk és Lili közös felfedező mozdulata; Morzsi, Pötty, Bogyó és Zizi rövid, karakterükhöz illő reakcióval csatlakozik. Nem modellfelvonulás."},
+    {"id": "INTRO_003", "start_frame": 240, "end_frame_exclusive": 360, "description_hu": "Csillagszilánk fényéből előtűnik a Csodakapu főcím. Az utolsó három másodpercben kizárólag a rész száma változik."}
+  ],
+  "music": {"status": "NOT_COMPOSED", "requirement": "Saját, kedves, felismerhető 15 másodperces dallam; ugyanaz minden részben; tisztázott felhasználási jog."},
+  "master": {"status": "NOT_RENDERED", "path": null, "sha256": null, "audio_sha256": null, "user_approved": false},
+  "quality": {"approval_reference": "production/references/V004/manifest.json", "current_body_motion_test_accepted_as_final": false, "required": ["consistent_native_character_identity", "correct_anatomy_and_skin_weights", "expressive_face_and_gaze", "natural_weight_shift_and_contacts", "detailed_reusable_forest_gate", "cinematic_lighting_and_materials", "no_temporal_denoising_flicker", "clean_sound_and_title_safe_area"]}
+}

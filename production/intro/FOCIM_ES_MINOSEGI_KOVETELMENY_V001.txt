@@ -1,0 +1,22 @@
+WONDERLY TALES / CSODAKAPU – FŐCÍM ÉS MINŐSÉGI KÖVETELMÉNY
+
+RÖGZÍTETT FELHASZNÁLÓI DÖNTÉS
+Minden epizód ugyanazzal a 15 másodperces felvezetővel indul. A karakterek, mozgás, kamera, környezet, fények, főcím, zene és hanghatások azonosak. Kizárólag a rész száma változhat. Az epizód címe nem kerül bele változó elemként.
+
+KÉPI MINŐSÉG
+A 2 másodperces, sorban álló karakterekkel készült testmozgatási próba nem elfogadott végleges sorozatminőség. A gyártás célja a korábban jóváhagyott, részletes erdei V004 látványirány, annak következetes, valódi 3D mozgó megvalósítása.
+Nagyobb felbontás önmagában nem oldja meg a modellek, a súlyozás, a mimika vagy a mozdulatok hibáit. A jelenlegi testvázak vázlatok; hiányzik a megfelelő arcváz, szemvezérlés és szájgeometria. Ezek javítása szükséges a beszélő jelenetekhez.
+
+15 MÁSODPERCES FŐCÍM – KONKRÉT VÁZLAT
+0–4 s: napfényes erdő, közelítés a Csodakapuhoz, türkiz jelek felébredése.
+4–10 s: közös felfedező jelenet a hat állandó szereplővel; kapcsolat és karakterhez illő mozgás, nem merev sorban állás.
+10–15 s: csillagszilánk fényéből előtűnő Csodakapu-főcím.
+12–15 s: a főcím alatt például „1. rész”. Csak ez a szám változik.
+Ez rendezői vázlat; még nem kész videó és nem jóváhagyott mozgás.
+
+GYÁRTÁSI MEGOLDÁS
+1920×1080, 24 fps, pontosan 360 képkocka. A jóváhagyott főcímet egyetlen rögzített masterként kell megtartani, a részszám külön feliratréteg. Nem szabad epizódonként újragenerálni a szereplőket vagy a főcímet. Az epizód története a végső film 15. másodpercénél kezdődik; az epizód belső idővonala külön marad.
+
+ÁLLAPOT ÉS SORREND
+Az állandó felvezető és a magasabb minőség követelménye rögzítve van. A master főcím és saját zenéje még nem készült el. A most készülő erdei fénypróba a meglévő modellekkel számított Blender-állókép; nem kész animáció, és önmagában nem bizonyítja a végleges minőséget.
+Következő minőségi feladat: karakterek szőr/haj és anyaghibáinak javítása; mozgásra alkalmas topológia, kézi súlyozási korrekciók, szem/száj/arcvezérlés. Ezután rövid, folyamatos színészi mozgáspróba a végleges környezetben. A jóváhagyott mozgás és megjelenés alapján készülhet a teljes főcím, majd az epizód.
