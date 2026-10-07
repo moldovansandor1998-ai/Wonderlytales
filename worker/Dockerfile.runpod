@@ -23,4 +23,7 @@ COPY worker/blender_worker.py worker/runpod_handler.py /worker/
 COPY worker/fixtures /worker/fixtures
 COPY worker/runpod_start.sh worker/container_smoke.sh /worker/
 RUN chmod 755 /worker/runpod_start.sh && blender --background --version
-CMD ["/worker/runpod_start.sh"]
+RUN apt-get update && apt-get install -y --no-install-recommends tini && rm -rf /var/lib/apt/lists/*
+# Xvfb does not send its readiness signal to PID 1. Tini keeps xvfb-run
+# as a child process and forwards termination signals to the worker group.
+CMD ["/usr/bin/tini", "-g", "--", "/worker/runpod_start.sh"]
