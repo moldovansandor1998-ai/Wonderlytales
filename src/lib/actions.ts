@@ -284,7 +284,11 @@ export async function testVoiceAction(voiceId: string) {
   const tts = getTtsProvider();
   const text = "Szia! Ez egy hangpróba a Wonderly Tales Stúdióból.";
   const res = await tts.synthesize(text, { language: v.language, voiceId: v.voice_id, model: v.model, stability: v.stability, style: v.style });
-  return res.path;
+  if (!res.audio) throw new Error("Nem készült valódi hangminta.");
+  const { getStorage } = await import("./providers/storage");
+  const storage = getStorage();
+  await storage.put(res.path, res.audio, "audio/mpeg");
+  return storage.signedUrl(res.path, 900);
 }
 export async function addCostumeAction(characterId: string, fd: FormData) {
   await requireStudioUser();
@@ -297,4 +301,10 @@ export async function addCostumeAction(characterId: string, fd: FormData) {
   if (!costume) throw new Error("Costume név kötelező");
   if (!latest.costumes.includes(costume)) await db.update<CharacterVersion>("character_versions", latest.id, { costumes: [...latest.costumes, costume] });
   revalidatePath(`/characters/${characterId}`);
+}
+
+export async function masterAudioBatchAction(episodeId: string) {
+  await requireStudioUser();
+  const { masterAudioBatch } = await import("./masterAudio");
+  return masterAudioBatch(await getDb(), episodeId);
 }

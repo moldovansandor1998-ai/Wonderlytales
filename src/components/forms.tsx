@@ -30,5 +30,7 @@ export function ActionButton({ label, action, className = "bg-zinc-700 hover:bg-
 
 /** Voice Test gomb: szöveg → Generate → audio path */
 export function VoiceTestButton({ action }: { action: () => Promise<string> }) {
-  return <ActionButton label="Voice Test" action={action} className="bg-sky-700 hover:bg-sky-600" />;
+  const [url, setUrl] = useState<string | null>(null);
+  return <div><ActionButton label="Voice Test" action={async () => { setUrl(await action()); return "Hangminta elmentve"; }} className="bg-sky-700 hover:bg-sky-600" />
+    {url && <audio controls preload="none" src={url} className="mt-2 max-w-full" />}</div>;
 }

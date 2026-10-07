@@ -6,7 +6,7 @@ import { getPricing } from "../pricing";
 
 /** TTS provider interface + MOCK + teljes ElevenLabs adapter (timeout, retry, rate-limit, cache hash, cost) */
 export interface TtsResult { path: string; durationSec: number; provider: string; audio?: Buffer; costUsd: number; }
-export interface TtsConfig { language: string; voiceId: string; model?: string; stability?: number; style?: number; }
+export interface TtsConfig { language: string; voiceId: string; model?: string; stability?: number; style?: number; budgetService?: "tts" | "tts_dialogue"; }
 export interface TtsProvider { name: string; synthesize(text: string, cfg: TtsConfig): Promise<TtsResult>; }
 
 export function ttsCacheKey(text: string, cfg: TtsConfig): string {
@@ -25,6 +25,11 @@ export class ElevenLabsTts implements TtsProvider {
   constructor(private apiKey: string, private baseUrl = "https://api.elevenlabs.io/v1") {}
 
   async synthesize(text: string, cfg: TtsConfig): Promise<TtsResult> {
+    const limit = cfg.budgetService === "tts_dialogue" ? 250 : 1000;
+    if (!text.trim() || text.length > limit || (cfg.model && cfg.model !== "eleven_multilingual_v2")) {
+      throw new Error(`ElevenLabs: Multilingual V2 szöveg szükséges, legfeljebb ${limit} karakter.`);
+    }
+    if (!/^[a-zA-Z0-9]+$/.test(cfg.voiceId)) throw new Error("Érvénytelen hangazonosító");
     const url = `${this.baseUrl}/text-to-speech/${cfg.voiceId}?output_format=mp3_44100_128`;
     const body = JSON.stringify({
       text, model_id: cfg.model ?? "eleven_multilingual_v2",
@@ -32,11 +37,11 @@ export class ElevenLabsTts implements TtsProvider {
     });
     let lastErr = "";
     for (let attempt = 0; attempt < 3; attempt++) {
-      await reserveProductionBudget("tts");
+      await reserveProductionBudget(cfg.budgetService ?? "tts");
       try {
         const res = await fetchWithTimeout(url, { method: "POST", headers: { "xi-api-key": this.apiKey, "Content-Type": "application/json", Accept: "audio/mpeg" }, body }, 45000);
         if (res.status === 429) { // rate-limit: Retry-After tiszteletben tartása
-          const wait = Number(res.headers.get("retry-after") ?? 2) * 1000;
+          const wait = Math.min(10, Math.max(1, Number(res.headers.get("retry-after") ?? 2) || 2)) * 1000;
           await new Promise((r) => setTimeout(r, wait));
           lastErr = `429 rate-limit (attempt ${attempt + 1})`;
           continue;
