@@ -6,12 +6,12 @@ import { getStorage, type StorageProvider } from './providers/storage';
 import { getPricing } from './pricing';
 
 export async function masterAudioBatch(db: Db, episodeId: string, batchSize = 3,
-  dependencies?: { tts: TtsProvider; storage: StorageProvider }) {
+  dependencies?: { tts: TtsProvider; storage: StorageProvider }, dialogueId?: string) {
   const ep = await db.get<Episode>('episodes', episodeId);
   if (!ep || ep.master_language !== 'hu') throw new Error('Magyar master epizód szükséges.');
   const scenes = await db.find<Scene>('scenes', s => s.episode_id === episodeId);
   const order = new Map(scenes.map(s => [s.id, s.number]));
-  const lines = (await db.find<DialogueLine>('dialogue_lines', l => order.has(l.scene_id) && l.language === 'hu'))
+  const lines = (await db.find<DialogueLine>('dialogue_lines', l => order.has(l.scene_id) && l.language === 'hu' && (!dialogueId || l.id === dialogueId)))
     .sort((a,b) => order.get(a.scene_id)! - order.get(b.scene_id)! || a.sequence - b.sequence);
   if (!lines.length) throw new Error('Nincs felmondható magyar dialógus.');
   const voices = await db.list<Voice>('voices');

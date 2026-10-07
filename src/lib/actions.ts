@@ -318,3 +318,16 @@ export async function reviewDialogueSpeechAction(dialogueId: string) {
   const result = await reviewHungarianSpeech(await getStorage().get(line.audio_path), line.text, process.env.ELEVENLABS_API_KEY ?? '');
   return `${result.hungarian && result.textMatches ? 'Magyar szövegegyezés igazolva' : 'Eltérés: meghallgatás szükséges'} · ${result.language} · Felismert szöveg: ${result.transcript}`;
 }
+
+export async function recordDialogueSpeechAction(dialogueId: string) {
+  await requireStudioUser();
+  const db = await getDb();
+  const line = await db.get<import('./types').DialogueLine>('dialogue_lines', dialogueId);
+  if (!line) throw new Error('Dialógus nem található.');
+  const scene = await db.get<Scene>('scenes', line.scene_id);
+  if (!scene) throw new Error('Jelenet nem található.');
+  const { masterAudioBatch } = await import('./masterAudio');
+  await masterAudioBatch(db, scene.episode_id, 1, undefined, dialogueId);
+  revalidatePath(`/episodes/${scene.episode_id}/audio`);
+  return 'Felvétel elmentve az aktuális hangbeállítással.';
+}

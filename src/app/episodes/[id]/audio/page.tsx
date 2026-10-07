@@ -4,7 +4,7 @@ import { requireStudioUser } from '@/lib/auth';
 import type { Episode, DialogueLine, Scene, Character, Voice } from '@/lib/types';
 import { MasterAudioButton } from '@/components/masterAudioButton';
 import { ActionButton } from '@/components/forms';
-import { masterAudioBatchAction, reviewDialogueSpeechAction } from '@/lib/actions';
+import { masterAudioBatchAction, reviewDialogueSpeechAction, recordDialogueSpeechAction } from '@/lib/actions';
 import { notFound } from 'next/navigation';
 export const dynamic = 'force-dynamic';
 export const maxDuration = 300;
@@ -32,6 +32,7 @@ export default async function MasterAudioPage({ params }: { params: { id: string
       {lines.filter(l=>l.scene_id===s.id).sort((a,b)=>a.sequence-b.sequence).map(l=><div key={l.id} className="my-3">
         <p>{chars.find(c=>c.id===l.character_id)?.name}: {l.text}</p>
         {currentAudio(l) && <audio controls preload="none" src={`/api/dialogue/${l.id}/audio`} />}
+        <div><ActionButton label="Felvétel új hangbeállítással" action={recordDialogueSpeechAction.bind(null,l.id)} /></div>
         {currentAudio(l) && <div><ActionButton label="Magyar szöveg ellenőrzése" action={reviewDialogueSpeechAction.bind(null,l.id)} /></div>}
         {l.audio_path && !currentAudio(l) && <p className="text-amber-400">Korábbi hang: új magyar felvétel szükséges.</p>}
       </div>)}</section>)}

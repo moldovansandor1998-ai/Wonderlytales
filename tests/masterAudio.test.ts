@@ -15,6 +15,13 @@ function fixture() {
   return {rows,db,stored,storage,tts};
 }
 describe('Hungarian master recordings',()=>{
+  it('records a selected dialogue without replacing unrelated recordings',async()=>{
+    const f=fixture(); f.rows.dialogue_lines.push({...f.rows.dialogue_lines[0],id:'b',sequence:2});
+    expect(await masterAudioBatch(f.db,'ep',1,f,'b')).toEqual({completed:1,total:1,done:true});
+    expect(f.rows.dialogue_lines[0].audio_path).toBeNull();
+    expect(f.rows.dialogue_lines[1].audio_path).toBeTruthy();
+    expect(f.tts.synthesize).toHaveBeenCalledTimes(1);
+  });
   it('replaces unsupported V2 recordings instead of considering them complete',async()=>{
     const f=fixture();
     const legacy = 'audio/tts/hu/Voice123/legacy-v2.mp3';
