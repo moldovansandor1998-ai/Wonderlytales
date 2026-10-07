@@ -1,3 +1,6 @@
+Warning: truncated output (original token count: 21321)
+Total output lines: 1962
+
 {
   "schema": "WONDERLY_EPISODE_SCRIPT_BREAKDOWN_V1",
   "episode": "S1E1",
@@ -27,7 +30,9 @@
           "direction": "",
           "text_hu": "Hallod? Ropogós az egész erdő.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "0b4fdc91-8abb-5fe5-b580-e3df1366c953",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/b3b3763046a1e6bcca2f5773.mp3"
         },
         {
           "kind": "DIALOGUE",
@@ -35,7 +40,9 @@
           "direction": "",
           "text_hu": "Igen. Főleg az a része, amelyiken te mész.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "91110003-0776-5f27-a63e-dae2a57ca5ad",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/7077c165555092a9dab6af35.mp3"
         },
         {
           "kind": "ACTION",
@@ -47,7 +54,9 @@
           "direction": "",
           "text_hu": "Ezt nem én csináltam.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "2b64d328-61f2-5379-b56b-0195a2c7b536",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/3c1cb65b94c0cb053e004fbe.mp3"
         },
         {
           "kind": "DIALOGUE",
@@ -55,7 +64,9 @@
           "direction": "",
           "text_hu": "A levelet vagy a fényt?",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "5e163a2b-1ad7-5c05-b46c-78c325f459de",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/768ef85a4de5040c3e81044c.mp3"
         },
         {
           "kind": "DIALOGUE",
@@ -63,7 +74,9 @@
           "direction": "",
           "text_hu": "Egyiket sem. De a fény érdekel jobban.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "f6021a21-b5fb-5d83-b867-5a4c3fc193ae",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/fc192d9d58c56beffe84ac26.mp3"
         },
         {
           "kind": "ACTION",
@@ -75,7 +88,9 @@
           "direction": "",
           "text_hu": "Nem fut el. Mintha jelezne.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "b0d01e4a-b5d1-5a5c-899d-3c80e82b8865",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/761ab46da1bac559e61f6355.mp3"
         },
         {
           "kind": "DIALOGUE",
@@ -83,7 +98,9 @@
           "direction": "",
           "text_hu": "Kinek?",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "d3ce5ece-87d6-5224-9e1c-66621884ac4f",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/0e4613d835c7f1c39d570f57.mp3"
         },
         {
           "kind": "ACTION",
@@ -95,7 +112,9 @@
           "direction": "",
           "text_hu": "Előbb nézzük meg. Aztán nyúlunk hozzá.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "5bc6fc09-9560-502d-a614-2cd62ed757cb",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/00e1f47e3e093db440c2111e.mp3"
         },
         {
           "kind": "ACTION",
@@ -107,7 +126,9 @@
           "direction": "halkan",
           "text_hu": "Szerintem nekünk.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "c486e74d-7c86-59bd-a8d0-d1e8ec922f6d",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/b4860d4524726564f44b5cf7.mp3"
         },
         {
           "kind": "ACTION",
@@ -149,7 +170,9 @@
           "direction": "",
           "text_hu": "Nem forró. A moha nem száradt ki körülötte.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "225ebeac-c6fb-5641-a488-fede3eb27b90",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/cd4e49ad69385394390dd741.mp3"
         },
         {
           "kind": "DIALOGUE",
@@ -157,7 +180,9 @@
           "direction": "",
           "text_hu": "Akkor lehet, hogy csak egy szép kavics.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "cef6b5f3-6050-54bf-a715-e18f410dc821",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/7a99834213e1e56d637dcbc9.mp3"
         },
         {
           "kind": "DIALOGUE",
@@ -165,7 +190,9 @@
           "direction": "",
           "text_hu": "Az én kavicsaim ritkán világítanak.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "2386fc17-10d1-5170-95a2-0b36f3ff120a",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/b40f34c9907c639d9be60aa7.mp3"
         },
         {
           "kind": "ACTION",
@@ -177,7 +204,9 @@
           "direction": "",
           "text_hu": "Nézd! Tetszik neki a kendő.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "f7008600-293c-55a7-90be-29a90764b6e3",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/2502eece9b1a413874364930.mp3"
         },
         {
           "kind": "ACTION",
@@ -189,7 +218,9 @@
           "direction": "",
           "text_hu": "Fordulj vissza egy kicsit.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "d1511295-d1f5-529c-b534-8b393bee23b7",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/288bad9ff7a09f3235a06b09.mp3"
         },
         {
           "kind": "ACTION",
@@ -201,7 +232,9 @@
           "direction": "",
           "text_hu": "Erre akar menni.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "2f0930b8-161f-5239-abbf-399526e65171",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/28439291dab8c34fa594dbe6.mp3"
         },
         {
           "kind": "DIALOGUE",
@@ -209,7 +242,9 @@
           "direction": "",
           "text_hu": "Vagy valami arra válaszol neki.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "7e33345c-135c-5737-b2c2-3fabd3bff89c",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/2a63c80c8b83b4d72afa3bb6.mp3"
         },
         {
           "kind": "ACTION",
@@ -221,7 +256,9 @@
           "direction": "",
           "text_hu": "Hiányzik belőle egy rész.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "936df75a-cbdc-58e7-b8fb-9421d2e61981",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/9b2edeb00a6c380cc02e13f0.mp3"
         },
         {
           "kind": "DIALOGUE",
@@ -229,7 +266,9 @@
           "direction": "",
           "text_hu": "Lehet, hogy valamiből ez hiányzik.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "b6bb4029-79d5-549f-a385-4f9a86280cae",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/88681218169a33ff5c87e249.mp3"
         },
         {
           "kind": "ACTION",
@@ -241,7 +280,9 @@
           "direction": "",
           "text_hu": "Előbb nézzük meg?",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "25db74df-0d73-592f-82d8-642847187bac",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/b981bea02015590f5d035ce6.mp3"
         },
         {
           "kind": "ACTION",
@@ -268,7 +309,9 @@
           "direction": "",
           "text_hu": "Uzsonnakereső túra?",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "4cfef011-a42a-57d4-8b9d-6f605fe93fc8",
+          "audio_storage_key": "audio/tts/hu/tWNlc7uUtaorMxxrhH9s/005af39f4eee11328eba3198.mp3"
         },
         {
           "kind": "DIALOGUE",
@@ -276,7 +319,9 @@
           "direction": "",
           "text_hu": "Csillagkereső. Az uzsonna még a táskámban van.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "2d7aa7ed-e315-5ec9-8b53-3c7a23c3dc54",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/405f6172c8ba832e1e435f4f.mp3"
         },
         {
           "kind": "DIALOGUE",
@@ -284,7 +329,9 @@
           "direction": "",
           "text_hu": "Ez a legjobb fajta túra.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "14ccb186-e1eb-5ce3-b03a-a89334d9bf2b",
+          "audio_storage_key": "audio/tts/hu/tWNlc7uUtaorMxxrhH9s/923c3f60313cb1d01ac240c6.mp3"
         },
         {
           "kind": "ACTION",
@@ -296,7 +343,9 @@
           "direction": "",
           "text_hu": "Ez biztos nem egy villám? A villámok szoktak világítani.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "ba27c505-1cba-5f36-8ca5-3d29a83ec974",
+          "audio_storage_key": "audio/tts/hu/gvuelryL3NskaN44p9vz/ef3850edc96b142fa887d7b2.mp3"
         },
         {
           "kind": "DIALOGUE",
@@ -304,7 +353,9 @@
           "direction": "",
           "text_hu": "A villámok nem szoktak kendőben üldögélni.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "5309e767-5148-5c2c-b78b-78fd8bcff5d1",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/ac323411bc84001c85eae77d.mp3"
         },
         {
           "kind": "ACTION",
@@ -316,7 +367,9 @@
           "direction": "",
           "text_hu": "A világ legelső mindenmérője. Most épp azt méri, hogy…",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "b21ab5f7-c8d6-5378-a9a4-e5bb316c2866",
+          "audio_storage_key": "audio/tts/hu/8ik405hgdHADnz9lglMf/d58989aa2b884264f7da401e.mp3"
         },
         {
           "kind": "DIALOGUE",
@@ -324,7 +377,9 @@
           "direction": "",
           "text_hu": "Hogy fejjel lefelé van?",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "73956111-1041-505c-9c41-f4fe9b53d960",
+          "audio_storage_key": "audio/tts/hu/tWNlc7uUtaorMxxrhH9s/59cc5f6357c83b609a7a0df2.mp3"
         },
         {
           "kind": "DIALOGUE",
@@ -332,7 +387,9 @@
           "direction": "",
           "text_hu": "Pontosan. Ezt nagyon pontosan méri.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "3511b9ad-52e2-5666-910c-fa9ceb5e4803",
+          "audio_storage_key": "audio/tts/hu/8ik405hgdHADnz9lglMf/af2a78216f96480aa982aa5c.mp3"
         },
         {
           "kind": "ACTION",
@@ -344,7 +401,9 @@
           "direction": "",
           "text_hu": "Van benne egy egyszerű iránytű is. Az nem az én találmányom.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "971cb9b5-361f-5309-a44b-d87c0d7e1256",
+          "audio_storage_key": "audio/tts/hu/8ik405hgdHADnz9lglMf/94457963f317e7ed8f8ffc09.mp3"
         },
         {
           "kind": "ACTION",
@@ -356,7 +415,9 @@
           "direction": "",
           "text_hu": "A régi kapuhoz megyünk? Ahhoz, ami sosem nyílik ki?",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "0a415faa-7978-5324-892e-2070fe388496",
+          "audio_storage_key": "audio/tts/hu/gvuelryL3NskaN44p9vz/8fe5b254c7705708af947705.mp3"
         },
         {
           "kind": "DIALOGUE",
@@ -364,7 +425,9 @@
           "direction": "",
           "text_hu": "Csak megnézzük, miért arra világít.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "165ae290-a683-5036-a462-cb44fd4c9d9f",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/63ddf63b42f2139187e63715.mp3"
         },
         {
           "kind": "DIALOGUE",
@@ -372,7 +435,9 @@
           "direction": "",
           "text_hu": "Együtt megyünk. Én viszem a kosarat.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "e2ba4057-2070-539d-abba-804b021f4d92",
+          "audio_storage_key": "audio/tts/hu/tWNlc7uUtaorMxxrhH9s/f4918371bc4a86c7a28a8c12.mp3"
         },
         {
           "kind": "ACTION",
@@ -384,7 +449,9 @@
           "direction": "",
           "text_hu": "Jól van. De ha a kapu köszön, én is köszönök. És aztán gondolkodom.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "3ac5a262-fbc1-5a72-89c5-93b37fbefcff",
+          "audio_storage_key": "audio/tts/hu/gvuelryL3NskaN44p9vz/188b89c558f3906ca938fa5d.mp3"
         },
         {
           "kind": "ACTION",
@@ -411,7 +478,9 @@
           "direction": "",
           "text_hu": "Ugyanolyan, mint mindig.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "a245e68c-538b-5b61-8afd-9dfe0dcdef90",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/b9ba38f3887adf2bf7b31068.mp3"
         },
         {
           "kind": "DIALOGUE",
@@ -419,7 +488,9 @@
           "direction": "",
           "text_hu": "A szilánk viszont nem.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "a1507187-0bb2-5117-8ce6-feac27ea8b0d",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/d26342ccd1fdb6c5734d811c.mp3"
         },
         {
           "kind": "ACTION",
@@ -431,7 +502,9 @@
           "direction": "",
           "text_hu": "Jó napot kívánok.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "f4bf4416-7a04-5e2e-8acb-257f5c8ea78c",
+          "audio_storage_key": "audio/tts/hu/gvuelryL3NskaN44p9vz/3ff4e75faa6d86cb10d41392.mp3"
         },
         {
           "kind": "ACTION",
@@ -443,7 +516,9 @@
           "direction": "",
           "text_hu": "A fény három helyen áll meg. Utána visszamegy a közepére.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "0f70cefc-a76f-57ee-b88f-d843e0f71a2b",
+          "audio_storage_key": "audio/tts/hu/8ik405hgdHADnz9lglMf/c0bac56c4fdda0076a49f6ae.mp3"
         },
         {
           "kind": "DIALOGUE",
@@ -451,7 +526,9 @@
           "direction": "",
           "text_hu": "Lehet, hogy oda kell tenni.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "1da1be2c-df22-5c11-8756-c9a55d466feb",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/83ded94212baee1502bc7aca.mp3"
         },
         {
           "kind": "ACTION",
@@ -463,7 +540,9 @@
           "direction": "",
           "text_hu": "Nem érintetted hozzá.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "feeb63a3-af1f-54c0-88d1-e744fdd66163",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/2898d17fb9a6be6263c2ee5f.mp3"
         },
         {
           "kind": "DIALOGUE",
@@ -471,7 +550,9 @@
           "direction": "",
           "text_hu": "Akkor most kivételesen jó, hogy nem érintettem hozzá.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "53c5f26f-2f3e-5aa5-8782-da57667dfaef",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/0a2175a6b34a080138bc57df.mp3"
         },
         {
           "kind": "ACTION",
@@ -483,7 +564,9 @@
           "direction": "",
           "text_hu": "Az ott… az ég?",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "8901d1fc-e3d1-5cf9-8cdd-18cc230da21a",
+          "audio_storage_key": "audio/tts/hu/tWNlc7uUtaorMxxrhH9s/a53b2cd42d1d59367144c677.mp3"
         },
         {
           "kind": "DIALOGUE",
@@ -491,7 +574,9 @@
           "direction": "",
           "text_hu": "Remélem, van rajta föld is.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "43187395-39a5-5b09-adb3-3b827e3f80bd",
+          "audio_storage_key": "audio/tts/hu/gvuelryL3NskaN44p9vz/bd3f29b9935e5b285a21198e.mp3"
         },
         {
           "kind": "ACTION",
@@ -503,7 +588,9 @@
           "direction": "",
           "text_hu": "Ott valami nem működik.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "5c05627c-9300-5543-b355-aba67c5f8556",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/2fb37c358f3c57e7bfda177d.mp3"
         }
       ],
       "director_shot_status": "NOT_YET_BLOCKED_IN_3D"
@@ -526,7 +613,9 @@
           "direction": "",
           "text_hu": "Várj, Bogyó. Előbb megbeszéljük.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "1c101b7b-c767-523a-be6e-e85916fe0bd2",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/d3e273819318384d68586c6a.mp3"
         },
         {
           "kind": "DIALOGUE",
@@ -534,7 +623,9 @@
           "direction": "",
           "text_hu": "Menjünk át arra az első szigetre. A kaput végig látjuk. Nem indulunk el egyedül.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "12e7c19e-723b-55ac-885d-0f8f33a484b3",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/4727e35c8a5fc1913cdca786.mp3"
         },
         {
           "kind": "DIALOGUE",
@@ -542,7 +633,9 @@
           "direction": "",
           "text_hu": "És ha onnan ez a kapu nem látszik?",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "181a5c89-2658-56a3-a39b-86b931d531e4",
+          "audio_storage_key": "audio/tts/hu/gvuelryL3NskaN44p9vz/4ec9a0f7067cb0ed7c684cbd.mp3"
         },
         {
           "kind": "ACTION",
@@ -554,7 +647,9 @@
           "direction": "",
           "text_hu": "Ezt látni fogjuk. És ha el akarunk menni messzebb, előbb megint megállunk.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "50346244-a4fa-59c0-a5a0-8fabfebdbfcc",
+          "audio_storage_key": "audio/tts/hu/8ik405hgdHADnz9lglMf/9eab308316a160b818c7de42.mp3"
         },
         {
           "kind": "DIALOGUE",
@@ -562,7 +657,9 @@
           "direction": "",
           "text_hu": "Én leszek az utolsó. Megnézem, hogy mind megvagyunk.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "11a1c913-8fec-52e8-b266-f1b5682cc1ff",
+          "audio_storage_key": "audio/tts/hu/tWNlc7uUtaorMxxrhH9s/d63f1da2aec012111768f67a.mp3"
         },
         {
           "kind": "ACTION",
@@ -574,7 +671,9 @@
           "direction": "",
           "text_hu": "Hat. Azaz hét… Nem. Hat. Bogyó gyors.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "86fdd780-a61a-5f91-b880-203935fa329e",
+          "audio_storage_key": "audio/tts/hu/gvuelryL3NskaN44p9vz/a03dff7fb69b74e90508bf3b.mp3"
         },
         {
           "kind": "ACTION",
@@ -590,7 +689,9 @@
           "direction": "",
           "text_hu": "Itt is ugyanaz a jel.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "b20e0877-47fd-5ba3-ac43-7aaa1c2c3dea",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/54ebd00b8019a4d6bb7b7646.mp3"
         },
         {
           "kind": "ACTION",
@@ -602,7 +703,9 @@
           "direction": "",
           "text_hu": "És itt is hiányzik egy darab.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "c04f419e-03c7-53a6-bb13-b9543040fb73",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/c2753687b139708d3663c294.mp3"
         }
       ],
       "director_shot_status": "NOT_YET_BLOCKED_IN_3D"
@@ -625,7 +728,9 @@
           "direction": "",
           "text_hu": "A fák nem mozognak.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "9c116b9d-be6a-54b8-8b66-40da4b03542d",
+          "audio_storage_key": "audio/tts/hu/tWNlc7uUtaorMxxrhH9s/eb7e40473dfb8a29e4d214b8.mp3"
         },
         {
           "kind": "DIALOGUE",
@@ -633,7 +738,9 @@
           "direction": "",
           "text_hu": "Az jó. Akkor nem hajolnak ránk.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "e7b1a4b0-4761-5cf5-93e0-dbd505ec87f8",
+          "audio_storage_key": "audio/tts/hu/gvuelryL3NskaN44p9vz/8b6512e3207f887988890304.mp3"
         },
         {
           "kind": "DIALOGUE",
@@ -641,7 +748,9 @@
           "direction": "",
           "text_hu": "A levelek sem. Pedig azoknak mozogniuk kellene.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "dc000e91-6703-577f-bf9d-35b4c7c8d78c",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/4e1fadbf5446c609f986d524.mp3"
         },
         {
           "kind": "ACTION",
@@ -653,7 +762,9 @@
           "direction": "",
           "text_hu": "A szélkerék emelné a vizet. Ha nem forog, a virág sem kap eleget.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "e29fe777-50de-5af5-b5c5-2d6949471507",
+          "audio_storage_key": "audio/tts/hu/8ik405hgdHADnz9lglMf/bd7fc9ac187731278c9a5c22.mp3"
         },
         {
           "kind": "DIALOGUE",
@@ -661,7 +772,9 @@
           "direction": "",
           "text_hu": "Akkor a toronyból kell szelet csinálnunk.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "914e5854-cdf4-5652-a7d1-2e3e0d2b0f92",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/612e37f01e04dc15a4c8fe47.mp3"
         },
         {
           "kind": "DIALOGUE",
@@ -669,7 +782,9 @@
           "direction": "",
           "text_hu": "Nézzük meg előbb, miért állt meg.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "d4e5157c-0775-537a-bae2-556ba9969460",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/0b0a7bc23175f078642c4e4f.mp3"
         },
         {
           "kind": "ACTION",
@@ -681,7 +796,9 @@
           "direction": "",
           "text_hu": "Olyan, mintha valaki tüsszenteni akarna, csak nem sikerül neki.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "5ac5de6c-78b8-53ae-8b1b-ab99b7712446",
+          "audio_storage_key": "audio/tts/hu/gvuelryL3NskaN44p9vz/97eed4a21905119a8bc84c85.mp3"
         },
         {
           "kind": "ACTION",
@@ -712,7 +829,9 @@
           "direction": "",
           "text_hu": "Nyomásra levegőt küldenek. Csak azt nem tudom még, mennyit.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "eea8fcc5-ff88-550b-859a-73e55c01920f",
+          "audio_storage_key": "audio/tts/hu/8ik405hgdHADnz9lglMf/6b1709adac2897f0bebd4104.mp3"
         },
         {
           "kind": "ACTION",
@@ -724,7 +843,9 @@
           "direction": "",
           "text_hu": "Ezt a frizurát nem kértem.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "abdc8951-fbfe-5612-845d-0754af954d23",
+          "audio_storage_key": "audio/tts/hu/tWNlc7uUtaorMxxrhH9s/788c8b2a473f3d9a009f27a0.mp3"
         },
         {
           "kind": "ACTION",
@@ -736,7 +857,9 @@
           "direction": "",
           "text_hu": "Egyszerre csak egyet. Halljuk, mit csinál.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "3dc5484a-1823-5628-a624-1cb7c39dd315",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/97b2117723819a7bd600a210.mp3"
         },
         {
           "kind": "ACTION",
@@ -748,7 +871,9 @@
           "direction": "",
           "text_hu": "Láttátok? Már majdnem megnyílt!",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "9e589d4b-bbd0-589b-957f-e3a29bdf267c",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/58d0e29fcc33342781876ed0.mp3"
         },
         {
           "kind": "ACTION",
@@ -760,7 +885,9 @@
           "direction": "",
           "text_hu": "Márk, várj. Szerintem megmutatja…",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "d7682d33-cc19-52bf-8215-a0aa73284dfd",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/1a576e66b23e4eb5d27a40cd.mp3"
         },
         {
           "kind": "DIALOGUE",
@@ -768,7 +895,9 @@
           "direction": "",
           "text_hu": "Mind a három kell hozzá. Morzsi, ezt nyomd. Zizi, azt!",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "69bda51c-238d-5d36-87ec-70827da6e985",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/581b567bfc7f1aa6391d8f26.mp3"
         },
         {
           "kind": "ACTION",
@@ -799,114 +928,14 @@
           "direction": "",
           "text_hu": "Ott állt meg! A cső alatt!",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
-        },
-        {
-          "kind": "ACTION",
-          "direction_hu": "Zizi rögtön elengedi a fújtatót. Morzsi is. A szél elül. Bogyó megrázza a füleit, majd odabújik Pöttyhöz."
-        },
-        {
-          "kind": "DIALOGUE",
-          "character": "CHAR_MARK",
-          "direction": "",
-          "text_hu": "Elrontottam.",
-          "voice_id": null,
-          "recording_status": "NOT_RECORDED"
-        },
-        {
-          "kind": "DIALOGUE",
-          "character": "CHAR_LILI",
-          "direction": "",
-          "text_hu": "Valami elmozdult. Még meg tudjuk nézni.",
-          "voice_id": null,
-          "recording_status": "NOT_RECORDED"
-        },
-        {
-          "kind": "DIALOGUE",
-          "character": "CHAR_MARK",
-          "direction": "",
-          "text_hu": "Mondtad, hogy várjak.",
-          "voice_id": null,
-          "recording_status": "NOT_RECORDED"
-        },
-        {
-          "kind": "ACTION",
-          "direction_hu": "Lili nem válaszol rögtön. Megnézi, hogy mindenki biztonságban van."
-        },
-        {
-          "kind": "DIALOGUE",
-          "character": "CHAR_LILI",
-          "direction": "",
-          "text_hu": "Igen. Most megvárunk mindenkit. És kitaláljuk együtt.",
-          "voice_id": null,
-          "recording_status": "NOT_RECORDED"
-        },
-        {
-          "kind": "ACTION",
-          "direction_hu": "A kapu fénye még látszik, de a három körjel közül kettő egyre halványabb. Nincs visszaszámlálás vagy indokolatlan pánik."
-        },
-        {
-          "kind": "DIALOGUE",
-          "character": "CHAR_ZIZI",
-          "direction": "",
-          "text_hu": "A körlap nélkül a levegő rossz irányba megy. Úgy, mint amikor lyukas a kulacs.",
-          "voice_id": null,
-          "recording_status": "NOT_RECORDED"
-        },
-        {
-          "kind": "DIALOGUE",
-          "character": "CHAR_MORZSI",
-          "direction": "",
-          "text_hu": "Akkor először visszatesszük a körlapot.",
-          "voice_id": null,
-          "recording_status": "NOT_RECORDED"
-        },
-        {
-          "kind": "ACTION",
-          "direction_hu": "Márk a szilánkot letakarja, a kendőt összehajtva a hátizsák felső zsebébe teszi. Látszik a teljes mozdulat. Kezei szabaddá válnak. A csillag nem kerül önkényesen másik szereplőhöz."
-        }
-      ],
-      "director_shot_status": "NOT_YET_BLOCKED_IN_3D"
-    },
-    {
-      "scene_code": "S1E1_SC010",
-      "title_hu": "BOGYÓ NYOMA",
-      "planned_start_sec": 675,
-      "planned_end_sec": 745,
-      "planned_duration_sec": 70,
-      "location_notes": "Kőhorony és szerviznyílás.",
-      "beats": [
-        {
-          "kind": "ACTION",
-          "direction_hu": "Bogyó a lap fölötti rácsot megszagolja, aztán a cső mellett húzódó keskeny fedett járathoz fut. A járatba egy emberi kar nem fér be, de egy nyúl oldalazva be tud menni. Morzsi óvatosan megtámasztja a meglazult külső fedelet; nem bontanak le terhet tartó építményt."
-        },
-        {
-          "kind": "DIALOGUE",
-          "character": "CHAR_MORZSI",
-          "direction": "",
-          "text_hu": "Itt belül a föld van. Nem az ég fölött megy.",
-          "voice_id": null,
-          "recording_status": "NOT_RECORDED"
-        },
-        {
-          "kind": "ACTION",
-          "direction_hu": "Pötty leguggol, a belső padlót látja. Megérinti, aztán visszahúzza a kezét."
-        },
-        {
-          "kind": "DIALOGUE",
-          "character": "CHAR_POTTY",
-          "direction": "",
-          "text_hu": "Azért elég szűk. És sötét is.",
-          "voice_id": null,
-          "recording_status": "NOT_RECORDED"
-        },
-        {
-          "kind": "DIALOGUE",
+    …1321 tokens truncated…GUE",
           "character": "CHAR_MARK",
           "direction": "",
           "text_hu": "Nem kell bemenned. Keressünk más megoldást.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "af93bfbd-b920-51e9-a751-09d3d0b7fa27",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/0395bb7f3a166ab31e8b724f.mp3"
         },
         {
           "kind": "ACTION",
@@ -918,7 +947,9 @@
           "direction": "",
           "text_hu": "A kanyar után én nem tudom mozgatni.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "394e46dd-52c9-5377-ac7a-73908bd76496",
+          "audio_storage_key": "audio/tts/hu/8ik405hgdHADnz9lglMf/1a45b050b75423378fb0fca6.mp3"
         },
         {
           "kind": "ACTION",
@@ -930,7 +961,9 @@
           "direction": "",
           "text_hu": "Ha bemegyek, a rácsnál látlak benneteket?",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "94da9bb5-4069-5b99-868c-f71edb2e1611",
+          "audio_storage_key": "audio/tts/hu/gvuelryL3NskaN44p9vz/64a1423bd403c18afc1601a8.mp3"
         },
         {
           "kind": "DIALOGUE",
@@ -938,7 +971,9 @@
           "direction": "",
           "text_hu": "Igen. Itt maradok. Végig beszélünk.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "a2b70aba-09e6-5714-8f69-c4b6c46bb1ae",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/73d39ec16668fcecf1ee4158.mp3"
         },
         {
           "kind": "ACTION",
@@ -969,7 +1004,9 @@
           "direction": "",
           "text_hu": "Mi volt ez?",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "80731a80-0238-50a9-bee7-148b77de4b89",
+          "audio_storage_key": "audio/tts/hu/gvuelryL3NskaN44p9vz/650b6aea6eedccbf43ed19f8.mp3"
         },
         {
           "kind": "DIALOGUE",
@@ -977,7 +1014,9 @@
           "direction": "kívülről",
           "text_hu": "A fal alján moha. A fényben itt is látom.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "3caddc7c-40a6-5359-aa22-da4d15bd9a12",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/5ffc2ac2c0cee2421931c271.mp3"
         },
         {
           "kind": "ACTION",
@@ -989,7 +1028,9 @@
           "direction": "",
           "text_hu": "Jó. A mohától nem félek. Csak meglepett.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "408609dd-4214-57b7-9a0b-85730ee8d0eb",
+          "audio_storage_key": "audio/tts/hu/gvuelryL3NskaN44p9vz/254c082069a42090170d8c1e.mp3"
         },
         {
           "kind": "ACTION",
@@ -1001,7 +1042,9 @@
           "direction": "",
           "text_hu": "Látlak. Még két kicsi lépés, és a lap mellett vagy.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "392a3618-532a-54f7-8a29-577dfe8ef638",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/89f0e22b817ba60857d91b73.mp3"
         },
         {
           "kind": "ACTION",
@@ -1013,7 +1056,9 @@
           "direction": "",
           "text_hu": "Megvan! És van itt valami növény is. Bent nőtt a csőben.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "49d1b961-34e2-52e6-a3a7-499348944a3d",
+          "audio_storage_key": "audio/tts/hu/gvuelryL3NskaN44p9vz/cea356d7dc639885c6c22680.mp3"
         },
         {
           "kind": "DIALOGUE",
@@ -1021,7 +1066,9 @@
           "direction": "",
           "text_hu": "Attól is elakadhatott a levegő. Ne tépd ki. Megnézzük, hol tud elférni.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "18db4bbc-ee44-5e6b-8bed-a557ddc42177",
+          "audio_storage_key": "audio/tts/hu/8ik405hgdHADnz9lglMf/944df2a0821713280398f15a.mp3"
         },
         {
           "kind": "ACTION",
@@ -1037,7 +1084,9 @@
           "direction": "",
           "text_hu": "Nagyon bátor voltál.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "3c516a6e-20ad-5c70-a370-20c0382b55d5",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/9c2e94b20ff650df2e4ce570.mp3"
         },
         {
           "kind": "DIALOGUE",
@@ -1045,7 +1094,9 @@
           "direction": "",
           "text_hu": "Én közben féltem.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "513e043e-c5d5-5751-9787-58a8c45e6e11",
+          "audio_storage_key": "audio/tts/hu/gvuelryL3NskaN44p9vz/fe6a230c4e6d2868795076d3.mp3"
         },
         {
           "kind": "DIALOGUE",
@@ -1053,7 +1104,9 @@
           "direction": "",
           "text_hu": "Attól még bátor voltál.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "56c9b251-87bc-5c2c-96d2-6bdb58980379",
+          "audio_storage_key": "audio/tts/hu/tWNlc7uUtaorMxxrhH9s/01e0a88898032f4c08ee9a75.mp3"
         },
         {
           "kind": "ACTION",
@@ -1084,7 +1137,9 @@
           "direction": "",
           "text_hu": "Csak útban van. Arrébb tehetjük?",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "cd53ddc8-0cd1-5c4e-9613-2c7df219b8b6",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/e9e2cb3faad3b880a5521f51.mp3"
         },
         {
           "kind": "DIALOGUE",
@@ -1092,7 +1147,9 @@
           "direction": "",
           "text_hu": "Óvatosan. Ez is ide tartozik.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "36a562ad-6160-5c46-8f22-62fac899c321",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/d6e3983f91ac48dc6fb5f094.mp3"
         },
         {
           "kind": "ACTION",
@@ -1104,7 +1161,9 @@
           "direction": "",
           "text_hu": "Elég lesz nekünk is?",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "a719fa0a-8c3b-56e2-8ad4-f718c6072676",
+          "audio_storage_key": "audio/tts/hu/gvuelryL3NskaN44p9vz/c25ab26deab2f021229d611a.mp3"
         },
         {
           "kind": "DIALOGUE",
@@ -1112,7 +1171,9 @@
           "direction": "",
           "text_hu": "Van még nálam. A kert is kaphat.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "471f2a9b-389f-5f19-84f3-97d909229f31",
+          "audio_storage_key": "audio/tts/hu/tWNlc7uUtaorMxxrhH9s/e80087697051e591400f93ce.mp3"
         },
         {
           "kind": "ACTION",
@@ -1124,7 +1185,9 @@
           "direction": "",
           "text_hu": "Most a gyökér kap vizet. A levegő pedig kap utat.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "9ba962c2-276b-5245-8cd5-23d695eb9b90",
+          "audio_storage_key": "audio/tts/hu/8ik405hgdHADnz9lglMf/0686f20c1fba610bdd58b375.mp3"
         },
         {
           "kind": "ACTION",
@@ -1140,7 +1203,9 @@
           "direction": "",
           "text_hu": "Most már csak a három hang.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "3412d83c-0d82-50d9-b7ff-02fd13065e1a",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/553b9877100fa26f6f59cb0e.mp3"
         },
         {
           "kind": "DIALOGUE",
@@ -1148,7 +1213,9 @@
           "direction": "",
           "text_hu": "Igen. De ezúttal meghallgatjuk a kertet.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "97a800e1-d55f-52b3-bb7e-8128a65d0451",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/9b8aae163ad2c0b4fcfde3e3.mp3"
         }
       ],
       "director_shot_status": "NOT_YET_BLOCKED_IN_3D"
@@ -1171,7 +1238,9 @@
           "direction": "",
           "text_hu": "Ugyanaz a három fény, mint az erdőben.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "aac62198-9652-559d-811a-9bc8547e40c4",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/7406f7990efb6f55062beeac.mp3"
         },
         {
           "kind": "ACTION",
@@ -1183,7 +1252,9 @@
           "direction": "",
           "text_hu": "Kör, két pont, hullám. És utána semmi.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "9e35573c-e306-5155-943c-e7304024bc53",
+          "audio_storage_key": "audio/tts/hu/8ik405hgdHADnz9lglMf/8d7d2ba76266311202eeb991.mp3"
         },
         {
           "kind": "DIALOGUE",
@@ -1191,7 +1262,9 @@
           "direction": "",
           "text_hu": "A semmit is meg kell nyomni?",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "69edecc2-f6da-576b-a4e9-1d875f86cfa0",
+          "audio_storage_key": "audio/tts/hu/tWNlc7uUtaorMxxrhH9s/a38d3995e5508a6be76a639c.mp3"
         },
         {
           "kind": "DIALOGUE",
@@ -1199,7 +1272,9 @@
           "direction": "",
           "text_hu": "A semminél nem nyomunk. Várunk.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "f1dd89c2-4283-5baa-a1c5-4770f915c2b4",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/47ee443577ea6914662c2a20.mp3"
         },
         {
           "kind": "ACTION",
@@ -1211,7 +1286,9 @@
           "direction": "",
           "text_hu": "Mély. Magas. Középső. Szünet.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "e8c053e2-c61e-59f7-a061-5988b8a79bd0",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/884b51ce46a8ccf94dc72b43.mp3"
         },
         {
           "kind": "ACTION",
@@ -1223,7 +1300,9 @@
           "direction": "",
           "text_hu": "Ez még a szünet volt.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "3ac88256-1c44-5352-a032-cb1d16d4171b",
+          "audio_storage_key": "audio/tts/hu/tWNlc7uUtaorMxxrhH9s/3833bd96ca20167af8aa9060.mp3"
         },
         {
           "kind": "DIALOGUE",
@@ -1231,7 +1310,9 @@
           "direction": "",
           "text_hu": "Én figyelem a fényt. Szólok, amikor vége.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "38ca4798-272e-514c-9641-768f0eb14756",
+          "audio_storage_key": "audio/tts/hu/gvuelryL3NskaN44p9vz/ff6fe99635398d93f7f21ad7.mp3"
         },
         {
           "kind": "DIALOGUE",
@@ -1239,7 +1320,9 @@
           "direction": "",
           "text_hu": "Én a csöveket. Ha bármi rossz irányba indul, megállunk.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "861e8900-fb6e-53d4-9a7c-2c0bfa918ee1",
+          "audio_storage_key": "audio/tts/hu/8ik405hgdHADnz9lglMf/718ecd2fb3af109a4ae054ba.mp3"
         },
         {
           "kind": "DIALOGUE",
@@ -1247,7 +1330,9 @@
           "direction": "",
           "text_hu": "És én… most bevárok mindenkit.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "13330cc6-eb66-56bc-b189-afa0e69e9aec",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/cba5003a0ff9e9c824f604db.mp3"
         },
         {
           "kind": "ACTION",
@@ -1278,7 +1363,9 @@
           "direction": "",
           "text_hu": "Most!",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "b459671f-c801-5242-9447-e27687e3be33",
+          "audio_storage_key": "audio/tts/hu/gvuelryL3NskaN44p9vz/a2e7572b35f0ba094bdeae42.mp3"
         },
         {
           "kind": "ACTION",
@@ -1290,7 +1377,9 @@
           "direction": "",
           "text_hu": "Megcsináltuk!",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "02292cf7-2659-51f7-bc25-bdb628b9aec5",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/a82259e004c74e3bb71d935d.mp3"
         },
         {
           "kind": "ACTION",
@@ -1302,7 +1391,9 @@
           "direction": "",
           "text_hu": "A levegő most jó helyre megy. Csak még nem tud kijönni.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "65a30093-c1cc-50c2-9f9e-fa19723df8ef",
+          "audio_storage_key": "audio/tts/hu/8ik405hgdHADnz9lglMf/ad2989a33235844158152ddd.mp3"
         },
         {
           "kind": "DIALOGUE",
@@ -1310,7 +1401,9 @@
           "direction": "",
           "text_hu": "Akkor megnyitjuk az utat neki.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "5b1c80f7-57e2-5cd4-ab27-b21999f0577e",
+          "audio_storage_key": "audio/tts/hu/tWNlc7uUtaorMxxrhH9s/24ba54aaa3756642ecb06157.mp3"
         },
         {
           "kind": "ACTION",
@@ -1322,7 +1415,9 @@
           "direction": "",
           "text_hu": "Együtt maradunk. És nem visszük el a szilánkot, amíg meg nem nézzük, mit tart nyitva.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "56223298-0436-565c-ab61-f6a706247f82",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/b8295d1ef9bcec392de05b0d.mp3"
         },
         {
           "kind": "ACTION",
@@ -1334,7 +1429,9 @@
           "direction": "",
           "text_hu": "Itt leszünk. Ha változik a fény, szólok.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "4c11a870-0cb6-513f-89b7-8c2911f56517",
+          "audio_storage_key": "audio/tts/hu/gvuelryL3NskaN44p9vz/84559353030e32c7a3fa5a14.mp3"
         },
         {
           "kind": "ACTION",
@@ -1361,7 +1458,9 @@
           "direction": "",
           "text_hu": "Álljatok meg egy kicsit.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "8bb5238c-aebf-562f-95f9-4341cb5f7b7e",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/64c9bb2bdb8946b5236d59a5.mp3"
         },
         {
           "kind": "ACTION",
@@ -1373,7 +1472,9 @@
           "direction": "",
           "text_hu": "Ez volt az utolsó akadály. Most nem egyszerre erősebben kell. Hanem sorban újra.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "71b47e3e-f643-56ef-b31a-3bcd4dd35988",
+          "audio_storage_key": "audio/tts/hu/8ik405hgdHADnz9lglMf/7f9514a5be113308e17aee9d.mp3"
         },
         {
           "kind": "ACTION",
@@ -1385,7 +1486,9 @@
           "direction": "",
           "text_hu": "Köszönöm, hogy szóltál, Lili.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "67d12ae7-e8f2-5ed1-92ec-7f9c33a31c5a",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/a9a4197f632d049f9ef2dbb4.mp3"
         },
         {
           "kind": "DIALOGUE",
@@ -1393,7 +1496,9 @@
           "direction": "",
           "text_hu": "Köszönöm, hogy megálltatok.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "a0ae3697-0f8e-5de6-bbac-e230739ddb6e",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/d8505aaf07cd43e0d15049cb.mp3"
         },
         {
           "kind": "ACTION",
@@ -1413,7 +1518,9 @@
           "direction": "",
           "text_hu": "Most!",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "a53e5c58-b51f-5b06-b8a6-d3bd933980ef",
+          "audio_storage_key": "audio/tts/hu/gvuelryL3NskaN44p9vz/a2e7572b35f0ba094bdeae42.mp3"
         },
         {
           "kind": "ACTION",
@@ -1440,7 +1547,9 @@
           "direction": "",
           "text_hu": "Úgy látom, ez marad a mai frizurám.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "4d3b6367-69ec-5059-a821-7135139a7731",
+          "audio_storage_key": "audio/tts/hu/tWNlc7uUtaorMxxrhH9s/d9bf439f61ad1767c819a01c.mp3"
         },
         {
           "kind": "ACTION",
@@ -1452,7 +1561,9 @@
           "direction": "",
           "text_hu": "Ezt műszer nélkül is látom. Működik.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "99926520-6c22-5525-b6ae-02aa7ec4871d",
+          "audio_storage_key": "audio/tts/hu/8ik405hgdHADnz9lglMf/4c41ecd7fff6186b7b2f746f.mp3"
         },
         {
           "kind": "ACTION",
@@ -1464,7 +1575,9 @@
           "direction": "",
           "text_hu": "Olyan, mintha a kapuhoz tartozna.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "79e0b3f8-a01f-5075-97ee-737c5eaadbf2",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/7d36e2879091d77d781b0c15.mp3"
         },
         {
           "kind": "DIALOGUE",
@@ -1472,7 +1585,9 @@
           "direction": "",
           "text_hu": "És nem csak ehhez a kerthez.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "78cc3f49-e8bd-57fd-bc08-ecf2f11d82c0",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/051785246f0ee879a72c5b5f.mp3"
         },
         {
           "kind": "ACTION",
@@ -1484,7 +1599,9 @@
           "direction": "",
           "text_hu": "Hány darab lehet még?",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "b9f4b12e-ae6d-534e-8074-31f5d5f3a50f",
+          "audio_storage_key": "audio/tts/hu/gvuelryL3NskaN44p9vz/27547c15dcc833a5337e0d68.mp3"
         },
         {
           "kind": "DIALOGUE",
@@ -1492,7 +1609,9 @@
           "direction": "",
           "text_hu": "Ezt most még a mindenmérő sem tudná.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "2c5042b2-27c7-5789-b638-cdb73d17840d",
+          "audio_storage_key": "audio/tts/hu/8ik405hgdHADnz9lglMf/657bd1c9e5838c6fffe4064d.mp3"
         },
         {
           "kind": "ACTION",
@@ -1504,7 +1623,9 @@
           "direction": "",
           "text_hu": "Hat. Most biztos.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "a92c5bd8-ddb1-5e64-9051-1cfab1bce788",
+          "audio_storage_key": "audio/tts/hu/gvuelryL3NskaN44p9vz/b2ba15a18d5a5dcdaee210d2.mp3"
         },
         {
           "kind": "DIALOGUE",
@@ -1512,7 +1633,9 @@
           "direction": "",
           "text_hu": "Hazamegyünk. De ezt nem felejtjük el.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "fba4250d-7c5d-576c-93fb-e4b21120ef68",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/deb3850d90936dce407bdff5.mp3"
         }
       ],
       "director_shot_status": "NOT_YET_BLOCKED_IN_3D"
@@ -1535,7 +1658,9 @@
           "direction": "",
           "text_hu": "Most már köszöntünk, beszéltünk, és haza is jöttünk.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "24f1ab63-c1e2-5b8b-81de-1da5322ba8e1",
+          "audio_storage_key": "audio/tts/hu/gvuelryL3NskaN44p9vz/8e064b64ef73db81dfb80442.mp3"
         },
         {
           "kind": "DIALOGUE",
@@ -1543,7 +1668,9 @@
           "direction": "",
           "text_hu": "Akkor jöhet a túra másik fele.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "38889253-51e7-56a4-adad-782ec64e5497",
+          "audio_storage_key": "audio/tts/hu/tWNlc7uUtaorMxxrhH9s/3d6a8f8818fad05e8182b4af.mp3"
         },
         {
           "kind": "ACTION",
@@ -1555,7 +1682,9 @@
           "direction": "",
           "text_hu": "Majdnem úgy csináltam végig, mintha csak nekem lenne ötletem.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "3a8c4427-a2c2-5645-ba62-20a5eae5894e",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/035ec2c7d09e173beaba4f84.mp3"
         },
         {
           "kind": "DIALOGUE",
@@ -1563,7 +1692,9 @@
           "direction": "",
           "text_hu": "Pedig nekem nagyon sok ötletem van. Néha túl sok.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "02bb84bd-8e89-5095-a35c-ee7cc562c378",
+          "audio_storage_key": "audio/tts/hu/8ik405hgdHADnz9lglMf/5bb92002bd49c9d850145fc8.mp3"
         },
         {
           "kind": "DIALOGUE",
@@ -1571,7 +1702,9 @@
           "direction": "",
           "text_hu": "Nekünk ma pont hat kellett.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "89f36e19-0d54-504e-8083-74e66ce72c5f",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/af3f080a450fcd6ebd9ef152.mp3"
         },
         {
           "kind": "DIALOGUE",
@@ -1579,7 +1712,9 @@
           "direction": "",
           "text_hu": "Az enyém az volt, hogy féljek egy kicsit, aztán mégis bemenjek.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "c90094a3-97a0-5f14-bafd-fc223bdc754c",
+          "audio_storage_key": "audio/tts/hu/gvuelryL3NskaN44p9vz/4e9ee17ac51e430788424d5c.mp3"
         },
         {
           "kind": "DIALOGUE",
@@ -1587,7 +1722,9 @@
           "direction": "",
           "text_hu": "Az enyém, hogy ne essen le a fedél.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "df5a9b77-32ef-5694-8eba-cd95c99a0a4d",
+          "audio_storage_key": "audio/tts/hu/tWNlc7uUtaorMxxrhH9s/abca45385b1f86efa2e11462.mp3"
         },
         {
           "kind": "DIALOGUE",
@@ -1595,7 +1732,9 @@
           "direction": "",
           "text_hu": "Bogyóé meg, hogy mutassa az utat.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "80340fc7-c517-5440-977c-2918254b62b1",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/952ccde354a4fb0b7e48d2ca.mp3"
         },
         {
           "kind": "ACTION",
@@ -1626,7 +1765,9 @@
           "direction": "",
           "text_hu": "Lili…",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "92ad3c8c-3676-52c7-89be-ab090706e6d0",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/3e6e5e423a21f8939de314fc.mp3"
         },
         {
           "kind": "ACTION",
@@ -1638,7 +1779,9 @@
           "direction": "",
           "text_hu": "Láttam.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "13d0a321-d2ac-5dd0-b137-d79f91e0ef3e",
+          "audio_storage_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/2558f2d08c8780e12034635e.mp3"
         },
         {
           "kind": "DIALOGUE",
@@ -1646,7 +1789,9 @@
           "direction": "",
           "text_hu": "Ez tényleg csak az első darab.",
           "voice_id": null,
-          "recording_status": "NOT_RECORDED"
+          "recording_status": "RECORDED_DRAFT",
+          "recording_id": "3d93996b-7582-55f2-bee8-c1426f417a7f",
+          "audio_storage_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/d974b1b43b71a070e276cb1a.mp3"
         },
         {
           "kind": "ACTION",
@@ -1693,5 +1838,8 @@
   "draft_model_assets": {
     "CHAR_MARK": "assets/characters/CHAR_MARK/drafts/V005/d4a5478d00a164d7d76852f4afe1c3b27fba9dcec5d6e7d11fc2b74df23904ed.glb",
     "CHAR_LILI": "assets/characters/CHAR_LILI/drafts/V005/8dbf551e8f077be096d4d5fbcb7390b1bf59ba0ede08c118182a99cd9f983972.glb"
-  }
+  },
+  "audio_recordings_status": "ALL_131_RECORDED_DRAFT",
+  "audio_review_required": true,
+  "spoken_audio_duration_sec": 329.247352
 }

@@ -1,0 +1,43 @@
+{
+  "status": "SUBMITTED_NOT_COMPLETE",
+  "provider": "RunPod",
+  "model": "microsoft/TRELLIS.2-4B",
+  "reference_version": "V006",
+  "build_commit": "98bdc1045e2cd4a43eb5241d205dfe481388dcec",
+  "max_workers": 1,
+  "daily_budget_usd": 100,
+  "jobs": [
+    {
+      "character": "CHAR_MORZSI",
+      "job_id": "6f03d406-e055-49ee-8103-ef57978a8683-u2",
+      "reference_sha256": "da3d0a54d200d6eeeb6fbc633da2c7b1869f2131b000698736efb0d221303ede",
+      "budget_reservation_id": "85ae3f7b-ff65-4dd7-8a08-281a62158010",
+      "reserved_usd": 2,
+      "status": "IN_PROGRESS"
+    },
+    {
+      "character": "CHAR_POTTY",
+      "job_id": "701d6af5-6d99-40b4-b42c-4e3f7a89dd8a-u1",
+      "reference_sha256": "84b16513d98f58328ad77243b46561643fb6a09371065c3fb6143196ea75dbeb",
+      "budget_reservation_id": "85ae3f7b-ff65-4dd7-8a08-281a62158011",
+      "reserved_usd": 2,
+      "status": "IN_QUEUE"
+    },
+    {
+      "character": "CHAR_BOGYO",
+      "job_id": "42bc56ce-f20f-4d2d-8552-e8d5970f7158-u1",
+      "reference_sha256": "4ad6663bbda8b201fd703eadef7e3f63e7c2dfc408b69efdf5e10475942f2c1c",
+      "budget_reservation_id": "85ae3f7b-ff65-4dd7-8a08-281a62158012",
+      "reserved_usd": 2,
+      "status": "IN_QUEUE"
+    },
+    {
+      "character": "CHAR_ZIZI",
+      "job_id": "6eb235f1-dd3d-4b58-94df-757ec4be6d07-u1",
+      "reference_sha256": "561fabd62aa3a32f34fbd98723da0c011824dda29335e27fdde1c15aa13a7ba9",
+      "budget_reservation_id": "85ae3f7b-ff65-4dd7-8a08-281a62158013",
+      "reserved_usd": 2,
+      "status": "IN_QUEUE"
+    }
+  ]
+}
