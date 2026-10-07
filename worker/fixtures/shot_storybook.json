@@ -4,7 +4,7 @@
   "episode_id": "22222222-2222-4222-8222-222222222222",
   "scene_id": "33333333-3333-4333-8333-333333333333",
   "shot_number": 1,
-  "revision": 2,
+  "revision": 4,
   "status": "READY_FOR_PREVIEW",
   "duration_sec": 3,
   "location": {
@@ -98,13 +98,13 @@
     "output_state_id": null
   },
   "render": {
-    "engine": "BLENDER_CYCLES",
+    "engine": "BLENDER_EEVEE",
     "width": 640,
     "height": 360,
     "fps": 24,
     "quality": "PREVIEW",
     "priority": 50,
-    "visual_style": "STORYBOOK_DRAFT_V002"
+    "visual_style": "STORYBOOK_DRAFT_V003"
   },
   "qc": {
     "profile": "DEFAULT",

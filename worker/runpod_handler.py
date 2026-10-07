@@ -48,7 +48,7 @@ def handler(event):
         elapsed = time.monotonic() - started
         return {"status": "SUCCEEDED", "output": key, "frames": rendered["frames"],
                 "durationSec": shot["duration_sec"], "renderSec": rendered["render_sec"],
-                "gpuSec": elapsed, "renderer": "blender-storybook-draft-v002" if shot["render"].get("visual_style") == "STORYBOOK_DRAFT_V002" else "blender-proxy", "error": None}
+                "gpuSec": elapsed, "renderer": shot["render"]["visual_style"].lower().replace("storybook_", "blender-storybook-").replace("_", "-") if shot["render"].get("visual_style") in ("STORYBOOK_DRAFT_V002", "STORYBOOK_DRAFT_V003") else "blender-proxy", "error": None}
 
 
 if __name__ == "__main__":

@@ -38,8 +38,17 @@ def eyes(head,z=.05,width=.19,y=-.35):
         ell('catchlight',(-.02,-.095,.026),(.018,.008,.022),white,lid)
     return lids
 
-def character(code,location):
-    root=pivot(code+'_DRAFT_V002',location)
+def pointed_ear(name,x,material,parent,inset=False):
+    w=.075 if inset else .14;bottom=.26 if inset else .19;top=.53 if inset else .62
+    y=-.025 if inset else 0;depth=.012 if inset else .12
+    verts=[(x-w,y,bottom),(x+w,y,bottom),(x+(.025 if x>0 else -.025),y,top),(x-w,y+depth,bottom),(x+w,y+depth,bottom),(x+(.025 if x>0 else -.025),y+depth,top)]
+    mesh=bpy.data.meshes.new(name);mesh.from_pydata(verts,[],[(0,1,2),(3,5,4),(0,3,4,1),(1,4,5,2),(2,5,3,0)]);mesh.update()
+    o=bpy.data.objects.new(name,mesh);bpy.context.collection.objects.link(o);o.parent=parent;o.data.materials.append(material)
+    bevel=o.modifiers.new('soft ear edges','BEVEL');bevel.width=.015 if inset else .035;bevel.segments=3
+    return o
+
+def character(code,location,version='V002'):
+    root=pivot(code+'_DRAFT_'+version,location)
     skin=mat('skin',(.77,.44,.26));red=mat('hoodie',(.65,.045,.048));hair=mat('hair',(.13,.052,.024));blue=mat('denim',(.055,.15,.25));cream=mat('cream',(.95,.83,.63));dark=mat('nose',(.035,.025,.025),.25)
     limbs=[];lids=[];tail=None
     if code=='CHAR_MARK':
@@ -82,13 +91,21 @@ def character(code,location):
         head=pivot('head',(0,-.015,1.20),root)
         ell('head',(0,0,0),(.37,.29,.33),fur,head)
         if raccoon:ell('mask',(0,-.245,.025),(.32,.075,.14),dark,head)
-        for x in [-.245,.245]:
-            ear=ell('ear',(x,.01,.31 if fox else .28),(.13,.11,.26 if fox else (.43 if rabbit else .13)),fur,head)
-            ear.rotation_euler.y= -.22 if x<0 else .22
-            ell('ear inset',(x,-.085,.35 if fox else .30),(.069,.025,.15 if fox else (.29 if rabbit else .07)),mat('ear pink',(.68,.30,.24)),head)
-        ell('muzzle left',(-.105,-.26,-.115),(.17,.13,.13),cream,head);ell('muzzle right',(.105,-.26,-.115),(.17,.13,.13),cream,head)
-        ell('nose',(0,-.382,-.065),(.064,.041,.045),dark,head)
-        line('smile',[(-.10,-.37,-.145),(0,-.39,-.18),(.10,-.37,-.145)],.011,dark,head)
+        if fox and version=='V003':
+            for x in [-.245,.245]:
+                pointed_ear('fox ear',x,fur,head)
+                pointed_ear('ear inset',x,mat('ear pink',(.68,.30,.24)),head,inset=True)
+            ell('fox muzzle',(0,-.31,-.115),(.19,.185,.12),cream,head)
+            ell('nose',(0,-.476,-.09),(.065,.04,.045),dark,head)
+            line('smile',[(-.10,-.40,-.15),(0,-.445,-.18),(.10,-.40,-.15)],.011,dark,head)
+        else:
+            for x in [-.245,.245]:
+                ear=ell('ear',(x,.01,.31 if fox else .28),(.13,.11,.26 if fox else (.43 if rabbit else .13)),fur,head)
+                ear.rotation_euler.y= -.22 if x<0 else .22
+                ell('ear inset',(x,-.085,.35 if fox else .30),(.069,.025,.15 if fox else (.29 if rabbit else .07)),mat('ear pink',(.68,.30,.24)),head)
+            ell('muzzle left',(-.105,-.26,-.115),(.17,.13,.13),cream,head);ell('muzzle right',(.105,-.26,-.115),(.17,.13,.13),cream,head)
+            ell('nose',(0,-.382,-.065),(.064,.041,.045),dark,head)
+            line('smile',[(-.10,-.37,-.145),(0,-.39,-.18),(.10,-.37,-.145)],.011,dark,head)
         lids=eyes(head,z=.055,width=.17,y=-.263)
         tail=pivot('tail',(.20,.16,.48),root)
         t=ell('tail',( .20,.34,.12),(.18,.43,.19),fur,tail);t.rotation_euler.z=-.55
@@ -97,8 +114,8 @@ def character(code,location):
             for x in [-.17,.17]:line('spectacles',[(x+.14*math.cos(a),-.36,.055+.15*math.sin(a)) for a in [i*math.tau/16 for i in range(17)]],.012,mat('brass',(.55,.31,.08)),head)
     return root,limbs,lids,tail
 
-def load_master(code,location):
-    path=os.path.join(os.path.dirname(__file__),'assets',code+'_DRAFT_V002.blend')
+def load_master(code,location,version):
+    path=os.path.join(os.path.dirname(__file__),'assets',code+'_DRAFT_'+version+'.blend')
     if not os.path.isfile(path):
         raise RuntimeError('Packaged draft master is missing: '+code)
     with bpy.data.libraries.load(path,link=False) as (source,target):
@@ -112,7 +129,7 @@ def load_master(code,location):
     tail=next((o for o in objects if o.name.split('.')[0]=='tail' and o.type=='EMPTY'),None)
     return root,limbs,lids,tail
 
-def forest():
+def forest(version):
     rng=random.Random(1978)
     ground=mat('moss',(.16,.32,.10));bark=mat('bark',(.20,.105,.045));path=mat('ochre path',(.57,.35,.16));stone=mat('stone',(.30,.36,.31))
     ell('forest floor',(0,1,-.52),(18,18,.52),ground)
@@ -125,6 +142,10 @@ def forest():
         for j in range(3):
             ell('leaf canopy',(x+rng.uniform(-.7,.7),y+rng.uniform(-.3,.3),h+rng.uniform(-.2,.5)),(1.2,1.0,.95),mat('leaves'+str(i%4),[(.18,.38,.09),(.26,.46,.11),(.10,.29,.12),(.38,.50,.12)][i%4]))
         for j in range(2):line('branch',[(x,y,h*.55),(x+(-1 if j else 1)*.65,y,h*.82)],.065,bark)
+    if version=='V003':
+        for i in range(24):
+            x=-12+i; y=7+rng.uniform(-1,1)
+            ell('distant undergrowth',(x,y,.65),(.85,.65,.85),mat('fern shade',(.10,.25,.12)))
     for i in range(85):
         x=rng.uniform(-7,7);y=rng.uniform(-3,7)
         if abs(x-.4*math.sin(y*.5))<1.35:continue
@@ -150,16 +171,19 @@ def render(shot,out_dir):
         raise ValueError("Storybook draft currently supports Márk and Lili only")
     bpy.ops.wm.read_factory_settings(use_empty=True);PALETTE.clear();sc=bpy.context.scene
     sc.render.threads_mode='FIXED';sc.render.threads=2
-    sc.render.engine='CYCLES';sc.cycles.samples=12;sc.cycles.use_denoising=True;sc.cycles.max_bounces=3;sc.render.use_persistent_data=True
+    sc.render.engine='CYCLES';sc.cycles.samples=8;sc.cycles.use_denoising=True;sc.cycles.max_bounces=3;sc.render.use_persistent_data=True
+    if shot['render'].get('engine') == 'BLENDER_EEVEE':
+        sc.render.engine='BLENDER_EEVEE_NEXT';sc.eevee.taa_render_samples=16;sc.eevee.use_fast_gi=True
     sc.render.resolution_x=min(shot['render']['width'],768);sc.render.resolution_y=min(shot['render']['height'],432);sc.render.resolution_percentage=100
     fps=shot['render']['fps'];sc.render.fps=fps;frames=max(2,round(shot['duration_sec']*fps))
-    forest()
+    version='V003' if shot['render'].get('visual_style')=='STORYBOOK_DRAFT_V003' else 'V002'
+    forest(version)
     for pr in shot.get('props',[]):
         p=pr.get('position',[0,0,0]);glowing=pr.get('state') in ('GLOWING','ACTIVE')
         bpy.ops.mesh.primitive_ico_sphere_add(subdivisions=1,radius=.13,location=(p[0],p[2],p[1]+.13))
         o=bpy.context.object;o.name=pr.get('asset_id','prop');o.data.materials.append(mat('star fragment',(1,.64,.14),emission=2 if glowing else 0))
     for ch in shot['characters']:
-        p=ch.get('position',[0,0,0]);root,limbs,lids,tail=load_master(ch['asset_id'].split('_V')[0],(p[0],p[2],p[1]))
+        p=ch.get('position',[0,0,0]);root,limbs,lids,tail=load_master(ch['asset_id'].split('_V')[0],(p[0],p[2],p[1]),version)
         walk=(ch.get('animation_code','').startswith(('walk','run')))
         head=next(o for o in root.children if o.name.split('.')[0]=='head')
         for f in range(1,frames+1):
