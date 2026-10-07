@@ -1,0 +1,53 @@
+WONDERLY TALES / CSODAKAPU – JÓVÁHAGYOTT LÁTVÁNYIRÁNY
+Dátum: 2026. október 7.
+Referencia-verzió: V004
+
+A felhasználó jóváhagyta az approved_keyframe.png képen látható filmes látványt.
+Ez rögzített cél: Márk arca, barna haja és szeme, piros kapucnis felsője;
+Lili rókára jellemző arca, fülei, szőrzete és fehér farkvége;
+a részletes erdő, az ősi kapu, a meleg napfény és a csillagszilánk.
+
+ELKÉSZÜLT
+- A jóváhagyott közös jelenet.
+- Márk modellezési referenciája elölről, oldalról és hátulról, arcközeli nézettel.
+- Lili modellezési referenciája több nézetből, arcközeli nézettel.
+- Márk külön modellbemenete átlátszó háttérrel.
+- Verziózott, ellenőrzőösszeggel rögzített referenciák a projekt tárhelyén.
+- Egyszeri 3D hálógenerálást indító, referencia-ellenőrzést végző szerzői script.
+
+PONTOS STÁTUSZ
+A képek AI-generált modellezési referenciák. Nem kész 3D master assetek.
+A származtatott referenciák DRAFT státuszúak; a közös jelenet látványiránya jóváhagyott.
+Márk 3D generálására a tesztszolgáltatás eredményt jelzett, de a GLB exportot
+ZeroGPU-kvóta blokkolta. Letölthető GLB és ellenőrzött geometria nem készült.
+Lili külön átlátszó modellbemenetét a képgeneráló két próbánál blokkolta;
+a többnézetes lapja elkészült.
+Új videó nem készült. A korábbi procedurális próbafigurák nem a jóváhagyott design.
+
+A FOLYTATÁS KONKRÉT AKADÁLYA
+A tesztplatform exportjához több, hitelesített GPU-kvóta szükséges.
+A saját GPU-s TRELLIS.2 rendszer DINOv3 képfeldolgozó modellje hozzáféréshez kötött;
+a jogosultság nélküli letöltés 401 hibát adott.
+Szükséges: engedélyezett Hugging Face-modellhozzáférés és biztonságosan beállított HF_TOKEN.
+Modelloldal: https://huggingface.co/facebook/dinov3-vitl16-pretrain-lvd1689m
+A tokent nem szabad beleírni ebbe a csomagba, gitbe, promptba vagy nyilvános fájlba.
+
+3D GYÁRTÁSI FELADATOK A HOZZÁFÉRÉS UTÁN
+1. Egyszeri, részletes, textúrázott karakterhálók létrehozása a fix referenciákból.
+2. Arc, profil, hát, kéz, láb és róka-anatómia ellenőrzése; szükséges javítások.
+3. Animálható topológia, test- és arcvezérlés, szemek, szájformák, haj és szőr kialakítása.
+4. A visszatérő erdei tisztás és Csodakapu rögzített 3D környezetének elkészítése.
+5. Rövid mozgáspróba: súlypontváltás, tekintet, gesztus, mimika és karakterek kapcsolata.
+6. Jóváhagyás után lezárt master verziók; ugyanazok újrafelhasználása minden shotban.
+
+TILOS A MINŐSÉGI CÉL HELYETT
+- A korábbi gömbökből és egyszerű testekből épített figurát kész karakternek nevezni.
+- Egy generált képet 3D modellként vagy kész animációként bemutatni.
+- A főszereplőket jelenetenként képből-videóval újragenerálni.
+- A hozzáférési hiba ellenére kész videót vagy folyamatos háttérmunkát ígérni.
+
+KÉPKÉSZÍTÉS
+A beépített képgeneráló készült az eredeti jóváhagyott jelenet referenciájával.
+Promptcélok: fix identitás; modellezéshez három nézet; szürke stúdióháttér;
+Márk külön A-pózos, átlátszó hátterű modellbemenete.
+A részletes képazonosítók, státuszok és SHA-256 értékek a manifest.json fájlban vannak.

@@ -9,3 +9,9 @@ data/
 *.log
 .DS_Store
 coverage/
+
+# Binary authoring inputs are versioned in R2; runtime meshes remain draft.
+production/references/**/*.png
+production/meshes/
+__pycache__/
+*.pyc
