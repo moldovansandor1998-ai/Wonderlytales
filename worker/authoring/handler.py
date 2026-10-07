@@ -11,6 +11,25 @@ PIPELINE = None
 MANIFEST = Path('/opt/wonderly/manifest.json')
 
 
+def check_model_access():
+    import requests
+    token = os.environ.get('HF_TOKEN')
+    if not token:
+        return {'status': 'BLOCKED', 'error': 'HF_TOKEN_MISSING'}
+    headers = {'Authorization': 'Bearer ' + token}
+    probes = {
+        'identity': 'https://huggingface.co/api/whoami-v2',
+        'trellis2': 'https://huggingface.co/microsoft/TRELLIS.2-4B/resolve/main/pipeline.json',
+        'dinov3': 'https://huggingface.co/facebook/dinov3-vitl16-pretrain-lvd1689m/resolve/main/config.json',
+    }
+    codes = {}
+    for name, url in probes.items():
+        with requests.get(url, headers=headers, timeout=30, stream=True) as response:
+            codes[name] = response.status_code
+    return {'status': 'VERIFIED' if all(v == 200 for v in codes.values()) else 'BLOCKED',
+            'http_status': codes}
+
+
 def checked_reference(payload, manifest):
     character = payload.get('character')
     reference = next((a for a in manifest['assets'] if a['id'] == f'{character}_mesh_input'), None)
@@ -47,6 +66,8 @@ def inspect_glb(path):
 def author(event):
     global PIPELINE
     payload = event.get('input', {})
+    if payload.get('operation') == 'CHECK_MODEL_ACCESS':
+        return check_model_access()
     if payload.get('operation') != 'AUTHOR_CHARACTER_MESH':
         raise ValueError('Unsupported operation')
     required = ['HF_TOKEN', 'S3_ENDPOINT', 'S3_BUCKET', 'S3_ACCESS_KEY_ID', 'S3_SECRET_ACCESS_KEY']
@@ -65,7 +86,14 @@ def author(event):
     started = time.monotonic()
     with tempfile.TemporaryDirectory(prefix='wonderly-mesh-') as tmp:
         image_path = Path(tmp) / 'reference.png'
-        client.download_file(os.environ['S3_BUCKET'], reference['storage_key'], str(image_path))
+        if reference.get('packaged_file'):
+            # Only a fixed manifest asset, never a user-supplied path or URL.
+            source = MANIFEST.parent / reference['packaged_file']
+            if source.parent.resolve() != MANIFEST.parent.resolve():
+                raise ValueError('Invalid packaged reference path')
+            image_path.write_bytes(source.read_bytes())
+        else:
+            client.download_file(os.environ['S3_BUCKET'], reference['storage_key'], str(image_path))
         raw = image_path.read_bytes()
         if len(raw) != reference['bytes'] or hashlib.sha256(raw).hexdigest() != reference['sha256']:
             raise ValueError('Stored reference checksum mismatch')
@@ -107,8 +135,16 @@ def handler(event):
         return author(event)
     except Exception as error:
         # No credential values, provider response bodies or signed URLs in logs/output.
-        print(f'Authoring failed: {type(error).__name__}', flush=True)
-        return {'status': 'FAILED', 'error': 'AUTHORING_FAILED', 'mesh_created': False}
+        response = getattr(error, 'response', None)
+        status = getattr(response, 'status_code', None)
+        # Record only allowlisted repository identifiers and status, no URL/query/body.
+        url = getattr(response, 'url', '')
+        repository = next((repo for repo in ('microsoft/TRELLIS.2-4B',
+            'microsoft/TRELLIS-image-large', 'facebook/dinov3-vitl16-pretrain-lvd1689m',
+            'briaai/RMBG-2.0') if 'huggingface.co/' + repo + '/' in url), None)
+        print(f'Authoring failed: {type(error).__name__}, HTTP {status}, repository {repository}', flush=True)
+        return {'status': 'FAILED', 'error': 'AUTHORING_FAILED', 'mesh_created': False,
+                'error_type': type(error).__name__, 'http_status': status, 'repository': repository}
 
 
 if __name__ == '__main__':

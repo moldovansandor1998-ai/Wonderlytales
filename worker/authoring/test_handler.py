@@ -25,6 +25,19 @@ class AuthoringContract(unittest.TestCase):
     def test_unavailable_character_cannot_be_fabricated(self):
         p = self.payload(); p['character'] = 'CHAR_LILI'
         with self.assertRaises(ValueError): handler.checked_reference(p, manifest)
+    def test_lili_versioned_input_checksum(self):
+        folder = Path(__file__).parents[2] / 'production/references/V005'
+        v5 = json.loads((folder / 'manifest.json').read_text())
+        reference = next(a for a in v5['assets'] if a['id'] == 'CHAR_LILI_mesh_input')
+        import hashlib
+        raw = (folder / reference['packaged_file']).read_bytes()
+        self.assertEqual(hashlib.sha256(raw).hexdigest(), reference['sha256'])
+        self.assertEqual(len(raw), reference['bytes'])
+        p = {'character': 'CHAR_LILI', 'reference_version': 'V005',
+             'reference_sha256': reference['sha256']}
+        self.assertEqual(handler.checked_reference(p, v5)[0], 'CHAR_LILI')
+        p['reference_version'] = 'V004'
+        with self.assertRaises(ValueError): handler.checked_reference(p, v5)
     def test_glb_requires_geometry(self):
         raw = json.dumps({'asset': {'version': '2.0'}}).encode()
         raw += b' ' * (-len(raw)%4)

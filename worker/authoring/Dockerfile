@@ -26,7 +26,8 @@ RUN git clone --recursive https://github.com/JeffreyXiang/FlexGEMM.git /opt/Flex
 WORKDIR /opt/wonderly
 COPY worker/authoring/handler.py /opt/wonderly/handler.py
 COPY runpod_authoring.py /opt/wonderly/runpod_authoring.py
-COPY production/references/V004/manifest.json /opt/wonderly/manifest.json
+COPY production/references/V005/manifest.json /opt/wonderly/manifest.json
+COPY production/references/V005/CHAR_LILI_mesh_input.png /opt/wonderly/CHAR_LILI_mesh_input.png
 RUN python -m py_compile handler.py runpod_authoring.py
 # No token or model weights in the image. GPU work begins only on an explicit job.
 CMD ["python", "-u", "/opt/wonderly/runpod_authoring.py"]
