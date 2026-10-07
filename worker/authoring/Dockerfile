@@ -25,7 +25,8 @@ RUN git clone --recursive https://github.com/JeffreyXiang/FlexGEMM.git /opt/Flex
     && pip install /opt/trellis2/o-voxel --no-build-isolation
 WORKDIR /opt/wonderly
 COPY worker/authoring/handler.py /opt/wonderly/handler.py
+COPY runpod_authoring.py /opt/wonderly/runpod_authoring.py
 COPY production/references/V004/manifest.json /opt/wonderly/manifest.json
-RUN python -m py_compile handler.py
+RUN python -m py_compile handler.py runpod_authoring.py
 # No token or model weights in the image. GPU work begins only on an explicit job.
-CMD ["python", "-u", "/opt/wonderly/handler.py"]
+CMD ["python", "-u", "/opt/wonderly/runpod_authoring.py"]
