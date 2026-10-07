@@ -3,7 +3,7 @@ import { useState, type FormEvent } from "react";
 import { createBrowserClient } from "@supabase/ssr";
 import { authErrorMessage } from "@/lib/auth-navigation";
 
-export default function PasswordForm() {
+export default function PasswordForm({ embedded = false }: { embedded?: boolean }) {
   const [password, setPassword] = useState("");
   const [confirmation, setConfirmation] = useState("");
   const [busy, setBusy] = useState(false);
@@ -23,10 +23,10 @@ export default function PasswordForm() {
     } catch (error) { setMessage(authErrorMessage(error)); }
     finally { setBusy(false); }
   }
-  return <main className="min-h-screen flex items-center justify-center p-4">
-    <div className="w-full max-w-sm rounded-lg border border-zinc-800 bg-zinc-900/60 p-6">
+  return <section className={embedded ? "" : "min-h-screen flex items-center justify-center p-4"}>
+    <div className={embedded ? "w-full max-w-sm" : "w-full max-w-sm rounded-lg border border-zinc-800 bg-zinc-900/60 p-6"}>
       <h1 className="text-xl font-bold">Új Studio-jelszó</h1>
-      <p className="text-sm text-zinc-400 mt-1 mb-6">Állíts be jelszót a Wonderly Tales-fiókodhoz.</p>
+      <p className="text-sm text-zinc-400 mt-1 mb-6">A bejelentkezett fiókodhoz állíthatsz be új jelszót. A régi jelszót nem kell megadnod.</p>
       {message && <p role="status" aria-live="polite" className="text-sm text-amber-300 mb-4">{message}</p>}
       {saved ? <a href="/" className="block text-center rounded bg-amber-500 text-zinc-950 p-3">Tovább a stúdióba</a> :
         <form onSubmit={submit}>
@@ -37,5 +37,5 @@ export default function PasswordForm() {
           <button disabled={busy} className="w-full min-h-[44px] rounded bg-amber-500 text-zinc-950 font-semibold">{busy ? "Mentés…" : "Új jelszó mentése"}</button>
         </form>}
     </div>
-  </main>;
+  </section>;
 }
