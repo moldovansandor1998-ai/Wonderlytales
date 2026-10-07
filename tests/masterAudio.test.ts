@@ -15,6 +15,15 @@ function fixture() {
   return {rows,db,stored,storage,tts};
 }
 describe('Hungarian master recordings',()=>{
+  it('replaces unsupported V2 recordings instead of considering them complete',async()=>{
+    const f=fixture();
+    const legacy = 'audio/tts/hu/Voice123/legacy-v2.mp3';
+    f.rows.dialogue_lines[0].audio_path=legacy; f.stored.add(legacy);
+    await masterAudioBatch(f.db,'ep',1,f);
+    expect(f.tts.synthesize.mock.calls[0][1].model).toBe('eleven_flash_v2_5');
+    expect(f.rows.dialogue_lines[0].audio_path).not.toBe(legacy);
+    expect(f.stored.has(legacy)).toBe(true);
+  });
   it('persists bytes before marking the line and resumes without paid regeneration',async()=>{
     const f=fixture();
     expect(await masterAudioBatch(f.db,'ep',3,f)).toEqual({completed:1,total:1,done:true});

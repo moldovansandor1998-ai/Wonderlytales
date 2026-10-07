@@ -1,3 +1,4 @@
+import { resolveTtsModel } from "@/lib/providers/tts";
 import { getDb } from "@/lib/db";
 import { PageTitle, Table, Badge, Card, SubmitButton } from "@/components/ui";
 import type { Voice, Character } from "@/lib/types";
@@ -13,7 +14,7 @@ export default async function VoicesPage() {
     <Table head={["Karakter","Nyelv","Provider","Voice ID","Model","Stability/Style","Műveletek"]}>
       {voices.map((v) => (<tr key={v.id}>
         <td>{nameOf(v.character_id)}</td><td><Badge text={v.language.toUpperCase()} tone="blue" /></td>
-        <td>{v.provider}</td><td className="font-mono text-xs">{v.voice_id}</td><td>{v.model}</td>
+        <td>{v.provider}</td><td className="font-mono text-xs">{v.voice_id}</td><td>{resolveTtsModel({ language: v.language, voiceId: v.voice_id, model: v.model })}</td>
         <td>{v.stability} / {v.style}</td>
         <td className="whitespace-nowrap">
           <details className="inline-block mr-2"><summary className="cursor-pointer text-xs text-zinc-400 hover:text-white">szerkesztés</summary>
@@ -21,7 +22,7 @@ export default async function VoicesPage() {
               <div><label>Nyelv</label><input name="language" defaultValue={v.language} /></div>
               <div><label>Provider</label><select name="provider" defaultValue={v.provider}><option>mock</option><option>elevenlabs</option></select></div>
               <div><label>Voice ID</label><input name="voice_id" defaultValue={v.voice_id} /></div>
-              <div><label>Model</label><input name="model" defaultValue={v.model} /></div>
+              <div><label>Model</label><input name="model" defaultValue={resolveTtsModel({ language: v.language, voiceId: v.voice_id, model: v.model })} /></div>
               <div><label>Stability</label><input name="stability" type="number" step="0.05" defaultValue={v.stability} /></div>
               <div><label>Style</label><input name="style" type="number" step="0.05" defaultValue={v.style} /></div>
               <div className="col-span-2"><SubmitButton label="Mentés" /></div>
@@ -35,7 +36,7 @@ export default async function VoicesPage() {
         <div><label>Nyelv</label><input name="language" defaultValue="en" /></div>
         <div><label>Provider</label><select name="provider"><option>mock</option><option>elevenlabs</option></select></div>
         <div><label>Voice ID</label><input name="voice_id" required /></div>
-        <div><label>Model</label><input name="model" defaultValue="eleven_multilingual_v2" /></div>
+        <div><label>Model</label><input name="model" defaultValue="eleven_flash_v2_5" /></div>
         <div><label>Stability</label><input name="stability" type="number" step="0.05" defaultValue="0.5" /></div>
         <div><SubmitButton label="Létrehozás" /></div>
       </form></Card>

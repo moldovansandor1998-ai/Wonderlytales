@@ -9,8 +9,15 @@ export interface TtsResult { path: string; durationSec: number; provider: string
 export interface TtsConfig { language: string; voiceId: string; model?: string; stability?: number; style?: number; budgetService?: "tts" | "tts_dialogue"; }
 export interface TtsProvider { name: string; synthesize(text: string, cfg: TtsConfig): Promise<TtsResult>; }
 
+/** Legacy Hungarian V2 settings must never reuse unsupported-language audio. */
+export function resolveTtsModel(cfg: TtsConfig): string {
+  const model = cfg.model ?? "eleven_multilingual_v2";
+  if (cfg.language === "hu" && model === "eleven_multilingual_v2") return "eleven_flash_v2_5";
+  return model;
+}
+
 export function ttsCacheKey(text: string, cfg: TtsConfig): string {
-  return createHash("sha256").update(JSON.stringify([text, cfg.voiceId, cfg.model, cfg.language, cfg.stability, cfg.style])).digest("hex").slice(0, 24);
+  return createHash("sha256").update(JSON.stringify([text, cfg.voiceId, resolveTtsModel(cfg), cfg.language, cfg.stability, cfg.style])).digest("hex").slice(0, 24);
 }
 
 export class MockTts implements TtsProvider {
@@ -26,13 +33,18 @@ export class ElevenLabsTts implements TtsProvider {
 
   async synthesize(text: string, cfg: TtsConfig): Promise<TtsResult> {
     const limit = cfg.budgetService === "tts_dialogue" ? 250 : 1000;
-    if (!text.trim() || text.length > limit || (cfg.model && cfg.model !== "eleven_multilingual_v2")) {
-      throw new Error(`ElevenLabs: Multilingual V2 szöveg szükséges, legfeljebb ${limit} karakter.`);
+    const model = resolveTtsModel(cfg);
+    if (!["eleven_multilingual_v2", "eleven_flash_v2_5", "eleven_v3"].includes(model)) {
+      throw new Error("ElevenLabs: nem támogatott beszédmodell.");
+    }
+    if (!text.trim() || text.length > limit) {
+      throw new Error(`ElevenLabs: szöveg szükséges, legfeljebb ${limit} karakter.`);
     }
     if (!/^[a-zA-Z0-9]+$/.test(cfg.voiceId)) throw new Error("Érvénytelen hangazonosító");
     const url = `${this.baseUrl}/text-to-speech/${cfg.voiceId}?output_format=mp3_44100_128`;
     const body = JSON.stringify({
-      text, model_id: cfg.model ?? "eleven_multilingual_v2",
+      text, model_id: model,
+      ...(model !== "eleven_multilingual_v2" ? { language_code: cfg.language } : {}),
       voice_settings: { stability: cfg.stability ?? 0.5, style: cfg.style ?? 0, use_speaker_boost: true },
     });
     let lastErr = "";

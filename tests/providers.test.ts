@@ -24,7 +24,14 @@ describe("TTS", () => {
     const audio = Buffer.concat([Buffer.alloc(2048, 7)]);
     const srv: Server = createServer((req, res) => {
       expect(req.headers["xi-api-key"]).toBe("test-key");
-      res.writeHead(200, { "Content-Type": "audio/mpeg" }); res.end(audio);
+      let body = "";
+      req.on("data", chunk => body += chunk);
+      req.on("end", () => {
+        const payload = JSON.parse(body);
+        expect(payload.model_id).toBe("eleven_flash_v2_5");
+        expect(payload.language_code).toBe("hu");
+        res.writeHead(200, { "Content-Type": "audio/mpeg" }); res.end(audio);
+      });
     });
     await new Promise<void>((r) => srv.listen(0, r));
     const port = (srv.address() as { port: number }).port;
