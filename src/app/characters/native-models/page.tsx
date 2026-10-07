@@ -14,7 +14,7 @@ export default async function NativeModelReview() {
       const version = versions?.find(v => v.character_id === character?.id && v.version === expected);
       return <section key={code} className="border border-zinc-800 rounded-lg p-4 my-3">
         <h2 className="font-semibold">{character?.name ?? code}</h2>
-        {version?.model_asset_id ? <a className="text-amber-400" href={`/api/authoring/draft/${code}`}>Textúrázott 3D-draft letöltése ({expected}, GLB)</a> : <p>Natív 3D-draft még nincs rögzítve.</p>}
+        {version?.model_asset_id ? <><a className="text-amber-400" href={`/api/authoring/draft/${code}`}>Textúrázott 3D-draft letöltése ({expected}, GLB)</a><a className="text-amber-400 block mt-2" href={`/api/authoring/draft/${code}?format=gzip`}>Tömörített 3D-draft letöltése (GLB.gz)</a></> : <p>Natív 3D-draft még nincs rögzítve.</p>}
       </section>;
     })}</>;
 }
