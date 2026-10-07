@@ -1,0 +1,664 @@
+{
+  "total": 131,
+  "matched": 115,
+  "flagged": 16,
+  "method": "Studio scribe_v2, no language hint",
+  "production_approved": false,
+  "rows": [
+    {
+      "audio_path": "/api/dialogue/0b4fdc91-8abb-5fe5-b580-e3df1366c953/audio",
+      "index": 0,
+      "text": "Márk: Hallod? Ropogós az egész erdő.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Hallod? Ropogós az egész erdő"
+    },
+    {
+      "audio_path": "/api/dialogue/91110003-0776-5f27-a63e-dae2a57ca5ad/audio",
+      "index": 1,
+      "text": "Lili: Igen. Főleg az a része, amelyiken te mész.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Igen, főleg az a része, amelyiken te mész"
+    },
+    {
+      "audio_path": "/api/dialogue/2b64d328-61f2-5379-b56b-0195a2c7b536/audio",
+      "index": 2,
+      "text": "Márk: Ezt nem én csináltam.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Ezt nem én csináltam"
+    },
+    {
+      "audio_path": "/api/dialogue/5e163a2b-1ad7-5c05-b46c-78c325f459de/audio",
+      "index": 3,
+      "text": "Lili: A levelet vagy a fényt?\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: A levelet vagy a fényt?"
+    },
+    {
+      "audio_path": "/api/dialogue/f6021a21-b5fb-5d83-b867-5a4c3fc193ae/audio",
+      "index": 4,
+      "text": "Márk: Egyiket sem. De a fény érdekel jobban.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Egyiket sem, de a fény érdekel jobban"
+    },
+    {
+      "audio_path": "/api/dialogue/b0d01e4a-b5d1-5a5c-899d-3c80e82b8865/audio",
+      "index": 5,
+      "text": "Lili: Nem fut el. Mintha jelezne.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Nem fut el, mintha jelezne"
+    },
+    {
+      "audio_path": "/api/dialogue/d3ce5ece-87d6-5224-9e1c-66621884ac4f/audio",
+      "index": 6,
+      "text": "Márk: Kinek?\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nEltérés: meghallgatás szükséges · eng · Felismert szöveg: Kinek?"
+    },
+    {
+      "audio_path": "/api/dialogue/5bc6fc09-9560-502d-a614-2cd62ed757cb/audio",
+      "index": 7,
+      "text": "Lili: Előbb nézzük meg. Aztán nyúlunk hozzá.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Előbb nézzük meg, aztán nyúlunk hozzá"
+    },
+    {
+      "audio_path": "/api/dialogue/c486e74d-7c86-59bd-a8d0-d1e8ec922f6d/audio",
+      "index": 8,
+      "text": "Márk: Szerintem nekünk.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Szerintem nekünk"
+    },
+    {
+      "audio_path": "/api/dialogue/225ebeac-c6fb-5641-a488-fede3eb27b90/audio",
+      "index": 9,
+      "text": "Lili: Nem forró. A moha nem száradt ki körülötte.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nEltérés: meghallgatás szükséges · hun · Felismert szöveg: Nem forró. A moha nem szárad ki körülötte"
+    },
+    {
+      "audio_path": "/api/dialogue/cef6b5f3-6050-54bf-a715-e18f410dc821/audio",
+      "index": 10,
+      "text": "Márk: Akkor lehet, hogy csak egy szép kavics.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Akkor lehet, hogy csak egy szép kavics?"
+    },
+    {
+      "audio_path": "/api/dialogue/2386fc17-10d1-5170-95a2-0b36f3ff120a/audio",
+      "index": 11,
+      "text": "Lili: Az én kavicsaim ritkán világítanak.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Az én kavicsaim ritkán világítanak"
+    },
+    {
+      "audio_path": "/api/dialogue/f7008600-293c-55a7-90be-29a90764b6e3/audio",
+      "index": 12,
+      "text": "Márk: Nézd! Tetszik neki a kendő.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Nézd, tetszik neki a kendő"
+    },
+    {
+      "audio_path": "/api/dialogue/d1511295-d1f5-529c-b534-8b393bee23b7/audio",
+      "index": 13,
+      "text": "Lili: Fordulj vissza egy kicsit.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Fordulj vissza egy kicsit"
+    },
+    {
+      "audio_path": "/api/dialogue/2f0930b8-161f-5239-abbf-399526e65171/audio",
+      "index": 14,
+      "text": "Márk: Erre akar menni.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Erre akar menni"
+    },
+    {
+      "audio_path": "/api/dialogue/7e33345c-135c-5737-b2c2-3fabd3bff89c/audio",
+      "index": 15,
+      "text": "Lili: Vagy valami arra válaszol neki.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nEltérés: meghallgatás szükséges · hun · Felismert szöveg: Majd valami arra válaszol neki"
+    },
+    {
+      "audio_path": "/api/dialogue/936df75a-cbdc-58e7-b8fb-9421d2e61981/audio",
+      "index": 16,
+      "text": "Márk: Hiányzik belőle egy rész.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Hiányzik belőle egy rész"
+    },
+    {
+      "audio_path": "/api/dialogue/b6bb4029-79d5-549f-a385-4f9a86280cae/audio",
+      "index": 17,
+      "text": "Lili: Lehet, hogy valamiből ez hiányzik.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Lehet, hogy valamiből ez hiányzik"
+    },
+    {
+      "audio_path": "/api/dialogue/25db74df-0d73-592f-82d8-642847187bac/audio",
+      "index": 18,
+      "text": "Márk: Előbb nézzük meg?\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Előbb nézzük meg"
+    },
+    {
+      "audio_path": "/api/dialogue/4cfef011-a42a-57d4-8b9d-6f605fe93fc8/audio",
+      "index": 19,
+      "text": "Morzsi: Uzsonnakereső túra?\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nEltérés: meghallgatás szükséges · hun · Felismert szöveg: Usonnakereső túra"
+    },
+    {
+      "audio_path": "/api/dialogue/2d7aa7ed-e315-5ec9-8b53-3c7a23c3dc54/audio",
+      "index": 20,
+      "text": "Márk: Csillagkereső. Az uzsonna még a táskámban van.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Csillagkereső. Az uzsonna még a táskámban van"
+    },
+    {
+      "audio_path": "/api/dialogue/14ccb186-e1eb-5ce3-b03a-a89334d9bf2b/audio",
+      "index": 21,
+      "text": "Morzsi: Ez a legjobb fajta túra.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Ez a legjobb fajta túra"
+    },
+    {
+      "audio_path": "/api/dialogue/ba27c505-1cba-5f36-8ca5-3d29a83ec974/audio",
+      "index": 22,
+      "text": "Pötty: Ez biztos nem egy villám? A villámok szoktak világítani.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Ez biztos nem egy villám? A villámok szoktak világítani"
+    },
+    {
+      "audio_path": "/api/dialogue/5309e767-5148-5c2c-b78b-78fd8bcff5d1/audio",
+      "index": 23,
+      "text": "Lili: A villámok nem szoktak kendőben üldögélni.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: A villámok nem szoktak kendőben üldögélni"
+    },
+    {
+      "audio_path": "/api/dialogue/b21ab5f7-c8d6-5378-a9a4-e5bb316c2866/audio",
+      "index": 24,
+      "text": "Zizi: A világ legelső mindenmérője. Most épp azt méri, hogy…\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nEltérés: meghallgatás szükséges · hun · Felismert szöveg: A világ legelső minden mérője most épp azt méri, hogy"
+    },
+    {
+      "audio_path": "/api/dialogue/73956111-1041-505c-9c41-f4fe9b53d960/audio",
+      "index": 25,
+      "text": "Morzsi: Hogy fejjel lefelé van?\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Hogy fejjel lefelé van?"
+    },
+    {
+      "audio_path": "/api/dialogue/3511b9ad-52e2-5666-910c-fa9ceb5e4803/audio",
+      "index": 26,
+      "text": "Zizi: Pontosan. Ezt nagyon pontosan méri.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Pontosan ezt nagyon pontosan méri"
+    },
+    {
+      "audio_path": "/api/dialogue/971cb9b5-361f-5309-a44b-d87c0d7e1256/audio",
+      "index": 27,
+      "text": "Zizi: Van benne egy egyszerű iránytű is. Az nem az én találmányom.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Van benne egy egyszerű iránytű is. Az nem az én találmányom"
+    },
+    {
+      "audio_path": "/api/dialogue/0a415faa-7978-5324-892e-2070fe388496/audio",
+      "index": 28,
+      "text": "Pötty: A régi kapuhoz megyünk? Ahhoz, ami sosem nyílik ki?\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: A régi kapuhoz megyünk? Ahhoz, ami sosem nyílik ki"
+    },
+    {
+      "audio_path": "/api/dialogue/165ae290-a683-5036-a462-cb44fd4c9d9f/audio",
+      "index": 29,
+      "text": "Márk: Csak megnézzük, miért arra világít.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Csak megnézzük, miért arra világít"
+    },
+    {
+      "audio_path": "/api/dialogue/e2ba4057-2070-539d-abba-804b021f4d92/audio",
+      "index": 30,
+      "text": "Morzsi: Együtt megyünk. Én viszem a kosarat.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Együtt megyünk. Én viszem a kosarat"
+    },
+    {
+      "audio_path": "/api/dialogue/3ac5a262-fbc1-5a72-89c5-93b37fbefcff/audio",
+      "index": 31,
+      "text": "Pötty: Jól van. De ha a kapu köszön, én is köszönök. És aztán gondolkodom.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Jól van, de ha a kapu köszön, én is köszönök, és aztán gondolkodom"
+    },
+    {
+      "audio_path": "/api/dialogue/a245e68c-538b-5b61-8afd-9dfe0dcdef90/audio",
+      "index": 32,
+      "text": "Márk: Ugyanolyan, mint mindig.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Ugyanolyan, mint mindig."
+    },
+    {
+      "audio_path": "/api/dialogue/a1507187-0bb2-5117-8ce6-feac27ea8b0d/audio",
+      "index": 33,
+      "text": "Lili: A szilánk viszont nem.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: A szilánk viszont nem"
+    },
+    {
+      "audio_path": "/api/dialogue/f4bf4416-7a04-5e2e-8acb-257f5c8ea78c/audio",
+      "index": 34,
+      "text": "Pötty: Jó napot kívánok.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Jó napot kívánok!"
+    },
+    {
+      "audio_path": "/api/dialogue/0f70cefc-a76f-57ee-b88f-d843e0f71a2b/audio",
+      "index": 35,
+      "text": "Zizi: A fény három helyen áll meg. Utána visszamegy a közepére.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: A fény három helyen áll meg, utána visszamegy a közepére"
+    },
+    {
+      "audio_path": "/api/dialogue/1da1be2c-df22-5c11-8756-c9a55d466feb/audio",
+      "index": 36,
+      "text": "Márk: Lehet, hogy oda kell tenni.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Lehet, hogy oda kell tenni"
+    },
+    {
+      "audio_path": "/api/dialogue/feeb63a3-af1f-54c0-88d1-e744fdd66163/audio",
+      "index": 37,
+      "text": "Lili: Nem érintetted hozzá.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Nem érintetted hozzá"
+    },
+    {
+      "audio_path": "/api/dialogue/53c5f26f-2f3e-5aa5-8782-da57667dfaef/audio",
+      "index": 38,
+      "text": "Márk: Akkor most kivételesen jó, hogy nem érintettem hozzá.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Akkor most kivételesen jó, hogy nem érintettem hozzá"
+    },
+    {
+      "audio_path": "/api/dialogue/8901d1fc-e3d1-5cf9-8cdd-18cc230da21a/audio",
+      "index": 39,
+      "text": "Morzsi: Az ott… az ég?\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Az ott az ég?"
+    },
+    {
+      "audio_path": "/api/dialogue/43187395-39a5-5b09-adb3-3b827e3f80bd/audio",
+      "index": 40,
+      "text": "Pötty: Remélem, van rajta föld is.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Remélem van rajta föld is"
+    },
+    {
+      "audio_path": "/api/dialogue/5c05627c-9300-5543-b355-aba67c5f8556/audio",
+      "index": 41,
+      "text": "Lili: Ott valami nem működik.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Ott valami nem működik"
+    },
+    {
+      "audio_path": "/api/dialogue/1c101b7b-c767-523a-be6e-e85916fe0bd2/audio",
+      "index": 42,
+      "text": "Lili: Várj, Bogyó. Előbb megbeszéljük.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nEltérés: meghallgatás szükséges · hun · Felismert szöveg: Vár Bogyó, előbb megbeszéljük"
+    },
+    {
+      "audio_path": "/api/dialogue/12e7c19e-723b-55ac-885d-0f8f33a484b3/audio",
+      "index": 43,
+      "text": "Márk: Menjünk át arra az első szigetre. A kaput végig látjuk. Nem indulunk el egyedül.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Menjünk át arra az első szigetre. A kaput végig látjuk. Nem indulunk el egyedül"
+    },
+    {
+      "audio_path": "/api/dialogue/181a5c89-2658-56a3-a39b-86b931d531e4/audio",
+      "index": 44,
+      "text": "Pötty: És ha onnan ez a kapu nem látszik?\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: És ha onnan ez a kapu nem látszik?"
+    },
+    {
+      "audio_path": "/api/dialogue/50346244-a4fa-59c0-a5a0-8fabfebdbfcc/audio",
+      "index": 45,
+      "text": "Zizi: Ezt látni fogjuk. És ha el akarunk menni messzebb, előbb megint megállunk.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Ezt látni fogjuk, és ha el akarunk menni messzebb, előbb megint megállunk"
+    },
+    {
+      "audio_path": "/api/dialogue/11a1c913-8fec-52e8-b266-f1b5682cc1ff/audio",
+      "index": 46,
+      "text": "Morzsi: Én leszek az utolsó. Megnézem, hogy mind megvagyunk.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Én leszek az utolsó. Megnézem, hogy mind megvagyunk"
+    },
+    {
+      "audio_path": "/api/dialogue/86fdd780-a61a-5f91-b880-203935fa329e/audio",
+      "index": 47,
+      "text": "Pötty: Hat. Azaz hét… Nem. Hat. Bogyó gyors.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nEltérés: meghallgatás szükséges · hun · Felismert szöveg: Hat, azaz hét. Nem hat. Bogyógyors"
+    },
+    {
+      "audio_path": "/api/dialogue/b20e0877-47fd-5ba3-ac43-7aaa1c2c3dea/audio",
+      "index": 48,
+      "text": "Márk: Itt is ugyanaz a jel.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Itt is ugyanaz a jel"
+    },
+    {
+      "audio_path": "/api/dialogue/c04f419e-03c7-53a6-bb13-b9543040fb73/audio",
+      "index": 49,
+      "text": "Lili: És itt is hiányzik egy darab.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: És itt is hiányzik egy darab"
+    },
+    {
+      "audio_path": "/api/dialogue/9c116b9d-be6a-54b8-8b66-40da4b03542d/audio",
+      "index": 50,
+      "text": "Morzsi: A fák nem mozognak.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: A fák nem mozognak"
+    },
+    {
+      "audio_path": "/api/dialogue/e7b1a4b0-4761-5cf5-93e0-dbd505ec87f8/audio",
+      "index": 51,
+      "text": "Pötty: Az jó. Akkor nem hajolnak ránk.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Az jó, akkor nem hajolnak ránk"
+    },
+    {
+      "audio_path": "/api/dialogue/dc000e91-6703-577f-bf9d-35b4c7c8d78c/audio",
+      "index": 52,
+      "text": "Lili: A levelek sem. Pedig azoknak mozogniuk kellene.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: A levelek sem. Pedig azoknak mozogniuk kellene"
+    },
+    {
+      "audio_path": "/api/dialogue/e29fe777-50de-5af5-b5c5-2d6949471507/audio",
+      "index": 53,
+      "text": "Zizi: A szélkerék emelné a vizet. Ha nem forog, a virág sem kap eleget.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: A szélkerék emelné a vizet. Ha nem forog, a virág sem kap eleget"
+    },
+    {
+      "audio_path": "/api/dialogue/914e5854-cdf4-5652-a7d1-2e3e0d2b0f92/audio",
+      "index": 54,
+      "text": "Márk: Akkor a toronyból kell szelet csinálnunk.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Akkor a toronyból kell szelet csinálnunk"
+    },
+    {
+      "audio_path": "/api/dialogue/d4e5157c-0775-537a-bae2-556ba9969460/audio",
+      "index": 55,
+      "text": "Lili: Nézzük meg előbb, miért állt meg.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Nézzük meg előbb, miért állt meg"
+    },
+    {
+      "audio_path": "/api/dialogue/5ac5de6c-78b8-53ae-8b1b-ab99b7712446/audio",
+      "index": 56,
+      "text": "Pötty: Olyan, mintha valaki tüsszenteni akarna, csak nem sikerül neki.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nEltérés: meghallgatás szükséges · hun · Felismert szöveg: Olyan, mintha valaki tüszenteni akarna, csak nem sikerül neki"
+    },
+    {
+      "audio_path": "/api/dialogue/eea8fcc5-ff88-550b-859a-73e55c01920f/audio",
+      "index": 57,
+      "text": "Zizi: Nyomásra levegőt küldenek. Csak azt nem tudom még, mennyit.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Nyomásra levegőt küldenek, csak azt nem tudom még mennyit"
+    },
+    {
+      "audio_path": "/api/dialogue/abdc8951-fbfe-5612-845d-0754af954d23/audio",
+      "index": 58,
+      "text": "Morzsi: Ezt a frizurát nem kértem.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Ezt a frizurát nem kértem"
+    },
+    {
+      "audio_path": "/api/dialogue/3dc5484a-1823-5628-a624-1cb7c39dd315/audio",
+      "index": 59,
+      "text": "Lili: Egyszerre csak egyet. Halljuk, mit csinál.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Egyszerre csak egyet. Halljuk, mit csinál"
+    },
+    {
+      "audio_path": "/api/dialogue/9e589d4b-bbd0-589b-957f-e3a29bdf267c/audio",
+      "index": 60,
+      "text": "Márk: Láttátok? Már majdnem megnyílt!\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nEltérés: meghallgatás szükséges · hun · Felismert szöveg: Láttátok? Már majdnem megnyírt"
+    },
+    {
+      "audio_path": "/api/dialogue/d7682d33-cc19-52bf-8215-a0aa73284dfd/audio",
+      "index": 61,
+      "text": "Lili: Márk, várj. Szerintem megmutatja…\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Márk várj! Szerintem megmutatja"
+    },
+    {
+      "audio_path": "/api/dialogue/69bda51c-238d-5d36-87ec-70827da6e985/audio",
+      "index": 62,
+      "text": "Márk: Mind a három kell hozzá. Morzsi, ezt nyomd. Zizi, azt!\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Mind a három kell hozzá. Morzsi, ezt nyomd! Zizi azt"
+    },
+    {
+      "audio_path": "/api/dialogue/a7993871-29ed-5821-a378-a251bfd6433d/audio",
+      "index": 63,
+      "text": "Pötty: Ott állt meg! A cső alatt!\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Ott állt meg a cső alatt"
+    },
+    {
+      "audio_path": "/api/dialogue/210224fd-cf25-5021-b9fd-d80fdcc0b358/audio",
+      "index": 64,
+      "text": "Márk: Elrontottam.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Elrontottam"
+    },
+    {
+      "audio_path": "/api/dialogue/d6dcb9b5-eb6b-53a2-8992-d575e8eb4010/audio",
+      "index": 65,
+      "text": "Lili: Valami elmozdult. Még meg tudjuk nézni.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Valami elmozdult. Még meg tudjuk nézni"
+    },
+    {
+      "audio_path": "/api/dialogue/a18e0c90-9ac4-59fa-b965-b97b394c5aae/audio",
+      "index": 66,
+      "text": "Márk: Mondtad, hogy várjak.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Mondtad, hogy várjak"
+    },
+    {
+      "audio_path": "/api/dialogue/6e6fcabe-9017-5cbf-a6ac-851dec1f881d/audio",
+      "index": 67,
+      "text": "Lili: Igen. Most megvárunk mindenkit. És kitaláljuk együtt.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Igen, most megvárunk mindenkit és kitaláljuk együtt"
+    },
+    {
+      "audio_path": "/api/dialogue/5b59473b-9530-5ad2-bb72-ec157576bbf4/audio",
+      "index": 68,
+      "text": "Zizi: A körlap nélkül a levegő rossz irányba megy. Úgy, mint amikor lyukas a kulacs.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: A körlap nélkül a levegő rossz irányba megy, úgy, mint amikor lyukas a kulacs"
+    },
+    {
+      "audio_path": "/api/dialogue/981060f2-444a-5e0b-b663-16993c2ce4e5/audio",
+      "index": 69,
+      "text": "Morzsi: Akkor először visszatesszük a körlapot.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Akkor először visszatesszük a körlapot"
+    },
+    {
+      "audio_path": "/api/dialogue/3ec452c0-170c-590c-88b1-bf9700ec540f/audio",
+      "index": 70,
+      "text": "Morzsi: Itt belül a föld van. Nem az ég fölött megy.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Itt belül a föld van, nem az ég fölött megy"
+    },
+    {
+      "audio_path": "/api/dialogue/cec8c9e4-2f95-54f6-bb60-380351ca96d2/audio",
+      "index": 71,
+      "text": "Pötty: Azért elég szűk. És sötét is.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Azért elég szűk és sötét is"
+    },
+    {
+      "audio_path": "/api/dialogue/af93bfbd-b920-51e9-a751-09d3d0b7fa27/audio",
+      "index": 72,
+      "text": "Márk: Nem kell bemenned. Keressünk más megoldást.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Nem kell bemenned. Keressünk más megoldást"
+    },
+    {
+      "audio_path": "/api/dialogue/394e46dd-52c9-5377-ac7a-73908bd76496/audio",
+      "index": 73,
+      "text": "Zizi: A kanyar után én nem tudom mozgatni.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: A kanyar után én nem tudom mozgatni"
+    },
+    {
+      "audio_path": "/api/dialogue/94da9bb5-4069-5b99-868c-f71edb2e1611/audio",
+      "index": 74,
+      "text": "Pötty: Ha bemegyek, a rácsnál látlak benneteket?\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Ha bemegyek, a rácsnál látlak benneteket?"
+    },
+    {
+      "audio_path": "/api/dialogue/a2b70aba-09e6-5714-8f69-c4b6c46bb1ae/audio",
+      "index": 75,
+      "text": "Lili: Igen. Itt maradok. Végig beszélünk.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nEltérés: meghallgatás szükséges · hun · Felismert szöveg: Igen, itt maradok, míg beszélünk"
+    },
+    {
+      "audio_path": "/api/dialogue/80731a80-0238-50a9-bee7-148b77de4b89/audio",
+      "index": 76,
+      "text": "Pötty: Mi volt ez?\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Mi volt ez?"
+    },
+    {
+      "audio_path": "/api/dialogue/3caddc7c-40a6-5359-aa22-da4d15bd9a12/audio",
+      "index": 77,
+      "text": "Lili: A fal alján moha. A fényben itt is látom.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: A fal alján moha. A fényben itt is látom"
+    },
+    {
+      "audio_path": "/api/dialogue/408609dd-4214-57b7-9a0b-85730ee8d0eb/audio",
+      "index": 78,
+      "text": "Pötty: Jó. A mohától nem félek. Csak meglepett.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Jó, a mohától nem félek, csak meglepett"
+    },
+    {
+      "audio_path": "/api/dialogue/392a3618-532a-54f7-8a29-577dfe8ef638/audio",
+      "index": 79,
+      "text": "Márk: Látlak. Még két kicsi lépés, és a lap mellett vagy.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Látlak. Még két kicsi lépés és a lap mellett vagy"
+    },
+    {
+      "audio_path": "/api/dialogue/49d1b961-34e2-52e6-a3a7-499348944a3d/audio",
+      "index": 80,
+      "text": "Pötty: Megvan! És van itt valami növény is. Bent nőtt a csőben.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Megvan! És van itt valami növény is. Bent nőtt a csőben"
+    },
+    {
+      "audio_path": "/api/dialogue/18db4bbc-ee44-5e6b-8bed-a557ddc42177/audio",
+      "index": 81,
+      "text": "Zizi: Attól is elakadhatott a levegő. Ne tépd ki. Megnézzük, hol tud elférni.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Attól is elakadhatott a levegő. Ne tépd ki! Megnézzük, hol tud elférni"
+    },
+    {
+      "audio_path": "/api/dialogue/3c516a6e-20ad-5c70-a370-20c0382b55d5/audio",
+      "index": 82,
+      "text": "Márk: Nagyon bátor voltál.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Nagyon bátor voltál"
+    },
+    {
+      "audio_path": "/api/dialogue/513e043e-c5d5-5751-9787-58a8c45e6e11/audio",
+      "index": 83,
+      "text": "Pötty: Én közben féltem.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Én közben féltem"
+    },
+    {
+      "audio_path": "/api/dialogue/56c9b251-87bc-5c2c-96d2-6bdb58980379/audio",
+      "index": 84,
+      "text": "Morzsi: Attól még bátor voltál.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Attól még bátor voltál"
+    },
+    {
+      "audio_path": "/api/dialogue/cd53ddc8-0cd1-5c4e-9613-2c7df219b8b6/audio",
+      "index": 85,
+      "text": "Márk: Csak útban van. Arrébb tehetjük?\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Csak útban van. Arrébb tehetjük?"
+    },
+    {
+      "audio_path": "/api/dialogue/36a562ad-6160-5c46-8f22-62fac899c321/audio",
+      "index": 86,
+      "text": "Lili: Óvatosan. Ez is ide tartozik.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Óvatosan. Ez is ide tartozik"
+    },
+    {
+      "audio_path": "/api/dialogue/a719fa0a-8c3b-56e2-8ad4-f718c6072676/audio",
+      "index": 87,
+      "text": "Pötty: Elég lesz nekünk is?\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Elég lesz nekünk is?"
+    },
+    {
+      "audio_path": "/api/dialogue/471f2a9b-389f-5f19-84f3-97d909229f31/audio",
+      "index": 88,
+      "text": "Morzsi: Van még nálam. A kert is kaphat.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Van még nálam, a kert is kaphat"
+    },
+    {
+      "audio_path": "/api/dialogue/9ba962c2-276b-5245-8cd5-23d695eb9b90/audio",
+      "index": 89,
+      "text": "Zizi: Most a gyökér kap vizet. A levegő pedig kap utat.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nEltérés: meghallgatás szükséges · hun · Felismert szöveg: Most a gyökér kap vizet, a levegő pedig kaputat"
+    },
+    {
+      "audio_path": "/api/dialogue/3412d83c-0d82-50d9-b7ff-02fd13065e1a/audio",
+      "index": 90,
+      "text": "Márk: Most már csak a három hang.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Most már csak a három hang"
+    },
+    {
+      "audio_path": "/api/dialogue/97a800e1-d55f-52b3-bb7e-8128a65d0451/audio",
+      "index": 91,
+      "text": "Lili: Igen. De ezúttal meghallgatjuk a kertet.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Igen, de ezúttal meghallgatjuk a kertet"
+    },
+    {
+      "audio_path": "/api/dialogue/aac62198-9652-559d-811a-9bc8547e40c4/audio",
+      "index": 92,
+      "text": "Márk: Ugyanaz a három fény, mint az erdőben.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Ugyanaz a három fény, mint az erdőben"
+    },
+    {
+      "audio_path": "/api/dialogue/9e35573c-e306-5155-943c-e7304024bc53/audio",
+      "index": 93,
+      "text": "Zizi: Kör, két pont, hullám. És utána semmi.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Kör két pont hullám és utána semmi"
+    },
+    {
+      "audio_path": "/api/dialogue/69edecc2-f6da-576b-a4e9-1d875f86cfa0/audio",
+      "index": 94,
+      "text": "Morzsi: A semmit is meg kell nyomni?\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nEltérés: meghallgatás szükséges · hun · Felismert szöveg: Ha semmit is meg kell nyomni"
+    },
+    {
+      "audio_path": "/api/dialogue/f1dd89c2-4283-5baa-a1c5-4770f915c2b4/audio",
+      "index": 95,
+      "text": "Lili: A semminél nem nyomunk. Várunk.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: A semminél nem nyomunk. Várunk"
+    },
+    {
+      "audio_path": "/api/dialogue/e8c053e2-c61e-59f7-a061-5988b8a79bd0/audio",
+      "index": 96,
+      "text": "Márk: Mély. Magas. Középső. Szünet.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Mély, magas, középső. Szünet"
+    },
+    {
+      "audio_path": "/api/dialogue/3ac88256-1c44-5352-a032-cb1d16d4171b/audio",
+      "index": 97,
+      "text": "Morzsi: Ez még a szünet volt.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Ez még a szünet volt"
+    },
+    {
+      "audio_path": "/api/dialogue/38ca4798-272e-514c-9641-768f0eb14756/audio",
+      "index": 98,
+      "text": "Pötty: Én figyelem a fényt. Szólok, amikor vége.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Én figyelem a fényt. Szólok, amikor vége"
+    },
+    {
+      "audio_path": "/api/dialogue/861e8900-fb6e-53d4-9a7c-2c0bfa918ee1/audio",
+      "index": 99,
+      "text": "Zizi: Én a csöveket. Ha bármi rossz irányba indul, megállunk.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Én a csöveket. Ha bármi rossz irányba indul, megállunk"
+    },
+    {
+      "audio_path": "/api/dialogue/13330cc6-eb66-56bc-b189-afa0e69e9aec/audio",
+      "index": 100,
+      "text": "Márk: És én… most bevárok mindenkit.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: És én most bevárok mindenkit"
+    },
+    {
+      "audio_path": "/api/dialogue/b459671f-c801-5242-9447-e27687e3be33/audio",
+      "index": 101,
+      "text": "Pötty: Most!\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nEltérés: meghallgatás szükséges · hin · Felismert szöveg: मोष्ट"
+    },
+    {
+      "audio_path": "/api/dialogue/02292cf7-2659-51f7-bc25-bdb628b9aec5/audio",
+      "index": 102,
+      "text": "Márk: Megcsináltuk!\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Megcsináltuk"
+    },
+    {
+      "audio_path": "/api/dialogue/65a30093-c1cc-50c2-9f9e-fa19723df8ef/audio",
+      "index": 103,
+      "text": "Zizi: A levegő most jó helyre megy. Csak még nem tud kijönni.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: A levegő most jó helyre megy, csak még nem tud kijönni"
+    },
+    {
+      "audio_path": "/api/dialogue/5b1c80f7-57e2-5cd4-ab27-b21999f0577e/audio",
+      "index": 104,
+      "text": "Morzsi: Akkor megnyitjuk az utat neki.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Akkor megnyitjuk az utat neki"
+    },
+    {
+      "audio_path": "/api/dialogue/56223298-0436-565c-ab61-f6a706247f82/audio",
+      "index": 105,
+      "text": "Lili: Együtt maradunk. És nem visszük el a szilánkot, amíg meg nem nézzük, mit tart nyitva.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Együtt maradunk és nem visszük el a szilánkot, amíg meg nem nézzük, mit tart nyitva"
+    },
+    {
+      "audio_path": "/api/dialogue/4c11a870-0cb6-513f-89b7-8c2911f56517/audio",
+      "index": 106,
+      "text": "Pötty: Itt leszünk. Ha változik a fény, szólok.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Itt leszünk. Ha változik a fény, szólok"
+    },
+    {
+      "audio_path": "/api/dialogue/8bb5238c-aebf-562f-95f9-4341cb5f7b7e/audio",
+      "index": 107,
+      "text": "Lili: Álljatok meg egy kicsit.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Álljatok meg egy kicsit!"
+    },
+    {
+      "audio_path": "/api/dialogue/71b47e3e-f643-56ef-b31a-3bcd4dd35988/audio",
+      "index": 108,
+      "text": "Zizi: Ez volt az utolsó akadály. Most nem egyszerre erősebben kell. Hanem sorban újra.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Ez volt az utolsó akadály. Most nem egyszerre erősebben kell, hanem sorban újra"
+    },
+    {
+      "audio_path": "/api/dialogue/67d12ae7-e8f2-5ed1-92ec-7f9c33a31c5a/audio",
+      "index": 109,
+      "text": "Márk: Köszönöm, hogy szóltál, Lili.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Köszönöm, hogy szóltál Lili"
+    },
+    {
+      "audio_path": "/api/dialogue/a0ae3697-0f8e-5de6-bbac-e230739ddb6e/audio",
+      "index": 110,
+      "text": "Lili: Köszönöm, hogy megálltatok.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Köszönöm, hogy megálltatok!"
+    },
+    {
+      "audio_path": "/api/dialogue/a53e5c58-b51f-5b06-b8a6-d3bd933980ef/audio",
+      "index": 111,
+      "text": "Pötty: Most!\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nEltérés: meghallgatás szükséges · eng · Felismert szöveg: Most"
+    },
+    {
+      "audio_path": "/api/dialogue/4d3b6367-69ec-5059-a821-7135139a7731/audio",
+      "index": 112,
+      "text": "Morzsi: Úgy látom, ez marad a mai frizurám.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Úgy látom, ez marad a mai frizurám"
+    },
+    {
+      "audio_path": "/api/dialogue/99926520-6c22-5525-b6ae-02aa7ec4871d/audio",
+      "index": 113,
+      "text": "Zizi: Ezt műszer nélkül is látom. Működik.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Ezt műszer nélkül is látom. Működik"
+    },
+    {
+      "audio_path": "/api/dialogue/79e0b3f8-a01f-5075-97ee-737c5eaadbf2/audio",
+      "index": 114,
+      "text": "Márk: Olyan, mintha a kapuhoz tartozna.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Olyan, mintha a kapuhoz tartozna"
+    },
+    {
+      "audio_path": "/api/dialogue/78cc3f49-e8bd-57fd-bc08-ecf2f11d82c0/audio",
+      "index": 115,
+      "text": "Lili: És nem csak ehhez a kerthez.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: És nem csak ehhez a kerthez"
+    },
+    {
+      "audio_path": "/api/dialogue/b9f4b12e-ae6d-534e-8074-31f5d5f3a50f/audio",
+      "index": 116,
+      "text": "Pötty: Hány darab lehet még?\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Hány darab lehet még?"
+    },
+    {
+      "audio_path": "/api/dialogue/2c5042b2-27c7-5789-b638-cdb73d17840d/audio",
+      "index": 117,
+      "text": "Zizi: Ezt most még a mindenmérő sem tudná.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Ezt most még a mindenmérő sem tudná"
+    },
+    {
+      "audio_path": "/api/dialogue/a92c5bd8-ddb1-5e64-9051-1cfab1bce788/audio",
+      "index": 118,
+      "text": "Pötty: Hat. Most biztos.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Hat. Most biztos"
+    },
+    {
+      "audio_path": "/api/dialogue/fba4250d-7c5d-576c-93fb-e4b21120ef68/audio",
+      "index": 119,
+      "text": "Márk: Hazamegyünk. De ezt nem felejtjük el.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Hazamegyünk, de ezt nem felejtjük el"
+    },
+    {
+      "audio_path": "/api/dialogue/24f1ab63-c1e2-5b8b-81de-1da5322ba8e1/audio",
+      "index": 120,
+      "text": "Pötty: Most már köszöntünk, beszéltünk, és haza is jöttünk.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Most már köszöntünk, beszéltünk és haza is jöttünk"
+    },
+    {
+      "audio_path": "/api/dialogue/38889253-51e7-56a4-adad-782ec64e5497/audio",
+      "index": 121,
+      "text": "Morzsi: Akkor jöhet a túra másik fele.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Akkor jöhet a túra másik fele"
+    },
+    {
+      "audio_path": "/api/dialogue/3a8c4427-a2c2-5645-ba62-20a5eae5894e/audio",
+      "index": 122,
+      "text": "Márk: Majdnem úgy csináltam végig, mintha csak nekem lenne ötletem.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Majdnem úgy csináltam végig, mintha csak nekem lenne ötletem"
+    },
+    {
+      "audio_path": "/api/dialogue/02bb84bd-8e89-5095-a35c-ee7cc562c378/audio",
+      "index": 123,
+      "text": "Zizi: Pedig nekem nagyon sok ötletem van. Néha túl sok.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Pedig nekem nagyon sok ötletem van, néha túl sok"
+    },
+    {
+      "audio_path": "/api/dialogue/89f36e19-0d54-504e-8083-74e66ce72c5f/audio",
+      "index": 124,
+      "text": "Lili: Nekünk ma pont hat kellett.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Nekünk ma pont hat kellett"
+    },
+    {
+      "audio_path": "/api/dialogue/c90094a3-97a0-5f14-bafd-fc223bdc754c/audio",
+      "index": 125,
+      "text": "Pötty: Az enyém az volt, hogy féljek egy kicsit, aztán mégis bemenjek.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Az enyém az volt, hogy féljek egy kicsit, aztán mégis bemenjek"
+    },
+    {
+      "audio_path": "/api/dialogue/df5a9b77-32ef-5694-8eba-cd95c99a0a4d/audio",
+      "index": 126,
+      "text": "Morzsi: Az enyém, hogy ne essen le a fedél.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Az enyém, hogy ne essen le a fedél"
+    },
+    {
+      "audio_path": "/api/dialogue/80340fc7-c517-5440-977c-2918254b62b1/audio",
+      "index": 127,
+      "text": "Márk: Bogyóé meg, hogy mutassa az utat.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nEltérés: meghallgatás szükséges · hun · Felismert szöveg: Bogyó ének, hogy mutassa az utat"
+    },
+    {
+      "audio_path": "/api/dialogue/92ad3c8c-3676-52c7-89be-ab090706e6d0/audio",
+      "index": 128,
+      "text": "Márk: Lili…\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nEltérés: meghallgatás szükséges · eng · Felismert szöveg: Lily"
+    },
+    {
+      "audio_path": "/api/dialogue/13d0a321-d2ac-5dd0-b137-d79f91e0ef3e/audio",
+      "index": 129,
+      "text": "Lili: Láttam.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Láttam"
+    },
+    {
+      "audio_path": "/api/dialogue/3d93996b-7582-55f2-bee8-c1426f417a7f/audio",
+      "index": 130,
+      "text": "Márk: Ez tényleg csak az első darab.\n\nMagyar hang letöltése\nFelvétel új hangbeállítással\nMagyar szöveg ellenőrzése\nMagyar szövegegyezés igazolva · hun · Felismert szöveg: Ez tényleg csak az első darab"
+    }
+  ]
+}
