@@ -108,13 +108,13 @@ async function main() {
   }
 
   // 12. HU assembly – valódi concat a preview/final klipekből
-  const hu = await assembleEpisode(db, episode.id, "hu", ART, { clipPaths, title: "Csodakapu S01E01 HU" });
+  const hu = await assembleEpisode(db, episode.id, "hu", ART, { mock: true, clipPaths, title: "Csodakapu S01E01 HU" });
   step("12. HU final assembly (valódi concat)", { master: path.basename(hu.masterPath), renderer: hu.renderer, dur: hu.durationSec, clips: hu.clipCount });
 
   // 13-15. EN localization + EN master UGYANAZOKBÓL a videókból (nincs újrarender)
   const renderJobsBefore = (await db.list<RenderJob>("render_jobs")).length;
   await localizeEpisode(db, episode.id, "en");
-  const en = await assembleEpisode(db, episode.id, "en", ART, { clipPaths, title: "Csodakapu S01E01 EN" });
+  const en = await assembleEpisode(db, episode.id, "en", ART, { mock: true, clipPaths, title: "Csodakapu S01E01 EN" });
   const renderJobsAfter = (await db.list<RenderJob>("render_jobs")).length;
   step("13-15. EN localization + assembly", {
     localizedAudio: path.basename(en.audioPath),

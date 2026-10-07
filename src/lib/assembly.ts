@@ -14,6 +14,7 @@ import { promises as fs } from "fs";
 import path from "path";
 import type { Db } from "./db";
 import { newId, now } from "./db";
+import { getStorage } from "./providers/storage";
 import type { ShotRow, DialogueLine, LocalizedLine, Scene, RenderJob, CostEvent } from "./types";
 
 const run = promisify(execFile);
@@ -61,7 +62,7 @@ export class AssemblyError extends Error {}
 
 export interface AssemblyInput {
   clips: { shotNumber: number; path: string }[];  // helyes sorrendben
-  audioLayers?: { kind: "dialogue"|"ambience"|"sfx"|"music"; path: string; volume?: number }[];
+  audioLayers?: { kind: "dialogue"|"ambience"|"sfx"|"music"; path: string; volume?: number; startSec?: number }[];
   cues: { start: number; end: number; text: string }[];
   outDir: string;
   title?: string;
@@ -117,10 +118,10 @@ export async function assembleClips(input: AssemblyInput): Promise<AssemblyResul
   let mixPath = videoOnly;
   if (existingLayers.length > 0) {
     const inputs = existingLayers.flatMap((l) => ["-i", l.path]);
-    const filterParts = existingLayers.map((l, i) => `[${i}:a]aresample=48000,aformat=channel_layouts=stereo,volume=${l.volume ?? (l.kind === "music" ? 0.3 : l.kind === "ambience" ? 0.4 : 1)}[a${i}]`);
-    const mix = `${existingLayers.map((_, i) => `[a${i}]`).join("")}amix=inputs=${existingLayers.length}:duration=longest[aout]`;
+    const filterParts = existingLayers.map((l, i) => `[${i}:a]aresample=48000,aformat=channel_layouts=stereo,volume=${l.volume ?? (l.kind === "music" ? 0.3 : l.kind === "ambience" ? 0.4 : 1)},adelay=${Math.round((l.startSec ?? 0) * 1000)}:all=1[a${i}]`);
+    const mix = `${existingLayers.map((_, i) => `[a${i}]`).join("")}amix=inputs=${existingLayers.length}:duration=longest,apad[aout]`;
     mixPath = path.join(normDir, "mix.wav");
-    await run(ffmpeg(), ["-y",...inputs,"-filter_complex",[...filterParts,mix].join(";"),"-map","[aout]","-ar","48000","-ac","2","-c:a","pcm_s16le",mixPath]);
+    await run(ffmpeg(), ["-y",...inputs,"-filter_complex",[...filterParts,mix].join(";"),"-map","[aout]","-ar","48000","-ac","2","-c:a","pcm_s16le","-t",String((await probeFile(videoOnly)).durationSec),mixPath]);
   }
   const finalFilter = await loudnessFilter(mixPath);
   await run(ffmpeg(), ["-y","-i",videoOnly,"-i",mixPath,"-map","0:v:0","-map","1:a:0","-af",finalFilter,"-c:v","copy","-ar","48000","-ac","2","-c:a","aac","-b:a","192k","-shortest",masterPath]);
@@ -158,13 +159,21 @@ export async function assembleEpisode(db: Db, episodeId: string, lang: string, o
   const outDir = path.join(outRoot, lang);
   await fs.mkdir(outDir, { recursive: true });
 
+  const inputDir = path.join(outDir, ".inputs");
+  await fs.mkdir(inputDir, { recursive: true });
+  async function resolveStored(key: string, name: string): Promise<string> {
+    const destination = path.join(inputDir, name);
+    await fs.writeFile(destination, await getStorage().get(key));
+    return destination;
+  }
+
   // Shot videók feloldása: explicit clipPaths > render_jobs output > (mock) generált placeholder
   const clips: { shotNumber: number; path: string }[] = [];
   for (const [i, sh] of shots.entries()) {
     let p = opts.clipPaths?.[i];
     if (!p) {
       const jobs = (await db.find<RenderJob>("render_jobs", (j) => j.shot_id === sh.id && j.type === "FINAL" && j.status === "SUCCEEDED" && !!j.output_path)).sort((a,b) => b.created_at.localeCompare(a.created_at));
-      if (jobs[0]?.output_path) p = path.join(process.cwd(), "data", "storage", jobs[0].output_path);
+      if (jobs[0]?.output_path) p = await resolveStored(jobs[0].output_path, `clip_${i}.mp4`);
     }
     if (p) { clips.push({ shotNumber: sh.shot_number, path: p }); continue; }
     if (!opts.mock) throw new AssemblyError(`SH${String(sh.shot_number).padStart(3,"0")}: nincs final shot videó – production assembly FAIL.`);
@@ -179,13 +188,24 @@ export async function assembleEpisode(db: Db, episodeId: string, lang: string, o
   const allLines = await db.list<DialogueLine>("dialogue_lines");
   const locLines = await db.list<LocalizedLine>("localized_dialogue_lines");
   const cues: { start: number; end: number; text: string }[] = [];
+  const audioLayers: NonNullable<AssemblyInput["audioLayers"]> = [];
   let t = 0;
   for (const sh of shots) {
     let local = 0;
     for (const d of sh.data.dialogue) {
       const master = allLines.find((l) => l.id === d.dialogue_line_id);
-      const text = lang === "hu" || !master ? d.text : (locLines.find((l) => l.dialogue_line_id === master.id && l.language === lang)?.text ?? d.text);
-      const dur = Math.max(1.5, text.length / 14);
+      const localized = master ? locLines.find((l) => l.dialogue_line_id === master.id && l.language === lang) : null;
+      if (!opts.mock && lang !== "hu" && !localized) throw new AssemblyError(`Hiányzó ${lang} fordítás: ${d.dialogue_line_id}`);
+      const text = lang === "hu" ? (master?.text ?? d.text) : (localized?.text ?? d.text);
+      let dur = Math.max(1.5, text.length / 14);
+      if (!opts.mock) {
+        const key = lang === "hu" ? master?.audio_path : localized?.audio_path;
+        if (!key) throw new AssemblyError(`Hiányzó ${lang} dialógushang: ${d.dialogue_line_id}`);
+        const audioFile = await resolveStored(key, `dialogue_${audioLayers.length}${path.extname(key) || ".mp3"}`);
+        dur = (await probeFile(audioFile)).durationSec;
+        if (!Number.isFinite(dur) || dur <= 0 || local + dur > sh.data.duration_sec + 0.05) throw new AssemblyError(`A ${lang} dialógus nem fér a shot időtartamába: ${sh.shot_number}`);
+        audioLayers.push({ kind: "dialogue", path: audioFile, startSec: t + local });
+      }
       cues.push({ start: t + local, end: t + local + dur, text });
       local += dur;
     }
@@ -208,7 +228,7 @@ export async function assembleEpisode(db: Db, episodeId: string, lang: string, o
     return { masterPath, audioPath, subtitlePath, vttPath, metadataPath, durationSec: t, renderer: "mock", clipCount: clips.length };
   }
 
-  const result = await assembleClips({ clips, cues, outDir, title: opts.title ?? `E-${episodeId}-${lang}` });
+  const result = await assembleClips({ clips, cues, audioLayers, outDir, title: opts.title ?? `E-${episodeId}-${lang}` });
   await db.insert<CostEvent>("cost_events", { id: newId(), project_id: null, series_id: null, episode_id: episodeId, shot_id: null, category: "GPU", provider: "assembly", service: "assembly", language: lang, amount_usd: 0, quantity: result.durationSec, unit: "sec", unit_price_usd: 0, currency: "USD", created_at: now() }).catch(() => {});
   return result;
 }

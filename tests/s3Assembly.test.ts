@@ -1,3 +1,5 @@
+import { execFile } from "child_process";
+import { promisify } from "util";
 import { describe, it, expect } from "vitest";
 import { S3StorageProvider } from "@/lib/providers/storage";
 import { assembleClips, generateTestClip, probeFile, ffmpegAvailable } from "@/lib/assembly";
@@ -77,6 +79,23 @@ describe("FFmpeg REAL concat integration", () => {
     expect(meta.clips.length).toBe(3);
     await fs.rm(dir, { recursive: true, force: true });
   }, 120000);
+
+  it("delayed dialogue is audible and keeps the complete visual duration", async () => {
+    if (!(await ffmpegAvailable())) return;
+    const run = promisify(execFile);
+    const dir = await fs.mkdtemp(path.join(tmpdir(), "wt-dialogue-"));
+    try {
+      const clip = path.join(dir, "visual.mp4"), audio = path.join(dir, "voice.wav");
+      await generateTestClip(clip, { durationSec: 3, color: "blue", label: "dialogue" });
+      await run("ffmpeg", ["-y", "-f", "lavfi", "-i", "sine=frequency=440:duration=0.5", audio]);
+      const result = await assembleClips({ clips: [{ shotNumber: 1, path: clip }], cues: [], audioLayers: [{ kind: "dialogue", path: audio, startSec: 1 }], outDir: path.join(dir, "out") });
+      expect(Math.abs(result.durationSec - 3)).toBeLessThan(0.2);
+      const { stderr } = await run("ffmpeg", ["-hide_banner", "-i", result.masterPath, "-vn", "-af", "volumedetect", "-f", "null", "-"]);
+      const measured = Number(stderr.match(/mean_volume: ([-\d.]+) dB/)?.[1]);
+      expect(Number.isFinite(measured)).toBe(true);
+      expect(measured).toBeGreaterThan(-60);
+    } finally { await fs.rm(dir, { recursive: true, force: true }); }
+  }, 60000);
 
   it("hiányzó input → production módban FAIL (nincs csendes placeholder)", async () => {
     if (!(await ffmpegAvailable())) return;
