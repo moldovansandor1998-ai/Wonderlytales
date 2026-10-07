@@ -1,0 +1,19 @@
+{
+  "status": "DRAFT_LOOKDEV_BELOW_TARGET",
+  "quality_gate_passed": false,
+  "resolution": [
+    1920,
+    1080
+  ],
+  "samples_rendered": 32,
+  "animation": false,
+  "facial_ready": false,
+  "intro_produced": false,
+  "issues": [
+    "schematic_environment",
+    "chunky_hair_and_fur",
+    "no_facial_controls",
+    "camera_and_gate_composition_need_revision"
+  ],
+  "sha256": "8ff09b5f980a6a88c27aafe8399431d64a07733cbda0a0162efd3b4671d53bbf"
+}
