@@ -23,4 +23,4 @@ COPY worker/blender_worker.py worker/runpod_handler.py /worker/
 COPY worker/fixtures /worker/fixtures
 COPY worker/runpod_start.sh worker/container_smoke.sh /worker/
 RUN chmod 755 /worker/runpod_start.sh && blender --background --version
-ENTRYPOINT ["/worker/runpod_start.sh"]
+CMD ["/worker/runpod_start.sh"]
