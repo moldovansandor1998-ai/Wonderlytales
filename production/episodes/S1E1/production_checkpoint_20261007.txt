@@ -1,0 +1,63 @@
+WONDERLY TALES / CSODAKAPU S1E1 – VALÓS GYÁRTÁSI CHECKPOINT
+2026-10-07. Ez nem kész epizód.
+
+ELVÉGZETT MUNKA
+A csatolt átadási TXT teljes szövegét és sorozatbibliáját elolvastam.
+A V004 ZIP-et letöltöttem és kibontottam. A négy PNG-t ténylegesen megnéztem.
+Minden PNG teljes SHA256-a és mérete megegyezik a manifestben rögzített értékkel.
+Márk mesh inputja RGBA, van alfa-csatornája. Lilihez továbbra sincs a manifestben izolált mesh-input.
+A friss távoli mainről indultam: 0fc99b9b33c6608d1291191f727c3956a44059d3.
+A korábbi elutasított procedurális figurákat nem használtam fel final karakterként.
+Javítottam a gradio_client token/hf_token kompatibilitási hibáját. Token nélkül a script most leáll, nem indít anonim demo-generálást.
+Készült helyi HF-hozzáférés-ellenőrző script és védett Studio ellenőrzési útvonal.
+A Studio Settings alatt megjelenik a HF_TOKEN konfiguráltsága és az ellenőrzés linkje a változás telepítése után.
+A szerver közvetlenül Hugging Face-hez fordul. Nem továbbítja a tokent a böngészőnek, nem írja vissza válaszban, nem használ közvetítő szolgáltatást.
+Készült teljes magyar első forgatókönyvdraft: 19 jelenet, 3736 szó a rendezői leírásokkal együtt, 131 beszélt dialógussor, 806 szó a szereplők szövegében.
+A becsült 22 perc nagy része karakterjátékkal és cselekvéssel tervezett; olvasópróba és animatic szükséges. A film tényleges hosszát nem mértem, MP4 nincs.
+Készült strukturált jelenet/dialógus breakdown. A tervezett jelenetidők folytonosak, 0–1320 másodpercig tartanak. Ez NEM render-ready shotlista: nincs 3D blocking, pontos kamera/karaktertranszformáció vagy hozzárendelt valódi asset/voice ID.
+
+TÉNYLEGES HOZZÁFÉRÉS-ELLENŐRZÉS
+A mostani környezetben nincs HF_TOKEN. A helyi HF-preflight eredménye: BLOCKED_MISSING_HF_TOKEN.
+A Vercel projekt aktuális környezeti változóinak név szerinti listájában sincs HF_TOKEN.
+Ez nem azt jelenti, hogy a felhasználó HF-fiókja nincs jóváhagyva. A modellhozzáférés hitelesített ellenőrzéséhez a jóváhagyott fiók tokenje hiányzik a futtatási környezetből.
+A Hugging Face jóváhagyást nem sikerült ellenőrizni: nincs új whoami/config HTTP 200 bizonyíték.
+A RunPod Secret tárolót ebben a futásban nem olvastam; annak HF-konfigurációjáról nem teszek állítást.
+A Vercel projekt változólistájában nincs ELEVENLABS_API_KEY. A live adatbázis voice ID-it nem ellenőriztem, a repó seedje mock hangokat tartalmaz.
+A Vercel projektben vannak RunPod/R2 beállítások. Az értékeiket nem írtam a jelentésbe.
+A mostani scratch környezetben nincs nvidia-smi és Blender. Saját GPU-s TRELLIS.2 környezetet nem deployoltam.
+A korábbi átadás a RunPod endpointot CPU workernek írja le. Ebben a futásban a RunPod kapacitását nem kérdeztem újra, tehát ez átadási adat, nem friss élő ellenőrzés.
+
+MI HIÁNYZIK A TELJES EPIZÓDHOZ
+1. A jóváhagyott HF-fiók megfelelő olvasási jogosultságú tokenjének szerveroldali konfigurálása.
+2. Saját, megfelelő GPU-s TRELLIS.2 authoring és render környezet; a fizetett futásokhoz konkrét engedélyezett teljes költségkeret.
+3. A hat karakter tényleges textúrázott, retopologizált, test- és arcriggel, szemvezérléssel, visemekkel rendelkező, ellenőrzött mastere. A ZIP ezek helyett referenciaképeket tartalmaz.
+4. A helyszínek és kellékek masterei, a Szélkert és szerkezetének végleges térbeli blockingja.
+5. ElevenLabs-kulcs és öt beszélő karakter valódi, fix magyar voice ID-je; Bogyó külön nonverbal hangjai.
+6. Olvasópróba, hang és animatic alapján igazolt időzítés, részletes shotblocking, lipsync/facial animáció.
+7. GPU worker/build/deployment ellenőrzése, három folytonos új masteres QC-shot, majd az összes epizódshot final renderje, hangkeverése, összeállítása és teljes MP4 QC-je.
+Nincs új GLB, rig, kész shot vagy kész MP4. Nem jelentettem át a hiányzó mastereket LOCKED állapotba.
+
+A KÖVETKEZŐ KONKRÉT HOZZÁFÉRÉSI LÉPÉS
+A token értékét ne küldd chatben.
+A Vercel Wonderlytales projekt Settings → Environment Variables oldalán add meg HF_TOKEN néven, szerveroldali Secret/Sensitive változóként, Production környezetre. Ne NEXT_PUBLIC_ néven.
+A token a DINOv3-hoz jóváhagyott HF-fióké legyen, a szükséges gated repo olvasási jogosultságával.
+A beállítás életbe lépéséhez új deployment kell. Ezután belépve a Studio Settings ellenőrzőlinkjén HTTP-státuszokkal ellenőrizhető a token és a DINOv3 config.json.
+A 3D workernek ugyanez a hozzáférés külön, saját engedélyezett secret-konfigurációban is szükséges; a Studio változója nem kerül automatikusan a RunPod workerre.
+A GPU bérlés előtt szükséges a felhasználó összesített dollárkerete. A repóban található 240 USD seed-becslés nem költési engedély és nem élő árajánlat.
+Nem kértem jelszót, OTP-t vagy új Hugging Face böngészőbelépést.
+
+ELLENŐRZÉS
+TypeScript typecheck: sikeres.
+Next.js production build: sikeres; meglévő Supabase Edge Runtime figyelmeztetéssel.
+HF preflight unit tesztek: 4/4 sikeres. Hiányzó token, gated denial, sikeres config és titokmentes hibaválasz ellenőrizve.
+Teljes meglévő tesztcsomag: 69/69 sikeres, 15 tesztfájl.
+Python script szintaxis és git diff whitespace ellenőrzés: sikeres.
+A teljes tesztcsomag technikai/demo FFmpeg artefaktumokat is készít. Ezek nem a jóváhagyott S1E1 final epizódjai.
+Éles hitelesített HF ellenőrzés, GPU meshgenerálás, TTS és final render: nem futottak.
+Új fizetett modell-/renderjob: 0. Új gyártási job-ID és szolgáltatói költségbizonylat nincs.
+
+HIVATALOS TECHNIKAI FORRÁSOK
+https://github.com/microsoft/TRELLIS.2
+https://github.com/microsoft/TRELLIS.2/blob/main/example.py
+https://huggingface.co/facebook/dinov3-vitl16-pretrain-lvd1689m
+Microsoft dokumentáció: Linux, legalább 24 GB NVIDIA GPU-memória, CUDA 12.4 ajánlás. A statikus 3D kimenet nem helyettesít retopology/rig/facial authoringot.

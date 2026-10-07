@@ -13,6 +13,8 @@ export default async function SettingsPage() {
         {row("SUPABASE publishable/Auth", !!(process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY))}
       </Card>
       <Card><h2 className="font-semibold mb-3">Providerek</h2>
+        {row("HF_TOKEN (3D modellkészítés)", !!process.env.HF_TOKEN)}
+        <a className="text-sm text-cyan-400 underline" href="/api/authoring/hf-access" target="_blank" rel="noreferrer">Hugging Face modellhozzáférés ellenőrzése</a>
         {row("ELEVENLABS_API_KEY (TTS)", !!process.env.ELEVENLABS_API_KEY)}
         {row("AUDIO2FACE_ENDPOINT (facial)", !!process.env.AUDIO2FACE_ENDPOINT)}
         {row("GENVIDEO_API_KEY", !!process.env.GENVIDEO_API_KEY)}

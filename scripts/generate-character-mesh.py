@@ -5,6 +5,7 @@ Dependencies: gradio_client, httpx[socks]. Uses Microsoft's official demo.
 """
 import argparse
 import hashlib
+import inspect
 import json
 import os
 from pathlib import Path
@@ -58,8 +59,15 @@ def main():
         raise FileExistsError("Create a new draft filename; existing assets are immutable")
     from gradio_client import Client, handle_file
     args.output.parent.mkdir(parents=True, exist_ok=True)
+    token = os.environ.get("HF_TOKEN")
+    if not token:
+        raise RuntimeError("HF_TOKEN is required; configure the secret before starting authoring")
+    parameters = inspect.signature(Client).parameters
+    token_argument = "token" if "token" in parameters else "hf_token"
+    if token_argument not in parameters:
+        raise RuntimeError("Unsupported gradio_client authentication interface")
     client = Client("https://microsoft-trellis-2.hf.space", verbose=False,
-                    hf_token=os.environ.get("HF_TOKEN"),
+                    **{token_argument: token},
                     httpx_kwargs={"timeout": 120},
                     download_files=str(args.output.parent / "downloads"))
     started = time.monotonic()
