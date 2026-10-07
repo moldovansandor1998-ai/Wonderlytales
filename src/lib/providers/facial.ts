@@ -1,3 +1,4 @@
+import { requireConfiguration, rejectProductionMock } from "../config";
 /** FacialAnimationProvider: audio + facial profile + emotion → viseme/blendshape timeline JSON */
 export interface BlendshapeKey { t: number; shapes: Record<string, number>; }
 export interface FacialTrack { format: "BLENDSHAPE_V1"; fps: number; durationSec: number; keys: BlendshapeKey[]; }
@@ -65,5 +66,7 @@ export class Audio2FaceProvider implements FacialProvider {
 export function getFacialProvider(): FacialProvider {
   if (process.env.FACIAL_PROVIDER === "audio2face" && process.env.AUDIO2FACE_ENDPOINT) return new Audio2FaceProvider(process.env.AUDIO2FACE_ENDPOINT);
   if (process.env.FACIAL_PROVIDER === "local") return new LocalVisemeFacial();
+  if (process.env.FACIAL_PROVIDER === "audio2face") requireConfiguration("Audio2Face", ["AUDIO2FACE_ENDPOINT"]);
+  rejectProductionMock("Facial");
   return new MockFacial();
 }

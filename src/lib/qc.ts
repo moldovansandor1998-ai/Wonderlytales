@@ -81,13 +81,13 @@ const DETERMINISTIC: Record<string, CheckFn> = {
 
 /** Vision/AI jellegű checkek – provider adapter mögött (mock) */
 function visionCheck(name: string): { status: QcStatus; score: number; details: string } {
-  return ok(88, `${name}: provider adapter (mock) – PASS`);
+  return warn(0, `${name}: valódi QC provider nincs bekötve – ellenőrzés szükséges`);
 }
 
 export async function runQc(db: Db, shot: ShotRow, jobId: string | null, renderExists = false, renderPath?: string | null): Promise<QcResult[]> {
   let renderProbe: QcCtx["renderProbe"] = null;
   if (renderPath && (await ffmpegAvailable())) {
-    try { renderProbe = await probeFile(renderPath); } catch { renderProbe = null; }
+    try { renderProbe = await probeFile(renderPath); } catch { renderExists = false; }
   }
   const ctx: QcCtx = {
     shot,

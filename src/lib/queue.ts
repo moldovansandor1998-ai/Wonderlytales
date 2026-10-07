@@ -8,8 +8,8 @@ export async function enqueueJob(db: Db, job: Omit<RenderJob, "id"|"status"|"att
   return db.insert<RenderJob>("render_jobs", { ...job, id: newId(), status: "QUEUED", attempt: 0, created_at: now(), updated_at: now() });
 }
 
-export async function processNextJob(db: Db): Promise<RenderJob | null> {
-  const jobs = await db.find<RenderJob>("render_jobs", (j) => j.status === "QUEUED" || j.status === "RETRY_WAIT");
+export async function processNextJob(db: Db, jobId?: string): Promise<RenderJob | null> {
+  const jobs = await db.find<RenderJob>("render_jobs", (j) => (!jobId || j.id === jobId) && (j.status === "QUEUED" || j.status === "RETRY_WAIT"));
   if (jobs.length === 0) return null;
   const job = jobs[0];
   const attempt = job.attempt + 1;

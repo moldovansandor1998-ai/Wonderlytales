@@ -15,7 +15,7 @@ async function seededDb() {
 }
 
 describe("Mock pipeline integráció", () => {
-  it("preview: job SUCCEEDED + QC + cost event", async () => {
+  it("mock render output must fail media QC", async () => {
     const db = await seededDb();
     const shot = (await db.list<ShotRow>("shots"))[1];
     const job = await generatePreview(db, shot.id);
@@ -26,7 +26,8 @@ describe("Mock pipeline integráció", () => {
     const costs = await db.list<CostEvent>("cost_events");
     expect(costs.length).toBeGreaterThan(0);
     const updated = await db.get<ShotRow>("shots", shot.id);
-    expect(["PREVIEW_READY","QC_WARNING"]).toContain(updated!.status);
+    expect(updated!.status).toBe("QC_FAILED");
+    expect(qcs.find((q) => q.check_name === "RENDER_CORRUPTION")?.status).toBe("FAIL");
   });
 
   it("save revision növeli a revisiont és validál", async () => {
@@ -65,12 +66,12 @@ describe("Mock pipeline integráció", () => {
     expect(jobs.some((j) => j.id === job.id)).toBe(true);
   });
 
-  it("lokalizáció: EN sorok + episode_localization READY", async () => {
+  it("lokalizáció: EN sorok + episode_localization TEXT_READY without fabricated master", async () => {
     const db = await seededDb();
     const ep = (await db.list<{ id: string }>("episodes"))[0];
     const loc = await localizeEpisode(db, ep.id, "en");
-    expect(loc.status).toBe("READY");
+    expect(loc.status).toBe("TEXT_READY");
     const locs = await db.find<EpisodeLocalization>("episode_localizations", (l) => l.episode_id === ep.id && l.language === "en");
-    expect(locs[0].audio_master_path).toContain("/en/");
+    expect(locs[0].audio_master_path).toBeNull();
   });
 });

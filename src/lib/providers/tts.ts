@@ -1,3 +1,4 @@
+import { requireConfiguration, rejectProductionMock } from "../config";
 import { createHash } from "crypto";
 import { fetchWithTimeout } from "./translation";
 import { getPricing } from "../pricing";
@@ -56,6 +57,10 @@ export class ElevenLabsTts implements TtsProvider {
 }
 
 export function getTtsProvider(): TtsProvider {
-  if (process.env.TTS_PROVIDER === "elevenlabs" && process.env.ELEVENLABS_API_KEY) return new ElevenLabsTts(process.env.ELEVENLABS_API_KEY);
+  if (process.env.TTS_PROVIDER === "elevenlabs") {
+    requireConfiguration("ElevenLabs", ["ELEVENLABS_API_KEY"]);
+    return new ElevenLabsTts(process.env.ELEVENLABS_API_KEY!);
+  }
+  rejectProductionMock("TTS");
   return new MockTts();
 }

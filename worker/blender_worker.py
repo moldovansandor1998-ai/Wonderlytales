@@ -146,7 +146,8 @@ def main():
     use_mock = args.mock
     if not use_mock:
         try: import bpy  # noqa
-        except ImportError: use_mock = True
+        except ImportError:
+            print(json.dumps({"status":"FAILED", "output":None, "error":"Blender bpy is unavailable; mock requires explicit --mock"})); sys.exit(3)
     t0 = time.time()
     out, frames = build_scene_mock(shot, args.output) if use_mock else build_scene_blender(shot, args.output)
     print(json.dumps({"status":"SUCCEEDED","output":out,"frames":frames,"duration_sec":shot["duration_sec"],"render_sec":round(time.time()-t0,2),"renderer":"mock" if use_mock else "blender","error":None}))

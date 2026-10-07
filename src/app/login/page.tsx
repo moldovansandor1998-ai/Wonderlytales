@@ -18,9 +18,10 @@ export default function LoginPage() {
       if (mode === "password") {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
-        router.push(params.get("next") ?? "/"); router.refresh();
+        const next = params.get("next");
+        router.push(next?.startsWith("/") && !next.startsWith("//") ? next : "/"); router.refresh();
       } else {
-        const { error } = await supabase.auth.signInWithOtp({ email, options: { emailRedirectTo: `${location.origin}/auth/callback` } });
+        const { error } = await supabase.auth.signInWithOtp({ email, options: { shouldCreateUser: false, emailRedirectTo: `${location.origin}/auth/callback` } });
         if (error) throw error;
         setMsg("Magic link elküldve – nézd meg az e-mailedet.");
       }

@@ -19,6 +19,6 @@ describe("Localization integritás", () => {
     expect(after.map((l) => [l.id, l.text])).toEqual(before.map((l) => [l.id, l.text])); // master nem változott
     const locs = await db.list<LocalizedLine>("localized_dialogue_lines");
     expect(locs.length).toBe(before.length);
-    expect(locs.every((l) => l.language === "en" && l.status === "READY")).toBe(true);
+    expect(locs.every((l) => l.language === "en" && l.status === "TEXT_READY" && l.audio_path === null)).toBe(true);
   });
 });

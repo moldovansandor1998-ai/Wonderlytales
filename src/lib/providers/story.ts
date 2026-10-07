@@ -1,3 +1,4 @@
+import { requireConfiguration, rejectProductionMock } from "../config";
 import { z } from "zod";
 import { fetchWithTimeout } from "./translation";
 
@@ -84,6 +85,10 @@ ${repairNote ? `Előző válasz hibás volt: ${repairNote}. Javítsd és add vis
 }
 
 export function getStoryEngine(): StoryEngine {
-  if (process.env.STORY_PROVIDER === "llm" && process.env.STORY_API_KEY) return new LlmStoryEngine(process.env.STORY_API_KEY);
+  if (process.env.STORY_PROVIDER === "llm") {
+    requireConfiguration("Story", ["STORY_API_KEY"]);
+    return new LlmStoryEngine(process.env.STORY_API_KEY!);
+  }
+  rejectProductionMock("Story");
   return new MockStoryEngine();
 }

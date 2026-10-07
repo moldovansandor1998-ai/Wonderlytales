@@ -1,3 +1,4 @@
+import { requireConfiguration, rejectProductionMock } from "../config";
 /** TranslationProvider: mock + production LLM-alapú adapter */
 export interface TranslationRequest { text: string; sourceLang: string; targetLang: string; characterName: string; emotion: string; timingSec: number; ageRange: string; }
 export interface TranslationResult { text: string; provider: string; }
@@ -39,5 +40,7 @@ export async function fetchWithTimeout(url: string, init: RequestInit, timeoutMs
 export function getTranslationProvider(): TranslationProvider {
   if ((process.env.TRANSLATION_PROVIDER === "llm" || process.env.STORY_API_KEY) && (process.env.TRANSLATION_API_KEY || process.env.STORY_API_KEY))
     return new ProductionTranslationProvider(process.env.TRANSLATION_API_KEY || process.env.STORY_API_KEY!);
+  if (process.env.TRANSLATION_PROVIDER === "llm") requireConfiguration("Translation", ["TRANSLATION_API_KEY"]);
+  rejectProductionMock("Translation");
   return new MockTranslationProvider();
 }

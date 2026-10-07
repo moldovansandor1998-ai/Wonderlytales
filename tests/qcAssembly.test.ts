@@ -20,11 +20,11 @@ describe("Determinisztikus QC", () => {
     const shot = (await db.list<ShotRow>("shots"))[1];
     shot.data.qc.required_checks = ["ASSET_VERSION","LOCATION","PROP_CONTINUITY","COSTUME","CHARACTER"];
     const results = await runQc(db, shot, null, false);
-    const av = results.find((r) => r.check === "ASSET_VERSION");
+    const av = results.find((r) => r.check_name === "ASSET_VERSION");
     expect(av!.status).toBe("PASS");
-    const loc = results.find((r) => r.check === "LOCATION");
+    const loc = results.find((r) => r.check_name === "LOCATION");
     expect(loc!.status).toBe("PASS");
-    const prop = results.find((r) => r.check === "PROP_CONTINUITY");
+    const prop = results.find((r) => r.check_name === "PROP_CONTINUITY");
     expect(prop!.status).toBe("PASS");
   });
   it("érvénytelen prop state → FAIL", async () => {

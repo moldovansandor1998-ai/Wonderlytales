@@ -3,6 +3,7 @@
  * adapter indul; egyébként lokális JSON-alapú MOCK adatbázis (data/demo.json),
  * automatikus demo seeddel. Így kulcs nélkül is végigtesztelhető a rendszer.
  */
+import { isProduction } from "../config";
 import type { JsonDb } from "./json";
 
 export interface Db {
@@ -20,12 +21,12 @@ let cached: Db | null = null;
 export async function getDb(): Promise<Db> {
   if (cached) return cached;
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
   const publishable = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  if (process.env.VERCEL && (!url || !publishable)) throw new Error("Production database configuration missing: Supabase URL / publishable key");
-  if (url && (key || publishable)) {
+  if (isProduction() && (!url || !publishable)) throw new Error("Production database configuration missing: Supabase URL / publishable key");
+  if (url && publishable) {
     const { SupabaseDb } = await import("./supabase");
-    cached = new SupabaseDb(key ? url : undefined, key);
+    cached = new SupabaseDb();
   } else {
     const { JsonDb: J } = await import("./json");
     const db: JsonDb = new J();

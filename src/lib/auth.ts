@@ -1,5 +1,6 @@
 /** Supabase SSR auth – szerveroldali session kezelés. Mock módban (nincs Supabase env) auth nincs kikényszerítve. */
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
+import { isProduction } from "./config";
 import { cookies } from "next/headers";
 import type { NextRequest, NextResponse } from "next/server";
 
@@ -23,20 +24,23 @@ export function createMiddlewareSupabase(req: NextRequest, res: NextResponse) {
   return createServerClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, (process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)!, {
     cookies: {
       getAll() { return req.cookies.getAll(); },
-      setAll(toSet: { name: string; value: string; options: CookieOptions }[]) { toSet.forEach(({ name, value, options }) => res.cookies.set(name, value, options)); },
+      setAll(toSet: { name: string; value: string; options: CookieOptions }[]) { toSet.forEach(({ name, value, options }) => { req.cookies.set(name, value); res.cookies.set(name, value, options); }); },
     },
   });
 }
 
 export interface StudioUser { id: string; email: string; role: "admin" | "studio" | "viewer"; }
 
-/** Engedélyezett user: auth.jwt() app_metadata.role, vagy profiles tábla; egyszerű policy: bejelentkezett user = studio */
+/** Only administrator-assigned app_metadata roles grant Studio access. */
 export async function getStudioUser(): Promise<StudioUser | null> {
-  if (!authEnabled()) return { id: "local-dev", email: "dev@localhost", role: "admin" };
+  if (!authEnabled()) {
+    if (isProduction()) return null;
+    return { id: "local-dev", email: "dev@localhost", role: "admin" };
+  }
   const supabase = createServerSupabase();
   const { data: { user }, error } = await supabase.auth.getUser();
   if (error || !user) return null;
-  const role = (user.app_metadata?.role as StudioUser["role"]) ?? "studio";
+  const role = (user.app_metadata?.role as StudioUser["role"]) ?? "viewer";
   return { id: user.id, email: user.email ?? "", role };
 }
 

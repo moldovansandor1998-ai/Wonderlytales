@@ -24,6 +24,17 @@ export async function ffmpegAvailable(): Promise<boolean> {
   try { await run(ffmpeg(), ["-version"]); return true; } catch { return false; }
 }
 
+/** Silence has no finite integrated loudness; leave it silent instead of applying infinite gain. */
+async function loudnessFilter(file: string): Promise<string> {
+  const { stderr } = await run(ffmpeg(), ["-hide_banner", "-i", file, "-vn", "-af", "loudnorm=I=-16:TP=-1.5:LRA=11:print_format=json", "-f", "null", "-"], { maxBuffer: 4 * 1024 * 1024 });
+  const report = stderr.match(/\{\s*"input_i"[\s\S]*?\}/)?.[0];
+  if (!report) throw new AssemblyError("FFmpeg loudness analysis returned no measurements.");
+  const measured = JSON.parse(report) as Record<string, string>;
+  const fields = ["input_i", "input_tp", "input_lra", "input_thresh", "target_offset"];
+  if (!fields.every((key) => Number.isFinite(Number(measured[key])))) return "aresample=48000,aformat=channel_layouts=stereo";
+  return `loudnorm=I=-16:TP=-1.5:LRA=11:measured_I=${measured.input_i}:measured_TP=${measured.input_tp}:measured_LRA=${measured.input_lra}:measured_thresh=${measured.input_thresh}:offset=${measured.target_offset}:linear=true,aresample=48000,aformat=channel_layouts=stereo`;
+}
+
 export interface ProbeResult { width: number; height: number; fps: number; durationSec: number; videoCodec: string; audioCodec: string | null; }
 export async function probeFile(file: string): Promise<ProbeResult> {
   const { stdout } = await run(ffprobe(), ["-v","error","-print_format","json","-show_format","-show_streams",file]);
@@ -78,12 +89,13 @@ export async function assembleClips(input: AssemblyInput): Promise<AssemblyResul
     const probe = await probeFile(c.path);
     const hasAudio = probe.audioCodec !== null;
     const inputs = hasAudio ? ["-i", c.path] : ["-i", c.path, "-f", "lavfi", "-i", `anullsrc=r=48000:cl=stereo:d=${probe.durationSec}`];
+    const audioFilter = hasAudio ? await loudnessFilter(c.path) : "aresample=48000,aformat=channel_layouts=stereo";
     const maps = hasAudio ? ["-map","0:v","-map","0:a"] : ["-map","0:v","-map","1:a"];
     await run(ffmpeg(), ["-y",...inputs,...maps,
       "-vf","scale=1920:1080:force_original_aspect_ratio=decrease,pad=1920:1080:(ow-iw)/2:(oh-ih)/2,fps=24,format=yuv420p",
       "-c:v","libx264","-preset","fast","-crf","20",
-      "-af","aresample=48000,pan=stereo|c0=c0|c1=c0,loudnorm=I=-16:TP=-1.5:LRA=11",
-      "-c:a","aac","-b:a","192k","-shortest",norm]);
+      "-af",audioFilter,
+      "-ar","48000","-ac","2","-c:a","aac","-b:a","192k","-shortest",norm]);
     normFiles.push(norm);
   }
 
@@ -96,20 +108,23 @@ export async function assembleClips(input: AssemblyInput): Promise<AssemblyResul
   // 4. audio rétegek keverése (dialogue/ambience/sfx/music), ha vannak valós fájlok
   const layers = (input.audioLayers ?? []).filter(() => true);
   const existingLayers: typeof layers = [];
-  for (const l of layers) { try { await fs.access(l.path); existingLayers.push(l); } catch { /* hiányzó layer kimarad */ } }
+  for (const l of layers) {
+    try { await fs.access(l.path); existingLayers.push(l); }
+    catch { throw new AssemblyError(`Hiányzó audio layer: ${l.path}`); }
+  }
   const masterPath = path.join(input.outDir, "master.mp4");
   const audioPath = path.join(input.outDir, "audio_master.aac");
+  let mixPath = videoOnly;
   if (existingLayers.length > 0) {
     const inputs = existingLayers.flatMap((l) => ["-i", l.path]);
-    const filterParts = existingLayers.map((l, i) => `[${i}:a]aresample=48000,volume=${l.volume ?? (l.kind === "music" ? 0.3 : l.kind === "ambience" ? 0.4 : 1)}[a${i}]`);
-    const mix = `[${existingLayers.map((_, i) => `a${i}`).join("")}]amix=inputs=${existingLayers.length}:duration=longest,loudnorm=I=-16:TP=-1.5:LRA=11[aout]`;
-    await run(ffmpeg(), ["-y","-i",videoOnly,...inputs,"-filter_complex",[...filterParts,mix].join(";"),"-map","0:v","-map","[aout]","-c:v","copy","-c:a","aac","-b:a","192k","-shortest",masterPath]);
-    await run(ffmpeg(), ["-y",...inputs,"-filter_complex",[...filterParts,mix].join(";"),"-map","[aout]","-c:a","aac","-b:a","192k",audioPath]);
-  } else {
-    // nincs audio layer: a concat videó saját hangja + végső loudnorm
-    await run(ffmpeg(), ["-y","-i",videoOnly,"-af","loudnorm=I=-16:TP=-1.5:LRA=11","-c:v","copy","-c:a","aac","-b:a","192k",masterPath]);
-    await run(ffmpeg(), ["-y","-i",videoOnly,"-vn","-af","loudnorm=I=-16:TP=-1.5:LRA=11","-c:a","aac","-b:a","192k",audioPath]);
+    const filterParts = existingLayers.map((l, i) => `[${i}:a]aresample=48000,aformat=channel_layouts=stereo,volume=${l.volume ?? (l.kind === "music" ? 0.3 : l.kind === "ambience" ? 0.4 : 1)}[a${i}]`);
+    const mix = `${existingLayers.map((_, i) => `[a${i}]`).join("")}amix=inputs=${existingLayers.length}:duration=longest[aout]`;
+    mixPath = path.join(normDir, "mix.wav");
+    await run(ffmpeg(), ["-y",...inputs,"-filter_complex",[...filterParts,mix].join(";"),"-map","[aout]","-ar","48000","-ac","2","-c:a","pcm_s16le",mixPath]);
   }
+  const finalFilter = await loudnessFilter(mixPath);
+  await run(ffmpeg(), ["-y","-i",videoOnly,"-i",mixPath,"-map","0:v:0","-map","1:a:0","-af",finalFilter,"-c:v","copy","-ar","48000","-ac","2","-c:a","aac","-b:a","192k","-shortest",masterPath]);
+  await run(ffmpeg(), ["-y","-i",masterPath,"-vn","-c:a","copy",audioPath]);
 
   // 5. subtitle + metadata
   const subtitlePath = path.join(input.outDir, "subtitles.srt");
@@ -131,7 +146,7 @@ export async function generateTestClip(outPath: string, opts: { durationSec: num
   await fs.mkdir(path.dirname(outPath), { recursive: true });
   await run(ffmpeg(), ["-y","-f","lavfi","-i",`color=c=${opts.color}:s=1920x1080:d=${opts.durationSec}:r=24`,
     "-f","lavfi","-i",`anullsrc=r=48000:cl=stereo:d=${opts.durationSec}`,
-    "-vf",filters.join(","),"-c:v","libx264","-pix_fmt","yuv420p","-c:a","aac","-shortest",outPath]);
+    "-vf",filters.join(","),"-c:v","libx264","-pix_fmt","yuv420p","-ar","48000","-ac","2","-c:a","aac","-shortest",outPath]);
 }
 
 /** Epizód assembly egy adott nyelvre – shot sorrend, dialogue cue-k, cost event */
@@ -148,7 +163,7 @@ export async function assembleEpisode(db: Db, episodeId: string, lang: string, o
   for (const [i, sh] of shots.entries()) {
     let p = opts.clipPaths?.[i];
     if (!p) {
-      const jobs = (await db.find<RenderJob>("render_jobs", (j) => j.shot_id === sh.id && j.status === "SUCCEEDED" && !!j.output_path)).sort((a,b) => b.created_at.localeCompare(a.created_at));
+      const jobs = (await db.find<RenderJob>("render_jobs", (j) => j.shot_id === sh.id && j.type === "FINAL" && j.status === "SUCCEEDED" && !!j.output_path)).sort((a,b) => b.created_at.localeCompare(a.created_at));
       if (jobs[0]?.output_path) p = path.join(process.cwd(), "data", "storage", jobs[0].output_path);
     }
     if (p) { clips.push({ shotNumber: sh.shot_number, path: p }); continue; }
@@ -178,6 +193,7 @@ export async function assembleEpisode(db: Db, episodeId: string, lang: string, o
   }
 
   if (!(await ffmpegAvailable())) {
+    if (!opts.mock) throw new AssemblyError("FFmpeg nem elérhető – production assembly nem végezhető el.");
     // FFmpeg nélküli fallback (pl. minimális CI): metadata + placeholder fájlok
     const masterPath = path.join(outDir, "master.mp4");
     const audioPath = path.join(outDir, "audio_master.aac");

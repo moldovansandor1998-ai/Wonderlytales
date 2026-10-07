@@ -48,7 +48,7 @@ export async function generatePreview(db: Db, shotId: string): Promise<RenderJob
   if (!shot) throw new Error("Shot nem található");
   const job = await enqueueJob(db, { shot_id: shotId, type: "PREVIEW", worker: "mock-worker-1", provider: "mock", max_attempts: 3, input_snapshot: { ...shot.data }, output_path: null, gpu_seconds: 0, cost_usd: 0, error: null });
   await db.update<ShotRow>("shots", shotId, { status: "PREVIEW_RENDERING" });
-  const done = await processNextJob(db);
+  const done = await processNextJob(db, job.id);
   if (done?.status === "SUCCEEDED") {
     const results = await runQc(db, (await db.get<ShotRow>("shots", shotId))!, done.id, !!done.output_path, done.output_path);
     for (const r of results) {
@@ -71,7 +71,7 @@ export async function finalRender(db: Db, shotId: string): Promise<RenderJob> {
   const data: ShotData = { ...shot.data, render: { ...shot.data.render, quality: "FINAL", engine: shot.data.render.engine === "MOCK" ? "MOCK" : "BLENDER_EEVEE" } };
   await db.update<ShotRow>("shots", shotId, { status: "FINAL_RENDERING", data });
   const job = await enqueueJob(db, { shot_id: shotId, type: "FINAL", worker: "mock-worker-1", provider: "mock", max_attempts: 2, input_snapshot: { ...data }, output_path: null, gpu_seconds: 0, cost_usd: 0, error: null });
-  const done = await processNextJob(db);
+  const done = await processNextJob(db, job.id);
   if (done?.status === "SUCCEEDED") await db.update<ShotRow>("shots", shotId, { status: "FINAL_READY" });
   return done ?? job;
 }

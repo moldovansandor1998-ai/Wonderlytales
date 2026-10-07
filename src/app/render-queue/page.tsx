@@ -11,7 +11,7 @@ export default async function RenderQueuePage() {
   const shotLabel = (id: string) => { const s = shots.find((x) => x.id === id); return s ? `SH${String(s.shot_number).padStart(3,"0")}` : id.slice(0,8); };
   return (<>
     <PageTitle title="Render Queue" sub="QUEUED → CLAIMED → RUNNING → SUCCEEDED/FAILED/RETRY_WAIT" />
-    <Card className="mb-4"><form action={processQueueAction}><SubmitButton label="Következő job feldolgozása (mock worker)" /></form></Card>
+    <Card className="mb-4"><form action={processQueueAction}><SubmitButton label="Queue feldolgozása / státusz frissítése" /></form></Card>
     <Table head={["Shot","Típus","Státusz","Attempt","Worker/Provider","GPU mp","Költség","Output","Hiba"]}>
       {jobs.map((j) => (<tr key={j.id}>
         <td><Link href={`/shots/${j.shot_id}`} className="text-amber-400 hover:underline">{shotLabel(j.shot_id)}</Link></td>

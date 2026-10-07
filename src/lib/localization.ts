@@ -3,6 +3,8 @@ import { newId, now } from "./db";
 import type { DialogueLine, LocalizedLine, EpisodeLocalization, LocStatus, Voice, Character, CostEvent } from "./types";
 import { getTtsProvider } from "./providers/tts";
 import { getTranslationProvider } from "./providers/translation";
+import { getStorage } from "./providers/storage";
+import { isProduction } from "./config";
 import { getPricing } from "./pricing";
 
 export const SUPPORTED_LANGUAGES = ["hu","en","de","es","fr"];
@@ -37,19 +39,22 @@ export async function localizeEpisode(db: Db, episodeId: string, targetLang: str
 
       const voice = voices.find((v) => v.character_id === line.character_id && v.language === targetLang)
         ?? voices.find((v) => v.character_id === line.character_id);
+      if (isProduction() && !voice) throw new Error(`Hiányzó hangazonosság: ${character?.name ?? line.character_id} / ${targetLang}`);
       const audio = await tts.synthesize(translated, { language: targetLang, voiceId: voice?.voice_id ?? `default-${targetLang}`, model: voice?.model, stability: voice?.stability, style: voice?.style });
+      if (audio.audio) await getStorage().put(audio.path, audio.audio, "audio/mpeg");
+      const lineStatus: LocStatus = audio.audio ? "TTS_READY" : "TEXT_READY";
       if (audio.costUsd > 0) await db.insert<CostEvent>("cost_events", { id: newId(), project_id: null, series_id: null, episode_id: episodeId, shot_id: null, category: "TTS", provider: tts.name, service: "tts", language: targetLang, amount_usd: audio.costUsd, quantity: translated.length, unit: "char", unit_price_usd: pricing.ttsPerChar, currency: "USD", created_at: now() });
 
       const existing = await db.find<LocalizedLine>("localized_dialogue_lines", (l) => l.dialogue_line_id === line.id && l.language === targetLang);
       if (existing.length) {
-        await db.update<LocalizedLine>("localized_dialogue_lines", existing[0].id, { text: translated, audio_path: audio.path, status: "READY" });
+        await db.update<LocalizedLine>("localized_dialogue_lines", existing[0].id, { text: translated, audio_path: audio.audio ? audio.path : null, status: lineStatus });
       } else {
-        await db.insert<LocalizedLine>("localized_dialogue_lines", { id: newId(), dialogue_line_id: line.id, language: targetLang, text: translated, audio_path: audio.path, status: "READY" });
+        await db.insert<LocalizedLine>("localized_dialogue_lines", { id: newId(), dialogue_line_id: line.id, language: targetLang, text: translated, audio_path: audio.audio ? audio.path : null, status: lineStatus });
       }
     }
-    const audioMaster = `audio/${episodeId}/${targetLang}/master.wav`;
     const locs = await db.find<EpisodeLocalization>("episode_localizations", (l) => l.episode_id === episodeId && l.language === targetLang);
-    const patch = { status: "READY" as LocStatus, audio_master_path: audioMaster, subtitle_path: `subs/${episodeId}/${targetLang}.srt` };
+    // Assembly and facial generation have not run yet; never invent a master path.
+    const patch = { status: (tts.name === "mock" ? "TEXT_READY" : "TTS_READY") as LocStatus, audio_master_path: null, subtitle_path: null };
     if (locs.length) return db.update<EpisodeLocalization>("episode_localizations", locs[0].id, patch);
     return db.insert<EpisodeLocalization>("episode_localizations", { id: newId(), episode_id: episodeId, language: targetLang, ...patch });
   } catch (e) {

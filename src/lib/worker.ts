@@ -1,3 +1,4 @@
+import { requireConfiguration, rejectProductionMock } from "./config";
 /** Render worker adapterek: MockRenderWorker (helyben) + RemoteRenderWorker (RunPod serverless) */
 import { fetchWithTimeout } from "./providers/translation";
 import { getPricing } from "./pricing";
@@ -54,8 +55,11 @@ export class RemoteRenderWorker implements RenderWorker {
 }
 
 export function getRenderWorker(): RenderWorker {
-  if (process.env.RENDER_WORKER === "runpod" && process.env.RUNPOD_API_KEY && process.env.RUNPOD_ENDPOINT_ID)
-    return new RemoteRenderWorker(process.env.RUNPOD_ENDPOINT_ID, process.env.RUNPOD_API_KEY);
+  if (process.env.RENDER_WORKER === "runpod") {
+    requireConfiguration("RunPod", ["RUNPOD_API_KEY", "RUNPOD_ENDPOINT_ID"]);
+    return new RemoteRenderWorker(process.env.RUNPOD_ENDPOINT_ID!, process.env.RUNPOD_API_KEY!);
+  }
+  rejectProductionMock("Render worker");
   return new MockRenderWorker();
 }
 export function gpuCost(gpuSec: number): number { return gpuSec * getPricing().gpuPerSec; }

@@ -126,6 +126,8 @@ async function main() {
   const costs = aggregateCosts(await db.list<CostEvent>("cost_events"));
   step("16. cost report", { total: costs.total.toFixed(3) });
 
+  report.productionAcceptance = false;
+  report.limitations = ["Test clips are not final character assets", "Mock TTS has no spoken audio", "Facial tracks are not applied to rendered models", "R2 and RunPod are not exercised by this local demo"];
   report.finishedAt = new Date().toISOString();
   report.artifacts = {
     previews: clipPaths.map((p) => path.relative(ART, p)),

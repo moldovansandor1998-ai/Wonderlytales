@@ -53,7 +53,7 @@ describe("Blender worker fixture", () => {
 
 describe("demo:e2e", () => {
   it("végigfut és valódi artifacteket gyárt", async () => {
-    const { stdout } = await run("npx", ["tsx", "scripts/demo-e2e.ts"], { cwd: process.cwd(), timeout: 400000 });
+    const { stdout } = await run(process.execPath, ["--import", "tsx", "scripts/demo-e2e.ts"], { cwd: process.cwd(), timeout: 400000 });
     expect(stdout).toContain("Demo kész");
     const report = JSON.parse(await fs.readFile(path.join(process.cwd(), "artifacts/demo/report.json"), "utf8"));
     expect(report.steps.length).toBeGreaterThan(10);

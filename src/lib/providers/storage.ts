@@ -1,3 +1,4 @@
+import { requireConfiguration, rejectProductionMock } from "../config";
 /** StorageProvider: teljes S3/R2 adapter (put/get/exists/delete/signedUrl/metadata) + local filesystem */
 import { promises as fs } from "fs";
 import path from "path";
@@ -59,7 +60,11 @@ export class S3StorageProvider implements StorageProvider {
   async exists(key: string): Promise<boolean> {
     const { HeadObjectCommand } = await import("@aws-sdk/client-s3");
     try { await (await this.client()).send(new HeadObjectCommand({ Bucket: this.bucket, Key: key })); return true; }
-    catch { return false; }
+    catch (error) {
+      const status = (error as { $metadata?: { httpStatusCode?: number } }).$metadata?.httpStatusCode;
+      if (status === 404) return false;
+      throw error;
+    }
   }
   async delete(key: string): Promise<void> {
     const { DeleteObjectCommand } = await import("@aws-sdk/client-s3");
@@ -67,13 +72,9 @@ export class S3StorageProvider implements StorageProvider {
   }
   /** Public read strategy: R2 public bucket URL; privát bucketnél presign plugin nélkül egyszerű URL */
   async signedUrl(key: string, expiresSec = 3600): Promise<string> {
-    try {
-      const { getSignedUrl } = await import("@aws-sdk/s3-request-presigner").catch(() => ({ getSignedUrl: null as never }));
-      const { GetObjectCommand } = await import("@aws-sdk/client-s3");
-      return await getSignedUrl(await this.client(), new GetObjectCommand({ Bucket: this.bucket, Key: key }), { expiresIn: expiresSec });
-    } catch {
-      return this.url(key);
-    }
+    const { getSignedUrl } = await import("@aws-sdk/s3-request-presigner");
+    const { GetObjectCommand } = await import("@aws-sdk/client-s3");
+    return getSignedUrl(await this.client(), new GetObjectCommand({ Bucket: this.bucket, Key: key }), { expiresIn: expiresSec });
   }
   url(key: string): string { return `${this.endpoint}/${this.bucket}/${key}`; }
 }
@@ -83,7 +84,10 @@ export function shotPath(project: string, series: string, season: number, ep: nu
 }
 export function getStorage(): StorageProvider {
   const { S3_ENDPOINT, S3_BUCKET, S3_ACCESS_KEY_ID, S3_SECRET_ACCESS_KEY } = process.env;
-  if (process.env.STORAGE_PROVIDER === "s3" && S3_ENDPOINT && S3_BUCKET && S3_ACCESS_KEY_ID && S3_SECRET_ACCESS_KEY)
-    return new S3StorageProvider(S3_ENDPOINT, S3_BUCKET, S3_ACCESS_KEY_ID, S3_SECRET_ACCESS_KEY);
+  if (process.env.STORAGE_PROVIDER === "s3") {
+    requireConfiguration("R2/S3", ["S3_ENDPOINT", "S3_BUCKET", "S3_ACCESS_KEY_ID", "S3_SECRET_ACCESS_KEY"]);
+    return new S3StorageProvider(S3_ENDPOINT!, S3_BUCKET!, S3_ACCESS_KEY_ID!, S3_SECRET_ACCESS_KEY!);
+  }
+  rejectProductionMock("Storage");
   return new LocalStorageProvider();
 }
