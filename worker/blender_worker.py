@@ -36,6 +36,10 @@ def _mat(color):
     return m
 
 def build_scene_blender(shot: dict, out_dir: str) -> tuple[str, int]:
+    if shot["render"].get("visual_style") == "STORYBOOK_DRAFT_V002":
+        sys.path.insert(0, os.path.dirname(__file__))
+        from storybook_scene import render
+        return render(shot, out_dir)
     import bpy
     bpy.ops.wm.read_factory_settings(use_empty=True)
     sc = bpy.context.scene

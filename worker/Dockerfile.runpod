@@ -19,7 +19,7 @@ RUN python3 -m venv /opt/worker-venv && \
 ENV PATH="/opt/worker-venv/bin:/opt/blender:${PATH}"
 WORKDIR /worker
 # RunPod's GitHub builder uses the repository root as its build context.
-COPY worker/blender_worker.py worker/runpod_handler.py /worker/
+COPY worker/blender_worker.py worker/runpod_handler.py worker/storybook_scene.py /worker/
 COPY worker/fixtures /worker/fixtures
 COPY worker/runpod_start.sh worker/container_smoke.sh /worker/
 RUN chmod 755 /worker/runpod_start.sh && blender --background --version
