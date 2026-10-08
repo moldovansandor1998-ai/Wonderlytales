@@ -34,6 +34,7 @@ export default async function MasterAudioPage({ params }: { params: { id: string
         {currentAudio(l) && <><audio controls preload="none" src={`/api/dialogue/${l.id}/audio`} /><a className="text-amber-400 inline-block my-2" href={`/api/dialogue/${l.id}/audio`} download={`magyar_dialogus_${l.id}.mp3`}>Magyar hang letöltése</a></>}
         <div><ActionButton label="Felvétel új hangbeállítással" action={recordDialogueSpeechAction.bind(null,l.id)} /></div>
         {currentAudio(l) && <div><ActionButton label="Magyar szöveg ellenőrzése" action={reviewDialogueSpeechAction.bind(null,l.id)} /></div>}
+        {currentAudio(l) && <a className="text-amber-400 block my-2" href={`/api/dialogue/${l.id}/alignment`}>Mentett beszédidőzítés megnyitása</a>}
         {l.audio_path && !currentAudio(l) && <p className="text-amber-400">Korábbi hang: új magyar felvétel szükséges.</p>}
       </div>)}</section>)}
   </>;
