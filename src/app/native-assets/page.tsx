@@ -11,6 +11,24 @@ export default function NativeAssetsPage() {
     setBusy(true);
     try {
       for (const file of files) {
+        const part = /^([A-Za-z0-9_-]+\.blend)__([a-f0-9]{64})__(\d+)__(\d+)\.part$/.exec(file.name);
+        if (part) {
+          const [, name, digest, total, index] = part;
+          const base = new URLSearchParams({ sha256: digest, name, size: total });
+          setStatus(`${name} — ${Number(index) + 1}. adatdarab`);
+          const response = await fetch(`/api/native-assets/upload?${base}&action=chunk&index=${index}`, {
+            method: 'POST', headers: { 'Content-Type': 'application/octet-stream' }, body: file,
+          });
+          if (!response.ok) throw new Error('Az adatdarab feltöltése nem sikerült.');
+          if ((Number(index) + 1) * 3 * 1024 * 1024 >= Number(total)) {
+            setStatus(`${name} — teljes fájl ellenőrzése`);
+            const completed = await fetch(`/api/native-assets/upload?${base}&action=complete`, { method: 'POST' });
+            if (!completed.ok) throw new Error('A teljes fájl ellenőrzése nem sikerült; a feltöltött darabok megmaradtak.');
+            const receipt = await completed.json() as Receipt;
+            setReceipts(previous => [...previous.filter(r => r.key !== receipt.key), receipt]);
+          }
+          continue;
+        }
         if (!/^[A-Za-z0-9_-]+\.blend$/.test(file.name) || file.size > 200 * 1024 * 1024) throw new Error('Legfeljebb 200 MB-os Blender-fájlt válassz.');
         setStatus(`${file.name} — ellenőrzés`);
         const bytes = await file.arrayBuffer();
@@ -30,7 +48,7 @@ export default function NativeAssetsPage() {
         const receipt = await response.json() as Receipt;
         setReceipts(previous => [...previous.filter(r => r.key !== receipt.key), receipt]);
       }
-      setStatus('A jelenetfájlok feltöltése és ellenőrzése sikerült.');
+      setStatus('A kijelölt fájlok átvitele sikerült. Teljes jelenet csak a mentési igazolás megjelenése után áll rendelkezésre.');
     } catch (error) { setStatus(error instanceof Error ? error.message : 'A feltöltés nem sikerült.'); }
     finally { setBusy(false); }
   }
@@ -38,7 +56,7 @@ export default function NativeAssetsPage() {
     <h1 className="text-2xl font-semibold">Epizód jelenetfájljai</h1>
     <p>A kész Blender-jelenetek feltöltése a rendereléshez. A feltöltés önmagában nem hagyja jóvá a jelenet minőségét.</p>
     <label className="block">Blender-jelenetek
-      <input aria-label="Blender-jelenetek" className="block mt-2" type="file" accept=".blend" multiple disabled={busy}
+      <input aria-label="Blender-jelenetek" className="block mt-2" type="file" accept=".blend,.part" multiple disabled={busy}
         onChange={event => setFiles(Array.from(event.target.files ?? []))} />
     </label>
     <button disabled={busy || !files.length} onClick={upload} className="rounded bg-amber-500 text-black px-4 py-2 disabled:opacity-50">Feltöltés</button>
