@@ -12,11 +12,11 @@ export async function GET(request: NextRequest) {
   if (!/^renders\/native\/S1E1\/[a-f0-9]{64}\/[a-f0-9]{64}\/(frame_\d{6}\.png|clip\.mp4)$/.test(key))
     return NextResponse.json({ error: 'INVALID_RENDER_KEY' }, { status: 400 });
   try {
-    const bytes = await getStorage().get(key);
-    return new NextResponse(new Uint8Array(bytes), { headers: {
-      'Content-Type': key.endsWith('.png') ? 'image/png' : 'video/mp4',
-      'Content-Disposition': `attachment; filename="${key.split('/').pop()}"`,
-      'Cache-Control': 'private, no-store',
-    }});
+    const storage = getStorage();
+    if (!(await storage.exists(key)))
+      return NextResponse.json({ error: 'RENDER_UNAVAILABLE' }, { status: 404 });
+    const response = NextResponse.redirect(await storage.signedUrl(key, 300), 307);
+    response.headers.set('Cache-Control', 'private, no-store');
+    return response;
   } catch { return NextResponse.json({ error: 'RENDER_UNAVAILABLE' }, { status: 404 }); }
 }
