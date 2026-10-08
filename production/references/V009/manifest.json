@@ -1,0 +1,297 @@
+{
+  "schema": "WONDERLY_ART_DIRECTION_V1",
+  "version": "V009",
+  "series": "CSODAKAPU",
+  "approval": {
+    "scope": "User approved new cinematic scene and its forest background; mesh and animation remain unapproved.",
+    "user_message": "Igen ez már jobb amit legelsőnek küldtél és a háttér is olyan legyen . Csináld az első részt teljesen a bevezetővel és a clvéggel eggyüt",
+    "date": "2026-10-09"
+  },
+  "production_status": "NEW_REFERENCE_INPUTS_READY_NOT_MESHES",
+  "master_models_ready": false,
+  "character_models_locked": false,
+  "assets": [
+    {
+      "id": "approved_keyframe",
+      "status": "APPROVED_ART_DIRECTION",
+      "storage_key": "assets/art-direction/V004/approved_keyframe_6b48a19d2dee422e.png",
+      "sha256": "6b48a19d2dee422e3925131a365f16d141a4234de8aca92c8174960a1918ed19",
+      "bytes": 2908147,
+      "mime": "image/png",
+      "local_file": "approved_keyframe.png"
+    },
+    {
+      "id": "CHAR_MARK_turnaround",
+      "status": "DRAFT_MODELING_REFERENCE",
+      "storage_key": "assets/art-direction/V004/CHAR_MARK_turnaround_15f7d90a7ab75bfe.png",
+      "sha256": "15f7d90a7ab75bfed4cccadd616fbdcff4a812ef2313cd9758eed8690b277f83",
+      "bytes": 2340830,
+      "mime": "image/png",
+      "local_file": "CHAR_MARK_turnaround.png"
+    },
+    {
+      "id": "CHAR_LILI_turnaround",
+      "status": "DRAFT_MODELING_REFERENCE",
+      "storage_key": "assets/art-direction/V004/CHAR_LILI_turnaround_f613fb67668e5afe.png",
+      "sha256": "f613fb67668e5afe2197db7b0ca468e852fc150d7a698cae1209fe750ba74f4d",
+      "bytes": 2335884,
+      "mime": "image/png",
+      "local_file": "CHAR_LILI_turnaround.png"
+    },
+    {
+      "id": "CHAR_MORZSI_mesh_input",
+      "sha256": "da3d0a54d200d6eeeb6fbc633da2c7b1869f2131b000698736efb0d221303ede",
+      "bytes": 2678299,
+      "status": "DRAFT_MODELING_INPUT",
+      "mime": "image/png",
+      "packaged_file": "CHAR_MORZSI_reference_DRAFT_V001.png",
+      "derived_from": "supporting/V001/CHAR_MORZSI_reference_DRAFT_V001.png"
+    },
+    {
+      "id": "CHAR_POTTY_mesh_input",
+      "sha256": "84b16513d98f58328ad77243b46561643fb6a09371065c3fb6143196ea75dbeb",
+      "bytes": 1958772,
+      "status": "DRAFT_MODELING_INPUT",
+      "mime": "image/png",
+      "packaged_file": "CHAR_POTTY_reference_DRAFT_V001.png",
+      "derived_from": "supporting/V001/CHAR_POTTY_reference_DRAFT_V001.png"
+    },
+    {
+      "id": "CHAR_BOGYO_mesh_input",
+      "sha256": "4ad6663bbda8b201fd703eadef7e3f63e7c2dfc408b69efdf5e10475942f2c1c",
+      "bytes": 1327920,
+      "status": "DRAFT_MODELING_INPUT",
+      "mime": "image/png",
+      "packaged_file": "CHAR_BOGYO_reference_DRAFT_V001.png",
+      "derived_from": "supporting/V001/CHAR_BOGYO_reference_DRAFT_V001.png"
+    },
+    {
+      "id": "CHAR_ZIZI_mesh_input",
+      "sha256": "561fabd62aa3a32f34fbd98723da0c011824dda29335e27fdde1c15aa13a7ba9",
+      "bytes": 2408182,
+      "status": "DRAFT_MODELING_INPUT",
+      "mime": "image/png",
+      "packaged_file": "CHAR_ZIZI_reference_DRAFT_V001.png",
+      "derived_from": "supporting/V001/CHAR_ZIZI_reference_DRAFT_V001.png"
+    },
+    {
+      "id": "CHAR_MARK_mesh_input",
+      "sha256": "6aba866f6ab97e36ec3f0e815882f3c18c6537b47c62488c875d419bfac2256d",
+      "bytes": 1988249,
+      "mime": "image/png",
+      "local_file": "CHAR_MARK_mesh_input.png",
+      "packaged_file": "CHAR_MARK_mesh_input.png",
+      "status": "DRAFT_MODELING_INPUT",
+      "derived_from": "V008 accepted cinematic character design",
+      "size": [
+        1024,
+        1536
+      ]
+    },
+    {
+      "id": "CHAR_LILI_mesh_input",
+      "sha256": "38671e80755c6e506c8e43431c02edd2c39f176b38aa9269ca14ae65f37c451e",
+      "bytes": 1836769,
+      "mime": "image/png",
+      "local_file": "CHAR_LILI_mesh_input.png",
+      "packaged_file": "CHAR_LILI_mesh_input.png",
+      "status": "DRAFT_MODELING_INPUT",
+      "derived_from": "V008 accepted cinematic character design",
+      "size": [
+        1402,
+        1122
+      ]
+    }
+  ],
+  "characters": {
+    "CHAR_MARK": {
+      "identity": "Eight-year-old boy, chestnut tousled hair, brown eyes, freckles, red fabric hoodie, dark cargo trousers, grey-brown sneakers, brown backpack."
+    },
+    "CHAR_LILI": {
+      "identity": "Orange-red fox, pointed ears, cream cheeks and chest, dark paws, white tail tip, expressive amber-brown eyes."
+    },
+    "CHAR_MORZSI": {
+      "identity_status": "DESIGN_DRAFT_NOT_LOCKED"
+    },
+    "CHAR_POTTY": {
+      "identity_status": "DESIGN_DRAFT_NOT_LOCKED"
+    },
+    "CHAR_BOGYO": {
+      "identity_status": "DESIGN_DRAFT_NOT_LOCKED"
+    },
+    "CHAR_ZIZI": {
+      "identity_status": "DESIGN_DRAFT_NOT_LOCKED"
+    }
+  },
+  "requirements": [
+    "Build fixed textured 3D meshes; no shot-by-shot character regeneration.",
+    "Retopology, body rig, facial rig, eye controls, groom and materials required before production approval.",
+    "Validate identity against approved keyframe and all draft turnarounds.",
+    "Legacy procedural draft V002/V003 is not the approved design.",
+    "Do not mark a generated image or unrigged mesh as a LOCKED production character."
+  ],
+  "attempts": [
+    {
+      "character": "CHAR_MARK",
+      "provider": "Official Microsoft TRELLIS.2 demo",
+      "generation": "completed according to service response",
+      "export": "blocked by ZeroGPU quota",
+      "local_mesh_created": false
+    },
+    {
+      "character": "CHAR_LILI",
+      "isolated_input": "Image tool rejected two benign reference requests; turnaround exists.",
+      "local_mesh_created": false
+    },
+    {
+      "character": "CHAR_LILI",
+      "isolated_input": "Transparent single-character input derived from V004 turnaround on 2026-10-07. Draft identity requires review against approved keyframe.",
+      "local_mesh_created": false
+    }
+  ],
+  "next_required_access": {
+    "secret_environment_variable": "HF_TOKEN",
+    "token_destination": "Hugging Face only; never include credentials in prompts or reference packages.",
+    "model_access_page": "https://huggingface.co/facebook/dinov3-vitl16-pretrain-lvd1689m"
+  },
+  "historical_blockers": [
+    "Official demo GLB export requires additional authenticated GPU quota.",
+    "Own GPU TRELLIS.2 requires authorized access to facebook/dinov3-vitl16-pretrain-lvd1689m; anonymous fetch returned HTTP 401."
+  ],
+  "blockers": [
+    "All six native textured GLBs are drafts: facial rig, eye controls, visemes, retopology/groom and visual review required.",
+    "Environment masters, shot blocking, animation, sound mix and final episode remain incomplete."
+  ],
+  "generated_meshes": [
+    {
+      "bytes": 12629452,
+      "character": "CHAR_MARK",
+      "elapsed_seconds": 211.31,
+      "facial_ready": false,
+      "materials": 1,
+      "meshes": 1,
+      "production_approved": false,
+      "reference_sha256": "57c317be49c3151110e18311c001ab496ce940e059de20948217e04a5264310d",
+      "reference_version": "V005",
+      "resolution": "512",
+      "rig_ready": false,
+      "seed": 1978,
+      "sha256": "d4a5478d00a164d7d76852f4afe1c3b27fba9dcec5d6e7d11fc2b74df23904ed",
+      "skins": 0,
+      "source": "microsoft/TRELLIS.2-4B",
+      "status": "DRAFT_UNRIGGED",
+      "storage_key": "assets/characters/CHAR_MARK/drafts/V005/d4a5478d00a164d7d76852f4afe1c3b27fba9dcec5d6e7d11fc2b74df23904ed.glb",
+      "textures": 2
+    },
+    {
+      "bytes": 15255788,
+      "character": "CHAR_LILI",
+      "elapsed_seconds": 241.08,
+      "facial_ready": false,
+      "materials": 1,
+      "meshes": 1,
+      "production_approved": false,
+      "reference_sha256": "8a2064730a3e9d80c8dfa8a91b5f3c6bb5d5ba9fa78615665bc1ba9e79d94443",
+      "reference_version": "V005",
+      "resolution": "512",
+      "rig_ready": false,
+      "seed": 1978,
+      "sha256": "8dbf551e8f077be096d4d5fbcb7390b1bf59ba0ede08c118182a99cd9f983972",
+      "skins": 0,
+      "source": "microsoft/TRELLIS.2-4B",
+      "status": "DRAFT_UNRIGGED",
+      "storage_key": "assets/characters/CHAR_LILI/drafts/V005/8dbf551e8f077be096d4d5fbcb7390b1bf59ba0ede08c118182a99cd9f983972.glb",
+      "textures": 2
+    },
+    {
+      "bytes": 13993964,
+      "character": "CHAR_MORZSI",
+      "elapsed_seconds": 277.59,
+      "facial_ready": false,
+      "materials": 1,
+      "meshes": 1,
+      "production_approved": false,
+      "reference_sha256": "da3d0a54d200d6eeeb6fbc633da2c7b1869f2131b000698736efb0d221303ede",
+      "reference_version": "V006",
+      "resolution": "512",
+      "rig_ready": false,
+      "seed": 1978,
+      "sha256": "5e6c31f319ddb29741e3803c68005ca38dfd145735e44176ca496748a66ad616",
+      "skins": 0,
+      "source": "microsoft/TRELLIS.2-4B",
+      "status": "DRAFT_UNRIGGED",
+      "storage_key": "assets/characters/CHAR_MORZSI/drafts/V006/5e6c31f319ddb29741e3803c68005ca38dfd145735e44176ca496748a66ad616.glb",
+      "textures": 2
+    },
+    {
+      "bytes": 10729336,
+      "character": "CHAR_POTTY",
+      "elapsed_seconds": 78.42,
+      "facial_ready": false,
+      "materials": 1,
+      "meshes": 1,
+      "production_approved": false,
+      "reference_sha256": "84b16513d98f58328ad77243b46561643fb6a09371065c3fb6143196ea75dbeb",
+      "reference_version": "V006",
+      "resolution": "512",
+      "rig_ready": false,
+      "seed": 1978,
+      "sha256": "d92320b7979656047a3d4bdacca83d0af7f0909e4cfd701be1c4cab677b163ff",
+      "skins": 0,
+      "source": "microsoft/TRELLIS.2-4B",
+      "status": "DRAFT_UNRIGGED",
+      "storage_key": "assets/characters/CHAR_POTTY/drafts/V006/d92320b7979656047a3d4bdacca83d0af7f0909e4cfd701be1c4cab677b163ff.glb",
+      "textures": 2
+    },
+    {
+      "bytes": 14057616,
+      "character": "CHAR_BOGYO",
+      "elapsed_seconds": 77.53,
+      "facial_ready": false,
+      "materials": 1,
+      "meshes": 1,
+      "production_approved": false,
+      "reference_sha256": "4ad6663bbda8b201fd703eadef7e3f63e7c2dfc408b69efdf5e10475942f2c1c",
+      "reference_version": "V006",
+      "resolution": "512",
+      "rig_ready": false,
+      "seed": 1978,
+      "sha256": "b68f8a33fa16f87a252a5f1369f7ec8fedd8eb3faa6e5de1e699cf9fb437d35b",
+      "skins": 0,
+      "source": "microsoft/TRELLIS.2-4B",
+      "status": "DRAFT_UNRIGGED",
+      "storage_key": "assets/characters/CHAR_BOGYO/drafts/V006/b68f8a33fa16f87a252a5f1369f7ec8fedd8eb3faa6e5de1e699cf9fb437d35b.glb",
+      "textures": 2
+    },
+    {
+      "bytes": 14315720,
+      "character": "CHAR_ZIZI",
+      "elapsed_seconds": 47.1,
+      "facial_ready": false,
+      "materials": 1,
+      "meshes": 1,
+      "production_approved": false,
+      "reference_sha256": "561fabd62aa3a32f34fbd98723da0c011824dda29335e27fdde1c15aa13a7ba9",
+      "reference_version": "V006",
+      "resolution": "512",
+      "rig_ready": false,
+      "seed": 1978,
+      "sha256": "371d30e21625c5dfe069d94924008b44ddb76c30d609b7354dca63536b7e81bd",
+      "skins": 0,
+      "source": "microsoft/TRELLIS.2-4B",
+      "status": "DRAFT_UNRIGGED",
+      "storage_key": "assets/characters/CHAR_ZIZI/drafts/V006/371d30e21625c5dfe069d94924008b44ddb76c30d609b7354dca63536b7e81bd.glb",
+      "textures": 2
+    }
+  ],
+  "model_access_verified": {
+    "identity": 200,
+    "trellis2": 200,
+    "dinov3": 200
+  },
+  "quality_reference": "V008/SC003_cinematic_lookdev_DRAFT.png",
+  "notes": [
+    "Morzsi/Potty/Bogyo/Zizi retain pinned draft input; match quality before any character lock.",
+    "A reconstructed mesh is not a production facial rig or groom."
+  ]
+}

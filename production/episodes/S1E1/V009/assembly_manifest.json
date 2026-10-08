@@ -1,0 +1,213 @@
+{
+  "schema": "WONDERLY_FULL_EPISODE_ASSEMBLY_V1",
+  "episode": "S1E1",
+  "version": "V009",
+  "fps": 24,
+  "resolution": [
+    2560,
+    1440
+  ],
+  "visual_reference": "production/references/V008/SC003_cinematic_lookdev_DRAFT.png",
+  "character_reference_manifest": "production/references/V009/manifest.json",
+  "intro_first": true,
+  "no_duplicate_mid_episode_title": true,
+  "parts": [
+    {
+      "id": "INTRO",
+      "start_frame": 0,
+      "end_frame": 360,
+      "type": "SERIES_INTRO",
+      "status": "REQUIRES_V009_REBUILD",
+      "duration_sec": 15
+    },
+    {
+      "id": "S1E1_SC001",
+      "title_hu": "AZ ERDŐ EGY PILLANATRA ELHALLGAT",
+      "type": "STORY",
+      "start_frame": 360,
+      "end_frame": 1889,
+      "timing_source": "EXISTING_DRAFT_BEATS_NOT_ANIMATIC",
+      "status": "NOT_RENDERED_V009"
+    },
+    {
+      "id": "S1E1_SC003",
+      "title_hu": "EGY DARAB CSILLAG",
+      "type": "STORY",
+      "start_frame": 1889,
+      "end_frame": 3510,
+      "timing_source": "EXISTING_DRAFT_BEATS_NOT_ANIMATIC",
+      "status": "NOT_RENDERED_V009"
+    },
+    {
+      "id": "S1E1_SC004",
+      "title_hu": "MAKKFALVA BARÁTAI",
+      "type": "STORY",
+      "start_frame": 3510,
+      "end_frame": 5667,
+      "timing_source": "EXISTING_DRAFT_BEATS_NOT_ANIMATIC",
+      "status": "NOT_RENDERED_V009"
+    },
+    {
+      "id": "S1E1_SC005",
+      "title_hu": "A CSODAKAPU FELÉBRED",
+      "type": "STORY",
+      "start_frame": 5667,
+      "end_frame": 7772,
+      "timing_source": "EXISTING_DRAFT_BEATS_NOT_ANIMATIC",
+      "status": "NOT_RENDERED_V009"
+    },
+    {
+      "id": "S1E1_SC006",
+      "title_hu": "EGYÜTT, VISSZAÚTTAL",
+      "type": "STORY",
+      "start_frame": 7772,
+      "end_frame": 9453,
+      "timing_source": "EXISTING_DRAFT_BEATS_NOT_ANIMATIC",
+      "status": "NOT_RENDERED_V009"
+    },
+    {
+      "id": "S1E1_SC007",
+      "title_hu": "A SZÉLKERT",
+      "type": "STORY",
+      "start_frame": 9453,
+      "end_frame": 11223,
+      "timing_source": "EXISTING_DRAFT_BEATS_NOT_ANIMATIC",
+      "status": "NOT_RENDERED_V009"
+    },
+    {
+      "id": "S1E1_SC008",
+      "title_hu": "A HÁROM HANG",
+      "type": "STORY",
+      "start_frame": 11223,
+      "end_frame": 12623,
+      "timing_source": "EXISTING_DRAFT_BEATS_NOT_ANIMATIC",
+      "status": "NOT_RENDERED_V009"
+    },
+    {
+      "id": "S1E1_SC009",
+      "title_hu": "TÚL SOK EGYSZERRE",
+      "type": "STORY",
+      "start_frame": 12623,
+      "end_frame": 14213,
+      "timing_source": "EXISTING_DRAFT_BEATS_NOT_ANIMATIC",
+      "status": "NOT_RENDERED_V009"
+    },
+    {
+      "id": "S1E1_SC010",
+      "title_hu": "BOGYÓ NYOMA",
+      "type": "STORY",
+      "start_frame": 14213,
+      "end_frame": 15841,
+      "timing_source": "EXISTING_DRAFT_BEATS_NOT_ANIMATIC",
+      "status": "NOT_RENDERED_V009"
+    },
+    {
+      "id": "S1E1_SC011",
+      "title_hu": "PÖTTY BÁTORSÁGA",
+      "type": "STORY",
+      "start_frame": 15841,
+      "end_frame": 17925,
+      "timing_source": "EXISTING_DRAFT_BEATS_NOT_ANIMATIC",
+      "status": "NOT_RENDERED_V009"
+    },
+    {
+      "id": "S1E1_SC012",
+      "title_hu": "A KERT NEM ELLENSÉG",
+      "type": "STORY",
+      "start_frame": 17925,
+      "end_frame": 19476,
+      "timing_source": "EXISTING_DRAFT_BEATS_NOT_ANIMATIC",
+      "status": "NOT_RENDERED_V009"
+    },
+    {
+      "id": "S1E1_SC013",
+      "title_hu": "HALLGATNI IS KALAND",
+      "type": "STORY",
+      "start_frame": 19476,
+      "end_frame": 21241,
+      "timing_source": "EXISTING_DRAFT_BEATS_NOT_ANIMATIC",
+      "status": "NOT_RENDERED_V009"
+    },
+    {
+      "id": "S1E1_SC014",
+      "title_hu": "AZ ELSŐ HELYES SOR",
+      "type": "STORY",
+      "start_frame": 21241,
+      "end_frame": 23096,
+      "timing_source": "EXISTING_DRAFT_BEATS_NOT_ANIMATIC",
+      "status": "NOT_RENDERED_V009"
+    },
+    {
+      "id": "S1E1_SC015",
+      "title_hu": "A SZÉLTERELŐ",
+      "type": "STORY",
+      "start_frame": 23096,
+      "end_frame": 25220,
+      "timing_source": "EXISTING_DRAFT_BEATS_NOT_ANIMATIC",
+      "status": "NOT_RENDERED_V009"
+    },
+    {
+      "id": "S1E1_SC016",
+      "title_hu": "A KERT MEGKÖSZÖNI",
+      "type": "STORY",
+      "start_frame": 25220,
+      "end_frame": 26862,
+      "timing_source": "EXISTING_DRAFT_BEATS_NOT_ANIMATIC",
+      "status": "NOT_RENDERED_V009"
+    },
+    {
+      "id": "S1E1_SC017",
+      "title_hu": "HAZA, EGYÜTT",
+      "type": "STORY",
+      "start_frame": 26862,
+      "end_frame": 28300,
+      "timing_source": "EXISTING_DRAFT_BEATS_NOT_ANIMATIC",
+      "status": "NOT_RENDERED_V009"
+    },
+    {
+      "id": "S1E1_SC018",
+      "title_hu": "NEM AZ EGYETLEN",
+      "type": "STORY",
+      "start_frame": 28300,
+      "end_frame": 28919,
+      "timing_source": "EXISTING_DRAFT_BEATS_NOT_ANIMATIC",
+      "status": "NOT_RENDERED_V009"
+    },
+    {
+      "id": "OUTRO_CTA",
+      "type": "CHARACTER_ADDRESS",
+      "character": "CHAR_MARK",
+      "text_hu": "Ne felejts el feliratkozni!",
+      "action_hu": "Márk a nézőre néz, mosolyog, majd az utólag elhelyezett feliratkozás gomb helyére mutat. Szája a magyar felvételhez igazodik.",
+      "start_frame": 28919,
+      "end_frame": 29063,
+      "status": "AUDIO_AND_ANIMATION_REQUIRED"
+    },
+    {
+      "id": "CREDITS",
+      "type": "CREDITS",
+      "start_frame": 29063,
+      "end_frame": 29423,
+      "status": "ACTUAL_CONTRIBUTORS_ONLY"
+    }
+  ],
+  "draft_total_frames": 29423,
+  "draft_duration_seconds": 1225.9583333333333,
+  "measured_completed_movie_duration_seconds": null,
+  "speech_review": {
+    "total": 131,
+    "matched": 115,
+    "flagged": 16,
+    "status": "RECHECK_FLAGGED_RECORDINGS"
+  },
+  "requirements": [
+    "Same detailed forest design throughout forest shots",
+    "Same locked character models across shots",
+    "Hungarian voiced character outro with pointing gesture",
+    "Original music and mixed sound",
+    "No padding runtime with empty pauses",
+    "No claim of final film until complete audio/video QC"
+  ],
+  "production_approved": false,
+  "full_episode_completed": false
+}

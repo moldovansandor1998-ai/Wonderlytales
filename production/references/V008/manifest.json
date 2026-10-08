@@ -1,0 +1,57 @@
+{
+  "schema": "WONDERLY_ART_DIRECTION_V1",
+  "version": "V008",
+  "series": "CSODAKAPU",
+  "production_status": "LOOKDEV_STILL_ONLY",
+  "reference_user_video": "13664.mp4",
+  "requirement": "User supplied animation is the minimum graphic and motion quality target.",
+  "master_models_ready": false,
+  "animation_validated": false,
+  "full_episode_completed": false,
+  "production_approved": false,
+  "asset": {
+    "local_file": "SC003_cinematic_lookdev_DRAFT.png",
+    "sha256": "a19deec2e4153e8139d1ccd373219a25bc56de61b1254d7a62ce31aaf95a5f2d",
+    "status": "DRAFT_MODELING_REFERENCE",
+    "source": "generated illustration, not a Blender render"
+  },
+  "character_identity": {
+    "CHAR_MARK": "Eight-year-old boy; chestnut swept hair, brown eyes, freckles, red hoodie, dark trousers, grey-brown shoes, brown backpack.",
+    "CHAR_LILI": "Orange fox, cream chest and tail tip, dark paws, expressive eyes."
+  },
+  "quality_targets": [
+    "Fine coherent hair strands rather than melted sculpted clumps",
+    "Continuous fox skin with dense soft fine fur and clean intact ears",
+    "Readable, appealing faces with expressive eyes",
+    "Textile weave, stitched seams and soft material response",
+    "Layered forest foliage, moss, roots and leaf litter",
+    "Soft warm light, cool fill and believable contact shadows",
+    "Continuous deliberate acting, Hungarian lip-sync and responsive gaze"
+  ],
+  "story_continuity": {
+    "teal_item": "soft cloth/scarf, not a map",
+    "star": "broken cyan five-point star with one missing part"
+  },
+  "remaining_qc": [
+    "Reference star fracture still not clearly readable; fix before asset lock",
+    "Generated illustration is not a rigged mesh or animation",
+    "Native rebuilt surface has not yet rendered successfully",
+    "Do not approve the whole episode from a reference still"
+  ],
+  "turnarounds": [
+    {
+      "character": "CHAR_MARK",
+      "local_file": "CHAR_MARK_turnaround_DRAFT.png",
+      "sha256": "cd673c5faf1f9e12d32521073c8d94e123a5cc49a4814c7260aee5ad1ec103aa",
+      "status": "DRAFT_MODELING_REFERENCE",
+      "rigged": false
+    },
+    {
+      "character": "CHAR_LILI",
+      "local_file": "CHAR_LILI_turnaround_DRAFT.png",
+      "sha256": "169f37f9987f0cff2dfbd634e738f731b20f450f422289f807e5d9877de98bbc",
+      "status": "DRAFT_MODELING_REFERENCE",
+      "rigged": false
+    }
+  ]
+}
