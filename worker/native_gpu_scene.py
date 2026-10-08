@@ -41,6 +41,12 @@ else:
     scene.render.image_settings.color_mode = 'RGB'
     output = Path(job['output'])
     output.mkdir(parents=True, exist_ok=True)
+    if scene.sequence_editor and any(strip.type == 'SOUND' for strip in scene.sequence_editor.strips):
+        scene.frame_start, scene.frame_end = start, end
+        mixed=bpy.ops.sound.mixdown(filepath=str(output/'scene_audio.wav'), container='WAV',
+                                   codec='PCM', format='S16', mixrate=48000, channels='STEREO')
+        if 'FINISHED' not in mixed:
+            raise RuntimeError('Authored scene audio could not be exported')
     elapsed = []
     for frame in range(start, end + 1):
         started = time.monotonic()
