@@ -55,7 +55,9 @@ export async function POST(request: NextRequest) {
     }
     const bytes = Buffer.concat(chunks);
     if (bytes.length !== size || createHash('sha256').update(bytes).digest('hex') !== digest) throw new Error('CHECKSUM_MISMATCH');
-    if (bytes.subarray(0, 7).toString('ascii') !== 'BLENDER') throw new Error('NOT_A_BLEND_FILE');
+    const rawBlend = bytes.subarray(0, 7).toString('ascii') === 'BLENDER';
+    const packedBlend = bytes.subarray(0, 4).equals(Buffer.from([0x28, 0xb5, 0x2f, 0xfd]));
+    if (!rawBlend && !packedBlend) throw new Error('NOT_A_BLEND_FILE');
     await storage.put(key, bytes, 'application/octet-stream', { sha256: digest, status: 'NATIVE_DRAFT' });
     return NextResponse.json({ key, sha256: digest, bytes: size, production_approved: false });
   } catch {
