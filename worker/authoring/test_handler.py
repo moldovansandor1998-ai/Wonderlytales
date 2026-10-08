@@ -18,7 +18,7 @@ class AuthoringContract(unittest.TestCase):
         char, reference, resolution, seed = handler.checked_reference(self.payload(), manifest)
         self.assertEqual(char, 'CHAR_MARK')
         self.assertEqual(reference['storage_key'], ref['storage_key'])
-        self.assertEqual((resolution, seed), ('512', 1978))
+        self.assertEqual((resolution, seed), ('1536_cascade', 1978))
     def test_mismatched_identity_rejected(self):
         p = self.payload(); p['reference_sha256'] = '0'*64
         with self.assertRaises(ValueError): handler.checked_reference(p, manifest)
