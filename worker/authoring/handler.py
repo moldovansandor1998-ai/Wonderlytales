@@ -39,8 +39,8 @@ def checked_reference(payload, manifest):
         raise ValueError('Reference identity mismatch')
     if payload.get('reference_version') != manifest['version']:
         raise ValueError('Reference version mismatch')
-    resolution = payload.get('resolution', '512')
-    if resolution not in ('512', '1024_cascade'):
+    resolution = payload.get('resolution', '1536_cascade')
+    if resolution not in ('512', '1024_cascade', '1536_cascade'):
         raise ValueError('Unsupported authoring resolution')
     seed = payload.get('seed', 1978)
     if type(seed) is not int or not 0 <= seed <= 2147483647:
@@ -68,6 +68,20 @@ def author(event):
     payload = event.get('input', {})
     if payload.get('operation') == 'CHECK_MODEL_ACCESS':
         return check_model_access()
+    if payload.get('operation') == 'CHECK_GPU_ACCESS':
+        import torch
+        if not torch.cuda.is_available():
+            return {'status': 'BLOCKED', 'error': 'CUDA_UNAVAILABLE'}
+        properties = torch.cuda.get_device_properties(0)
+        capability = torch.cuda.get_device_capability(0)
+        probe = torch.randn(1, 4, 64, 64, device='cuda', dtype=torch.float16)
+        torch.nn.functional.scaled_dot_product_attention(probe, probe, probe)
+        torch.cuda.synchronize()
+        return {'status': 'VERIFIED', 'build': 'BLACKWELL_HIRES_V001',
+                'gpu_name': properties.name, 'vram_bytes': properties.total_memory,
+                'capability': list(capability), 'torch_version': torch.__version__,
+                'cuda_version': torch.version.cuda, 'sdpa_cuda_probe': True,
+                'default_resolution': '1536_cascade', 'texture_size': 4096}
     if payload.get('operation') != 'AUTHOR_CHARACTER_MESH':
         raise ValueError('Unsupported operation')
     required = ['HF_TOKEN', 'S3_ENDPOINT', 'S3_BUCKET', 'S3_ACCESS_KEY_ID', 'S3_SECRET_ACCESS_KEY']
@@ -105,7 +119,7 @@ def author(event):
         if PIPELINE is None:
             from trellis2.pipelines import Trellis2ImageTo3DPipeline
             PIPELINE = Trellis2ImageTo3DPipeline.from_pretrained('microsoft/TRELLIS.2-4B')
-            PIPELINE.low_vram = True
+            PIPELINE.low_vram = False
             PIPELINE.cuda()
         mesh = PIPELINE.run(image, seed=seed, pipeline_type=resolution)[0]
         mesh.simplify(16777216)
@@ -113,8 +127,8 @@ def author(event):
         glb = o_voxel.postprocess.to_glb(
             vertices=mesh.vertices, faces=mesh.faces, attr_volume=mesh.attrs,
             coords=mesh.coords, attr_layout=mesh.layout, voxel_size=mesh.voxel_size,
-            aabb=[[-0.5, -0.5, -0.5], [0.5, 0.5, 0.5]], decimation_target=300000,
-            texture_size=2048, remesh=True, remesh_band=1, remesh_project=0, verbose=False)
+            aabb=[[-0.5, -0.5, -0.5], [0.5, 0.5, 0.5]], decimation_target=1000000,
+            texture_size=4096, remesh=True, remesh_band=1, remesh_project=0, verbose=False)
         path = Path(tmp) / 'character.glb'
         glb.export(str(path), extension_webp=True)
         info = inspect_glb(path)
@@ -123,7 +137,9 @@ def author(event):
         meta = {'character': character, 'status': 'DRAFT_UNRIGGED', 'production_approved': False,
                 'rig_ready': False, 'facial_ready': False, 'reference_version': manifest['version'],
                 'reference_sha256': reference['sha256'], 'seed': seed, 'resolution': resolution,
-                'source': 'microsoft/TRELLIS.2-4B', 'elapsed_seconds': round(time.monotonic()-started, 2),
+                'source': 'microsoft/TRELLIS.2-4B', 'texture_size': 4096,
+                'decimation_target': 1000000, 'build': 'BLACKWELL_HIRES_V001',
+                'elapsed_seconds': round(time.monotonic()-started, 2),
                 'storage_key': prefix+'.glb', **info}
         client.upload_file(str(path), os.environ['S3_BUCKET'], prefix+'.glb',
                            ExtraArgs={'ContentType': 'model/gltf-binary'})

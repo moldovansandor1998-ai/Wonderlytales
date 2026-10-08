@@ -1,6 +1,7 @@
-FROM pytorch/pytorch:2.6.0-cuda12.4-cudnn9-devel
+FROM pytorch/pytorch:2.7.1-cuda12.8-cudnn9-devel
 ENV DEBIAN_FRONTEND=noninteractive PYTHONUNBUFFERED=1 \
-    TORCH_CUDA_ARCH_LIST="8.6" MAX_JOBS=2 CUDA_HOME=/usr/local/cuda \
+    TORCH_CUDA_ARCH_LIST="12.0" MAX_JOBS=2 CUDA_HOME=/usr/local/cuda \
+    ATTN_BACKEND=sdpa SPARSE_ATTN_BACKEND=sdpa \
     OPENCV_IO_ENABLE_OPENEXR=1 PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True \
     PYTHONPATH=/opt/trellis2 HF_HOME=/tmp/huggingface
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -13,7 +14,6 @@ RUN pip install --no-cache-dir imageio imageio-ffmpeg tqdm easydict opencv-pytho
     ninja trimesh transformers==4.57.1 gradio==6.0.1 tensorboard pandas lpips zstandard \
     pillow kornia timm runpod==1.7.13 boto3==1.35.99 \
     git+https://github.com/EasternJournalist/utils3d.git@9a4eb15e4021b67b12c460c7057d642626897ec8
-RUN pip install flash-attn==2.7.3 --no-build-isolation
 RUN git clone -b v0.4.0 https://github.com/NVlabs/nvdiffrast.git /opt/nvdiffrast \
     && pip install /opt/nvdiffrast --no-build-isolation
 RUN git clone -b renderutils https://github.com/JeffreyXiang/nvdiffrec.git /opt/nvdiffrec \
@@ -26,6 +26,8 @@ RUN git clone --recursive https://github.com/JeffreyXiang/FlexGEMM.git /opt/Flex
 WORKDIR /opt/wonderly
 COPY worker/authoring/configure_upstream.py /opt/wonderly/configure_upstream.py
 RUN python configure_upstream.py
+COPY worker/authoring/verify_sdpa.py /opt/wonderly/verify_sdpa.py
+RUN python verify_sdpa.py /opt/trellis2
 COPY worker/authoring/handler.py /opt/wonderly/handler.py
 COPY runpod_authoring.py /opt/wonderly/runpod_authoring.py
 COPY production/references/V006/manifest.json /opt/wonderly/manifest.json
