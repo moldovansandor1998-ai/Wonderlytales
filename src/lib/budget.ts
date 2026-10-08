@@ -20,7 +20,7 @@ export async function reserveProductionBudget(service: string): Promise<void> {
   if (!isProduction()) return;
   const { error, data } = await createServerSupabase().rpc("reserve_production_budget", { p_service: service });
   if (error || !data?.reservation_id) {
-    const reason = error?.message.includes("DAILY_BUDGET_EXCEEDED") ? "A napi 100 USD-os gyártási keret elfogyott."
+    const reason = error?.message.includes("DAILY_BUDGET_EXCEEDED") ? "A beállított napi gyártási keret elfogyott."
       : error?.message.includes("BUDGET_SERVICE_CEILING_UNVERIFIED") ? "A szolgáltatás munkánkénti költségplafonja még nincs ellenőrizve."
       : "A gyártási keret nem ellenőrizhető.";
     throw new Error(reason);
