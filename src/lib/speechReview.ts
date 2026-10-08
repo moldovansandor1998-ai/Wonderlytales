@@ -11,6 +11,7 @@ export async function reviewHungarianSpeech(audio: Buffer, expected: string, api
   const form = new FormData();
   form.append('model_id', 'scribe_v2');
   form.append('tag_audio_events', 'false');
+  form.append('timestamps_granularity', 'character');
   form.append('file', new Blob([new Uint8Array(audio)], { type: 'audio/mpeg' }), 'dialogue.mp3');
   // No language hint and no expected text: recognize the actual recording independently.
   await reserveProductionBudget('tts_dialogue');
@@ -18,5 +19,6 @@ export async function reviewHungarianSpeech(audio: Buffer, expected: string, api
   if (!response.ok) throw new Error('A hangellenőrzés nem sikerült: HTTP ' + response.status);
   const result = await response.json();
   if (typeof result.text !== 'string' || typeof result.language_code !== 'string') throw new Error('Hiányos hangellenőrzési válasz.');
-  return assessHungarianTranscript(expected, result.text, result.language_code);
+  const words = Array.isArray(result.words) ? result.words : [];
+  return { ...assessHungarianTranscript(expected, result.text, result.language_code), words };
 }
