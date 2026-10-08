@@ -20,9 +20,9 @@ def validated_input(payload):
     if not re.fullmatch(r'[a-f0-9]{64}', digest):
         raise ValueError('Source checksum required')
     start, end = payload.get('frame_start'), payload.get('frame_end')
-    if type(start) is not int or type(end) is not int or start < 1 or not 1 <= end-start+1 <= 96:
-        raise ValueError('A job must contain 1 to 96 consecutive authored frames')
-    width, height = payload.get('width', 1920), payload.get('height', 1080)
+    if type(start) is not int or type(end) is not int or start < 1 or not 1 <= end-start+1 <= 360:
+        raise ValueError('A job must contain 1 to 360 consecutive authored frames')
+    width, height = payload.get('width', 2560), payload.get('height', 1440)
     if (width, height) not in [(1920, 1080), (2560, 1440), (3840, 2160)]:
         raise ValueError('Only full HD or greater native output is supported')
     samples = payload.get('samples', 128)
@@ -47,7 +47,8 @@ def handler(event):
             if info['ContentLength'] > 1_000_000_000:
                 raise ValueError('Source exceeds native scene size bound')
             client.download_file(bucket, job['scene_key'], str(source))
-            digest = hashlib.file_digest(source.open('rb'), 'sha256').hexdigest()
+            with source.open('rb') as stream:
+                digest = hashlib.file_digest(stream, 'sha256').hexdigest()
             if digest != job['scene_sha256']:
                 raise ValueError('Native scene checksum mismatch')
             job.update(scene=str(source), output=str(root/'frames'))
@@ -78,6 +79,21 @@ def handler(event):
                 client.upload_file(str(source), bucket, key, ExtraArgs={'ContentType': 'image/png'})
                 outputs.append({'frame': frame, 'key': key, 'sha256': hashlib.sha256(data).hexdigest()})
             result.update(outputs=outputs, source_sha256=job['scene_sha256'])
+            movie = root/'frames'/'clip.mp4'
+            audio = root/'frames'/'scene_audio.wav'
+            command = ['ffmpeg', '-hide_banner', '-loglevel', 'error', '-y',
+                       '-framerate', '24', '-start_number', str(job['frame_start']),
+                       '-i', str(root/'frames'/'frame_%06d.png')]
+            if audio.exists(): command += ['-i', str(audio)]
+            command += ['-frames:v', str(job['frame_end']-job['frame_start']+1),
+                        '-c:v', 'libx264', '-crf', '16', '-preset', 'medium', '-pix_fmt', 'yuv420p']
+            if audio.exists(): command += ['-c:a', 'aac', '-b:a', '192k']
+            command += ['-movflags', '+faststart', str(movie)]
+            subprocess.run(command, check=True, capture_output=True, timeout=180)
+            key=f'{prefix}/clip.mp4'
+            client.upload_file(str(movie), bucket, key, ExtraArgs={'ContentType':'video/mp4'})
+            result['clip']={'key':key,'sha256':hashlib.sha256(movie.read_bytes()).hexdigest(),
+                            'bytes':movie.stat().st_size,'has_scene_audio':audio.exists()}
         return result
 
 
