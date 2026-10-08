@@ -9,7 +9,9 @@ export async function GET(request: NextRequest) {
   if (!user) return NextResponse.json({ error: 'UNAUTHORIZED' }, { status: 401 });
   if (!['admin', 'studio'].includes(user.role)) return NextResponse.json({ error: 'FORBIDDEN' }, { status: 403 });
   const key = request.nextUrl.searchParams.get('key') ?? '';
-  if (!/^renders\/native\/S1E1\/[a-f0-9]{64}\/[a-f0-9]{64}\/(frame_\d{6}\.png|clip\.mp4)$/.test(key))
+  const render = /^renders\/native\/S1E1\/[a-f0-9]{64}\/[a-f0-9]{64}\/(frame_\d{6}\.png|clip\.mp4)$/.test(key);
+  const source = /^native\/S1E1\/uploads\/[a-f0-9]{64}\/[A-Za-z0-9_-]+\.blend$/.test(key);
+  if (!render && !source)
     return NextResponse.json({ error: 'INVALID_RENDER_KEY' }, { status: 400 });
   try {
     const storage = getStorage();

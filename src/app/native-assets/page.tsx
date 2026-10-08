@@ -7,6 +7,8 @@ export default function NativeAssetsPage() {
   const [status, setStatus] = useState('');
   const [busy, setBusy] = useState(false);
   const [receipts, setReceipts] = useState<Receipt[]>([]);
+  const [sourceKey, setSourceKey] = useState('');
+  const validSourceKey = /^native\/S1E1\/uploads\/[a-f0-9]{64}\/[A-Za-z0-9_-]+\.blend$/.test(sourceKey);
   async function upload() {
     setBusy(true);
     try {
@@ -55,6 +57,15 @@ export default function NativeAssetsPage() {
   return <main className="max-w-3xl mx-auto p-6 space-y-5">
     <h1 className="text-2xl font-semibold">Epizód jelenetfájljai</h1>
     <p>A kész Blender-jelenetek feltöltése a rendereléshez. A feltöltés önmagában nem hagyja jóvá a jelenet minőségét.</p>
+    <section className="border border-slate-600 rounded p-4 space-y-3">
+      <h2 className="text-lg font-semibold">Mentett jelenet visszatöltése</h2>
+      <p>A korábbi mentési igazolásban vagy projektállapotban található jelenetazonosítóval letölthető az eredeti Blender-fájl.</p>
+      <label className="block">Mentett jelenet azonosítója
+        <input className="block w-full mt-2 bg-slate-900 border border-slate-600 rounded p-2" value={sourceKey}
+          onChange={event => setSourceKey(event.target.value.trim())} />
+      </label>
+      {validSourceKey && <a className="text-amber-400 inline-block" href={`/api/native-assets/download?${new URLSearchParams({ key: sourceKey })}`}>Blender-forrás letöltése</a>}
+    </section>
     <label className="block">Blender-jelenetek
       <input aria-label="Blender-jelenetek" className="block mt-2" type="file" accept=".blend,.part" multiple disabled={busy}
         onChange={event => setFiles(Array.from(event.target.files ?? []))} />
@@ -63,6 +74,7 @@ export default function NativeAssetsPage() {
     <p role="status">{status}</p>
     {receipts.map(receipt => <article key={receipt.key} className="border border-slate-600 rounded p-3 break-all">
       <p>{receipt.key.split('/').pop()}</p><p>Mentve · {(receipt.bytes / 1024 / 1024).toFixed(1)} MB</p>
+      <a className="text-amber-400 inline-block mt-2" href={`/api/native-assets/download?${new URLSearchParams({ key: receipt.key })}`}>Blender-forrás letöltése</a>
       <details><summary>Renderelési azonosító</summary><pre className="whitespace-pre-wrap">{JSON.stringify(receipt, null, 2)}</pre></details>
     </article>)}
   </main>;
