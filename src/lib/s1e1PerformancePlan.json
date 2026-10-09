@@ -1,0 +1,1146 @@
+[
+  {
+    "id": "0b4fdc91-8abb-5fe5-b580-e3df1366c953",
+    "character": "CHAR_MARK",
+    "text": "Hallod? Ropogós az egész erdő.",
+    "performance_text": "[curious] Hallod? Ropogós az egész erdő.",
+    "scene": "S1E1_SC001",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "91110003-0776-5f27-a63e-dae2a57ca5ad",
+    "character": "CHAR_LILI",
+    "text": "Igen. Főleg az a része, amelyiken te mész.",
+    "performance_text": "[curious] Igen. Főleg az a része, amelyiken te mész.",
+    "scene": "S1E1_SC001",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "2b64d328-61f2-5379-b56b-0195a2c7b536",
+    "character": "CHAR_MARK",
+    "text": "Ezt nem én csináltam.",
+    "performance_text": "[surprised] Ezt nem én csináltam.",
+    "scene": "S1E1_SC001",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "5e163a2b-1ad7-5c05-b46c-78c325f459de",
+    "character": "CHAR_LILI",
+    "text": "A levelet vagy a fényt?",
+    "performance_text": "[curious] A levelet vagy a fényt?",
+    "scene": "S1E1_SC001",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "f6021a21-b5fb-5d83-b867-5a4c3fc193ae",
+    "character": "CHAR_MARK",
+    "text": "Egyiket sem. De a fény érdekel jobban.",
+    "performance_text": "[curious] Egyiket sem. De a fény érdekel jobban.",
+    "scene": "S1E1_SC001",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "b0d01e4a-b5d1-5a5c-899d-3c80e82b8865",
+    "character": "CHAR_LILI",
+    "text": "Nem fut el. Mintha jelezne.",
+    "performance_text": "[curious] Nem fut el. Mintha jelezne.",
+    "scene": "S1E1_SC001",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "d3ce5ece-87d6-5224-9e1c-66621884ac4f",
+    "character": "CHAR_MARK",
+    "text": "Kinek?",
+    "performance_text": "[surprised] Kinek?",
+    "scene": "S1E1_SC001",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "5bc6fc09-9560-502d-a614-2cd62ed757cb",
+    "character": "CHAR_LILI",
+    "text": "Előbb nézzük meg. Aztán nyúlunk hozzá.",
+    "performance_text": "[curious] Előbb nézzük meg. Aztán nyúlunk hozzá.",
+    "scene": "S1E1_SC001",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "c486e74d-7c86-59bd-a8d0-d1e8ec922f6d",
+    "character": "CHAR_MARK",
+    "text": "Szerintem nekünk.",
+    "performance_text": "[curious] Szerintem nekünk.",
+    "scene": "S1E1_SC001",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "225ebeac-c6fb-5641-a488-fede3eb27b90",
+    "character": "CHAR_LILI",
+    "text": "Nem forró. A moha nem száradt ki körülötte.",
+    "performance_text": "[curious] Nem forró. A moha nem száradt ki körülötte.",
+    "scene": "S1E1_SC003",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "cef6b5f3-6050-54bf-a715-e18f410dc821",
+    "character": "CHAR_MARK",
+    "text": "Akkor lehet, hogy csak egy szép kavics.",
+    "performance_text": "[curious] Akkor lehet, hogy csak egy szép kavics.",
+    "scene": "S1E1_SC003",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "2386fc17-10d1-5170-95a2-0b36f3ff120a",
+    "character": "CHAR_LILI",
+    "text": "Az én kavicsaim ritkán világítanak.",
+    "performance_text": "[curious] Az én kavicsaim ritkán világítanak.",
+    "scene": "S1E1_SC003",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "f7008600-293c-55a7-90be-29a90764b6e3",
+    "character": "CHAR_MARK",
+    "text": "Nézd! Tetszik neki a kendő.",
+    "performance_text": "[curious] Nézd! Tetszik neki a kendő.",
+    "scene": "S1E1_SC003",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "d1511295-d1f5-529c-b534-8b393bee23b7",
+    "character": "CHAR_LILI",
+    "text": "Fordulj vissza egy kicsit.",
+    "performance_text": "[curious] Fordulj vissza egy kicsit.",
+    "scene": "S1E1_SC003",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "2f0930b8-161f-5239-abbf-399526e65171",
+    "character": "CHAR_MARK",
+    "text": "Erre akar menni.",
+    "performance_text": "[curious] Erre akar menni.",
+    "scene": "S1E1_SC003",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "7e33345c-135c-5737-b2c2-3fabd3bff89c",
+    "character": "CHAR_LILI",
+    "text": "Vagy valami arra válaszol neki.",
+    "performance_text": "[curious] Vagy valami arra válaszol neki.",
+    "scene": "S1E1_SC003",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "936df75a-cbdc-58e7-b8fb-9421d2e61981",
+    "character": "CHAR_MARK",
+    "text": "Hiányzik belőle egy rész.",
+    "performance_text": "[curious] Hiányzik belőle egy rész.",
+    "scene": "S1E1_SC003",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "b6bb4029-79d5-549f-a385-4f9a86280cae",
+    "character": "CHAR_LILI",
+    "text": "Lehet, hogy valamiből ez hiányzik.",
+    "performance_text": "[curious] Lehet, hogy valamiből ez hiányzik.",
+    "scene": "S1E1_SC003",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "25db74df-0d73-592f-82d8-642847187bac",
+    "character": "CHAR_MARK",
+    "text": "Előbb nézzük meg?",
+    "performance_text": "[curious] Előbb nézzük meg?",
+    "scene": "S1E1_SC003",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "4cfef011-a42a-57d4-8b9d-6f605fe93fc8",
+    "character": "CHAR_MORZSI",
+    "text": "Uzsonnakereső túra?",
+    "performance_text": "[warmly] Uzsonnakereső túra?",
+    "scene": "S1E1_SC004",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "2d7aa7ed-e315-5ec9-8b53-3c7a23c3dc54",
+    "character": "CHAR_MARK",
+    "text": "Csillagkereső. Az uzsonna még a táskámban van.",
+    "performance_text": "[curious] Csillagkereső. Az uzsonna még a táskámban van.",
+    "scene": "S1E1_SC004",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "14ccb186-e1eb-5ce3-b03a-a89334d9bf2b",
+    "character": "CHAR_MORZSI",
+    "text": "Ez a legjobb fajta túra.",
+    "performance_text": "[warmly] Ez a legjobb fajta túra.",
+    "scene": "S1E1_SC004",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "ba27c505-1cba-5f36-8ca5-3d29a83ec974",
+    "character": "CHAR_POTTY",
+    "text": "Ez biztos nem egy villám? A villámok szoktak világítani.",
+    "performance_text": "[gently] Ez biztos nem egy villám? A villámok szoktak világítani.",
+    "scene": "S1E1_SC004",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "5309e767-5148-5c2c-b78b-78fd8bcff5d1",
+    "character": "CHAR_LILI",
+    "text": "A villámok nem szoktak kendőben üldögélni.",
+    "performance_text": "[curious] A villámok nem szoktak kendőben üldögélni.",
+    "scene": "S1E1_SC004",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "b21ab5f7-c8d6-5378-a9a4-e5bb316c2866",
+    "character": "CHAR_ZIZI",
+    "text": "A világ legelső mindenmérője. Most épp azt méri, hogy…",
+    "performance_text": "[enthusiastic] A világ legelső mindenmérője. Most épp azt méri, hogy…",
+    "scene": "S1E1_SC004",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "73956111-1041-505c-9c41-f4fe9b53d960",
+    "character": "CHAR_MORZSI",
+    "text": "Hogy fejjel lefelé van?",
+    "performance_text": "[warmly] Hogy fejjel lefelé van?",
+    "scene": "S1E1_SC004",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "3511b9ad-52e2-5666-910c-fa9ceb5e4803",
+    "character": "CHAR_ZIZI",
+    "text": "Pontosan. Ezt nagyon pontosan méri.",
+    "performance_text": "[enthusiastic] Pontosan. Ezt nagyon pontosan méri.",
+    "scene": "S1E1_SC004",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "971cb9b5-361f-5309-a44b-d87c0d7e1256",
+    "character": "CHAR_ZIZI",
+    "text": "Van benne egy egyszerű iránytű is. Az nem az én találmányom.",
+    "performance_text": "[enthusiastic] Van benne egy egyszerű iránytű is. Az nem az én találmányom.",
+    "scene": "S1E1_SC004",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "0a415faa-7978-5324-892e-2070fe388496",
+    "character": "CHAR_POTTY",
+    "text": "A régi kapuhoz megyünk? Ahhoz, ami sosem nyílik ki?",
+    "performance_text": "[gently] A régi kapuhoz megyünk? Ahhoz, ami sosem nyílik ki?",
+    "scene": "S1E1_SC004",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "165ae290-a683-5036-a462-cb44fd4c9d9f",
+    "character": "CHAR_MARK",
+    "text": "Csak megnézzük, miért arra világít.",
+    "performance_text": "[curious] Csak megnézzük, miért arra világít.",
+    "scene": "S1E1_SC004",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "e2ba4057-2070-539d-abba-804b021f4d92",
+    "character": "CHAR_MORZSI",
+    "text": "Együtt megyünk. Én viszem a kosarat.",
+    "performance_text": "[warmly] Együtt megyünk. Én viszem a kosarat.",
+    "scene": "S1E1_SC004",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "3ac5a262-fbc1-5a72-89c5-93b37fbefcff",
+    "character": "CHAR_POTTY",
+    "text": "Jól van. De ha a kapu köszön, én is köszönök. És aztán gondolkodom.",
+    "performance_text": "[gently] Jól van. De ha a kapu köszön, én is köszönök. És aztán gondolkodom.",
+    "scene": "S1E1_SC004",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "a245e68c-538b-5b61-8afd-9dfe0dcdef90",
+    "character": "CHAR_MARK",
+    "text": "Ugyanolyan, mint mindig.",
+    "performance_text": "[curious] Ugyanolyan, mint mindig.",
+    "scene": "S1E1_SC005",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "a1507187-0bb2-5117-8ce6-feac27ea8b0d",
+    "character": "CHAR_LILI",
+    "text": "A szilánk viszont nem.",
+    "performance_text": "[curious] A szilánk viszont nem.",
+    "scene": "S1E1_SC005",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "f4bf4416-7a04-5e2e-8acb-257f5c8ea78c",
+    "character": "CHAR_POTTY",
+    "text": "Jó napot kívánok.",
+    "performance_text": "[gently] Jó napot kívánok.",
+    "scene": "S1E1_SC005",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "0f70cefc-a76f-57ee-b88f-d843e0f71a2b",
+    "character": "CHAR_ZIZI",
+    "text": "A fény három helyen áll meg. Utána visszamegy a közepére.",
+    "performance_text": "[enthusiastic] A fény három helyen áll meg. Utána visszamegy a közepére.",
+    "scene": "S1E1_SC005",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "1da1be2c-df22-5c11-8756-c9a55d466feb",
+    "character": "CHAR_MARK",
+    "text": "Lehet, hogy oda kell tenni.",
+    "performance_text": "[curious] Lehet, hogy oda kell tenni.",
+    "scene": "S1E1_SC005",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "feeb63a3-af1f-54c0-88d1-e744fdd66163",
+    "character": "CHAR_LILI",
+    "text": "Nem érintetted hozzá.",
+    "performance_text": "[curious] Nem érintetted hozzá.",
+    "scene": "S1E1_SC005",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "53c5f26f-2f3e-5aa5-8782-da57667dfaef",
+    "character": "CHAR_MARK",
+    "text": "Akkor most kivételesen jó, hogy nem érintettem hozzá.",
+    "performance_text": "[curious] Akkor most kivételesen jó, hogy nem érintettem hozzá.",
+    "scene": "S1E1_SC005",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "8901d1fc-e3d1-5cf9-8cdd-18cc230da21a",
+    "character": "CHAR_MORZSI",
+    "text": "Az ott… az ég?",
+    "performance_text": "[warmly] Az ott… az ég?",
+    "scene": "S1E1_SC005",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "43187395-39a5-5b09-adb3-3b827e3f80bd",
+    "character": "CHAR_POTTY",
+    "text": "Remélem, van rajta föld is.",
+    "performance_text": "[gently] Remélem, van rajta föld is.",
+    "scene": "S1E1_SC005",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "5c05627c-9300-5543-b355-aba67c5f8556",
+    "character": "CHAR_LILI",
+    "text": "Ott valami nem működik.",
+    "performance_text": "[curious] Ott valami nem működik.",
+    "scene": "S1E1_SC005",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "1c101b7b-c767-523a-be6e-e85916fe0bd2",
+    "character": "CHAR_LILI",
+    "text": "Várj, Bogyó. Előbb megbeszéljük.",
+    "performance_text": "[curious] Várj, Bogyó. Előbb megbeszéljük.",
+    "scene": "S1E1_SC006",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "12e7c19e-723b-55ac-885d-0f8f33a484b3",
+    "character": "CHAR_MARK",
+    "text": "Menjünk át arra az első szigetre. A kaput végig látjuk. Nem indulunk el egyedül.",
+    "performance_text": "[curious] Menjünk át arra az első szigetre. A kaput végig látjuk. Nem indulunk el egyedül.",
+    "scene": "S1E1_SC006",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "181a5c89-2658-56a3-a39b-86b931d531e4",
+    "character": "CHAR_POTTY",
+    "text": "És ha onnan ez a kapu nem látszik?",
+    "performance_text": "[gently] És ha onnan ez a kapu nem látszik?",
+    "scene": "S1E1_SC006",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "50346244-a4fa-59c0-a5a0-8fabfebdbfcc",
+    "character": "CHAR_ZIZI",
+    "text": "Ezt látni fogjuk. És ha el akarunk menni messzebb, előbb megint megállunk.",
+    "performance_text": "[enthusiastic] Ezt látni fogjuk. És ha el akarunk menni messzebb, előbb megint megállunk.",
+    "scene": "S1E1_SC006",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "11a1c913-8fec-52e8-b266-f1b5682cc1ff",
+    "character": "CHAR_MORZSI",
+    "text": "Én leszek az utolsó. Megnézem, hogy mind megvagyunk.",
+    "performance_text": "[warmly] Én leszek az utolsó. Megnézem, hogy mind megvagyunk.",
+    "scene": "S1E1_SC006",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "86fdd780-a61a-5f91-b880-203935fa329e",
+    "character": "CHAR_POTTY",
+    "text": "Hat. Azaz hét… Nem. Hat. Bogyó gyors.",
+    "performance_text": "[gently] Hat. Azaz hét… Nem. Hat. Bogyó gyors.",
+    "scene": "S1E1_SC006",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "b20e0877-47fd-5ba3-ac43-7aaa1c2c3dea",
+    "character": "CHAR_MARK",
+    "text": "Itt is ugyanaz a jel.",
+    "performance_text": "[curious] Itt is ugyanaz a jel.",
+    "scene": "S1E1_SC006",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "c04f419e-03c7-53a6-bb13-b9543040fb73",
+    "character": "CHAR_LILI",
+    "text": "És itt is hiányzik egy darab.",
+    "performance_text": "[curious] És itt is hiányzik egy darab.",
+    "scene": "S1E1_SC006",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "9c116b9d-be6a-54b8-8b66-40da4b03542d",
+    "character": "CHAR_MORZSI",
+    "text": "A fák nem mozognak.",
+    "performance_text": "[warmly] A fák nem mozognak.",
+    "scene": "S1E1_SC007",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "e7b1a4b0-4761-5cf5-93e0-dbd505ec87f8",
+    "character": "CHAR_POTTY",
+    "text": "Az jó. Akkor nem hajolnak ránk.",
+    "performance_text": "[gently] Az jó. Akkor nem hajolnak ránk.",
+    "scene": "S1E1_SC007",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "dc000e91-6703-577f-bf9d-35b4c7c8d78c",
+    "character": "CHAR_LILI",
+    "text": "A levelek sem. Pedig azoknak mozogniuk kellene.",
+    "performance_text": "[curious] A levelek sem. Pedig azoknak mozogniuk kellene.",
+    "scene": "S1E1_SC007",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "e29fe777-50de-5af5-b5c5-2d6949471507",
+    "character": "CHAR_ZIZI",
+    "text": "A szélkerék emelné a vizet. Ha nem forog, a virág sem kap eleget.",
+    "performance_text": "[enthusiastic] A szélkerék emelné a vizet. Ha nem forog, a virág sem kap eleget.",
+    "scene": "S1E1_SC007",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "914e5854-cdf4-5652-a7d1-2e3e0d2b0f92",
+    "character": "CHAR_MARK",
+    "text": "Akkor a toronyból kell szelet csinálnunk.",
+    "performance_text": "[curious] Akkor a toronyból kell szelet csinálnunk.",
+    "scene": "S1E1_SC007",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "d4e5157c-0775-537a-bae2-556ba9969460",
+    "character": "CHAR_LILI",
+    "text": "Nézzük meg előbb, miért állt meg.",
+    "performance_text": "[curious] Nézzük meg előbb, miért állt meg.",
+    "scene": "S1E1_SC007",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "5ac5de6c-78b8-53ae-8b1b-ab99b7712446",
+    "character": "CHAR_POTTY",
+    "text": "Olyan, mintha valaki tüsszenteni akarna, csak nem sikerül neki.",
+    "performance_text": "[gently] Olyan, mintha valaki tüsszenteni akarna, csak nem sikerül neki.",
+    "scene": "S1E1_SC007",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "eea8fcc5-ff88-550b-859a-73e55c01920f",
+    "character": "CHAR_ZIZI",
+    "text": "Nyomásra levegőt küldenek. Csak azt nem tudom még, mennyit.",
+    "performance_text": "[enthusiastic] Nyomásra levegőt küldenek. Csak azt nem tudom még, mennyit.",
+    "scene": "S1E1_SC008",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "abdc8951-fbfe-5612-845d-0754af954d23",
+    "character": "CHAR_MORZSI",
+    "text": "Ezt a frizurát nem kértem.",
+    "performance_text": "[warmly] Ezt a frizurát nem kértem.",
+    "scene": "S1E1_SC008",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "3dc5484a-1823-5628-a624-1cb7c39dd315",
+    "character": "CHAR_LILI",
+    "text": "Egyszerre csak egyet. Halljuk, mit csinál.",
+    "performance_text": "[curious] Egyszerre csak egyet. Halljuk, mit csinál.",
+    "scene": "S1E1_SC008",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "9e589d4b-bbd0-589b-957f-e3a29bdf267c",
+    "character": "CHAR_MARK",
+    "text": "Láttátok? Már majdnem megnyílt!",
+    "performance_text": "[curious] Láttátok? Már majdnem megnyílt!",
+    "scene": "S1E1_SC008",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "d7682d33-cc19-52bf-8215-a0aa73284dfd",
+    "character": "CHAR_LILI",
+    "text": "Márk, várj. Szerintem megmutatja…",
+    "performance_text": "[curious] Márk, várj. Szerintem megmutatja…",
+    "scene": "S1E1_SC008",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "69bda51c-238d-5d36-87ec-70827da6e985",
+    "character": "CHAR_MARK",
+    "text": "Mind a három kell hozzá. Morzsi, ezt nyomd. Zizi, azt!",
+    "performance_text": "[curious] Mind a három kell hozzá. Morzsi, ezt nyomd. Zizi, azt!",
+    "scene": "S1E1_SC008",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "a7993871-29ed-5821-a378-a251bfd6433d",
+    "character": "CHAR_POTTY",
+    "text": "Ott állt meg! A cső alatt!",
+    "performance_text": "[gently] Ott állt meg! A cső alatt!",
+    "scene": "S1E1_SC009",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "210224fd-cf25-5021-b9fd-d80fdcc0b358",
+    "character": "CHAR_MARK",
+    "text": "Elrontottam.",
+    "performance_text": "[worried] Elrontottam.",
+    "scene": "S1E1_SC009",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "d6dcb9b5-eb6b-53a2-8992-d575e8eb4010",
+    "character": "CHAR_LILI",
+    "text": "Valami elmozdult. Még meg tudjuk nézni.",
+    "performance_text": "[worried] Valami elmozdult. Még meg tudjuk nézni.",
+    "scene": "S1E1_SC009",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "a18e0c90-9ac4-59fa-b965-b97b394c5aae",
+    "character": "CHAR_MARK",
+    "text": "Mondtad, hogy várjak.",
+    "performance_text": "[worried] Mondtad, hogy várjak.",
+    "scene": "S1E1_SC009",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "6e6fcabe-9017-5cbf-a6ac-851dec1f881d",
+    "character": "CHAR_LILI",
+    "text": "Igen. Most megvárunk mindenkit. És kitaláljuk együtt.",
+    "performance_text": "[worried] Igen. Most megvárunk mindenkit. És kitaláljuk együtt.",
+    "scene": "S1E1_SC009",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "5b59473b-9530-5ad2-bb72-ec157576bbf4",
+    "character": "CHAR_ZIZI",
+    "text": "A körlap nélkül a levegő rossz irányba megy. Úgy, mint amikor lyukas a kulacs.",
+    "performance_text": "[nervous] A körlap nélkül a levegő rossz irányba megy. Úgy, mint amikor lyukas a kulacs.",
+    "scene": "S1E1_SC009",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "981060f2-444a-5e0b-b663-16993c2ce4e5",
+    "character": "CHAR_MORZSI",
+    "text": "Akkor először visszatesszük a körlapot.",
+    "performance_text": "[warmly] Akkor először visszatesszük a körlapot.",
+    "scene": "S1E1_SC009",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "3ec452c0-170c-590c-88b1-bf9700ec540f",
+    "character": "CHAR_MORZSI",
+    "text": "Itt belül a föld van. Nem az ég fölött megy.",
+    "performance_text": "[warmly] Itt belül a föld van. Nem az ég fölött megy.",
+    "scene": "S1E1_SC010",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "cec8c9e4-2f95-54f6-bb60-380351ca96d2",
+    "character": "CHAR_POTTY",
+    "text": "Azért elég szűk. És sötét is.",
+    "performance_text": "[nervous] Azért elég szűk. És sötét is.",
+    "scene": "S1E1_SC010",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "af93bfbd-b920-51e9-a751-09d3d0b7fa27",
+    "character": "CHAR_MARK",
+    "text": "Nem kell bemenned. Keressünk más megoldást.",
+    "performance_text": "[worried] Nem kell bemenned. Keressünk más megoldást.",
+    "scene": "S1E1_SC010",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "394e46dd-52c9-5377-ac7a-73908bd76496",
+    "character": "CHAR_ZIZI",
+    "text": "A kanyar után én nem tudom mozgatni.",
+    "performance_text": "[nervous] A kanyar után én nem tudom mozgatni.",
+    "scene": "S1E1_SC010",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "94da9bb5-4069-5b99-868c-f71edb2e1611",
+    "character": "CHAR_POTTY",
+    "text": "Ha bemegyek, a rácsnál látlak benneteket?",
+    "performance_text": "[nervous] Ha bemegyek, a rácsnál látlak benneteket?",
+    "scene": "S1E1_SC010",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "a2b70aba-09e6-5714-8f69-c4b6c46bb1ae",
+    "character": "CHAR_LILI",
+    "text": "Igen. Itt maradok. Végig beszélünk.",
+    "performance_text": "[worried] Igen. Itt maradok. Végig beszélünk.",
+    "scene": "S1E1_SC010",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "80731a80-0238-50a9-bee7-148b77de4b89",
+    "character": "CHAR_POTTY",
+    "text": "Mi volt ez?",
+    "performance_text": "[nervous] Mi volt ez?",
+    "scene": "S1E1_SC011",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "3caddc7c-40a6-5359-aa22-da4d15bd9a12",
+    "character": "CHAR_LILI",
+    "text": "A fal alján moha. A fényben itt is látom.",
+    "performance_text": "[thoughtful] A fal alján moha. A fényben itt is látom.",
+    "scene": "S1E1_SC011",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "408609dd-4214-57b7-9a0b-85730ee8d0eb",
+    "character": "CHAR_POTTY",
+    "text": "Jó. A mohától nem félek. Csak meglepett.",
+    "performance_text": "[nervous] Jó. A mohától nem félek. Csak meglepett.",
+    "scene": "S1E1_SC011",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "392a3618-532a-54f7-8a29-577dfe8ef638",
+    "character": "CHAR_MARK",
+    "text": "Látlak. Még két kicsi lépés, és a lap mellett vagy.",
+    "performance_text": "[thoughtful] Látlak. Még két kicsi lépés, és a lap mellett vagy.",
+    "scene": "S1E1_SC011",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "49d1b961-34e2-52e6-a3a7-499348944a3d",
+    "character": "CHAR_POTTY",
+    "text": "Megvan! És van itt valami növény is. Bent nőtt a csőben.",
+    "performance_text": "[nervous] Megvan! És van itt valami növény is. Bent nőtt a csőben.",
+    "scene": "S1E1_SC011",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "18db4bbc-ee44-5e6b-8bed-a557ddc42177",
+    "character": "CHAR_ZIZI",
+    "text": "Attól is elakadhatott a levegő. Ne tépd ki. Megnézzük, hol tud elférni.",
+    "performance_text": "[enthusiastic] Attól is elakadhatott a levegő. Ne tépd ki. Megnézzük, hol tud elférni.",
+    "scene": "S1E1_SC011",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "3c516a6e-20ad-5c70-a370-20c0382b55d5",
+    "character": "CHAR_MARK",
+    "text": "Nagyon bátor voltál.",
+    "performance_text": "[thoughtful] Nagyon bátor voltál.",
+    "scene": "S1E1_SC011",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "513e043e-c5d5-5751-9787-58a8c45e6e11",
+    "character": "CHAR_POTTY",
+    "text": "Én közben féltem.",
+    "performance_text": "[nervous] Én közben féltem.",
+    "scene": "S1E1_SC011",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "56c9b251-87bc-5c2c-96d2-6bdb58980379",
+    "character": "CHAR_MORZSI",
+    "text": "Attól még bátor voltál.",
+    "performance_text": "[warmly] Attól még bátor voltál.",
+    "scene": "S1E1_SC011",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "cd53ddc8-0cd1-5c4e-9613-2c7df219b8b6",
+    "character": "CHAR_MARK",
+    "text": "Csak útban van. Arrébb tehetjük?",
+    "performance_text": "[curious] Csak útban van. Arrébb tehetjük?",
+    "scene": "S1E1_SC012",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "36a562ad-6160-5c46-8f22-62fac899c321",
+    "character": "CHAR_LILI",
+    "text": "Óvatosan. Ez is ide tartozik.",
+    "performance_text": "[thoughtful] Óvatosan. Ez is ide tartozik.",
+    "scene": "S1E1_SC012",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "a719fa0a-8c3b-56e2-8ad4-f718c6072676",
+    "character": "CHAR_POTTY",
+    "text": "Elég lesz nekünk is?",
+    "performance_text": "[gently] Elég lesz nekünk is?",
+    "scene": "S1E1_SC012",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "471f2a9b-389f-5f19-84f3-97d909229f31",
+    "character": "CHAR_MORZSI",
+    "text": "Van még nálam. A kert is kaphat.",
+    "performance_text": "[warmly] Van még nálam. A kert is kaphat.",
+    "scene": "S1E1_SC012",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "9ba962c2-276b-5245-8cd5-23d695eb9b90",
+    "character": "CHAR_ZIZI",
+    "text": "Most a gyökér kap vizet. A levegő pedig kap utat.",
+    "performance_text": "[enthusiastic] Most a gyökér kap vizet. A levegő pedig kap utat.",
+    "scene": "S1E1_SC012",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "3412d83c-0d82-50d9-b7ff-02fd13065e1a",
+    "character": "CHAR_MARK",
+    "text": "Most már csak a három hang.",
+    "performance_text": "[thoughtful] Most már csak a három hang.",
+    "scene": "S1E1_SC012",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "97a800e1-d55f-52b3-bb7e-8128a65d0451",
+    "character": "CHAR_LILI",
+    "text": "Igen. De ezúttal meghallgatjuk a kertet.",
+    "performance_text": "[thoughtful] Igen. De ezúttal meghallgatjuk a kertet.",
+    "scene": "S1E1_SC012",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "aac62198-9652-559d-811a-9bc8547e40c4",
+    "character": "CHAR_MARK",
+    "text": "Ugyanaz a három fény, mint az erdőben.",
+    "performance_text": "[thoughtful] Ugyanaz a három fény, mint az erdőben.",
+    "scene": "S1E1_SC013",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "9e35573c-e306-5155-943c-e7304024bc53",
+    "character": "CHAR_ZIZI",
+    "text": "Kör, két pont, hullám. És utána semmi.",
+    "performance_text": "[enthusiastic] Kör, két pont, hullám. És utána semmi.",
+    "scene": "S1E1_SC013",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "69edecc2-f6da-576b-a4e9-1d875f86cfa0",
+    "character": "CHAR_MORZSI",
+    "text": "A semmit is meg kell nyomni?",
+    "performance_text": "[warmly] A semmit is meg kell nyomni?",
+    "scene": "S1E1_SC013",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "f1dd89c2-4283-5baa-a1c5-4770f915c2b4",
+    "character": "CHAR_LILI",
+    "text": "A semminél nem nyomunk. Várunk.",
+    "performance_text": "[thoughtful] A semminél nem nyomunk. Várunk.",
+    "scene": "S1E1_SC013",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "e8c053e2-c61e-59f7-a061-5988b8a79bd0",
+    "character": "CHAR_MARK",
+    "text": "Mély. Magas. Középső. Szünet.",
+    "performance_text": "[thoughtful] Mély. Magas. Középső. Szünet.",
+    "scene": "S1E1_SC013",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "3ac88256-1c44-5352-a032-cb1d16d4171b",
+    "character": "CHAR_MORZSI",
+    "text": "Ez még a szünet volt.",
+    "performance_text": "[warmly] Ez még a szünet volt.",
+    "scene": "S1E1_SC013",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "38ca4798-272e-514c-9641-768f0eb14756",
+    "character": "CHAR_POTTY",
+    "text": "Én figyelem a fényt. Szólok, amikor vége.",
+    "performance_text": "[gently] Én figyelem a fényt. Szólok, amikor vége.",
+    "scene": "S1E1_SC013",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "861e8900-fb6e-53d4-9a7c-2c0bfa918ee1",
+    "character": "CHAR_ZIZI",
+    "text": "Én a csöveket. Ha bármi rossz irányba indul, megállunk.",
+    "performance_text": "[enthusiastic] Én a csöveket. Ha bármi rossz irányba indul, megállunk.",
+    "scene": "S1E1_SC013",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "13330cc6-eb66-56bc-b189-afa0e69e9aec",
+    "character": "CHAR_MARK",
+    "text": "És én… most bevárok mindenkit.",
+    "performance_text": "[thoughtful] És én… most bevárok mindenkit.",
+    "scene": "S1E1_SC013",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "b459671f-c801-5242-9447-e27687e3be33",
+    "character": "CHAR_POTTY",
+    "text": "Most!",
+    "performance_text": "[gently] Most!",
+    "scene": "S1E1_SC014",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "02292cf7-2659-51f7-bc25-bdb628b9aec5",
+    "character": "CHAR_MARK",
+    "text": "Megcsináltuk!",
+    "performance_text": "[excited] Megcsináltuk!",
+    "scene": "S1E1_SC014",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "65a30093-c1cc-50c2-9f9e-fa19723df8ef",
+    "character": "CHAR_ZIZI",
+    "text": "A levegő most jó helyre megy. Csak még nem tud kijönni.",
+    "performance_text": "[enthusiastic] A levegő most jó helyre megy. Csak még nem tud kijönni.",
+    "scene": "S1E1_SC014",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "5b1c80f7-57e2-5cd4-ab27-b21999f0577e",
+    "character": "CHAR_MORZSI",
+    "text": "Akkor megnyitjuk az utat neki.",
+    "performance_text": "[warmly] Akkor megnyitjuk az utat neki.",
+    "scene": "S1E1_SC014",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "56223298-0436-565c-ab61-f6a706247f82",
+    "character": "CHAR_LILI",
+    "text": "Együtt maradunk. És nem visszük el a szilánkot, amíg meg nem nézzük, mit tart nyitva.",
+    "performance_text": "[excited] Együtt maradunk. És nem visszük el a szilánkot, amíg meg nem nézzük, mit tart nyitva.",
+    "scene": "S1E1_SC014",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "4c11a870-0cb6-513f-89b7-8c2911f56517",
+    "character": "CHAR_POTTY",
+    "text": "Itt leszünk. Ha változik a fény, szólok.",
+    "performance_text": "[gently] Itt leszünk. Ha változik a fény, szólok.",
+    "scene": "S1E1_SC014",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "8bb5238c-aebf-562f-95f9-4341cb5f7b7e",
+    "character": "CHAR_LILI",
+    "text": "Álljatok meg egy kicsit.",
+    "performance_text": "[excited] Álljatok meg egy kicsit.",
+    "scene": "S1E1_SC015",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "71b47e3e-f643-56ef-b31a-3bcd4dd35988",
+    "character": "CHAR_ZIZI",
+    "text": "Ez volt az utolsó akadály. Most nem egyszerre erősebben kell. Hanem sorban újra.",
+    "performance_text": "[enthusiastic] Ez volt az utolsó akadály. Most nem egyszerre erősebben kell. Hanem sorban újra.",
+    "scene": "S1E1_SC015",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "67d12ae7-e8f2-5ed1-92ec-7f9c33a31c5a",
+    "character": "CHAR_MARK",
+    "text": "Köszönöm, hogy szóltál, Lili.",
+    "performance_text": "[excited] Köszönöm, hogy szóltál, Lili.",
+    "scene": "S1E1_SC015",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "a0ae3697-0f8e-5de6-bbac-e230739ddb6e",
+    "character": "CHAR_LILI",
+    "text": "Köszönöm, hogy megálltatok.",
+    "performance_text": "[excited] Köszönöm, hogy megálltatok.",
+    "scene": "S1E1_SC015",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "a53e5c58-b51f-5b06-b8a6-d3bd933980ef",
+    "character": "CHAR_POTTY",
+    "text": "Most!",
+    "performance_text": "[gently] Most!",
+    "scene": "S1E1_SC015",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "4d3b6367-69ec-5059-a821-7135139a7731",
+    "character": "CHAR_MORZSI",
+    "text": "Úgy látom, ez marad a mai frizurám.",
+    "performance_text": "[warmly] Úgy látom, ez marad a mai frizurám.",
+    "scene": "S1E1_SC016",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "99926520-6c22-5525-b6ae-02aa7ec4871d",
+    "character": "CHAR_ZIZI",
+    "text": "Ezt műszer nélkül is látom. Működik.",
+    "performance_text": "[enthusiastic] Ezt műszer nélkül is látom. Működik.",
+    "scene": "S1E1_SC016",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "79e0b3f8-a01f-5075-97ee-737c5eaadbf2",
+    "character": "CHAR_MARK",
+    "text": "Olyan, mintha a kapuhoz tartozna.",
+    "performance_text": "[excited] Olyan, mintha a kapuhoz tartozna.",
+    "scene": "S1E1_SC016",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "78cc3f49-e8bd-57fd-bc08-ecf2f11d82c0",
+    "character": "CHAR_LILI",
+    "text": "És nem csak ehhez a kerthez.",
+    "performance_text": "[excited] És nem csak ehhez a kerthez.",
+    "scene": "S1E1_SC016",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "b9f4b12e-ae6d-534e-8074-31f5d5f3a50f",
+    "character": "CHAR_POTTY",
+    "text": "Hány darab lehet még?",
+    "performance_text": "[gently] Hány darab lehet még?",
+    "scene": "S1E1_SC016",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "2c5042b2-27c7-5789-b638-cdb73d17840d",
+    "character": "CHAR_ZIZI",
+    "text": "Ezt most még a mindenmérő sem tudná.",
+    "performance_text": "[enthusiastic] Ezt most még a mindenmérő sem tudná.",
+    "scene": "S1E1_SC016",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "a92c5bd8-ddb1-5e64-9051-1cfab1bce788",
+    "character": "CHAR_POTTY",
+    "text": "Hat. Most biztos.",
+    "performance_text": "[gently] Hat. Most biztos.",
+    "scene": "S1E1_SC016",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "fba4250d-7c5d-576c-93fb-e4b21120ef68",
+    "character": "CHAR_MARK",
+    "text": "Hazamegyünk. De ezt nem felejtjük el.",
+    "performance_text": "[excited] Hazamegyünk. De ezt nem felejtjük el.",
+    "scene": "S1E1_SC016",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "24f1ab63-c1e2-5b8b-81de-1da5322ba8e1",
+    "character": "CHAR_POTTY",
+    "text": "Most már köszöntünk, beszéltünk, és haza is jöttünk.",
+    "performance_text": "[gently] Most már köszöntünk, beszéltünk, és haza is jöttünk.",
+    "scene": "S1E1_SC017",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "38889253-51e7-56a4-adad-782ec64e5497",
+    "character": "CHAR_MORZSI",
+    "text": "Akkor jöhet a túra másik fele.",
+    "performance_text": "[warmly] Akkor jöhet a túra másik fele.",
+    "scene": "S1E1_SC017",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "3a8c4427-a2c2-5645-ba62-20a5eae5894e",
+    "character": "CHAR_MARK",
+    "text": "Majdnem úgy csináltam végig, mintha csak nekem lenne ötletem.",
+    "performance_text": "[happy] Majdnem úgy csináltam végig, mintha csak nekem lenne ötletem.",
+    "scene": "S1E1_SC017",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "02bb84bd-8e89-5095-a35c-ee7cc562c378",
+    "character": "CHAR_ZIZI",
+    "text": "Pedig nekem nagyon sok ötletem van. Néha túl sok.",
+    "performance_text": "[enthusiastic] Pedig nekem nagyon sok ötletem van. Néha túl sok.",
+    "scene": "S1E1_SC017",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "89f36e19-0d54-504e-8083-74e66ce72c5f",
+    "character": "CHAR_LILI",
+    "text": "Nekünk ma pont hat kellett.",
+    "performance_text": "[happy] Nekünk ma pont hat kellett.",
+    "scene": "S1E1_SC017",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "c90094a3-97a0-5f14-bafd-fc223bdc754c",
+    "character": "CHAR_POTTY",
+    "text": "Az enyém az volt, hogy féljek egy kicsit, aztán mégis bemenjek.",
+    "performance_text": "[gently] Az enyém az volt, hogy féljek egy kicsit, aztán mégis bemenjek.",
+    "scene": "S1E1_SC017",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "df5a9b77-32ef-5694-8eba-cd95c99a0a4d",
+    "character": "CHAR_MORZSI",
+    "text": "Az enyém, hogy ne essen le a fedél.",
+    "performance_text": "[warmly] Az enyém, hogy ne essen le a fedél.",
+    "scene": "S1E1_SC017",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "80340fc7-c517-5440-977c-2918254b62b1",
+    "character": "CHAR_MARK",
+    "text": "Bogyóé meg, hogy mutassa az utat.",
+    "performance_text": "[happy] Bogyóé meg, hogy mutassa az utat.",
+    "scene": "S1E1_SC017",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "92ad3c8c-3676-52c7-89be-ab090706e6d0",
+    "character": "CHAR_MARK",
+    "text": "Lili…",
+    "performance_text": "[curious] Lili…",
+    "scene": "S1E1_SC018",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "13d0a321-d2ac-5dd0-b137-d79f91e0ef3e",
+    "character": "CHAR_LILI",
+    "text": "Láttam.",
+    "performance_text": "[curious] Láttam.",
+    "scene": "S1E1_SC018",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "3d93996b-7582-55f2-bee8-c1426f417a7f",
+    "character": "CHAR_MARK",
+    "text": "Ez tényleg csak az első darab.",
+    "performance_text": "[curious] Ez tényleg csak az első darab.",
+    "scene": "S1E1_SC018",
+    "kind": "DIALOGUE"
+  },
+  {
+    "id": "mark_gasp",
+    "character": "CHAR_MARK",
+    "text": "Hű!",
+    "performance_text": "[gasps] Hű!",
+    "kind": "REACTION",
+    "source_start_sec": 21.2
+  },
+  {
+    "id": "lili_wow",
+    "character": "CHAR_LILI",
+    "text": "Ó!",
+    "performance_text": "[surprised] Ó!",
+    "kind": "REACTION",
+    "source_start_sec": 57.6
+  },
+  {
+    "id": "mark_world",
+    "character": "CHAR_MARK",
+    "text": "Hűha!",
+    "performance_text": "[awed] Hűha!",
+    "kind": "REACTION",
+    "source_start_sec": 298.0
+  },
+  {
+    "id": "mor_sneeze",
+    "character": "CHAR_MORZSI",
+    "text": "Hapci!",
+    "performance_text": "[sneezes] Hapci!",
+    "kind": "REACTION",
+    "source_start_sec": 451.0
+  },
+  {
+    "id": "potty_wind",
+    "character": "CHAR_POTTY",
+    "text": "Ó!",
+    "performance_text": "[gasps] Ó!",
+    "kind": "REACTION",
+    "source_start_sec": 536.7
+  },
+  {
+    "id": "zizi_oops",
+    "character": "CHAR_ZIZI",
+    "text": "Hoppá!",
+    "performance_text": "[surprised] Hoppá!",
+    "kind": "REACTION",
+    "source_start_sec": 539.1
+  },
+  {
+    "id": "potty_breath",
+    "character": "CHAR_POTTY",
+    "text": "Rendben...",
+    "performance_text": "[takes a deep breath] Rendben...",
+    "kind": "REACTION",
+    "source_start_sec": 650.0
+  },
+  {
+    "id": "potty_laugh",
+    "character": "CHAR_POTTY",
+    "text": "Hihi!",
+    "performance_text": "[laughs] Hihi!",
+    "kind": "REACTION",
+    "source_start_sec": 736.4
+  },
+  {
+    "id": "mark_success",
+    "character": "CHAR_MARK",
+    "text": "Ez az!",
+    "performance_text": "[excited] Ez az!",
+    "kind": "REACTION",
+    "source_start_sec": 1037.0
+  },
+  {
+    "id": "zizi_success",
+    "character": "CHAR_ZIZI",
+    "text": "Sikerült!",
+    "performance_text": "[excited] Sikerült!",
+    "kind": "REACTION",
+    "source_start_sec": 1040.0
+  },
+  {
+    "id": "mor_laugh",
+    "character": "CHAR_MORZSI",
+    "text": "Haha!",
+    "performance_text": "[chuckles] Haha!",
+    "kind": "REACTION",
+    "source_start_sec": 1163.7
+  },
+  {
+    "id": "lili_laugh",
+    "character": "CHAR_LILI",
+    "text": "Hihi!",
+    "performance_text": "[laughs] Hihi!",
+    "kind": "REACTION",
+    "source_start_sec": 1165.3
+  }
+]
