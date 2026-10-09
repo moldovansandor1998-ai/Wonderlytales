@@ -3,6 +3,7 @@ import { getDb, newId, now } from './db';
 import { getTtsProvider, ttsCacheKey } from './providers/tts';
 import { getStorage } from './providers/storage';
 import type { Character, Voice, Episode, DialogueLine, Scene, CostEvent } from './types';
+import { reviewRecordedSpeech } from './speechTiming';
 
 export const performanceEpisode = '61e0de73-8206-4bf9-8ed7-f4132de7db50';
 export async function performanceItems(episodeId: string) {
@@ -34,6 +35,21 @@ export async function performanceBatch(episodeId: string) {
     await storage.put(item.path, result.audio, 'audio/mpeg', { episode: episodeId, performance: item.id, revision: 'V016' });
     await db.insert<CostEvent>('cost_events', { id: newId(), episode_id: episodeId, project_id: null, series_id: null, shot_id: null, category: 'TTS', provider: result.provider, service: 'expressive_v3_estimate', amount_usd: result.costUsd, quantity: item.performance_text.length, unit: 'char', currency: 'USD', created_at: now() });
     generated++; completed++;
+  }
+  return { completed, total: items.length, done: completed === items.length };
+}
+export async function performanceReviewBatch(episodeId: string) {
+  const items = (await performanceItems(episodeId)).filter(i => i.kind === 'DIALOGUE');
+  const storage = getStorage();
+  const keys = items.map(i => i.path + '.performance_review.json');
+  const ready = await Promise.all(keys.map(key => storage.exists(key)));
+  let completed = ready.filter(Boolean).length, reviewed = 0;
+  for (const [index, item] of items.entries()) {
+    if (ready[index] || reviewed >= 2) continue;
+    if (!(await storage.exists(item.path))) throw new Error('Előbb készítsd el a hangfelvételeket.');
+    const result = await reviewRecordedSpeech(storage, await storage.get(item.path), item.text, process.env.ELEVENLABS_API_KEY ?? '');
+    await storage.put(keys[index], JSON.stringify({ ...result, performance_id: item.id, source_path: item.path }), 'application/json');
+    reviewed++; completed++;
   }
   return { completed, total: items.length, done: completed === items.length };
 }

@@ -16,6 +16,10 @@ export async function GET(request: Request, { params }: { params: { id: string }
   }
   if (!(await Promise.all(items.map(i => storage.exists(i.path)))).every(Boolean)) return NextResponse.json({error:'A felvételek még készülnek.'}, {status:409});
   const entries = await Promise.all(items.map(async i => ({name:`${i.id}.mp3`, data:await storage.get(i.path)})));
+  for (const item of items.filter(i => i.kind === 'DIALOGUE')) {
+    const key = item.path + '.performance_review.json';
+    if (await storage.exists(key)) entries.push({name:`reviews/${item.id}.json`,data:await storage.get(key)});
+  }
   entries.push({name:'manifest.json',data:Buffer.from(JSON.stringify({status:'PERFORMANCE_REVIEW_V016',items},null,2))});
   return new NextResponse(new Uint8Array(audioZip(entries)), {headers:{'Content-Type':'application/zip','Content-Disposition':'attachment; filename="Csodakapu_S1E1_eloadoi_hangok_V016.zip"','Cache-Control':'private, no-store'}});
 }
