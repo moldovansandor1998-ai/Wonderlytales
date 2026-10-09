@@ -1,0 +1,14 @@
+{
+  "duration_sec": 1219.9583333333333,
+  "total_frames": 29279,
+  "intro_start_frame": 1529,
+  "intro_seconds": 15,
+  "credits_seconds": 15,
+  "dialogue_count": 131,
+  "peak": 0.8650414943695068,
+  "clipped_samples": 0,
+  "animation_complete": false,
+  "final_sound_design_complete": false,
+  "episode_finished": false,
+  "status": "FULL_LENGTH_AUDIO_REVIEW_WITH_OPENING_AND_CREDITS"
+}

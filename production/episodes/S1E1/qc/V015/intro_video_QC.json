@@ -1,0 +1,10 @@
+{
+  "status": "MOTION_GRAPHIC_OPENING_DRAFT",
+  "native_3d_source_frame": "environment-stage-v015/S1E1_forest_log_review.png",
+  "duration_sec": "15.000000",
+  "width": 1280,
+  "height": 720,
+  "fps": 24,
+  "character_animation": false,
+  "final_approved": false
+}

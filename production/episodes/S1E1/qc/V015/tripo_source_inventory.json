@@ -1,0 +1,172 @@
+[
+  {
+    "file": "CHAR_BOGYO_TRIPO_V001.glb",
+    "sha256": "fb5617ba8f1477a73ac15a2400b62a80a8dd091ed3d7a9675d3d10bb9b96b95b",
+    "size_bytes": 69026984,
+    "valid_glb_container": true,
+    "generator": "Tripo",
+    "meshes": 1,
+    "primitives": 1,
+    "vertices_across_primitives": 1058282,
+    "triangle_count": 1902218,
+    "materials": 1,
+    "textures": 3,
+    "images": 3,
+    "skins": 0,
+    "animations": 0,
+    "morph_target_count": 0,
+    "external_resources": [],
+    "position_bounds": [
+      {
+        "min": [
+          -0.4911956787109375,
+          0,
+          -0.3657073974609375
+        ],
+        "max": [
+          0.4911956787109375,
+          0.894989013671875,
+          0.3657073974609375
+        ]
+      }
+    ],
+    "production_approved": false,
+    "limitations": "Container and geometry inventory check only; does not establish deformation, rig, facial controls, or production suitability."
+  },
+  {
+    "file": "CHAR_LILI_TRIPO_V001.glb",
+    "sha256": "a50dae76e95af427226dea9aa9ee95888f4ad17583d05b4752caf1e4a6c4406f",
+    "size_bytes": 68535436,
+    "valid_glb_container": true,
+    "generator": "Tripo",
+    "meshes": 1,
+    "primitives": 1,
+    "vertices_across_primitives": 1093185,
+    "triangle_count": 1930264,
+    "materials": 1,
+    "textures": 3,
+    "images": 3,
+    "skins": 0,
+    "animations": 0,
+    "morph_target_count": 0,
+    "external_resources": [],
+    "position_bounds": [
+      {
+        "min": [
+          -0.4818572998046875,
+          0,
+          -0.339385986328125
+        ],
+        "max": [
+          0.4818572998046875,
+          0.981201171875,
+          0.339385986328125
+        ]
+      }
+    ],
+    "production_approved": false,
+    "limitations": "Container and geometry inventory check only; does not establish deformation, rig, facial controls, or production suitability."
+  },
+  {
+    "file": "CHAR_MORZSI_TRIPO_V001.glb",
+    "sha256": "78cb4ec246255285bf9359c84371e7f331c51a9cff2cbad06371b473a925cb42",
+    "size_bytes": 68454712,
+    "valid_glb_container": true,
+    "generator": "Tripo",
+    "meshes": 1,
+    "primitives": 1,
+    "vertices_across_primitives": 1020973,
+    "triangle_count": 1878397,
+    "materials": 1,
+    "textures": 3,
+    "images": 3,
+    "skins": 0,
+    "animations": 0,
+    "morph_target_count": 0,
+    "external_resources": [],
+    "position_bounds": [
+      {
+        "min": [
+          -0.247772216796875,
+          0,
+          -0.262725830078125
+        ],
+        "max": [
+          0.247772216796875,
+          0.980926513671875,
+          0.262725830078125
+        ]
+      }
+    ],
+    "production_approved": false,
+    "limitations": "Container and geometry inventory check only; does not establish deformation, rig, facial controls, or production suitability."
+  },
+  {
+    "file": "CHAR_POTTY_TRIPO_V001.glb",
+    "sha256": "1ed54193163497c189dd747ed7a7da61eaba8e6cea6552213d5e226ee0e947eb",
+    "size_bytes": 67320564,
+    "valid_glb_container": true,
+    "generator": "Tripo",
+    "meshes": 1,
+    "primitives": 1,
+    "vertices_across_primitives": 1054728,
+    "triangle_count": 1941828,
+    "materials": 1,
+    "textures": 3,
+    "images": 3,
+    "skins": 0,
+    "animations": 0,
+    "morph_target_count": 0,
+    "external_resources": [],
+    "position_bounds": [
+      {
+        "min": [
+          -0.22353363037109375,
+          0,
+          -0.222137451171875
+        ],
+        "max": [
+          0.22353363037109375,
+          0.98065185546875,
+          0.222137451171875
+        ]
+      }
+    ],
+    "production_approved": false,
+    "limitations": "Container and geometry inventory check only; does not establish deformation, rig, facial controls, or production suitability."
+  },
+  {
+    "file": "CHAR_ZIZI_TRIPO_V001.glb",
+    "sha256": "fb7e5add8fef0e9fea32c526b823064dc6d6eb4f80d2c46835225149de707b61",
+    "size_bytes": 70595728,
+    "valid_glb_container": true,
+    "generator": "Tripo",
+    "meshes": 1,
+    "primitives": 1,
+    "vertices_across_primitives": 1060054,
+    "triangle_count": 1908674,
+    "materials": 1,
+    "textures": 3,
+    "images": 3,
+    "skins": 0,
+    "animations": 0,
+    "morph_target_count": 0,
+    "external_resources": [],
+    "position_bounds": [
+      {
+        "min": [
+          -0.30108642578125,
+          0,
+          -0.306976318359375
+        ],
+        "max": [
+          0.30108642578125,
+          0.9794921875,
+          0.306976318359375
+        ]
+      }
+    ],
+    "production_approved": false,
+    "limitations": "Container and geometry inventory check only; does not establish deformation, rig, facial controls, or production suitability."
+  }
+]

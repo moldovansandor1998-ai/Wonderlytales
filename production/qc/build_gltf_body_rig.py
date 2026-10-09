@@ -25,14 +25,21 @@ def read_positions(doc,data,index):
 
 def convert(point):return np.array([point[0],point[2],-point[1]])
 
-def build(folder,code,input_version="V005",output_version="V006"):
+def build(folder,code,input_version="V005",output_version="V006",model_yaw_deg=0):
  source=folder/(code+'_'+input_version+'.glb');doc,data=read_glb(source);prim=doc['meshes'][0]['primitives'][0]
  rest=read_positions(doc,data,prim['attributes']['POSITION']);coords=rest[:,[0,2,1]].copy();coords[:,1]*=-1
+ yaw=math.radians(model_yaw_deg)
+ rotation=np.array([[math.cos(yaw),-math.sin(yaw),0],[math.sin(yaw),math.cos(yaw),0],[0,0,1]])
+ coords=coords@rotation.T
  low,high=coords.min(0),coords.max(0);coords[:,0]-=(low[0]+high[0])/2;coords[:,1]-=(low[1]+high[1])/2;coords[:,2]-=low[2];coords/=(high[2]-low[2]);rest=np.column_stack((coords[:,0],coords[:,2],-coords[:,1]))
  prim['attributes']['POSITION']=add(doc,data,rest,'VEC3',target=34962,bounds=True)
  # TRELLIS may export zero normals on tiny degenerate fur triangles. Repair only
  # their direction from the nearest valid surface vertex, preserving the geometry.
- normals=read_positions(doc,data,prim['attributes']['NORMAL']);lengths=np.linalg.norm(normals,axis=1);invalid=lengths<1e-8;repaired=int(invalid.sum())
+ normals=read_positions(doc,data,prim['attributes']['NORMAL'])
+ if yaw:
+  normal_coords=normals[:,[0,2,1]].copy();normal_coords[:,1]*=-1;normal_coords=normal_coords@rotation.T
+  normals=np.column_stack((normal_coords[:,0],normal_coords[:,2],-normal_coords[:,1]))
+ lengths=np.linalg.norm(normals,axis=1);invalid=lengths<1e-8;repaired=int(invalid.sum())
  if repaired:
   from scipy.spatial import cKDTree
   valid=np.flatnonzero(~invalid);nearest=cKDTree(rest[valid]).query(rest[invalid])[1];normals[invalid]=normals[valid[nearest]]
@@ -84,8 +91,9 @@ def build(folder,code,input_version="V005",output_version="V006"):
  snapshot['meshes'][0]['primitives'][0]['attributes']['POSITION']=add(snapshot,data,posed,'VEC3',target=34962,bounds=True);save_glb(folder/(code+'_'+output_version+'_POSE_CHECK.glb'),snapshot,data)
  verified,_=read_glb(out);assert len(verified['skins'])==1 and len(verified['animations'])==1
  report={'character':code,'status':'DRAFT_BODY_RIG_REQUIRES_DEFORMATION_REVIEW','bones':len(bones),'vertices':len(coords),'body_rig_created':True,'normal_vectors_repaired':repaired,'facial_ready':False,'production_approved':False,'maximum_pose_displacement':float(delta.max()),'moving_vertices':int((delta>.001).sum()),'retopology_completed':False,'eyes_independent':False,'source_sha256':hashlib.sha256(source.read_bytes()).hexdigest(),'sha256':hashlib.sha256(out.read_bytes()).hexdigest()}
+ report['model_yaw_deg']=model_yaw_deg
  (folder/(code+'_'+output_version+'_rig_check.json')).write_text(json.dumps(report,indent=2));print(json.dumps(report),flush=True)
 if __name__=='__main__':
- parser=argparse.ArgumentParser();parser.add_argument('directory');parser.add_argument('--input-version',default='V005');parser.add_argument('--output-version',default='V006');parser.add_argument('--characters',nargs='+',default=['CHAR_MARK','CHAR_LILI']);args=parser.parse_args()
- for code in args.characters:build(Path(args.directory),code,args.input_version,args.output_version)
+ parser=argparse.ArgumentParser();parser.add_argument('directory');parser.add_argument('--input-version',default='V005');parser.add_argument('--output-version',default='V006');parser.add_argument('--characters',nargs='+',default=['CHAR_MARK','CHAR_LILI']);parser.add_argument('--model-yaw-deg',type=float,default=0);args=parser.parse_args()
+ for code in args.characters:build(Path(args.directory),code,args.input_version,args.output_version,args.model_yaw_deg)
  os.sync()

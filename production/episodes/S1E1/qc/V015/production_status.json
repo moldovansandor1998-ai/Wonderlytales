@@ -1,0 +1,17 @@
+{
+  "version": "V015",
+  "episode": "S1E1",
+  "status": "ASSETS_AND_AUDIO_REVIEW",
+  "new_tripo_characters": 5,
+  "characters_in_native_cast_stage": 6,
+  "source_originals_archive": "WonderlyTales_ot_uj_Tripo_karakter_eredeti_V015.zip",
+  "source_originals_library_file_id": "libfile_95530993dd248191b063fa4d7ed8e32e",
+  "credits_spent": 275,
+  "credits_authorized_max": 1000,
+  "full_dialogue_with_intro_and_credits_sec": 1219.9583333333333,
+  "facial_ready": false,
+  "full_scene_animation_complete": false,
+  "sound_design_complete": false,
+  "full_episode_rendered": false,
+  "episode_finished": false
+}

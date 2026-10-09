@@ -1,0 +1,40 @@
+{
+  "authorized_max_credits": 1000,
+  "starting_balance": 3070,
+  "ending_balance": 2795,
+  "spent": 275,
+  "remaining_authorized": 725,
+  "tasks": [
+    {
+      "character": "CHAR_LILI",
+      "task_id": "c6679bba-26d1-4a52-aa74-7f9ad6ab72d0",
+      "credits": 55,
+      "status": "COMPLETED_EXPORTED"
+    },
+    {
+      "character": "CHAR_MORZSI",
+      "task_id": "bfeb0bfd-47b5-45f5-91ee-a834dfa6eb89",
+      "credits": 55,
+      "status": "COMPLETED_EXPORTED"
+    },
+    {
+      "character": "CHAR_POTTY",
+      "task_id": "c5717285-e454-4d79-8492-7a6adf80426a",
+      "credits": 55,
+      "status": "COMPLETED_EXPORTED"
+    },
+    {
+      "character": "CHAR_BOGYO",
+      "task_id": "d6d62fc4-67d0-48d5-8431-1629b36be101",
+      "credits": 55,
+      "status": "COMPLETED_EXPORTED"
+    },
+    {
+      "character": "CHAR_ZIZI",
+      "task_id": "81f0f809-5b82-4dd8-a4a1-17330c79cf5f",
+      "credits": 55,
+      "status": "COMPLETED_EXPORTED"
+    }
+  ],
+  "gallery_assets_bought": 0
+}
