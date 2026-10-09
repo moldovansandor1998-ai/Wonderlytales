@@ -1,0 +1,8 @@
+{
+  "status": "LOOKDEV_REVIEW_STAGE",
+  "character_height_m": 1.6,
+  "character": "CHAR_MARK",
+  "body_rig": true,
+  "facial_ready": false,
+  "episode_finished": false
+}

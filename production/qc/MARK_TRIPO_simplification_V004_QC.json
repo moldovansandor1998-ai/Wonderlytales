@@ -1,0 +1,22 @@
+{
+  "status": "SIMPLIFIED_BODY_RIG_CANDIDATE",
+  "source_sha256": "90f76bb5ed28e19d36bd8a4ad7ad07253c6878439c76e12c964abfe514b47b21",
+  "before": {
+    "vertices": 1034844,
+    "triangles": 1993052
+  },
+  "after": {
+    "vertices": 103256,
+    "triangles": 149478
+  },
+  "uv_preserved": true,
+  "vertex_groups_preserved": true,
+  "reopened": true,
+  "maximum_pose_displacement": 0.037464939057826996,
+  "moving_vertices": 6269,
+  "facial_ready": false,
+  "manual_quad_retopology_completed": false,
+  "production_approved": false,
+  "sha256": "704eb556e95d2382a1fb59fbb44956561d040304cb39bd717af241518a355285",
+  "bytes": 18520738
+}

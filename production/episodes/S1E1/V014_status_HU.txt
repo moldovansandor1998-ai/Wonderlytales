@@ -1,0 +1,94 @@
+WONDERLY TALES / CSODAKAPU — S1E1: A CSILLAGSZILÁNK
+V014 gyártási munkacsomag — 2026-10-09
+
+AZ ELSŐ EPIZÓD MÉG NEM KÉSZ FILM.
+Ez a csomag ténylegesen megnyitható új Blender-forrásokat, teljes történeti
+dialógusvágást, időzített feliratot és ellenőrzési eredményeket tartalmaz.
+Nem teljes epizód-render, nem kész animatic és nem végleges hangsáv.
+
+ELKÉSZÜLT ÉS ELLENŐRZÖTT
+
+1. Magyar történeti dialógusvágás
+   - 18 jelenet, 231 történeti ütem, 131 felvétel.
+   - Hossza: 1204,958333 másodperc, azaz 20 perc 4,958 másodperc.
+   - A rögzített jelenetidőzítést követi, 24 fps / 28919 képkocka.
+   - A 131 hangfájl SHA256 ellenőrzése megfelelt az eredeti időzítésnek.
+   - Minden hangfelvétel dekódolható; a vágásban nincs dialógusátfedés.
+   - 48 kHz, mono; FLAC és meghallgatható AAC/M4A változat.
+   - Csúcsérték 0,983045; nincs túlvezérelt mintapont.
+   - Ténylegesen dekódolt beszéd: 312,72875 másodperc.
+   - Az akcióidők csendes helyőrzők, zenét és hangeffektet még nem tartalmaznak.
+   - A jelenetidők korábbi rendezői becslések; mozgó animatic nem igazolta őket.
+   - A főcím (SC002) és külön stáblista nincs ebbe a történeti vágásba keverve.
+   - A 132. felvétel külön opcionális lezárás: „Ne felejts el feliratkozni!”
+     Ez SC020, ezért nem került önkényesen az SC001–SC019 idővonalba.
+   - A célzott 22 percet nem egészítettem ki üres várakozással.
+   - Az SRT a valóban dekódolt megszólalásokhoz igazodik. Nem fonémaillesztés.
+
+2. Márk új Tripo modelljének testrigje
+   - Az eredeti feltöltött modell azonosítója:
+     ce95814c-3722-484b-8a98-da29405d79c6
+   - Eredeti GLB SHA256:
+     0d3ffde042f173a0f999dcc71d835c196e978a06685268b1eab005da7e3419ee
+   - 18 csontos testrig, távolságalapú kezdeti bőrsúlyok, próba-alkarmozgás.
+   - Blender 4.5.3 LTS-ben importáltam, mentettem, újranyitottam.
+   - A tényleges Blender-deformáció: 67725 mozgó vertex;
+     legnagyobb elmozdulás 0,0374609 méter a normalizált modellen.
+   - A V003 a sűrű eredeti hálót megőrzi: 1034844 vertex / 1993052 háromszög.
+   - A V004 külön könnyített jelölt: 103256 vertex / 149478 háromszög.
+   - A V004 UV-ja és bőrsúlycsoportjai megmaradtak; újranyitási és
+     próba-deformációs ellenőrzése megfelelt. 6269 vertex ténylegesen mozog.
+   - A sűrű és könnyített változatról valódi Cycles anyagos képek készültek.
+   - A könnyítés háromszögcsökkentés, nem kézi quad retopológia.
+   - A testrig kezdeti jelölt. Járás, széles mozdulatok és kontakt IK nincs
+     véglegesen ellenőrizve. Az arc, szemek és száj nem függetlenül vezérelhető.
+   - Nincs kész arcrig, pislogás, beszédszáj vagy produkciós jóváhagyás.
+
+3. Új natív erdei díszlet és Csodakapu
+   - Valódi szerkeszthető geometria: tölgyek, gyökerek, ágak, levélfelület,
+     páfrányok, mohos kövek, ösvény, távoli dombok, kőkapu.
+   - Eljárásalapú anyagok; külső textúrafájl nem szükséges.
+   - A lombozat három összevont geometriai objektumban van, nem több tízezer
+     külön levélobjektumban. A forrás így könnyebben kezelhető.
+   - A kapu nyílása üres; a történeti fény és a kapu VFX külön készíthető.
+   - 1280×720, Cycles 32 mintás ellenőrző render készült.
+   - A képen talált kőillesztési hibákat javítottam, majd újrarendereltem.
+   - Ez látványtervi díszlet; további növényváltozatok, művészeti finomítás
+     és végleges világítás még szükséges. Nem Tripo által generált új háttér.
+
+4. Egyesített Márk–erdő próbaszínpad
+   - Az új könnyített Márk 1,6 méteres beállítással az új díszletben szerepel.
+   - A karakter valódi riges hierarchiája került be, a csontok segédgeometriája
+     nincs a renderbe linkelve.
+   - Önálló, csomagolt Blender-forrás és valódi ellenőrző kép.
+   - Statikus látványpróba, nem leanimált SC001 és nem kész epizód.
+
+CSOMAG TARTALMA
+
+audio/       veszteségmentes FLAC, magyar SRT, vágási döntések és hang-QC
+mark/        sűrű és könnyített riges BLEND, renderelt képek, rig-QC
+forest/      új erdő és kapu BLEND, ellenőrző kép, háttér-QC
+stage/       egyesített új Márk–erdő BLEND, kép és állapot
+OLVASS_EL.txt ez a részletes állapot
+
+A gyártási Python-források és az ellenőrzési jelentések a meglévő
+moldovansandor1998-ai/Wonderlytales GitHub projekt production mappájába
+kerülnek. A modellek és hangfájlok nem kerülnek a Git-repozitóriumba.
+
+MI HIÁNYZIK A KÉSZ ELSŐ RÉSZHEZ
+
+- Márk végleges arc- és szemrigje, valamint széles mozdulatokra ellenőrzött
+  bőrsúlyozása és járása.
+- Lili, Morzsi, Pötty, Bogyó és Zizi használható végleges modellje és arcrigje.
+  A korábbi SC004 forrás a saját QC-je szerint is próba: állati fonémaillesztés,
+  kontakt IK, ellenőrzött járások hiányoznak. Nem minősítettem át véglegesnek.
+- A teljes történet jelenetenkénti szerepjátéka, kameraanimációja, kellék-
+  kontaktjai és kapu/fény-effektjei. A 231 ütem nem lesz kész animáció attól,
+  hogy a dialógus egy idővonalba kerül.
+- Főcím és stáblista, végleges zene, környezeti hangok és effektkeverés.
+- Mozgó animatic alapján rögzített tényleges epizódhossz.
+- Teljes végleges képsor, minőségellenőrzés és a képpel kevert magyar hangsáv.
+
+Nem indítottam új fizetős Tripo-, ElevenLabs- vagy GPU-generálást ebben a
+folytatásban. Nincs a háttérben futó teljes epizódrender vagy kész filmígéret.
+A kész film exportját csak a hiányzó animációs munkák után lehet elvégezni.

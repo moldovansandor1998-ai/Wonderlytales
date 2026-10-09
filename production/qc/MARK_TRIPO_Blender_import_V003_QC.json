@@ -1,0 +1,22 @@
+{
+  "blender": "4.5.3 LTS",
+  "characters": [
+    {
+      "character": "CHAR_MARK",
+      "file": "CHAR_MARK_TRIPO_V003_BLENDER_BODY_DRAFT.blend",
+      "bytes": 97001683,
+      "sha256": "90f76bb5ed28e19d36bd8a4ad7ad07253c6878439c76e12c964abfe514b47b21",
+      "reopened": true,
+      "maximum_pose_displacement": 0.03746090084314346,
+      "moving_vertices": 67725,
+      "armatures": 1,
+      "bones": 18,
+      "meshes": 1,
+      "actions": 1,
+      "images": 3,
+      "status": "DRAFT_BODY_RIG",
+      "facial_ready": false,
+      "production_approved": false
+    }
+  ]
+}

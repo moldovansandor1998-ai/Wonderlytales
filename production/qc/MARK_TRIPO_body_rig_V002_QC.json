@@ -1,0 +1,16 @@
+{
+  "character": "CHAR_MARK",
+  "status": "DRAFT_BODY_RIG_REQUIRES_DEFORMATION_REVIEW",
+  "bones": 18,
+  "vertices": 1034844,
+  "body_rig_created": true,
+  "normal_vectors_repaired": 0,
+  "facial_ready": false,
+  "production_approved": false,
+  "maximum_pose_displacement": 0.037460889679439134,
+  "moving_vertices": 67725,
+  "retopology_completed": false,
+  "eyes_independent": false,
+  "source_sha256": "0d3ffde042f173a0f999dcc71d835c196e978a06685268b1eab005da7e3419ee",
+  "sha256": "2e84191cb6be1b5d83b82839a417775285db5dc33aee3f81373a34c5a0fc01b6"
+}
