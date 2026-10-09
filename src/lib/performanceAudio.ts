@@ -1,5 +1,6 @@
 import plan from './s1e1PerformancePlan.json';
 import corrections from './s1e1PerformanceCorrections.json';
+import preferredOriginals from './s1e1PerformancePreferredOriginals.json';
 import { getDb, newId, now } from './db';
 import { getTtsProvider, ttsCacheKey } from './providers/tts';
 import { getStorage } from './providers/storage';
@@ -20,8 +21,10 @@ export async function performanceItems(episodeId: string) {
     if (!char || !voice) throw new Error('Hiányzó karakterhang.');
     if (item.kind === 'DIALOGUE' && !lines.some(l => l.id === item.id && sceneIds.has(l.scene_id) && l.character_id === char.id && l.language === 'hu' && l.text === item.text)) throw new Error('A forgatókönyv megváltozott: a hangrendezési tervet frissíteni kell.');
     if (item.performance_text.length > 250) throw new Error('Túl hosszú megszólalás.');
-    const config = { language: 'hu', voiceId: voice.voice_id, model: 'eleven_v3', stability: corrections.includes(item.id) ? 1 : 0.5, style: 0, budgetService: 'tts_dialogue' as const };
-    return { ...item, config, path: `audio/tts/hu/${voice.voice_id}/${ttsCacheKey(item.performance_text, config)}.mp3` };
+    const original = preferredOriginals.includes(item.id);
+    const performanceText = original ? item.text : item.performance_text;
+    const config = { language: 'hu', voiceId: voice.voice_id, model: original ? voice.model : 'eleven_v3', stability: original ? voice.stability : corrections.includes(item.id) ? 1 : 0.5, style: original ? voice.style : 0, budgetService: 'tts_dialogue' as const };
+    return { ...item, performance_text: performanceText, preferred_original_take: original, config, path: `audio/tts/hu/${voice.voice_id}/${ttsCacheKey(performanceText, config)}.mp3` };
   });
 }
 export async function performanceBatch(episodeId: string) {
