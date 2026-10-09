@@ -1,0 +1,24 @@
+{
+  "episode": "S1E1",
+  "user_message": "Igen a bevezető már elég jó így és a hang anyag is jöhet az első rész",
+  "message_time": "2026-10-10T05:28:09+07:00",
+  "accepted_assets": [
+    {
+      "kind": "audio_mix",
+      "filename": "WonderlyTales_S1E1_teljes_hangvagas_V016.m4a",
+      "sha256": "5a12f1d51899f6221a0f3dcd4a2a168875a86f6a3f3c5c15f850897e6868127b",
+      "library_file_id": "libfile_a0b90b3be2348191bb1cfd600912300c",
+      "user_accepted_as_production_basis": true
+    },
+    {
+      "kind": "intro",
+      "filename": "WonderlyTales_S1E1_mozgo_3D_focim_V016.mp4",
+      "sha256": "a6f50c13bc495568b16d7c1dabf78e94313b33fbde4bd902221fd2e74579b526",
+      "library_file_id": "libfile_ce4dc57d2a18819187f31ef5c66d6466",
+      "user_accepted_as_production_basis": true
+    }
+  ],
+  "approval_scope": "Existing intro and audio mix accepted as the basis for continuing episode animation",
+  "phoneme_alignment_verified": false,
+  "full_episode_finished": false
+}
