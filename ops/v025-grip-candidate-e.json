@@ -1,0 +1,50 @@
+{
+  "source_sha256": "bb383b0350bd9f20219196b270d40b15e8e867d7d43817f229da8f6c18025d4b",
+  "script_sha256": "48e15101f0ce3b686976ecebed331ce1484bd5e15416b0a1205848e8e04209a5",
+  "production_approved": false,
+  "digits": {
+    "side": "L",
+    "digit_bones": 10,
+    "reweighted_vertices": 1236,
+    "hand_transition_vertices": 2198,
+    "max_digit_mass": 1.0000000294530764,
+    "geometry_replaced": false,
+    "landmark_proximity_limit_m": 0.018,
+    "finger_articulation_approved": false
+  },
+  "contact": [
+    {
+      "id": "star",
+      "grasp_frame": 560,
+      "handoff_error_m": 0.00025932964108517473,
+      "max_baked_attachment_error_m": 0.0,
+      "grasp_contact_pass": true,
+      "contact_landmark_local": [
+        0.193,
+        -0.063,
+        0.361
+      ],
+      "finger_articulation_approved": false,
+      "initial_handoff_error_m": 0.03889303437395854,
+      "reach_assist_world_m": [
+        0.0054382383823394775,
+        -0.021734118461608887,
+        -0.03179185092449188
+      ]
+    }
+  ],
+  "attachment": {
+    "hand": "L",
+    "objects": [
+      "PROP_STAR_SHARD",
+      "PROP_FOLDED_SCARF"
+    ],
+    "grasp_frame": 560,
+    "release_frame": null,
+    "max_attachment_position_error_m": 0.0,
+    "max_attachment_angle_error_rad": 0.0,
+    "finger_articulation_approved": false,
+    "production_approved": false
+  },
+  "candidate_sha256": "94a74f11ed034c42ab7026299edc953b2a341ff32f712c92ce96a94a241ef05c"
+}

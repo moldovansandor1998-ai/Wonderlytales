@@ -11,5 +11,9 @@ def rig_only_evaluation(scene):
         bpy.context.view_layer.update()
         yield
     finally:
-        for obj,hidden in saved:obj.hide_viewport=hidden
+        for obj,hidden in saved:
+            # A rig bake may replace temporary proxy meshes. Deleted RNA
+            # handles have no visibility to restore; retain all surviving ones.
+            try:obj.hide_viewport=hidden
+            except ReferenceError:pass
         bpy.context.view_layer.update()

@@ -13,7 +13,7 @@ from .spec import smooth
 def finish_forest(scene, bounds, seed=25025, count=240):
     if bpy.data.collections.get('V025_FOREST_DETAILS'):
         raise ValueError('Forest detail pass already exists')
-    ground=[o for o in scene.objects if o.type=='MESH' and not o.hide_render and any(k in o.name.lower() for k in ('forest floor','forest path'))]
+    ground=[o for o in scene.objects if o.type=='MESH' and not o.hide_render and any(k in o.name.lower() for k in ('forest floor','forest path','woodland terrain'))]
     if not ground:raise ValueError('Existing native forest ground not found')
     vertices=[];faces=[]
     for obj in ground:

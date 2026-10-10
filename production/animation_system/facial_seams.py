@@ -123,16 +123,24 @@ def regularize_perimeter(body, ids, centre, radii, limit=.002):
 
 
 def repair_eyelid(scene, code, rig, body, side):
+    # A newly created local skin needs its parent transform evaluated before
+    # native_mesh derives the lid's bind transform from body.matrix_world.
+    bpy.context.view_layer.update()
     x,z,w,h = FACE_PROFILES[code]['eyes'][('R','L').index(side)]
     old = bpy.data.objects[code+'_EYELID.'+side]
     surface = Surface(body)
     globe = rig.data.bones['eye.'+side].head_local.copy()
-    globe.y -= w*.03
+    oriented=body.get('facial_substrate',False)
+    normal=Vector(body['eye_surface_normal']) if oriented else Vector((0,-1,0))
+    horizontal=Vector((1,normal.x/max(1e-8,-normal.y),0)).normalized()
+    vertical=normal.cross(horizontal).normalized()
+    if not oriented:globe.y -= w*.03
     radius = w*.90
-    ids, repairs = cut_aperture(body,(x,z),(w*1.6,h*1.7),globe.y+.03)
-    correction = regularize_perimeter(body,ids,(x,z),(w*1.6,h*1.7))
+    rx,rz=(w*1.2,h*1.3) if body.get('facial_substrate') else (w*1.6,h*1.7)
+    ids, repairs = cut_aperture(body,(x,z),(rx,rz),float('inf') if body.get('facial_substrate') else globe.y+.03)
+    correction = regularize_perimeter(body,ids,(x,z),(rx,rz))
     edges = [body.data.vertices[i].co.copy() for i in ids]
-    angles = [math.atan2((p.z-z)/(h*1.7),(p.x-x)/(w*1.6)) for p in edges]
+    angles = [math.atan2((p.z-z)/rz,(p.x-x)/rx) for p in edges]
     steps = [(b-a+math.pi)%math.tau-math.pi for a,b in zip(angles,angles[1:]+angles[:1])]
     if min(steps)<-1e-5:
         raise ValueError(f'Non-radial source eye perimeter: minimum step {min(steps)}')
@@ -145,17 +153,25 @@ def repair_eyelid(scene, code, rig, body, side):
         f = ring/(rings-1)
         u = smooth(f)
         for j,(edge,a) in enumerate(zip(edges,angles)):
-            inner = Vector((x+w*.84*math.cos(a),globe.y,z+h*.78*math.sin(a)))
-            p = inner.lerp(edge,u)
-            shut_z = z-.12*h*math.sin(a)**2
-            shut = p.copy()
-            shut.z += (shut_z-inner.z)*(1-u)
-            for point in (p,shut):
-                q = radius**2-(point.x-x)**2-((point.z-z)*w/h)**2
-                depth = globe.y-(math.sqrt(q) if q>0 else 0)-.0008
-                point.y = depth*(1-u)+edge.y*u
-                if q>0:
-                    point.y = min(point.y,depth)
+            if oriented:
+                ix=w*.78*math.cos(a);iz=h*(.48 if math.sin(a)>0 else .40)*math.sin(a)
+                iz_closed=-.12*h*math.sin(a)**2
+                def on_globe(lx,lz):
+                    depth=math.sqrt(max(0,radius**2-lx**2-(lz*w/h)**2))+.0008
+                    return globe+horizontal*lx+vertical*lz+normal*depth
+                inner=on_globe(ix,iz);shut_inner=on_globe(ix,iz_closed)
+                p=inner.lerp(edge,u);shut=shut_inner.lerp(edge,u)
+            else:
+                inner = Vector((x+w*.84*math.cos(a),globe.y,z+h*.78*math.sin(a)))
+                p = inner.lerp(edge,u)
+                shut_z = z-.12*h*math.sin(a)**2
+                shut = p.copy()
+                shut.z += (shut_z-inner.z)*(1-u)
+                for point in (p,shut):
+                    q = radius**2-(point.x-x)**2-((point.z-z)*w/h)**2
+                    depth = globe.y-(math.sqrt(q) if q>0 else 0)-.0008
+                    point.y = depth*(1-u)+edge.y*u
+                    if q>0:point.y = min(point.y,depth)
             if ring==rings-1:
                 p=edge.copy();shut=edge.copy()
             verts.append(p);closed.append(shut)

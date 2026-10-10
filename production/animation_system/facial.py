@@ -37,8 +37,12 @@ class Surface:
   self.uv=[[Vector((*body.data.uv_layers.active.data[l].uv,0)) for l in t.loops] for t in body.data.loop_triangles]
   self.tree=BVHTree.FromPolygons(self.v,self.tri)
   self.binding=[{body.vertex_groups[g.group].name:g.weight for g in v.groups} for v in body.data.vertices]
-  im=next(n.image for m in body.data.materials if m and m.node_tree for n in m.node_tree.nodes if n.type=='TEX_IMAGE' and n.image and n.image.colorspace_settings.name=='sRGB')
-  pixels=np.empty(len(im.pixels),dtype=np.float32);im.pixels.foreach_get(pixels);self.pixels=pixels.reshape(im.size[1],im.size[0],4)
+  layer=body.data.color_attributes.get('MasterSkin')
+  self.vertex_colors=[[np.array(layer.data[l].color[:3]) for l in t.loops] for t in body.data.loop_triangles] if layer and layer.domain=='CORNER' else None
+  self.pixels=None
+  if self.vertex_colors is None:
+   im=next(n.image for m in body.data.materials if m and m.node_tree for n in m.node_tree.nodes if n.type=='TEX_IMAGE' and n.image and n.image.colorspace_settings.name=='sRGB')
+   pixels=np.empty(len(im.pixels),dtype=np.float32);im.pixels.foreach_get(pixels);self.pixels=pixels.reshape(im.size[1],im.size[0],4)
  def hit(self,x,z,reference=None):
   p,_,idx,_=self.tree.ray_cast(Vector((x,-3,z)),Vector((0,1,0)))
   if p is None or (reference is not None and p.y>reference+.025):
@@ -46,7 +50,11 @@ class Surface:
   if p is None:raise ValueError('Facial landmark misses source surface')
   return p,idx
  def color(self,x,z,reference=None):
-  p,i=self.hit(x,z,reference);uv=barycentric_transform(p,*[self.v[k] for k in self.tri[i]],*self.uv[i]);h,w=self.pixels.shape[:2];rgb=self.pixels[int(np.clip(uv.y,0,1)*(h-1)),int(np.clip(uv.x,0,1)*(w-1)),:3]
+  p,i=self.hit(x,z,reference)
+  if self.vertex_colors is not None:
+   weights=barycentric_transform(p,*[self.v[k] for k in self.tri[i]],Vector((1,0,0)),Vector((0,1,0)),Vector((0,0,1)))
+   return sum(c*weight for c,weight in zip(self.vertex_colors[i],weights))
+  uv=barycentric_transform(p,*[self.v[k] for k in self.tri[i]],*self.uv[i]);h,w=self.pixels.shape[:2];rgb=self.pixels[int(np.clip(uv.y,0,1)*(h-1)),int(np.clip(uv.x,0,1)*(w-1)),:3]
   return np.where(rgb<=.04045,rgb/12.92,((rgb+.055)/1.055)**2.4)
  def weights(self,x,z,reference):
   p,i=self.hit(x,z,reference);b=barycentric_transform(p,*[self.v[k] for k in self.tri[i]],Vector((1,0,0)),Vector((0,1,0)),Vector((0,0,1)));result={}

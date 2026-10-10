@@ -1,0 +1,30 @@
+{
+  "source_sha256": "0ec3997387a1f1aa8223e8dbc93c57e9c6f579f89aca8f5ebdd8b92c3849f82a",
+  "frames": 1392,
+  "meshes": {
+    "CHAR_MARK_EYELID.R": {
+      "pairs": 125,
+      "missing_body_edges": 0,
+      "max_gap_m": 5.462855929083633e-07,
+      "max_gap_frame": 1001,
+      "nonfinite_frames": 0
+    },
+    "CHAR_MARK_EYELID.L": {
+      "pairs": 126,
+      "missing_body_edges": 0,
+      "max_gap_m": 5.462855929083633e-07,
+      "max_gap_frame": 986,
+      "nonfinite_frames": 0
+    },
+    "CHAR_MARK_FACIAL_TOPOLOGY": {
+      "pairs": 150,
+      "missing_body_edges": 0,
+      "max_gap_m": 6.48157691089259e-07,
+      "max_gap_frame": 949,
+      "nonfinite_frames": 0
+    }
+  },
+  "seam_pass": true,
+  "production_approved": false,
+  "limitations": "Measures mapped native boundary edges and positions; does not approve eye shape, self-intersections, speech or natural motion."
+}

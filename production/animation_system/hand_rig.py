@@ -50,10 +50,11 @@ def add_digits(body,rig,side,landmarks):
     changed=0;max_digit_mass=0.;rebound=0
     deform={bone.name for bone in rig.data.bones if bone.use_deform}
     hand_group=body.vertex_groups['hand.'+side]
+    palm_y=max(p[1] for points in landmarks.values() for p in points)+.035
     for vertex in body.data.vertices:
         old=next((g.weight for g in vertex.groups if g.group==hand_group.index),0.)
         if old<.15:continue
-        envelope=smooth((.425-vertex.co.z)/.015)*smooth((abs(vertex.co.x)-.17)/.01)*smooth((-.04-vertex.co.y)/.01)
+        envelope=smooth((.425-vertex.co.z)/.015)*smooth((abs(vertex.co.x)-.17)/.01)*smooth((palm_y-vertex.co.y)/.01)
         if envelope>0:
             source=[(body.vertex_groups[g.group],g.weight) for g in vertex.groups if body.vertex_groups[g.group].name in deform]
             mass=sum(weight for _,weight in source)
