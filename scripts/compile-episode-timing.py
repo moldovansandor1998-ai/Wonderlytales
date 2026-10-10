@@ -76,7 +76,7 @@ def compile_timing(script_path, recordings_path, audio_root, action_path, fps=24
             "status": "DRAFT_TIMING_REQUIRES_MOVING_ANIMATIC", "fps": fps,
             "script_sha256": hashlib.sha256(script_path.read_bytes()).hexdigest(),
             "total_frames": frame, "draft_duration_sec": frame / fps,
-            "target_duration_sec": script["planned_duration_sec"],
+            "target_duration_sec": max(2400, int(script.get("target_duration_sec", 3600))),
             "measured_dialogue_duration_sec": audio_seconds,
             "recorded_dialogue_count": len(used), "animatic_verified": False,
             "render_shots_created": False, "facial_ready": False,

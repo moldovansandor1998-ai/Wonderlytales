@@ -41,7 +41,7 @@ export default async function SeriesDetail({ params }: { params: { id: string } 
           <input type="hidden" name="season_id" value={s.id} /><input type="hidden" name="series_id" value={series.id} />
           <div><label>Epizód szám</label><input name="number" type="number" required /></div>
           <div className="md:col-span-2"><label>Cím</label><input name="title" required /></div>
-          <div><label>Célhossz (mp)</label><input name="target_duration_sec" type="number" defaultValue="1200" /></div>
+          <div><label>Célhossz (mp, minimum 2400)</label><input name="target_duration_sec" type="number" min={2400} step={1} defaultValue={3600} /></div>
           <div><label>&nbsp;</label><SubmitButton label="Create Episode" /></div>
           <div className="md:col-span-5"><label>Brief</label><textarea name="brief" rows={2} /></div>
         </form>
