@@ -1,0 +1,304 @@
+{
+  "schema": "WONDERLY_DIRECTOR_NOTES_V1",
+  "status": "STORYBOARD_DRAFT_REQUIRES_PERFORMED_READING",
+  "production_approved": false,
+  "coordinate_convention_hu": "A rajzok felülnézeti blokkolási vázlatok. +Y az előrehaladás; a kamera az út jobb oldalán marad. A kert méretei tervezett méretek, még nem ellenőrzött 3D díszlet.",
+  "scenes": {
+    "S1E1_SC004": {
+      "zone": "forest_junction", "action_seconds": [8,6,7,3,5,5,5],
+      "intent": "A külön érkező barátok közös célra figyelnek; Zizi műszere először komikus, aztán használható.",
+      "blocking": "Márk és Lili a kő két oldalán; Morzsi balról kosárral, Pötty mögötte; Zizi jobbról húzza a szerkezetet. Bogyó csak a csoporton belüli szabad íven fut. A záróképben mindenki azonos irányba indul.",
+      "camera": "35 mm oldalirányú feltárás a csapat érkezésekor; 65 mm betét a fordított mutatóról; Pötty kérdésénél szemmagasság; 40 mm közös indulás.",
+      "sound": "Eltérő talajfogások, kotyogó kerék, kendő, Bogyó rövid vakkantásai; a szilánk halk hangját Zizi gépének kikapcsolása teszi hallhatóvá.",
+      "continuity": "A szilánk Márk kendőjében marad. A kosár Morzsinál; kulacs Pöttynél; mindenmérő Zizinél. Pötty simítása és Bogyó füle között tényleges érintkezés kell."
+    },
+    "S1E1_E01": {
+      "zone": "spring_stone", "action_seconds": [18,20,12],
+      "intent": "A csoport a saját felszerelését közös szükségletekhez igazítja.",
+      "blocking": "A forráskő körül félkör: Zizi kipakolása jobbra, víz és kosár balra. Lili visszatartja a lelógó alkatrészt, nem tolja át a kő felületén. Bogyó a tobozt a megjegyezhető bal oldali résbe teszi.",
+      "camera": "40 mm asztalmagasságú félkör; felülnézeti tárgybetét csak az alkatrészek elhelyezkedésére; 55 mm kétalakos Pötty–Márk; induláskor a lezárt láda a háttérben marad.",
+      "sound": "Fém a kövön, kulacskupak csavarása, szalag súrlódása; beszéd alatt nincs ismétlődő gépcsörgés.",
+      "continuity": "Kulacskupak rögzítőszalagja ettől kezdve látható. Két nehéz alkatrész a forrás melletti lezárt ládában marad; notesz és narancsszalag Zizivel megy."
+    },
+    "S1E1_E02": {
+      "zone": "root_path", "action_seconds": [15,18,8],
+      "intent": "Márk észreveszi a lemaradást, és mozdulattal alkalmazkodik.",
+      "blocking": "Márk két testhosszal előrébb ér a jelhez, majd megáll. Lili és Pötty a széles gyökérközt választja. Márk visszalép melléjük; Bogyó közöttük talál helyet, nem fut át a lábakon.",
+      "camera": "Az első követő kamera megáll Márkkal, és a mélységben megmutatja a lemaradást. Alacsony közeli az összekoccanó cipőre; utána egyetlen széles kép a közös tempóról.",
+      "sound": "Külön ritmusú lépésekből közös haladás; cipők halk koccanása; a nevetés után az erdő marad előtérben.",
+      "continuity": "Zizi a gyökér előtt becsukja a noteszt. A hátrapillantás visszatér SC017 végén. A haladási irány végig balról jobbra olvasható."
+    },
+    "S1E1_E03": {
+      "zone": "split_marker", "action_seconds": [12,18,10],
+      "intent": "Pötty nézőpontváltása megmutatja a hiányosnak látszó jel összefüggését.",
+      "blocking": "A kidőlt ág az ösvényen keresztben, a jel két köve eltérő mélységben. A közös ágemelésnél két biztos fogópont; Pötty három oldalirányú lépéssel találja meg az illeszkedést. A csoport nem vág át új ösvényt.",
+      "camera": "Pötty mögül 65 mm-es parallaxiskép: az oldalazással a két fél kör összeáll. Az ág elmozdítása folytonos 35 mm-es képen; zárásban a sötét kapu felfedése.",
+      "sound": "Levélseprés, ág enyhe reccsenése, távolodó madár; a megfejtéshez nem kell új mágikus hang.",
+      "continuity": "A szilánk a kendőben, két kézben. A jel nem változik meg: kizárólag a nézőpont teszi teljessé."
+    },
+    "S1E1_SC005": {
+      "zone": "gate_clearing", "action_seconds": [8,9,5,8,12,5],
+      "intent": "A kapu reagál a szilánkra, és először láthatóvá teszi a működésképtelen kertet.",
+      "blocking": "Márk bal elöl, Lili jobb elöl, a többiek félkörben mögöttük. Pötty a kosár fülébe kapaszkodik. A kendő a teljes csillag körvonala elé kerül, de nem érinti a kaput.",
+      "camera": "32 mm tisztási nagytotál; talajközeli követés a fényút mentén; 70 mm teljes csillagüreg; 40 mm lassú előretolás a nyíló felületen át, visszavágással a hat szereplő reakciójára.",
+      "sound": "Kő mély rezgése, három elkülönülő jelhang. Az erdő madarai hallatszanak, a túloldal szélcsendjét a hangkülönbség mutatja.",
+      "continuity": "A teljes csillag nyílását nem tölti ki a szilánk. A torony három harangja mozdulatlan; a kert későbbi térrajza már itt egyezzen a látvánnyal."
+    },
+    "S1E1_SC006": {
+      "zone": "gate_island", "action_seconds": [8,5,4,14,5,4],
+      "intent": "A csapat közös feltételekkel lép át, és a visszautat láthatóan megjelöli.",
+      "blocking": "A levélpróba után Márk–Lili, Pötty–Bogyó, Zizi, végül Morzsi halad át. Zizi a belső bokorra köti a szalagot; a kapukeret szabad. A körkő a bokortól jobbra, belső biztonságos területen áll.",
+      "camera": "Egy 35 mm-es oldalirányú master tartja mindkét világot és az átlépés sorrendjét; közeli a levél leérkezéséről; szalagkötés után visszanézés az erdőre ugyanazon tengelyen.",
+      "sound": "A kapufelületen átlépés rövid tónusa után tompa fűlépések; a túloldali csöndben is marad finom környezeti zaj.",
+      "continuity": "Márk két kézben viszi a kendőt. A narancsszalag SC016_RETURN-ig a bokron marad. Hat karakter, Bogyó nem számolható külön kétszer a beállítások között."
+    },
+    "S1E1_E04": {
+      "zone": "wind_grass", "action_seconds": [14,19,10],
+      "intent": "A fű és egy lehullott levél kimutatja, hol akad el a légáram.",
+      "blocking": "A csapat a sziget belső ösvényén marad. Lili a mozgó és álló fű határán, Morzsi mellette engedi el a levelet. A második próba más eredményt hoz: Zizi már helyesen jelzi a landolást.",
+      "camera": "Alacsony 50 mm-es oldalnézet a fűcsomókra; mozgó levél követése rövid ívben; az út végén 65 mm rácsbetét, majd közös reakció a torony sóhajára.",
+      "sound": "A két fűcsomó eltérő susogása; a toronyból hangmagasság nélküli levegős sóhaj. Harmadik ismétlés nincs.",
+      "continuity": "A bokor szalagja a háttérben azonos oldalon marad. A levél a belső medencébe esik, nem a sziget szélére."
+    },
+    "S1E1_E05": {
+      "zone": "map_stairs", "action_seconds": [12,15,16],
+      "intent": "Zizi kétdimenziós térképe kiegészül a tényleges alsó útvonallal.",
+      "blocking": "Fal balra, korlátos lépcső jobbra lefelé. Pötty alacsony nézőpontból látja a nyilat. Bogyó a lépcső elejéről visszanéz; Morzsi oldalazva viszi a kosarat, Márk bevárja Zizit.",
+      "camera": "50 mm falrészlet után lefelé billenés a nyílhoz; 28 mm-es folyamatos térfeltárás a korlátos teraszra. A leérkezést nem hagyjuk ki egy helyszínváltással.",
+      "sound": "Ceruza kőpapír fölött, kosár súrlódása a ruha mellett, lépcsőzetes lépések.",
+      "continuity": "A rajz új ága a valódi lépcső ugyanazon oldalára kerül. Bogyó végig látótávolságban marad."
+    },
+    "S1E1_E06": {
+      "zone": "dry_trough", "action_seconds": [10,19,10],
+      "intent": "Egy kis korty segít a levélen, de felveti a kert saját vízellátásának helyreállítását.",
+      "blocking": "Pötty tartja a kulacsot, csak felajánlás után adja Márknak. A lehajló levél mögött látszik a medence; Bogyó a kiszabaduló magtól hátralép, nem nyeli le. Lili a vízszintnyomhoz lép.",
+      "camera": "Kétalakos a kulacs átadásáról; 75 mm a kis vízsugár és a levélszár reakciójára; 40 mm-es döntés a medencétől a fal mésznyomáig.",
+      "sound": "Egy rövid vízöntés, levél lágy mozgása, Bogyó egyetlen tüsszentése; a megoldatlanságot nem sikerzene zárja.",
+      "continuity": "A kulacs vízszintje csökken; a rögzítőszalag megmarad. A növény és a mag helyben marad, a torony iránya egyezzen az előző térképpel."
+    },
+    "S1E1_E07": {
+      "zone": "waterwheel", "action_seconds": [12,8,12,8],
+      "intent": "Zizi felismeri saját mérési hibáját, és a kész válasz helyett megfigyelést rögzít.",
+      "blocking": "Zizi térdel a keréknél, könyöke a lapátba ér. Morzsi oldalról látja az okot; Márk melléguggol, a kendő a saját térdén. Lili szabad levelet tart a kerék elé.",
+      "camera": "65 mm-es közös részlet mutatja a könyök–lapát kapcsolatot; megállás után szemmagasságú kétalakos Márkkal; a javított jegyzet fölött a mozdulatlan kerék is a képben marad.",
+      "sound": "A kerék kattanása a könyök elhúzásakor megszűnik. A rövid zavart csendet Márk mondata oldja, nincs gúnyos zenei effekt.",
+      "continuity": "Mindenmérő ezután összecsukva Zizi hátán, notesz a kezében. A szilánkot nem teszik a kerékbe."
+    },
+    "S1E1_E08": {
+      "zone": "grass_detour", "action_seconds": [12,16,12],
+      "intent": "Lili a belátható talajt választja, Márk pedig kíváncsian követi a döntését.",
+      "blocking": "Az elágazásnál Lili a széles íven áll meg. Márk egy lépés után visszafordul. A szétválasztott fű alatt sekély vízmélyedés; minden út korláton belül marad. Pötty látja Lili következő biztos lépését.",
+      "camera": "32 mm-es elágazási master; 60 mm a mancs és a takart mélyedés; alacsony követés Lili három külön talajfogásán, majd Márk belép mellé a képbe.",
+      "sound": "Fű szétválása, kis vízcsobbanás, biztos kavicslépések. Az ismeretlen részhez nincs fenyegető mélyhang.",
+      "continuity": "A hosszabb út a torony ugyanazon oldalára vezet. A biztos lépés gondolata SC011-ben mozdulatként tér vissza."
+    },
+    "S1E1_E09": {
+      "zone": "cool_stone", "action_seconds": [12,14,8,9],
+      "intent": "Bogyó ismételt visszanézése megfigyelésre hív, és későbbi nyomkövetését készíti elő.",
+      "blocking": "Bogyó a hűvös kő előtt ül–szimatol–visszanéz. Pötty melléguggol. Lili a nedves mohát mutatja; Zizi a cső és vályú irányát a noteszhez méri. Senki nem mozdítja el a követ.",
+      "camera": "Bogyó szemmagasságú 50 mm; a visszanézés irányában Pötty ellenképe; cső–mohavonal részlet után feltárás a felső terasz kijáratára.",
+      "sound": "Bogyó szimatolása, fülsuhogás, távoli csőhang. Bogyónak nincs emberi beszéd vagy magyarázó felirat.",
+      "continuity": "A kis levéljel Zizi noteszében megmarad. Az itt látott cső térben a későbbi körlapnyíláshoz csatlakozik."
+    },
+    "S1E1_SC007": {
+      "zone": "bell_garden", "action_seconds": [8,8,8,8,6],
+      "intent": "A kert állapotát konkrét, egymással összefüggő hibákból ismerjük meg.",
+      "blocking": "A csapat a felső terasz belsejében áll. Első híd nyitott, második csukott; virág, kis csatorna és szélkerék a közeli előtérben, torony hátul.",
+      "camera": "28 mm földrajzi master a kapu, két híd és torony viszonyáról; három rövid 65 mm-es okjelző betét, minden betét után konkrét nézőpontot adó szereplőreakció.",
+      "sound": "Megálló vízcsepp, csukott kerék csendje, két felhőcsepp; finom, befejezetlen zenei motívum.",
+      "continuity": "A második híd végig zárt SC014-ig. A száraz virág és csatorna később azonos képkivágásban éled fel."
+    },
+    "S1E1_E10": {
+      "zone": "bellows_court", "action_seconds": [14,14,10],
+      "intent": "A helyezkedés meghatározza, ki mit képes megfigyelni.",
+      "blocking": "Három fújtató egy íven: Morzsi bal, Márk közép, Zizi jobb. Pötty hátul a körkőre néz; a kosár kitakarását Morzsi oldalirányú lerakással oldja fel. Lili a szabad közlekedősávot hagyja meg.",
+      "camera": "Magas 35 mm-es térképező masterben végig látszik a kosár helycseréje; Pötty tényleges szemmagasságából ellenőrző kép a kitakarás előtti és utáni állapotról.",
+      "sound": "Kosár letétele, fogantyú finom tapintása; a fújtatók még nem szólnak.",
+      "continuity": "A szilánk középen Márknál, Bogyó Pötty mellett. A kosár új helye többé nem takarja a jelkövet."
+    },
+    "S1E1_E11": {
+      "zone": "bellows_court", "action_seconds": [12,16,9],
+      "intent": "A papír hibáját a valódi jel ellenőrzése oldja fel.",
+      "blocking": "Zizi és Pötty együtt tartja a noteszt; Márk a hajtásra mutat. Zizi előbb a kő felé fordul, és csak utána rajzol. Bogyó a lap alatti szabad helyre fekszik.",
+      "camera": "85 mm közeli a hajtás és hullám különbségéről; vágás azonos tengelyen a kő valódi jelére; végül háromszereplős közeli a közösen tartott lapról.",
+      "sound": "Papír kisimítása és ceruzavonal; a szilánk egy rövid válaszhangja a türelmetlenséget jelzi.",
+      "continuity": "Kör, két pont, hullám megmarad, sorrend még nincs megoldva. A javított rajz ugyanazon oldalon marad E16-ig."
+    },
+    "S1E1_E12": {
+      "zone": "bellows_court", "action_seconds": [12,12,8],
+      "intent": "Márk egyetlen erős jelből túl korán következtet; a konfliktus még nincs feloldva.",
+      "blocking": "Márk a kendőt a központi kő fölé tartja. Lili oldalról a bemetszést nézi. Morzsi a kosár kulacsát igazítja; a többiek még nem készek. Márk tekintete a fújtatóra ugrik.",
+      "camera": "50 mm Márk arca és a felvillanó virág egy mélységi képben; Lili megfigyelésének külön 70 mm-es részlete; zárás a leengedett kendőről és feszült tekintetről.",
+      "sound": "Rövid virágrezdülés és kosárzaj párhuzamosan; a zene nem jelzi kész megoldásként a fényválaszt.",
+      "continuity": "Előre látható a sekély horony és a körlap. A következő próbában a hibás döntés ebből a türelmetlenségből következik."
+    },
+    "S1E1_SC008": {
+      "zone": "bellows_court", "action_seconds": [6,7,7,7,5,4],
+      "intent": "A három eszköz külön válaszát megismerjük, mielőtt Márk összekeveri a sorrendet.",
+      "blocking": "Morzsi első, Pötty második, Márk harmadik fújtató. Lili Bogyót maga mellé hívja. Zizi figyeli az áttetsző csöveket. Mindegyik lenyomásnak van elengedése és visszatérése.",
+      "camera": "40 mm-es oldalirányú master tartja a három kezelőt; egy lenyomás–csőáram–harang válasz lánc látható; a második és harmadik próbánál kevesebb vágás, a néző már ismeri az összefüggést.",
+      "sound": "Elkülönülő mély, magas és középső hang; minden megszólalás után valódi lecsengés, beszéd ne fedje el az új hang magját.",
+      "continuity": "A fénykő csak megemelkedik és visszaereszkedik. A második híd még nem áll össze. Pötty a következő roham előtt hátralép."
+    },
+    "S1E1_SC009": {
+      "zone": "bellows_court", "action_seconds": [6,8,5,6,4,8],
+      "intent": "A közös, túl korai nyomásnak érthető következménye van; Márk felelősséget vállal.",
+      "blocking": "Három egyidejű kézlenyomás után Zizi és Morzsi azonnal elenged. A körlap egy látható íven a sekély horonyba gurul; Pötty tekintete végig követi. Lili előbb a csapatot ellenőrzi, csak utána válaszol Márknak.",
+      "camera": "35 mm-es masterből látjuk a teljes hibaokozó mozdulatot; a körlap útja egyetlen 50 mm-es követésben; a hibabeismerésnél nyugodt kétalakos, kézi rázás nélkül.",
+      "sound": "Rövid disszonáns hármas, légpöffenés, a lap három kőkoccanása. Utána lecsengő csend, nincs visszaszámlálás.",
+      "continuity": "A szilánk a kendővel Márk hátizsákjának felső zsebébe kerül teljes, látható mozdulattal. Senki és semmi nem esik a sziget szélén túl."
+    },
+    "S1E1_SC010": {
+      "zone": "service_passage", "action_seconds": [9,6,8,5,6,8],
+      "intent": "Pötty maga dönt a bemenésről, miután látja a biztos talajt és társait.",
+      "blocking": "Morzsi a külső fedelet tartja; Márk a bejárat mellett; Lili a rácsnál; Zizi egy sikertelen pálcás próbát tesz. Pötty számára nyitva marad a visszaút. Bogyó a rács és Pötty között jelez.",
+      "camera": "Alacsony 40 mm-es belső tengelykép együtt mutatja a padlót és fényes kijáratot. A pálca kanyarban megakadása egy részlet; Pötty belépését oldalról követjük a füllehajtással együtt.",
+      "sound": "Pálca tompa koccanása, Pötty nagy levegője, Bogyó halk nyüszítése; a járat rövid visszhangja érthető beszédet hagy.",
+      "continuity": "A szilánk továbbra is zsebben. Morzsi csak a laza fedelet tartja, nem tartószerkezetet. A rácson át tényleges szemvonal kell Lilihez."
+    },
+    "S1E1_SC011": {
+      "zone": "service_passage", "action_seconds": [5,5,5,8,10,7,6,4],
+      "intent": "Pötty félelem mellett, társai folyamatos jelenlétével oldja meg a konkrét feladatot.",
+      "blocking": "Két rövid lépés, megállás a mohánál, majd térdelés. A körlapot elfordítva viszi ki; a fül falhoz érésekor megáll és korrigál. Morzsi átveszi a lapot, Zizi zárja a fedelet, Bogyó Pötty vállának támaszkodik.",
+      "camera": "Pötty magasságában 50 mm, a kijárat folyamatos tájékozódási pont. 70 mm részlet a körlap elfordításáról; kijutás után szélesebb, levegős kétalakos Bogyóval.",
+      "sound": "Puha mohaérintés, óvatos lépések, fül súrlódása, a lap átadásának halk koccanása. A megkönnyebbülésben nincs nagy győzelmi fanfár.",
+      "continuity": "Pötty füle ne hatoljon a falba. A gyökér a légnyílásban megmarad a következő jelenetig. A lap Pöttyből Morzsi kezébe kerül, átadáskor nem teleportál."
+    },
+    "S1E1_SC012": {
+      "zone": "root_housing", "action_seconds": [7,12,15,10,5],
+      "intent": "A gyökér és a levegő egyszerre kap helyet; a javítás több szereplő munkája.",
+      "blocking": "Morzsi fedéltartás, Zizi oldalsó tartónyitás, Márk vízöntés és gyökérterelés, Lili vizuális ellenőrzés. Pötty figyeli a kulacsot, majd átadja a lapot. Minden kézfeladatnak szabad hozzáférési iránya van.",
+      "camera": "45 mm-es emelt master a munkaterület négy oldala fölött; 85 mm közelik a víz–föld–gyökér kapcsolatáról; a körlap bemetszését és a foglalatot közös részlet mutatja.",
+      "sound": "Kevés víz, nedves föld, reteszkattanás. A végén még csak egy finom harangmozdulat és virágrezdülés.",
+      "continuity": "Gyökér nem szakad. Pötty vizének fogyása és Morzsi tartaléka követhető. A körlap a foglalatban rögzül; a szilánk még zsebben."
+    },
+    "S1E1_E13": {
+      "zone": "water_branch", "action_seconds": [12,16,12],
+      "intent": "A javítás kis eredménye látható, Márk ezúttal engedélyt és közös rálátást kér.",
+      "blocking": "Pötty veszi észre a vizet. Márk megáll a levéldarab fölött, Lili rálátást keres. A kivett levél a vályún kívüli földre kerül. Pötty és Márk együtt tisztítja a körlap szélét.",
+      "camera": "70 mm-es makrójellegű követés a vékony vízfronttal; megállás a levélnél; oldalirányú 50 mm kétalakos az engedélykérésre; magasságkülönbséget mutató ferde nagytotál.",
+      "sound": "A víz első apró csorgása hallható; a torony teljes vízáramának hangja még hiányzik.",
+      "continuity": "A víz csak a közeli medencéig jut. A szilánk a felső zsebben marad, tisztításhoz a kendő szabad sarka használható."
+    },
+    "S1E1_E14": {
+      "zone": "rest_stone", "action_seconds": [12,16,10],
+      "intent": "Pötty saját tudását adja a közös rajzhoz; Márk megtanul figyelő résztvevő lenni.",
+      "blocking": "Pötty és Zizi ugyanazon oldalon ül a laphoz, Márk a kő másik végén. Bogyó feje Márk lábára kerül, a simítás lassítja Márk mozdulatát. Lili a két beszélgető közé néz.",
+      "camera": "55 mm-es nyugodt kétalakos a ceruza átadásáról; felülnézet Pötty forgatási rajzára; 65 mm Márk megálló kezére Bogyó fején; zárás a hat közös jelről.",
+      "sound": "Ceruza, bunda simítása, a háttérben halk csőlevegő; az érzelmi fordulatot a tempó és beszéd hordozza.",
+      "continuity": "Zizi nem javít bele Pötty rajzába. A hat jel közül Bogyóé fület kap; a notesz nem új mágikus tárgy."
+    },
+    "S1E1_E15": {
+      "zone": "rest_stone", "action_seconds": [12,14,12],
+      "intent": "Morzsi is részesül a gondoskodásból; a pihenés új hangot tesz észrevehetővé.",
+      "blocking": "Morzsi keze a már rögzített fedél mellett marad, majd elengedi. Pötty a kulacsot neki adja; Lili finoman visszajelzi, hogy ihat. Márk árnyékba teszi a kosarat, mindenki megvárja az ivás végét.",
+      "camera": "70 mm a kéz és retesz közös képén; 50 mm-es körkép a víz felajánlására; a távoli hangra az egész csoport lassú fejfordulása egy széles képen.",
+      "sound": "Retesz rövid koccanása, ivás és ruhamozgás; zene visszahúzódik, a távoli jelhang természetesen előtérbe kerül.",
+      "continuity": "A fedél a retesztől marad stabil. A kulacs átadása és visszavétele látszik. Bogyó nem vesz el ételt a kosárból."
+    },
+    "S1E1_E16": {
+      "zone": "bellows_court", "action_seconds": [12,15,10],
+      "intent": "A hiányos rajz elfogadása figyelemre váltja a csapatot.",
+      "blocking": "Zizi notesze középen, Pötty tartja a lap szélét, Márk az alját, Morzsi kosara szélfogóként mögötte. Lili a kert felé fordul. Végül mindenki leül vagy guggol a fújtatókhoz.",
+      "camera": "Felülnézeti 65 mm-es laprészlet az üres középpel; finom hátratolás feltárja a közösen tartó kezeket; folyamatos tengelytartó átvezetés a hallgató csoportra.",
+      "sound": "Egy széllökés, papírsuhogás, majd két külön távoli hang. A teljes háromhangos rendet még nem adjuk ki.",
+      "continuity": "A régi hibás lap nem szakad ki. A szilánk csak SC013 elején kerül elő; a vágás ne mutassa korábban Márk kezében."
+    },
+    "S1E1_SC013": {
+      "zone": "bellows_court", "action_seconds": [8,6,8,12,8],
+      "intent": "A három hang mellett a szünetet is felismerik, majd feladatot vállalnak.",
+      "blocking": "Márk láthatóan előveszi a kendőt. Zizi összeveti a régi jeleket. Morzsi háta mögé teszi a kezét; Bogyó leül. Pötty a fényt, Zizi a csöveket figyeli. Márk a szilánkot a stabil mélyedésbe helyezi.",
+      "camera": "50 mm-es csoportkép a hallgatásra; egyező 70 mm-es jelbetétek a kapurajzról és körkőről; egy rövid kézritmus-próba teljes hossza látható, beleértve a szünetet.",
+      "sound": "Mély–magas–közép–szünet; a szünetben környezet van, zenei vagy beszédkitöltés nincs. A motívumot legfeljebb a megértéshez szükséges kétszer játsszuk.",
+      "continuity": "A szilánk nem kerül a teljes csillag nyílásába. A mélyedés ettől SC016-ig őrzött tárgyhely."
+    },
+    "S1E1_SC014": {
+      "zone": "bridge_court", "action_seconds": [10,4,10,7,5,6,7],
+      "intent": "A helyes sorrend megnyitja a hidat, de feltárja a következő konkrét akadályt.",
+      "blocking": "Morzsi–Márk–Zizi sorban nyom és elenged. Pötty jelére mindenki a hídra néz, de a kövek megállásáig helyben marad. Pötty és Bogyó a szilánknál marad; négy társ indul át.",
+      "camera": "35 mm-es master összeköti a kezelőket és hidat; alacsony emelkedő kameramozgás a három fénykővel; a négy–két fős csoportmegosztást egy magasabb zárókép tisztázza.",
+      "sound": "Tiszta háromhangos motívum és lecsengés; kövek puha illeszkedése, korlát kifeszülése, fél fordulat után megálló szélkerék.",
+      "continuity": "A híd stabilan a helyén marad. Pötty és Bogyó látja a túloldali négyest; a szilánk nem utazik velük."
+    },
+    "S1E1_E17": {
+      "zone": "deflector_balcony", "action_seconds": [13,12,16],
+      "intent": "Márk már önállóan választja a közösen járható kerülőt.",
+      "blocking": "Márk, Lili, Morzsi és Zizi a belső erkélyen. A kosár nem fér a kis boltívhez kényelmesen, ezért Lili vezeti őket a széles íven. Pötty a túloldalról kézjelet ad, Márk visszajelez.",
+      "camera": "35 mm-es kétútvonalas masterben mindkét csoport látható; az alacsony ív és kosár közös 55 mm-es képe; követés a kerülőn a terelő vezetősínjéig.",
+      "sound": "Korlát melletti lépések, kosár enyhe súrlódása, csőben rekedt levegő. Nincs távolságon át kiabált új párbeszéd.",
+      "continuity": "A kapuszigeti őrzők maradnak a háttér megfelelő oldalán. A terelő mögött előre látszik a szabad levegőkijárat."
+    },
+    "S1E1_E18": {
+      "zone": "deflector_balcony", "action_seconds": [12,14,18],
+      "intent": "Zizi szabaddá teszi a kezét, és a csapat terhelés nélkül próbálja el a fogást.",
+      "blocking": "Műszer a belső padra, notesz Morzsi kosarába. Morzsi az egyik fogantyút, Márk a másikat fogja, Zizi a retesznél, Lili a sínnél áll. Még nincs emelés.",
+      "camera": "60 mm-es tárgylerakás a kéz felszabadulását mutatja; 40 mm-es munkaterületi master; közelik csak akkor, ha a közös kép már megmutatta, melyik kéz melyik feladathoz tartozik.",
+      "sound": "Műszer puha letétele, papír a kosárban, fogantyú fogása. A szerkezet nem nyikordul meg terhelés nélkül.",
+      "continuity": "A műszer stabil padon, a notesz a kosárban marad E20-ig. A szilánk továbbra is Pötty felügyeletében, távol a munkaterülettől."
+    },
+    "S1E1_E19": {
+      "zone": "bridge_court", "action_seconds": [12,14,14,6],
+      "intent": "Pötty azzal segít, hogy megfigyel és helyben marad; Bogyó megtanulja a szünet játékát.",
+      "blocking": "Pötty a mélyedés egyik oldaláról a másikra lép, a tárgyat nem mozgatja. Bogyó a farkát a szilánktól távol tartva ül. A túloldali négyes látható; három koppintásra Márk kézjele felel.",
+      "camera": "Pötty szemmagasságából 55 mm-es parallaxiskép tisztázza a kendő kitakarását; 40 mm-es kétalakos Bogyóval; egyetlen visszavágás a sínben észrevett kőre.",
+      "sound": "Három kis koppintás, levéljáték ritmusa, utána megállás. A kutya tekintete, nem új beszéd oldja a jelenetet.",
+      "continuity": "A szilánk egyetlen képkockán sem kerül Pötty kezébe. A kendő sarka okozza a látszó fényváltozást. A farokritmus SC015-ben visszatér."
+    },
+    "S1E1_SC015": {
+      "zone": "deflector_and_court", "action_seconds": [8,9,10,7,8,10,13],
+      "intent": "A közös megállás, majd helyes sorrend ténylegesen helyreállítja a kertet.",
+      "blocking": "Morzsi tart, Zizi old, Márk emel; Lili kérésére mindenki megáll. Lili kiveszi a sín kavicsát, Zizi rögzíti a terelőt. A négyes ugyanazon az úton tér vissza a két őrzőhöz; ezután újra feláll a fújtatóhármas.",
+      "camera": "45 mm-es master a terhelés megállításáról; 85 mm kavics és sín, látható szabad ujjhelyzettel; folytonosságot adó visszaút; a kert válaszát a korábbi hibabetétek azonos képkivágásai mutatják.",
+      "sound": "Megálló súrlódás, kavics koppanása, retesz; utána mély–magas–közép–szünet, tiszta harangok, induló víz és szél. A zene csak a hallható mechanikai válasz után nyílik ki.",
+      "continuity": "Minden kézfogás terhelésváltása látszik. Hidak végig stabilak; a szigetek lassan mozdulnak, szereplők nem csúsznak vagy lebegnek a talajon."
+    },
+    "S1E1_SC016": {
+      "zone": "restored_garden", "action_seconds": [8,5,9,5],
+      "intent": "A működő kert örömöt és új, még megfejtetlen nyomot ad.",
+      "blocking": "Bogyó a lehullott levelet Pöttyhöz hozza. Zizi a víz mellett kikapcsolva hagyja a műszert. Márk visszaveszi a kendőt; a kapu fényét immár a szélkerék is fenntartja.",
+      "camera": "35 mm-es levegős csoportkép a fuvallat után; 65 mm az átvett levélről; a szilánk felvétele és tovább világító kapu közös 40 mm-es képben; térképbetét csak röviden.",
+      "sound": "Élő vízcsorgás, levél, bunda borzolódása; a három hang örömteli, de a hiányzó rész új hangja nem válaszolja meg a rejtélyt.",
+      "continuity": "Nincs új szilánk jutalomként. A levél Pöttynél marad; Márk a régi szilánkot tartja. A kapu nyitva marad annak felemelése után is."
+    },
+    "S1E1_E20": {
+      "zone": "gate_island", "action_seconds": [13,13,19,12],
+      "intent": "A közös térképre mindenki valódi hozzájárulása rákerül, a hibák nyoma is megmarad.",
+      "blocking": "A csoport a kapuszigeti pihenőkő körül. Zizi visszakapja a noteszt a kosárból. Pötty az ölében tartja Bogyó levelét, Morzsi ülőkövet rajzol, Lili a bejárt kerülőre mutat; Márk a hat jelet egy út mellé rendezi.",
+      "camera": "50 mm közös rajzolási kép; 75 mm három tartalmi betét: hibás vonal megőrzése, járatrajz, hat egyenrangú jel. Rövid visszatekintő tekintetképek a valódi helyekre, ismételt korábbi jelenetek nélkül.",
+      "sound": "Ceruza és élő kert; a dallam most szabad játék, nem új feladat. Bogyó orrán a levél egyszeri vizuális poén.",
+      "continuity": "Az eredeti 185 másodperces keret nem kötelező kitöltés: csak a felolvasás és blokkolás által indokolt idő maradhat. Zizi a végén övre teszi a noteszt; narancsszalag még a bokron."
+    },
+    "S1E1_SC016_RETURN": {
+      "zone": "gate_island", "action_seconds": [10],
+      "intent": "A csapat összeszámolja magát és rendezetten hazafelé indul.",
+      "blocking": "Zizi leoldja és elteszi a narancsszalagot. Pötty maga mellett tartja Bogyót a számoláskor. Morzsi felveszi a kosarat; Márk a kendőt fogja.",
+      "camera": "Egy 40 mm-es csoportképben látszik a szalag leszedése és a hat szereplő; rövid követés a kapu felé.",
+      "sound": "Szalag oldása, kosár, hat eltérő lépésritmus.",
+      "continuity": "A bokron nem marad szalag. A hatfős csapatból senki nem indul el a számlálás előtt."
+    },
+    "S1E1_SC017": {
+      "zone": "gate_clearing", "action_seconds": [12,12,6,9],
+      "intent": "A hazatérés és az uzsonna az átalakult együttműködést mutatja.",
+      "blocking": "Az átlépési sorrend azonos az odafelével, Morzsi utolsó. Az uzsonnánál mindenki félkörben ül; a szilánk Márk ölében a kendőn. Bogyó külön kutyafalatot kap a kosárból.",
+      "camera": "Az SC006 master ellenirányú, de azonos földrajzú párja; 50 mm-es közös uzsonnakép; a záró követésben Márk hátrapillant, majd természetesen bevárja a többieket.",
+      "sound": "Erdei madarak visszatérnek, kapu elhalkul, csomagolás és közös nevetés. A nap még nem ment le.",
+      "continuity": "A szilánk végig Márknál, a kapu jelei halványan maradnak. Az ételosztásban mindenki kap, Bogyó nem emberi uzsonnát eszik."
+    },
+    "S1E1_SC018": {
+      "zone": "forest_departure", "action_seconds": [6,3,6],
+      "intent": "Márk és Lili közösen észreveszik az új nyomot, majd visszatérnek a csapathoz.",
+      "blocking": "Márk az ösvény szélén megáll és felnyitja a kendőt. Lili mellé lép. A tolljelre mindketten rálátnak; ezután együtt csatlakoznak a még látható társakhoz.",
+      "camera": "65 mm szilánktörés, szemvonalhoz illesztett 85 mm kapujel; kétalakos reakció; a kamera a kapun marad, amikor a páros távozik.",
+      "sound": "Három rövid fényhang, visszatakart kendő. A levezető saját motívumot egy új, halk hangszín egészíti ki.",
+      "continuity": "Nem nyílik új világ, nem jelenik meg új szereplő. A tollforma csak nyom, a szilánk eredetét nem magyarázza meg."
+    },
+    "S1E1_SC019": {
+      "zone": "credits", "action_seconds": [15],
+      "intent": "Rövid, hiteles stáblista a tényleges hozzájárulásokkal.",
+      "blocking": "Nincs új történeti akció; a kész film tényleges közreműködői és licencelt forrásai kerülnek ide.",
+      "camera": "Tiszta, olvasható stáblista; nem kitalált stúdiólogó vagy újrahasznosított jelenethosszabbítás.",
+      "sound": "Saját vagy megfelelően licencelt rövid zenei levezetés.",
+      "continuity": "A 15 másodperc főcím/stáblista, külön mérendő a valódi történet idejétől."
+    }
+  }
+}

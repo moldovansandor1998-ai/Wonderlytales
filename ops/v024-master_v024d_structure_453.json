@@ -1,0 +1,202 @@
+{
+  "version": "V024",
+  "source_sha256": "a6bb2825f4476bf86542a04c7b1f77c5738d47754593f18175e8b3d68c26cb8f",
+  "professional_quality_approved": false,
+  "characters": {
+    "CHAR_MARK": {
+      "anatomy": "biped",
+      "control_count": 16,
+      "missing_controls": [],
+      "action_asset_count": 13,
+      "foot_ik_count": 2,
+      "all_foot_ik_valid": true,
+      "driver_measurements": {
+        "jaw_angle": 0.11999999731779099,
+        "eye_L_yaw": 0.20000000298023224,
+        "eye_R_yaw": 0.0,
+        "blink_L": 1.0,
+        "blink_R": 0.0,
+        "viseme_A": 1.0
+      },
+      "independent_facial_drivers_pass": true,
+      "native_rig_structure_pass": true,
+      "mouth_boundary_matched": true,
+      "natural_motion_approved": false,
+      "hand_driver_checks": [
+        {
+          "side": "L",
+          "measured": [
+            0.0,
+            1.0
+          ],
+          "pass": true
+        },
+        {
+          "side": "R",
+          "measured": [
+            0.0,
+            1.0
+          ],
+          "pass": true
+        }
+      ]
+    },
+    "CHAR_LILI": {
+      "anatomy": "quadruped",
+      "control_count": 15,
+      "missing_controls": [],
+      "action_asset_count": 13,
+      "foot_ik_count": 4,
+      "all_foot_ik_valid": true,
+      "driver_measurements": {
+        "jaw_angle": 0.11999999731779099,
+        "eye_L_yaw": 0.20000000298023224,
+        "eye_R_yaw": 0.0,
+        "blink_L": 1.0,
+        "blink_R": 0.0,
+        "viseme_A": 1.0
+      },
+      "independent_facial_drivers_pass": true,
+      "native_rig_structure_pass": true,
+      "mouth_boundary_matched": false,
+      "natural_motion_approved": false,
+      "hand_driver_checks": []
+    },
+    "CHAR_MORZSI": {
+      "anatomy": "biped",
+      "control_count": 16,
+      "missing_controls": [],
+      "action_asset_count": 13,
+      "foot_ik_count": 2,
+      "all_foot_ik_valid": true,
+      "driver_measurements": {
+        "jaw_angle": 0.11999999731779099,
+        "eye_L_yaw": 0.20000000298023224,
+        "eye_R_yaw": 0.0,
+        "blink_L": 1.0,
+        "blink_R": 0.0,
+        "viseme_A": 1.0
+      },
+      "independent_facial_drivers_pass": true,
+      "native_rig_structure_pass": true,
+      "mouth_boundary_matched": true,
+      "natural_motion_approved": false,
+      "hand_driver_checks": [
+        {
+          "side": "L",
+          "measured": [
+            0.0,
+            1.0
+          ],
+          "pass": true
+        },
+        {
+          "side": "R",
+          "measured": [
+            0.0,
+            1.0
+          ],
+          "pass": true
+        }
+      ]
+    },
+    "CHAR_POTTY": {
+      "anatomy": "biped",
+      "control_count": 16,
+      "missing_controls": [],
+      "action_asset_count": 13,
+      "foot_ik_count": 2,
+      "all_foot_ik_valid": true,
+      "driver_measurements": {
+        "jaw_angle": 0.11999999731779099,
+        "eye_L_yaw": 0.20000000298023224,
+        "eye_R_yaw": 0.0,
+        "blink_L": 1.0,
+        "blink_R": 0.0,
+        "viseme_A": 1.0
+      },
+      "independent_facial_drivers_pass": true,
+      "native_rig_structure_pass": true,
+      "mouth_boundary_matched": false,
+      "natural_motion_approved": false,
+      "hand_driver_checks": [
+        {
+          "side": "L",
+          "measured": [
+            0.0,
+            1.0
+          ],
+          "pass": true
+        },
+        {
+          "side": "R",
+          "measured": [
+            0.0,
+            1.0
+          ],
+          "pass": true
+        }
+      ]
+    },
+    "CHAR_ZIZI": {
+      "anatomy": "biped",
+      "control_count": 16,
+      "missing_controls": [],
+      "action_asset_count": 13,
+      "foot_ik_count": 2,
+      "all_foot_ik_valid": true,
+      "driver_measurements": {
+        "jaw_angle": 0.11999999731779099,
+        "eye_L_yaw": 0.20000000298023224,
+        "eye_R_yaw": 0.0,
+        "blink_L": 1.0,
+        "blink_R": 0.0,
+        "viseme_A": 1.0
+      },
+      "independent_facial_drivers_pass": true,
+      "native_rig_structure_pass": true,
+      "mouth_boundary_matched": false,
+      "natural_motion_approved": false,
+      "hand_driver_checks": [
+        {
+          "side": "L",
+          "measured": [
+            0.0,
+            1.0
+          ],
+          "pass": true
+        },
+        {
+          "side": "R",
+          "measured": [
+            0.0,
+            1.0
+          ],
+          "pass": true
+        }
+      ]
+    },
+    "CHAR_BOGYO": {
+      "anatomy": "quadruped",
+      "control_count": 15,
+      "missing_controls": [],
+      "action_asset_count": 13,
+      "foot_ik_count": 4,
+      "all_foot_ik_valid": true,
+      "driver_measurements": {
+        "jaw_angle": 0.11999999731779099,
+        "eye_L_yaw": 0.20000000298023224,
+        "eye_R_yaw": 0.0,
+        "blink_L": 1.0,
+        "blink_R": 0.0,
+        "viseme_A": 1.0
+      },
+      "independent_facial_drivers_pass": true,
+      "native_rig_structure_pass": true,
+      "mouth_boundary_matched": false,
+      "natural_motion_approved": false,
+      "hand_driver_checks": []
+    }
+  },
+  "all_structure_checks_pass": true
+}

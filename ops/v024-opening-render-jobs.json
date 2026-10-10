@@ -49,7 +49,7 @@
     },
     {
       "scene_id": "S1E1_SC001_V024",
-      "status": "IN_PROGRESS",
+      "status": "COMPLETED",
       "budget_reservation_id": "5d17239f-7a01-4732-bb62-97fb624a55f0",
       "reservation_usd": 2.5,
       "input": {
@@ -64,13 +64,32 @@
         "samples": 48
       },
       "id": "7c3e1b71-102f-4c72-a4fc-a4891465c0b9-u2",
-      "provider_date": "Sat, 10 Oct 2026 18:47:16 GMT",
+      "provider_date": "Sat, 10 Oct 2026 19:01:46 GMT",
       "workerId": "g9mrsc50ttlr8a",
-      "delayTime": 894207
+      "delayTime": 894207,
+      "executionTime": 843752,
+      "clip": {
+        "bytes": 12267625,
+        "has_scene_audio": true,
+        "key": "renders/native/S1E1/7ad6efdef7e624202cfb0f67772f5386a69b71ecf30f93ca86fafd63fccd4d79/38fb21f5f02c3acd26a7f8a9365d1983c7b584ccc550b52ec2577010d8fb0583/clip.mp4",
+        "sha256": "d802bc72daccd3078110c3a8513043077941c823c43438c7af7c5974d9eadbc7",
+        "verified_fps": 24,
+        "verified_frames": 360,
+        "verified_height": 1080,
+        "verified_width": 1920
+      },
+      "devices": [
+        {
+          "backend": "OPTIX",
+          "name": "NVIDIA RTX PRO 6000 Blackwell Server Edition"
+        }
+      ],
+      "mean_frame_seconds": 2.1810706672892493,
+      "result_key": "native/S1E1/V024/job-results/7c3e1b71-102f-4c72-a4fc-a4891465c0b9-u2.json"
     },
     {
       "scene_id": "S1E1_SC001_V024",
-      "status": "IN_QUEUE",
+      "status": "IN_PROGRESS",
       "budget_reservation_id": "333a02c8-ffa1-48c0-b16f-4693a7610fbc",
       "reservation_usd": 2.5,
       "input": {
@@ -85,7 +104,9 @@
         "samples": 48
       },
       "id": "8fde225c-36ab-4f03-92a9-05460452189f-u1",
-      "provider_date": "Sat, 10 Oct 2026 18:47:22 GMT"
+      "provider_date": "Sat, 10 Oct 2026 19:10:11 GMT",
+      "workerId": "g9mrsc50ttlr8a",
+      "delayTime": 1731502
     },
     {
       "scene_id": "S1E1_SC001_V024",
@@ -104,7 +125,7 @@
         "samples": 48
       },
       "id": "09290717-898c-4b23-882b-be5b924c0ac3-u2",
-      "provider_date": "Sat, 10 Oct 2026 18:47:29 GMT"
+      "provider_date": "Sat, 10 Oct 2026 19:10:25 GMT"
     },
     {
       "scene_id": "S1E1_SC003_V024",
@@ -123,7 +144,7 @@
         "samples": 48
       },
       "id": "741d8182-3b2c-4489-b76d-1f9d16d5ed26-u1",
-      "provider_date": "Sat, 10 Oct 2026 18:49:09 GMT"
+      "provider_date": "Sat, 10 Oct 2026 19:10:33 GMT"
     },
     {
       "scene_id": "S1E1_SC003_V024",
@@ -142,7 +163,7 @@
         "samples": 48
       },
       "id": "3f23c9e3-5407-4428-b918-42d1b09894a8-u2",
-      "provider_date": "Sat, 10 Oct 2026 18:49:17 GMT"
+      "provider_date": "Sat, 10 Oct 2026 19:10:41 GMT"
     },
     {
       "scene_id": "S1E1_SC003_V024",
@@ -161,7 +182,7 @@
         "samples": 48
       },
       "id": "eebe50d0-9698-41a6-aa20-73c54a0e657c-u1",
-      "provider_date": "Sat, 10 Oct 2026 18:49:25 GMT"
+      "provider_date": "Sat, 10 Oct 2026 19:10:48 GMT"
     },
     {
       "scene_id": "S1E1_SC003_V024",
@@ -180,7 +201,7 @@
         "samples": 48
       },
       "id": "ea3b7a52-ed30-4043-95eb-162408b8caa1-u2",
-      "provider_date": "Sat, 10 Oct 2026 18:49:33 GMT"
+      "provider_date": "Sat, 10 Oct 2026 19:10:56 GMT"
     },
     {
       "scene_id": "S1E1_SC003_V024",
@@ -199,7 +220,7 @@
         "samples": 48
       },
       "id": "923d25dd-764e-471b-a9d5-258446ec2139-u2",
-      "provider_date": "Sat, 10 Oct 2026 18:49:41 GMT"
+      "provider_date": "Sat, 10 Oct 2026 19:11:04 GMT"
     }
   ],
   "remaining_quality_defects": [

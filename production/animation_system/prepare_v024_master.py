@@ -11,10 +11,10 @@ if source.resolve()==dest.resolve():raise ValueError('Immutable V022 required')
 bpy.ops.wm.open_mainfile(filepath=str(source.resolve()),use_scripts=False)
 reg=json.loads(registry.read_text());report={'source_sha256':digest(source),'blender':bpy.app.version_string,'production_approved':False,'characters':{}}
 report['restored_hand_drivers']={code:restore_hand_drivers(bpy.data.objects[a['rig']]) for code,a in reg['characters'].items()}
-for code in ('CHAR_LILI','CHAR_POTTY','CHAR_ZIZI'):
+for code in ('CHAR_LILI','CHAR_POTTY','CHAR_ZIZI','CHAR_BOGYO'):
     a=reg['characters'][code];r=bpy.data.objects[a['rig']];body=bpy.data.objects[a['body']]
     report['characters'][code]=rebind_body(body,r,code,FACE_PROFILES[code]['head_floor'],code in QUADRUPEDS)
-    if code=='CHAR_ZIZI':stabilize_mouth(bpy.data.objects[code+'_FACIAL_TOPOLOGY'])
+    if code in ('CHAR_ZIZI','CHAR_BOGYO'):stabilize_mouth(bpy.data.objects[code+'_FACIAL_TOPOLOGY'])
     print('MASTER_BOUND',code,flush=True)
 bpy.context.scene['production_approved']=False;bpy.context.scene['status']='V024_REUSABLE_CANDIDATE';bpy.ops.wm.save_as_mainfile(filepath=str(dest.resolve()),compress=True)
 sha=digest(dest);report['candidate_sha256']=sha;reg['source_sha256']=digest(source);reg['version']='V024';reg['master_file']=dest.name

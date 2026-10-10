@@ -1,0 +1,47 @@
+{
+  "source_sha256": "2e9fd6a06af5835a48e53ff10eecae6b4594370bbf8bf333df30448f69caefe8",
+  "blender": "4.5.3 LTS",
+  "frames": 480,
+  "production_approved": false,
+  "fixed_foot_targets": true,
+  "method": "temporal relaxation with reachable-region projection",
+  "characters": {
+    "CHAR_MARK": {
+      "max_correction_m": 0.00960224470451248,
+      "max_reach_residual_m": 0.0,
+      "before_max_second_difference_m": 0.018295102316045565,
+      "after_max_second_difference_m": 0.007743265827387578
+    },
+    "CHAR_LILI": {
+      "max_correction_m": 0.014645773371822516,
+      "max_reach_residual_m": 0.0,
+      "before_max_second_difference_m": 0.025926104212592838,
+      "after_max_second_difference_m": 0.011112039173129562
+    },
+    "CHAR_MORZSI": {
+      "max_correction_m": 0.013044655481694261,
+      "max_reach_residual_m": 5.551115123125783e-17,
+      "before_max_second_difference_m": 0.022562688840101753,
+      "after_max_second_difference_m": 0.011129444124766958
+    },
+    "CHAR_POTTY": {
+      "max_correction_m": 0.010712093774140634,
+      "max_reach_residual_m": 0.0,
+      "before_max_second_difference_m": 0.018789922943128142,
+      "after_max_second_difference_m": 0.0123681060355473
+    },
+    "CHAR_ZIZI": {
+      "max_correction_m": 0.00679973074199004,
+      "max_reach_residual_m": 0.0,
+      "before_max_second_difference_m": 0.014166670970083802,
+      "after_max_second_difference_m": 0.007434028821225453
+    },
+    "CHAR_BOGYO": {
+      "max_correction_m": 0.014491016447165246,
+      "max_reach_residual_m": 0.0,
+      "before_max_second_difference_m": 0.02538651802610786,
+      "after_max_second_difference_m": 0.012221108230813621
+    }
+  },
+  "candidate_sha256": "2df8761ead515c61b57f472e89a43e217683b146a29e79794beb65311df41bc9"
+}

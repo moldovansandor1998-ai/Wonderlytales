@@ -1,0 +1,16 @@
+{
+  "source_sha256": "72492a266fbcaea03c51e34a93a925f9153cedde42954fbe5b9739de74468693",
+  "scene_count": 40,
+  "dialogue_count": 244,
+  "existing_recordings": 131,
+  "new_recordings": 113,
+  "shot_count": 329,
+  "native_opening_sec": 132,
+  "editorial_estimate_sec": 2394.041,
+  "target_gap_sec": 1205.959,
+  "performed_duration_sec": null,
+  "padding_added_sec": 0,
+  "tts_generated": 0,
+  "html_sha256": "b933236ed00cf3b319aaa0aa5e7e82581d05144da93356a98e9ecf7e6588ac07",
+  "production_approved": false
+}

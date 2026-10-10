@@ -1,0 +1,32 @@
+[
+  {
+    "file": "data/V024/Csodakapu_FEATURE_V002_storyboard_V024.html",
+    "key": "native/S1E1/V024/preproduction/Csodakapu_FEATURE_V002_storyboard_V024.html",
+    "bytes": 342549,
+    "sha256": "b933236ed00cf3b319aaa0aa5e7e82581d05144da93356a98e9ecf7e6588ac07"
+  },
+  {
+    "file": "production/episodes/S1E1/feature_V002/storyboard_V024.json",
+    "key": "native/S1E1/V024/preproduction/storyboard_V024.json",
+    "bytes": 121243,
+    "sha256": "2d26cb3c8665a5901ae0ebda78e5242b734c9ed89b4de1cfd599a8506857c0b8"
+  },
+  {
+    "file": "production/episodes/S1E1/feature_V002/timed_reading_V024.json",
+    "key": "native/S1E1/V024/preproduction/timed_reading_V024.json",
+    "bytes": 160149,
+    "sha256": "3e464794e91c6a01fc41574b5339fee25b6ff69962e69803548c1e151da5b851"
+  },
+  {
+    "file": "production/episodes/S1E1/feature_V002/new_recording_manifest_V024.json",
+    "key": "native/S1E1/V024/preproduction/new_recording_manifest_V024.json",
+    "bytes": 78685,
+    "sha256": "dcca58f654760b254058aff05fd8947398ebfe486d072655e81630d0057ecb0b"
+  },
+  {
+    "file": "production/episodes/S1E1/feature_V002/director_notes_V024.json",
+    "key": "native/S1E1/V024/preproduction/director_notes_V024.json",
+    "bytes": 33073,
+    "sha256": "b40c37d1010ad6753739428c1e6dc1a32f65bb113f7f2a374d75ff717cca1fa8"
+  }
+]

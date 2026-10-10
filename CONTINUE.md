@@ -1,328 +1,120 @@
-# WonderlyTales continuation — 2026-10-10 18:51 UTC
+# WonderlyTales — continuation checkpoint
 
-Last successful Git commit: `d6b3e3d628a71849b2337683b5e331e284c002fb`.
-The commit containing this document is the next checkpoint (`git log -1`).
+Last successful Git commit: `7dde68130b1b47e042620304b024332c6ceb9b8a`.
+The commit containing this document follows it (`git log -1`).
+Do not rebuild infrastructure or modify V022/V023 originals. Daily ceiling $200.
+User's earlier verified base: 4266970498f2f4c5dc423f1de1a27ef58dbbfbaf.
 
-## New completed work
-- SC003 native Blender 4.5.3 full 1776-frame QA complete. Repaired missing
-  hand drivers, lowered pelvis by 0.24 local units, calibrated forward knee
-  poles and selected explicit linear body skinning for Mark's deep bend.
-  Hand contact error 2.596 mm, Mark foot error 0.0679 mm, body stretch 4.167x.
-  Native grasp closeup checked. Finger articulation still unapproved.
-- REJECTED earlier candidates: `opening_final/SC003` contact passes but
-  deep dual-quaternion crouch creates 416.87x edge stretch; never submitted.
-  `opening_contact_final/SC003` has 22 mm hand gap, also not submitted.
-- Frozen SC003 source: `native/S1E1/V024/opening_contact_v2/S1E1_SC003_V024.blend`
-  SHA bb383b0350bd9f20219196b270d40b15e8e867d7d43817f229da8f6c18025d4b.
-  Native QA/stage report and grasp proof saved beside it. Five native GPU
-  tasks submitted/submitting; read durable manifest before doing anything.
-- First opening GPU job COMPLETED: 360 real frames, 15 seconds, 1080p24,
-  OPTIX RTX PRO 6000, 891.754 seconds execution. Clip SHA
-  17988ad7ba1cbebb56e90c490a9fdac525c6361cc31117283f812eb7230483ef.
-  Remaining ranges are queued/running, not finished; no duplicate submission.
-- All-six 480-frame diagnostic complete. Bogyó body ear-binding candidate
-  reduces worst stretch 73.740x -> 3.479x without moving geometry/shape keys.
-  Saved `native/S1E1/V024/CAST_MOTION_V024_bogyo.blend` and full reports.
-  Bogyó oral patch still flips; separate head/jaw binding experiment running.
-
-## Exact next action / background
-1. Poll `scripts/run-native-review.py poll --manifest ops/v024-opening-render-jobs.json`
-   with authorized credentials. Nine ranges total 3168 real frames / 132 sec.
-   R2 `native/S1E1/V024/checkpoints/opening_render_jobs.json` holds job IDs,
-   hashes, reservations and results. One worker; queue may take ~2 hours.
-2. Active authoring sandbox `sbx_hbrj4u6r1FOrgWWTiIRBSZUkGJFS` extended to
-   ~19:40 UTC. `bogyo_mouth.log` is the next native report to read. Preserve
-   all successful derivatives/reports to R2 before stopping the sandbox.
-3. Concatenate the two original HU scene mixes (58 + 74 sec), verify all
-   completed native clips, then use existing ASSEMBLE_NATIVE_FILM handler.
-   Reserve assembly budget separately. No full-film render approved.
-4. Expand preserved FEATURE_V002 into full storyboard and timed reading.
-   Actual whole-film duration remains unknown; do not pad to 60 minutes.
-   No 113 new TTS takes until script and performed reading are finalized.
-
-## Remaining defects / budget
-- Lili knee speed up to 883.18 deg/s in SC003; body visual/natural-motion
-  approval remains open. Morzsi's mouth has rest folds; Bogyó oral patch
-  deformation, all unmeasured facial seams, eye/gaze and finger acting remain.
-- Three unresolved recordings in opening trial explicitly flagged. All 20
-  suspect recordings independently transcribed and assembled for listening;
-  recognizer results are not auditory/acting approval. Existing voices intact.
-- Current budget day 2026-10-11 Asia/Saigon: $31 reserved ($6 authoring,
-  $2.50 completed gait diagnostic, $22.50 nine opening jobs), ceiling $200.
-  These are reservations, not verified provider bills. No budget increase.
-- Existing Supabase/RunPod/R2 production queue, 300-scene transactional test,
-  accepted V016 intro, V022/V023 originals and 132 audio sources preserved.
-
----
-## Earlier checkpoint context (superseded above)
-
-# WonderlyTales continuation — 2026-10-10 18:34 UTC
-
-Last successful Git commit: `261a8381bd0edf5451ac4b8b87ea5e849d7d1414`.
-Use `git log -1` for the commit containing this checkpoint.
-
-## Immediate state
-- The first 58 seconds of the connected 132-second opening is now submitted
-  as FOUR bounded native GPU jobs; no frames duplicated or interpolated.
-  IDs, input hashes, reservation IDs and statuses are in
-  `ops/v024-opening-render-jobs.json` and durable R2 checkpoint
+## Immediate running state / next action
+- NINE existing RunPod native GPU jobs cover TWO connected opening scenes:
+  SC001 58 s / 1392 frames, SC003 74 s / 1776 frames. Total 132 s / 3168.
+  Two clips (720 frames / 30 s) are verified completed at this checkpoint.
+  One worker executes the remainder; do not resubmit queued/completed jobs.
+- Live manifest: `ops/v024-opening-render-jobs.json`; durable R2 copy:
   `native/S1E1/V024/checkpoints/opening_render_jobs.json`.
-  Endpoint currently executes one job at a time. No infrastructure change.
-  Poll with `scripts/run-native-review.py poll`; uncertain submissions NEVER
-  automatically resubmit. Existing Supabase durable queue remains unchanged.
-- Frozen first-scene blend: native/S1E1/V024/opening_final/S1E1_SC001_V024.blend
-  SHA256 7ad6efdef7e624202cfb0f67772f5386a69b71ecf30f93ca86fafd63fccd4d79.
-  Completed 1392-frame Blender 4.5.3 QA; foot errors Mark 0.0426 mm,
-  Lili 0.0226 mm. 30 unreachable Lili turn frames eliminated by repeated
-  short planted turning steps. Knee speed remains 674.86 deg/s; unapproved.
-- Native shot proofs exposed and fixed old scene props/gate leaks, occluded
-  leaf insert and a missing pre-grasp object keyframe. Existing forests reused.
-- Real speech mix now includes original scratch forest wind/bird/shard cues.
-  All 19 original recordings retained, 3 unresolved takes explicitly flagged.
-- Root cause of broken pickup found: V022-derived master was missing hand IK
-  influence drivers despite having the constraints. New reusable restoration
-  and native driver tests added; MASTER_CAST_V024c passes all-six rig tests.
-  V022/V023/V024b kept. No phonetic or professional animation approval.
+- Local watcher RUNNING: `scripts/watch-opening-review.py`, exec session 99788;
+  log `/workspace/scratch/0cbf6b31fe03/private/opening-watch.log`.
+  It polls safely, assembles ONLY after all 9 verified clips complete, then
+  downloads and fully decodes the 132-second movie. No approval is inferred.
+  Resume with authorized credentials. Avoid concurrent manifest writers.
+- Full original-HU review mix prepared: 132 s, 48 kHz stereo PCM16, SHA
+  c5ef49ad4a17959dc6c35d40a1c522d83fe13f112e667027d810bc73b00c9a4d.
+  R2 `audio/S1E1/review/V024/WonderlyTales_V024_opening_132s.wav`.
+  `ops/v024-opening-assembly.json` holds future assembly state and reservation.
+- Native Blender authoring sandbox: sbx_hbrj4u6r1FOrgWWTiIRBSZUkGJFS,
+  expires ~20:25 UTC. 4 vCPU/8 GB, official Blender 4.5.3 LTS hash 67807e1800cc.
+  Current command cmd_69355a038c6247ca9ee26bff3e37 renders all-six 20-second
+  CPU motion diagnostic, log /vercel/sandbox/cast_preview_resume2.log.
+  Output cast_preview/WonderlyTales_V024_all6_motion_20s.mp4, 768x432, 4 samples.
+  This is NOT the production GPU quality sample. Valid PNGs resume without
+  rerendering. IMPORTANT: use `exec blender ...` inside shell wrappers so a
+  command termination does not orphan Blender. Old preview PIDs stopped.
+- Preserve preview movie/manifest in R2 before stopping sandbox. All successful
+  .blend masters and full QA listed below already persisted to R2.
 
-## Running / exact next action
-1. Active sandbox sbx_hbrj4u6r1FOrgWWTiIRBSZUkGJFS, expires ~18:55 UTC.
-   Read final_SC003_build.log. Final hand-contact rebake PASSED: 0.525 mm error, down from 0.482 m.
-   Native closeup rendered; complete frame QA is running. Do NOT submit
-   scene 2 if grasp_contact_pass is false. Its prior 0.482 m handoff candidate
-   is rejected, not the production source.
-2. All-six 20-second walk/run/turn/face diagnostic compiling:
-   cast_motion_build.log -> CAST_MOTION_V024.blend / .qa.json. Preserve results.
-3. Persist MASTER_CAST_V024c, registry and structure report (upload started),
-   final opening sources/QA/mixes and contact proofs before stopping sandbox.
-4. Once SC003 contact/visual checks pass, reserve its 5 bounded GPU tasks,
-   append to existing review manifest, submit once, then verify actual GPU
-   clips, concatenate full 132-second audio and use native film assembly.
-5. Full FEATURE_V002 40-unit storyboard/timed reading remains unfinished.
-   113 new voices stay blocked; no artificial 60-minute duration claim.
+## Completed character work, independently measured on Blender 4.5.3
+- Lili/Potty/Zizi continuous anatomical skin binding, anatomy-scaled foot lift,
+  planted quadruped turn steps and reachable pelvis bake implemented reusable.
+  V022/V023 and earlier failed experiments kept. No identity replacement.
+- Full 1440-frame gate test: Lili foot max error 0.0226 mm; worst body stretch
+  3.718x versus V022 19.03x. Potty 2.504x, Zizi 2.361x. Naturalness unapproved.
+- Missing biped hand IK influence drivers restored and native-tested for all 6.
+- Bogyó body binding repaired: 480-frame diagnostic worst stretch 73.740x ->
+  3.479x. Separate oral head/jaw binding reduces mouth flips 2786 -> 0 and
+  outer edge ratio 33.25x -> 1.003x. Facial seam correspondence still missing.
+- New temporal pelvis support smoothing preserves fixed feet/reach. Same
+  480-frame all-six test: knee maxima Lili 927.73 -> 750.09 deg/s, Pötty
+  624.96 -> 490.00, Bogyó 922.47 -> 736.07. Still not natural-motion approval.
+  All feet under 0.051 mm; full QA in ops/v024-CAST_MOTION_V024_smooth.qa.json.
+- Reusable MASTER_CAST_V024d.blend SHA
+  a6bb2825f4476bf86542a04c7b1f77c5738d47754593f18175e8b3d68c26cb8f.
+  All-six native structure, eye/blink/jaw/viseme/hand driver checks PASS.
+  Registry, binding and structure reports R2 native/S1E1/V024/ beside master.
+- All-six smoothed diagnostic source SHA
+  2df8761ead515c61b57f472e89a43e217683b146a29e79794beb65311df41bc9,
+  R2 native/S1E1/V024/CAST_MOTION_V024_smooth.blend, with full QA/support.
 
-## Budget / background
-- Daily limit unchanged $200, budget day 2026-10-11 Asia/Saigon.
-  $16.50 reserved: $4 authoring, $2.50 completed 6-second diagnostic,
-  $10 four opening-scene tasks. Reservations are not verified vendor bills.
-- No 60-minute production run. Completed V016 intro and approved existing
-  assets not rerendered. No voices replaced or new TTS generated.
-- Local 26 pure animation tests pass. New native hand-influence test checks previously missing
-  original driver paths and passes V024c; no false full quality approval.
+## Frozen connected opening / exact production inputs
+- SC001: native/S1E1/V024/opening_final/S1E1_SC001_V024.blend
+  SHA 7ad6efdef7e624202cfb0f67772f5386a69b71ecf30f93ca86fafd63fccd4d79.
+  All 1392 native QA frames complete; no unreachable turn frames remain.
+- SC003: native/S1E1/V024/opening_contact_v2/S1E1_SC003_V024.blend
+  SHA bb383b0350bd9f20219196b270d40b15e8e867d7d43817f229da8f6c18025d4b.
+  All 1776 QA frames complete, hand contact 2.596 mm, Mark body stretch 4.167x.
+  Crouch 0.24 local, forward knee calibration, explicit linear skinning.
+  Native grasp proof checked. Finger articulation not yet approved.
+- REJECTED: old opening_final/SC003 (416.87x skin spikes despite hand contact)
+  and opening_contact_final/SC003 (22 mm hand gap). Neither submitted to GPU.
+- Existing forest and story props reused, 35 camera shots, original 19 takes,
+  16 timing tracks, 3 unresolved recordings staged offscreen and flagged.
+  Scratch original score/wind/birds/footsteps/shard cues, not final music.
+- Renderer revision e3cb4348e93116c5cf56c3c9c9fa8b6a3cd2e8da,
+  endpoint cfog2x4xsd0adz, RTX PRO 6000 Blackwell OPTIX, 1080p24, 48 samples.
+  No duplicated/interpolated frames. All range/clip checksums in job manifest.
+- Earlier 6-second GPU gait diagnostic already complete and decoded:
+  data/V024/WonderlyTales_V024_GPU_6s.mp4, full result ops/v024-gpu-gait-result.json.
 
----
-## Earlier checkpoint context (superseded above)
+## Hungarian audio / FEATURE_V002
+- 132 original recordings retained and hash/format checked. 20 flagged takes
+  independently transcribed using no-prompt medium Whisper: 7 normalized
+  matches, 13 differences. No auditory/phonetic/acting approval claimed.
+- Listening comparison reel 79.167 s: local data/V024/audio-review/
+  WonderlyTales_20_hang_ellenorzes_V024.mp4; durable R2 audio/S1E1/review/V024/.
+  `ops/independent-speech-review-v024.json` and reel manifest hold evidence.
+- FEATURE_V002 unchanged: 40 units, 244 lines, 131 story recordings plus 113
+  new lines; 132nd existing take is the separate end-card CTA. Voices intact.
+- NEW complete editorial draft: 329 shot entries, 37 new unit-specific director
+  notes plus 35 native opening shots/accepted intro reuse; blocking, camera,
+  sound and prop continuity written. Source SHA
+  72492a266fbcaea03c51e34a93a925f9153cedde42954fbe5b9739de74468693.
+- `scripts/build-feature-storyboard-v024.py` writes storyboard_V024.json,
+  timed_reading_V024.json and new_recording_manifest_V024.json in feature_V002.
+  Offline HTML: data/V024/Csodakapu_FEATURE_V002_storyboard_V024.html.
+  All 5 artifacts persisted under native/S1E1/V024/preproduction/; hashes in
+  ops/feature-storyboard-v024-artifacts.json. Every line binds exactly once.
+- Content-based EDITORIAL ESTIMATE: 2394.041 s (39:54), includes titles.
+  This is not performed duration; actual_duration remains NULL. Target gap
+  1205.959 s must be solved with real story development, not empty padding.
+  Full performed animatic is not complete. New 113 TTS remains blocked until
+  final script and actual timed reading. HTML can export real reading timings;
+  pressing Next alone does not validate speech or acting.
 
-# WonderlyTales continuation — 2026-10-10 18:11 UTC
+## Remaining issues / guardrails
+- Lili/Pötty/Bogyó knee peaks and visual naturalness; Morzsi 926 rest mouth
+  folds; unmatched seams on Lili/Potty/Zizi/Bogyo; natural HU coarticulation,
+  gaze, finger articulation and physical interactions need further native QA.
+- No reference-film-quality claim: reference video could not be retrieved.
+- No full 60-minute production run. Existing Supabase queue, 300-scene SQL
+  task test, V016 accepted intro and original infrastructure remain unchanged.
+  The 300-scene test is not proof of 300 real GPU renders.
+- Budget day 2026-10-11 Asia/Saigon: $35.50 reserved, daily ceiling unchanged
+  $200: $8 authoring, $2.50 gait, $22.50 nine opening ranges, $2.50 assembly
+  (reservation 416e3140-cb2b-4f17-a02e-c4bb8effca83). Not verified vendor bills.
+- RunPod runtime APIs work. Management endpoint returned 403; no bypass or
+  worker scaling changes made. Provider-owned TTS key unavailable here;
+  no new voices generated and no hidden/server credential extraction.
+- Pure animation tests: 26 PASS; Python compile and storyboard JS syntax PASS.
+- Git push via local CLI cannot authenticate; GitHub connector tree/commit/ref
+  with expected-head lease works, then fetch and verify local tree equality.
 
-Last successful Git commit: `1885eb30cf0de66076ec2961baf77616dae7a2c2`.
-This checkpoint follows it; `git log -1` gives this document's commit.
-
-## New completed work
-- Production Blender 4.5.3: complete 1440-frame continuous-binding/support QA.
-  Lili worst body edge stretch now 3.718x (previous gait candidate 6.048x),
-  Potty 2.504x, Zizi 2.361x. Lili maximum foot error 0.0226 mm.
-  No production approval: knee peaks remain Lili 777.68 / Potty 506.13 deg/s.
-- Anatomy-scaled, zero-endpoint-velocity swing lift replaces excessive fixed
-  lift on short limbs. Planted positions and native geometry preserved.
-- Separate MASTER_CAST_V024b, SHA256
-  3d664f433434a034451301f2b0d4a86537f76e8cf36f57af2d011737c6ccb185,
-  saved with source/report/registry under R2 native/S1E1/V024/. V022 intact.
-- First actual new GPU test COMPLETED: job
-  cc597d9e-807a-4bb3-9702-6567d4a0283d-u2, 144 frames / 6 seconds,
-  1920x1080 / 24fps / 48 samples / RTX PRO 6000 Blackwell OPTIX,
-  scene audio present. Execution 324.172 s. Downloaded clip SHA verified:
-  6dbb7085f7f986d016d7596dbb96de99c3586c58a3eb05434a0433b0be9ff823.
-  This is a studio gait diagnostic, not a connected cinematic quality sample.
-  Full immutable storage key is in ops/v024-gpu-gait-result.json.
-- Independent no-prompt medium Whisper review completed for all 20 flagged
-  originals: 7 normalized transcript matches, 13 remaining differences.
-  This is recognizer evidence, not phonetic, listening or acting approval.
-  No recordings/voices replaced. No new ElevenLabs generation.
-- 79.167-second listening comparison reel made from the 20 originals, with
-  script/Scribe/independent text and speaker IDs. Hash and manifest saved in
-  ops/audio-review-reel-v024.json; R2 audio/S1E1/review/V024/.
-- FEATURE_V002 original 40 units / 244 lines retained. First two story units
-  staged as 132 seconds / 35 shots / 3168 frames / 9 bounded render jobs.
-  Source scripts/storyboard/render plan saved in quality_opening_V024/.
-  19 unchanged recordings; 16 measured tracks; 3 unresolved takes explicitly
-  flagged and staged offscreen, not approved. 113 new lines still unrecorded.
-- Reusable camera dolly, prop carry-through, crouch and offscreen-audio mixing
-  added. 25 pure animation tests pass; Python modules compile.
-
-## In progress / exact next operation
-- Native compilation of the two forest scenes is RUNNING in sandbox
-  sbx_hbrj4u6r1FOrgWWTiIRBSZUkGJFS; log /vercel/sandbox/opening_build.log.
-  Files /vercel/sandbox/opening/S1E1_SC001_V024.* and SC003 counterpart.
-  Pipeline: compile -> support bake -> real original HU mix -> native props
-  and packed audio. Existing story prop geometry reused.
-- Read log, fix any errors, inspect representative native forest frames and
-  hand/prop continuity before submitting bounded GPU scene jobs.
-- Preserve final blends, full QA and audio mixes to R2, freeze checksums in
-  the job manifest, then prove actual multi-scene GPU rendering and assembly.
-- Native sources/reports already persisted: continuous.blend, V024b master,
-  registry, full QA, earlier rejected experiments. Local paths data/V024/.
-- Remaining defects: Lili/Potty knee velocity, visual skin/contact approval,
-  Zizi mouth seam, natural gaze/acting, Morzsi/Bogyo movement QA, 20 auditory
-  adjudications, 113 new readings, full-feature dramatic timing/storyboard.
-  Feature measured duration remains NULL; 60 minutes is not yet demonstrated.
-  Reference film unavailable to inspect; no reference-quality claim.
-
-## Background / budget
-- Authoring sandbox timeout extended to 90 minutes total, until ~18:55 UTC.
-  4 vCPU / 8 GB, nonpersistent. Persist files and stop when finished.
-- Current budget day 2026-10-11 Asia/Saigon: $6.50 reserved so far:
-  authoring e00f3614-3d1c-4c65-8ac0-8609350a9b5b and
-  bd226f3b-f215-4b04-b991-e142f86e0dc5 ($2 each), GPU
-  2e7d4366-b5f1-418a-a1df-60e10a450d00 ($2.50).
-  Limit unchanged $200. Reservations are ceilings, not verified vendor bills.
-- Existing durable Supabase runs and 300-scene transactional queue test intact.
-  First GPU diagnostic submitted directly, not claimed as queue scale proof.
-- No full 60-minute render, no new TTS, no accepted V016 rerender.
-
----
-## Earlier checkpoint context (superseded above)
-
-# WonderlyTales continuation — V024 / 2026-10-10 17:38 UTC
-
-Last successful saved checkpoint: `1c8cbb902676d15638426a2948978855776f072a`.
-This development checkpoint follows it; `git log -1` identifies its own commit.
-
-## Current verified development
-- Read the latest GitHub CONTINUE first; main matched 1c8cbb9 and was clean.
-- Live Supabase: 3 REVIEW runs / 10 DONE tasks. RunPod: 21 completed,
-  zero failed/active/queued. Existing renderer, storage, jobs and V022 preserved.
-- Official checksum-verified Blender **4.5.3 LTS** now runs successfully in the
-  authoring sandbox. Version hash 67807e1800cc. The existing downloaded official
-  archive was reused through R2, solving the local SIGBUS/runtime mismatch.
-- Native 4.5.3 V022 baseline matches the prior 5.0.1 geometry measurements.
-- Continuous anatomical skin envelopes replace discontinuous inherited tail/ear
-  masses on Lili, Potty, Zizi. Coordinates, shape keys and Mark binding unchanged.
-  Candidate only; no master promotion. Both segment and attachment profiles kept.
-- Matched 81-frame binding comparison: Lili body stretch 19.03x -> 5.11x,
-  Potty 22.36x -> 2.76x, Zizi 14.39x -> 3.07x; Lili foot error 3.36 mm.
-  Attachment-envelope refinement: 4.62x / 2.49x / 2.38x respectively.
-- New all-frame QA distinguishes partial from complete results. First complete
-  1440-frame run found missed defects: Lili foot error 17.91 mm, knee peak
-  1181.52 deg/s; Potty knee 1191.12 deg/s. Sparse QA is insufficient.
-- Native sources and measurements saved under R2 `native/S1E1/V024/`.
-  Initial binding source SHA256: 3a179b0179e52961ff4420941930d10fb1a640df05aff429d51eb2b9c8b06e34.
-  Reports: ops/v024-*.json. Small closeups in R2 are diagnostic; some targets
-  were occluded, so new isolated closeups are rendering.
-- Existing 22 pure animation tests pass. No new TTS, no GPU renders submitted.
-
-## Running work / exact next actions
-1. `bake_native_support.py` applied a 4% leg bend reserve on all 1440 frames:
-   Mark 1307, Lili 1421, Potty 1343, Zizi 1428 corrections, zero rejected frames.
-   Independent full-frame QA RUNNING, file `reachable_all_frames_453.json` in
-   sandbox. Do not approve until complete and visually checked.
-2. Inspect isolated closeups at `closeups_reachable/`, then preserve reachable
-   .blend, complete QA and support report to R2. Investigate remaining skin,
-   knee, mouth seam and body-contact defects. Morzsi/Bogyo motion still pending.
-3. Independent Hungarian recognition script prepared for the 20 flagged takes,
-   no script prompt. Medium Whisper model pinned to 8701f851d407f3f47e091bb13b8dac5290c7f7fb.
-   Local runtime needs model vocabulary.txt download; no recognition approved yet.
-4. FEATURE_V002 unchanged: 40 units / 244 lines / 113 unrecorded new lines.
-   Actual duration still NULL. Storyboard, measured reading and animatic remain.
-5. Only after native inspection, make a bounded connected GPU quality sample
-   with real audio/mix/assembly. No full feature render or release approval.
-
-## Background / budget
-- Active temporary authoring sandbox: sbx_hbrj4u6r1FOrgWWTiIRBSZUkGJFS
-  name wonderly-v024-binding-20261010, 4 vCPU / 8 GB, nonpersistent,
-  started ~17:25 UTC, 45-minute timeout. Persist artifacts before stopping.
-- Authoring reservation e00f3614-3d1c-4c65-8ac0-8609350a9b5b: $2,
-  day 2026-10-11 Asia/Saigon; limit unchanged $200. Reservation != vendor bill.
-- Local ASR setup in tools/speech-audit-venv; no paid recognition or new voice.
-- R2 originals V022, rejected V023 experiments, accepted voices and V016 intro
-  remain unchanged. No old finished media rerendered.
-
----
-## Previous complete checkpoint (retained context)
-
-# WonderlyTales continuation — 2026-10-10 17:06 UTC
-
-Last verified successful development commit: `4266970498f2f4c5dc423f1de1a27ef58dbbfbaf`.
-This file-only continuation update follows it. Use `git log -1` for the checkpoint-document commit.
-
-## Completed / preserved
-- Recovered main from `4dccf23`; no later saved dialogue fix existed.
-- Latest web continuation deployed READY: `dpl_9ge5GhBLus9UMLkZ1N4zWy6ywUjj`.
-- Supabase healthy: 3 REVIEW runs, 10 DONE tasks, fresh durable scheduler heartbeat.
-  RunPod initially 21 completed / 0 failed / 0 active. No new GPU jobs submitted.
-- Durable render/restart/R2/assembly infrastructure and immutable V022 sources preserved.
-- 132 current MP3s decoded, all scene/episode/character/selected-voice paths checked.
-  132 matching hash+script recognition caches now persisted in R2 (126 newly audited).
-- 112 recordings have valid measured Hungarian grapheme timing; 20 require review.
-  Evidence: ops/current-speech-audit-20261010.json and speech-review-required-20261010.json.
-- 112 viseme tracks + manifest uploaded and byte-verified at
-  `audio/S1E1/verified_v023/` in R2. Git manifest: ops/speech-v023-manifest.json.
-  No phonetic/acting approval: transcript matches and measured character timing only.
-- Ownership/hash checks protect audio/alignment routes; cached approvals recomputed.
-  Measured multigraph groups accept zero-length component letters only when the
-  whole Hungarian grapheme has a positive measured duration; no invented timing.
-- Supabase adapter now reads beyond the 1000-row cap. Test covers 2400 lines/400 scenes
-  with a 500-row server cap. IDs must advance; incomplete/error pages fail visibly.
-- Live 300-scene / 60-minute FEATURE enqueue test PASSED in 53.483 ms: 300 render
-  tasks, 1 assembly task, 86400 continuous frames, retry idempotency and HELD gate.
-  Transaction rolled back; DB remained 3 runs / 10 tasks. No GPU/media render claimed.
-- Reusable pelvis and sole heading transitions now blend at clip boundaries.
-  Pure animation tests: 22 passed. TypeScript check passed. Web suite: 135/136 passed; shared demo artifacts caused a corrupted MP4.
-  Re-run of the unchanged demo in /tmp/wonderly-demo-qc passed HU+EN assembly;
-  use an isolated working directory for media tests.
-
-## Completed native / screenplay checkpoint
-- All SIX V022 rigs passed native structural/independent jaw-eye-blink-viseme tests
-  under Blender 5.0.1; 78 Action assets retained. Morzsi/Bogyó motion is NOT verified
-  by the four-character 60-second scene. See ops/master-structure-v022-20261010.json.
-- Separate V023 motion, skin experiment and body-support candidates persisted in R2
-  under `native/S1E1/V023/`; originals untouched. Diagnostics are NOT promoted masters.
-- Matched 81-frame comparison: Potty peak sampled knee speed 660.20 -> 362.67 deg/s;
-  Zizi outer-mouth inverted triangles 11 -> 0; Mark seam continuity retained.
-- Lili's support candidate foot error 0.07253 -> 0.00336 m, BUT body stretch
-  19.03x -> 27.86x. Candidate REJECTED for promotion. Broad weight diffusion also
-  regressed skin and is disabled in repair_motion_transitions.py.
-- Small 640x360 / 8-sample native Cycles proof rendered and visually inspected:
-  `native/S1E1/V023/diagnostic_motion_frame_721.png`. Four-character diagnostic
-  studio floor, noisy sampling, NOT a finished cinematic environment/film.
-- New complete feature script draft: production/episodes/S1E1/feature_V002/.
-  40 editorial units, 20 new scenes, 244 dialogue lines; 131 exact current story
-  recordings reused, 113 new lines unrecorded. Separate existing end-card CTA kept
-  outside story. Accepted 15-second V016 intro preserved before the story.
-  Planned 3600 seconds; actual duration NULL, no measured animatic or render approval.
-
-## In progress / open blockers
-- 20 current recordings still need transcript/language/timing adjudication. No new TTS.
-- Lili skin/hip/neck/tail binding must be corrected together with reachable support.
-  Potty ear/head transition, Zizi body/tail deformation and five unmatched mouth seams
-  remain. Do not approve from passing foot or outer-mouth checks alone.
-- Blender 5.0.1 candidates are NOT verified for production Blender 4.5.3 compatibility.
-- Shot blocking, natural acting, full-frame/contact tests, production environments,
-  lighting, music/SFX, reading pass and measured 60-minute animatic remain unfinished.
-- Reference YouTube film could not be retrieved; no claim of matching its quality.
-
-## Next exact operations
-1. Start from V022 frozen master/scene hashes in the native baseline report. Inspect
-   Lili's worst skin edges and body-parent chain using ops/native-support-v023-20261010.json.
-   Repair the bind gradients before enabling fit_native_support in scene compilation.
-2. Re-run identical native QA plus all-frame sole contacts/skin/joint checks. Compare
-   all metrics; preserve Mark's measured seam. Verify with production Blender 4.5.3.
-3. Read the feature V002 full Hungarian draft and dialogue sheet; storyboard/measure
-   the 20 additions before recording 113 new lines. Do not stretch holds to reach 60m.
-4. Review the 20 flagged existing utterances; preserve cache hashes and accepted audio.
-5. Only then render another bounded multi-character quality gate; no full FEATURE run.
-
-## Background / budget
-Daily cap unchanged: $200 Asia/Saigon. The 2026-10-10 Asia/Saigon day closed with $121 reserved.
-At 17:07 UTC the local budget day became 2026-10-11: $0 reserved / $200 remaining.
-These are reservation ceilings, not actual vendor billing. No new TTS.
-Temporary Vercel sandbox: `sbx_vosK0I0W2XnUyS41uDJZxAfaXOp4`, 4 vCPU,
-nonpersistent, 50-minute total timeout; stop when artifacts are saved.
-Authoring reservation `4bed006d-1b79-4888-a3eb-8a8bfb1b1cd8`: $2.
-Native jobs finished; sandbox STOPPED after R2 persistence and hash verification.
-Support candidate SHA-256 verified after a full R2 read:
-`68185d7afceb3a55d01ed559c2208518c699b7f75354910ab4c015bb744e894d`.
-Live cached audio recheck FINISHED: 132/132, 20 review required, zero new recognitions.
-Evidence screenshot: ops/proofs/studio-speech-audit-20261010.jpg.
-No task from this continuation remains running in a browser or sandbox.
-Local official Blender 4.5.3 hash verified but exits SIGBUS; Ubuntu official
-Blender 5.0.1 runs in sandbox. No costly full-film production approved.
+Authoring extension reservation: 350b756f-300b-4e1b-b805-d2252f07f2e9 ($2).
