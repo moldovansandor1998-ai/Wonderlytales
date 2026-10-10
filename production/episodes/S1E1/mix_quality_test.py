@@ -22,6 +22,13 @@ if reaction.exists():
 peak=float(np.max(np.abs(mix)));mix*=min(1,.95/max(.95,peak))
 with wave.open(str(out/'QUALITY_TEST_premix_V018.wav'),'wb') as stream:
  stream.setnchannels(2);stream.setsampwidth(2);stream.setframerate(rate);stream.writeframes((np.clip(mix,-1,1)*32767).astype('<i2').tobytes())
-subprocess.run(['ffmpeg','-v','error','-y','-i',str(out/'QUALITY_TEST_premix_V018.wav'),'-af','loudnorm=I=-16:TP=-1.5:LRA=11,aresample=48000','-ac','2',str(out/'QUALITY_TEST_final_audio_V018.wav')],check=True)
-(out/'quality_test_audio_events_V018.json').write_text(json.dumps({'base':'accepted V016 Hungarian dialogue/music/ambience/FX master, seconds 243–303','new_credit_cost':0,'contact_events':events,'target_lufs':-16,'target_true_peak_dbfs':-1.5,'voice_performances_unchanged':True},ensure_ascii=False,indent=2))
+premix=out/'QUALITY_TEST_premix_V018.wav'
+measurement=subprocess.run(['ffmpeg','-hide_banner','-i',str(premix),'-af','loudnorm=I=-16:TP=-2:LRA=11:print_format=json','-f','null','-'],capture_output=True,text=True,check=True).stderr
+measured=json.loads(measurement[measurement.rfind('{'):])
+normalizer=('loudnorm=I=-16:TP=-2:LRA=11:linear=true:'
+            f"measured_I={measured['input_i']}:measured_TP={measured['input_tp']}:"
+            f"measured_LRA={measured['input_lra']}:measured_thresh={measured['input_thresh']}:"
+            f"offset={measured['target_offset']},aresample=48000")
+subprocess.run(['ffmpeg','-v','error','-y','-i',str(premix),'-af',normalizer,'-ac','2',str(out/'QUALITY_TEST_final_audio_V018.wav')],check=True)
+(out/'quality_test_audio_events_V018.json').write_text(json.dumps({'base':'accepted V016 Hungarian dialogue/music/ambience/FX master, seconds 243–303','new_credit_cost':0,'contact_events':events,'target_lufs':-16,'master_true_peak_ceiling_dbfs':-2,'delivery_true_peak_ceiling_dbfs':-1.5,'normalization':'measured two-pass, headroom for AAC','voice_performances_unchanged':True},ensure_ascii=False,indent=2))
 print('TRIAL_SOUND_MIXED',len(events),flush=True)
