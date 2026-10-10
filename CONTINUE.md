@@ -1,5 +1,63 @@
 # WonderlyTales — continuation checkpoint
 
+## ACTIVE: technology comparison / purchase hold (2026-10-11 project budget day)
+
+This section supersedes the old V025 repair next steps below. User rejected
+continued procedural animation patching and requested a real professional-3D
+versus AI/hybrid comparison. Latest steering: **investigate models, API access,
+continuity and complete cost before any subscription/credit purchase**.
+Do not make V026, restart completed renders or buy credits now.
+
+- Preserved starting Git main: `17d6d9ebad24ba6217d08a8f6b16389117f363da`.
+  V024/V025 sources, cast, original HU voices, intro, full screenplay,
+  Supabase, native RunPod and R2 remain intact. No database/endpoint changes.
+- Read `production/technology_trials/TECH_AB_V001/TECHNOLOGY_REVIEW_HU.md`,
+  `README.md`, `scene.json`, `costs.json`, and `ops/tech-ab-v001-status.json`.
+- Reference YouTube `lleFFWTuk30`: page/title verified, playback blocked by
+  uploader country restriction. Film appearance/motion/audio and production
+  software were NOT verified. Do not invent a reference-quality comparison.
+- Runway is CONNECTED. Live account: Free, 0 credits, no video models available.
+  Runway Dev API billing is separate from the app/MCP subscription balance.
+  No new purchase, video generation, GPU render or TTS was started.
+- Both actual A/B videos are still absent. Prepared identical 24s / 1080p24
+  shot contract plus existing HU takes/common audio stems; scratch sound bed
+  is not final sound design. Local input files exist. Their proposed R2 upload
+  was BLOCKED by automatic approval review (specific private audio/scene payload
+  and destination authorization required). Read-only prefix listing confirmed
+  no objects uploaded. Do not retry or reroute this payload without approval.
+  Local input hashes and proposed destinations are in the status file.
+- Cost-only AI trial candidates: fal Kling O3 Pro Reference-to-Video
+  (`fal-ai/kling-video/o3/pro/reference-to-video`) and Runway Dev Seedance 2.5
+  (`seedance2_5`). Neither is declared a quality winner. The first is cheaper;
+  the latter accepts broader references. Original HU lip-sync is unproven.
+- Seedance 2.5 1080p API list price: 68 credits / output second, USD 0.01 / credit.
+  24s x 3 attempts = 4896 credits / USD 48.96; 60min x 3 = USD 7344,
+  excluding input video/post/labor/tax. Same-length video reference adds
+  34 credits/second. Kling O3 Pro image references, no generated audio:
+  USD 0.112/second; 60min x 3 = USD 1209.60. These are not full-film quotes.
+- `scripts/calculate-tech-ab-costs.py` reproduces 1/3/5-attempt scenarios,
+  including Veo's 8s 1080p clip rounding for the 8/4/8/4 shot structure.
+- Isolated `runway-benchmark.ts` adds a durable claim/checkpoint, strict cost
+  gate, one-time submission and resume/poll. NOT production-UI-wired and NOT
+  live API tested. Old genvideo code no longer silently succeeds with a mock
+  after an uncertain/failed real request. Native RunPod endpoint is untouched.
+- Verification: typecheck PASS; 14 provider/budget tests PASS; Python compile
+  PASS; old 22s reel correctly rejected by new 24s assembler. Successful API
+  response and file dimensions never imply production quality approval.
+- Budget snapshot 2026-10-11 Asia/Saigon: USD 52 RESERVED / 200 ceiling,
+  USD 148 unreserved; no `genvideo` service ceiling. Reservation is not an
+  actual-spend invoice. Do not alter ceilings to bypass the purchase hold.
+- Next: review research with user; obtain accessible reference excerpt;
+  prepare genuine A rig/performance assets and B cast/location references.
+  Only after a concrete cost authorization establish API funding/access and
+  run the common trial. If accepted, run separate 12-shot continuity stress
+  test before choosing the feature pipeline. Never relabel V025 as new A.
+- The earlier automatic-review rejection of exporting the Library original
+  Lili `.blend` still applies; do not retry or route that payload elsewhere.
+  Keep the historical details below. No such export was attempted here.
+
+## Historical V025 checkpoint (retained; not the active production direction)
+
 Last successful Git commit: `a405bb36e337bc60ebfeaa772dca34799f984e12`.
 The commit containing this document follows it (`git log -1`).
 Do not rebuild infrastructure or modify V022/V023/V024 originals. Daily ceiling $200.

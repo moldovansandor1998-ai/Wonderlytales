@@ -1,0 +1,906 @@
+{
+  "checked_date": "2026-10-11",
+  "timezone": "Asia/Saigon",
+  "currency": "USD",
+  "status": "SCENARIOS_NOT_A_QUOTE",
+  "trials_seconds": [
+    20,
+    24,
+    30
+  ],
+  "film_seconds": 3600,
+  "attempt_multipliers": [
+    1,
+    3,
+    5
+  ],
+  "formula": "billed_generated_seconds * total_attempts * unit_price",
+  "prices_are_not_quality_rankings": true,
+  "actual_quality_measured": false,
+  "no_purchase": true,
+  "new_paid_jobs": 0,
+  "models": [
+    {
+      "id": "runway_seedance25",
+      "name": "Runway Dev / Seedance 2.5",
+      "resolution": "1080p",
+      "usd_per_generated_second": 0.68,
+      "runway_api_credits_per_second": 68,
+      "price_source": "https://docs.dev.runwayml.com/guides/pricing/",
+      "trials": {
+        "1": {
+          "20": {
+            "billed_seconds": 20,
+            "usd": 13.6,
+            "runway_api_credits": 1360
+          },
+          "24": {
+            "billed_seconds": 24,
+            "usd": 16.32,
+            "runway_api_credits": 1632
+          },
+          "30": {
+            "billed_seconds": 30,
+            "usd": 20.4,
+            "runway_api_credits": 2040
+          }
+        },
+        "3": {
+          "20": {
+            "billed_seconds": 20,
+            "usd": 40.8,
+            "runway_api_credits": 4080
+          },
+          "24": {
+            "billed_seconds": 24,
+            "usd": 48.96,
+            "runway_api_credits": 4896
+          },
+          "30": {
+            "billed_seconds": 30,
+            "usd": 61.2,
+            "runway_api_credits": 6120
+          }
+        },
+        "5": {
+          "20": {
+            "billed_seconds": 20,
+            "usd": 68.0,
+            "runway_api_credits": 6800
+          },
+          "24": {
+            "billed_seconds": 24,
+            "usd": 81.6,
+            "runway_api_credits": 8160
+          },
+          "30": {
+            "billed_seconds": 30,
+            "usd": 102.0,
+            "runway_api_credits": 10200
+          }
+        }
+      },
+      "film_60_minutes": {
+        "1": {
+          "generated_seconds": 3600,
+          "usd": 2448.0,
+          "runway_api_credits": 244800,
+          "minimum_200usd_budget_days": 13
+        },
+        "3": {
+          "generated_seconds": 10800,
+          "usd": 7344.0,
+          "runway_api_credits": 734400,
+          "minimum_200usd_budget_days": 37
+        },
+        "5": {
+          "generated_seconds": 18000,
+          "usd": 12240.0,
+          "runway_api_credits": 1224000,
+          "minimum_200usd_budget_days": 62
+        }
+      },
+      "exclusions": [
+        "tax",
+        "input-video charges",
+        "audio/lip-sync/post",
+        "character/rig work",
+        "human labor",
+        "storage",
+        "GPU",
+        "subscription"
+      ]
+    },
+    {
+      "id": "runway_seedance2",
+      "name": "Runway Dev / Seedance 2.0",
+      "resolution": "1080p",
+      "usd_per_generated_second": 0.4,
+      "runway_api_credits_per_second": 40,
+      "price_source": "https://docs.dev.runwayml.com/guides/pricing/",
+      "trials": {
+        "1": {
+          "20": {
+            "billed_seconds": 20,
+            "usd": 8.0,
+            "runway_api_credits": 800
+          },
+          "24": {
+            "billed_seconds": 24,
+            "usd": 9.6,
+            "runway_api_credits": 960
+          },
+          "30": {
+            "billed_seconds": 30,
+            "usd": 12.0,
+            "runway_api_credits": 1200
+          }
+        },
+        "3": {
+          "20": {
+            "billed_seconds": 20,
+            "usd": 24.0,
+            "runway_api_credits": 2400
+          },
+          "24": {
+            "billed_seconds": 24,
+            "usd": 28.8,
+            "runway_api_credits": 2880
+          },
+          "30": {
+            "billed_seconds": 30,
+            "usd": 36.0,
+            "runway_api_credits": 3600
+          }
+        },
+        "5": {
+          "20": {
+            "billed_seconds": 20,
+            "usd": 40.0,
+            "runway_api_credits": 4000
+          },
+          "24": {
+            "billed_seconds": 24,
+            "usd": 48.0,
+            "runway_api_credits": 4800
+          },
+          "30": {
+            "billed_seconds": 30,
+            "usd": 60.0,
+            "runway_api_credits": 6000
+          }
+        }
+      },
+      "film_60_minutes": {
+        "1": {
+          "generated_seconds": 3600,
+          "usd": 1440.0,
+          "runway_api_credits": 144000,
+          "minimum_200usd_budget_days": 8
+        },
+        "3": {
+          "generated_seconds": 10800,
+          "usd": 4320.0,
+          "runway_api_credits": 432000,
+          "minimum_200usd_budget_days": 22
+        },
+        "5": {
+          "generated_seconds": 18000,
+          "usd": 7200.0,
+          "runway_api_credits": 720000,
+          "minimum_200usd_budget_days": 36
+        }
+      },
+      "exclusions": [
+        "tax",
+        "input-video charges",
+        "audio/lip-sync/post",
+        "character/rig work",
+        "human labor",
+        "storage",
+        "GPU",
+        "subscription"
+      ]
+    },
+    {
+      "id": "runway_wan3",
+      "name": "Runway Dev / WAN 3.0",
+      "resolution": "1080p",
+      "usd_per_generated_second": 0.2,
+      "runway_api_credits_per_second": 20,
+      "price_source": "https://docs.dev.runwayml.com/guides/pricing/",
+      "trials": {
+        "1": {
+          "20": {
+            "billed_seconds": 20,
+            "usd": 4.0,
+            "runway_api_credits": 400
+          },
+          "24": {
+            "billed_seconds": 24,
+            "usd": 4.8,
+            "runway_api_credits": 480
+          },
+          "30": {
+            "billed_seconds": 30,
+            "usd": 6.0,
+            "runway_api_credits": 600
+          }
+        },
+        "3": {
+          "20": {
+            "billed_seconds": 20,
+            "usd": 12.0,
+            "runway_api_credits": 1200
+          },
+          "24": {
+            "billed_seconds": 24,
+            "usd": 14.4,
+            "runway_api_credits": 1440
+          },
+          "30": {
+            "billed_seconds": 30,
+            "usd": 18.0,
+            "runway_api_credits": 1800
+          }
+        },
+        "5": {
+          "20": {
+            "billed_seconds": 20,
+            "usd": 20.0,
+            "runway_api_credits": 2000
+          },
+          "24": {
+            "billed_seconds": 24,
+            "usd": 24.0,
+            "runway_api_credits": 2400
+          },
+          "30": {
+            "billed_seconds": 30,
+            "usd": 30.0,
+            "runway_api_credits": 3000
+          }
+        }
+      },
+      "film_60_minutes": {
+        "1": {
+          "generated_seconds": 3600,
+          "usd": 720.0,
+          "runway_api_credits": 72000,
+          "minimum_200usd_budget_days": 4
+        },
+        "3": {
+          "generated_seconds": 10800,
+          "usd": 2160.0,
+          "runway_api_credits": 216000,
+          "minimum_200usd_budget_days": 11
+        },
+        "5": {
+          "generated_seconds": 18000,
+          "usd": 3600.0,
+          "runway_api_credits": 360000,
+          "minimum_200usd_budget_days": 18
+        }
+      },
+      "exclusions": [
+        "tax",
+        "input-video charges",
+        "audio/lip-sync/post",
+        "character/rig work",
+        "human labor",
+        "storage",
+        "GPU",
+        "subscription"
+      ]
+    },
+    {
+      "id": "fal_kling_o3_pro",
+      "name": "fal API / Kling O3 Pro references, audio off",
+      "resolution": "Pro",
+      "usd_per_generated_second": 0.112,
+      "runway_api_credits_per_second": null,
+      "price_source": "https://fal.ai/models/fal-ai/kling-video/o3/pro/reference-to-video",
+      "trials": {
+        "1": {
+          "20": {
+            "billed_seconds": 20,
+            "usd": 2.24,
+            "runway_api_credits": null
+          },
+          "24": {
+            "billed_seconds": 24,
+            "usd": 2.69,
+            "runway_api_credits": null
+          },
+          "30": {
+            "billed_seconds": 30,
+            "usd": 3.36,
+            "runway_api_credits": null
+          }
+        },
+        "3": {
+          "20": {
+            "billed_seconds": 20,
+            "usd": 6.72,
+            "runway_api_credits": null
+          },
+          "24": {
+            "billed_seconds": 24,
+            "usd": 8.06,
+            "runway_api_credits": null
+          },
+          "30": {
+            "billed_seconds": 30,
+            "usd": 10.08,
+            "runway_api_credits": null
+          }
+        },
+        "5": {
+          "20": {
+            "billed_seconds": 20,
+            "usd": 11.2,
+            "runway_api_credits": null
+          },
+          "24": {
+            "billed_seconds": 24,
+            "usd": 13.44,
+            "runway_api_credits": null
+          },
+          "30": {
+            "billed_seconds": 30,
+            "usd": 16.8,
+            "runway_api_credits": null
+          }
+        }
+      },
+      "film_60_minutes": {
+        "1": {
+          "generated_seconds": 3600,
+          "usd": 403.2,
+          "runway_api_credits": null,
+          "minimum_200usd_budget_days": 3
+        },
+        "3": {
+          "generated_seconds": 10800,
+          "usd": 1209.6,
+          "runway_api_credits": null,
+          "minimum_200usd_budget_days": 7
+        },
+        "5": {
+          "generated_seconds": 18000,
+          "usd": 2016.0,
+          "runway_api_credits": null,
+          "minimum_200usd_budget_days": 11
+        }
+      },
+      "exclusions": [
+        "tax",
+        "input-video charges",
+        "audio/lip-sync/post",
+        "character/rig work",
+        "human labor",
+        "storage",
+        "GPU",
+        "subscription"
+      ]
+    },
+    {
+      "id": "fal_kling_o3_pro_v2v",
+      "name": "fal API / Kling O3 Pro video reference",
+      "resolution": "Pro",
+      "usd_per_generated_second": 0.168,
+      "runway_api_credits_per_second": null,
+      "price_source": "https://fal.ai/models/fal-ai/kling-video/o3/pro/video-to-video/reference",
+      "trials": {
+        "1": {
+          "20": {
+            "billed_seconds": 20,
+            "usd": 3.36,
+            "runway_api_credits": null
+          },
+          "24": {
+            "billed_seconds": 24,
+            "usd": 4.03,
+            "runway_api_credits": null
+          },
+          "30": {
+            "billed_seconds": 30,
+            "usd": 5.04,
+            "runway_api_credits": null
+          }
+        },
+        "3": {
+          "20": {
+            "billed_seconds": 20,
+            "usd": 10.08,
+            "runway_api_credits": null
+          },
+          "24": {
+            "billed_seconds": 24,
+            "usd": 12.1,
+            "runway_api_credits": null
+          },
+          "30": {
+            "billed_seconds": 30,
+            "usd": 15.12,
+            "runway_api_credits": null
+          }
+        },
+        "5": {
+          "20": {
+            "billed_seconds": 20,
+            "usd": 16.8,
+            "runway_api_credits": null
+          },
+          "24": {
+            "billed_seconds": 24,
+            "usd": 20.16,
+            "runway_api_credits": null
+          },
+          "30": {
+            "billed_seconds": 30,
+            "usd": 25.2,
+            "runway_api_credits": null
+          }
+        }
+      },
+      "film_60_minutes": {
+        "1": {
+          "generated_seconds": 3600,
+          "usd": 604.8,
+          "runway_api_credits": null,
+          "minimum_200usd_budget_days": 4
+        },
+        "3": {
+          "generated_seconds": 10800,
+          "usd": 1814.4,
+          "runway_api_credits": null,
+          "minimum_200usd_budget_days": 10
+        },
+        "5": {
+          "generated_seconds": 18000,
+          "usd": 3024.0,
+          "runway_api_credits": null,
+          "minimum_200usd_budget_days": 16
+        }
+      },
+      "exclusions": [
+        "tax",
+        "input-video charges",
+        "audio/lip-sync/post",
+        "character/rig work",
+        "human labor",
+        "storage",
+        "GPU",
+        "subscription"
+      ]
+    },
+    {
+      "id": "google_veo31",
+      "name": "Google API / Veo 3.1 Standard, audio on",
+      "resolution": "1080p",
+      "usd_per_generated_second": 0.4,
+      "runway_api_credits_per_second": null,
+      "price_source": "https://ai.google.dev/gemini-api/docs/pricing",
+      "trials": {
+        "1": {
+          "20": {
+            "billed_seconds": 24,
+            "usd": 9.6,
+            "runway_api_credits": null
+          },
+          "24": {
+            "billed_seconds": 24,
+            "usd": 9.6,
+            "runway_api_credits": null
+          },
+          "30": {
+            "billed_seconds": 32,
+            "usd": 12.8,
+            "runway_api_credits": null
+          }
+        },
+        "3": {
+          "20": {
+            "billed_seconds": 24,
+            "usd": 28.8,
+            "runway_api_credits": null
+          },
+          "24": {
+            "billed_seconds": 24,
+            "usd": 28.8,
+            "runway_api_credits": null
+          },
+          "30": {
+            "billed_seconds": 32,
+            "usd": 38.4,
+            "runway_api_credits": null
+          }
+        },
+        "5": {
+          "20": {
+            "billed_seconds": 24,
+            "usd": 48.0,
+            "runway_api_credits": null
+          },
+          "24": {
+            "billed_seconds": 24,
+            "usd": 48.0,
+            "runway_api_credits": null
+          },
+          "30": {
+            "billed_seconds": 32,
+            "usd": 64.0,
+            "runway_api_credits": null
+          }
+        }
+      },
+      "film_60_minutes": {
+        "1": {
+          "generated_seconds": 3600,
+          "usd": 1440.0,
+          "runway_api_credits": null,
+          "minimum_200usd_budget_days": 8
+        },
+        "3": {
+          "generated_seconds": 10800,
+          "usd": 4320.0,
+          "runway_api_credits": null,
+          "minimum_200usd_budget_days": 22
+        },
+        "5": {
+          "generated_seconds": 18000,
+          "usd": 7200.0,
+          "runway_api_credits": null,
+          "minimum_200usd_budget_days": 36
+        }
+      },
+      "exclusions": [
+        "tax",
+        "input-video charges",
+        "audio/lip-sync/post",
+        "character/rig work",
+        "human labor",
+        "storage",
+        "GPU",
+        "subscription"
+      ]
+    },
+    {
+      "id": "google_veo31_fast",
+      "name": "Google API / Veo 3.1 Fast, audio on",
+      "resolution": "1080p",
+      "usd_per_generated_second": 0.12,
+      "runway_api_credits_per_second": null,
+      "price_source": "https://ai.google.dev/gemini-api/docs/pricing",
+      "trials": {
+        "1": {
+          "20": {
+            "billed_seconds": 24,
+            "usd": 2.88,
+            "runway_api_credits": null
+          },
+          "24": {
+            "billed_seconds": 24,
+            "usd": 2.88,
+            "runway_api_credits": null
+          },
+          "30": {
+            "billed_seconds": 32,
+            "usd": 3.84,
+            "runway_api_credits": null
+          }
+        },
+        "3": {
+          "20": {
+            "billed_seconds": 24,
+            "usd": 8.64,
+            "runway_api_credits": null
+          },
+          "24": {
+            "billed_seconds": 24,
+            "usd": 8.64,
+            "runway_api_credits": null
+          },
+          "30": {
+            "billed_seconds": 32,
+            "usd": 11.52,
+            "runway_api_credits": null
+          }
+        },
+        "5": {
+          "20": {
+            "billed_seconds": 24,
+            "usd": 14.4,
+            "runway_api_credits": null
+          },
+          "24": {
+            "billed_seconds": 24,
+            "usd": 14.4,
+            "runway_api_credits": null
+          },
+          "30": {
+            "billed_seconds": 32,
+            "usd": 19.2,
+            "runway_api_credits": null
+          }
+        }
+      },
+      "film_60_minutes": {
+        "1": {
+          "generated_seconds": 3600,
+          "usd": 432.0,
+          "runway_api_credits": null,
+          "minimum_200usd_budget_days": 3
+        },
+        "3": {
+          "generated_seconds": 10800,
+          "usd": 1296.0,
+          "runway_api_credits": null,
+          "minimum_200usd_budget_days": 7
+        },
+        "5": {
+          "generated_seconds": 18000,
+          "usd": 2160.0,
+          "runway_api_credits": null,
+          "minimum_200usd_budget_days": 11
+        }
+      },
+      "exclusions": [
+        "tax",
+        "input-video charges",
+        "audio/lip-sync/post",
+        "character/rig work",
+        "human labor",
+        "storage",
+        "GPU",
+        "subscription"
+      ]
+    },
+    {
+      "id": "google_veo31_lite",
+      "name": "Google API / Veo 3.1 Lite, audio on",
+      "resolution": "1080p",
+      "usd_per_generated_second": 0.08,
+      "runway_api_credits_per_second": null,
+      "price_source": "https://ai.google.dev/gemini-api/docs/pricing",
+      "trials": {
+        "1": {
+          "20": {
+            "billed_seconds": 24,
+            "usd": 1.92,
+            "runway_api_credits": null
+          },
+          "24": {
+            "billed_seconds": 24,
+            "usd": 1.92,
+            "runway_api_credits": null
+          },
+          "30": {
+            "billed_seconds": 32,
+            "usd": 2.56,
+            "runway_api_credits": null
+          }
+        },
+        "3": {
+          "20": {
+            "billed_seconds": 24,
+            "usd": 5.76,
+            "runway_api_credits": null
+          },
+          "24": {
+            "billed_seconds": 24,
+            "usd": 5.76,
+            "runway_api_credits": null
+          },
+          "30": {
+            "billed_seconds": 32,
+            "usd": 7.68,
+            "runway_api_credits": null
+          }
+        },
+        "5": {
+          "20": {
+            "billed_seconds": 24,
+            "usd": 9.6,
+            "runway_api_credits": null
+          },
+          "24": {
+            "billed_seconds": 24,
+            "usd": 9.6,
+            "runway_api_credits": null
+          },
+          "30": {
+            "billed_seconds": 32,
+            "usd": 12.8,
+            "runway_api_credits": null
+          }
+        }
+      },
+      "film_60_minutes": {
+        "1": {
+          "generated_seconds": 3600,
+          "usd": 288.0,
+          "runway_api_credits": null,
+          "minimum_200usd_budget_days": 2
+        },
+        "3": {
+          "generated_seconds": 10800,
+          "usd": 864.0,
+          "runway_api_credits": null,
+          "minimum_200usd_budget_days": 5
+        },
+        "5": {
+          "generated_seconds": 18000,
+          "usd": 1440.0,
+          "runway_api_credits": null,
+          "minimum_200usd_budget_days": 8
+        }
+      },
+      "exclusions": [
+        "tax",
+        "input-video charges",
+        "audio/lip-sync/post",
+        "character/rig work",
+        "human labor",
+        "storage",
+        "GPU",
+        "subscription"
+      ]
+    },
+    {
+      "id": "fal_wan22",
+      "name": "fal API / Wan 2.2 A14B",
+      "resolution": "720p, charged seconds at 16fps; not equivalent to 1080p24",
+      "usd_per_generated_second": 0.08,
+      "runway_api_credits_per_second": null,
+      "price_source": "https://fal.ai/models/fal-ai/wan/v2.2-a14b/image-to-video",
+      "trials": {
+        "1": {
+          "20": {
+            "billed_seconds": 20,
+            "usd": 1.6,
+            "runway_api_credits": null
+          },
+          "24": {
+            "billed_seconds": 24,
+            "usd": 1.92,
+            "runway_api_credits": null
+          },
+          "30": {
+            "billed_seconds": 30,
+            "usd": 2.4,
+            "runway_api_credits": null
+          }
+        },
+        "3": {
+          "20": {
+            "billed_seconds": 20,
+            "usd": 4.8,
+            "runway_api_credits": null
+          },
+          "24": {
+            "billed_seconds": 24,
+            "usd": 5.76,
+            "runway_api_credits": null
+          },
+          "30": {
+            "billed_seconds": 30,
+            "usd": 7.2,
+            "runway_api_credits": null
+          }
+        },
+        "5": {
+          "20": {
+            "billed_seconds": 20,
+            "usd": 8.0,
+            "runway_api_credits": null
+          },
+          "24": {
+            "billed_seconds": 24,
+            "usd": 9.6,
+            "runway_api_credits": null
+          },
+          "30": {
+            "billed_seconds": 30,
+            "usd": 12.0,
+            "runway_api_credits": null
+          }
+        }
+      },
+      "film_60_minutes": {
+        "1": {
+          "generated_seconds": 3600,
+          "usd": 288.0,
+          "runway_api_credits": null,
+          "minimum_200usd_budget_days": 2
+        },
+        "3": {
+          "generated_seconds": 10800,
+          "usd": 864.0,
+          "runway_api_credits": null,
+          "minimum_200usd_budget_days": 5
+        },
+        "5": {
+          "generated_seconds": 18000,
+          "usd": 1440.0,
+          "runway_api_credits": null,
+          "minimum_200usd_budget_days": 8
+        }
+      },
+      "exclusions": [
+        "tax",
+        "input-video charges",
+        "audio/lip-sync/post",
+        "character/rig work",
+        "human labor",
+        "storage",
+        "GPU",
+        "subscription"
+      ]
+    }
+  ],
+  "common_four_shot_trial": {
+    "runway_seedance25": {
+      "generated_seconds_per_pass": 24,
+      "three_attempts_usd": 48.96
+    },
+    "runway_seedance2": {
+      "generated_seconds_per_pass": 24,
+      "three_attempts_usd": 28.8
+    },
+    "runway_wan3": {
+      "generated_seconds_per_pass": 24,
+      "three_attempts_usd": 14.4
+    },
+    "fal_kling_o3_pro": {
+      "generated_seconds_per_pass": 24,
+      "three_attempts_usd": 8.06
+    },
+    "fal_kling_o3_pro_v2v": {
+      "generated_seconds_per_pass": 24,
+      "three_attempts_usd": 12.1
+    },
+    "google_veo31": {
+      "generated_seconds_per_pass": 32,
+      "three_attempts_usd": 38.4
+    },
+    "google_veo31_fast": {
+      "generated_seconds_per_pass": 32,
+      "three_attempts_usd": 11.52
+    },
+    "google_veo31_lite": {
+      "generated_seconds_per_pass": 32,
+      "three_attempts_usd": 7.68
+    },
+    "fal_wan22": {
+      "generated_seconds_per_pass": 24,
+      "three_attempts_usd": 5.76
+    }
+  },
+  "seedance25_video_reference_surcharge": {
+    "usd_per_input_second": 0.34,
+    "credits_per_input_second": 34,
+    "same_length_video_ref_three_attempts_24s_usd": 73.44,
+    "same_length_video_ref_three_attempts_60min_usd": 11016.0
+  },
+  "seedance25_draft_then_final": {
+    "formula": "three 480p drafts + one 1080p final per accepted duration",
+    "trial24_usd": 30.72,
+    "film60_usd": 4608.0,
+    "note": "No rejected 1080p finals assumed; enhancement itself must be reviewed."
+  },
+  "production_budget_formula": "video generation + input media + post/lip-sync + render/storage + licenses + labor_hours * hourly_rate + taxes",
+  "illustrative_labor_only": {
+    "not_an_estimate": true,
+    "hours": 300,
+    "hourly_rate_usd": 30,
+    "total_usd": 9000
+  },
+  "continuity_stress_test": {
+    "shots": 12,
+    "seconds_per_shot": 6,
+    "total_seconds": 72,
+    "status": "NOT_RUN"
+  }
+}

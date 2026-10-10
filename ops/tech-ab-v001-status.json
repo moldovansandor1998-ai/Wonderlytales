@@ -1,0 +1,138 @@
+{
+  "trial": "TECH_AB_V001",
+  "phase": "RESEARCH_AND_LOCAL_INPUTS_ONLY",
+  "preserved_git_base": "17d6d9ebad24ba6217d08a8f6b16389117f363da",
+  "user_instruction": "No subscription or credit purchase; research technology and costs first.",
+  "new_paid_jobs": 0,
+  "new_purchases_usd": 0,
+  "actual_a_video": null,
+  "actual_b_video": null,
+  "production_approved": false,
+  "reference_film": {
+    "url": "https://youtu.be/lleFFWTuk30",
+    "observed_title": "The Little Giant | ADVENTURES, ANIMATED | Full Movie in English",
+    "playback": "BLOCKED_BY_UPLOADER_COUNTRY_RESTRICTION",
+    "visual_audio_analysis_completed": false,
+    "production_technology_verified": false
+  },
+  "runway_connection": {
+    "authenticated": true,
+    "plan": "Free",
+    "available_credits": 0,
+    "available_video_models": [],
+    "api_account_is_separate": true,
+    "live_generation_tested": false
+  },
+  "budget_snapshot": {
+    "day": "2026-10-11",
+    "timezone": "Asia/Saigon",
+    "daily_ceiling_usd": 200,
+    "reserved_usd": 52,
+    "remaining_unreserved_usd": 148,
+    "genvideo_ceiling_configured": false,
+    "snapshot_not_provider_invoice": true
+  },
+  "candidate_models": [
+    "fal-ai/kling-video/o3/pro/reference-to-video",
+    "seedance2_5"
+  ],
+  "adapter_status": "ISOLATED_NOT_WIRED_TO_PRODUCTION_NOT_LIVE_TESTED",
+  "validation": {
+    "typecheck": "PASS",
+    "focused_tests_passed": 14,
+    "python_compile": "PASS",
+    "legacy_22_second_movie_rejected": true,
+    "actual_video_quality": "NOT_TESTED"
+  },
+  "input_persistence": {
+    "status": "BLOCKED_BY_AUTOMATIC_APPROVAL_REVIEW",
+    "reason": "Specific private audio/scene payload and external R2 destination require explicit authorization.",
+    "read_only_prefix_listing_confirmed_empty": true,
+    "rerouted": false
+  },
+  "inputs": [
+    {
+      "relative_file": "SH01_dialogue_HU.wav",
+      "proposed_r2_key": "experiments/TECH_AB_V001/inputs/SH01_dialogue_HU.wav",
+      "sha256": "5f7156524af279a0d0fc9a0c993be7e815ec8dc21039a729b440c5be6666b083",
+      "bytes": 1536044,
+      "uploaded": false
+    },
+    {
+      "relative_file": "SH02_dialogue_HU.wav",
+      "proposed_r2_key": "experiments/TECH_AB_V001/inputs/SH02_dialogue_HU.wav",
+      "sha256": "b1f116ec0084064e168a47130681f6f48dbce1bc56b4f1d32fcaa6aa05c016ea",
+      "bytes": 768044,
+      "uploaded": false
+    },
+    {
+      "relative_file": "SH03_dialogue_HU.wav",
+      "proposed_r2_key": "experiments/TECH_AB_V001/inputs/SH03_dialogue_HU.wav",
+      "sha256": "46ea71da247c66a543a722efb94bc0008c5448bc6b03da650b8d818627c196ac",
+      "bytes": 1536044,
+      "uploaded": false
+    },
+    {
+      "relative_file": "SH04_dialogue_HU.wav",
+      "proposed_r2_key": "experiments/TECH_AB_V001/inputs/SH04_dialogue_HU.wav",
+      "sha256": "a81f3c828a9f272373f190a1ce572f292da1133390c7217e75a309b37d48c1d5",
+      "bytes": 768044,
+      "uploaded": false
+    },
+    {
+      "relative_file": "TECH_AB_V001_common_HU_24s.wav",
+      "proposed_r2_key": "experiments/TECH_AB_V001/inputs/TECH_AB_V001_common_HU_24s.wav",
+      "sha256": "d70e57941d77c0446e923c9a0f68958e2fc240a61a0ab7840f1b5d7ef173f1d9",
+      "bytes": 4608044,
+      "uploaded": false
+    },
+    {
+      "relative_file": "TECH_AB_V001_dialogue_HU.wav",
+      "proposed_r2_key": "experiments/TECH_AB_V001/inputs/TECH_AB_V001_dialogue_HU.wav",
+      "sha256": "a18a97e5cefe431f9361dc4df45082cce78958d800a08c79d82d081ff151ace5",
+      "bytes": 4608044,
+      "uploaded": false
+    },
+    {
+      "relative_file": "TECH_AB_V001_music_sfx_scratch.wav",
+      "proposed_r2_key": "experiments/TECH_AB_V001/inputs/TECH_AB_V001_music_sfx_scratch.wav",
+      "sha256": "367683f7a46c5f3b4d1529282fec37de9a64f514f1087e75cda3089cf84640aa",
+      "bytes": 4608044,
+      "uploaded": false
+    },
+    {
+      "relative_file": "scene.json",
+      "proposed_r2_key": "experiments/TECH_AB_V001/inputs/scene.json",
+      "sha256": "f0ec9e5687596824b9610dea265763e0f575c96bdd984a247be7bc5166e9f5a8",
+      "bytes": 4476,
+      "uploaded": false
+    },
+    {
+      "relative_file": "takes/2386fc17-10d1-5170-95a2-0b36f3ff120a.mp3",
+      "proposed_r2_key": "experiments/TECH_AB_V001/inputs/takes/2386fc17-10d1-5170-95a2-0b36f3ff120a.mp3",
+      "sha256": "7652ff0847e57c4715e452a31fb342348ff4f7c37d2a500d092f3487ae578938",
+      "bytes": 38078,
+      "uploaded": false
+    },
+    {
+      "relative_file": "takes/cef6b5f3-6050-54bf-a715-e18f410dc821.mp3",
+      "proposed_r2_key": "experiments/TECH_AB_V001/inputs/takes/cef6b5f3-6050-54bf-a715-e18f410dc821.mp3",
+      "sha256": "de59160e1978bc25e02520068b6f67ac1e92d67f49f5578eabf9adb7c2f247d5",
+      "bytes": 34316,
+      "uploaded": false
+    },
+    {
+      "relative_file": "takes/f7008600-293c-55a7-90be-29a90764b6e3.mp3",
+      "proposed_r2_key": "experiments/TECH_AB_V001/inputs/takes/f7008600-293c-55a7-90be-29a90764b6e3.mp3",
+      "sha256": "a5124e6616272ded1309b75997f726108babce2a8fe058482b058f67de156edb",
+      "bytes": 33062,
+      "uploaded": false
+    }
+  ],
+  "notes": [
+    "Original HU takes reused; no new TTS.",
+    "Music/SFX stem is scratch, not final.",
+    "V024/V025 original objects untouched.",
+    "Do not restart completed render jobs."
+  ]
+}

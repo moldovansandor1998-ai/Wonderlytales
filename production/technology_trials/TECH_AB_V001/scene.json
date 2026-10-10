@@ -1,0 +1,119 @@
+{
+  "schema": "WONDERLY_TECH_AB_V1",
+  "id": "TECH_AB_V001",
+  "source_scene": "S1E1_SC003",
+  "kind": "BENCHMARK_INPUTS_ONLY",
+  "duration_seconds": 24,
+  "fps": 24,
+  "frames": 576,
+  "width": 1920,
+  "height": 1080,
+  "characters": [
+    "CHAR_MARK",
+    "CHAR_LILI"
+  ],
+  "source_movie_sha256": "a76eec569f2d81da981aac2db3ead7f7a4e30fe9dc7b195af705cd13cc95ade8",
+  "dialogue": [
+    {
+      "id": "cef6b5f3-6050-54bf-a715-e18f410dc821",
+      "character": "CHAR_MARK",
+      "text_hu": "Akkor lehet, hogy csak egy szép kavics.",
+      "start_sec": 4.5,
+      "end_sec": 6.58,
+      "source_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/72e5eb5ddba0fdb83d40c9f4.mp3",
+      "sha256": "de59160e1978bc25e02520068b6f67ac1e92d67f49f5578eabf9adb7c2f247d5",
+      "relative_file": "takes/cef6b5f3-6050-54bf-a715-e18f410dc821.mp3",
+      "source_recording_status": "TIMING_READY_REVIEW_ACTING"
+    },
+    {
+      "id": "2386fc17-10d1-5170-95a2-0b36f3ff120a",
+      "character": "CHAR_LILI",
+      "text_hu": "Az én kavicsaim ritkán világítanak.",
+      "start_sec": 8.25,
+      "end_sec": 10.57,
+      "source_key": "audio/tts/hu/jcrKkDTF93Hvb8jBABwM/1e97b5dccd6d3e1d4020f240.mp3",
+      "sha256": "7652ff0847e57c4715e452a31fb342348ff4f7c37d2a500d092f3487ae578938",
+      "relative_file": "takes/2386fc17-10d1-5170-95a2-0b36f3ff120a.mp3",
+      "source_recording_status": "TIMING_READY_REVIEW_ACTING"
+    },
+    {
+      "id": "f7008600-293c-55a7-90be-29a90764b6e3",
+      "character": "CHAR_MARK",
+      "text_hu": "Nézd! Tetszik neki a kendő.",
+      "start_sec": 20.25,
+      "end_sec": 22.25,
+      "source_key": "audio/tts/hu/vmhWRuUG7LqpLLPY9sM1/c7ef6db20c424b89b4aa44d9.mp3",
+      "sha256": "a5124e6616272ded1309b75997f726108babce2a8fe058482b058f67de156edb",
+      "relative_file": "takes/f7008600-293c-55a7-90be-29a90764b6e3.mp3",
+      "source_recording_status": "TIMING_READY_REVIEW_ACTING"
+    }
+  ],
+  "shots": [
+    {
+      "id": "SH01",
+      "start_sec": 0,
+      "end_sec": 8,
+      "lens_mm": 40,
+      "view": "full_body_then_medium",
+      "action_hu": "Márk és Lili a mohos kőhöz közelít. Mindkettő járása látható. Súlyáthelyezés, lassítás, megállás. Márk a szilánkra, majd Lilire néz; első mondat.",
+      "camera_hu": "Oldalirányú követés, majd lassú befordulás; a lábak 0–4 s között nem takarhatók el."
+    },
+    {
+      "id": "SH02",
+      "start_sec": 8,
+      "end_sec": 12,
+      "lens_mm": 65,
+      "view": "lili_three_quarter_face",
+      "action_hu": "Lili száraz humorral válaszol, szemöldök/fül/tekintet reakció; Márk képszélen figyeli.",
+      "camera_hu": "Finom közelítés, szemmagasság, éles szemek és száj."
+    },
+    {
+      "id": "SH03",
+      "start_sec": 12,
+      "end_sec": 20,
+      "lens_mm": 50,
+      "view": "uncut_side_pickup",
+      "action_hu": "Márk letérdel vagy guggol, kendőn át megfogja a szilánkot. Ujjzárás és hüvelykujj-támasz után elemelés, felállás. Lili követi a kezet. A kő, kéz és tárgy érintkezése látható.",
+      "camera_hu": "Egyetlen vágatlan oldal-háromnegyed beállítás; a tárgyfelvételt tilos vágással eltakarni."
+    },
+    {
+      "id": "SH04",
+      "start_sec": 20,
+      "end_sec": 24,
+      "lens_mm": 55,
+      "view": "mark_face_and_shared_reaction",
+      "action_hu": "Márk felmutatja a kendőben tartott szilánkot és elmondja a harmadik mondatot; Lili a fényre, majd Márkra néz. Apró öröm, közös kíváncsiság.",
+      "camera_hu": "Rövid ív kétalakos közeli felé, a tartó kéz a képben marad."
+    }
+  ],
+  "audio_assets": [
+    {
+      "filename": "TECH_AB_V001_common_HU_24s.wav",
+      "sha256": "d70e57941d77c0446e923c9a0f68958e2fc240a61a0ab7840f1b5d7ef173f1d9",
+      "bytes": 4608044
+    },
+    {
+      "filename": "TECH_AB_V001_dialogue_HU.wav",
+      "sha256": "a18a97e5cefe431f9361dc4df45082cce78958d800a08c79d82d081ff151ace5",
+      "bytes": 4608044
+    },
+    {
+      "filename": "TECH_AB_V001_music_sfx_scratch.wav",
+      "sha256": "367683f7a46c5f3b4d1529282fec37de9a64f514f1087e75cda3089cf84640aa",
+      "bytes": 4608044
+    }
+  ],
+  "audio_peak": 0.4585057683289051,
+  "source_audio_reused": true,
+  "new_tts_calls": 0,
+  "professional_audio_approved": false,
+  "production_approved": false,
+  "actual_a_video": null,
+  "actual_b_video": null,
+  "test_views": [
+    "full body in motion",
+    "three-quarter face closeup",
+    "uncut side grasp",
+    "shared reaction"
+  ]
+}
