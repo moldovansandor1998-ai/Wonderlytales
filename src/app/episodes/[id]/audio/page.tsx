@@ -1,10 +1,11 @@
+import { SpeechReviewButton } from '@/components/speechReviewButton';
 import { ttsCacheKey } from '@/lib/providers/tts';
 import { getDb } from '@/lib/db';
 import { requireStudioUser } from '@/lib/auth';
 import type { Episode, DialogueLine, Scene, Character, Voice } from '@/lib/types';
 import { MasterAudioButton } from '@/components/masterAudioButton';
 import { ActionButton } from '@/components/forms';
-import { masterAudioBatchAction, reviewDialogueSpeechAction, recordDialogueSpeechAction } from '@/lib/actions';
+import { masterAudioBatchAction, reviewDialogueSpeechAction, recordDialogueSpeechAction, reviewEpisodeSpeechAction } from '@/lib/actions';
 import { notFound } from 'next/navigation';
 export const dynamic = 'force-dynamic';
 export const maxDuration = 300;
@@ -27,6 +28,7 @@ export default async function MasterAudioPage({ params }: { params: { id: string
   return <><h1 className="text-2xl font-semibold mb-3">{ep.title} – magyar szinkron</h1>
     <p className="mb-4">{ep.script_version} · {lines.filter(currentAudio).length}/{lines.length} rögzített megszólalás. A hangfelvételek rendezői ellenőrzésre várnak; a film még gyártás alatt áll.</p>
     <MasterAudioButton action={masterAudioBatchAction.bind(null,ep.id)} />
+    <SpeechReviewButton action={reviewEpisodeSpeechAction.bind(null,ep.id)} />
     {lines.length > 0 && lines.every(currentAudio) && <a href={`/api/episodes/${ep.id}/audio-package`} className="text-amber-400 block my-4">Összes magyar hangfelvétel letöltése ZIP-ben</a>}
     {scenes.map(s=><section key={s.id} className="my-6"><h2 className="font-semibold">{s.number}. {s.title}</h2>
       {lines.filter(l=>l.scene_id===s.id).sort((a,b)=>a.sequence-b.sequence).map(l=><div key={l.id} className="my-3">

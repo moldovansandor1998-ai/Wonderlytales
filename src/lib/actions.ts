@@ -314,11 +314,11 @@ export async function reviewDialogueSpeechAction(dialogueId: string) {
   await requireStudioUser();
   const { getStorage } = await import('./providers/storage');
   const { reviewRecordedSpeech } = await import('./speechTiming');
-  const line = await (await getDb()).get<import('./types').DialogueLine>('dialogue_lines', dialogueId);
-  if (!line || line.language !== 'hu' || !line.audio_path?.startsWith('audio/tts/hu/')) throw new Error('Magyar hangfelvétel szükséges.');
+  const { dialogueRecording } = await import('./dialogueRecording');
+  const { line, path } = await dialogueRecording(await getDb(), dialogueId);
   const storage = getStorage();
-  const result = await reviewRecordedSpeech(storage, await storage.get(line.audio_path), line.text, process.env.ELEVENLABS_API_KEY ?? '');
-  return `${result.hungarian && result.textMatches ? 'Magyar szövegegyezés igazolva' : 'Eltérés: meghallgatás szükséges'} · ${result.language} · Felismert szöveg: ${result.transcript}`;
+  const result = await reviewRecordedSpeech(storage, await storage.get(path), line.text, process.env.ELEVENLABS_API_KEY ?? '');
+  return `${result.hungarian && result.textMatches ? 'Magyar szövegegyezés igazolva' : 'Eltérés: meghallgatás szükséges'} · ${result.language} · Felismert szöveg: ${result.transcript} · ${result.usable_for_lipsync ? 'Karakteridőzítés ellenőrizve; fonetikai felülvizsgálat szükséges' : 'Szájmozgás időzítése még nem használható'}`;
 }
 
 export async function recordDialogueSpeechAction(dialogueId: string) {
@@ -332,4 +332,11 @@ export async function recordDialogueSpeechAction(dialogueId: string) {
   await masterAudioBatch(db, scene.episode_id, 1, undefined, dialogueId);
   revalidatePath(`/episodes/${scene.episode_id}/audio`);
   return 'Felvétel elmentve az aktuális hangbeállítással.';
+}
+
+export async function reviewEpisodeSpeechAction(episodeId: string, cursor: number) {
+  await requireStudioUser();
+  const { reviewEpisodeSpeech } = await import('./speechBatch');
+  const { getStorage } = await import('./providers/storage');
+  return reviewEpisodeSpeech(await getDb(), getStorage(), episodeId, cursor, process.env.ELEVENLABS_API_KEY ?? '');
 }

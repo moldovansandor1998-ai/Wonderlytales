@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { recordingTimingKey, reviewRecordedSpeech, validWordTimings } from '@/lib/speechTiming';
+import { recordingTimingKey, reviewRecordedSpeech, validWordTimings, validCharacterTimings, validateRecordedReview } from '@/lib/speechTiming';
 import type { StorageProvider } from '@/lib/providers/storage';
 
 describe('Recording-specific speech timing cache', () => {
@@ -25,7 +25,7 @@ describe('Recording-specific speech timing cache', () => {
     const audio = Buffer.alloc(200, 1);
     const key = recordingTimingKey(audio, 'Szia!');
     const storage = {exists: async () => true, get: async () => Buffer.from(JSON.stringify({
-      revision:'scribe_v2_character_v1', audio_sha256:'wrong', expected_text:'Szia!', transcript:'Szia!', words:[]
+      revision:'scribe_v2_character_v1', language:'hun', audio_sha256:'wrong', expected_text:'Szia!', transcript:'Szia!', words:[]
     }))} as unknown as StorageProvider;
     const recognize = vi.fn();
     await expect(reviewRecordedSpeech(storage, audio, 'Szia!', 'key', recognize)).rejects.toThrow('sérült');
@@ -38,5 +38,26 @@ describe('Recording-specific speech timing cache', () => {
     expect(validWordTimings([{text:'a',start:NaN,end:1}])).toBe(false);
     expect(validWordTimings([{text:'a',start:1,end:2},{text:'b',start:0,end:1}])).toBe(false);
     expect(validWordTimings([{text:'a',start:0,end:0.5},{text:' ',start:0.5,end:0.7}])).toBe(true);
+  });
+});
+
+describe('Character alignment validation', () => {
+  const words = [{type:'word',text:'gyú',start:.1,end:.4,characters:[
+    {text:'g',start:.1,end:.2},{text:'y',start:.2,end:.3},{text:'ú',start:.3,end:.4}]}];
+  it('requires full character coverage and disjoint measured intervals', () => {
+    expect(validCharacterTimings(words,'gyú!')).toBe(true);
+    expect(validCharacterTimings([{...words[0],characters:words[0].characters.slice(1)}],'gyú')).toBe(false);
+    expect(validCharacterTimings([{...words[0],characters:[{text:'g',start:.1,end:.3},...words[0].characters.slice(1)]}],'gyú')).toBe(false);
+    expect(validCharacterTimings(words,'más')).toBe(false);
+    expect(validWordTimings([{text:'a',start:0,end:1},{text:'b',start:.5,end:2}])).toBe(false);
+  });
+  it('recomputes forged cached approvals without paying again', async () => {
+    const audio=Buffer.alloc(200,3);
+    const storage={exists:async()=>false,put:async()=>{}} as unknown as StorageProvider;
+    const recognize=vi.fn().mockResolvedValue({transcript:'más',language:'eng',textMatches:true,hungarian:true,words});
+    const result=await reviewRecordedSpeech(storage,audio,'gyú','key',recognize);
+    expect(result).toMatchObject({textMatches:false,hungarian:false,usable_for_lipsync:false});
+    const checked=validateRecordedReview({...result,transcript:'gyú',language:'hun',facial_animation_approved:true},audio,'gyú');
+    expect(checked).toMatchObject({usable_for_lipsync:true,facial_animation_approved:false,phoneme_alignment_verified:false});
   });
 });

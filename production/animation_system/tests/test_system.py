@@ -72,9 +72,9 @@ class SystemTests(unittest.TestCase):
    for t in [10,20,30]:j=q.claim(now=t);q.fail(j,'simulated crash',now=t)
    self.assertEqual(q.summary(),{'FAILED':1});self.assertIsNone(q.claim(now=100))
  def test_hungarian_digraph_timing_and_silence(self):
-  r={'textMatches':True,'transcript':'gyú','words':[{'type':'word','characters':[{'text':'g','start':.2,'end':.3},{'text':'y','start':.3,'end':.4},{'text':'ú','start':.4,'end':.6}]}]};track=aligned_cues(r,'gyú',1,'x');self.assertTrue(any(c['phone']=='gy' for c in track['mouthCues']));self.assertEqual(weights_at(track,.1)['X'],1)
+  r={'language':'hun','audio_sha256':'a'*64,'textMatches':True,'transcript':'gyú','words':[{'type':'word','text':'gyú','start':.2,'end':.6,'characters':[{'text':'g','start':.2,'end':.3},{'text':'y','start':.3,'end':.4},{'text':'ú','start':.4,'end':.6}]}]};track=aligned_cues(r,'gyú',1,'a'*64);self.assertTrue(any(c['phone']=='gy' for c in track['mouthCues']));self.assertEqual(weights_at(track,.1)['X'],1)
   for t in [.1,.3,.4,.5,.7,1]:self.assertAlmostEqual(sum(weights_at(track,t).values()),1)
-  with self.assertRaises(ValueError):aligned_cues(r,'más',1,'x')
+  with self.assertRaises(ValueError):aligned_cues(r,'más',1,'a'*64)
  def test_encoded_preview_cannot_pass_release(self):
   result=release_gate(self.reg,{'scene':{'engine':'BLENDER_EVALUATED_GEOMETRY_GL_PREVIEW','structural_qc_pass':False}},{'decoded':True});self.assertFalse(result['approved']);self.assertEqual(len(result['reasons']),4)
  def test_missing_cached_output_is_rerendered(self):
@@ -92,5 +92,5 @@ class SystemTests(unittest.TestCase):
  def test_turn_locks_support_foot_position_and_orientation(self):
   actor={'position':[0,0,0],'actions':[{'clip':'turn','start':0,'end':2,'yaw':1.7}]};foot={'ankle':[-.12,0,.1],'phase':.5};self.assertEqual(foot_at(actor,foot,.1)[0],foot_at(actor,foot,.8)[0]);self.assertEqual(foot_heading(actor,foot,.1),foot_heading(actor,foot,.8));foot['phase']=0;self.assertEqual(foot_at(actor,foot,1.2)[0],foot_at(actor,foot,2)[0])
  def test_ly_matches_j_and_digraphs_do_not_cross_words(self):
-  self.assertEqual(viseme('ly'),viseme('j'));self.assertNotEqual(viseme('ly'),viseme('l'));r={'textMatches':True,'transcript':'g y','words':[{'type':'word','characters':[{'text':'g','start':.1,'end':.2}]},{'type':'word','characters':[{'text':'y','start':.21,'end':.3}]}]};self.assertFalse(any(c['phone']=='gy' for c in aligned_cues(r,'g y',1,'x')['mouthCues']))
+  self.assertEqual(viseme('ly'),viseme('j'));self.assertNotEqual(viseme('ly'),viseme('l'));r={'language':'hun','audio_sha256':'a'*64,'textMatches':True,'transcript':'g y','words':[{'type':'word','text':'g','start':.1,'end':.2,'characters':[{'text':'g','start':.1,'end':.2}]},{'type':'word','text':'y','start':.21,'end':.3,'characters':[{'text':'y','start':.21,'end':.3}]}]};self.assertFalse(any(c['phone']=='gy' for c in aligned_cues(r,'g y',1,'a'*64)['mouthCues']))
 if __name__=='__main__':unittest.main()
