@@ -1,4 +1,4 @@
-import unittest,tempfile,json,copy,concurrent.futures
+import unittest,tempfile,json,copy,concurrent.futures,sqlite3
 from pathlib import Path
 from animation_system.spec import compile_episode,validate_scene
 from animation_system.jobs import RenderQueue
@@ -7,6 +7,11 @@ from animation_system.lipsync import aligned_cues,weights_at,viseme,validate_tra
 from animation_system.release import release_gate
 
 class SystemTests(unittest.TestCase):
+ def test_queue_connections_close_at_end_of_transaction_scope(self):
+  with tempfile.TemporaryDirectory() as directory:
+   queue=RenderQueue(Path(directory)/'queue.sqlite')
+   with queue.connect() as connection:connection.execute('SELECT 1')
+   with self.assertRaises(sqlite3.ProgrammingError):connection.execute('SELECT 1')
  def setUp(self):
   self.reg={'characters':{'CHAR_MARK':{'version':'V021','asset_sha256':'a'*64}},'locations':{'FOREST':{'asset_sha256':'b'*64}}};self.scene={'schema':'WONDERLY_SCENE_V1','id':'s0','fps':24,'duration':12,'location':'FOREST','characters':[{'code':'CHAR_MARK','version':'V021','position':[0,0,0],'actions':[]}],'cameras':[{'start':0,'position':[0,-5,2],'target':[0,0,1]}]}
  def episode(self,n,duration):

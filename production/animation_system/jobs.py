@@ -1,5 +1,6 @@
 """Durable SQLite queue: atomic claim, leases, bounded retries and content cache."""
 import json, sqlite3, time, uuid
+from contextlib import contextmanager
 from pathlib import Path
 from .spec import canonical, digest
 
@@ -15,8 +16,12 @@ class RenderQueue:
     CREATE TABLE IF NOT EXISTS events(id INTEGER PRIMARY KEY, job TEXT,
       at REAL NOT NULL, status TEXT NOT NULL, detail TEXT);
    ''')
+ @contextmanager
  def connect(self):
-  db=sqlite3.connect(self.path,timeout=30);db.row_factory=sqlite3.Row;db.execute('PRAGMA synchronous=FULL');return db
+  db=sqlite3.connect(self.path,timeout=30);db.row_factory=sqlite3.Row;db.execute('PRAGMA synchronous=FULL')
+  try:
+   with db:yield db
+  finally:db.close()
  def enqueue(self,jobs):
   with self.connect() as db:
    for job in jobs:
