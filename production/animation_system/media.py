@@ -19,7 +19,7 @@ def mix_scene(script_path,compiled_path,output):
   if length<=0:break
   t=np.arange(length)/sr;freq=chords[(beat//2)%4][beat%3];sound=(np.sin(2*np.pi*freq*t)+.25*np.sin(2*np.pi*freq*2*t))*np.exp(-t*2.2)*np.minimum(1,t/.02)*.025;idx=round(start*sr);music[idx:idx+length]+=sound[:,None]*np.array([.95,1.])
  voices=[]
- for line in scene.get('dialogue',[]):
+ for line in scene.get('dialogue',[])+scene.get('offscreen_dialogue',[]):
   file=script_path.parent/line['audio'];raw=subprocess.check_output(['ffmpeg','-v','error','-i',str(file),'-f','f32le','-ar',str(sr),'-ac','1','-']);voice=np.frombuffer(raw,dtype='<f4');a=round(line['start']*sr);b=min(n,a+len(voice));speech[a:b]+=voice[:b-a,None]*.78;duck_start=max(0,a-sr//6);duck_end=min(n,b+sr//5);music[duck_start:duck_end]*=.35;voices.append({'id':line['id'],'audio_sha256':digest(file),'start':line['start'],'decoded_seconds':len(voice)/sr})
  steps=0
  for event in compiled['contact_events']:

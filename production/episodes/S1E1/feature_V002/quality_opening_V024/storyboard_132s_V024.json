@@ -1,0 +1,1275 @@
+{
+  "schema": "WONDERLY_STORYBOARD_V1",
+  "source_feature_sha256": "72492a266fbcaea03c51e34a93a925f9153cedde42954fbe5b9739de74468693",
+  "duration_seconds": 132,
+  "actual_rendered_duration": null,
+  "shots": [
+    {
+      "shot_id": "S1E1_SC001_SH001",
+      "scene_id": "S1E1_SC001_V024",
+      "start_sec": 0,
+      "end_sec": 7,
+      "duration_sec": 7,
+      "camera": {
+        "start": 0,
+        "position": [
+          3.0,
+          -4.8,
+          2.3
+        ],
+        "target": [
+          0,
+          -0.2,
+          0.85
+        ],
+        "lens": 42,
+        "end_position": [
+          3.12,
+          -4.72,
+          2.3
+        ],
+        "end_target": [
+          0,
+          -0.2,
+          0.85
+        ]
+      },
+      "direction_hu": "Erdei követés; két eltérő lépésritmus, egymás bevárása.",
+      "frame_start": 1,
+      "frame_end": 168,
+      "timing_basis": "authored blocking, existing measured recordings",
+      "animation_render_verified": false
+    },
+    {
+      "shot_id": "S1E1_SC001_SH002",
+      "scene_id": "S1E1_SC001_V024",
+      "start_sec": 7,
+      "end_sec": 11,
+      "duration_sec": 4,
+      "camera": {
+        "start": 7,
+        "position": [
+          1.0,
+          -2.8,
+          1.7
+        ],
+        "target": [
+          -0.6,
+          -0.5,
+          1.28
+        ],
+        "lens": 58,
+        "end_position": [
+          0.88,
+          -2.7199999999999998,
+          1.7
+        ],
+        "end_target": [
+          -0.6,
+          -0.5,
+          1.28
+        ]
+      },
+      "direction_hu": "Márk ropogós levelet mutat, Lili felé fordul.",
+      "frame_start": 169,
+      "frame_end": 264,
+      "timing_basis": "authored blocking, existing measured recordings",
+      "animation_render_verified": false
+    },
+    {
+      "shot_id": "S1E1_SC001_SH003",
+      "scene_id": "S1E1_SC001_V024",
+      "start_sec": 11,
+      "end_sec": 15,
+      "duration_sec": 4,
+      "camera": {
+        "start": 11,
+        "position": [
+          -0.5,
+          -2.3,
+          1.08
+        ],
+        "target": [
+          0.52,
+          -0.4,
+          0.63
+        ],
+        "lens": 55,
+        "end_position": [
+          -0.38,
+          -2.2199999999999998,
+          1.08
+        ],
+        "end_target": [
+          0.52,
+          -0.4,
+          0.63
+        ]
+      },
+      "direction_hu": "Lili játékos válasza, szemkontaktus a fiúval.",
+      "frame_start": 265,
+      "frame_end": 360,
+      "timing_basis": "authored blocking, existing measured recordings",
+      "animation_render_verified": false
+    },
+    {
+      "shot_id": "S1E1_SC001_SH004",
+      "scene_id": "S1E1_SC001_V024",
+      "start_sec": 15,
+      "end_sec": 17,
+      "duration_sec": 2,
+      "camera": {
+        "start": 15,
+        "position": [
+          0.7,
+          -2.1,
+          0.4
+        ],
+        "target": [
+          -0.3,
+          -1.1,
+          0.07
+        ],
+        "lens": 60,
+        "end_position": [
+          0.58,
+          -2.02,
+          0.4
+        ],
+        "end_target": [
+          -0.3,
+          -1.1,
+          0.07
+        ]
+      },
+      "direction_hu": "A kiszemelt levél megemelkedik, alatta türkiz fény fut.",
+      "frame_start": 361,
+      "frame_end": 408,
+      "timing_basis": "authored blocking, existing measured recordings",
+      "animation_render_verified": false
+    },
+    {
+      "shot_id": "S1E1_SC001_SH005",
+      "scene_id": "S1E1_SC001_V024",
+      "start_sec": 17,
+      "end_sec": 19,
+      "duration_sec": 2,
+      "camera": {
+        "start": 17,
+        "position": [
+          1.0,
+          -2.8,
+          1.7
+        ],
+        "target": [
+          -0.6,
+          -0.5,
+          1.28
+        ],
+        "lens": 58,
+        "end_position": [
+          1.12,
+          -2.7199999999999998,
+          1.7
+        ],
+        "end_target": [
+          -0.6,
+          -0.5,
+          1.28
+        ]
+      },
+      "direction_hu": "Márk meglepődik, kezét nyitva tartja.",
+      "frame_start": 409,
+      "frame_end": 456,
+      "timing_basis": "authored blocking, existing measured recordings",
+      "animation_render_verified": false
+    },
+    {
+      "shot_id": "S1E1_SC001_SH006",
+      "scene_id": "S1E1_SC001_V024",
+      "start_sec": 19,
+      "end_sec": 22,
+      "duration_sec": 3,
+      "camera": {
+        "start": 19,
+        "position": [
+          -0.5,
+          -2.3,
+          1.08
+        ],
+        "target": [
+          0.52,
+          -0.4,
+          0.63
+        ],
+        "lens": 55,
+        "end_position": [
+          -0.62,
+          -2.2199999999999998,
+          1.08
+        ],
+        "end_target": [
+          0.52,
+          -0.4,
+          0.63
+        ]
+      },
+      "direction_hu": "Lili a levelet, majd a fényt figyeli.",
+      "frame_start": 457,
+      "frame_end": 528,
+      "timing_basis": "authored blocking, existing measured recordings",
+      "animation_render_verified": false
+    },
+    {
+      "shot_id": "S1E1_SC001_SH007",
+      "scene_id": "S1E1_SC001_V024",
+      "start_sec": 22,
+      "end_sec": 26,
+      "duration_sec": 4,
+      "camera": {
+        "start": 22,
+        "position": [
+          2.8,
+          -2.5,
+          1.65
+        ],
+        "target": [
+          0,
+          -0.8,
+          0.85
+        ],
+        "lens": 45,
+        "end_position": [
+          2.92,
+          -2.42,
+          1.65
+        ],
+        "end_target": [
+          0,
+          -0.8,
+          0.85
+        ]
+      },
+      "direction_hu": "Közös kép: Márk a fény irányát mutatja.",
+      "frame_start": 529,
+      "frame_end": 624,
+      "timing_basis": "authored blocking, existing measured recordings",
+      "animation_render_verified": false
+    },
+    {
+      "shot_id": "S1E1_SC001_SH008",
+      "scene_id": "S1E1_SC001_V024",
+      "start_sec": 26,
+      "end_sec": 29,
+      "duration_sec": 3,
+      "camera": {
+        "start": 26,
+        "position": [
+          0.7,
+          -2.1,
+          0.4
+        ],
+        "target": [
+          -0.3,
+          -1.1,
+          0.07
+        ],
+        "lens": 60,
+        "end_position": [
+          0.58,
+          -2.02,
+          0.4
+        ],
+        "end_target": [
+          -0.3,
+          -1.1,
+          0.07
+        ]
+      },
+      "direction_hu": "A fény a gyökér mellé kerül; új megfigyelés, nem állókép.",
+      "frame_start": 625,
+      "frame_end": 696,
+      "timing_basis": "authored blocking, existing measured recordings",
+      "animation_render_verified": false
+    },
+    {
+      "shot_id": "S1E1_SC001_SH009",
+      "scene_id": "S1E1_SC001_V024",
+      "start_sec": 29,
+      "end_sec": 31,
+      "duration_sec": 2,
+      "camera": {
+        "start": 29,
+        "position": [
+          3.0,
+          -4.8,
+          2.3
+        ],
+        "target": [
+          0,
+          -0.2,
+          0.85
+        ],
+        "lens": 42,
+        "end_position": [
+          3.12,
+          -4.72,
+          2.3
+        ],
+        "end_target": [
+          0,
+          -0.2,
+          0.85
+        ]
+      },
+      "direction_hu": "Három fényjelre forduló fejek; a madárhang elhallgat.",
+      "frame_start": 697,
+      "frame_end": 744,
+      "timing_basis": "authored blocking, existing measured recordings",
+      "animation_render_verified": false
+    },
+    {
+      "shot_id": "S1E1_SC001_SH010",
+      "scene_id": "S1E1_SC001_V024",
+      "start_sec": 31,
+      "end_sec": 35,
+      "duration_sec": 4,
+      "camera": {
+        "start": 31,
+        "position": [
+          -0.5,
+          -2.3,
+          1.08
+        ],
+        "target": [
+          0.52,
+          -0.4,
+          0.63
+        ],
+        "lens": 55,
+        "end_position": [
+          -0.62,
+          -2.2199999999999998,
+          1.08
+        ],
+        "end_target": [
+          0.52,
+          -0.4,
+          0.63
+        ]
+      },
+      "direction_hu": "Lili felismeri a jelzés ismétlődését.",
+      "frame_start": 745,
+      "frame_end": 840,
+      "timing_basis": "authored blocking, existing measured recordings",
+      "animation_render_verified": false
+    },
+    {
+      "shot_id": "S1E1_SC001_SH011",
+      "scene_id": "S1E1_SC001_V024",
+      "start_sec": 35,
+      "end_sec": 38,
+      "duration_sec": 3,
+      "camera": {
+        "start": 35,
+        "position": [
+          0.7,
+          -2.1,
+          0.4
+        ],
+        "target": [
+          -0.3,
+          -1.1,
+          0.07
+        ],
+        "lens": 60,
+        "end_position": [
+          0.82,
+          -2.02,
+          0.4
+        ],
+        "end_target": [
+          -0.3,
+          -1.1,
+          0.07
+        ]
+      },
+      "direction_hu": "Kinek? képen kívül: a kamera a fényjel címzettjét keresi.",
+      "frame_start": 841,
+      "frame_end": 912,
+      "timing_basis": "authored blocking, existing measured recordings",
+      "animation_render_verified": false
+    },
+    {
+      "shot_id": "S1E1_SC001_SH012",
+      "scene_id": "S1E1_SC001_V024",
+      "start_sec": 38,
+      "end_sec": 42,
+      "duration_sec": 4,
+      "camera": {
+        "start": 38,
+        "position": [
+          -2.5,
+          -3.0,
+          1.65
+        ],
+        "target": [
+          0,
+          -1.0,
+          0.8
+        ],
+        "lens": 42,
+        "end_position": [
+          -2.62,
+          -2.92,
+          1.65
+        ],
+        "end_target": [
+          0,
+          -1.0,
+          0.8
+        ]
+      },
+      "direction_hu": "Márk közelít a kőhöz; Lili mellé ér, nem haladnak egymáson át.",
+      "frame_start": 913,
+      "frame_end": 1008,
+      "timing_basis": "authored blocking, existing measured recordings",
+      "animation_render_verified": false
+    },
+    {
+      "shot_id": "S1E1_SC001_SH013",
+      "scene_id": "S1E1_SC001_V024",
+      "start_sec": 42,
+      "end_sec": 46,
+      "duration_sec": 4,
+      "camera": {
+        "start": 42,
+        "position": [
+          -0.5,
+          -2.3,
+          1.08
+        ],
+        "target": [
+          0.52,
+          -0.4,
+          0.63
+        ],
+        "lens": 55,
+        "end_position": [
+          -0.38,
+          -2.2199999999999998,
+          1.08
+        ],
+        "end_target": [
+          0.52,
+          -0.4,
+          0.63
+        ]
+      },
+      "direction_hu": "Lili óvatosságra inti, a tekintet kézre, majd szemre vált.",
+      "frame_start": 1009,
+      "frame_end": 1104,
+      "timing_basis": "authored blocking, existing measured recordings",
+      "animation_render_verified": false
+    },
+    {
+      "shot_id": "S1E1_SC001_SH014",
+      "scene_id": "S1E1_SC001_V024",
+      "start_sec": 46,
+      "end_sec": 49,
+      "duration_sec": 3,
+      "camera": {
+        "start": 46,
+        "position": [
+          2.8,
+          -2.5,
+          1.65
+        ],
+        "target": [
+          0,
+          -0.8,
+          0.85
+        ],
+        "lens": 45,
+        "end_position": [
+          2.6799999999999997,
+          -2.42,
+          1.65
+        ],
+        "end_target": [
+          0,
+          -0.8,
+          0.85
+        ]
+      },
+      "direction_hu": "Márk megáll és visszahúzza a kezét.",
+      "frame_start": 1105,
+      "frame_end": 1176,
+      "timing_basis": "authored blocking, existing measured recordings",
+      "animation_render_verified": false
+    },
+    {
+      "shot_id": "S1E1_SC001_SH015",
+      "scene_id": "S1E1_SC001_V024",
+      "start_sec": 49,
+      "end_sec": 51,
+      "duration_sec": 2,
+      "camera": {
+        "start": 49,
+        "position": [
+          0.7,
+          -2.2,
+          0.7
+        ],
+        "target": [
+          -0.1,
+          -1.35,
+          0.23
+        ],
+        "lens": 65,
+        "end_position": [
+          0.82,
+          -2.12,
+          0.7
+        ],
+        "end_target": [
+          -0.1,
+          -1.35,
+          0.23
+        ]
+      },
+      "direction_hu": "A csillagszilánk törött felső csúcsa és a levelek erezete.",
+      "frame_start": 1177,
+      "frame_end": 1224,
+      "timing_basis": "authored blocking, existing measured recordings",
+      "animation_render_verified": false
+    },
+    {
+      "shot_id": "S1E1_SC001_SH016",
+      "scene_id": "S1E1_SC001_V024",
+      "start_sec": 51,
+      "end_sec": 54,
+      "duration_sec": 3,
+      "camera": {
+        "start": 51,
+        "position": [
+          1.0,
+          -2.8,
+          1.7
+        ],
+        "target": [
+          -0.6,
+          -0.5,
+          1.28
+        ],
+        "lens": 58,
+        "end_position": [
+          0.88,
+          -2.7199999999999998,
+          1.7
+        ],
+        "end_target": [
+          -0.6,
+          -0.5,
+          1.28
+        ]
+      },
+      "direction_hu": "Márk halk felismerése.",
+      "frame_start": 1225,
+      "frame_end": 1296,
+      "timing_basis": "authored blocking, existing measured recordings",
+      "animation_render_verified": false
+    },
+    {
+      "shot_id": "S1E1_SC001_SH017",
+      "scene_id": "S1E1_SC001_V024",
+      "start_sec": 54,
+      "end_sec": 58,
+      "duration_sec": 4,
+      "camera": {
+        "start": 54,
+        "position": [
+          0.7,
+          -2.2,
+          0.7
+        ],
+        "target": [
+          -0.1,
+          -1.35,
+          0.23
+        ],
+        "lens": 65,
+        "end_position": [
+          0.82,
+          -2.12,
+          0.7
+        ],
+        "end_target": [
+          -0.1,
+          -1.35,
+          0.23
+        ]
+      },
+      "direction_hu": "Fényimpulzus, üveges hang; átvezetés ugyanarra a tárgyra.",
+      "frame_start": 1297,
+      "frame_end": 1392,
+      "timing_basis": "authored blocking, existing measured recordings",
+      "animation_render_verified": false
+    },
+    {
+      "shot_id": "S1E1_SC003_SH001",
+      "scene_id": "S1E1_SC003_V024",
+      "start_sec": 0,
+      "end_sec": 5,
+      "duration_sec": 5,
+      "camera": {
+        "start": 0,
+        "position": [
+          -2.5,
+          -3.0,
+          1.65
+        ],
+        "target": [
+          0,
+          -1.0,
+          0.8
+        ],
+        "lens": 42,
+        "end_position": [
+          -2.38,
+          -2.92,
+          1.65
+        ],
+        "end_target": [
+          0,
+          -1.0,
+          0.8
+        ]
+      },
+      "direction_hu": "Ugyanaz a tengely és kő; a barátok helyzete folytonos.",
+      "frame_start": 1,
+      "frame_end": 120,
+      "timing_basis": "authored blocking, existing measured recordings",
+      "animation_render_verified": false
+    },
+    {
+      "shot_id": "S1E1_SC003_SH002",
+      "scene_id": "S1E1_SC003_V024",
+      "start_sec": 5,
+      "end_sec": 10,
+      "duration_sec": 5,
+      "camera": {
+        "start": 5,
+        "position": [
+          0.7,
+          -2.2,
+          0.7
+        ],
+        "target": [
+          -0.1,
+          -1.35,
+          0.23
+        ],
+        "lens": 65,
+        "end_position": [
+          0.58,
+          -2.12,
+          0.7
+        ],
+        "end_target": [
+          -0.1,
+          -1.35,
+          0.23
+        ]
+      },
+      "direction_hu": "A moha sértetlen; Lili vizsgálata képen kívüli hanggal, hibás take jelölve.",
+      "frame_start": 121,
+      "frame_end": 240,
+      "timing_basis": "authored blocking, existing measured recordings",
+      "animation_render_verified": false
+    },
+    {
+      "shot_id": "S1E1_SC003_SH003",
+      "scene_id": "S1E1_SC003_V024",
+      "start_sec": 10,
+      "end_sec": 13.5,
+      "duration_sec": 3.5,
+      "camera": {
+        "start": 10,
+        "position": [
+          1.0,
+          -3.1999999999999997,
+          1.7
+        ],
+        "target": [
+          -0.6,
+          -0.9,
+          1.28
+        ],
+        "lens": 58,
+        "end_position": [
+          1.12,
+          -3.1199999999999997,
+          1.7
+        ],
+        "end_target": [
+          -0.6,
+          -0.9,
+          1.28
+        ]
+      },
+      "direction_hu": "Márk óvatos feltevése.",
+      "frame_start": 241,
+      "frame_end": 324,
+      "timing_basis": "authored blocking, existing measured recordings",
+      "animation_render_verified": false
+    },
+    {
+      "shot_id": "S1E1_SC003_SH004",
+      "scene_id": "S1E1_SC003_V024",
+      "start_sec": 13.5,
+      "end_sec": 17,
+      "duration_sec": 3.5,
+      "camera": {
+        "start": 13.5,
+        "position": [
+          -0.5,
+          -2.6999999999999997,
+          1.08
+        ],
+        "target": [
+          0.52,
+          -0.8,
+          0.63
+        ],
+        "lens": 55,
+        "end_position": [
+          -0.62,
+          -2.6199999999999997,
+          1.08
+        ],
+        "end_target": [
+          0.52,
+          -0.8,
+          0.63
+        ]
+      },
+      "direction_hu": "Lili száraz humora, enyhe mosoly.",
+      "frame_start": 325,
+      "frame_end": 408,
+      "timing_basis": "authored blocking, existing measured recordings",
+      "animation_render_verified": false
+    },
+    {
+      "shot_id": "S1E1_SC003_SH005",
+      "scene_id": "S1E1_SC003_V024",
+      "start_sec": 17,
+      "end_sec": 21,
+      "duration_sec": 4,
+      "camera": {
+        "start": 17,
+        "position": [
+          2.8,
+          -2.5,
+          1.65
+        ],
+        "target": [
+          0,
+          -0.8,
+          0.85
+        ],
+        "lens": 45,
+        "end_position": [
+          2.92,
+          -2.42,
+          1.65
+        ],
+        "end_target": [
+          0,
+          -0.8,
+          0.85
+        ]
+      },
+      "direction_hu": "Márk leereszkedik a kőhöz; a lábak támaszban maradnak.",
+      "frame_start": 409,
+      "frame_end": 504,
+      "timing_basis": "authored blocking, existing measured recordings",
+      "animation_render_verified": false
+    },
+    {
+      "shot_id": "S1E1_SC003_SH006",
+      "scene_id": "S1E1_SC003_V024",
+      "start_sec": 21,
+      "end_sec": 24,
+      "duration_sec": 3,
+      "camera": {
+        "start": 21,
+        "position": [
+          0.7,
+          -2.2,
+          0.7
+        ],
+        "target": [
+          -0.1,
+          -1.35,
+          0.23
+        ],
+        "lens": 65,
+        "end_position": [
+          0.58,
+          -2.12,
+          0.7
+        ],
+        "end_target": [
+          -0.1,
+          -1.35,
+          0.23
+        ]
+      },
+      "direction_hu": "Kendő és kéz közelít a szilánkhoz.",
+      "frame_start": 505,
+      "frame_end": 576,
+      "timing_basis": "authored blocking, existing measured recordings",
+      "animation_render_verified": false
+    },
+    {
+      "shot_id": "S1E1_SC003_SH007",
+      "scene_id": "S1E1_SC003_V024",
+      "start_sec": 24,
+      "end_sec": 26,
+      "duration_sec": 2,
+      "camera": {
+        "start": 24,
+        "position": [
+          0.9,
+          -2.2,
+          1.05
+        ],
+        "target": [
+          -0.1,
+          -1.2,
+          0.65
+        ],
+        "lens": 60,
+        "end_position": [
+          1.02,
+          -2.12,
+          1.05
+        ],
+        "end_target": [
+          -0.1,
+          -1.2,
+          0.65
+        ]
+      },
+      "direction_hu": "A bal kéz érintkezik, a tárgy felvétele után a kézzel együtt halad.",
+      "frame_start": 577,
+      "frame_end": 624,
+      "timing_basis": "authored blocking, existing measured recordings",
+      "animation_render_verified": false
+    },
+    {
+      "shot_id": "S1E1_SC003_SH008",
+      "scene_id": "S1E1_SC003_V024",
+      "start_sec": 26,
+      "end_sec": 29,
+      "duration_sec": 3,
+      "camera": {
+        "start": 26,
+        "position": [
+          1.0,
+          -3.1999999999999997,
+          1.7
+        ],
+        "target": [
+          -0.6,
+          -0.9,
+          1.28
+        ],
+        "lens": 58,
+        "end_position": [
+          0.88,
+          -3.1199999999999997,
+          1.7
+        ],
+        "end_target": [
+          -0.6,
+          -0.9,
+          1.28
+        ]
+      },
+      "direction_hu": "Márk öröme a fény erősödésekor.",
+      "frame_start": 625,
+      "frame_end": 696,
+      "timing_basis": "authored blocking, existing measured recordings",
+      "animation_render_verified": false
+    },
+    {
+      "shot_id": "S1E1_SC003_SH009",
+      "scene_id": "S1E1_SC003_V024",
+      "start_sec": 29,
+      "end_sec": 34,
+      "duration_sec": 5,
+      "camera": {
+        "start": 29,
+        "position": [
+          3.0,
+          -4.8,
+          2.3
+        ],
+        "target": [
+          0,
+          -0.2,
+          0.85
+        ],
+        "lens": 42,
+        "end_position": [
+          3.12,
+          -4.72,
+          2.3
+        ],
+        "end_target": [
+          0,
+          -0.2,
+          0.85
+        ]
+      },
+      "direction_hu": "Lili lassan megkerüli; Márk vele fordul.",
+      "frame_start": 697,
+      "frame_end": 816,
+      "timing_basis": "authored blocking, existing measured recordings",
+      "animation_render_verified": false
+    },
+    {
+      "shot_id": "S1E1_SC003_SH010",
+      "scene_id": "S1E1_SC003_V024",
+      "start_sec": 34,
+      "end_sec": 38,
+      "duration_sec": 4,
+      "camera": {
+        "start": 34,
+        "position": [
+          2.8,
+          -2.5,
+          1.65
+        ],
+        "target": [
+          0,
+          -0.8,
+          0.85
+        ],
+        "lens": 45,
+        "end_position": [
+          2.6799999999999997,
+          -2.42,
+          1.65
+        ],
+        "end_target": [
+          0,
+          -0.8,
+          0.85
+        ]
+      },
+      "direction_hu": "A fény gyengül: a változást közös kép igazolja.",
+      "frame_start": 817,
+      "frame_end": 912,
+      "timing_basis": "authored blocking, existing measured recordings",
+      "animation_render_verified": false
+    },
+    {
+      "shot_id": "S1E1_SC003_SH011",
+      "scene_id": "S1E1_SC003_V024",
+      "start_sec": 38,
+      "end_sec": 40,
+      "duration_sec": 2,
+      "camera": {
+        "start": 38,
+        "position": [
+          -0.5,
+          -2.6999999999999997,
+          1.08
+        ],
+        "target": [
+          0.52,
+          -0.8,
+          0.63
+        ],
+        "lens": 55,
+        "end_position": [
+          -0.38,
+          -2.6199999999999997,
+          1.08
+        ],
+        "end_target": [
+          0.52,
+          -0.8,
+          0.63
+        ]
+      },
+      "direction_hu": "Lili visszafordulást kér.",
+      "frame_start": 913,
+      "frame_end": 960,
+      "timing_basis": "authored blocking, existing measured recordings",
+      "animation_render_verified": false
+    },
+    {
+      "shot_id": "S1E1_SC003_SH012",
+      "scene_id": "S1E1_SC003_V024",
+      "start_sec": 40,
+      "end_sec": 45,
+      "duration_sec": 5,
+      "camera": {
+        "start": 40,
+        "position": [
+          3.0,
+          -4.8,
+          2.3
+        ],
+        "target": [
+          0,
+          -0.2,
+          0.85
+        ],
+        "lens": 42,
+        "end_position": [
+          2.88,
+          -4.72,
+          2.3
+        ],
+        "end_target": [
+          0,
+          -0.2,
+          0.85
+        ]
+      },
+      "direction_hu": "Márk irányt vált, a fény erősödik.",
+      "frame_start": 961,
+      "frame_end": 1080,
+      "timing_basis": "authored blocking, existing measured recordings",
+      "animation_render_verified": false
+    },
+    {
+      "shot_id": "S1E1_SC003_SH013",
+      "scene_id": "S1E1_SC003_V024",
+      "start_sec": 45,
+      "end_sec": 51,
+      "duration_sec": 6,
+      "camera": {
+        "start": 45,
+        "position": [
+          0.9,
+          -2.2,
+          1.05
+        ],
+        "target": [
+          -0.1,
+          -1.2,
+          0.65
+        ],
+        "lens": 60,
+        "end_position": [
+          1.02,
+          -2.12,
+          1.05
+        ],
+        "end_target": [
+          -0.1,
+          -1.2,
+          0.65
+        ]
+      },
+      "direction_hu": "A tárgy közelije a két megszólalás alatt; Lili take továbbra is javítandó.",
+      "frame_start": 1081,
+      "frame_end": 1224,
+      "timing_basis": "authored blocking, existing measured recordings",
+      "animation_render_verified": false
+    },
+    {
+      "shot_id": "S1E1_SC003_SH014",
+      "scene_id": "S1E1_SC003_V024",
+      "start_sec": 51,
+      "end_sec": 55,
+      "duration_sec": 4,
+      "camera": {
+        "start": 51,
+        "position": [
+          -2.5,
+          -3.0,
+          1.65
+        ],
+        "target": [
+          0,
+          -1.0,
+          0.8
+        ],
+        "lens": 42,
+        "end_position": [
+          -2.62,
+          -2.92,
+          1.65
+        ],
+        "end_target": [
+          0,
+          -1.0,
+          0.8
+        ]
+      },
+      "direction_hu": "Egymás reakcióját figyelik, nem újabb üres fényvárás.",
+      "frame_start": 1225,
+      "frame_end": 1320,
+      "timing_basis": "authored blocking, existing measured recordings",
+      "animation_render_verified": false
+    },
+    {
+      "shot_id": "S1E1_SC003_SH015",
+      "scene_id": "S1E1_SC003_V024",
+      "start_sec": 55,
+      "end_sec": 60,
+      "duration_sec": 5,
+      "camera": {
+        "start": 55,
+        "position": [
+          0.9,
+          -2.2,
+          1.05
+        ],
+        "target": [
+          -0.1,
+          -1.2,
+          0.65
+        ],
+        "lens": 60,
+        "end_position": [
+          1.02,
+          -2.12,
+          1.05
+        ],
+        "end_target": [
+          -0.1,
+          -1.2,
+          0.65
+        ]
+      },
+      "direction_hu": "Márk észreveszi a csillag hiányzó részét.",
+      "frame_start": 1321,
+      "frame_end": 1440,
+      "timing_basis": "authored blocking, existing measured recordings",
+      "animation_render_verified": false
+    },
+    {
+      "shot_id": "S1E1_SC003_SH016",
+      "scene_id": "S1E1_SC003_V024",
+      "start_sec": 60,
+      "end_sec": 64,
+      "duration_sec": 4,
+      "camera": {
+        "start": 60,
+        "position": [
+          -0.5,
+          -2.6999999999999997,
+          1.08
+        ],
+        "target": [
+          0.52,
+          -0.8,
+          0.63
+        ],
+        "lens": 55,
+        "end_position": [
+          -0.62,
+          -2.6199999999999997,
+          1.08
+        ],
+        "end_target": [
+          0.52,
+          -0.8,
+          0.63
+        ]
+      },
+      "direction_hu": "Lili összekapcsolja a hiányt egy nagyobb tárggyal.",
+      "frame_start": 1441,
+      "frame_end": 1536,
+      "timing_basis": "authored blocking, existing measured recordings",
+      "animation_render_verified": false
+    },
+    {
+      "shot_id": "S1E1_SC003_SH017",
+      "scene_id": "S1E1_SC003_V024",
+      "start_sec": 64,
+      "end_sec": 68,
+      "duration_sec": 4,
+      "camera": {
+        "start": 64,
+        "position": [
+          1.0,
+          -3.1999999999999997,
+          1.7
+        ],
+        "target": [
+          -0.6,
+          -0.9,
+          1.28
+        ],
+        "lens": 58,
+        "end_position": [
+          1.12,
+          -3.1199999999999997,
+          1.7
+        ],
+        "end_target": [
+          -0.6,
+          -0.9,
+          1.28
+        ]
+      },
+      "direction_hu": "A fiú a gyors indulás helyett előbb visszakérdez.",
+      "frame_start": 1537,
+      "frame_end": 1632,
+      "timing_basis": "authored blocking, existing measured recordings",
+      "animation_render_verified": false
+    },
+    {
+      "shot_id": "S1E1_SC003_SH018",
+      "scene_id": "S1E1_SC003_V024",
+      "start_sec": 68,
+      "end_sec": 74,
+      "duration_sec": 6,
+      "camera": {
+        "start": 68,
+        "position": [
+          3.0,
+          -4.8,
+          2.3
+        ],
+        "target": [
+          0,
+          -0.2,
+          0.85
+        ],
+        "lens": 42,
+        "end_position": [
+          2.88,
+          -4.72,
+          2.3
+        ],
+        "end_target": [
+          0,
+          -0.2,
+          0.85
+        ]
+      },
+      "direction_hu": "Közös elindulás a jelzett úton, vágás a következő történetegység felé.",
+      "frame_start": 1633,
+      "frame_end": 1776,
+      "timing_basis": "authored blocking, existing measured recordings",
+      "animation_render_verified": false
+    }
+  ],
+  "unresolved_audio_ids": [
+    "d3ce5ece-87d6-5224-9e1c-66621884ac4f",
+    "225ebeac-c6fb-5641-a488-fede3eb27b90",
+    "7e33345c-135c-5737-b2c2-3fabd3bff89c"
+  ],
+  "full_feature_duration_verified": false,
+  "production_approved": false
+}

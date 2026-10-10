@@ -23,8 +23,8 @@ def segment_weights(points, segments, radius=0.025):
     return values / values.sum(axis=1, keepdims=True)
 
 
-def rebind_body(body, rig, code, head_floor, quadruped=False, profile='attachment'):
-    if profile not in ('segments', 'attachment'):
+def rebind_body(body, rig, code, head_floor, quadruped=False, profile='anatomical'):
+    if profile not in ('segments', 'attachment', 'anatomical'):
         raise ValueError('Unknown binding profile')
     bones = [b for b in rig.data.bones if b.use_deform
              and b.name not in ('root', 'jaw', 'eye.L', 'eye.R')]
@@ -33,7 +33,7 @@ def rebind_body(body, rig, code, head_floor, quadruped=False, profile='attachmen
     weights = segment_weights(points, [(b.head_local[:], b.tail_local[:]) for b in bones])
     # Appendages cannot pull the face or the opposite side of the trunk. These
     # rest-space attachment envelopes remain C1 continuous at their limits.
-    for j, bone in enumerate(bones) if profile == 'attachment' else []:
+    for j, bone in enumerate(bones) if profile != 'segments' else []:
         if bone.name.startswith('tail'):
             base = rig.data.bones['tail_01'].head_local
             weights[:, j] *= ease((points[:, 1] - base.y + .04) / .10)
@@ -45,7 +45,11 @@ def rebind_body(body, rig, code, head_floor, quadruped=False, profile='attachmen
     # and tail keep their smooth anatomical envelopes, with no height cutoff.
     appendage = np.array([n.startswith(('ear', 'tail')) for n in names])
     mask = (ease((points[:, 2] - (head_floor - .065)) / .065)
-            if profile == 'attachment' else ease((points[:, 2] - head_floor) / .045))
+            if profile != 'segments' else ease((points[:, 2] - head_floor) / .045))
+    if quadruped and profile=='anatomical':
+        start=rig.data.bones['neck'].head_local.z
+        end=rig.data.bones['head'].head_local.z-.02
+        mask=ease((points[:,2]-start)/max(.08,end-start))
     if quadruped:
         mask *= ease((.08 - points[:, 1]) / .06)
     mass = weights[:, ~appendage].sum(axis=1)

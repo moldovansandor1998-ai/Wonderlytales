@@ -1,0 +1,935 @@
+{
+  "model": "Systran/faster-whisper-medium",
+  "model_revision": "8701f851d407f3f47e091bb13b8dac5290c7f7fb",
+  "library": "faster-whisper==1.2.1",
+  "language_hint": "hu",
+  "script_prompt_used": false,
+  "method": "independent recognition, not listening or phonetic adjudication",
+  "production_approved": false,
+  "complete": true,
+  "rows": [
+    {
+      "id": "d3ce5ece-87d6-5224-9e1c-66621884ac4f",
+      "audio_sha256": "bc34b81a04ea2751f3887b200819f12a3e981d7b3032d63116652fbae9366043",
+      "character": "CHAR_MARK",
+      "expected": "Kinek?",
+      "scribe": "Kinek?",
+      "independent_transcript": "Kinek?",
+      "text_matches": true,
+      "words": [
+        {
+          "start": 0.0,
+          "end": 0.44,
+          "text": " Kinek?",
+          "probability": 0.5494210124015808
+        }
+      ],
+      "duration_sec": 0.88,
+      "auditory_review_complete": false,
+      "usable_for_lipsync": false
+    },
+    {
+      "id": "225ebeac-c6fb-5641-a488-fede3eb27b90",
+      "audio_sha256": "4352853c5c02329bf25da78dc81d3bb7644004fa11f55e844e42a9de581a83d9",
+      "character": "CHAR_LILI",
+      "expected": "Nem forró. A moha nem száradt ki körülötte.",
+      "scribe": "Nem forró. A moha nem szárad ki körülötte",
+      "independent_transcript": "Menforró. A moha nem szárad ki körülötte.",
+      "text_matches": false,
+      "words": [
+        {
+          "start": 0.0,
+          "end": 0.9,
+          "text": " Menforró.",
+          "probability": 0.6116233666737875
+        },
+        {
+          "start": 1.42,
+          "end": 1.52,
+          "text": " A",
+          "probability": 0.9906501770019531
+        },
+        {
+          "start": 1.52,
+          "end": 1.92,
+          "text": " moha",
+          "probability": 0.9633603394031525
+        },
+        {
+          "start": 1.92,
+          "end": 2.18,
+          "text": " nem",
+          "probability": 0.9901474118232727
+        },
+        {
+          "start": 2.18,
+          "end": 2.54,
+          "text": " szárad",
+          "probability": 0.9147985776265463
+        },
+        {
+          "start": 2.54,
+          "end": 2.76,
+          "text": " ki",
+          "probability": 0.6879451870918274
+        },
+        {
+          "start": 2.76,
+          "end": 3.34,
+          "text": " körülötte.",
+          "probability": 0.952654242515564
+        }
+      ],
+      "duration_sec": 3.36,
+      "auditory_review_complete": false,
+      "usable_for_lipsync": false
+    },
+    {
+      "id": "7e33345c-135c-5737-b2c2-3fabd3bff89c",
+      "audio_sha256": "6ed0c2ef58b354a9acf373b862c10ccec98808308c0911988fdc2f51983b650d",
+      "character": "CHAR_LILI",
+      "expected": "Vagy valami arra válaszol neki.",
+      "scribe": "Majd valami arra válaszol neki",
+      "independent_transcript": "Magy valami arra válaszol neki.",
+      "text_matches": false,
+      "words": [
+        {
+          "start": 0.0,
+          "end": 0.48,
+          "text": " Magy",
+          "probability": 0.6271655857563019
+        },
+        {
+          "start": 0.48,
+          "end": 0.86,
+          "text": " valami",
+          "probability": 0.9895376563072205
+        },
+        {
+          "start": 0.86,
+          "end": 1.24,
+          "text": " arra",
+          "probability": 0.9972856640815735
+        },
+        {
+          "start": 1.24,
+          "end": 1.72,
+          "text": " válaszol",
+          "probability": 0.8688422963023186
+        },
+        {
+          "start": 1.72,
+          "end": 2.06,
+          "text": " neki.",
+          "probability": 0.987198531627655
+        }
+      ],
+      "duration_sec": 2.08,
+      "auditory_review_complete": false,
+      "usable_for_lipsync": false
+    },
+    {
+      "id": "4cfef011-a42a-57d4-8b9d-6f605fe93fc8",
+      "audio_sha256": "7378639e03eb8694fc52c1c9c7a250cd5fe171b9ed6626fb2a572a1d0d91e401",
+      "character": "CHAR_MORZSI",
+      "expected": "Uzsonnakereső túra?",
+      "scribe": "Kúsonna kereső túra",
+      "independent_transcript": "Úson a kereső túra.",
+      "text_matches": false,
+      "words": [
+        {
+          "start": 0.0,
+          "end": 0.46,
+          "text": " Úson",
+          "probability": 0.5536385923624039
+        },
+        {
+          "start": 0.46,
+          "end": 0.58,
+          "text": " a",
+          "probability": 0.45266085863113403
+        },
+        {
+          "start": 0.58,
+          "end": 1.02,
+          "text": " kereső",
+          "probability": 0.9157734711964926
+        },
+        {
+          "start": 1.02,
+          "end": 1.34,
+          "text": " túra.",
+          "probability": 0.4982977658510208
+        }
+      ],
+      "duration_sec": 1.36,
+      "auditory_review_complete": false,
+      "usable_for_lipsync": false
+    },
+    {
+      "id": "971cb9b5-361f-5309-a44b-d87c0d7e1256",
+      "audio_sha256": "0f0d5d8a1a18580b229465ef613f8ff62137bb1d01ad1dee06e5c48df0a22991",
+      "character": "CHAR_ZIZI",
+      "expected": "Van benne egy egyszerű iránytű is. Az nem az én találmányom.",
+      "scribe": "Van benne egy egyszerű iránytű is. Az nem az én találmányom",
+      "independent_transcript": "Van benne egy egyszerű iránytű is, az nem az én találmányom.",
+      "text_matches": true,
+      "words": [
+        {
+          "start": 0.0,
+          "end": 0.28,
+          "text": " Van",
+          "probability": 0.9798752069473267
+        },
+        {
+          "start": 0.28,
+          "end": 0.48,
+          "text": " benne",
+          "probability": 0.9881803393363953
+        },
+        {
+          "start": 0.48,
+          "end": 0.6,
+          "text": " egy",
+          "probability": 0.9984109401702881
+        },
+        {
+          "start": 0.6,
+          "end": 0.96,
+          "text": " egyszerű",
+          "probability": 0.9990588426589966
+        },
+        {
+          "start": 0.96,
+          "end": 1.3,
+          "text": " iránytű",
+          "probability": 0.8947020471096039
+        },
+        {
+          "start": 1.3,
+          "end": 1.44,
+          "text": " is,",
+          "probability": 0.9874358177185059
+        },
+        {
+          "start": 1.64,
+          "end": 1.64,
+          "text": " az",
+          "probability": 0.9817172288894653
+        },
+        {
+          "start": 1.64,
+          "end": 1.78,
+          "text": " nem",
+          "probability": 0.997012734413147
+        },
+        {
+          "start": 1.78,
+          "end": 1.88,
+          "text": " az",
+          "probability": 0.9983119964599609
+        },
+        {
+          "start": 1.88,
+          "end": 2.0,
+          "text": " én",
+          "probability": 0.9979020357131958
+        },
+        {
+          "start": 2.0,
+          "end": 2.5,
+          "text": " találmányom.",
+          "probability": 0.9888263841470083
+        }
+      ],
+      "duration_sec": 2.6935,
+      "auditory_review_complete": false,
+      "usable_for_lipsync": false
+    },
+    {
+      "id": "1c101b7b-c767-523a-be6e-e85916fe0bd2",
+      "audio_sha256": "513dd8517f5dda1a499d9762347dca713362fa0e6b0c1b2e91c34904f7067385",
+      "character": "CHAR_LILI",
+      "expected": "Várj, Bogyó. Előbb megbeszéljük.",
+      "scribe": "Vár Bogyó, előbb megbeszéljük",
+      "independent_transcript": "Vár Bogyó! Előbb megbeszéljük!",
+      "text_matches": false,
+      "words": [
+        {
+          "start": 0.0,
+          "end": 0.42,
+          "text": " Vár",
+          "probability": 0.9077570736408234
+        },
+        {
+          "start": 0.42,
+          "end": 0.98,
+          "text": " Bogyó!",
+          "probability": 0.7084699968496958
+        },
+        {
+          "start": 1.28,
+          "end": 1.5,
+          "text": " Előbb",
+          "probability": 0.9946087002754211
+        },
+        {
+          "start": 1.5,
+          "end": 2.22,
+          "text": " megbeszéljük!",
+          "probability": 0.9907599290211996
+        }
+      ],
+      "duration_sec": 2.24,
+      "auditory_review_complete": false,
+      "usable_for_lipsync": false
+    },
+    {
+      "id": "5ac5de6c-78b8-53ae-8b1b-ab99b7712446",
+      "audio_sha256": "739a44e8667d2376b21cc145159de39951427555381e0e6974927d30a971c829",
+      "character": "CHAR_POTTY",
+      "expected": "Olyan, mintha valaki tüsszenteni akarna, csak nem sikerül neki.",
+      "scribe": "Olyan, mintha valaki tüszenteni akarna, csak nem sikerül neki",
+      "independent_transcript": "Olyan, mintha valaki tüsszenteni akarna, csak nem sikerül neki.",
+      "text_matches": true,
+      "words": [
+        {
+          "start": 0.0,
+          "end": 0.4,
+          "text": " Olyan,",
+          "probability": 0.8312619825204214
+        },
+        {
+          "start": 0.46,
+          "end": 0.62,
+          "text": " mintha",
+          "probability": 0.9115201830863953
+        },
+        {
+          "start": 0.62,
+          "end": 0.94,
+          "text": " valaki",
+          "probability": 0.9809371531009674
+        },
+        {
+          "start": 0.94,
+          "end": 1.66,
+          "text": " tüsszenteni",
+          "probability": 0.8386375546455384
+        },
+        {
+          "start": 1.66,
+          "end": 2.02,
+          "text": " akarna,",
+          "probability": 0.9538137316703796
+        },
+        {
+          "start": 2.1,
+          "end": 2.24,
+          "text": " csak",
+          "probability": 0.9623871445655823
+        },
+        {
+          "start": 2.24,
+          "end": 2.44,
+          "text": " nem",
+          "probability": 0.9916965961456299
+        },
+        {
+          "start": 2.44,
+          "end": 2.86,
+          "text": " sikerül",
+          "probability": 0.9932700395584106
+        },
+        {
+          "start": 2.86,
+          "end": 3.16,
+          "text": " neki.",
+          "probability": 0.8911062180995941
+        }
+      ],
+      "duration_sec": 3.390125,
+      "auditory_review_complete": false,
+      "usable_for_lipsync": false
+    },
+    {
+      "id": "3dc5484a-1823-5628-a624-1cb7c39dd315",
+      "audio_sha256": "94bfbc89c6593ca5de766c67461e76404467342ca4f9418f9f4295482d0c787b",
+      "character": "CHAR_LILI",
+      "expected": "Egyszerre csak egyet. Halljuk, mit csinál.",
+      "scribe": "Egyszerre csak egyet. Halljuk, mit csinált",
+      "independent_transcript": "Egyszerre csak egyet, halljuk, mi csinál.",
+      "text_matches": false,
+      "words": [
+        {
+          "start": 0.0,
+          "end": 0.6,
+          "text": " Egyszerre",
+          "probability": 0.9040162861347198
+        },
+        {
+          "start": 0.6,
+          "end": 0.82,
+          "text": " csak",
+          "probability": 0.9692142009735107
+        },
+        {
+          "start": 0.82,
+          "end": 1.32,
+          "text": " egyet,",
+          "probability": 0.9770646691322327
+        },
+        {
+          "start": 1.68,
+          "end": 2.02,
+          "text": " halljuk,",
+          "probability": 0.949338287115097
+        },
+        {
+          "start": 2.04,
+          "end": 2.24,
+          "text": " mi",
+          "probability": 0.7552737593650818
+        },
+        {
+          "start": 2.24,
+          "end": 2.54,
+          "text": " csinál.",
+          "probability": 0.9957130948702494
+        }
+      ],
+      "duration_sec": 2.56,
+      "auditory_review_complete": false,
+      "usable_for_lipsync": false
+    },
+    {
+      "id": "9e589d4b-bbd0-589b-957f-e3a29bdf267c",
+      "audio_sha256": "f91d080cff8226849927d92cc35ed4f4bcfb88f2b2dd09e2405a9143d0f3141f",
+      "character": "CHAR_MARK",
+      "expected": "Láttátok? Már majdnem megnyílt!",
+      "scribe": "Láttátok? Már majdnem megnyírt",
+      "independent_transcript": "Láttátok? Már majdnem megnyírt.",
+      "text_matches": false,
+      "words": [
+        {
+          "start": 0.0,
+          "end": 1.0,
+          "text": " Láttátok?",
+          "probability": 0.8507026791572571
+        },
+        {
+          "start": 1.36,
+          "end": 1.58,
+          "text": " Már",
+          "probability": 0.9908821880817413
+        },
+        {
+          "start": 1.58,
+          "end": 1.96,
+          "text": " majdnem",
+          "probability": 0.9754205942153931
+        },
+        {
+          "start": 1.96,
+          "end": 2.46,
+          "text": " megnyírt.",
+          "probability": 0.6974514126777649
+        }
+      ],
+      "duration_sec": 2.48,
+      "auditory_review_complete": false,
+      "usable_for_lipsync": false
+    },
+    {
+      "id": "981060f2-444a-5e0b-b663-16993c2ce4e5",
+      "audio_sha256": "a5453ea69b0ae458140fec411e4fc3e1c41d556395266c5a24cdc9bc6f3cd292",
+      "character": "CHAR_MORZSI",
+      "expected": "Akkor először visszatesszük a körlapot.",
+      "scribe": "Akkor erőször visszatesszük a körlapot",
+      "independent_transcript": "Akkor erőször visszateszjük a körlapot.",
+      "text_matches": false,
+      "words": [
+        {
+          "start": 0.0,
+          "end": 0.48,
+          "text": " Akkor",
+          "probability": 0.8049193024635315
+        },
+        {
+          "start": 0.48,
+          "end": 0.98,
+          "text": " erőször",
+          "probability": 0.8349668383598328
+        },
+        {
+          "start": 0.98,
+          "end": 1.7,
+          "text": " visszateszjük",
+          "probability": 0.9107127955981663
+        },
+        {
+          "start": 1.7,
+          "end": 1.84,
+          "text": " a",
+          "probability": 0.9990757703781128
+        },
+        {
+          "start": 1.84,
+          "end": 2.42,
+          "text": " körlapot.",
+          "probability": 0.9213336557149887
+        }
+      ],
+      "duration_sec": 2.48,
+      "auditory_review_complete": false,
+      "usable_for_lipsync": false
+    },
+    {
+      "id": "a2b70aba-09e6-5714-8f69-c4b6c46bb1ae",
+      "audio_sha256": "2ba7c22b47fefeabf3c476af65b391089b958135bcabd7d4a8f853ac8b528070",
+      "character": "CHAR_LILI",
+      "expected": "Igen. Itt maradok. Végig beszélünk.",
+      "scribe": "Igen, itt maradok, mígig beszélünk",
+      "independent_transcript": "Igen, itt maradok. Mégig beszélünk.",
+      "text_matches": false,
+      "words": [
+        {
+          "start": 0.0,
+          "end": 0.6,
+          "text": " Igen,",
+          "probability": 0.8347042500972748
+        },
+        {
+          "start": 0.74,
+          "end": 0.92,
+          "text": " itt",
+          "probability": 0.9919347763061523
+        },
+        {
+          "start": 0.92,
+          "end": 1.54,
+          "text": " maradok.",
+          "probability": 0.9966726303100586
+        },
+        {
+          "start": 1.78,
+          "end": 2.06,
+          "text": " Mégig",
+          "probability": 0.9289551973342896
+        },
+        {
+          "start": 2.06,
+          "end": 2.7,
+          "text": " beszélünk.",
+          "probability": 0.9894158095121384
+        }
+      ],
+      "duration_sec": 2.72,
+      "auditory_review_complete": false,
+      "usable_for_lipsync": false
+    },
+    {
+      "id": "94da9bb5-4069-5b99-868c-f71edb2e1611",
+      "audio_sha256": "e66cce7c404941bedc5d8b984fa9d75cdc04fa7f2155174eec8f3e73c842a33c",
+      "character": "CHAR_POTTY",
+      "expected": "Ha bemegyek, a rácsnál látlak benneteket?",
+      "scribe": "Ha bemegyek, a rácsnál látlak benneteket?",
+      "independent_transcript": "Ha bemegyek a rácsnál, látlak benneteket.",
+      "text_matches": true,
+      "words": [
+        {
+          "start": 0.0,
+          "end": 0.2,
+          "text": " Ha",
+          "probability": 0.8052463531494141
+        },
+        {
+          "start": 0.2,
+          "end": 0.62,
+          "text": " bemegyek",
+          "probability": 0.8809317946434021
+        },
+        {
+          "start": 0.62,
+          "end": 0.74,
+          "text": " a",
+          "probability": 0.5676400661468506
+        },
+        {
+          "start": 0.74,
+          "end": 1.12,
+          "text": " rácsnál,",
+          "probability": 0.7828038394451141
+        },
+        {
+          "start": 1.12,
+          "end": 1.44,
+          "text": " látlak",
+          "probability": 0.9954211115837097
+        },
+        {
+          "start": 1.44,
+          "end": 2.04,
+          "text": " benneteket.",
+          "probability": 0.9856380105018616
+        }
+      ],
+      "duration_sec": 2.229125,
+      "auditory_review_complete": false,
+      "usable_for_lipsync": false
+    },
+    {
+      "id": "9ba962c2-276b-5245-8cd5-23d695eb9b90",
+      "audio_sha256": "0b2e0acd6a36e29aabec103e11a8d54d2f38b71f6d7bd341e960bb90f073a890",
+      "character": "CHAR_ZIZI",
+      "expected": "Most a gyökér kap vizet. A levegő pedig kap utat.",
+      "scribe": "Most a gyökér kap vizet, a levegő pedig kaputat",
+      "independent_transcript": "Most a gyökér kap vizet, a levegő pedig kaputat.",
+      "text_matches": false,
+      "words": [
+        {
+          "start": 0.0,
+          "end": 0.26,
+          "text": " Most",
+          "probability": 0.7358900308609009
+        },
+        {
+          "start": 0.26,
+          "end": 0.36,
+          "text": " a",
+          "probability": 0.9944007992744446
+        },
+        {
+          "start": 0.36,
+          "end": 0.74,
+          "text": " gyökér",
+          "probability": 0.9416326483090719
+        },
+        {
+          "start": 0.74,
+          "end": 0.82,
+          "text": " kap",
+          "probability": 0.9676370620727539
+        },
+        {
+          "start": 0.82,
+          "end": 1.28,
+          "text": " vizet,",
+          "probability": 0.8398025433222452
+        },
+        {
+          "start": 1.48,
+          "end": 1.58,
+          "text": " a",
+          "probability": 0.9923940896987915
+        },
+        {
+          "start": 1.58,
+          "end": 1.96,
+          "text": " levegő",
+          "probability": 0.982433557510376
+        },
+        {
+          "start": 1.96,
+          "end": 2.22,
+          "text": " pedig",
+          "probability": 0.9815976917743683
+        },
+        {
+          "start": 2.22,
+          "end": 2.68,
+          "text": " kaputat.",
+          "probability": 0.959447999795278
+        }
+      ],
+      "duration_sec": 2.8793125,
+      "auditory_review_complete": false,
+      "usable_for_lipsync": false
+    },
+    {
+      "id": "69edecc2-f6da-576b-a4e9-1d875f86cfa0",
+      "audio_sha256": "73aa2aa84305c2bb7f4782f7c01d52d1b647f1e36fdbee625fd307795f05b238",
+      "character": "CHAR_MORZSI",
+      "expected": "A semmit is meg kell nyomni?",
+      "scribe": "Ha semmit is meg kell nyomni",
+      "independent_transcript": "Ha semmit is meg kell nyomni.",
+      "text_matches": false,
+      "words": [
+        {
+          "start": 0.0,
+          "end": 0.3,
+          "text": " Ha",
+          "probability": 0.8343929648399353
+        },
+        {
+          "start": 0.3,
+          "end": 0.58,
+          "text": " semmit",
+          "probability": 0.9925322532653809
+        },
+        {
+          "start": 0.58,
+          "end": 0.76,
+          "text": " is",
+          "probability": 0.9965178966522217
+        },
+        {
+          "start": 0.76,
+          "end": 0.88,
+          "text": " meg",
+          "probability": 0.9885128736495972
+        },
+        {
+          "start": 0.88,
+          "end": 1.06,
+          "text": " kell",
+          "probability": 0.9955743551254272
+        },
+        {
+          "start": 1.06,
+          "end": 1.5,
+          "text": " nyomni.",
+          "probability": 0.7991398274898529
+        }
+      ],
+      "duration_sec": 1.52,
+      "auditory_review_complete": false,
+      "usable_for_lipsync": false
+    },
+    {
+      "id": "b459671f-c801-5242-9447-e27687e3be33",
+      "audio_sha256": "37a03e885aa5b387305c3b0255265e86afb4129a84ef575789cb0a957fd90009",
+      "character": "CHAR_POTTY",
+      "expected": "Most!",
+      "scribe": "Most",
+      "independent_transcript": "Most!",
+      "text_matches": true,
+      "words": [
+        {
+          "start": 0.0,
+          "end": 0.48,
+          "text": " Most!",
+          "probability": 0.897584080696106
+        }
+      ],
+      "duration_sec": 0.696625,
+      "auditory_review_complete": false,
+      "usable_for_lipsync": false
+    },
+    {
+      "id": "79e0b3f8-a01f-5075-97ee-737c5eaadbf2",
+      "audio_sha256": "ac850a17f18d269b6cec431c07a79e2a8a40288ede894a5d84c3483fc3747002",
+      "character": "CHAR_MARK",
+      "expected": "Olyan, mintha a kapuhoz tartozna.",
+      "scribe": "Olyan, mintha a kapuhoz tartozna",
+      "independent_transcript": "olyan, mintha kapuhoz tartozna.",
+      "text_matches": false,
+      "words": [
+        {
+          "start": 0.0,
+          "end": 0.42,
+          "text": " olyan,",
+          "probability": 0.8265525301297506
+        },
+        {
+          "start": 0.54,
+          "end": 0.68,
+          "text": " mintha",
+          "probability": 0.9173148274421692
+        },
+        {
+          "start": 0.68,
+          "end": 1.24,
+          "text": " kapuhoz",
+          "probability": 0.9627565443515778
+        },
+        {
+          "start": 1.24,
+          "end": 1.76,
+          "text": " tartozna.",
+          "probability": 0.9636258085568746
+        }
+      ],
+      "duration_sec": 1.84,
+      "auditory_review_complete": false,
+      "usable_for_lipsync": false
+    },
+    {
+      "id": "a53e5c58-b51f-5b06-b8a6-d3bd933980ef",
+      "audio_sha256": "37a03e885aa5b387305c3b0255265e86afb4129a84ef575789cb0a957fd90009",
+      "character": "CHAR_POTTY",
+      "expected": "Most!",
+      "scribe": "Most",
+      "independent_transcript": "Most!",
+      "text_matches": true,
+      "words": [
+        {
+          "start": 0.0,
+          "end": 0.48,
+          "text": " Most!",
+          "probability": 0.897584080696106
+        }
+      ],
+      "duration_sec": 0.696625,
+      "auditory_review_complete": false,
+      "usable_for_lipsync": false
+    },
+    {
+      "id": "c90094a3-97a0-5f14-bafd-fc223bdc754c",
+      "audio_sha256": "0421e6012ff3685724ca7baffc4281f4ea0ac0056962233ddb447f61fd330625",
+      "character": "CHAR_POTTY",
+      "expected": "Az enyém az volt, hogy féljek egy kicsit, aztán mégis bemenjek.",
+      "scribe": "Az enyém az volt, hogy féljek egy kicsit, aztán mégis bemenjek",
+      "independent_transcript": "Az enyém az volt, hogy féljek egy kicsit, aztán mégis bemenjek.",
+      "text_matches": true,
+      "words": [
+        {
+          "start": 0.0,
+          "end": 0.26,
+          "text": " Az",
+          "probability": 0.8244002461433411
+        },
+        {
+          "start": 0.26,
+          "end": 0.52,
+          "text": " enyém",
+          "probability": 0.9916264216105143
+        },
+        {
+          "start": 0.52,
+          "end": 0.68,
+          "text": " az",
+          "probability": 0.9912928938865662
+        },
+        {
+          "start": 0.68,
+          "end": 0.84,
+          "text": " volt,",
+          "probability": 0.9975624084472656
+        },
+        {
+          "start": 0.94,
+          "end": 1.06,
+          "text": " hogy",
+          "probability": 0.9938510656356812
+        },
+        {
+          "start": 1.06,
+          "end": 1.48,
+          "text": " féljek",
+          "probability": 0.8303120930989584
+        },
+        {
+          "start": 1.48,
+          "end": 1.64,
+          "text": " egy",
+          "probability": 0.9962621331214905
+        },
+        {
+          "start": 1.64,
+          "end": 1.94,
+          "text": " kicsit,",
+          "probability": 0.9938074747721354
+        },
+        {
+          "start": 2.04,
+          "end": 2.22,
+          "text": " aztán",
+          "probability": 0.9911717474460602
+        },
+        {
+          "start": 2.22,
+          "end": 2.58,
+          "text": " mégis",
+          "probability": 0.981857419013977
+        },
+        {
+          "start": 2.58,
+          "end": 3.04,
+          "text": " bemenjek.",
+          "probability": 0.8609045545260111
+        }
+      ],
+      "duration_sec": 3.29725,
+      "auditory_review_complete": false,
+      "usable_for_lipsync": false
+    },
+    {
+      "id": "80340fc7-c517-5440-977c-2918254b62b1",
+      "audio_sha256": "19cf5eb4aaff35eb1783c1d6a1d32cdfc61046b790521ac95747eac4dfefe216",
+      "character": "CHAR_MARK",
+      "expected": "Bogyóé meg, hogy mutassa az utat.",
+      "scribe": "A bogyóé meg, hogy mutassa az utat",
+      "independent_transcript": "A Bogyó émek, hogy mutassa az utat!",
+      "text_matches": false,
+      "words": [
+        {
+          "start": 0.0,
+          "end": 0.16,
+          "text": " A",
+          "probability": 0.4829907715320587
+        },
+        {
+          "start": 0.16,
+          "end": 0.48,
+          "text": " Bogyó",
+          "probability": 0.7584374745686849
+        },
+        {
+          "start": 0.48,
+          "end": 0.78,
+          "text": " émek,",
+          "probability": 0.619486927986145
+        },
+        {
+          "start": 0.82,
+          "end": 0.94,
+          "text": " hogy",
+          "probability": 0.9962190985679626
+        },
+        {
+          "start": 0.94,
+          "end": 1.42,
+          "text": " mutassa",
+          "probability": 0.9768902957439423
+        },
+        {
+          "start": 1.42,
+          "end": 1.66,
+          "text": " az",
+          "probability": 0.9981623291969299
+        },
+        {
+          "start": 1.66,
+          "end": 1.98,
+          "text": " utat!",
+          "probability": 0.9614360630512238
+        }
+      ],
+      "duration_sec": 2.0,
+      "auditory_review_complete": false,
+      "usable_for_lipsync": false
+    },
+    {
+      "id": "92ad3c8c-3676-52c7-89be-ab090706e6d0",
+      "audio_sha256": "1a7a6a256a74d808fb5fc772beab0e434d227b9d7dadd400e02db50fa0650876",
+      "character": "CHAR_MARK",
+      "expected": "Lili…",
+      "scribe": "Lily",
+      "independent_transcript": "Lily!",
+      "text_matches": false,
+      "words": [
+        {
+          "start": 0.0,
+          "end": 0.38,
+          "text": " Lily!",
+          "probability": 0.5390113592147827
+        }
+      ],
+      "duration_sec": 0.56,
+      "auditory_review_complete": false,
+      "usable_for_lipsync": false
+    }
+  ],
+  "matching_transcripts": 7
+}

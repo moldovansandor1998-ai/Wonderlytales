@@ -1,0 +1,735 @@
+{
+  "schema": "WONDERLY_SCENE_V1",
+  "id": "S1E1_SC003_V024",
+  "fps": 24,
+  "duration": 74,
+  "location": "LOC_FOREST_V021",
+  "studio": false,
+  "characters": [
+    {
+      "code": "CHAR_MARK",
+      "version": "V022",
+      "position": [
+        -0.4,
+        -1,
+        0
+      ],
+      "yaw": 0,
+      "actions": [
+        {
+          "clip": "interact",
+          "start": 0,
+          "end": 4
+        },
+        {
+          "clip": "pickup",
+          "start": 18,
+          "end": 27,
+          "body_lower": 0.38
+        },
+        {
+          "clip": "interact",
+          "start": 27,
+          "end": 31
+        },
+        {
+          "clip": "turn",
+          "start": 31,
+          "end": 35,
+          "look_at": "CHAR_LILI"
+        },
+        {
+          "clip": "turn",
+          "start": 40,
+          "end": 43,
+          "yaw": 0
+        },
+        {
+          "clip": "interact",
+          "start": 53,
+          "end": 59
+        },
+        {
+          "clip": "walk",
+          "start": 68,
+          "end": 74,
+          "destination": [
+            -0.4,
+            -2.1,
+            0
+          ]
+        }
+      ],
+      "gaze": [
+        {
+          "start": 0,
+          "end": 25,
+          "target": "prop",
+          "position": [
+            -0.1,
+            -1.35,
+            0.23
+          ]
+        },
+        {
+          "start": 27,
+          "end": 39,
+          "target": "CHAR_LILI"
+        },
+        {
+          "start": 53,
+          "end": 67,
+          "target": "CHAR_LILI"
+        }
+      ]
+    },
+    {
+      "code": "CHAR_LILI",
+      "version": "V021",
+      "position": [
+        0.6,
+        -1.15,
+        0
+      ],
+      "yaw": -1.71969,
+      "actions": [
+        {
+          "clip": "turn",
+          "start": 0,
+          "end": 2,
+          "look_at": "CHAR_MARK"
+        },
+        {
+          "clip": "interact",
+          "start": 2,
+          "end": 7
+        },
+        {
+          "clip": "turn",
+          "start": 27,
+          "end": 29,
+          "yaw": -3.02448
+        },
+        {
+          "clip": "walk",
+          "start": 29,
+          "end": 36,
+          "destination": [
+            0.5,
+            -0.3,
+            0
+          ]
+        },
+        {
+          "clip": "turn",
+          "start": 36,
+          "end": 38,
+          "look_at": "CHAR_MARK"
+        },
+        {
+          "clip": "interact",
+          "start": 59,
+          "end": 64
+        },
+        {
+          "clip": "turn",
+          "start": 66,
+          "end": 68,
+          "yaw": 0.13255
+        },
+        {
+          "clip": "walk",
+          "start": 68,
+          "end": 74,
+          "destination": [
+            0.7,
+            -1.8,
+            0
+          ]
+        }
+      ],
+      "gaze": [
+        {
+          "start": 0,
+          "end": 8,
+          "target": "prop",
+          "position": [
+            -0.1,
+            -1.35,
+            0.23
+          ]
+        },
+        {
+          "start": 10,
+          "end": 29,
+          "target": "CHAR_MARK"
+        },
+        {
+          "start": 36,
+          "end": 67,
+          "target": "CHAR_MARK"
+        }
+      ]
+    }
+  ],
+  "dialogue": [
+    {
+      "id": "cef6b5f3-6050-54bf-a715-e18f410dc821",
+      "speaker": "CHAR_MARK",
+      "text_hu": "Akkor lehet, hogy csak egy szép kavics.",
+      "start": 10,
+      "end": 12.115918,
+      "audio": "audio/cef6b5f3-6050-54bf-a715-e18f410dc821.mp3",
+      "audio_sha256": "de59160e1978bc25e02520068b6f67ac1e92d67f49f5578eabf9adb7c2f247d5",
+      "visemes": "audio/cef6b5f3-6050-54bf-a715-e18f410dc821.visemes.json"
+    },
+    {
+      "id": "2386fc17-10d1-5170-95a2-0b36f3ff120a",
+      "speaker": "CHAR_LILI",
+      "text_hu": "Az én kavicsaim ritkán világítanak.",
+      "start": 13.5,
+      "end": 15.85102,
+      "audio": "audio/2386fc17-10d1-5170-95a2-0b36f3ff120a.mp3",
+      "audio_sha256": "7652ff0847e57c4715e452a31fb342348ff4f7c37d2a500d092f3487ae578938",
+      "visemes": "audio/2386fc17-10d1-5170-95a2-0b36f3ff120a.visemes.json"
+    },
+    {
+      "id": "f7008600-293c-55a7-90be-29a90764b6e3",
+      "speaker": "CHAR_MARK",
+      "text_hu": "Nézd! Tetszik neki a kendő.",
+      "start": 26,
+      "end": 28.037551,
+      "audio": "audio/f7008600-293c-55a7-90be-29a90764b6e3.mp3",
+      "audio_sha256": "a5124e6616272ded1309b75997f726108babce2a8fe058482b058f67de156edb",
+      "visemes": "audio/f7008600-293c-55a7-90be-29a90764b6e3.visemes.json"
+    },
+    {
+      "id": "d1511295-d1f5-529c-b534-8b393bee23b7",
+      "speaker": "CHAR_LILI",
+      "text_hu": "Fordulj vissza egy kicsit.",
+      "start": 38,
+      "end": 39.567347,
+      "audio": "audio/d1511295-d1f5-529c-b534-8b393bee23b7.mp3",
+      "audio_sha256": "e6f6c515d340727f50b985e55b6b58f6ac80dc3641ce7cbea276abe272e38d0f",
+      "visemes": "audio/d1511295-d1f5-529c-b534-8b393bee23b7.visemes.json"
+    },
+    {
+      "id": "2f0930b8-161f-5239-abbf-399526e65171",
+      "speaker": "CHAR_MARK",
+      "text_hu": "Erre akar menni.",
+      "start": 45,
+      "end": 46.149388,
+      "audio": "audio/2f0930b8-161f-5239-abbf-399526e65171.mp3",
+      "audio_sha256": "20e4fa1ea45a5654e76d5eb9ce01d8be2ac6cca8d6d2abd83e1913f97829b175",
+      "visemes": "audio/2f0930b8-161f-5239-abbf-399526e65171.visemes.json"
+    },
+    {
+      "id": "936df75a-cbdc-58e7-b8fb-9421d2e61981",
+      "speaker": "CHAR_MARK",
+      "text_hu": "Hiányzik belőle egy rész.",
+      "start": 56,
+      "end": 57.724082,
+      "audio": "audio/936df75a-cbdc-58e7-b8fb-9421d2e61981.mp3",
+      "audio_sha256": "fa836e000267b2047b0307bd8ef125ea7d60a3ebac8431b86cf74c6129d70970",
+      "visemes": "audio/936df75a-cbdc-58e7-b8fb-9421d2e61981.visemes.json"
+    },
+    {
+      "id": "b6bb4029-79d5-549f-a385-4f9a86280cae",
+      "speaker": "CHAR_LILI",
+      "text_hu": "Lehet, hogy valamiből ez hiányzik.",
+      "start": 60,
+      "end": 62.037551,
+      "audio": "audio/b6bb4029-79d5-549f-a385-4f9a86280cae.mp3",
+      "audio_sha256": "18cedfcc8ccf6b68b7b01e590c83313d5f5cdd1861a6a5c1f01ac204c8296e2b",
+      "visemes": "audio/b6bb4029-79d5-549f-a385-4f9a86280cae.visemes.json"
+    },
+    {
+      "id": "25db74df-0d73-592f-82d8-642847187bac",
+      "speaker": "CHAR_MARK",
+      "text_hu": "Előbb nézzük meg?",
+      "start": 66,
+      "end": 67.07102,
+      "audio": "audio/25db74df-0d73-592f-82d8-642847187bac.mp3",
+      "audio_sha256": "b712755a6f41a3c1945ca7d7664f06be0e0d1705604e70dd550dc27c13eab485",
+      "visemes": "audio/25db74df-0d73-592f-82d8-642847187bac.visemes.json"
+    }
+  ],
+  "offscreen_dialogue": [
+    {
+      "id": "225ebeac-c6fb-5641-a488-fede3eb27b90",
+      "speaker": "CHAR_LILI",
+      "text_hu": "Nem forró. A moha nem száradt ki körülötte.",
+      "start": 5,
+      "end": 8.395918,
+      "audio": "audio/225ebeac-c6fb-5641-a488-fede3eb27b90.mp3",
+      "audio_sha256": "4352853c5c02329bf25da78dc81d3bb7644004fa11f55e844e42a9de581a83d9",
+      "review_required": true,
+      "staging": "offscreen; unresolved take, not approved"
+    },
+    {
+      "id": "7e33345c-135c-5737-b2c2-3fabd3bff89c",
+      "speaker": "CHAR_LILI",
+      "text_hu": "Vagy valami arra válaszol neki.",
+      "start": 48,
+      "end": 50.115918,
+      "audio": "audio/7e33345c-135c-5737-b2c2-3fabd3bff89c.mp3",
+      "audio_sha256": "6ed0c2ef58b354a9acf373b862c10ccec98808308c0911988fdc2f51983b650d",
+      "review_required": true,
+      "staging": "offscreen; unresolved take, not approved"
+    }
+  ],
+  "cameras": [
+    {
+      "start": 0,
+      "position": [
+        -2.5,
+        -3.0,
+        1.65
+      ],
+      "target": [
+        0,
+        -1.0,
+        0.8
+      ],
+      "lens": 42,
+      "end_position": [
+        -2.38,
+        -2.92,
+        1.65
+      ],
+      "end_target": [
+        0,
+        -1.0,
+        0.8
+      ]
+    },
+    {
+      "start": 5,
+      "position": [
+        0.7,
+        -2.2,
+        0.7
+      ],
+      "target": [
+        -0.1,
+        -1.35,
+        0.23
+      ],
+      "lens": 65,
+      "end_position": [
+        0.58,
+        -2.12,
+        0.7
+      ],
+      "end_target": [
+        -0.1,
+        -1.35,
+        0.23
+      ]
+    },
+    {
+      "start": 10,
+      "position": [
+        1.0,
+        -3.1999999999999997,
+        1.7
+      ],
+      "target": [
+        -0.6,
+        -0.9,
+        1.28
+      ],
+      "lens": 58,
+      "end_position": [
+        1.12,
+        -3.1199999999999997,
+        1.7
+      ],
+      "end_target": [
+        -0.6,
+        -0.9,
+        1.28
+      ]
+    },
+    {
+      "start": 13.5,
+      "position": [
+        -0.5,
+        -2.6999999999999997,
+        1.08
+      ],
+      "target": [
+        0.52,
+        -0.8,
+        0.63
+      ],
+      "lens": 55,
+      "end_position": [
+        -0.62,
+        -2.6199999999999997,
+        1.08
+      ],
+      "end_target": [
+        0.52,
+        -0.8,
+        0.63
+      ]
+    },
+    {
+      "start": 17,
+      "position": [
+        2.8,
+        -2.5,
+        1.65
+      ],
+      "target": [
+        0,
+        -0.8,
+        0.85
+      ],
+      "lens": 45,
+      "end_position": [
+        2.92,
+        -2.42,
+        1.65
+      ],
+      "end_target": [
+        0,
+        -0.8,
+        0.85
+      ]
+    },
+    {
+      "start": 21,
+      "position": [
+        0.7,
+        -2.2,
+        0.7
+      ],
+      "target": [
+        -0.1,
+        -1.35,
+        0.23
+      ],
+      "lens": 65,
+      "end_position": [
+        0.58,
+        -2.12,
+        0.7
+      ],
+      "end_target": [
+        -0.1,
+        -1.35,
+        0.23
+      ]
+    },
+    {
+      "start": 24,
+      "position": [
+        0.9,
+        -2.2,
+        1.05
+      ],
+      "target": [
+        -0.1,
+        -1.2,
+        0.65
+      ],
+      "lens": 60,
+      "end_position": [
+        1.02,
+        -2.12,
+        1.05
+      ],
+      "end_target": [
+        -0.1,
+        -1.2,
+        0.65
+      ]
+    },
+    {
+      "start": 26,
+      "position": [
+        1.0,
+        -3.1999999999999997,
+        1.7
+      ],
+      "target": [
+        -0.6,
+        -0.9,
+        1.28
+      ],
+      "lens": 58,
+      "end_position": [
+        0.88,
+        -3.1199999999999997,
+        1.7
+      ],
+      "end_target": [
+        -0.6,
+        -0.9,
+        1.28
+      ]
+    },
+    {
+      "start": 29,
+      "position": [
+        3.0,
+        -4.8,
+        2.3
+      ],
+      "target": [
+        0,
+        -0.2,
+        0.85
+      ],
+      "lens": 42,
+      "end_position": [
+        3.12,
+        -4.72,
+        2.3
+      ],
+      "end_target": [
+        0,
+        -0.2,
+        0.85
+      ]
+    },
+    {
+      "start": 34,
+      "position": [
+        2.8,
+        -2.5,
+        1.65
+      ],
+      "target": [
+        0,
+        -0.8,
+        0.85
+      ],
+      "lens": 45,
+      "end_position": [
+        2.6799999999999997,
+        -2.42,
+        1.65
+      ],
+      "end_target": [
+        0,
+        -0.8,
+        0.85
+      ]
+    },
+    {
+      "start": 38,
+      "position": [
+        -0.5,
+        -2.6999999999999997,
+        1.08
+      ],
+      "target": [
+        0.52,
+        -0.8,
+        0.63
+      ],
+      "lens": 55,
+      "end_position": [
+        -0.38,
+        -2.6199999999999997,
+        1.08
+      ],
+      "end_target": [
+        0.52,
+        -0.8,
+        0.63
+      ]
+    },
+    {
+      "start": 40,
+      "position": [
+        3.0,
+        -4.8,
+        2.3
+      ],
+      "target": [
+        0,
+        -0.2,
+        0.85
+      ],
+      "lens": 42,
+      "end_position": [
+        2.88,
+        -4.72,
+        2.3
+      ],
+      "end_target": [
+        0,
+        -0.2,
+        0.85
+      ]
+    },
+    {
+      "start": 45,
+      "position": [
+        0.9,
+        -2.2,
+        1.05
+      ],
+      "target": [
+        -0.1,
+        -1.2,
+        0.65
+      ],
+      "lens": 60,
+      "end_position": [
+        1.02,
+        -2.12,
+        1.05
+      ],
+      "end_target": [
+        -0.1,
+        -1.2,
+        0.65
+      ]
+    },
+    {
+      "start": 51,
+      "position": [
+        -2.5,
+        -3.0,
+        1.65
+      ],
+      "target": [
+        0,
+        -1.0,
+        0.8
+      ],
+      "lens": 42,
+      "end_position": [
+        -2.62,
+        -2.92,
+        1.65
+      ],
+      "end_target": [
+        0,
+        -1.0,
+        0.8
+      ]
+    },
+    {
+      "start": 55,
+      "position": [
+        0.9,
+        -2.2,
+        1.05
+      ],
+      "target": [
+        -0.1,
+        -1.2,
+        0.65
+      ],
+      "lens": 60,
+      "end_position": [
+        1.02,
+        -2.12,
+        1.05
+      ],
+      "end_target": [
+        -0.1,
+        -1.2,
+        0.65
+      ]
+    },
+    {
+      "start": 60,
+      "position": [
+        -0.5,
+        -2.6999999999999997,
+        1.08
+      ],
+      "target": [
+        0.52,
+        -0.8,
+        0.63
+      ],
+      "lens": 55,
+      "end_position": [
+        -0.62,
+        -2.6199999999999997,
+        1.08
+      ],
+      "end_target": [
+        0.52,
+        -0.8,
+        0.63
+      ]
+    },
+    {
+      "start": 64,
+      "position": [
+        1.0,
+        -3.1999999999999997,
+        1.7
+      ],
+      "target": [
+        -0.6,
+        -0.9,
+        1.28
+      ],
+      "lens": 58,
+      "end_position": [
+        1.12,
+        -3.1199999999999997,
+        1.7
+      ],
+      "end_target": [
+        -0.6,
+        -0.9,
+        1.28
+      ]
+    },
+    {
+      "start": 68,
+      "position": [
+        3.0,
+        -4.8,
+        2.3
+      ],
+      "target": [
+        0,
+        -0.2,
+        0.85
+      ],
+      "lens": 42,
+      "end_position": [
+        2.88,
+        -4.72,
+        2.3
+      ],
+      "end_target": [
+        0,
+        -0.2,
+        0.85
+      ]
+    }
+  ],
+  "interactions": [
+    {
+      "id": "star",
+      "kind": "pickup",
+      "character": "CHAR_MARK",
+      "hand": "L",
+      "position": [
+        -0.1,
+        -1.35,
+        0.23
+      ],
+      "start": 20,
+      "end": 26,
+      "radius": 0.055,
+      "carry_to_end": true
+    }
+  ],
+  "source_feature_sha256": "72492a266fbcaea03c51e34a93a925f9153cedde42954fbe5b9739de74468693",
+  "source_feature_scene": "S1E1_SC003",
+  "production_approved": false
+}

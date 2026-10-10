@@ -59,7 +59,7 @@ def _foot_raw(actor,foot,t,scale=1.):
   q0=world_offset(p0,y0,[v*scale for v in rest]);q1=world_offset(p1,y1,[v*scale for v in rest])
   if before:return q0,True,'turn_before'
   if after:return q1,True,'turn_after'
-  u=(t-start)/half;q=lerp(q0,q1,smooth(u));q[2]+=.045*scale*math.sin(math.pi*u);return q,False,'turn_step'
+  u=(t-start)/half;q=lerp(q0,q1,smooth(u));lift=min(.045,foot.get('leg_length',float('inf'))*.18);q[2]+=lift*scale*math.sin(math.pi*u)**2;return q,False,'turn_step'
  if kind=='jump':
   u=(t-a['start'])/(a['end']-a['start']);q=world_offset(pos,yaw,[v*scale for v in rest]);q[2]+=.23*scale*math.sin(math.pi*u)**2
   return q,u<.12 or u>.88,'jump'
@@ -73,7 +73,12 @@ def _foot_raw(actor,foot,t,scale=1.):
  if contact<=a['start']+1e-8:
   q0=foot_at(actor,foot,a['start']-1/24,scale)[0];q0[2]=root_at(actor,a['start'])[0][2]+rest[2]*scale
  if u<stance:return q0,True,str(k)
- swing=(u-stance)/(1-stance);q=lerp(q0,q1,smooth(swing));q[2]+=CATALOG[kind]['lift']*scale*math.sin(math.pi*swing)
+ swing=(u-stance)/(1-stance);q=lerp(q0,q1,smooth(swing))
+ # Clearance scales with the actual limb, not overall character height. The
+ # short hind legs of Lili and Potty cannot take a human-sized 7.5 cm step.
+ # A squared sine has zero vertical velocity at lift-off and landing.
+ lift=min(CATALOG[kind]['lift'],foot.get('leg_length',float('inf'))*(.26 if kind=='run' else .18))
+ q[2]+=lift*scale*math.sin(math.pi*swing)**2
  return q,False,str(k)
 
 def foot_at(actor,foot,t,scale=1.):
@@ -152,5 +157,6 @@ def support_shift(actor,t):
  if kind=='turn':q[2]=-.035*math.sin(math.pi*elapsed/duration)**2
  if kind=='jump':q[2]=.22*math.sin(math.pi*elapsed/duration)**2
  if kind=='sit':q[2]=-.11*smooth(elapsed/duration)
+ if kind=='pickup' and 'body_lower' in a:q[2]=-a['body_lower']*smooth(elapsed/1.2)*(1-smooth((elapsed-duration+1.5)/1.5))
  if a['start']>0 and 0<=elapsed<.16:q=lerp(support_shift(actor,a['start']-1/24),q,smooth(elapsed/.16))
  return q

@@ -7,6 +7,27 @@ from animation_system.lipsync import aligned_cues,weights_at,viseme,validate_tra
 from animation_system.release import release_gate
 
 class SystemTests(unittest.TestCase):
+ def test_small_legs_clear_floor_without_high_lift_or_landing_kick(self):
+  import math
+  actor={'position':[0,0,0],'actions':[{'clip':'walk','start':0,'end':5,'destination':[0,-1,0]}]}
+  foot={'ankle':[.1,0,.05],'phase':0,'leg_length':.15}
+  points=[foot_at(actor,foot,t/1000)[0][2] for t in range(900,1800)]
+  self.assertGreater(max(points)-.05,.02);self.assertLessEqual(max(points)-.05,.15*.18+1e-7)
+  for t in [.9*1.64,.9*2]:
+   left=foot_at(actor,foot,t-.0001)[0][2];center=foot_at(actor,foot,t)[0][2];right=foot_at(actor,foot,t+.0001)[0][2]
+   self.assertLess(abs(center-left)/.0001,.001);self.assertLess(abs(right-center)/.0001,.001)
+ def test_offscreen_dialogue_cannot_bypass_on_screen_alignment(self):
+  line={'id':'one','speaker':'CHAR_MARK','start':1,'end':2,'audio':'take.mp3'}
+  s=copy.deepcopy(self.scene);s['offscreen_dialogue']=[line];validate_scene(s,self.reg)
+  s['dialogue']=[dict(line)]
+  with self.assertRaises(ValueError):validate_scene(s,self.reg)
+  s.pop('offscreen_dialogue')
+  with self.assertRaises(ValueError):validate_scene(s,self.reg)
+  s['dialogue'][0]['visemes']='track.json';validate_scene(s,self.reg)
+ def test_dolly_camera_rejects_nonfinite_endpoints(self):
+  s=copy.deepcopy(self.scene);s['cameras'][0].update(end_position=[1,-4,2],end_target=[0,0,1]);validate_scene(s,self.reg)
+  s['cameras'][0]['end_position'][0]=float('nan')
+  with self.assertRaises(ValueError):validate_scene(s,self.reg)
  def test_verified_render_cache_can_move_with_project(self):
   with tempfile.TemporaryDirectory() as directory:
    old=Path(directory)/'old';new=Path(directory)/'new';old.mkdir();(old/'render_jobs').mkdir()

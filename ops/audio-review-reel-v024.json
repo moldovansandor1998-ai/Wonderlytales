@@ -1,0 +1,152 @@
+{
+  "kind": "listening_review_not_animation",
+  "duration_sec": 79.16666666666669,
+  "frames": 1900,
+  "fps": 24,
+  "source_voices_changed": false,
+  "new_tts": 0,
+  "video_sha256": "294afe6d37d71aca78a9a35566cdb6fe650ec60af9c6c303b14f38ff00dc0d83",
+  "records": [
+    {
+      "id": "d3ce5ece-87d6-5224-9e1c-66621884ac4f",
+      "start_sec": 0,
+      "audio_start_sec": 0.45,
+      "duration_sec": 2.75,
+      "original_audio_sha256": "bc34b81a04ea2751f3887b200819f12a3e981d7b3032d63116652fbae9366043"
+    },
+    {
+      "id": "225ebeac-c6fb-5641-a488-fede3eb27b90",
+      "start_sec": 2.75,
+      "audio_start_sec": 3.2,
+      "duration_sec": 5.208333333333333,
+      "original_audio_sha256": "4352853c5c02329bf25da78dc81d3bb7644004fa11f55e844e42a9de581a83d9"
+    },
+    {
+      "id": "7e33345c-135c-5737-b2c2-3fabd3bff89c",
+      "start_sec": 7.958333333333333,
+      "audio_start_sec": 8.408333333333333,
+      "duration_sec": 3.9166666666666665,
+      "original_audio_sha256": "6ed0c2ef58b354a9acf373b862c10ccec98808308c0911988fdc2f51983b650d"
+    },
+    {
+      "id": "4cfef011-a42a-57d4-8b9d-6f605fe93fc8",
+      "start_sec": 11.875,
+      "audio_start_sec": 12.325,
+      "duration_sec": 3.25,
+      "original_audio_sha256": "7378639e03eb8694fc52c1c9c7a250cd5fe171b9ed6626fb2a572a1d0d91e401"
+    },
+    {
+      "id": "971cb9b5-361f-5309-a44b-d87c0d7e1256",
+      "start_sec": 15.125,
+      "audio_start_sec": 15.575,
+      "duration_sec": 4.583333333333333,
+      "original_audio_sha256": "0f0d5d8a1a18580b229465ef613f8ff62137bb1d01ad1dee06e5c48df0a22991"
+    },
+    {
+      "id": "1c101b7b-c767-523a-be6e-e85916fe0bd2",
+      "start_sec": 19.708333333333332,
+      "audio_start_sec": 20.15833333333333,
+      "duration_sec": 4.083333333333333,
+      "original_audio_sha256": "513dd8517f5dda1a499d9762347dca713362fa0e6b0c1b2e91c34904f7067385"
+    },
+    {
+      "id": "5ac5de6c-78b8-53ae-8b1b-ab99b7712446",
+      "start_sec": 23.791666666666664,
+      "audio_start_sec": 24.241666666666664,
+      "duration_sec": 5.25,
+      "original_audio_sha256": "739a44e8667d2376b21cc145159de39951427555381e0e6974927d30a971c829"
+    },
+    {
+      "id": "3dc5484a-1823-5628-a624-1cb7c39dd315",
+      "start_sec": 29.041666666666664,
+      "audio_start_sec": 29.491666666666664,
+      "duration_sec": 4.416666666666667,
+      "original_audio_sha256": "94bfbc89c6593ca5de766c67461e76404467342ca4f9418f9f4295482d0c787b"
+    },
+    {
+      "id": "9e589d4b-bbd0-589b-957f-e3a29bdf267c",
+      "start_sec": 33.45833333333333,
+      "audio_start_sec": 33.90833333333333,
+      "duration_sec": 4.333333333333333,
+      "original_audio_sha256": "f91d080cff8226849927d92cc35ed4f4bcfb88f2b2dd09e2405a9143d0f3141f"
+    },
+    {
+      "id": "981060f2-444a-5e0b-b663-16993c2ce4e5",
+      "start_sec": 37.791666666666664,
+      "audio_start_sec": 38.24166666666667,
+      "duration_sec": 4.333333333333333,
+      "original_audio_sha256": "a5453ea69b0ae458140fec411e4fc3e1c41d556395266c5a24cdc9bc6f3cd292"
+    },
+    {
+      "id": "a2b70aba-09e6-5714-8f69-c4b6c46bb1ae",
+      "start_sec": 42.125,
+      "audio_start_sec": 42.575,
+      "duration_sec": 4.583333333333333,
+      "original_audio_sha256": "2ba7c22b47fefeabf3c476af65b391089b958135bcabd7d4a8f853ac8b528070"
+    },
+    {
+      "id": "94da9bb5-4069-5b99-868c-f71edb2e1611",
+      "start_sec": 46.708333333333336,
+      "audio_start_sec": 47.15833333333334,
+      "duration_sec": 4.083333333333333,
+      "original_audio_sha256": "e66cce7c404941bedc5d8b984fa9d75cdc04fa7f2155174eec8f3e73c842a33c"
+    },
+    {
+      "id": "9ba962c2-276b-5245-8cd5-23d695eb9b90",
+      "start_sec": 50.79166666666667,
+      "audio_start_sec": 51.241666666666674,
+      "duration_sec": 4.75,
+      "original_audio_sha256": "0b2e0acd6a36e29aabec103e11a8d54d2f38b71f6d7bd341e960bb90f073a890"
+    },
+    {
+      "id": "69edecc2-f6da-576b-a4e9-1d875f86cfa0",
+      "start_sec": 55.54166666666667,
+      "audio_start_sec": 55.991666666666674,
+      "duration_sec": 3.375,
+      "original_audio_sha256": "73aa2aa84305c2bb7f4782f7c01d52d1b647f1e36fdbee625fd307795f05b238"
+    },
+    {
+      "id": "b459671f-c801-5242-9447-e27687e3be33",
+      "start_sec": 58.91666666666667,
+      "audio_start_sec": 59.366666666666674,
+      "duration_sec": 2.5416666666666665,
+      "original_audio_sha256": "37a03e885aa5b387305c3b0255265e86afb4129a84ef575789cb0a957fd90009"
+    },
+    {
+      "id": "79e0b3f8-a01f-5075-97ee-737c5eaadbf2",
+      "start_sec": 61.458333333333336,
+      "audio_start_sec": 61.90833333333334,
+      "duration_sec": 3.7083333333333335,
+      "original_audio_sha256": "ac850a17f18d269b6cec431c07a79e2a8a40288ede894a5d84c3483fc3747002"
+    },
+    {
+      "id": "a53e5c58-b51f-5b06-b8a6-d3bd933980ef",
+      "start_sec": 65.16666666666667,
+      "audio_start_sec": 65.61666666666667,
+      "duration_sec": 2.5416666666666665,
+      "original_audio_sha256": "37a03e885aa5b387305c3b0255265e86afb4129a84ef575789cb0a957fd90009"
+    },
+    {
+      "id": "c90094a3-97a0-5f14-bafd-fc223bdc754c",
+      "start_sec": 67.70833333333334,
+      "audio_start_sec": 68.15833333333335,
+      "duration_sec": 5.166666666666667,
+      "original_audio_sha256": "0421e6012ff3685724ca7baffc4281f4ea0ac0056962233ddb447f61fd330625"
+    },
+    {
+      "id": "80340fc7-c517-5440-977c-2918254b62b1",
+      "start_sec": 72.87500000000001,
+      "audio_start_sec": 73.32500000000002,
+      "duration_sec": 3.875,
+      "original_audio_sha256": "19cf5eb4aaff35eb1783c1d6a1d32cdfc61046b790521ac95747eac4dfefe216"
+    },
+    {
+      "id": "92ad3c8c-3676-52c7-89be-ab090706e6d0",
+      "start_sec": 76.75000000000001,
+      "audio_start_sec": 77.20000000000002,
+      "duration_sec": 2.4166666666666665,
+      "original_audio_sha256": "1a7a6a256a74d808fb5fc772beab0e434d227b9d7dadd400e02db50fa0650876"
+    }
+  ],
+  "r2_key": "audio/S1E1/review/V024/WonderlyTales_20_hang_ellenorzes_V024.mp4"
+}

@@ -1,0 +1,19 @@
+{
+  "input": {
+    "operation": "RENDER_NATIVE_FRAMES",
+    "scene_key": "native/S1E1/V024/GATE_60S_V024_gait.blend",
+    "scene_sha256": "6fa1c33441679f6a4d73d1bfab27bbfe849ec71bede598777bf83ff39c498921",
+    "renderer_revision": "e3cb4348e93116c5cf56c3c9c9fa8b6a3cd2e8da",
+    "frame_start": 1,
+    "frame_end": 144,
+    "width": 1920,
+    "height": 1080,
+    "samples": 48
+  },
+  "submission": {
+    "id": "cc597d9e-807a-4bb3-9702-6567d4a0283d-u2",
+    "status": "IN_QUEUE"
+  },
+  "kind": "six_second_gait_diagnostic_not_quality_gate",
+  "production_approved": false
+}

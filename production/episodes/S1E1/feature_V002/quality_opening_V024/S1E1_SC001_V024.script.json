@@ -1,0 +1,703 @@
+{
+  "schema": "WONDERLY_SCENE_V1",
+  "id": "S1E1_SC001_V024",
+  "fps": 24,
+  "duration": 58,
+  "location": "LOC_FOREST_V021",
+  "studio": false,
+  "characters": [
+    {
+      "code": "CHAR_MARK",
+      "version": "V022",
+      "position": [
+        -0.65,
+        1.1,
+        0
+      ],
+      "yaw": 0,
+      "actions": [
+        {
+          "clip": "walk",
+          "start": 0,
+          "end": 7,
+          "destination": [
+            -0.65,
+            -0.5,
+            0
+          ]
+        },
+        {
+          "clip": "turn",
+          "start": 8,
+          "end": 10,
+          "look_at": "CHAR_LILI"
+        },
+        {
+          "clip": "surprise",
+          "start": 16,
+          "end": 18
+        },
+        {
+          "clip": "interact",
+          "start": 24,
+          "end": 28
+        },
+        {
+          "clip": "turn",
+          "start": 34,
+          "end": 36,
+          "yaw": 0.46365
+        },
+        {
+          "clip": "walk",
+          "start": 36,
+          "end": 41,
+          "destination": [
+            -0.4,
+            -1,
+            0
+          ]
+        },
+        {
+          "clip": "turn",
+          "start": 46,
+          "end": 48,
+          "yaw": 0
+        },
+        {
+          "clip": "interact",
+          "start": 48,
+          "end": 51
+        },
+        {
+          "clip": "surprise",
+          "start": 54,
+          "end": 57
+        }
+      ],
+      "gaze": [
+        {
+          "start": 8,
+          "end": 15,
+          "target": "CHAR_LILI"
+        },
+        {
+          "start": 18,
+          "end": 31,
+          "target": "prop",
+          "position": [
+            -0.3,
+            -1.1,
+            0.08
+          ]
+        },
+        {
+          "start": 36,
+          "end": 58,
+          "target": "prop",
+          "position": [
+            -0.1,
+            -1.35,
+            0.23
+          ]
+        }
+      ]
+    },
+    {
+      "code": "CHAR_LILI",
+      "version": "V021",
+      "position": [
+        0.55,
+        1.3,
+        0
+      ],
+      "yaw": 0,
+      "actions": [
+        {
+          "clip": "walk",
+          "start": 0,
+          "end": 7,
+          "destination": [
+            0.5,
+            -0.2,
+            0
+          ]
+        },
+        {
+          "clip": "turn",
+          "start": 8,
+          "end": 10,
+          "look_at": "CHAR_MARK"
+        },
+        {
+          "clip": "surprise",
+          "start": 16,
+          "end": 18
+        },
+        {
+          "clip": "interact",
+          "start": 28,
+          "end": 32
+        },
+        {
+          "clip": "turn",
+          "start": 32,
+          "end": 34,
+          "yaw": 0.10488
+        },
+        {
+          "clip": "walk",
+          "start": 34,
+          "end": 39,
+          "destination": [
+            0.6,
+            -1.15,
+            0
+          ]
+        },
+        {
+          "clip": "turn",
+          "start": 39,
+          "end": 42,
+          "look_at": "CHAR_MARK"
+        },
+        {
+          "clip": "interact",
+          "start": 43,
+          "end": 46
+        }
+      ],
+      "gaze": [
+        {
+          "start": 8,
+          "end": 15,
+          "target": "CHAR_MARK"
+        },
+        {
+          "start": 18,
+          "end": 33,
+          "target": "prop",
+          "position": [
+            -0.3,
+            -1.1,
+            0.08
+          ]
+        },
+        {
+          "start": 39,
+          "end": 58,
+          "target": "CHAR_MARK"
+        }
+      ]
+    }
+  ],
+  "dialogue": [
+    {
+      "id": "0b4fdc91-8abb-5fe5-b580-e3df1366c953",
+      "speaker": "CHAR_MARK",
+      "text_hu": "Hallod? Ropogós az egész erdő.",
+      "start": 7,
+      "end": 10.004082,
+      "audio": "audio/0b4fdc91-8abb-5fe5-b580-e3df1366c953.mp3",
+      "audio_sha256": "fb467588f48ffb37da24f49d27cef583d4cdf48c826ade1e4430dab901a7ef29",
+      "visemes": "audio/0b4fdc91-8abb-5fe5-b580-e3df1366c953.visemes.json"
+    },
+    {
+      "id": "91110003-0776-5f27-a63e-dae2a57ca5ad",
+      "speaker": "CHAR_LILI",
+      "text_hu": "Igen. Főleg az a része, amelyiken te mész.",
+      "start": 11,
+      "end": 13.768979999999999,
+      "audio": "audio/91110003-0776-5f27-a63e-dae2a57ca5ad.mp3",
+      "audio_sha256": "d48bb349c5151d38792f357ea8716ac9cc61bf07269b15d158e329f3f7229371",
+      "visemes": "audio/91110003-0776-5f27-a63e-dae2a57ca5ad.visemes.json"
+    },
+    {
+      "id": "2b64d328-61f2-5379-b56b-0195a2c7b536",
+      "speaker": "CHAR_MARK",
+      "text_hu": "Ezt nem én csináltam.",
+      "start": 17,
+      "end": 18.227755,
+      "audio": "audio/2b64d328-61f2-5379-b56b-0195a2c7b536.mp3",
+      "audio_sha256": "f31062df78c7936b42e7f1cb6555985d7262b6421de89685e8eb56991a0f5eea",
+      "visemes": "audio/2b64d328-61f2-5379-b56b-0195a2c7b536.visemes.json"
+    },
+    {
+      "id": "5e163a2b-1ad7-5c05-b46c-78c325f459de",
+      "speaker": "CHAR_LILI",
+      "text_hu": "A levelet vagy a fényt?",
+      "start": 19,
+      "end": 20.880816,
+      "audio": "audio/5e163a2b-1ad7-5c05-b46c-78c325f459de.mp3",
+      "audio_sha256": "9c5482590084a97ccb903479a70b8ae8fe5b8955017a4a7c2d159c88c953af30",
+      "visemes": "audio/5e163a2b-1ad7-5c05-b46c-78c325f459de.visemes.json"
+    },
+    {
+      "id": "f6021a21-b5fb-5d83-b867-5a4c3fc193ae",
+      "speaker": "CHAR_MARK",
+      "text_hu": "Egyiket sem. De a fény érdekel jobban.",
+      "start": 22,
+      "end": 24.925714,
+      "audio": "audio/f6021a21-b5fb-5d83-b867-5a4c3fc193ae.mp3",
+      "audio_sha256": "2d28a694273d486e3b4ab1e1214453a266b280446c3bc87c0a7dfa0d85292248",
+      "visemes": "audio/f6021a21-b5fb-5d83-b867-5a4c3fc193ae.visemes.json"
+    },
+    {
+      "id": "b0d01e4a-b5d1-5a5c-899d-3c80e82b8865",
+      "speaker": "CHAR_LILI",
+      "text_hu": "Nem fut el. Mintha jelezne.",
+      "start": 31,
+      "end": 33.586122,
+      "audio": "audio/b0d01e4a-b5d1-5a5c-899d-3c80e82b8865.mp3",
+      "audio_sha256": "e16fecc4c6e0517748640e5558f16e471b8db254fc48ddb08e193329c6c2bdae",
+      "visemes": "audio/b0d01e4a-b5d1-5a5c-899d-3c80e82b8865.visemes.json"
+    },
+    {
+      "id": "5bc6fc09-9560-502d-a614-2cd62ed757cb",
+      "speaker": "CHAR_LILI",
+      "text_hu": "Előbb nézzük meg. Aztán nyúlunk hozzá.",
+      "start": 42,
+      "end": 44.925714,
+      "audio": "audio/5bc6fc09-9560-502d-a614-2cd62ed757cb.mp3",
+      "audio_sha256": "dcbb7654e5b2b3206a96c4d78cb10d47de3341679c0f4fa1eff7fea8daa385fc",
+      "visemes": "audio/5bc6fc09-9560-502d-a614-2cd62ed757cb.visemes.json"
+    },
+    {
+      "id": "c486e74d-7c86-59bd-a8d0-d1e8ec922f6d",
+      "speaker": "CHAR_MARK",
+      "text_hu": "Szerintem nekünk.",
+      "start": 51,
+      "end": 51.992653,
+      "audio": "audio/c486e74d-7c86-59bd-a8d0-d1e8ec922f6d.mp3",
+      "audio_sha256": "e9d0a24358c220ce655a76b457dbf9c39217d205a318fa470fe31170d00d8e45",
+      "visemes": "audio/c486e74d-7c86-59bd-a8d0-d1e8ec922f6d.visemes.json"
+    }
+  ],
+  "offscreen_dialogue": [
+    {
+      "id": "d3ce5ece-87d6-5224-9e1c-66621884ac4f",
+      "speaker": "CHAR_MARK",
+      "text_hu": "Kinek?",
+      "start": 35,
+      "end": 35.914286,
+      "audio": "audio/d3ce5ece-87d6-5224-9e1c-66621884ac4f.mp3",
+      "audio_sha256": "bc34b81a04ea2751f3887b200819f12a3e981d7b3032d63116652fbae9366043",
+      "review_required": true,
+      "staging": "offscreen; unresolved take, not approved"
+    }
+  ],
+  "cameras": [
+    {
+      "start": 0,
+      "position": [
+        3.0,
+        -4.8,
+        2.3
+      ],
+      "target": [
+        0,
+        -0.2,
+        0.85
+      ],
+      "lens": 42,
+      "end_position": [
+        3.12,
+        -4.72,
+        2.3
+      ],
+      "end_target": [
+        0,
+        -0.2,
+        0.85
+      ]
+    },
+    {
+      "start": 7,
+      "position": [
+        1.0,
+        -2.8,
+        1.7
+      ],
+      "target": [
+        -0.6,
+        -0.5,
+        1.28
+      ],
+      "lens": 58,
+      "end_position": [
+        0.88,
+        -2.7199999999999998,
+        1.7
+      ],
+      "end_target": [
+        -0.6,
+        -0.5,
+        1.28
+      ]
+    },
+    {
+      "start": 11,
+      "position": [
+        -0.5,
+        -2.3,
+        1.08
+      ],
+      "target": [
+        0.52,
+        -0.4,
+        0.63
+      ],
+      "lens": 55,
+      "end_position": [
+        -0.38,
+        -2.2199999999999998,
+        1.08
+      ],
+      "end_target": [
+        0.52,
+        -0.4,
+        0.63
+      ]
+    },
+    {
+      "start": 15,
+      "position": [
+        0.7,
+        -2.1,
+        0.4
+      ],
+      "target": [
+        -0.3,
+        -1.1,
+        0.07
+      ],
+      "lens": 60,
+      "end_position": [
+        0.58,
+        -2.02,
+        0.4
+      ],
+      "end_target": [
+        -0.3,
+        -1.1,
+        0.07
+      ]
+    },
+    {
+      "start": 17,
+      "position": [
+        1.0,
+        -2.8,
+        1.7
+      ],
+      "target": [
+        -0.6,
+        -0.5,
+        1.28
+      ],
+      "lens": 58,
+      "end_position": [
+        1.12,
+        -2.7199999999999998,
+        1.7
+      ],
+      "end_target": [
+        -0.6,
+        -0.5,
+        1.28
+      ]
+    },
+    {
+      "start": 19,
+      "position": [
+        -0.5,
+        -2.3,
+        1.08
+      ],
+      "target": [
+        0.52,
+        -0.4,
+        0.63
+      ],
+      "lens": 55,
+      "end_position": [
+        -0.62,
+        -2.2199999999999998,
+        1.08
+      ],
+      "end_target": [
+        0.52,
+        -0.4,
+        0.63
+      ]
+    },
+    {
+      "start": 22,
+      "position": [
+        2.8,
+        -2.5,
+        1.65
+      ],
+      "target": [
+        0,
+        -0.8,
+        0.85
+      ],
+      "lens": 45,
+      "end_position": [
+        2.92,
+        -2.42,
+        1.65
+      ],
+      "end_target": [
+        0,
+        -0.8,
+        0.85
+      ]
+    },
+    {
+      "start": 26,
+      "position": [
+        0.7,
+        -2.1,
+        0.4
+      ],
+      "target": [
+        -0.3,
+        -1.1,
+        0.07
+      ],
+      "lens": 60,
+      "end_position": [
+        0.58,
+        -2.02,
+        0.4
+      ],
+      "end_target": [
+        -0.3,
+        -1.1,
+        0.07
+      ]
+    },
+    {
+      "start": 29,
+      "position": [
+        3.0,
+        -4.8,
+        2.3
+      ],
+      "target": [
+        0,
+        -0.2,
+        0.85
+      ],
+      "lens": 42,
+      "end_position": [
+        3.12,
+        -4.72,
+        2.3
+      ],
+      "end_target": [
+        0,
+        -0.2,
+        0.85
+      ]
+    },
+    {
+      "start": 31,
+      "position": [
+        -0.5,
+        -2.3,
+        1.08
+      ],
+      "target": [
+        0.52,
+        -0.4,
+        0.63
+      ],
+      "lens": 55,
+      "end_position": [
+        -0.62,
+        -2.2199999999999998,
+        1.08
+      ],
+      "end_target": [
+        0.52,
+        -0.4,
+        0.63
+      ]
+    },
+    {
+      "start": 35,
+      "position": [
+        0.7,
+        -2.1,
+        0.4
+      ],
+      "target": [
+        -0.3,
+        -1.1,
+        0.07
+      ],
+      "lens": 60,
+      "end_position": [
+        0.82,
+        -2.02,
+        0.4
+      ],
+      "end_target": [
+        -0.3,
+        -1.1,
+        0.07
+      ]
+    },
+    {
+      "start": 38,
+      "position": [
+        -2.5,
+        -3.0,
+        1.65
+      ],
+      "target": [
+        0,
+        -1.0,
+        0.8
+      ],
+      "lens": 42,
+      "end_position": [
+        -2.62,
+        -2.92,
+        1.65
+      ],
+      "end_target": [
+        0,
+        -1.0,
+        0.8
+      ]
+    },
+    {
+      "start": 42,
+      "position": [
+        -0.5,
+        -2.3,
+        1.08
+      ],
+      "target": [
+        0.52,
+        -0.4,
+        0.63
+      ],
+      "lens": 55,
+      "end_position": [
+        -0.38,
+        -2.2199999999999998,
+        1.08
+      ],
+      "end_target": [
+        0.52,
+        -0.4,
+        0.63
+      ]
+    },
+    {
+      "start": 46,
+      "position": [
+        2.8,
+        -2.5,
+        1.65
+      ],
+      "target": [
+        0,
+        -0.8,
+        0.85
+      ],
+      "lens": 45,
+      "end_position": [
+        2.6799999999999997,
+        -2.42,
+        1.65
+      ],
+      "end_target": [
+        0,
+        -0.8,
+        0.85
+      ]
+    },
+    {
+      "start": 49,
+      "position": [
+        0.7,
+        -2.2,
+        0.7
+      ],
+      "target": [
+        -0.1,
+        -1.35,
+        0.23
+      ],
+      "lens": 65,
+      "end_position": [
+        0.82,
+        -2.12,
+        0.7
+      ],
+      "end_target": [
+        -0.1,
+        -1.35,
+        0.23
+      ]
+    },
+    {
+      "start": 51,
+      "position": [
+        1.0,
+        -2.8,
+        1.7
+      ],
+      "target": [
+        -0.6,
+        -0.5,
+        1.28
+      ],
+      "lens": 58,
+      "end_position": [
+        0.88,
+        -2.7199999999999998,
+        1.7
+      ],
+      "end_target": [
+        -0.6,
+        -0.5,
+        1.28
+      ]
+    },
+    {
+      "start": 54,
+      "position": [
+        0.7,
+        -2.2,
+        0.7
+      ],
+      "target": [
+        -0.1,
+        -1.35,
+        0.23
+      ],
+      "lens": 65,
+      "end_position": [
+        0.82,
+        -2.12,
+        0.7
+      ],
+      "end_target": [
+        -0.1,
+        -1.35,
+        0.23
+      ]
+    }
+  ],
+  "interactions": [],
+  "source_feature_sha256": "72492a266fbcaea03c51e34a93a925f9153cedde42954fbe5b9739de74468693",
+  "source_feature_scene": "S1E1_SC001",
+  "production_approved": false
+}

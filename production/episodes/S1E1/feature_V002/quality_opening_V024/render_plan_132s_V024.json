@@ -1,0 +1,138 @@
+{
+  "schema": "WONDERLY_RENDER_PLAN_V1",
+  "system_version": "V021",
+  "episode_id": "FEATURE_V002_OPENING_V024",
+  "fps": 24,
+  "frames": 3168,
+  "duration_seconds": 132.0,
+  "scene_count": 2,
+  "jobs": [
+    {
+      "scene_id": "S1E1_SC001_V024",
+      "frame_start": 1,
+      "frame_end": 360,
+      "frames": 360,
+      "episode_start_frame": 1,
+      "scene_fingerprint": "8cb8695f007aa070ea506b8e1643bbf29b01f5484672b2aa0b1e808430b4fea2",
+      "assets": {
+        "CHAR_MARK": "64f612687cdb3f99f996c2fb2af218c4c41ad64a5ac977a621f56ff02337ea17",
+        "CHAR_LILI": "64f612687cdb3f99f996c2fb2af218c4c41ad64a5ac977a621f56ff02337ea17"
+      },
+      "location_sha256": "64f612687cdb3f99f996c2fb2af218c4c41ad64a5ac977a621f56ff02337ea17",
+      "id": "7e368e680624900e0e4974b3"
+    },
+    {
+      "scene_id": "S1E1_SC001_V024",
+      "frame_start": 361,
+      "frame_end": 720,
+      "frames": 360,
+      "episode_start_frame": 361,
+      "scene_fingerprint": "8cb8695f007aa070ea506b8e1643bbf29b01f5484672b2aa0b1e808430b4fea2",
+      "assets": {
+        "CHAR_MARK": "64f612687cdb3f99f996c2fb2af218c4c41ad64a5ac977a621f56ff02337ea17",
+        "CHAR_LILI": "64f612687cdb3f99f996c2fb2af218c4c41ad64a5ac977a621f56ff02337ea17"
+      },
+      "location_sha256": "64f612687cdb3f99f996c2fb2af218c4c41ad64a5ac977a621f56ff02337ea17",
+      "id": "665a4eb483bc4860595f0831"
+    },
+    {
+      "scene_id": "S1E1_SC001_V024",
+      "frame_start": 721,
+      "frame_end": 1080,
+      "frames": 360,
+      "episode_start_frame": 721,
+      "scene_fingerprint": "8cb8695f007aa070ea506b8e1643bbf29b01f5484672b2aa0b1e808430b4fea2",
+      "assets": {
+        "CHAR_MARK": "64f612687cdb3f99f996c2fb2af218c4c41ad64a5ac977a621f56ff02337ea17",
+        "CHAR_LILI": "64f612687cdb3f99f996c2fb2af218c4c41ad64a5ac977a621f56ff02337ea17"
+      },
+      "location_sha256": "64f612687cdb3f99f996c2fb2af218c4c41ad64a5ac977a621f56ff02337ea17",
+      "id": "c1d82a9e50b05a1cbd25e3b6"
+    },
+    {
+      "scene_id": "S1E1_SC001_V024",
+      "frame_start": 1081,
+      "frame_end": 1392,
+      "frames": 312,
+      "episode_start_frame": 1081,
+      "scene_fingerprint": "8cb8695f007aa070ea506b8e1643bbf29b01f5484672b2aa0b1e808430b4fea2",
+      "assets": {
+        "CHAR_MARK": "64f612687cdb3f99f996c2fb2af218c4c41ad64a5ac977a621f56ff02337ea17",
+        "CHAR_LILI": "64f612687cdb3f99f996c2fb2af218c4c41ad64a5ac977a621f56ff02337ea17"
+      },
+      "location_sha256": "64f612687cdb3f99f996c2fb2af218c4c41ad64a5ac977a621f56ff02337ea17",
+      "id": "616517c4b546e9e85c0f7983"
+    },
+    {
+      "scene_id": "S1E1_SC003_V024",
+      "frame_start": 1,
+      "frame_end": 360,
+      "frames": 360,
+      "episode_start_frame": 1393,
+      "scene_fingerprint": "95edf94213b1447b489af10230efa4cee0f95dff07d9394f9484bc11255a133a",
+      "assets": {
+        "CHAR_MARK": "64f612687cdb3f99f996c2fb2af218c4c41ad64a5ac977a621f56ff02337ea17",
+        "CHAR_LILI": "64f612687cdb3f99f996c2fb2af218c4c41ad64a5ac977a621f56ff02337ea17"
+      },
+      "location_sha256": "64f612687cdb3f99f996c2fb2af218c4c41ad64a5ac977a621f56ff02337ea17",
+      "id": "8de78fbf215a02bb2f4d12fd"
+    },
+    {
+      "scene_id": "S1E1_SC003_V024",
+      "frame_start": 361,
+      "frame_end": 720,
+      "frames": 360,
+      "episode_start_frame": 1753,
+      "scene_fingerprint": "95edf94213b1447b489af10230efa4cee0f95dff07d9394f9484bc11255a133a",
+      "assets": {
+        "CHAR_MARK": "64f612687cdb3f99f996c2fb2af218c4c41ad64a5ac977a621f56ff02337ea17",
+        "CHAR_LILI": "64f612687cdb3f99f996c2fb2af218c4c41ad64a5ac977a621f56ff02337ea17"
+      },
+      "location_sha256": "64f612687cdb3f99f996c2fb2af218c4c41ad64a5ac977a621f56ff02337ea17",
+      "id": "f903f536d143a9782a11e15b"
+    },
+    {
+      "scene_id": "S1E1_SC003_V024",
+      "frame_start": 721,
+      "frame_end": 1080,
+      "frames": 360,
+      "episode_start_frame": 2113,
+      "scene_fingerprint": "95edf94213b1447b489af10230efa4cee0f95dff07d9394f9484bc11255a133a",
+      "assets": {
+        "CHAR_MARK": "64f612687cdb3f99f996c2fb2af218c4c41ad64a5ac977a621f56ff02337ea17",
+        "CHAR_LILI": "64f612687cdb3f99f996c2fb2af218c4c41ad64a5ac977a621f56ff02337ea17"
+      },
+      "location_sha256": "64f612687cdb3f99f996c2fb2af218c4c41ad64a5ac977a621f56ff02337ea17",
+      "id": "1c164d52cc42853f22807218"
+    },
+    {
+      "scene_id": "S1E1_SC003_V024",
+      "frame_start": 1081,
+      "frame_end": 1440,
+      "frames": 360,
+      "episode_start_frame": 2473,
+      "scene_fingerprint": "95edf94213b1447b489af10230efa4cee0f95dff07d9394f9484bc11255a133a",
+      "assets": {
+        "CHAR_MARK": "64f612687cdb3f99f996c2fb2af218c4c41ad64a5ac977a621f56ff02337ea17",
+        "CHAR_LILI": "64f612687cdb3f99f996c2fb2af218c4c41ad64a5ac977a621f56ff02337ea17"
+      },
+      "location_sha256": "64f612687cdb3f99f996c2fb2af218c4c41ad64a5ac977a621f56ff02337ea17",
+      "id": "b4171440ce956c5e2ad3ae37"
+    },
+    {
+      "scene_id": "S1E1_SC003_V024",
+      "frame_start": 1441,
+      "frame_end": 1776,
+      "frames": 336,
+      "episode_start_frame": 2833,
+      "scene_fingerprint": "95edf94213b1447b489af10230efa4cee0f95dff07d9394f9484bc11255a133a",
+      "assets": {
+        "CHAR_MARK": "64f612687cdb3f99f996c2fb2af218c4c41ad64a5ac977a621f56ff02337ea17",
+        "CHAR_LILI": "64f612687cdb3f99f996c2fb2af218c4c41ad64a5ac977a621f56ff02337ea17"
+      },
+      "location_sha256": "64f612687cdb3f99f996c2fb2af218c4c41ad64a5ac977a621f56ff02337ea17",
+      "id": "a567376813eee9d29126f953"
+    }
+  ],
+  "production_approved": false
+}

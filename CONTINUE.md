@@ -1,3 +1,73 @@
+# WonderlyTales continuation — 2026-10-10 18:11 UTC
+
+Last successful Git commit: `1885eb30cf0de66076ec2961baf77616dae7a2c2`.
+This checkpoint follows it; `git log -1` gives this document's commit.
+
+## New completed work
+- Production Blender 4.5.3: complete 1440-frame continuous-binding/support QA.
+  Lili worst body edge stretch now 3.718x (previous gait candidate 6.048x),
+  Potty 2.504x, Zizi 2.361x. Lili maximum foot error 0.0226 mm.
+  No production approval: knee peaks remain Lili 777.68 / Potty 506.13 deg/s.
+- Anatomy-scaled, zero-endpoint-velocity swing lift replaces excessive fixed
+  lift on short limbs. Planted positions and native geometry preserved.
+- Separate MASTER_CAST_V024b, SHA256
+  3d664f433434a034451301f2b0d4a86537f76e8cf36f57af2d011737c6ccb185,
+  saved with source/report/registry under R2 native/S1E1/V024/. V022 intact.
+- First actual new GPU test COMPLETED: job
+  cc597d9e-807a-4bb3-9702-6567d4a0283d-u2, 144 frames / 6 seconds,
+  1920x1080 / 24fps / 48 samples / RTX PRO 6000 Blackwell OPTIX,
+  scene audio present. Execution 324.172 s. Downloaded clip SHA verified:
+  6dbb7085f7f986d016d7596dbb96de99c3586c58a3eb05434a0433b0be9ff823.
+  This is a studio gait diagnostic, not a connected cinematic quality sample.
+  Full immutable storage key is in ops/v024-gpu-gait-result.json.
+- Independent no-prompt medium Whisper review completed for all 20 flagged
+  originals: 7 normalized transcript matches, 13 remaining differences.
+  This is recognizer evidence, not phonetic, listening or acting approval.
+  No recordings/voices replaced. No new ElevenLabs generation.
+- 79.167-second listening comparison reel made from the 20 originals, with
+  script/Scribe/independent text and speaker IDs. Hash and manifest saved in
+  ops/audio-review-reel-v024.json; R2 audio/S1E1/review/V024/.
+- FEATURE_V002 original 40 units / 244 lines retained. First two story units
+  staged as 132 seconds / 35 shots / 3168 frames / 9 bounded render jobs.
+  Source scripts/storyboard/render plan saved in quality_opening_V024/.
+  19 unchanged recordings; 16 measured tracks; 3 unresolved takes explicitly
+  flagged and staged offscreen, not approved. 113 new lines still unrecorded.
+- Reusable camera dolly, prop carry-through, crouch and offscreen-audio mixing
+  added. 25 pure animation tests pass; Python modules compile.
+
+## In progress / exact next operation
+- Native compilation of the two forest scenes is RUNNING in sandbox
+  sbx_hbrj4u6r1FOrgWWTiIRBSZUkGJFS; log /vercel/sandbox/opening_build.log.
+  Files /vercel/sandbox/opening/S1E1_SC001_V024.* and SC003 counterpart.
+  Pipeline: compile -> support bake -> real original HU mix -> native props
+  and packed audio. Existing story prop geometry reused.
+- Read log, fix any errors, inspect representative native forest frames and
+  hand/prop continuity before submitting bounded GPU scene jobs.
+- Preserve final blends, full QA and audio mixes to R2, freeze checksums in
+  the job manifest, then prove actual multi-scene GPU rendering and assembly.
+- Native sources/reports already persisted: continuous.blend, V024b master,
+  registry, full QA, earlier rejected experiments. Local paths data/V024/.
+- Remaining defects: Lili/Potty knee velocity, visual skin/contact approval,
+  Zizi mouth seam, natural gaze/acting, Morzsi/Bogyo movement QA, 20 auditory
+  adjudications, 113 new readings, full-feature dramatic timing/storyboard.
+  Feature measured duration remains NULL; 60 minutes is not yet demonstrated.
+  Reference film unavailable to inspect; no reference-quality claim.
+
+## Background / budget
+- Authoring sandbox timeout extended to 90 minutes total, until ~18:55 UTC.
+  4 vCPU / 8 GB, nonpersistent. Persist files and stop when finished.
+- Current budget day 2026-10-11 Asia/Saigon: $6.50 reserved so far:
+  authoring e00f3614-3d1c-4c65-8ac0-8609350a9b5b and
+  bd226f3b-f215-4b04-b991-e142f86e0dc5 ($2 each), GPU
+  2e7d4366-b5f1-418a-a1df-60e10a450d00 ($2.50).
+  Limit unchanged $200. Reservations are ceilings, not verified vendor bills.
+- Existing durable Supabase runs and 300-scene transactional queue test intact.
+  First GPU diagnostic submitted directly, not claimed as queue scale proof.
+- No full 60-minute render, no new TTS, no accepted V016 rerender.
+
+---
+## Earlier checkpoint context (superseded above)
+
 # WonderlyTales continuation — V024 / 2026-10-10 17:38 UTC
 
 Last successful saved checkpoint: `1c8cbb902676d15638426a2948978855776f072a`.

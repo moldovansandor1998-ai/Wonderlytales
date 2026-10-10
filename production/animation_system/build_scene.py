@@ -113,6 +113,7 @@ def main(master,registry_path,script_path,dest):
    pelvis.location=pelvis.bone.matrix_local.to_3x3().inverted()@shift
    pelvis.keyframe_insert('location')
    for foot in spec['feet']:
+    foot={**foot,'leg_length':sum(r.data.bones[n].length for n in (foot['upper'],foot['lower']))}
     q,planted,contact=foot_at(a,foot,t,spec['scale']);rest_z=foot['ankle'][2]*spec['scale'];lift=q[2]-(roots[c].location.z+rest_z)
     q[2]=floor(q[0],q[1])+(foot['ankle'][2]-foot['sole_z'])*spec['scale']+.003+max(0,lift)
     set_target(r,foot['control'],q,foot_heading(a,foot,t))
@@ -151,11 +152,26 @@ def main(master,registry_path,script_path,dest):
    if event['kind']=='pickup' and u>.55:
     q=r.matrix_world@r.pose.bones['hand.'+side].tail;prop.location=q;prop.keyframe_insert('location')
   for f in [max(1,round(event['start']*24)),min(count,round(event['end']*24)+1)]:r['ik_hand.'+side]=0;r.keyframe_insert('["ik_hand.'+side+'"]',frame=f)
+  if event['kind']=='pickup' and event.get('carry_to_end'):
+   for f in range(round((event['start']+(event['end']-event['start'])*.55)*24)+1,count+1):
+    s.frame_set(f);bpy.context.view_layer.update();ev=r.evaluated_get(bpy.context.evaluated_depsgraph_get())
+    prop.location=ev.matrix_world@ev.pose.bones['hand.'+side].tail;prop.keyframe_insert('location',frame=f)
  s.timeline_markers.clear()
  for i,view in enumerate(script['cameras']):
   data=bpy.data.cameras.new(script['id']+' camera '+str(i));cam=bpy.data.objects.new(data.name,data);s.collection.objects.link(cam);cam.location=view['position'];cam.rotation_euler=(Vector(view['target'])-cam.location).to_track_quat('-Z','Y').to_euler();data.lens=view.get('lens',40)
   marker=s.timeline_markers.new('CUT_'+str(i),frame=round(view['start']*24)+1);marker.camera=cam
   if i==0:s.camera=cam
+  if 'end_position' in view:
+   end=script['cameras'][i+1]['start'] if i+1<len(script['cameras']) else script['duration']
+   start_frame=round(view['start']*24)+1;end_frame=round(end*24)
+   for frame in range(start_frame,end_frame+1):
+    u=smooth((frame-start_frame)/max(1,end_frame-start_frame))
+    cam.location=Vector(view['position']).lerp(Vector(view['end_position']),u)
+    target=Vector(view['target']).lerp(Vector(view.get('end_target',view['target'])),u)
+    cam.rotation_euler=(target-cam.location).to_track_quat('-Z','Y').to_euler()
+    cam.keyframe_insert('location',frame=frame);cam.keyframe_insert('rotation_euler',frame=frame)
+   for fc in cam.animation_data.action.fcurves:
+    for key in fc.keyframe_points:key.interpolation='LINEAR'
  for o in [*rigs.values(),*roots.values()]:
   if o.animation_data and o.animation_data.action:
    for fc in o.animation_data.action.fcurves:

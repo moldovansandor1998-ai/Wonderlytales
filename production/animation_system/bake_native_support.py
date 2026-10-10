@@ -9,6 +9,7 @@ from mathutils import Vector
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 from animation_system.support import fit_support
 from animation_system.spec import digest, atomic_json
+from animation_system.motion import support_shift
 
 
 def sample(rig, asset):
@@ -25,18 +26,23 @@ def sample(rig, asset):
     return hips,targets,lengths,max(errors),reach
 
 
-def main(source,registry,destination):
+def main(source,registry,destination,script_path=None):
     if source.resolve()==destination.resolve():raise ValueError('Immutable source required')
     bpy.ops.wm.open_mainfile(filepath=str(source.resolve()),use_scripts=False)
     scene=bpy.context.scene;reg=json.loads(registry.read_text())
     assets={c:a for c,a in reg['characters'].items() if bpy.data.objects.get(a['rig'])}
+    actors={a['code']:a for a in json.loads(script_path.read_text())['characters']} if script_path else {}
     report={'source_sha256':digest(source),'blender':bpy.app.version_string,
-            'margin':.96,'frames':scene.frame_end-scene.frame_start+1,
+            'margin':.96,'base_motion_rebuilt':bool(actors),'frames':scene.frame_end-scene.frame_start+1,
             'production_approved':False,'characters':{c:{'corrections':[],'rejected':[]} for c in assets}}
     for frame in range(scene.frame_start,scene.frame_end+1):
         scene.frame_set(frame)
         for code,asset in assets.items():
             rig=bpy.data.objects[asset['rig']];pelvis=rig.pose.bones['CTRL_pelvis']
+            if code in actors:
+                pelvis.location=pelvis.bone.matrix_local.to_3x3().inverted()@Vector(support_shift(actors[code],(frame-1)/24))
+                pelvis.keyframe_insert('location',frame=frame)
+                rig.update_tag();bpy.context.view_layer.update()
             hips,targets,lengths,error,reach=sample(rig,asset)
             if error<.003 and reach<=.962:continue
             original=pelvis.location.copy();total=Vector((0,0,0));reason=None

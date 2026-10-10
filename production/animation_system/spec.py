@@ -59,6 +59,8 @@ def validate_scene(scene,registry):
    if b<=a or b>duration:raise ValueError('Action out of range')
    if action.get('layer','body')=='body':intervals.append((a,b))
    if 'destination' in action:vector(action['destination'],'destination')
+   if 'body_lower' in action:
+    if action['clip']!='pickup' or not 0<=number(action['body_lower'],'pickup body lowering')<=.5:raise ValueError('Invalid pickup body lowering')
    if action.get('clip') in ('walk','run') and 'destination' not in action:raise ValueError('Locomotion requires destination')
   intervals.sort()
   if any(b>c+1e-7 for (a,b),(c,d) in zip(intervals,intervals[1:])):raise ValueError('Overlapping base actions')
@@ -74,12 +76,14 @@ def validate_scene(scene,registry):
   if event.get('hand','R') not in ('L','R'):raise ValueError('Unknown hand')
   a=number(event.get('start'),'interaction start',0);b=number(event.get('end'),'interaction end',0);vector(event.get('position'),'interaction target')
   if b<=a or b>duration:raise ValueError('Interaction out of range')
- speakers={}
- for line in scene.get('dialogue',[]):
+ speakers={};line_ids=set()
+ for line,offscreen in [(line,False) for line in scene.get('dialogue',[])]+[(line,True) for line in scene.get('offscreen_dialogue',[])]:
+  if not line.get('id') or line['id'] in line_ids:raise ValueError('Missing or duplicate dialogue id')
+  line_ids.add(line['id'])
   if line.get('speaker') not in codes:raise ValueError('Dialogue speaker is absent')
   a=number(line.get('start'),'speech start',0);b=number(line.get('end'),'speech end',0)
   if b<=a or b>duration:raise ValueError('Speech out of range')
-  if not line.get('audio') or not line.get('visemes'):raise ValueError('Speech requires real audio and aligned viseme file')
+  if not line.get('audio') or (not offscreen and not line.get('visemes')):raise ValueError('Speech requires real audio and aligned viseme file')
   speakers.setdefault(line['speaker'],[]).append((a,b))
  for ranges in speakers.values():
   ranges.sort()
@@ -89,6 +93,10 @@ def validate_scene(scene,registry):
  times=[]
  for camera in cameras:
   times.append(number(camera.get('start'),'camera start',0));vector(camera.get('position'),'camera position');vector(camera.get('target'),'camera target')
+  if 'end_position' in camera:vector(camera['end_position'],'camera end position')
+  if 'end_target' in camera:
+   if 'end_position' not in camera:raise ValueError('Moving camera target requires a motion endpoint')
+   vector(camera['end_target'],'camera end target')
   if not 8<=camera.get('lens',40)<=200:raise ValueError('Invalid lens')
  if times!=sorted(set(times)) or times[-1]>=duration:raise ValueError('Invalid camera cuts')
  return scene

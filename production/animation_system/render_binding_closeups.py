@@ -15,7 +15,10 @@ for code,frame in [('CHAR_LILI',265),('CHAR_LILI',1153),('CHAR_POTTY',889),('CHA
     for other,asset in reg['characters'].items():
         collection=bpy.data.collections.get(asset['collection'])
         if collection:
-            for obj in collection.all_objects:
+            for obj in list(collection.all_objects):
+                if obj:obj.hide_render=True if other!=code else visibility.get(obj.name,False)
+        for obj in scene.objects:
+            if other in obj.name:
                 obj.hide_render=True if other!=code else visibility.get(obj.name,False)
     scene.frame_set(frame)
     body=bpy.data.objects[reg['characters'][code]['body']]
