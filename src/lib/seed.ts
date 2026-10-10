@@ -8,7 +8,7 @@ export function buildDemoData(): Record<string, unknown[]> {
   const project = { id: id(), name: "Wonderly Tales", code: "WT", created_at: now() };
   const series = { id: id(), project_id: project.id, name: "Csodakapu", international_name: "Wondergate", bible: "Makkfalva melletti erdőben áll a Csodakapu, amely különös világokba vezet. A főszereplők minden részben egy új világot fedeznek fel, miközben a kapu titkát főnixik.", age_range: "4-9", fps: 24, resolution: "1920x1080", visual_style: "stilizált 3D, meleg színek", status: "ACTIVE" };
   const season = { id: id(), series_id: series.id, number: 1, title: "A kapu felébred", arc: "A Csodakapu újra aktiválódik, a csapat összeáll.", status: "IN_PRODUCTION" };
-  const episode = { id: id(), season_id: season.id, number: 1, title: "A csillagszilánk", brief: "Márk és Lili egy hullócsillag-szilánkot találnak, ami felébreszti a Csodakaput.", target_duration_sec: 1320, master_language: "hu", script_version: "SCRIPT_V1", status: "IN_PRODUCTION", estimated_cost: 240, actual_cost: 0 };
+  const episode = { id: id(), season_id: season.id, number: 1, title: "Csodakapu", brief: "Márk és Lili egy hullócsillag-szilánkot találnak, ami felébreszti a Csodakaput.", target_duration_sec: 3600, master_language: "hu", script_version: "SCRIPT_V1", status: "IN_PRODUCTION", estimated_cost: 240, actual_cost: 0 };
 
   const chars = [
     { code: "CHAR_MARK", name: "Márk", species: "emberi fiú", type: "CORE", personality: "kíváncsi, bátor", visual_description: "8 éves, barna haj, piros kapucnis pulcsi", speech_style: "élénk, kérdező", gender: "fiú" },

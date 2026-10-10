@@ -3,6 +3,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireStudioUser } from "./auth";
 import { getDb, newId } from "./db";
+import { filmTargetDuration } from "./filmDuration";
 import type { Character, Episode, Location, Prop, Animation, Voice, Scene, ShotRow, Season, Series, CharacterVersion, LocationVersion, PropVersion } from "./types";
 import { validateShot, type ShotData, type ShotStatusT } from "./schemas/shot";
 import { saveShotRevision, generatePreview, setShotStatus, finalRender, applyContinuity } from "./pipeline";
@@ -29,7 +30,7 @@ export async function createSeasonAction(fd: FormData) {
 export async function createEpisodeAction(fd: FormData) {
   await requireStudioUser();
   const db = await getDb();
-  await db.insert<Episode>("episodes", { id: newId(), season_id: s(fd,"season_id"), number: Number(fd.get("number")), title: s(fd,"title"), brief: s(fd,"brief"), target_duration_sec: Number(fd.get("target_duration_sec") ?? 1200), master_language: s(fd,"master_language","hu"), script_version: "SCRIPT_V1", status: "DRAFT", estimated_cost: 0, actual_cost: 0 });
+  await db.insert<Episode>("episodes", { id: newId(), season_id: s(fd,"season_id"), number: Number(fd.get("number")), title: s(fd,"title"), brief: s(fd,"brief"), target_duration_sec: filmTargetDuration(fd.get("target_duration_sec")), master_language: s(fd,"master_language","hu"), script_version: "SCRIPT_V1", status: "DRAFT", estimated_cost: 0, actual_cost: 0 });
   revalidatePath(`/series/${s(fd,"series_id")}`);
 }
 export async function generateStoryAction(episodeId: string) {
@@ -187,7 +188,7 @@ export async function updateSeasonAction(id: string, seriesId: string, fd: FormD
 export async function updateEpisodeAction(id: string, seriesId: string, fd: FormData) {
   await requireStudioUser();
   const db = await getDb();
-  await db.update<Episode>("episodes", id, { number: Number(fd.get("number")), title: s(fd,"title"), brief: s(fd,"brief"), target_duration_sec: Number(fd.get("target_duration_sec") ?? 1200), master_language: s(fd,"master_language","hu"), script_version: s(fd,"script_version","SCRIPT_V1"), status: s(fd,"status","DRAFT") });
+  await db.update<Episode>("episodes", id, { number: Number(fd.get("number")), title: s(fd,"title"), brief: s(fd,"brief"), target_duration_sec: filmTargetDuration(fd.get("target_duration_sec")), master_language: s(fd,"master_language","hu"), script_version: s(fd,"script_version","SCRIPT_V1"), status: s(fd,"status","DRAFT") });
   revalidatePath(`/episodes/${id}`); revalidatePath(`/series/${seriesId}`);
 }
 export async function deleteEpisodeAction(id: string, seriesId: string) {

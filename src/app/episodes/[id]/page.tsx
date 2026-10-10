@@ -21,7 +21,7 @@ export default async function EpisodeDetail({ params }: { params: { id: string }
         <div><label>Szám</label><input name="number" type="number" defaultValue={ep.number} /></div>
         <div className="md:col-span-2"><label>Cím</label><input name="title" defaultValue={ep.title} /></div>
         <div><label>Státusz</label><select name="status" defaultValue={ep.status}><option>DRAFT</option><option>IN_PRODUCTION</option><option>REVIEW</option><option>DONE</option><option>ARCHIVED</option></select></div>
-        <div><label>Célhossz (mp)</label><input name="target_duration_sec" type="number" defaultValue={ep.target_duration_sec} /></div>
+        <div><label>Célhossz (mp, minimum 2400)</label><input name="target_duration_sec" type="number" min={2400} step={1} defaultValue={ep.target_duration_sec} /></div>
         <div><label>Script verzió</label><input name="script_version" defaultValue={ep.script_version} /></div>
         <div className="md:col-span-3"><label>Brief</label><textarea name="brief" defaultValue={ep.brief} rows={2} /></div>
         <input type="hidden" name="master_language" defaultValue={ep.master_language} value={ep.master_language} />
