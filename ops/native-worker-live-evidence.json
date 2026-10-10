@@ -1,0 +1,103 @@
+{
+  "renderer_revision": "e3cb4348e93116c5cf56c3c9c9fa8b6a3cd2e8da",
+  "run_id": "7c3cd73e-f5ac-4931-82b4-117a80360e95",
+  "cancelled": {
+    "delayTime": 5502,
+    "executionTime": 44896,
+    "id": "640ca51f-286b-4ca2-9732-491c1db23646-e1",
+    "status": "CANCELLED",
+    "workerId": "9ketpnbc6si3rz"
+  },
+  "resumed": {
+    "delayTime": 4652,
+    "executionTime": 32249,
+    "id": "1e5ab229-b202-4fee-9be1-3361ecb2d8dc-e1",
+    "status": "COMPLETED",
+    "workerId": "e1747pvdwkxpj4"
+  },
+  "output": {
+    "clip": {
+      "bytes": 724173,
+      "has_scene_audio": true,
+      "key": "renders/native/S1E1/b41be8ca5833327d51cecc3001f44b305d925ad9d7d1b57b7a32c74cc0467f88/0366ee66a777ffbe151ceb84d081e5962da2e6e35dfad540833c7becc4c36988/clip.mp4",
+      "sha256": "0d573117a9df00923535fd1245d8587b43af44f08645735793b5f7bea3368417",
+      "verified_fps": 24,
+      "verified_frames": 48,
+      "verified_height": 1080,
+      "verified_width": 1920
+    },
+    "devices": [
+      {
+        "backend": "OPTIX",
+        "name": "NVIDIA RTX PRO 6000 Blackwell Server Edition"
+      }
+    ],
+    "fps": 24,
+    "frame_end": 48,
+    "frame_start": 1,
+    "frames": 48,
+    "height": 1080,
+    "native_frame_step": 1,
+    "production_approved": false,
+    "renderer_revision": "e3cb4348e93116c5cf56c3c9c9fa8b6a3cd2e8da",
+    "restored_frames": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42
+    ],
+    "samples": 48,
+    "source_sha256": "b41be8ca5833327d51cecc3001f44b305d925ad9d7d1b57b7a32c74cc0467f88",
+    "status": "RENDERED",
+    "width": 1920
+  },
+  "master": {
+    "key": "renders/native/S1E1/assembled/deb371656fd2993b96cf1ff2316991a0438fa2d6a097205b9cc6635c8b1b2447/master.mp4",
+    "sha256": "b1b572a7dd81e4373ab67da6715cb8e80d139f2a9823215aa8fd0e367c7eac4e",
+    "decoded": true,
+    "frames": 48,
+    "fps": 24,
+    "width": 1920,
+    "height": 1080,
+    "production_approved": false
+  },
+  "control": "Independent Supabase pg_cron; submission, retry, completion and assembly observed in real database"
+}

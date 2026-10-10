@@ -1,4 +1,4 @@
-import unittest,tempfile,json,copy,concurrent.futures,sqlite3
+import unittest,tempfile,json,copy,concurrent.futures,sqlite3,shutil
 from pathlib import Path
 from animation_system.spec import compile_episode,validate_scene
 from animation_system.jobs import RenderQueue
@@ -7,6 +7,13 @@ from animation_system.lipsync import aligned_cues,weights_at,viseme,validate_tra
 from animation_system.release import release_gate
 
 class SystemTests(unittest.TestCase):
+ def test_verified_render_cache_can_move_with_project(self):
+  with tempfile.TemporaryDirectory() as directory:
+   old=Path(directory)/'old';new=Path(directory)/'new';old.mkdir();(old/'render_jobs').mkdir()
+   queue=RenderQueue(old/'render_queue.sqlite');payload={'id':'one','frames':2};queue.enqueue([payload]);lease=queue.claim();file=old/'render_jobs/one.mp4';file.write_bytes(b'verified fixture');queue.finish(lease,file,{'decoded':True,'frames':2})
+   shutil.copytree(old,new);shutil.rmtree(old);moved=RenderQueue(new/'render_queue.sqlite')
+   self.assertEqual(moved.recover_corrupt_outputs(),[]);self.assertEqual(moved.outputs([payload]),[(new/'render_jobs/one.mp4').resolve()])
+   (new/'render_jobs/one.mp4').write_bytes(b'corrupt');self.assertEqual(moved.recover_corrupt_outputs(),['one'])
  def test_queue_connections_close_at_end_of_transaction_scope(self):
   with tempfile.TemporaryDirectory() as directory:
    queue=RenderQueue(Path(directory)/'queue.sqlite')

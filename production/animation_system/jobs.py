@@ -78,6 +78,10 @@ class RenderQueue:
    for row in db.execute("SELECT * FROM jobs WHERE status='DONE'").fetchall():
     if allowed is not None and row['id'] not in allowed:continue
     p=Path(row['output'])
+    relocated=(self.path.parent/'render_jobs'/(row['id']+'.mp4')).resolve()
+    if relocated!=p.resolve() and relocated.is_file() and digest(relocated)==row['output_sha256']:
+     db.execute('UPDATE jobs SET output=? WHERE id=?',(str(relocated),row['id']));p=relocated
+     db.execute('INSERT INTO events(job,at,status,detail) VALUES(?,?,?,?)',(row['id'],time.time(),'DONE','Verified cache relocated'))
     if not p.is_file() or digest(p)!=row['output_sha256']:
      db.execute("UPDATE jobs SET status='PENDING', attempts=0, output=NULL, output_sha256=NULL, next_attempt=0, error='Output missing or corrupt; rerender required' WHERE id=?",(row['id'],));recovered.append(row['id'])
      db.execute('INSERT INTO events(job,at,status,detail) VALUES(?,?,?,?)',(row['id'],time.time(),'PENDING','Corrupt output recovered'))

@@ -21,7 +21,7 @@ begin
  update public.film_tasks set status='SUBMITTING',attempts=1,request_id=-987001,request_kind='SUBMIT',request_at=now()-interval '5 minutes' where id=task;
  perform film_private.tick();
  if (select status from public.film_tasks where id=task)<>'BLOCKED' then raise exception 'Ambiguous submit not blocked'; end if;
- update public.film_tasks set status='REMOTE',external_job_id='existing-provider-job',request_id=-987002,request_kind='POLL',request_at=now()-interval '5 minutes' where id=task;
+ update public.film_tasks set status='REMOTE',endpoint_id='aaaaaaaaaaaaaa',external_job_id='existing-provider-job',request_id=-987002,request_kind='POLL',request_at=now()-interval '5 minutes' where id=task;
  perform film_private.tick();
  if (select external_job_id from public.film_tasks where id=task)<>'existing-provider-job' or (select attempts from public.film_tasks where id=task)<>1 then raise exception 'Restart duplicated provider job'; end if;
  response:=jsonb_build_object('status','COMPLETED','output',jsonb_build_object('status','RENDERED',

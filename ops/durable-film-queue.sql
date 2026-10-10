@@ -213,7 +213,7 @@ begin
   update public.film_control_status set error='Daily budget exhausted; queue preserved' where id=true; return;
  end if;
  insert into production_private.budget_reservations(budget_day,service,amount_usd) values(d,'native_render',ceiling) returning id into reservation;
- req:=net.http_post(url:='https://api.runpod.ai/v2/'||c.endpoint_id||'/run',body:=jsonb_build_object('input',t.payload),headers:=jsonb_build_object('Authorization','Bearer '||secret,'Content-Type','application/json'),timeout_milliseconds:=15000);
+ req:=net.http_post(url:='https://api.runpod.ai/v2/'||c.endpoint_id||'/run',body:=jsonb_build_object('input',t.payload,'policy',jsonb_build_object('executionTimeout',1800000,'ttl',3600000)),headers:=jsonb_build_object('Authorization','Bearer '||secret,'Content-Type','application/json'),timeout_milliseconds:=15000);
  update public.film_tasks set status='SUBMITTING',attempts=attempts+1,endpoint_id=c.endpoint_id,request_id=req,request_kind='SUBMIT',request_at=now(),reservation_id=reservation,updated_at=now() where id=t.id;
  insert into public.film_events(run_id,task_id,event,detail) values(t.run_id,t.id,'SUBMIT_INTENT',jsonb_build_object('attempt',t.attempts+1,'reservation_id',reservation));
  update public.film_control_status set error=null where id=true;

@@ -1,105 +1,131 @@
-# Durable film production — 2026-10-10
+# Durable film production — live checkpoint, 2026-10-10
 
-Continues `work/v022-facial-continuity` at `b454650bd5a1e3a23295ef78161474e936b4ce30`.
-No character masters are replaced by this infrastructure change.
+## Independently operating services
 
-## What operates without ChatGPT Work
+Supabase project `vruxiyvlynbivzjuijed` hosts film_runs, film_tasks, film_events,
+film_control_status and the private controller. The pg_cron job
+`wonderly-film-queue` invokes film_private.tick() every minute. Successful cron
+runs and heartbeats were measured in Postgres. Neither Work, a browser nor a
+Vercel request is needed to dispatch, poll, retry or finish existing jobs.
 
-The existing Supabase project hosts `film_runs`, `film_tasks`, `film_events` and
-`film_control_status`. `wonderly-film-queue` runs `film_private.tick()` every minute
-through pg_cron. Heartbeats and successful executions are measured in Postgres.
-This scheduler does not require a browser, a Vercel request or a Work process.
+RunPod endpoint `cfog2x4xsd0adz`, Wonderly Tales Native Blender Blackwell, now
+runs the native worker image built from commit
+`e3cb4348e93116c5cf56c3c9c9fa8b6a3cd2e8da`. Build Completed was observed in the
+console. WORKER_RENDERER_REVISION matches that immutable worker version.
+Hardware was directly verified: NVIDIA RTX PRO 6000 Blackwell Server Edition,
+OPTIX. There are zero always-active workers, at most one flex worker, one GPU
+per worker, a 5-second idle timeout and a 1,800-second execution timeout.
+A worker starts for queued work and scales down afterward. It does not need Work.
 
-It persists submission intent before HTTP, reservations before paid dispatch,
-external job id, endpoint, retry count, backoff, output hash and event history.
-pg_net's transport is unlogged; a lost transport request is recovered using these
-logged records. Polling resumes the existing provider id. Unknown submission
-outcomes are BLOCKED for reconciliation, never blindly retried. An exhausted
-bounded retry fails the run. Pausing stops new submissions and keeps polling
-already submitted work. Completed tasks are excluded from dispatch.
+The existing credential is stored in Supabase Vault as wonderly_film_runpod.
+Endpoint verification and dispatch are enabled. Only ACTIVE qualified runs can
+submit. Currently all development runs are REVIEW, so no feature is running.
+The authenticated Studio /production page shows durations, scene counts, progress,
+provider ids, errors, QC reports and signed video links. The browser refresh timer
+only displays state; it performs no production work.
 
-The controller is LIVE, but paid dispatch is DISABLED. There is no verified native
-endpoint in `film_private.config` and no `native_render` per-attempt ceiling in
-the existing budget policy. The existing daily policy is $200, Asia/Saigon; this
-change does not increase it or equate the internal ledger with a provider cap.
-Existing RunPod CPU-preview and character-authoring endpoints are reachable and
-have zero active jobs. Their readiness does not establish native movie capacity.
+## Durable execution and limits
 
-## Deployed application contract
+The controller saves submission intent and a budget reservation before HTTP. It
+keeps provider job ids and retries lost polls without submitting another job.
+An ambiguous submission is BLOCKED for reconciliation, never blindly duplicated.
+Confirmed failed/cancelled/timed-out attempts receive bounded exponential retry.
+DONE tasks are never selected again. Pausing stops new submissions and preserves
+polling for existing jobs. pg_net transport loss does not erase logged task state.
 
-`/production` shows actual duration, scene count, rendered task progress, scheduler
-heartbeat, provider ids, failures, QC evidence and an authenticated video link.
-The page refreshes when visible; this timer does not perform film production.
-`POST /api/production/enqueue` accepts a frozen manifest with episode id, title,
-DIAGNOSTIC/FEATURE mode and quality evidence. RPCs enforce Studio authorization;
-the browser has read-only table access. Client-supplied production approval is
-always reset to false. Enqueue starts HELD, never paid automatic production.
+Each native PNG is immediately uploaded to R2 with a SHA-256 metadata field. A new
+worker restores only verified frames matching source, range, settings and worker
+revision. It skips restored frames. Sources and videos remain in the existing
+project bucket. Clip generation checks frame count, fps, dimensions and full decode.
+The assembly task freezes ordered clip hashes and the complete Hungarian mix,
+checks every clip and audio duration, stream-copies video into a master, verifies
+and uploads that master. It finishes to REVIEW, never automatic artistic approval.
 
-Manifest: fps=24, frames, jobs[]; each job has operation=RENDER_NATIVE_FRAMES,
-scene_id, scene_key under native/S1E1, source SHA-256, renderer_revision (40-character
-deployed git revision), inclusive frame_start/frame_end, episode_start_frame,
-width/height (Full HD or greater) and samples (48–512). Each task is 1–360 frames;
-episode coverage must be consecutive with no gaps. FEATURE requires >=57,600
-frames (40 minutes). The existing episode default is 86,400 frames (60 minutes).
-Long-film fixtures verify scheduling, not artistic content or a finished film.
+The existing daily budget remains $200 in Asia/Saigon. Observed selected GPU rate
+is $3.49/hour. Each dispatch reserves $2.50 conservatively; a 1,800-second execution
+alone is approximately $1.745, before start/idle/storage costs. This reservation
+is not a provider-enforced price guarantee. Requests explicitly carry a
+1,800,000-ms execution policy and 3,600,000-ms TTL. No balance top-up, new payment
+method, auto-refill or budget increase was performed. The console balance changed
+from $43.76 to $43.65 during verification; this is an observed balance difference,
+not a settled or endpoint-attributed invoice. Reservations remain conservative.
 
-For film assembly, audio_key under audio/S1E1 and audio_sha256 freeze the complete
-48 kHz Hungarian dialogue/music/SFX mix. FEATURE requires a full mix. An ASSEMBLY
-task waits for all render clips, then freezes their ordered hashes. It validates
-and decodes each clip, matches dimensions/fps, checks full audio duration,
-assembles and decodes the complete master, and uploads a content-addressed video.
-This media result still requires artistic/phonetic/cinematic review.
+Provider asynchronous results have limited retention. A prolonged database outage
+past provider retention can require reconciliation against R2; it is not proven
+as automatic disaster recovery. More simultaneous workers, hours-long full-film
+assembly, storage sizing, hundreds-scene GPU stress and provider outage recovery
+still require validation. Do not infer those from the small live test.
 
-## Native worker code: implemented, NOT live-validated
+## Real GPU interruption and assembly evidence
 
-`worker/Dockerfile.native-gpu` includes native scene rendering, R2 checkpoints and
-FFmpeg assembly. Set WORKER_RENDERER_REVISION to the deployed source commit; an
-input claiming a different version fails. The current hardware contract is RTX
-PRO 6000 OPTIX, Blender 4.5.3, 24 fps, Cycles. R2 source checksums are verified.
-Each rendered PNG is immediately uploaded with a SHA-256 metadata field. A fresh
-worker retrieves only hash-valid checkpoints under the exact scene/range/render
-settings/revision namespace. Already rendered frames are skipped. A failed job
-does not discard completed frames. A final clip is counted and fully decoded.
+Run `7c3cd73e-f5ac-4931-82b4-117a80360e95` was submitted by the database controller:
+48 native frames, 1920x1080, 24 fps, 48 Cycles samples. This is a system test using
+known V021 diagnostic source, not a new artistic trial or a feature.
 
-No image was built/deployed in this turn and no native GPU work was submitted.
-RunPod GraphQL administration returned HTTP 403 (error code 1010); its browser
-console requires sign-in. The native endpoint must be provisioned/updated and
-smoke-tested before config.endpoint_verified/dispatch_enabled can be enabled.
-Establish a timeout/hardware-based worst-case per-job price and provider billing
-limits before adding native_render to budget_policy.service_ceilings. Do not
-invent or increase a budget to unblock work. Store the existing RunPod credential
-in Supabase Vault as wonderly_film_runpod; it is deliberately absent from git.
+First provider job `640ca51f-286b-4ca2-9732-491c1db23646-e1` on worker
+`9ketpnbc6si3rz` was deliberately cancelled after checkpoints were observed.
+The controller detected CANCELLED, preserved the payload, waited its backoff and
+submitted attempt 2 automatically. Job
+`1e5ab229-b202-4fee-9be1-3361ecb2d8dc-e1` ran on a DIFFERENT worker,
+`e1747pvdwkxpj4`: 42 frames were restored and only 6 rendered. It returned the
+exact configured worker revision and verified output. The DB accepted it as DONE,
+then automatically submitted assembly job
+`f2378509-4052-4e9d-842e-8a3074b92e79-e2`. Both tasks became DONE and the run REVIEW.
+The full-mix master was downloaded independently, its SHA matched, and all 48
+frames and AAC audio decoded. Evidence: ops/native-worker-live-evidence.json.
+No completion was inferred from submission alone.
 
-## Preserved completed test
+## Latest source and quality status
 
-The V021 60-second test and its four 360-frame clips were fully decoded again,
-uploaded into the existing R2 bucket, downloaded and SHA-256 verified. The native
-source and full Hungarian development mix were also persisted and read-verified.
-`ops/V021-storage-evidence.json` contains keys/checksums/sizes, no credentials.
-`ops/imported-V021-checkpoint.sql` reproduces the import without new rendering.
-The run is REVIEW with 4/4 DONE and production_approved=false. GL review footage
-is explicitly labeled; it is never passed off as a final Cycles movie.
+The newer V022 source commit `d8ec1d1dbf8689e78eeab6b11cd0ce6fec6bd2aa` was
+reconciled into this branch, retaining our infrastructure. It adds portable render
+cache checks and per-character mouth attribution. Existing V021 and V022 work is
+preserved. No approved intro, story, master or voice is replaced.
 
-V021 has measured facial boundary failures, stretched/inverted mouth geometry,
-body distortion, foot contacts/sliding and a discontinuity at a clip boundary.
-V022 source contains newer mouth repair work, but the preserved V021 movie is not
-represented as a V022 result. No new V022 native animation verification was
-possible here because Blender is not installed in this Work environment.
-The Csodakapu feature is HELD until actual animation quality tests pass. The
-existing approximately 21-minute script still needs authored expansion; no
-padding is performed.
+The V022 master hash is
+`5d0c6e25acbf5597e63e88dcfb82d948a779018de256d55207863de00148ea64`;
+the 60-second scene hash is
+`e5df53e3fdc954d0020cfa065b5dd7bc00d045b47b248bbb289054c5cf399fae`.
+Recovered V022 master, native scene, full video and four completed clips were
+uploaded, downloaded and SHA-verified. The existing full V022 video and all four
+clips were fully decoded again. Studio run
+`8caf0f3c-a0b0-49e5-b7f8-0e0137315c16` shows REVIEW, 4/4 DONE and no approval.
+ops/V022-storage-evidence.json and ops/imported-V022-checkpoint.sql reproduce this
+checkpoint. The older V021 checkpoint is also preserved, without rerendering.
 
-## Validation
+V022 supplied native QC measures Mark's 150-pair mouth seam across 81 poses:
+maximum gap 4.98966445e-7 m, no measured flipped outer triangles. The 30-second
+review checks all 720 frames; that outer seam passed. This is not proof of all
+inner-mouth intersections, good sculpt, phonetic accuracy or natural acting.
+The latest multi-character scene still fails: Lili foot-target error reaches
+7.69 cm, whole-scene skin edge stretch reaches 22.60x, Potty's left knee jumps
+660.20 degrees/second at 720->721, and Zizi's final section has 79 flipped outer
+mouth triangles and 6.998x edge stretch. Their seams remain unverified. Mark's
+inner mouth/teeth/eyes, all remaining faces, gait and interaction need work.
+The GL review and 12-sample diagnostic face images are not final cinema lighting.
+The source hashes match these supplied measurements; native QC was NOT rerun in
+this Work container. The official local Blender installation could not execute
+reliably (SIGBUS); no local success is claimed. The deployed remote renderer did
+execute and pass the real media/system test above.
 
-125 web tests, TypeScript, production build, 18 animation-system unit tests;
-checkpoint tests use a new temporary container directory and reject corruption;
-real FFmpeg assembly checks clip ordering, full length and audio hash mismatch.
-`ops/test-durable-film-queue.sql` tests the live DB in a rollback-only transaction:
-idempotency, mode separation, short-feature rejection, self-approval prevention,
-ambiguous submission, lost polling, no duplicate attempt, completed-to-REVIEW and
-viewer denial. No provider submission is made by this test.
+## Feature contract and unfinished work
 
-Remaining: live native endpoint deployment, finite cost-ceiling verification,
-GPU stress/restart test, all character facial/body fixes, phonetic and artistic
-review, final cinema lighting/location/contact work and full feature validation.
-Infrastructure code and successful unit tests alone do not complete those tasks.
+POST /api/production/enqueue accepts a frozen episode manifest, title and mode;
+Studio authorization is required. The RPC validates Full HD+ jobs, 1–360 frames
+per job, contiguous episode coverage, source SHA, renderer revision and samples.
+FEATURE requires >=57,600 frames (40 minutes) and the full Hungarian dialogue,
+music and SFX mix. The episode default is 86,400 frames (60 minutes). Enqueue is
+HELD. Client production_approved is forcibly false. FEATURE cannot resume until
+quality approval is provided by the trusted review process. Rendering alone
+cannot release a film. The approximately 21-minute story draft still needs real
+authored expansion; padding is forbidden.
+
+Validation: 125 web tests, 19 animation-system tests, 4 native checkpoint/real
+FFmpeg assembly tests, TypeScript and the preceding production build. Live SQL
+rollback tests passed after configuring the existing Vault credential; the lost
+poll fixture now includes a valid dummy endpoint. Rollback prevents any fixture
+HTTP request reaching the provider. Live restart and assembly evidence above is
+additional to these tests. Full 40–60-minute cinematic generation remains
+unapproved and unproven. Next: actual character repairs and remeasured QC,
+Hungarian phonetic/acting review, production locations/lights/effects/mix,
+feature-length authored scenes, and full-length resource/stress validation.
