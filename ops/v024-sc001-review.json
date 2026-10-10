@@ -1,0 +1,15 @@
+{
+  "kind": "GPU_SCENE_REVIEW",
+  "production_approved": false,
+  "key": "renders/native/S1E1/review/V024/SC001_58s.mp4",
+  "sha256": "6e1ecd21fe2476a6be3c9181d2e69a52e8997dd8d34c19a8ade6b1435ad81956",
+  "bytes": 51973906,
+  "frames": 1392,
+  "fps": 24,
+  "width": 1920,
+  "height": 1080,
+  "duration_sec": 58,
+  "full_decode_passed": true,
+  "audio": "Original Hungarian scene mix; AAC 192k",
+  "visual_review": "Detailed forest and two characters; visible facial patches, distant flat horizon and provisional acting; not production approved."
+}

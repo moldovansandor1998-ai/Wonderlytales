@@ -1,0 +1,20 @@
+{
+  "kind": "TIMED_STORYBOARD_READER",
+  "production_approved": false,
+  "storage_key": "native/S1E1/V024/preproduction/Csodakapu_idozitett_storyboard_V024.html",
+  "sha256": "e380d82df9d9c8fcccc9817643a692c1d10e51adf1c92f48404323dbd4f36bfa",
+  "bytes": 7366862,
+  "units": 40,
+  "boards": 329,
+  "dialogue_lines": 244,
+  "embedded_original_recordings": 131,
+  "unrecorded_reading_cards": 113,
+  "estimated_duration_sec": 2394.041,
+  "actual_performed_duration_sec": null,
+  "source_generator_recovery": "Local build-feature-animatic-review.py was not committed before environment_offline; finished HTML is saved in R2.",
+  "validation": {
+    "javascript_syntax": true,
+    "auditory_approval": false,
+    "performed_reading": false
+  }
+}

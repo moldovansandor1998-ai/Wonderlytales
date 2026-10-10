@@ -71,6 +71,7 @@ export const ShotSchemaV1 = z.object({
   native_scene: z.object({
     scene_key: z.string().regex(/^native\/S1E1\/[A-Za-z0-9_./-]+\.blend$/).refine(v => !v.includes('..')),
     scene_sha256: z.string().regex(/^[a-f0-9]{64}$/),
+    renderer_revision: z.string().regex(/^[a-f0-9]{40}$/).optional(),
     frame_start: z.number().int().positive(),
     frame_end: z.number().int().positive(),
     samples: z.number().int().min(48).max(512).default(128),

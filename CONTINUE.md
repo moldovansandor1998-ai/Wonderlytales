@@ -1,6 +1,6 @@
 # WonderlyTales — continuation checkpoint
 
-Last successful Git commit: `3b724bf936f84ca14074bd0ca4ecf36a9788aad3`.
+Last successful Git commit: `e1b85d6af84031dfc8eefc2ae57a148df2a5f3f9`.
 The commit containing this document follows it (`git log -1`).
 Do not rebuild infrastructure or modify V022/V023 originals. Daily ceiling $200.
 User's earlier verified base: 4266970498f2f4c5dc423f1de1a27ef58dbbfbaf.
@@ -17,8 +17,14 @@ User's earlier verified base: 4266970498f2f4c5dc423f1de1a27ef58dbbfbaf.
   Do not assume local uncommitted files survived; recover them if possible.
 - Existing native Vercel sandbox remains available until ~20:25 UTC:
   sbx_hbrj4u6r1FOrgWWTiIRBSZUkGJFS. Official Blender 4.5.3 LTS.
-  A fresh checkout of this same repository is being restored there.
-  Continue by observing existing R2 clips, without any RunPod API submission.
+  Same repository checkout restored at /vercel/sandbox/project.
+  R2-only watcher cmd_6cffba85b3164f269409fa6b378c runs for 1800 seconds
+  (~until 20:11 UTC). No RunPod API requests. Separate R2 checkpoint:
+  native/S1E1/V024/checkpoints/opening_storage_review_cloud.json.
+  At 19:45 UTC five clips / 1752 frames / 73 seconds fully decoded; next
+  range has 155 persisted frame objects. Counts of PNG objects are not
+  completion or decode approval. Resume script with S3_* env and PYTHONPATH
+  /vercel/sandbox/review_deps, --watch-seconds 1800 after this watcher exits.
 - Native all-six 20-second motion diagnostic completed: 480 frames, 768x432,
   CPU 4 samples, silent. R2 native/S1E1/V024/cast_preview/
   WonderlyTales_V024_all6_motion_20s.mp4 SHA
@@ -137,8 +143,17 @@ Authoring extension reservation: 350b756f-300b-4e1b-b805-d2252f07f2e9 ($2).
   e380d82df9d9c8fcccc9817643a692c1d10e51adf1c92f48404323dbd4f36bfa.
   329 boards, 131 embedded original recordings, 113 unrecorded reading cards.
   This is an editorial reading tool, not a completed performed 3D animatic.
-- Local pending app patch before environment failure: NativeRenderWorker
-  must reserve native_render, transmit/validate renderer_revision, and check
-  returned exact frame_start/end. Local 15 focused tests and typecheck passed,
-  but these changes were not committed before the runtime disconnected.
-  Recreate/retest or recover before calling the app fix saved/deployed.
+- Recreated and tested pending app changes on the restored same-repo checkout:
+  NativeRenderWorker reserves native_render, transmits/validates the renderer
+  revision, and rejects a mismatched exact frame range even if length matches.
+  Shot schema retains the immutable renderer revision.
+  27 focused tests PASS; TypeScript typecheck PASS. No paid provider used in tests.
+- Existing authenticated native download route now also admits the explicitly
+  registered V024 review files and hashed assembled-film keys. Admin/studio
+  authorization and private/no-store redirects remain enforced.
+  New src/lib/native-review.ts provides exact artifact metadata.
+- R2-only resume observer source saved in scripts/resume-opening-from-storage.py.
+  Full validation uses unchanged worker/native_assembly.py. No new GPU work.
+  Source manifest is read-only; artifact status never overwrites provider status.
+- Morzsi frame-456 native face render visually inspected in browser: severe
+  torn/spiked oral geometry confirmed. This source is NOT production approved.

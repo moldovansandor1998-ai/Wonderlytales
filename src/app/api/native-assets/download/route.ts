@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getStudioUser } from '@/lib/auth';
 import { getStorage } from '@/lib/providers/storage';
+import { isNativeReviewArtifactKey } from '@/lib/native-review';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
@@ -11,7 +12,7 @@ export async function GET(request: NextRequest) {
   const key = request.nextUrl.searchParams.get('key') ?? '';
   const render = /^renders\/native\/S1E1\/[a-f0-9]{64}\/[a-f0-9]{64}\/(frame_\d{6}\.png|clip\.mp4)$/.test(key);
   const source = /^native\/S1E1\/uploads\/[a-f0-9]{64}\/[A-Za-z0-9_-]+\.blend$/.test(key);
-  if (!render && !source)
+  if (!render && !source && !isNativeReviewArtifactKey(key))
     return NextResponse.json({ error: 'INVALID_RENDER_KEY' }, { status: 400 });
   try {
     const storage = getStorage();
