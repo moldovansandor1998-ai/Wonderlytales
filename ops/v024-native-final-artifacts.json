@@ -1,0 +1,80 @@
+{
+  "production_approved": false,
+  "artifacts": [
+    {
+      "key": "native/S1E1/V024/cast_preview/WonderlyTales_V024_all6_motion_20s.mp4",
+      "bytes": 543643,
+      "sha256": "8abf78d258d56036a73820a695eab3c24bf2819d5cc5aef154608821eb18b939"
+    },
+    {
+      "key": "native/S1E1/V024/cast_preview/preview.json",
+      "bytes": 350,
+      "sha256": "f6dc704d8a8c519d69db8d91ac78c29638762632fb3bca028c01df871bb02003"
+    },
+    {
+      "key": "native/S1E1/V024/face_review/CHAR_MARK_1.png",
+      "bytes": 433389,
+      "sha256": "b44f8bf4c91861ae01885842a475dc4fee0dfebc99960cf3c7df936b496b4338"
+    },
+    {
+      "key": "native/S1E1/V024/face_review/CHAR_MARK_456.png",
+      "bytes": 432101,
+      "sha256": "97115b1748bad9676b2b12ef14a9ce1c7651b4d45973335e766ccc58bd6663c2"
+    },
+    {
+      "key": "native/S1E1/V024/face_review/CHAR_LILI_1.png",
+      "bytes": 563536,
+      "sha256": "8c77563da05f8207bfcfc84bbc2f9a9cc1dafcecc8b48c194fc74ec46ea679c8"
+    },
+    {
+      "key": "native/S1E1/V024/face_review/CHAR_LILI_456.png",
+      "bytes": 560170,
+      "sha256": "64a50ae5e6d2983c6b85984956a9fbe0c32241bd90ba637c4342d30e686cd225"
+    },
+    {
+      "key": "native/S1E1/V024/face_review/CHAR_MORZSI_1.png",
+      "bytes": 559873,
+      "sha256": "a9c7c77d0528cddd3bc5ff4c3a39bb96c02b4e01b9cfb4b67d7f86ff8b6461e1"
+    },
+    {
+      "key": "native/S1E1/V024/face_review/CHAR_MORZSI_456.png",
+      "bytes": 561587,
+      "sha256": "cd6da8872a6591c198a0d4549cc532d4e404c3dea2fd402dad32a3ea1ed5e4c1"
+    },
+    {
+      "key": "native/S1E1/V024/face_review/CHAR_POTTY_1.png",
+      "bytes": 456089,
+      "sha256": "1b26eb641dcf3a9bfbab733da290686f4e99580f8f7ebc8c5ceff321e9223c28"
+    },
+    {
+      "key": "native/S1E1/V024/face_review/CHAR_POTTY_456.png",
+      "bytes": 454682,
+      "sha256": "4e074adcd2cf8876986b727999cabcdf2e048744a325405c14cc2c9c681d8729"
+    },
+    {
+      "key": "native/S1E1/V024/face_review/CHAR_ZIZI_1.png",
+      "bytes": 575094,
+      "sha256": "5451713fc61a3e2157d1a21ddcc384ca2701c7d43fb29a2cf54a884a66dff513"
+    },
+    {
+      "key": "native/S1E1/V024/face_review/CHAR_ZIZI_456.png",
+      "bytes": 567333,
+      "sha256": "0ec6dec01046a9aea0b6afb0a3312859d7d849576f7cd23ed621b9e659f304b7"
+    },
+    {
+      "key": "native/S1E1/V024/face_review/CHAR_BOGYO_1.png",
+      "bytes": 569951,
+      "sha256": "0f3e8898f1c28ea6dafc9ec6a55604b478bf9313e40c3586ee60158aafb47fff"
+    },
+    {
+      "key": "native/S1E1/V024/face_review/CHAR_BOGYO_456.png",
+      "bytes": 538893,
+      "sha256": "08ae94620a7a3d0911a0a2532699955924edd534ebd0bcc8258300c70fa20519"
+    },
+    {
+      "key": "native/S1E1/V024/CAST_MOTION_V024_topology.qa.json",
+      "bytes": 23726,
+      "sha256": "86aa37b7e0852c45c39ff21791b14bca7d5d1321dc3af76ae659130a90a580c6"
+    }
+  ]
+}

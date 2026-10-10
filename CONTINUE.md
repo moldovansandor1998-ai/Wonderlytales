@@ -1,36 +1,41 @@
 # WonderlyTales — continuation checkpoint
 
-Last successful Git commit: `7dde68130b1b47e042620304b024332c6ceb9b8a`.
+Last successful Git commit: `3b724bf936f84ca14074bd0ca4ecf36a9788aad3`.
 The commit containing this document follows it (`git log -1`).
 Do not rebuild infrastructure or modify V022/V023 originals. Daily ceiling $200.
 User's earlier verified base: 4266970498f2f4c5dc423f1de1a27ef58dbbfbaf.
 
-## Immediate running state / next action
-- NINE existing RunPod native GPU jobs cover TWO connected opening scenes:
-  SC001 58 s / 1392 frames, SC003 74 s / 1776 frames. Total 132 s / 3168.
-  Two clips (720 frames / 30 s) are verified completed at this checkpoint.
-  One worker executes the remainder; do not resubmit queued/completed jobs.
-- Live manifest: `ops/v024-opening-render-jobs.json`; durable R2 copy:
-  `native/S1E1/V024/checkpoints/opening_render_jobs.json`.
-- Local watcher RUNNING: `scripts/watch-opening-review.py`, exec session 99788;
-  log `/workspace/scratch/0cbf6b31fe03/private/opening-watch.log`.
-  It polls safely, assembles ONLY after all 9 verified clips complete, then
-  downloads and fully decodes the 132-second movie. No approval is inferred.
-  Resume with authorized credentials. Avoid concurrent manifest writers.
-- Full original-HU review mix prepared: 132 s, 48 kHz stereo PCM16, SHA
-  c5ef49ad4a17959dc6c35d40a1c522d83fe13f112e667027d810bc73b00c9a4d.
-  R2 `audio/S1E1/review/V024/WonderlyTales_V024_opening_132s.wav`.
-  `ops/v024-opening-assembly.json` holds future assembly state and reservation.
-- Native Blender authoring sandbox: sbx_hbrj4u6r1FOrgWWTiIRBSZUkGJFS,
-  expires ~20:25 UTC. 4 vCPU/8 GB, official Blender 4.5.3 LTS hash 67807e1800cc.
-  Current command cmd_69355a038c6247ca9ee26bff3e37 renders all-six 20-second
-  CPU motion diagnostic, log /vercel/sandbox/cast_preview_resume2.log.
-  Output cast_preview/WonderlyTales_V024_all6_motion_20s.mp4, 768x432, 4 samples.
-  This is NOT the production GPU quality sample. Valid PNGs resume without
-  rerendering. IMPORTANT: use `exec blender ...` inside shell wrappers so a
-  command termination does not orphan Blender. Old preview PIDs stopped.
-- Preserve preview movie/manifest in R2 before stopping sandbox. All successful
-  .blend masters and full QA listed below already persisted to R2.
+## Immediate running state / next action (2026-10-10 19:40 UTC)
+- Existing NINE native GPU jobs cover SC001 58 s + SC003 74 s (3168 frames).
+  First four SC001 clips fully decoded; 58-second scene mixed and saved.
+  Do not resubmit existing jobs or rerender finished frames.
+- RunPod runtime GET now fails with proxy tunnel 403. Do not reroute the
+  blocked API through another machine. Independent R2 artifact reads work.
+  Provider statuses in the original manifest are LAST OBSERVED, not live.
+- Local Work execution environment became offline at ~19:32 UTC (registry
+  environment_offline). Local watchers are NOT known to be running.
+  Do not assume local uncommitted files survived; recover them if possible.
+- Existing native Vercel sandbox remains available until ~20:25 UTC:
+  sbx_hbrj4u6r1FOrgWWTiIRBSZUkGJFS. Official Blender 4.5.3 LTS.
+  A fresh checkout of this same repository is being restored there.
+  Continue by observing existing R2 clips, without any RunPod API submission.
+- Native all-six 20-second motion diagnostic completed: 480 frames, 768x432,
+  CPU 4 samples, silent. R2 native/S1E1/V024/cast_preview/
+  WonderlyTales_V024_all6_motion_20s.mp4 SHA
+  8abf78d258d56036a73820a695eab3c24bf2819d5cc5aef154608821eb18b939.
+  Twelve neutral/expression face PNGs and full 480-frame topology QA saved
+  and read back with matching SHA256. See ops/v024-native-final-artifacts.json.
+- First complete GPU scene: renders/native/S1E1/review/V024/SC001_58s.mp4,
+  1392 frames, 1080p24, original Hungarian mix, fully decoded. SHA
+  6e1ecd21fe2476a6be3c9181d2e69a52e8997dd8d34c19a8ade6b1435ad81956.
+  The 132-second connected movie is NOT yet complete.
+- Full original-HU mix remains saved at
+  audio/S1E1/review/V024/WonderlyTales_V024_opening_132s.wav,
+  SHA c5ef49ad4a17959dc6c35d40a1c522d83fe13f112e667027d810bc73b00c9a4d.
+  Assembly reservation exists, but no remote assembly job was submitted.
+- Next: resume independent R2 artifact verification, assemble only after all
+  nine exact ranges are decoded, using unchanged worker/native_assembly.py.
+  Keep artifact completion separate from unknown live provider status.
 
 ## Completed character work, independently measured on Blender 4.5.3
 - Lili/Potty/Zizi continuous anatomical skin binding, anatomy-scaled foot lift,
@@ -110,11 +115,30 @@ User's earlier verified base: 4266970498f2f4c5dc423f1de1a27ef58dbbfbaf.
 - Budget day 2026-10-11 Asia/Saigon: $35.50 reserved, daily ceiling unchanged
   $200: $8 authoring, $2.50 gait, $22.50 nine opening ranges, $2.50 assembly
   (reservation 416e3140-cb2b-4f17-a02e-c4bb8effca83). Not verified vendor bills.
-- RunPod runtime APIs work. Management endpoint returned 403; no bypass or
-  worker scaling changes made. Provider-owned TTS key unavailable here;
+- RunPod runtime and management API access are now blocked by 403; no bypass,
+  resubmission or worker scaling changes made. Provider-owned TTS key unavailable here;
   no new voices generated and no hidden/server credential extraction.
 - Pure animation tests: 26 PASS; Python compile and storyboard JS syntax PASS.
 - Git push via local CLI cannot authenticate; GitHub connector tree/commit/ref
   with expected-head lease works, then fetch and verify local tree equality.
 
 Authoring extension reservation: 350b756f-300b-4e1b-b805-d2252f07f2e9 ($2).
+
+## Additional saved evidence and pending local recovery
+- Stricter mouth QA verifies consecutive seam vertices are actual body edges.
+  Morzsi's current aperture has 269 perimeter vertices but only 96 consecutive
+  mesh edges; mouth landmark lies outside its perimeter (angular gap 3.1787).
+  Radial repair candidate still had 22 folds versus 926 original, REJECTED.
+  No candidate was saved/promoted. New early guard rejects invalid aperture.
+  Restore original same-character face and recut correctly before retopology.
+- Full offline timed storyboard/audio reader saved in R2 at
+  native/S1E1/V024/preproduction/Csodakapu_idozitett_storyboard_V024.html,
+  7,366,862 bytes, SHA
+  e380d82df9d9c8fcccc9817643a692c1d10e51adf1c92f48404323dbd4f36bfa.
+  329 boards, 131 embedded original recordings, 113 unrecorded reading cards.
+  This is an editorial reading tool, not a completed performed 3D animatic.
+- Local pending app patch before environment failure: NativeRenderWorker
+  must reserve native_render, transmit/validate renderer_revision, and check
+  returned exact frame_start/end. Local 15 focused tests and typecheck passed,
+  but these changes were not committed before the runtime disconnected.
+  Recreate/retest or recover before calling the app fix saved/deployed.
