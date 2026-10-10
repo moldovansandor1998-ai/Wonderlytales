@@ -1,0 +1,260 @@
+# CSODAKAPU – A CSILLAGSZILÁNK / FEATURE_V002
+# Új jelenetek; az eredeti SCRIPT_V001 történetét és nyitását megtartó munkaváltozat.
+# A másodpercek rendezői keretek, nem lemért játékidő. Az animatic rövidítheti őket.
+
+@E01|4|90|AMIT MAGUNKKAL VISZÜNK|Makkfalva felőli ösvény, forráskő
+A: A csapat az elágazás forráskövénél megáll. Márk a kendőt a hátizsák tetejére fekteti; a szilánk végig látható. Morzsi szétosztja a kosár könnyű holmijait. Zizi büszkén kipakolja a mindenmérő tartozékait, de a harmadik alkatrész már lelóg a lapos kőről. Lili manccsal visszatartja.
+CHAR_LILI: Ennyi minden kell egy körülnézéshez?
+CHAR_ZIZI: Nem. De még nem tudom, melyik nem kell.
+CHAR_MORZSI: Az uzsonna biztosan kell.
+A: Morzsi helyet csinál a víznek. Pötty a kulacs kupakját szalaggal a nyakához rögzíti; ezt később is látjuk. Bogyó egy fenyőtobozt tenne a kosárba. Morzsi megmutatja a teli kosarat, majd a széles ösvényt. Bogyó a tobozt a kő mellett hagyja, megszagolja, hogy később felismerje a helyet.
+CHAR_POTTY: Ha leteszek valamit, mindig attól félek, hogy pont az hiányzik majd.
+CHAR_MARK: Akkor vigyük, ami mindenkinek kell. A többit megjegyezzük.
+A: Zizi két nehéz szerelvényt a saját, fedeles úti ládájába zár a forrás mellett. A noteszt és a narancsszalagot megtartja. Márk most ellenőrzi, hogy mindenki elkészült-e, de a fény következő villanására már az ösvényt nézi.
+K: Alacsony körmozgás a kő körül; a tárgyakat és mind a hat szereplő reakcióját olvasható középtotál kapcsolja össze.
+S: Vízcsobogás, kupakkattanás, puha kosárzörej; rövid, játékos fafúvós válaszok.
+
+@E02|4|90|KÉTFÉLE TEMPÓ|Gyökerekkel szegélyezett ösvény
+A: Márk egy kanyarban előresiet. A kamera vele tart, aztán megáll: a többiek még a gyökereket kerülgetik. Márk rájön, hogy egyedül érkezett a következő jelhez. Visszafordul, nem indul tovább. Lili a biztos, széles oldalt választja; Pötty követi a lábnyomát, Morzsi a kosarat másik kezébe veszi.
+CHAR_MARK: Innen már látszik egy másik kő!
+CHAR_LILI: Mi még az előző gyökérnél tartunk.
+CHAR_MARK: Megvárjalak?
+CHAR_POTTY: Úgy könnyebb együtt menni.
+A: Márk a hátizsákot megigazítva melléjük lép. Próbálja Pötty lépésritmusát utánozni, túl kicsiket lép, majd összekoccan a saját cipője. Pötty elneveti magát. Bogyó megáll kettőjük között, és egyszerre indul velük. A csoport fokozatosan közös, kényelmes sebességet talál.
+CHAR_MORZSI: Nem kell ugyanakkor lépnünk. Csak ugyanoda érjünk.
+CHAR_ZIZI: Ezt beleírhatom a noteszbe?
+CHAR_LILI: Előbb nézz az útra.
+A: Zizi az utolsó pillanatban emeli át a lábát egy alacsony gyökéren. A noteszt becsukja. Márk a következő forduló előtt hátrapillant; ez a mozdulat a film végén természetessé válik.
+K: Oldalsó követés különböző járásciklusokkal; a megállás után csoportos újraindulás egy képen.
+S: Hat eltérő lépéskarakter, levelek, Bogyó szimatolása; a zene a közös tempóhoz igazodik.
+
+@E03|4|90|A JEL MÁSIK FELE|Mohás jelzőkövek
+A: Az ösvényt egy kidőlt, vékony ág takarja. A fény egyenesen továbbmutat, de a kövek a széles kerülőre vezetik az utat. Márk már átlépne. Lili a mancsával letöröl egy levélréteget a jelről: az ismert kör egy második, alacsonyabb kövön folytatódik.
+CHAR_MARK: A fény arra mutat.
+CHAR_LILI: Az út meg itt megy körbe.
+CHAR_ZIZI: Lehet, hogy ugyanoda vezetnek.
+A: Közös mozdulattal az ösvény szélére teszik az ágat. Nem vágnak új utat. Pötty figyeli a jel két részét; oldalra lépve a két kör összeilleszkedik a látóirányában. Megmutatja Márknak, honnan érdemes nézni.
+CHAR_POTTY: Innen egyben van. Onnan olyan, mintha hiányozna belőle valami.
+CHAR_MARK: Akkor nem mindig a jel rossz. Néha én állok rossz helyen.
+CHAR_MORZSI: Én most jó helyen állok? Mert innen látom a tisztást.
+A: A többiek Morzsi mellé érnek. A kapu még sötét. Márk a kendőt két kézzel tartja, elteszi a saját, gyors magyarázatát, és Lili felé fordul. Innen közvetlenül az eredeti kaputisztási érkezés következik.
+K: A két jel összeilleszkedését Pötty szemmagasságából mutatjuk; kitáguló közös kép a tisztás felé.
+S: Ág súrlódása, madárhangok ritkulása; a háromhangos motívum első halk hangszeres előképe.
+
+@E04|6|110|AHOL A SZÉL LÁTSZIK|Szélkert, kapuszigeti kilátó
+A: A kapusziget biztonságos belső ösvényén szélfű nő. Az egyik csomó meghajlik, a következő mozdulatlan. Zizi felemeli a műszerét, de az apró mutató összevissza rezeg. Lili a fű végét követi. Márk a kendőt testközelben tartja; Bogyó a lelógó sarkát követné, Pötty finoman odahívja.
+CHAR_ZIZI: A szél itt van, itt meg nincs. Pedig csak egy lépés.
+CHAR_LILI: Nézd a füvet. Nem találgat.
+A: Morzsi lehullott levelet enged el térdmagasságban a belső kert fölött. A levél nem száll a szakadék felé: kis körben visszaérkezik egy mélyedésbe. Másodszorra Zizi már megjósolja, hol landol. Nem ismételjük harmadszor. A kör mozgása egy eltömődött, levél alakú oldalsó rácsra irányítja a tekintetüket.
+CHAR_MARK: Mintha valaki mindig visszafújná.
+CHAR_MORZSI: Pedig egyszer már szépen elengedtem.
+CHAR_POTTY: Lehet, hogy nincs tovább útja.
+A: A távoli harangtorony megmozdul, de hang helyett csak levegős sóhaj hallatszik. A csapat összenéz; most már konkrét kérdéssel indulnak a kert belseje felé. A kapuszigeti narancsszalag a háttérben marad.
+K: Levélkövetésből átfordulás a szereplők arcaira; a híd és a visszaút egy közös térképező totálban.
+S: Keskeny légfütty, fűsúrlódás, távoli néma harang mechanikai kattanása; kíváncsi vonóspizzicato.
+
+@E05|6|110|EGY TÉRKÉP NEM AZ EGÉSZ KERT|Szélkert, alacsony útjelző fal
+A: A falba faragott kertábrát moha takarja. Zizi a noteszébe másolja a látható köröket. Márk a csillagszilánkot a rajz fölé emeli, de nem érinti a falhoz. Nem történik varázslat. Pötty észreveszi a fal tövében a kisebb, lefelé forduló nyilat.
+CHAR_ZIZI: Itt a kapu, ott a torony. Köztük egy vonal. Egyszerű.
+CHAR_POTTY: És ez a vonal lefelé miért megy?
+CHAR_MARK: Talán rosszul rajzolták.
+CHAR_LILI: Vagy van valami a fal alatt is.
+A: Bogyó a közeli, nyitott lépcsőhöz szalad, majd visszanéz. Nem tűnik el a csapat elől. A lépcső egy széles, korlátos alsó teraszra vezet. Zizi megfordítja a noteszt, aztán rájön, hogy térbeli utat másolt lapos vonallá.
+CHAR_ZIZI: Ezt nem fordítva kell tartani. Hozzá kell rajzolnom az alsó utat.
+CHAR_MORZSI: Addig én megkeresem, hol fér el a kosár a lépcsőn.
+A: Morzsi oldalt halad, Pötty számolja a lépcsőfokokat. Márk utolsó előtt indul, megvárja Zizit. A kamera végig látja, hol lesznek lent; nincs hirtelen új helyszínre teleportálás.
+K: Falrészletből térbeli süllyesztés a teraszra; a csoport átkelését egy követő beállítás tartja.
+S: Kőlépések, ceruzasercegés, nyitott tér szélhangja.
+
+@E06|6|110|A SZOMJAS LEVÉL|Szélkert, alsó vízkert
+A: Az alsó teraszon széles levelű növények árnyékolnak egy üres vízvályút. Egy levél a földre hajlik. Pötty a saját kulacsát nézi, Morzsi pedig az üres vályú folytatását. Márk már a kulacsért nyúlna, de megvárja, hogy Pötty nyújtsa oda.
+CHAR_MARK: Adhatunk neki egy kortyot?
+CHAR_POTTY: Egyet igen. De az egész kertnek nincs nálam elég.
+CHAR_MORZSI: Nézzük meg, honnan szokott kapni.
+A: Egy kevés vizet a levél tövéhez öntenek. A levél lassan felemelkedik, alatta kis kagyló alakú medence látszik. A mozdulat egy apró, lebegő magot szabadít ki. Bogyó megszagolja, tüsszent, de nem kapja be. A mag a vályúban marad. Lili a mésznyomot követi a száraz kő falán.
+CHAR_LILI: Idáig ért a víz. Nem csak egy kis pocsolya volt.
+CHAR_ZIZI: A torony tetejéről jöhetett. A térképen is arra fut a vályú.
+A: Pötty visszateszi a kupakot. Márk segít a szalagot kibogozni. A növényt nem viszik el: az egyszeri segítségből új cél születik, visszahozni a kert saját vizét.
+K: Közeli kéz–kulacs átadás, majd alacsony menet a vályú irányában; a levél emelkedése valódi deformációval.
+S: Rövid vízcseppek, levélnyikkanás, Bogyó tüsszentése; meleg, visszafogott zenei válasz.
+
+@E07|6|110|A MINDENMÉRŐ PRÓBÁJA|Szélkert, vízkerék terasza
+A: Zizi letérdel az álló kis vízkerék mellett. A mindenmérő pálcája a kerék egyik lapátjának támaszkodik. A mutató rögtön nagyot ugrik. Zizi felvillanyozva mutatná, de Morzsi észreveszi, hogy maga Zizi mozgatja a lapátot.
+CHAR_ZIZI: Mégis mozog!
+CHAR_MORZSI: A te könyököddel együtt.
+A: Zizi elhúzza a kezét. Minden megáll. Rövid csend; a többiek nem nevetik ki. Márk leguggol mellé, a szilánkot a kendőben a saját térdén tartja.
+CHAR_ZIZI: Azt hittem, ma végre mindent megmutat.
+CHAR_MARK: Egy dolgot már megmutatott. Hogy a könyököd működik.
+A: Zizi akaratlanul elmosolyodik. Lili finoman odafordít egy szabad levelet a kerék elé. A levél rezeg, a kerék továbbra sem mozdul. Ezúttal Zizi megfigyelést ír a noteszbe, nem kész magyarázatot.
+CHAR_ZIZI: Van levegő. Víz nincs. A kerék pedig vízre vár.
+CHAR_POTTY: Ezt én is látom. Akkor értem a rajzodat.
+A: Zizi a mindenmérőt összecsukja, és a hátára teszi. A notesz marad a kezében. Egy újabb vályúrészlet a harangtorony felé vezet; a csapat továbbmegy.
+K: Zizi arca és a mozdulatlan kerék egy képen; a kínos csend alatt a kamera nem vág el a reakcióról.
+S: Műszer rugózaja, egyetlen kerékkoppanás, majd valós csend a párbeszédnek.
+
+@E08|6|110|LILI KERÜLŐJE|Szélkert, két széles kerti út
+A: A belső út a torony felé emelkedik; a másik rövidebb, de a mozgó szélfű teljesen eltakarja a talaját. Mindkettő korláton belül van. Lili a hosszabb utat választja. Márk a fényt nézi, előre lépne, majd észreveszi, hogy Lili megállt.
+CHAR_MARK: Innen hamarabb odaérünk.
+CHAR_LILI: Innen viszont látom, hová lépek.
+CHAR_MARK: Félsz?
+CHAR_LILI: Nem szeretnék úgy tenni, mintha mindent látnék.
+A: Lili a mancsával szétválaszt két fűcsomót. Alattuk sekély vízmélyedés van, nem veszélyes szakadék. Márk belátja, hogy a felület csalóka. Leteszi a saját sietségét, a kendőt biztonságosabban fogja, és megfordul.
+CHAR_MARK: Akkor megyek veled. De elmondod, mit figyelsz?
+CHAR_LILI: A következő biztos helyet. Aztán a következőt.
+A: Pötty hallja a mondatot. Későbbi szervizjáratos döntésének előképe ez, nem külön tanulságmagyarázat. Bogyó az egyik árnyékos mélyedésbe beledugja az orrát, majd Lili hívására visszatér. A csapat a hosszabb úton halad, közben több részletet lát a kerti csövekből.
+K: A választás két útját ugyanabból a totálból mutatjuk; a fű alatti talajt Lili nézőpontja tisztázza.
+S: Fűcsomók sodródása, tompa mancsütések; a zene nem jelez indokolatlan veszélyt.
+
+@E09|6|110|AMIT BOGYÓ MEGJEGYEZ|Szélkert, árnyékos csatornafedél
+A: Bogyó egy különösen hűvös kő mellett leül. Pötty odahajol, azt hiszi, pihenni szeretne. Bogyó feláll, a kő alatti nyíláshoz szimatol, majd újra rájuk néz. A kő nem mozdul; senki sem feszegeti.
+CHAR_POTTY: Fáradt vagy?
+CHAR_MORZSI: Én egy kicsit. De szerintem ő valamit talált.
+A: Lili a kő árnyékában nedves mohát vesz észre. Zizi a vályú külső irányát összeveti a nyílással. A rajza most először kapcsolódik pontosan egy valódi részlethez. A noteszbe egy pici levéljelet tesz.
+CHAR_ZIZI: Ez a cső a harangok alá megy. A víz pedig mellette.
+CHAR_MARK: Akkor ugyanott kell keresnünk a két bajt.
+A: Márk a kendőt tartva bólint Bogyónak. A kutya nem kap emberi választ vagy feliratot: megrázza a fülét, és a csapat mellé sorol. Pötty egyszer visszanéz a nyílásra. Később innen érthető, miért bízik Bogyó jelzésében a körlap keresésekor.
+CHAR_POTTY: Megjegyzem ezt a helyet.
+CHAR_LILI: Én is.
+A: A terasz felső kijárata kinyílik a harangkertre. Az eredeti 7. jelenet panorámája most a bejárt út végpontja, nem újabb érkezés egy ismeretlen irányból.
+K: Rövid szagkövető mozgás a talaj szintjén, majd felvezetés a csoporthoz és a harangkerthez.
+S: Bogyó légvétele, rejtett vízcsepp, távoli légcső rezgése.
+
+@E10|7|110|KINEK MI A HELYE?|Harangkert, három állomás
+A: A három fújtató körül a szereplők helyet keresnek. Morzsi a nagyobbnál áll meg, Zizi a csövekhez térdel. Pötty megpróbál mindenkit látni, de Morzsi kosara kitakarja a körkő közepét. Szól, Morzsi rögtön arrébb teszi. Márk a szilánkkal a középre kerül, ettől egy pillanatra vezetőnek érzi magát.
+CHAR_MARK: Akkor én mondom, mikor indulunk?
+CHAR_LILI: Előbb mondjuk el, mit látunk.
+CHAR_POTTY: Én innen a fényt. Ha a kosár ott marad, akkor a kosarat.
+A: A helycsere nem gyors vágássor: térképező képen követhető, ki mit tud figyelni. Bogyó Pötty mellett pihen; a nyúl újra megszámolja őket. Zizi a kezelők előtt egyetlen ceruzavonallal kijelöli a saját helyét a notesz rajzán.
+CHAR_MORZSI: És nekem mit kell néznem?
+CHAR_ZIZI: A többieket. A nagy fújtatót úgyis érzed a kezedben.
+A: Morzsi kipróbálja a fogást anélkül, hogy lenyomná. Márk óvatosan eltartja a szilánkot a szerkezettől. Lili ellenőrzi a talajon a szabad utat a szereplők között. A három jel még nem adta ki a teljes megoldást.
+K: Felülnézeti térbeli bevezetés után szemmagasságú csoportkép; minden állomás és a körkő viszonya megmarad.
+S: Bőr fújtatóhuzat finom nyikorgása, kosár letétele, csövek halk alapzaja.
+
+@E11|7|110|A HIÁNYZÓ VONAL|Harangkert, jelkövek
+A: Zizi a kapunál rajzolt köröket a fújtatók jelei mellé teszi. A notesz egyik hajtása pont a hullámvonalon fut. Márk úgy értelmezi, hogy két külön jel. Pötty kisimítja a lapot, de a ceruza ott nem fogott rendesen.
+CHAR_MARK: Itt van még egy vonal. Talán azt is meg kell nyomni.
+CHAR_ZIZI: Az a papír hajtása.
+CHAR_MARK: Pedig úgy nézett ki, mint egy jel.
+A: Zizi először átrajzolná a hiányzó részt emlékezetből, majd megáll. A kövön nézi meg, és csak utána rajzolja le. Lili a mozdulatát követi. Bogyó közelebb fekszik, de nem fedi el a jeleket.
+CHAR_ZIZI: Most inkább azt rajzolom, ami itt van.
+CHAR_LILI: Akkor később is ugyanazt látjuk.
+CHAR_POTTY: Én meg fogom a lap szélét. A szélnek ma túl sok ötlete van.
+A: A lapot együtt tartják, amíg a rajz elkészül. Márk ujjával végigmutat a körön, a két ponton és a hullámon. Sorrendet még nem rendel hozzájuk. A szilánk a kendőben egy rövid választ villan, amitől újra türelmetlenné válik.
+K: Tárgyközeli a hajtás félreértéséről, majd három arc egy közös kompozícióban; a jel pontos alakja ismét felismerhető.
+S: Ceruzavonal, papírszél, egy rövid üveges hang.
+
+@E12|7|110|MÁRK GYORS VÁLASZA|Harangkert, körkő mellett
+A: Márk a szilánkot a központi kő fölé tartja. A fény erősödik, a távoli egyik virág megmozdul. A fiú rögtön a fújtatóra néz. Lili közben a körlap illesztését vizsgálja: a bemetszésben levélmaradványt lát, de még nem tudja, jelent-e gondot.
+CHAR_MARK: Látjátok? Már majdnem sikerült.
+CHAR_LILI: A fényt látom. Azt még nem, hogy mitől mozdult meg.
+CHAR_MARK: Ha várunk, közben megint elhalványul.
+CHAR_POTTY: Attól még itt vagyunk.
+A: Márk hallja, de nem felel rögtön. A korábbi közös tempóból most kizökken: a többiek befejezetlen megfigyelései helyett egyetlen erős jelre figyel. Morzsi óvatosan visszatereli a helyére a kosárból kibillenő kulacsot; a csapatnak még van tennivalója az indulás előtt.
+CHAR_ZIZI: Egy próbában csak egy dolgot változtassunk. Akkor tudjuk, mi felelt rá.
+CHAR_MARK: Jó. Egyet.
+A: Márk lejjebb engedi a kendőt. A jelenet nem oldja fel a türelmetlenségét; az eredeti 8–9. jelenet első próbája és túl sok egyidejű mozdulata ebből következik. A körlap helyét és a sekély hornyot előre megmutatjuk.
+K: A fényre szűkülő Márk-közeli után tágulás a még készülődő társakra; a horony helyét rövid tárgyközeli rögzíti.
+S: A motívum félbeszakadó első hangja; nincs időzítő vagy mesterséges riadó.
+
+@E13|12|120|A VÍZ NYOMA|Harangkert, újra szabaddá tett gyökér
+A: A gyökér és a körlap helyreállítása után egy kevés víz szivárog a mellette futó vályúba. Pötty azonnal észreveszi, mert korábban ő öntött a növénynek. A víz egy elágazásnál megáll egy száraz levéldarab mögött. Márk most nem nyúl rögtön hozzá.
+CHAR_MARK: Megnézhetem, mi tartja itt?
+CHAR_LILI: Igen. Innen én is látom.
+A: Márk két ujjal kiemeli a levéldarabot, és a földre teszi, nem tömi másik csőbe. A víz továbbhalad, de csak a közeli kis medencéig. Zizi a magasságkülönbséget mutatja. A torony nélkül nem jut feljebb.
+CHAR_ZIZI: Ez már út. Csak még nem megy rajta elég víz.
+CHAR_MORZSI: Akkor nem mindent rontottunk el.
+CHAR_MARK: Nem. De amit igen, abban szeretnék segíteni.
+A: Pötty letörli a körlap széléről a nedves port. Márk tartja a kendő tiszta sarkát, miközben a szilánk a hátizsák felső zsebében marad. A javítás megosztott mozdulat, nem egyetlen szereplő újabb látványos megoldása.
+K: A víz útját követő alacsony kamera; a kézmozdulat előtt közös tekintetváltás.
+S: Az első visszatérő vízcsurgás, textil, puha kőérintés; lassan újrainduló zenei basszus.
+
+@E14|12|120|PÖTTY NEM CSAK FIGYEL|Harangkert, alacsony ülőkő
+A: Pötty a szervizjárat után letörli a mancsáról a mohát. Bogyó mellette fekszik. Márk odalépne gratulálni még egyszer, de Pötty inkább a noteszt kéri Zizitől. A nyúl lerajzolja, hogyan fordította el a körlapot a szűk nyílásban.
+CHAR_POTTY: Ezt tedd mellé. Ha máskor kell, tudjuk, hogyan fért ki.
+CHAR_ZIZI: Te jobban láttad belülről.
+CHAR_POTTY: Attól még örülök, hogy most kívül vagyok.
+A: Mindketten nevetnek. Zizi átengedi a ceruzát, nem javít bele Pötty rajzába. Márk leül a kő másik végére. Bogyó a fejét a lábára teszi; Márk keze lassul, amikor megsimogatja.
+CHAR_MARK: Azt hittem, attól segítek, ha mindig én lépek először.
+CHAR_POTTY: Bent én voltam elöl. De azért tudtam menni, mert hallottalak benneteket.
+CHAR_LILI: Most is hallhatjuk egymást.
+A: Márk a notesz üres részére nem új tervet rajzol, hanem hat apró helyet jelöl. Pötty Bogyó jeléhez fület tesz. Ezt később a feladatmegosztásnál használják, nem lesz belőle új mágikus tárgy.
+K: Nyugodt, együtt tartott hármas kép; Bogyó testi közelsége összekapcsolja a szereplőket.
+S: Ceruza, finom bundasúrlódás, csendes környezet; beszéd alatt nincs hangsúlyos zene.
+
+@E15|12|120|MORZSI ELENGEDI|Harangkert, szabad járófelület
+A: Morzsi még mindig ugyanott áll, ahol korábban a fedelet tartotta. A fedél már rögzítve van, de a keze reflexből a közelében marad. Zizi megmutatja a bekattant zárat. Morzsi lassan elengedi, majd saját elgémberedett ujjait nézi.
+CHAR_ZIZI: Most már a retesz tartja.
+CHAR_MORZSI: Tudom. Csak még a kezem nem tudta.
+A: Pötty vizet kínál neki. Morzsi először a többiek felé nyújtaná, Lili azonban finoman visszatolja hozzá a kulacsot. Márk átteszi a kosarat árnyékba. Morzsi leül; a csapat most rá vár.
+CHAR_LILI: Te is ihatsz.
+CHAR_MORZSI: Azt hittem, már mindenki a következő feladatra vár.
+CHAR_MARK: Most rád várunk. Az is egy következő feladat.
+A: A mondatot Morzsi mosolya oldja, nem emelkedett zene. Bogyó a kosár körül szimatol, de Pötty hívására melléjük ül. A pihenés közben hallhatóvá válik egy addig elnyomott, távoli hang. Mind elcsendesednek, és a körkő felé fordulnak.
+K: Morzsi kezének feszültségéből arcra emelés, majd közös figyelemváltás a hang irányába.
+S: Kulacs, nyelés, fedél apró kattanása; távolról a kert első tisztuló hangja.
+
+@E16|12|120|A RAJZ MELLETTI HELY|Harangkert, Zizi notesze
+A: Zizi a hibás korábbi rajz mellé új megfigyeléseket tesz. Nem tépi ki a régi lapot. Pötty belső járatrajza, Lili vízvonala és Márk hat kis jele egy oldalon kerül egymás mellé. Zizi körberajzolná a kész megoldást, de a lap közepe üres marad.
+CHAR_ZIZI: Itt még nem tudom, mi legyen.
+CHAR_MARK: Hagyhatod üresen.
+CHAR_ZIZI: A térképeimen nem szokott üres hely maradni.
+CHAR_LILI: Ebben a kertben még van, amit nem hallottunk.
+A: Egy széllökés felkapja a lap sarkát. Pötty tartja, Morzsi a kosarat szélfogónak teszi, Márk a notesz alját fogja. Zizi ezúttal nem szerel új eszközt: csendben figyel. A távoli hanghoz egy második hang társul, de a teljes rend még nem világos.
+CHAR_POTTY: Ezt már az előbb is hallottuk.
+CHAR_MORZSI: Csak akkor mi hangosabbak voltunk.
+A: A csapat leül vagy leguggol a fújtatók mellett. Az eredeti 13. jelenet hallgatási próbája innen indul: a három hang és a szünet felismerése továbbra is ott történik. Márk a szilánkot ekkor veszi elő, az eredeti folytonosság szerint.
+K: Noteszről felnyíló csoportkép; a háttérben a körkő látható, a hang forrásának iránya egyértelmű.
+S: Papír, széllökés lecsendesedése, két elkülönülő akusztikus hang; előkészített csend.
+
+@E17|14|120|A HÍD MÁSODIK OLDALA|Toronysziget, belső erkély
+A: Márk, Lili, Morzsi és Zizi átér a már stabil hídon. Pötty és Bogyó láthatóan a körkő mellett marad. A belső erkélyről két járat vezet a szélterelőhöz: egy alacsony boltív és egy magasabb, széles kerülő. Morzsi kosárral nem férne kényelmesen a boltívbe.
+CHAR_MARK: Erre rövidebb. De a kosárnak nem.
+CHAR_MORZSI: A kosár most egyetért veled.
+CHAR_LILI: Innen látom a vezetősínt. Menjünk körbe.
+A: Márk már magától félreáll, hogy Lili mehessen elöl. Zizi a noteszét a tényleges tájoláshoz fordítja. Közben Pötty a túloldalról felemeli a kezét: minden rendben. Márk visszajelez, nem kezd kiabáló párbeszédbe a távolságon át.
+CHAR_ZIZI: A rajzon ez a két vonal ugyanoda ér. Most már látom is.
+CHAR_MARK: Akkor nem kell a rövidebbet választanunk.
+A: A négy szereplő körbejárja a kis, korlátos erkélyt. A szélterelő mögött szabad kijárat látszik; a zárt lap tartja vissza a levegőt. A mechanikát előre megértjük, mielőtt bárki mozgatná.
+K: Stabil, térképező átvezetés a híd két végpontja között; utána Lili mögötti, alacsony követés.
+S: Kőlépések változó térhanggal, a zárt lap mögötti tompa szél.
+
+@E18|14|120|ZIZI KÉT SZABAD KEZE|Toronysziget, karbantartó pad
+A: A terelő fogantyújához kétoldalt kell hozzáférni. Zizi egyik kezében a műszer, a másikban a notesz. Próbálna még a reteszhez is nyúlni, aztán megáll. Nem ejti le a tárgyakat komikus veszélybe; helyet keres a biztonságos belső padon.
+CHAR_ZIZI: Azt hiszem, most egyikre sincs szükségem a kezemben.
+CHAR_MORZSI: Attól még a tiéd maradnak.
+A: Zizi leteszi őket, ellenőrzi, hogy nem gurulnak. Márk felajánlja a hátizsák oldalsó zsebét, de a szilánkot őrző Pötty felé pillant: a tárgyak helyét most tudatosan követi. Zizi a padon hagyja a műszert, a noteszt Morzsi kosarába teszi.
+CHAR_ZIZI: Ha valamit nem értek, szólok.
+CHAR_MARK: Én is.
+CHAR_LILI: Akkor előbb csak megfogjuk. Még nem emeljük.
+A: A szereplők elpróbálják a fogásváltást terhelés nélkül. Morzsi mutatja, hol tudja stabilan tartani a fogantyút; Márk a túloldalon áll. Lili a sínhez hajol. Az eredeti terelőjelenet mozgása így érthető, konkrét előkészítést kap.
+K: A két szabad kéz közeli képe után teljes alakos próba; a fogantyú és a kéz kontaktja végig látszik.
+S: Szerszámöv finom fémzaja, notesz a kosárban, a lap megérintésének tompa hangja.
+
+@E19|14|120|PÖTTY ŐRSÉGE|Kapusziget, körkő; párhuzamos toronykép
+A: Pötty a szilánk előtt ül, Bogyó mellette. A kutya egy elgurult levél után indulna, de Pötty halkan odahívja. Bogyó visszatér. A szilánk fénye egy széllökésben kisebbnek látszik; Pötty nem nyúl hozzá, hanem másik oldalról is megnézi.
+CHAR_POTTY: Lehet, hogy csak a kendő sarka. Várj velem.
+A: Pötty a saját helyzetén változtat, a tárgy marad a mélyedésben. Kiderül, hogy a kendő takart el egy kis részt. A nyúl megkönnyebbül, majd körbenéz: a híd áll, a négy társ a túloldalon látszik. Három apró koppintással jelzi, hogy figyel. A torony felől Márk kézjele felel.
+A: Bogyó lassan leül, a farkát a mélyedéstől távol tartja. Pötty egy lehullott levéllel megmutatja neki a várakozás ritmusát: mozdulat, mozdulat, megállás. A kutya a megállásnál a nyúlra néz. A film későbbi farokritmusának ez a játék az előzménye.
+CHAR_POTTY: Látod? Nekünk most az a dolgunk, hogy itt maradjunk.
+A: Visszavágás a toronyhoz: Lili észreveszi a sínbe szorult követ, de még nem nyúl hozzá. Innen indul az eredeti 15. jelenet „Álljatok meg” kérése. A párhuzamos jelenet mindkét csoport jelenlétét és a szilánk őrzését igazolja.
+K: Nyugodt közeli Pötty és Bogyó kapcsolatáról, középtotál a látható túlpartról; a tárgy helye nem változik vágással.
+S: Három kőkoppintás, Bogyó halkan fújtat, majd egy tiszta szünet. Új beszélő hang nincs.
+
+@E20|16|185|HAT HELY A TÉRKÉPEN|Szélkert, kapuszigeti pihenő
+A: A kert már működik. A hazafelé vezető út előtt a csapat a kapuszigeti pihenőn megáll; a narancsszalag még a bokron van, ezért ezt a jelenetet a 16. jelenet hazatérési előkészülete elé szerkesztjük. A nedves levél, amelyet Bogyó hozott, Pötty ölében marad. Zizi kinyitja a noteszt: a korábbi üres közép mellé a most látott vízutat rajzolja.
+CHAR_ZIZI: Most már be tudom fejezni.
+CHAR_LILI: Az egész kertet?
+CHAR_ZIZI: Nem. Azt az utat, amin jöttünk.
+A: Márk a kendőben tartja a visszavett szilánkot. A térképen az első elhibázott vonalat nézi. Zizi radírozna, Márk azonban a vízkerék felé mutat.
+CHAR_MARK: Ezt hagyd meg. Innen tudtuk meg, hogy nem oda kell menni.
+CHAR_ZIZI: Akkor más színnel jelölöm, amit már tudunk.
+A: Pötty megmutatja a szűk járat rajzát. Morzsi a fedél mellé egy kis támaszt rajzol, Bogyó orrával rábök a notesz sarkára. Zizi oda teszi a kutya jelét. Lili nem rajzol: megmutatja a kerülőt, amelyen mindenki elfért. Márk a hat jelet egyetlen út mellé rendezi, nem a sajátját teszi középre.
+CHAR_MORZSI: Az enyém mellé rajzolhatunk egy ülőkövet is?
+CHAR_POTTY: Azt biztosan megjegyzem.
+CHAR_MARK: Ha máskor jövünk, előbb nézünk, aztán próbálunk.
+CHAR_LILI: És ha más történik?
+CHAR_MARK: Akkor megint megnézzük.
+A: A szél átfúj a már nyitott terelőn. A kert három hangja most könnyed, nem feladatjelzés. A csapat együtt hallgatja. Egyetlen levél Bogyó orrára tapad; Pötty leveszi, a kutya csóvál. Zizi becsukja a noteszt, visszateszi a kosárból a saját övébe. Morzsi felveszi a kosarat. Innen a 16. jelenet narancsszalag-leszedése és hatfős ellenőrzése, majd a változatlan hazatérés következik.
+K: Körben ülő csoport, kézről arcra vezetett lassú kamera; a háttérben működő kert valódi több rétegű mozgással.
+S: Víz, harangok és növények összeálló környezeti hangja; saját háromhangos zenei motívum feloldása, beszéd alatt halkítva.

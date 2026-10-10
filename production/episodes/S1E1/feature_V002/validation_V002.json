@@ -1,0 +1,28 @@
+{
+  "schema": "WONDERLY_FEATURE_DRAFT_V2",
+  "episode": "S1E1",
+  "title_hu": "A csillagszilánk",
+  "target_duration_sec": 3600,
+  "minimum_duration_sec": 2400,
+  "planned_duration_sec": 3600,
+  "actual_duration_sec": null,
+  "status": "SCRIPT_AND_SCENE_DRAFT_NOT_RENDERABLE",
+  "production_approved": false,
+  "animatic_verified": false,
+  "source_sha256": "f06ae1beb9e5ef35e23450623091ac54d466bb509314e37ffb28a3e5fb2d46b8",
+  "extension_sha256": "dd882e6c2a63d62717fb543c23bbc1d38de5e1359c39504cd22e2de61fb465b4",
+  "scene_count": 40,
+  "new_scenes": 20,
+  "dialogue_count": 244,
+  "spoken_words_hu": 1531,
+  "recordings_reused": 131,
+  "new_or_unmatched_recordings": 113,
+  "recording_binding_issues": [],
+  "outside_story_recordings": [
+    {
+      "id": "1a4f38e8-9859-4a31-97e2-f219525a1898",
+      "text": "Ne felejts el feliratkozni!",
+      "reason": "Existing separate end-card CTA, kept outside the story draft"
+    }
+  ]
+}

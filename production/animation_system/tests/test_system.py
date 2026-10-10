@@ -101,4 +101,11 @@ class SystemTests(unittest.TestCase):
   def review(text,chars):return {'language':'hun','audio_sha256':'a'*64,'textMatches':True,'transcript':text,'words':[{'type':'word','text':text,'start':0,'end':.2,'characters':chars}]}
   r=review('ny',[{'text':'n','start':0,'end':0},{'text':'y','start':0,'end':.2}]);track=aligned_cues(r,'ny',1,'a'*64);self.assertEqual(track['mouthCues'][0]['phone'],'ny');self.assertEqual(track['mouthCues'][0]['end'],.2)
   with self.assertRaises(ValueError):aligned_cues(review('a',[{'text':'a','start':0,'end':0}]),'a',1,'a'*64)
+ def test_support_fit_keeps_targets_fixed_and_reports_infeasible_pose(self):
+  from animation_system.support import fit_support
+  import math
+  hips=[[0,0,1],[.3,0,1]];targets=[[0,0,0],[.3,0,0]];delta,residual=fit_support(hips,targets,[.9,.9])
+  self.assertLess(residual,.00001);self.assertLess(delta[2],-.1)
+  for h,t in zip(hips,targets):self.assertLessEqual(math.dist([a+b for a,b in zip(h,delta)],t),.9)
+  _,residual=fit_support([[0,0,0],[0,0,0]],[[-2,0,0],[2,0,0]],[.5,.5]);self.assertGreater(residual,1)
 if __name__=='__main__':unittest.main()

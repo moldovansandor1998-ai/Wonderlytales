@@ -1,0 +1,38 @@
+{
+  "runs": [
+    {
+      "count": 3,
+      "status": "REVIEW"
+    }
+  ],
+  "tasks": [
+    {
+      "count": 10,
+      "status": "DONE"
+    }
+  ],
+  "budget": {
+    "timezone": "Asia/Saigon",
+    "budget_day": "2026-10-11",
+    "reserved_usd": 0,
+    "remaining_usd": 200,
+    "reservation_id": null,
+    "daily_limit_usd": 200,
+    "configured_services": {
+      "tts": 1,
+      "authoring": 2,
+      "tts_dialogue": 0.25,
+      "native_render": 2.5
+    },
+    "provider_billing_cap_verified": false
+  },
+  "control": {
+    "id": true,
+    "error": null,
+    "active_remote": 0,
+    "dispatch_enabled": true,
+    "endpoint_verified": true,
+    "scheduler_heartbeat": "2026-10-10T17:07:00.098303+00:00"
+  },
+  "checked_at": "2026-10-10T17:07:46.3944+00:00"
+}

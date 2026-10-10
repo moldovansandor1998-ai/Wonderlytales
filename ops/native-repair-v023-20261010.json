@@ -1,0 +1,45 @@
+{
+  "source_sha256": "e5df53e3fdc954d0020cfa065b5dd7bc00d045b47b248bbb289054c5cf399fae",
+  "blender": "5.0.1",
+  "production_approved": false,
+  "repairs": {
+    "CHAR_MARK": {
+      "continuous_pelvis_frames": 1440
+    },
+    "CHAR_LILI": {
+      "continuous_pelvis_frames": 1440,
+      "skin": {
+        "vertices_changed": 111146,
+        "iterations": 24,
+        "max_weight_delta": 0.5648374557495117,
+        "coordinates_changed": false,
+        "shape_keys_preserved": true
+      }
+    },
+    "CHAR_POTTY": {
+      "continuous_pelvis_frames": 1440,
+      "skin": {
+        "vertices_changed": 108865,
+        "iterations": 24,
+        "max_weight_delta": 0.811394989490509,
+        "coordinates_changed": false,
+        "shape_keys_preserved": true
+      }
+    },
+    "CHAR_ZIZI": {
+      "continuous_pelvis_frames": 1440,
+      "skin": {
+        "vertices_changed": 108411,
+        "iterations": 24,
+        "max_weight_delta": 0.3539390563964844,
+        "coordinates_changed": false,
+        "shape_keys_preserved": true
+      },
+      "mouth": {
+        "vertices": 768,
+        "seam_reconstruction_complete": false
+      }
+    }
+  },
+  "candidate_sha256": "4a6e03e564875eaaf6ab77f7baf82d7f40cbb0a26fff9b0867cb74fef326636f"
+}

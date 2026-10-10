@@ -1,0 +1,575 @@
+WONDERLY TALES – CSODAKAPU: A CSILLAGSZILÁNK
+FEATURE_V002 – TELJES SZERKESZTETT MAGYAR MUNKAVÁLTOZAT
+
+60 perces rendezői időkeret; a tényleges játékidő még nincs lemérve.
+A V016 főcím és az elfogadott hangvágás a megőrzött alap. Az új jelenetek hangja még nem készült el.
+Nem kész film és nem renderengedély. A bővítés olvasópróbát, animaticot és folytonossági ellenőrzést igényel.
+
+S1E1_INTRO_V016 — ELFOGADOTT FŐCÍM
+Tervezett: 00:00–00:15.
+A változatlan, elfogadott 15 másodperces főcímmaster; epizódszám: S1E1.
+
+S1E1_SC001 — AZ ERDŐ EGY PILLANATRA ELHALLGAT
+Tervezett: 00:15–01:25. Erdő, késő délután.
+Márk és Lili egy falevelekkel teli ösvényen halad. Márk a lehullott levelekre lépked: roppanás, roppanás, szünet. Lili a föld mellé hajló páfrányt kerülgeti. Nem egyforma ritmusban járnak. Márk megáll, hogy bevárja.
+MÁRK: Hallod? Ropogós az egész erdő.
+LILI: Igen. Főleg az a része, amelyiken te mész.
+Márk még egy levelet keres. Egy különösen nagyot szemel ki. Mire rálépne, a levél felemelkedik, és egy vékony türkiz fénycsík suhan el alatta.
+MÁRK: Ezt nem én csináltam.
+LILI: A levelet vagy a fényt?
+MÁRK: Egyiket sem. De a fény érdekel jobban.
+A fény a gyökerek között villan. Lili füle fordul, követi az irányát. A madárhangok egy pillanatra elcsendesednek. Márk lehajol; a fény már nincs ott. Mögöttük újra felvillan. Három rövid fény, aztán sötét.
+LILI: Nem fut el. Mintha jelezne.
+MÁRK: Kinek?
+Egy lapos kő mögött derengés jelenik meg. Márk odalép, de Lili eléteszi a mancsát.
+LILI: Előbb nézzük meg. Aztán nyúlunk hozzá.
+A kamera a kőre közelít: az alatta megbújó, csillag alakú apró szilánk fényt vet a levelek erezetére.
+MÁRK: Szerintem nekünk.
+A szilánk egy tiszta, üveges hangot ad.
+
+S1E1_SC003 — EGY DARAB CSILLAG
+Tervezett: 01:25–02:55. Ugyanaz az erdőrész.
+Márk a hátizsákból összehajtott kendőt vesz elő. A kő mellett guggol. Lili megvizsgálja a talajt: nincs égés, nincs füst, a moha ép.
+LILI: Nem forró. A moha nem száradt ki körülötte.
+MÁRK: Akkor lehet, hogy csak egy szép kavics.
+LILI: Az én kavicsaim ritkán világítanak.
+Márk a kendőre emeli a szilánkot. A kézmozdulat lassú, mindkét tenyér látszik. A szilánk eleinte halvány; amikor az ösvény régi tisztás felőli részére fordulnak, erősebb lesz.
+MÁRK: Nézd! Tetszik neki a kendő.
+Lili megkerüli Márkot. A fiú vele együtt fordul, a fény csökken.
+LILI: Fordulj vissza egy kicsit.
+A fény erősödik.
+MÁRK: Erre akar menni.
+LILI: Vagy valami arra válaszol neki.
+Márk a szilánk peremét figyeli. A csillag egyik oldala szabályos, a másik törött, nem éles; a törésben halvány kék szál fut.
+MÁRK: Hiányzik belőle egy rész.
+LILI: Lehet, hogy valamiből ez hiányzik.
+Márk elindulna a derengés felé. Megáll, Lilit nézi.
+MÁRK: Előbb nézzük meg?
+Lili elmosolyodik, bólint. A fiú letakarja a szilánkot a kendő egyik szélével. A fény átdereng. Együtt követik az ösvényt. A fény rövid időre megvilágít egy régi, kőbe vésett körjelet a gyökerek alatt. Lili megjegyzi a formáját.
+
+S1E1_SC004 — MAKKFALVA BARÁTAI
+Tervezett: 02:55–04:20. Ösvényelágazás, a falu felőli oldal.
+Morzsi kosárral, Pötty kulaccsal érkezik. Bogyó előttük szaglászik. Zizi egy guruló kis szerkezetet húz; az egyik kerék mindig más irányba akar menni.
+MORZSI: Uzsonnakereső túra?
+MÁRK: Csillagkereső. Az uzsonna még a táskámban van.
+MORZSI: Ez a legjobb fajta túra.
+Bogyó megszagolja a kendőt, halk vakkantással hátralép, aztán kíváncsian előre. Pötty óvatosan belenéz.
+PÖTTY: Ez biztos nem egy villám? A villámok szoktak világítani.
+LILI: A villámok nem szoktak kendőben üldögélni.
+Zizi a szilánk fölé tartja az eszközét. A mutató egyszer jobbra, egyszer balra ugrik, majd a hátuljára fordul.
+ZIZI: A világ legelső mindenmérője. Most épp azt méri, hogy…
+MORZSI: Hogy fejjel lefelé van?
+ZIZI: Pontosan. Ezt nagyon pontosan méri.
+Zizi visszafordítja. A mutató a régi tisztásra mutat.
+ZIZI: Van benne egy egyszerű iránytű is. Az nem az én találmányom.
+Lili megmutatja a fény változását. Zizi kikapcsolja a gépét, hogy ne zavarja a halk csilingelést.
+PÖTTY: A régi kapuhoz megyünk? Ahhoz, ami sosem nyílik ki?
+MÁRK: Csak megnézzük, miért arra világít.
+MORZSI: Együtt megyünk. Én viszem a kosarat.
+Bogyó két rövid ugatással körbeszaladja őket. Pötty megsimítja a füle tövét.
+PÖTTY: Jól van. De ha a kapu köszön, én is köszönök. És aztán gondolkodom.
+A csapat elindul. Zizi felveszi a szerkezetet, ne akadjon a gyökerekbe.
+
+S1E1_E01 — AMIT MAGUNKKAL VISZÜNK
+Tervezett: 04:20–05:50. Makkfalva felőli ösvény, forráskő
+A csapat az elágazás forráskövénél megáll. Márk a kendőt a hátizsák tetejére fekteti; a szilánk végig látható. Morzsi szétosztja a kosár könnyű holmijait. Zizi büszkén kipakolja a mindenmérő tartozékait, de a harmadik alkatrész már lelóg a lapos kőről. Lili manccsal visszatartja.
+LILI: Ennyi minden kell egy körülnézéshez?
+ZIZI: Nem. De még nem tudom, melyik nem kell.
+MORZSI: Az uzsonna biztosan kell.
+Morzsi helyet csinál a víznek. Pötty a kulacs kupakját szalaggal a nyakához rögzíti; ezt később is látjuk. Bogyó egy fenyőtobozt tenne a kosárba. Morzsi megmutatja a teli kosarat, majd a széles ösvényt. Bogyó a tobozt a kő mellett hagyja, megszagolja, hogy később felismerje a helyet.
+PÖTTY: Ha leteszek valamit, mindig attól félek, hogy pont az hiányzik majd.
+MÁRK: Akkor vigyük, ami mindenkinek kell. A többit megjegyezzük.
+Zizi két nehéz szerelvényt a saját, fedeles úti ládájába zár a forrás mellett. A noteszt és a narancsszalagot megtartja. Márk most ellenőrzi, hogy mindenki elkészült-e, de a fény következő villanására már az ösvényt nézi.
+Kamera: Alacsony körmozgás a kő körül; a tárgyakat és mind a hat szereplő reakcióját olvasható középtotál kapcsolja össze.
+Hang: Vízcsobogás, kupakkattanás, puha kosárzörej; rövid, játékos fafúvós válaszok.
+
+S1E1_E02 — KÉTFÉLE TEMPÓ
+Tervezett: 05:50–07:20. Gyökerekkel szegélyezett ösvény
+Márk egy kanyarban előresiet. A kamera vele tart, aztán megáll: a többiek még a gyökereket kerülgetik. Márk rájön, hogy egyedül érkezett a következő jelhez. Visszafordul, nem indul tovább. Lili a biztos, széles oldalt választja; Pötty követi a lábnyomát, Morzsi a kosarat másik kezébe veszi.
+MÁRK: Innen már látszik egy másik kő!
+LILI: Mi még az előző gyökérnél tartunk.
+MÁRK: Megvárjalak?
+PÖTTY: Úgy könnyebb együtt menni.
+Márk a hátizsákot megigazítva melléjük lép. Próbálja Pötty lépésritmusát utánozni, túl kicsiket lép, majd összekoccan a saját cipője. Pötty elneveti magát. Bogyó megáll kettőjük között, és egyszerre indul velük. A csoport fokozatosan közös, kényelmes sebességet talál.
+MORZSI: Nem kell ugyanakkor lépnünk. Csak ugyanoda érjünk.
+ZIZI: Ezt beleírhatom a noteszbe?
+LILI: Előbb nézz az útra.
+Zizi az utolsó pillanatban emeli át a lábát egy alacsony gyökéren. A noteszt becsukja. Márk a következő forduló előtt hátrapillant; ez a mozdulat a film végén természetessé válik.
+Kamera: Oldalsó követés különböző járásciklusokkal; a megállás után csoportos újraindulás egy képen.
+Hang: Hat eltérő lépéskarakter, levelek, Bogyó szimatolása; a zene a közös tempóhoz igazodik.
+
+S1E1_E03 — A JEL MÁSIK FELE
+Tervezett: 07:20–08:50. Mohás jelzőkövek
+Az ösvényt egy kidőlt, vékony ág takarja. A fény egyenesen továbbmutat, de a kövek a széles kerülőre vezetik az utat. Márk már átlépne. Lili a mancsával letöröl egy levélréteget a jelről: az ismert kör egy második, alacsonyabb kövön folytatódik.
+MÁRK: A fény arra mutat.
+LILI: Az út meg itt megy körbe.
+ZIZI: Lehet, hogy ugyanoda vezetnek.
+Közös mozdulattal az ösvény szélére teszik az ágat. Nem vágnak új utat. Pötty figyeli a jel két részét; oldalra lépve a két kör összeilleszkedik a látóirányában. Megmutatja Márknak, honnan érdemes nézni.
+PÖTTY: Innen egyben van. Onnan olyan, mintha hiányozna belőle valami.
+MÁRK: Akkor nem mindig a jel rossz. Néha én állok rossz helyen.
+MORZSI: Én most jó helyen állok? Mert innen látom a tisztást.
+A többiek Morzsi mellé érnek. A kapu még sötét. Márk a kendőt két kézzel tartja, elteszi a saját, gyors magyarázatát, és Lili felé fordul. Innen közvetlenül az eredeti kaputisztási érkezés következik.
+Kamera: A két jel összeilleszkedését Pötty szemmagasságából mutatjuk; kitáguló közös kép a tisztás felé.
+Hang: Ág súrlódása, madárhangok ritkulása; a háromhangos motívum első halk hangszeres előképe.
+
+S1E1_SC005 — A CSODAKAPU FELÉBRED
+Tervezett: 08:50–10:25. Kaputisztás. A V004 képen rögzített helyszín.
+A kapu mohos, öreg köveket és fény nélküli türkiz hornyokat mutat. Az előtérben lapos kövek. Márk és Lili az elfogadott képre emlékeztető pozícióban, de ténylegesen mozognak. A többiek mögöttük érnek be.
+MÁRK: Ugyanolyan, mint mindig.
+LILI: A szilánk viszont nem.
+A fény a szilánkból a földön lévő egyik jelre vetül. Fényfolyam fut végig a kövek közti réseken. A kapu három felső jele sorban felragyog. Morzsi maga mellé húzza a kosarat; Pötty megkapaszkodik a kosár fülében.
+PÖTTY: Jó napot kívánok.
+Semmi válasz. Halk kőrezgés. Zizi nem nyúl a kapuhoz, hanem a felvillanó jeleket rajzolja le egy noteszbe.
+ZIZI: A fény három helyen áll meg. Utána visszamegy a közepére.
+MÁRK: Lehet, hogy oda kell tenni.
+A középső üreg nem szilánk alakú, hanem egy teljes csillag körvonala. Márk óvatosan közelebb tartja a kendőt. A kapu belsejében kör alakú fényfelület jelenik meg.
+LILI: Nem érintetted hozzá.
+MÁRK: Akkor most kivételesen jó, hogy nem érintettem hozzá.
+A felületből áttűnik egy másik táj: füves szigetek lebegnek a felhők között. Keskeny fényutak kötik össze őket, a középen lévő torony három arany harangot tart. Egyetlen harang sem mozdul. A levelek ott különösen lassan hullanak.
+MORZSI: Az ott… az ég?
+PÖTTY: Remélem, van rajta föld is.
+Bogyó a kapu mellett ül le. A farka megáll. A saját erdőjük madarai tovább énekelnek; a túloldalon szokatlan csend van.
+LILI: Ott valami nem működik.
+
+S1E1_SC006 — EGYÜTT, VISSZAÚTTAL
+Tervezett: 10:25–11:40. Kaputisztás / túloldali kapusziget.
+Márk a kapukerethez lép, és egy leesett levelet átnyújt a fényen. Elengedi. A levél a túloldali fűre esik. Bogyó kíváncsian nyújtaná utána az orrát; Lili visszahívja.
+LILI: Várj, Bogyó. Előbb megbeszéljük.
+MÁRK: Menjünk át arra az első szigetre. A kaput végig látjuk. Nem indulunk el egyedül.
+PÖTTY: És ha onnan ez a kapu nem látszik?
+Zizi egy narancsszínű szalagot vesz elő. A túloldalon álló bokor ágára rögzíthetik; a kapukerethez nem kötnek semmit.
+ZIZI: Ezt látni fogjuk. És ha el akarunk menni messzebb, előbb megint megállunk.
+MORZSI: Én leszek az utolsó. Megnézem, hogy mind megvagyunk.
+Pötty a többieket számolja, Bogyót kétszer is.
+PÖTTY: Hat. Azaz hét… Nem. Hat. Bogyó gyors.
+Márk és Lili együtt lép át. Szilánk a kendőben, Márk két kezében. A többiek követik. Morzsi hátrafordul: az erdő a kapun belül ugyanott marad. Leteszi a kosarat a fűre. Zizi a közeli bokorra köti a szalagot.
+A szigeten kis lapos körkő áll, rajta három lehajtott levélalak. A harmadik levél alól fény villan. A szilánk válaszol.
+MÁRK: Itt is ugyanaz a jel.
+Lili belenéz a körkő üres közepébe: kerek, sekély vájat, ahonnan mintha hiányozna valami.
+LILI: És itt is hiányzik egy darab.
+
+S1E1_E04 — AHOL A SZÉL LÁTSZIK
+Tervezett: 11:40–13:30. Szélkert, kapuszigeti kilátó
+A kapusziget biztonságos belső ösvényén szélfű nő. Az egyik csomó meghajlik, a következő mozdulatlan. Zizi felemeli a műszerét, de az apró mutató összevissza rezeg. Lili a fű végét követi. Márk a kendőt testközelben tartja; Bogyó a lelógó sarkát követné, Pötty finoman odahívja.
+ZIZI: A szél itt van, itt meg nincs. Pedig csak egy lépés.
+LILI: Nézd a füvet. Nem találgat.
+Morzsi lehullott levelet enged el térdmagasságban a belső kert fölött. A levél nem száll a szakadék felé: kis körben visszaérkezik egy mélyedésbe. Másodszorra Zizi már megjósolja, hol landol. Nem ismételjük harmadszor. A kör mozgása egy eltömődött, levél alakú oldalsó rácsra irányítja a tekintetüket.
+MÁRK: Mintha valaki mindig visszafújná.
+MORZSI: Pedig egyszer már szépen elengedtem.
+PÖTTY: Lehet, hogy nincs tovább útja.
+A távoli harangtorony megmozdul, de hang helyett csak levegős sóhaj hallatszik. A csapat összenéz; most már konkrét kérdéssel indulnak a kert belseje felé. A kapuszigeti narancsszalag a háttérben marad.
+Kamera: Levélkövetésből átfordulás a szereplők arcaira; a híd és a visszaút egy közös térképező totálban.
+Hang: Keskeny légfütty, fűsúrlódás, távoli néma harang mechanikai kattanása; kíváncsi vonóspizzicato.
+
+S1E1_E05 — EGY TÉRKÉP NEM AZ EGÉSZ KERT
+Tervezett: 13:30–15:20. Szélkert, alacsony útjelző fal
+A falba faragott kertábrát moha takarja. Zizi a noteszébe másolja a látható köröket. Márk a csillagszilánkot a rajz fölé emeli, de nem érinti a falhoz. Nem történik varázslat. Pötty észreveszi a fal tövében a kisebb, lefelé forduló nyilat.
+ZIZI: Itt a kapu, ott a torony. Köztük egy vonal. Egyszerű.
+PÖTTY: És ez a vonal lefelé miért megy?
+MÁRK: Talán rosszul rajzolták.
+LILI: Vagy van valami a fal alatt is.
+Bogyó a közeli, nyitott lépcsőhöz szalad, majd visszanéz. Nem tűnik el a csapat elől. A lépcső egy széles, korlátos alsó teraszra vezet. Zizi megfordítja a noteszt, aztán rájön, hogy térbeli utat másolt lapos vonallá.
+ZIZI: Ezt nem fordítva kell tartani. Hozzá kell rajzolnom az alsó utat.
+MORZSI: Addig én megkeresem, hol fér el a kosár a lépcsőn.
+Morzsi oldalt halad, Pötty számolja a lépcsőfokokat. Márk utolsó előtt indul, megvárja Zizit. A kamera végig látja, hol lesznek lent; nincs hirtelen új helyszínre teleportálás.
+Kamera: Falrészletből térbeli süllyesztés a teraszra; a csoport átkelését egy követő beállítás tartja.
+Hang: Kőlépések, ceruzasercegés, nyitott tér szélhangja.
+
+S1E1_E06 — A SZOMJAS LEVÉL
+Tervezett: 15:20–17:10. Szélkert, alsó vízkert
+Az alsó teraszon széles levelű növények árnyékolnak egy üres vízvályút. Egy levél a földre hajlik. Pötty a saját kulacsát nézi, Morzsi pedig az üres vályú folytatását. Márk már a kulacsért nyúlna, de megvárja, hogy Pötty nyújtsa oda.
+MÁRK: Adhatunk neki egy kortyot?
+PÖTTY: Egyet igen. De az egész kertnek nincs nálam elég.
+MORZSI: Nézzük meg, honnan szokott kapni.
+Egy kevés vizet a levél tövéhez öntenek. A levél lassan felemelkedik, alatta kis kagyló alakú medence látszik. A mozdulat egy apró, lebegő magot szabadít ki. Bogyó megszagolja, tüsszent, de nem kapja be. A mag a vályúban marad. Lili a mésznyomot követi a száraz kő falán.
+LILI: Idáig ért a víz. Nem csak egy kis pocsolya volt.
+ZIZI: A torony tetejéről jöhetett. A térképen is arra fut a vályú.
+Pötty visszateszi a kupakot. Márk segít a szalagot kibogozni. A növényt nem viszik el: az egyszeri segítségből új cél születik, visszahozni a kert saját vizét.
+Kamera: Közeli kéz–kulacs átadás, majd alacsony menet a vályú irányában; a levél emelkedése valódi deformációval.
+Hang: Rövid vízcseppek, levélnyikkanás, Bogyó tüsszentése; meleg, visszafogott zenei válasz.
+
+S1E1_E07 — A MINDENMÉRŐ PRÓBÁJA
+Tervezett: 17:10–19:00. Szélkert, vízkerék terasza
+Zizi letérdel az álló kis vízkerék mellett. A mindenmérő pálcája a kerék egyik lapátjának támaszkodik. A mutató rögtön nagyot ugrik. Zizi felvillanyozva mutatná, de Morzsi észreveszi, hogy maga Zizi mozgatja a lapátot.
+ZIZI: Mégis mozog!
+MORZSI: A te könyököddel együtt.
+Zizi elhúzza a kezét. Minden megáll. Rövid csend; a többiek nem nevetik ki. Márk leguggol mellé, a szilánkot a kendőben a saját térdén tartja.
+ZIZI: Azt hittem, ma végre mindent megmutat.
+MÁRK: Egy dolgot már megmutatott. Hogy a könyököd működik.
+Zizi akaratlanul elmosolyodik. Lili finoman odafordít egy szabad levelet a kerék elé. A levél rezeg, a kerék továbbra sem mozdul. Ezúttal Zizi megfigyelést ír a noteszbe, nem kész magyarázatot.
+ZIZI: Van levegő. Víz nincs. A kerék pedig vízre vár.
+PÖTTY: Ezt én is látom. Akkor értem a rajzodat.
+Zizi a mindenmérőt összecsukja, és a hátára teszi. A notesz marad a kezében. Egy újabb vályúrészlet a harangtorony felé vezet; a csapat továbbmegy.
+Kamera: Zizi arca és a mozdulatlan kerék egy képen; a kínos csend alatt a kamera nem vág el a reakcióról.
+Hang: Műszer rugózaja, egyetlen kerékkoppanás, majd valós csend a párbeszédnek.
+
+S1E1_E08 — LILI KERÜLŐJE
+Tervezett: 19:00–20:50. Szélkert, két széles kerti út
+A belső út a torony felé emelkedik; a másik rövidebb, de a mozgó szélfű teljesen eltakarja a talaját. Mindkettő korláton belül van. Lili a hosszabb utat választja. Márk a fényt nézi, előre lépne, majd észreveszi, hogy Lili megállt.
+MÁRK: Innen hamarabb odaérünk.
+LILI: Innen viszont látom, hová lépek.
+MÁRK: Félsz?
+LILI: Nem szeretnék úgy tenni, mintha mindent látnék.
+Lili a mancsával szétválaszt két fűcsomót. Alattuk sekély vízmélyedés van, nem veszélyes szakadék. Márk belátja, hogy a felület csalóka. Leteszi a saját sietségét, a kendőt biztonságosabban fogja, és megfordul.
+MÁRK: Akkor megyek veled. De elmondod, mit figyelsz?
+LILI: A következő biztos helyet. Aztán a következőt.
+Pötty hallja a mondatot. Későbbi szervizjáratos döntésének előképe ez, nem külön tanulságmagyarázat. Bogyó az egyik árnyékos mélyedésbe beledugja az orrát, majd Lili hívására visszatér. A csapat a hosszabb úton halad, közben több részletet lát a kerti csövekből.
+Kamera: A választás két útját ugyanabból a totálból mutatjuk; a fű alatti talajt Lili nézőpontja tisztázza.
+Hang: Fűcsomók sodródása, tompa mancsütések; a zene nem jelez indokolatlan veszélyt.
+
+S1E1_E09 — AMIT BOGYÓ MEGJEGYEZ
+Tervezett: 20:50–22:40. Szélkert, árnyékos csatornafedél
+Bogyó egy különösen hűvös kő mellett leül. Pötty odahajol, azt hiszi, pihenni szeretne. Bogyó feláll, a kő alatti nyíláshoz szimatol, majd újra rájuk néz. A kő nem mozdul; senki sem feszegeti.
+PÖTTY: Fáradt vagy?
+MORZSI: Én egy kicsit. De szerintem ő valamit talált.
+Lili a kő árnyékában nedves mohát vesz észre. Zizi a vályú külső irányát összeveti a nyílással. A rajza most először kapcsolódik pontosan egy valódi részlethez. A noteszbe egy pici levéljelet tesz.
+ZIZI: Ez a cső a harangok alá megy. A víz pedig mellette.
+MÁRK: Akkor ugyanott kell keresnünk a két bajt.
+Márk a kendőt tartva bólint Bogyónak. A kutya nem kap emberi választ vagy feliratot: megrázza a fülét, és a csapat mellé sorol. Pötty egyszer visszanéz a nyílásra. Később innen érthető, miért bízik Bogyó jelzésében a körlap keresésekor.
+PÖTTY: Megjegyzem ezt a helyet.
+LILI: Én is.
+A terasz felső kijárata kinyílik a harangkertre. Az eredeti 7. jelenet panorámája most a bejárt út végpontja, nem újabb érkezés egy ismeretlen irányból.
+Kamera: Rövid szagkövető mozgás a talaj szintjén, majd felvezetés a csoporthoz és a harangkerthez.
+Hang: Bogyó légvétele, rejtett vízcsepp, távoli légcső rezgése.
+
+S1E1_SC007 — A SZÉLKERT
+Tervezett: 22:40–24:00. Kapusziget, első híd.
+A csapat nem megy azonnal a toronyhoz. Körülnéznek. A szigetek közti fényhíd a következő füves kis szigetre vezet. Vastag fonott korlátja van. Mögötte a második híd csukva; a fénykövei a földre simulnak.
+MORZSI: A fák nem mozognak.
+PÖTTY: Az jó. Akkor nem hajolnak ránk.
+LILI: A levelek sem. Pedig azoknak mozogniuk kellene.
+Zizi megmutat egy megszáradt virágot és egy lecsukott szélkereket. A talajon apró vízcsatorna fut, de a csatornában megállt a víz. Egy felhő a virág fölé ér, két cseppet ejt, majd tovább nem tud mozdulni.
+ZIZI: A szélkerék emelné a vizet. Ha nem forog, a virág sem kap eleget.
+MÁRK: Akkor a toronyból kell szelet csinálnunk.
+LILI: Nézzük meg előbb, miért állt meg.
+Bogyó megszagolja a hídkorlátot, aztán a körkő felé fordul. A körkő három levéljele három külön színben villan: arany, türkiz, arany. A torony felől egy elakadó haranghang érkezik.
+PÖTTY: Olyan, mintha valaki tüsszenteni akarna, csak nem sikerül neki.
+Morzsi játékosan tüsszent egyet. Bogyó felkapja a fejét; a feszültség oldódik.
+A csapat átsétál az első hídon. Pötty középen, Morzsi mellette; a nyúl a fonott korláton csúsztatja a kezét. Lili ellenőrzi, hogy a kapu mögöttük látható marad.
+
+S1E1_E10 — KINEK MI A HELYE?
+Tervezett: 24:00–25:50. Harangkert, három állomás
+A három fújtató körül a szereplők helyet keresnek. Morzsi a nagyobbnál áll meg, Zizi a csövekhez térdel. Pötty megpróbál mindenkit látni, de Morzsi kosara kitakarja a körkő közepét. Szól, Morzsi rögtön arrébb teszi. Márk a szilánkkal a középre kerül, ettől egy pillanatra vezetőnek érzi magát.
+MÁRK: Akkor én mondom, mikor indulunk?
+LILI: Előbb mondjuk el, mit látunk.
+PÖTTY: Én innen a fényt. Ha a kosár ott marad, akkor a kosarat.
+A helycsere nem gyors vágássor: térképező képen követhető, ki mit tud figyelni. Bogyó Pötty mellett pihen; a nyúl újra megszámolja őket. Zizi a kezelők előtt egyetlen ceruzavonallal kijelöli a saját helyét a notesz rajzán.
+MORZSI: És nekem mit kell néznem?
+ZIZI: A többieket. A nagy fújtatót úgyis érzed a kezedben.
+Morzsi kipróbálja a fogást anélkül, hogy lenyomná. Márk óvatosan eltartja a szilánkot a szerkezettől. Lili ellenőrzi a talajon a szabad utat a szereplők között. A három jel még nem adta ki a teljes megoldást.
+Kamera: Felülnézeti térbeli bevezetés után szemmagasságú csoportkép; minden állomás és a körkő viszonya megmarad.
+Hang: Bőr fújtatóhuzat finom nyikorgása, kosár letétele, csövek halk alapzaja.
+
+S1E1_E11 — A HIÁNYZÓ VONAL
+Tervezett: 25:50–27:40. Harangkert, jelkövek
+Zizi a kapunál rajzolt köröket a fújtatók jelei mellé teszi. A notesz egyik hajtása pont a hullámvonalon fut. Márk úgy értelmezi, hogy két külön jel. Pötty kisimítja a lapot, de a ceruza ott nem fogott rendesen.
+MÁRK: Itt van még egy vonal. Talán azt is meg kell nyomni.
+ZIZI: Az a papír hajtása.
+MÁRK: Pedig úgy nézett ki, mint egy jel.
+Zizi először átrajzolná a hiányzó részt emlékezetből, majd megáll. A kövön nézi meg, és csak utána rajzolja le. Lili a mozdulatát követi. Bogyó közelebb fekszik, de nem fedi el a jeleket.
+ZIZI: Most inkább azt rajzolom, ami itt van.
+LILI: Akkor később is ugyanazt látjuk.
+PÖTTY: Én meg fogom a lap szélét. A szélnek ma túl sok ötlete van.
+A lapot együtt tartják, amíg a rajz elkészül. Márk ujjával végigmutat a körön, a két ponton és a hullámon. Sorrendet még nem rendel hozzájuk. A szilánk a kendőben egy rövid választ villan, amitől újra türelmetlenné válik.
+Kamera: Tárgyközeli a hajtás félreértéséről, majd három arc egy közös kompozícióban; a jel pontos alakja ismét felismerhető.
+Hang: Ceruzavonal, papírszél, egy rövid üveges hang.
+
+S1E1_E12 — MÁRK GYORS VÁLASZA
+Tervezett: 27:40–29:30. Harangkert, körkő mellett
+Márk a szilánkot a központi kő fölé tartja. A fény erősödik, a távoli egyik virág megmozdul. A fiú rögtön a fújtatóra néz. Lili közben a körlap illesztését vizsgálja: a bemetszésben levélmaradványt lát, de még nem tudja, jelent-e gondot.
+MÁRK: Látjátok? Már majdnem sikerült.
+LILI: A fényt látom. Azt még nem, hogy mitől mozdult meg.
+MÁRK: Ha várunk, közben megint elhalványul.
+PÖTTY: Attól még itt vagyunk.
+Márk hallja, de nem felel rögtön. A korábbi közös tempóból most kizökken: a többiek befejezetlen megfigyelései helyett egyetlen erős jelre figyel. Morzsi óvatosan visszatereli a helyére a kosárból kibillenő kulacsot; a csapatnak még van tennivalója az indulás előtt.
+ZIZI: Egy próbában csak egy dolgot változtassunk. Akkor tudjuk, mi felelt rá.
+MÁRK: Jó. Egyet.
+Márk lejjebb engedi a kendőt. A jelenet nem oldja fel a türelmetlenségét; az eredeti 8–9. jelenet első próbája és túl sok egyidejű mozdulata ebből következik. A körlap helyét és a sekély hornyot előre megmutatjuk.
+Kamera: A fényre szűkülő Márk-közeli után tágulás a még készülődő társakra; a horony helyét rövid tárgyközeli rögzíti.
+Hang: A motívum félbeszakadó első hangja; nincs időzítő vagy mesterséges riadó.
+
+S1E1_SC008 — A HÁROM HANG
+Tervezett: 29:30–30:50. Harangsziget lába.
+A csukott második híd mellett három alacsony, levél alakú fújtató áll. Mindegyikhez áttetsző cső tartozik. A csövek a torony harangjai felé mennek. Az első alatt kör, a második alatt két pont, a harmadik alatt hullám jelölés.
+ZIZI: Nyomásra levegőt küldenek. Csak azt nem tudom még, mennyit.
+Morzsi megnyomja az elsőt. Egy kis légörvény a bajusza alá fúj. A távoli harang mélyen kong. Morzsi szőre felborzolódik.
+MORZSI: Ezt a frizurát nem kértem.
+Pötty megnyomja a másodikat. Magasabb hang szól. Bogyó a harmadikra lépne, de a közös ellenőrzés kedvéért Lili finoman maga mellé hívja.
+LILI: Egyszerre csak egyet. Halljuk, mit csinál.
+Márk megnyomja a harmadikat. A középső hang szól; egy fénykő a híd előtt felemelkedik, aztán visszaereszkedik.
+MÁRK: Láttátok? Már majdnem megnyílt!
+A kapusziget körköve most távolról is látszik. Fényjelei ugyanolyan sorrendben pulzálnak. Lili a jeleket figyeli, de Márk már a fújtatók elé áll.
+LILI: Márk, várj. Szerintem megmutatja…
+MÁRK: Mind a három kell hozzá. Morzsi, ezt nyomd. Zizi, azt!
+Az első terv gyorsabb, mint a megfigyelés. Pötty tétován hátralép.
+
+S1E1_SC009 — TÚL SOK EGYSZERRE
+Tervezett: 30:50–32:10. Ugyanaz a hely.
+Márk jelére hárman egyszerre nyomják meg a fújtatókat. A harangok összevissza szólnak. Rövid, erős légpöffenés támad. Csak levelek és a kendő egyik szabad sarka mozdul; senkit nem fúj a szakadékba. Márk két kézzel védi a szilánkot.
+A híd fényköve elfordul, a három levéljel elsötétül. Egy kis arany körlap ugrik ki a torony csövének nyitott foglalatából, és a híd melletti, sekély kőhoronyba gurul. A nyílás fedett; a lap elérhető, de a rés szűk. Pötty követi a tekintetével.
+PÖTTY: Ott állt meg! A cső alatt!
+Zizi rögtön elengedi a fújtatót. Morzsi is. A szél elül. Bogyó megrázza a füleit, majd odabújik Pöttyhöz.
+MÁRK: Elrontottam.
+LILI: Valami elmozdult. Még meg tudjuk nézni.
+MÁRK: Mondtad, hogy várjak.
+Lili nem válaszol rögtön. Megnézi, hogy mindenki biztonságban van.
+LILI: Igen. Most megvárunk mindenkit. És kitaláljuk együtt.
+A kapu fénye még látszik, de a három körjel közül kettő egyre halványabb. Nincs visszaszámlálás vagy indokolatlan pánik.
+ZIZI: A körlap nélkül a levegő rossz irányba megy. Úgy, mint amikor lyukas a kulacs.
+MORZSI: Akkor először visszatesszük a körlapot.
+Márk a szilánkot letakarja, a kendőt összehajtva a hátizsák felső zsebébe teszi. Látszik a teljes mozdulat. Kezei szabaddá válnak. A csillag nem kerül önkényesen másik szereplőhöz.
+
+S1E1_SC010 — BOGYÓ NYOMA
+Tervezett: 32:10–33:20. Kőhorony és szerviznyílás.
+Bogyó a lap fölötti rácsot megszagolja, aztán a cső mellett húzódó keskeny fedett járathoz fut. A járatba egy emberi kar nem fér be, de egy nyúl oldalazva be tud menni. Morzsi óvatosan megtámasztja a meglazult külső fedelet; nem bontanak le terhet tartó építményt.
+MORZSI: Itt belül a föld van. Nem az ég fölött megy.
+Pötty leguggol, a belső padlót látja. Megérinti, aztán visszahúzza a kezét.
+PÖTTY: Azért elég szűk. És sötét is.
+MÁRK: Nem kell bemenned. Keressünk más megoldást.
+Zizi egy hosszú pálcát próbál a nyílásba vezetni. A pálca a kanyarban megakad. Nem ismétlik sokszor ugyanazt a kudarcot.
+ZIZI: A kanyar után én nem tudom mozgatni.
+Bogyó halkan nyüszít, a rácson át Pöttyre néz. A nyúl a rácson keresztül a körlapot is meglátja.
+PÖTTY: Ha bemegyek, a rácsnál látlak benneteket?
+LILI: Igen. Itt maradok. Végig beszélünk.
+Morzsi stabilan tartja a fedelet. Márk a nyílás mellett marad. Zizi leteszi az eszközét, hogy egyik keze se mozgassa meg véletlenül a tartót.
+Pötty nagy levegőt vesz. A füleit lehajtja, lassan oldalazva belép. A kamera vele azonos magasságban, a fényes kijáratot is mutatva követi.
+
+S1E1_SC011 — PÖTTY BÁTORSÁGA
+Tervezett: 33:20–34:45. Fedett szervizjárat.
+Pötty első lépése óvatos. A másodiknál a puha moha megcsiklandozza a talpát; hirtelen megáll.
+PÖTTY: Mi volt ez?
+LILI: A fal alján moha. A fényben itt is látom.
+Pötty megérinti a mohát. Elmosolyodik.
+PÖTTY: Jó. A mohától nem félek. Csak meglepett.
+Márk a rács túloldalán megjelenik; nem siettet.
+MÁRK: Látlak. Még két kicsi lépés, és a lap mellett vagy.
+Pötty letérdel. A körlap egy kis mélyedésben van; nem veszélyes szerkezet mellett. A nyúl két kézzel megemeli. Alatta keskeny gyökér nő át egy légnyíláson.
+PÖTTY: Megvan! És van itt valami növény is. Bent nőtt a csőben.
+ZIZI: Attól is elakadhatott a levegő. Ne tépd ki. Megnézzük, hol tud elférni.
+Pötty úgy fordítja a lapot, hogy a kijáraton kiférjen. A füle a falhoz ér; megáll, eligazítja, továbbhalad. Bogyó a kijáratnál hasra fekszik, csóvál.
+Kint Morzsi átveszi a lapot, majd elengedi a fedelet, amikor Zizi visszazárta. Pötty leül egy pillanatra a biztos talajra.
+MÁRK: Nagyon bátor voltál.
+PÖTTY: Én közben féltem.
+MORZSI: Attól még bátor voltál.
+Bogyó a nyúl mellé ül, a fejét a vállának dönti. Pötty nevetve megsimogatja. Nincs külön kimondott tanulságmondat vagy hosszú beszéd.
+Lili megnézi a körlapot: ugyanaz a három jel van rajta, mint a fújtatóknál.
+
+S1E1_SC012 — A KERT NEM ELLENSÉG
+Tervezett: 34:45–36:00. Torony alapja, a gyökér mellett.
+A lapot a levélformájú nyitott foglalat mellett tartják. Zizi az egyik elzáródott légcsövet mutatja. A gyökér a kő alatti nedves rész felé nőtt. A kert földje ott is kiszáradóban van.
+MÁRK: Csak útban van. Arrébb tehetjük?
+LILI: Óvatosan. Ez is ide tartozik.
+Morzsi megtámasztja a könnyű kőfedelet. Zizi felnyit egy külön oldalsó tartót; az nem a kapu része. Márk megtölti Pötty kulacsából a kis földmélyedést, hogy fellazuljon. Pötty nézi a vízmennyiséget, visszakéri a kupakot.
+PÖTTY: Elég lesz nekünk is?
+MORZSI: Van még nálam. A kert is kaphat.
+Márk két ujjal a földdel együtt tereli a puha gyökeret az oldalsó üregbe. Lili ellenőrzi, hogy nincs törés. Nem húzza vagy tépi a növényt. Zizi a kis tartót a nyitott légcső mellé zárja, a gyökér új helye szabad marad.
+ZIZI: Most a gyökér kap vizet. A levegő pedig kap utat.
+Pötty a körlapot a foglalat felé nyújtja. A lap egyik kis bemetszése mutatja a jó irányt. Lili jelzi; Morzsi helyreteszi, Zizi kattanásig rögzíti.
+A torony egyik harangja finoman megmozdul, de nem szól. Egy virág szirma felemelkedik.
+MÁRK: Most már csak a három hang.
+LILI: Igen. De ezúttal meghallgatjuk a kertet.
+
+S1E1_E13 — A VÍZ NYOMA
+Tervezett: 36:00–38:00. Harangkert, újra szabaddá tett gyökér
+A gyökér és a körlap helyreállítása után egy kevés víz szivárog a mellette futó vályúba. Pötty azonnal észreveszi, mert korábban ő öntött a növénynek. A víz egy elágazásnál megáll egy száraz levéldarab mögött. Márk most nem nyúl rögtön hozzá.
+MÁRK: Megnézhetem, mi tartja itt?
+LILI: Igen. Innen én is látom.
+Márk két ujjal kiemeli a levéldarabot, és a földre teszi, nem tömi másik csőbe. A víz továbbhalad, de csak a közeli kis medencéig. Zizi a magasságkülönbséget mutatja. A torony nélkül nem jut feljebb.
+ZIZI: Ez már út. Csak még nem megy rajta elég víz.
+MORZSI: Akkor nem mindent rontottunk el.
+MÁRK: Nem. De amit igen, abban szeretnék segíteni.
+Pötty letörli a körlap széléről a nedves port. Márk tartja a kendő tiszta sarkát, miközben a szilánk a hátizsák felső zsebében marad. A javítás megosztott mozdulat, nem egyetlen szereplő újabb látványos megoldása.
+Kamera: A víz útját követő alacsony kamera; a kézmozdulat előtt közös tekintetváltás.
+Hang: Az első visszatérő vízcsurgás, textil, puha kőérintés; lassan újrainduló zenei basszus.
+
+S1E1_E14 — PÖTTY NEM CSAK FIGYEL
+Tervezett: 38:00–40:00. Harangkert, alacsony ülőkő
+Pötty a szervizjárat után letörli a mancsáról a mohát. Bogyó mellette fekszik. Márk odalépne gratulálni még egyszer, de Pötty inkább a noteszt kéri Zizitől. A nyúl lerajzolja, hogyan fordította el a körlapot a szűk nyílásban.
+PÖTTY: Ezt tedd mellé. Ha máskor kell, tudjuk, hogyan fért ki.
+ZIZI: Te jobban láttad belülről.
+PÖTTY: Attól még örülök, hogy most kívül vagyok.
+Mindketten nevetnek. Zizi átengedi a ceruzát, nem javít bele Pötty rajzába. Márk leül a kő másik végére. Bogyó a fejét a lábára teszi; Márk keze lassul, amikor megsimogatja.
+MÁRK: Azt hittem, attól segítek, ha mindig én lépek először.
+PÖTTY: Bent én voltam elöl. De azért tudtam menni, mert hallottalak benneteket.
+LILI: Most is hallhatjuk egymást.
+Márk a notesz üres részére nem új tervet rajzol, hanem hat apró helyet jelöl. Pötty Bogyó jeléhez fület tesz. Ezt később a feladatmegosztásnál használják, nem lesz belőle új mágikus tárgy.
+Kamera: Nyugodt, együtt tartott hármas kép; Bogyó testi közelsége összekapcsolja a szereplőket.
+Hang: Ceruza, finom bundasúrlódás, csendes környezet; beszéd alatt nincs hangsúlyos zene.
+
+S1E1_E15 — MORZSI ELENGEDI
+Tervezett: 40:00–42:00. Harangkert, szabad járófelület
+Morzsi még mindig ugyanott áll, ahol korábban a fedelet tartotta. A fedél már rögzítve van, de a keze reflexből a közelében marad. Zizi megmutatja a bekattant zárat. Morzsi lassan elengedi, majd saját elgémberedett ujjait nézi.
+ZIZI: Most már a retesz tartja.
+MORZSI: Tudom. Csak még a kezem nem tudta.
+Pötty vizet kínál neki. Morzsi először a többiek felé nyújtaná, Lili azonban finoman visszatolja hozzá a kulacsot. Márk átteszi a kosarat árnyékba. Morzsi leül; a csapat most rá vár.
+LILI: Te is ihatsz.
+MORZSI: Azt hittem, már mindenki a következő feladatra vár.
+MÁRK: Most rád várunk. Az is egy következő feladat.
+A mondatot Morzsi mosolya oldja, nem emelkedett zene. Bogyó a kosár körül szimatol, de Pötty hívására melléjük ül. A pihenés közben hallhatóvá válik egy addig elnyomott, távoli hang. Mind elcsendesednek, és a körkő felé fordulnak.
+Kamera: Morzsi kezének feszültségéből arcra emelés, majd közös figyelemváltás a hang irányába.
+Hang: Kulacs, nyelés, fedél apró kattanása; távolról a kert első tisztuló hangja.
+
+S1E1_E16 — A RAJZ MELLETTI HELY
+Tervezett: 42:00–44:00. Harangkert, Zizi notesze
+Zizi a hibás korábbi rajz mellé új megfigyeléseket tesz. Nem tépi ki a régi lapot. Pötty belső járatrajza, Lili vízvonala és Márk hat kis jele egy oldalon kerül egymás mellé. Zizi körberajzolná a kész megoldást, de a lap közepe üres marad.
+ZIZI: Itt még nem tudom, mi legyen.
+MÁRK: Hagyhatod üresen.
+ZIZI: A térképeimen nem szokott üres hely maradni.
+LILI: Ebben a kertben még van, amit nem hallottunk.
+Egy széllökés felkapja a lap sarkát. Pötty tartja, Morzsi a kosarat szélfogónak teszi, Márk a notesz alját fogja. Zizi ezúttal nem szerel új eszközt: csendben figyel. A távoli hanghoz egy második hang társul, de a teljes rend még nem világos.
+PÖTTY: Ezt már az előbb is hallottuk.
+MORZSI: Csak akkor mi hangosabbak voltunk.
+A csapat leül vagy leguggol a fújtatók mellett. Az eredeti 13. jelenet hallgatási próbája innen indul: a három hang és a szünet felismerése továbbra is ott történik. Márk a szilánkot ekkor veszi elő, az eredeti folytonosság szerint.
+Kamera: Noteszről felnyíló csoportkép; a háttérben a körkő látható, a hang forrásának iránya egyértelmű.
+Hang: Papír, széllökés lecsendesedése, két elkülönülő akusztikus hang; előkészített csend.
+
+S1E1_SC013 — HALLGATNI IS KALAND
+Tervezett: 44:00–45:20. A három fújtató.
+A csapat leül vagy leguggol. A kapusziget felől a jel halk dallamot ad: mély, magas, középső hang, utána szünet. A szilánk a hátizsák zsebében dereng; Márk újra előveszi a kendőben. A tárgyátadás látható.
+MÁRK: Ugyanaz a három fény, mint az erdőben.
+Zizi a noteszében összehasonlítja a kapunál rajzolt jelekkel. Nem titkos új tudásból találja ki a választ.
+ZIZI: Kör, két pont, hullám. És utána semmi.
+MORZSI: A semmit is meg kell nyomni?
+LILI: A semminél nem nyomunk. Várunk.
+Morzsi a kezét demonstratívan a háta mögé teszi. Bogyó is leül, nagyon komolyan. Pötty majdnem nevet, aztán figyel. Márk sorban a fújtatók felé mutat. Nem nyomja meg őket.
+MÁRK: Mély. Magas. Középső. Szünet.
+A dallam újra hallatszik. A csapat apró kéz- és fejmozdulatokkal követi a ritmust. Egy rövid próbában Morzsi túl korán emeli a kezét; saját magát állítja meg.
+MORZSI: Ez még a szünet volt.
+PÖTTY: Én figyelem a fényt. Szólok, amikor vége.
+ZIZI: Én a csöveket. Ha bármi rossz irányba indul, megállunk.
+MÁRK: És én… most bevárok mindenkit.
+Lili mosolyog. Bogyó egyetlen csendes vakkantással jelzi a készülődést. Márk a kendővel együtt a körkő melletti stabil kis mélyedésbe helyezi a szilánkot; nem a teljes csillag alakú nyílásba illeszti.
+
+S1E1_SC014 — AZ ELSŐ HELYES SOR
+Tervezett: 45:20–46:40. Fújtatók / fényhíd.
+Morzsi az első fújtatót nyomja. Mély hang. Lili bólint. Márk a másodikat nyomja. Magas hang. Zizi a harmadikat. Középső hang. Mind elengedik, várnak.
+Pötty a fényjelet figyeli. Az utolsó jel kihuny, a körkő közepén új kör kezd ragyogni.
+PÖTTY: Most!
+Az első fénykő felemelkedik. Utána a második, a harmadik. Egy széles, korlátos híd összeáll a következő szigetig. A csapat nem rohan rá a mozgás közben.
+MÁRK: Megcsináltuk!
+Lili a tornyot nézi. A felső szélkerék megmozdul, de fél fordulat után megáll. A híd másik végén egy kis lehajtható szélterelő továbbra is csukva van. Az oda vezető út szilárd, korlátos.
+ZIZI: A levegő most jó helyre megy. Csak még nem tud kijönni.
+MORZSI: Akkor megnyitjuk az utat neki.
+Lili visszanéz a kapura: halványabban fénylik, a csillag mellett viszont kis arany szál látszik.
+LILI: Együtt maradunk. És nem visszük el a szilánkot, amíg meg nem nézzük, mit tart nyitva.
+Márk nem hagyja őrizetlenül: Pötty és Bogyó a körkőnél marad, látják a többieket. A sziget és az átjáró kicsi, a távolság áttekinthető.
+PÖTTY: Itt leszünk. Ha változik a fény, szólok.
+Márk, Lili, Morzsi és Zizi átlép a már stabil hídra.
+
+S1E1_E17 — A HÍD MÁSODIK OLDALA
+Tervezett: 46:40–48:40. Toronysziget, belső erkély
+Márk, Lili, Morzsi és Zizi átér a már stabil hídon. Pötty és Bogyó láthatóan a körkő mellett marad. A belső erkélyről két járat vezet a szélterelőhöz: egy alacsony boltív és egy magasabb, széles kerülő. Morzsi kosárral nem férne kényelmesen a boltívbe.
+MÁRK: Erre rövidebb. De a kosárnak nem.
+MORZSI: A kosár most egyetért veled.
+LILI: Innen látom a vezetősínt. Menjünk körbe.
+Márk már magától félreáll, hogy Lili mehessen elöl. Zizi a noteszét a tényleges tájoláshoz fordítja. Közben Pötty a túloldalról felemeli a kezét: minden rendben. Márk visszajelez, nem kezd kiabáló párbeszédbe a távolságon át.
+ZIZI: A rajzon ez a két vonal ugyanoda ér. Most már látom is.
+MÁRK: Akkor nem kell a rövidebbet választanunk.
+A négy szereplő körbejárja a kis, korlátos erkélyt. A szélterelő mögött szabad kijárat látszik; a zárt lap tartja vissza a levegőt. A mechanikát előre megértjük, mielőtt bárki mozgatná.
+Kamera: Stabil, térképező átvezetés a híd két végpontja között; utána Lili mögötti, alacsony követés.
+Hang: Kőlépések változó térhanggal, a zárt lap mögötti tompa szél.
+
+S1E1_E18 — ZIZI KÉT SZABAD KEZE
+Tervezett: 48:40–50:40. Toronysziget, karbantartó pad
+A terelő fogantyújához kétoldalt kell hozzáférni. Zizi egyik kezében a műszer, a másikban a notesz. Próbálna még a reteszhez is nyúlni, aztán megáll. Nem ejti le a tárgyakat komikus veszélybe; helyet keres a biztonságos belső padon.
+ZIZI: Azt hiszem, most egyikre sincs szükségem a kezemben.
+MORZSI: Attól még a tiéd maradnak.
+Zizi leteszi őket, ellenőrzi, hogy nem gurulnak. Márk felajánlja a hátizsák oldalsó zsebét, de a szilánkot őrző Pötty felé pillant: a tárgyak helyét most tudatosan követi. Zizi a padon hagyja a műszert, a noteszt Morzsi kosarába teszi.
+ZIZI: Ha valamit nem értek, szólok.
+MÁRK: Én is.
+LILI: Akkor előbb csak megfogjuk. Még nem emeljük.
+A szereplők elpróbálják a fogásváltást terhelés nélkül. Morzsi mutatja, hol tudja stabilan tartani a fogantyút; Márk a túloldalon áll. Lili a sínhez hajol. Az eredeti terelőjelenet mozgása így érthető, konkrét előkészítést kap.
+Kamera: A két szabad kéz közeli képe után teljes alakos próba; a fogantyú és a kéz kontaktja végig látszik.
+Hang: Szerszámöv finom fémzaja, notesz a kosárban, a lap megérintésének tompa hangja.
+
+S1E1_E19 — PÖTTY ŐRSÉGE
+Tervezett: 50:40–52:40. Kapusziget, körkő; párhuzamos toronykép
+Pötty a szilánk előtt ül, Bogyó mellette. A kutya egy elgurult levél után indulna, de Pötty halkan odahívja. Bogyó visszatér. A szilánk fénye egy széllökésben kisebbnek látszik; Pötty nem nyúl hozzá, hanem másik oldalról is megnézi.
+PÖTTY: Lehet, hogy csak a kendő sarka. Várj velem.
+Pötty a saját helyzetén változtat, a tárgy marad a mélyedésben. Kiderül, hogy a kendő takart el egy kis részt. A nyúl megkönnyebbül, majd körbenéz: a híd áll, a négy társ a túloldalon látszik. Három apró koppintással jelzi, hogy figyel. A torony felől Márk kézjele felel.
+Bogyó lassan leül, a farkát a mélyedéstől távol tartja. Pötty egy lehullott levéllel megmutatja neki a várakozás ritmusát: mozdulat, mozdulat, megállás. A kutya a megállásnál a nyúlra néz. A film későbbi farokritmusának ez a játék az előzménye.
+PÖTTY: Látod? Nekünk most az a dolgunk, hogy itt maradjunk.
+Visszavágás a toronyhoz: Lili észreveszi a sínbe szorult követ, de még nem nyúl hozzá. Innen indul az eredeti 15. jelenet „Álljatok meg” kérése. A párhuzamos jelenet mindkét csoport jelenlétét és a szilánk őrzését igazolja.
+Kamera: Nyugodt közeli Pötty és Bogyó kapcsolatáról, középtotál a látható túlpartról; a tárgy helye nem változik vágással.
+Hang: Három kőkoppintás, Bogyó halkan fújtat, majd egy tiszta szünet. Új beszélő hang nincs.
+
+S1E1_SC015 — A SZÉLTERELŐ
+Tervezett: 52:40–54:10. Toronysziget, szélterelő.
+A terelő nem varázslatosan oldódik meg: Morzsi egy fogantyún tartja a súlyát, Zizi kis reteszt nyit, Márk a másik oldalon megemeli a levélalakú lapot. Lili alulról nézi a vezetősínt; egy kis kő akadt bele.
+LILI: Álljatok meg egy kicsit.
+Mind megállnak. Lili kikotorja a kavicsot; a terelő ezután könnyen mozog. Zizi az új állásban rögzíti.
+ZIZI: Ez volt az utolsó akadály. Most nem egyszerre erősebben kell. Hanem sorban újra.
+Morzsi visszateszi a fogantyút, ellenőrzi, hogy stabil. A csapat visszamegy Pöttyékhez, ugyanazon az úton. A szilánk helyén maradt; Pötty egy pillanatra sem vette fel.
+MÁRK: Köszönöm, hogy szóltál, Lili.
+LILI: Köszönöm, hogy megálltatok.
+Morzsi a fújtatóhoz áll, Márk a másodikhoz, Zizi a harmadikhoz. A dallam lassabban ismétlődik. Bogyó felismeri: három apró farokmozdulat, aztán megáll. Pötty nevetve figyel tovább.
+Mély hang. Magas hang. Középső hang. Szünet.
+Ezúttal a fény nem áll meg a hídnál, hanem a torony tetejéig fut. A harangok tisztán szólnak. A szélterelő megnyílt irányában puha légáram indul el.
+PÖTTY: Most!
+A teljes kert válaszol: a szélkerék forogni kezd, a víz megemelkedik, az apró csatornák megtelnek. A lecsukott virágok kinyílnak. A lebegő szigetek finoman visszatérnek az eredeti magasságukra, a hidak stabilak maradnak. Senki sem zuhan, a térbeli mozgás lassú és áttekinthető.
+
+S1E1_SC016 — A KERT MEGKÖSZÖNI
+Tervezett: 54:10–54:55. Kapusziget / Szélkert panoráma.
+A csapat biztonságos talajon áll. A szél egyetlen nagy kört ír le, majd gyengül. Morzsi visszasimítja a bundáját; most rögtön újra felborzolja egy kis fuvallat. Bogyó a levél után ugrik, aztán Pöttyhöz hozza.
+MORZSI: Úgy látom, ez marad a mai frizurám.
+Zizi a vízzel telt csatorna mellett kikapcsolva hagyja a mindenmérőt.
+ZIZI: Ezt műszer nélkül is látom. Működik.
+Márk visszaveszi a szilánkot a kendőben. A kapu tovább ragyog: most a kert szélkereke is táplálja a fénykört. A körkő közepén egy rövid térkép körvonala jelenik meg: sok kör, középen egy csillag. Egyetlen kör tartósan felvillan. A többi halvány.
+MÁRK: Olyan, mintha a kapuhoz tartozna.
+LILI: És nem csak ehhez a kerthez.
+A szilánk törött oldala mellett egy második, hiányzó rész körvonala látszik. Nem új szilánkot kapnak jutalmul; csak nyomot.
+PÖTTY: Hány darab lehet még?
+ZIZI: Ezt most még a mindenmérő sem tudná.
+
+S1E1_E20 — HAT HELY A TÉRKÉPEN
+Tervezett: 54:55–58:00. Szélkert, kapuszigeti pihenő
+A kert már működik. A hazafelé vezető út előtt a csapat a kapuszigeti pihenőn megáll; a narancsszalag még a bokron van, ezért ezt a jelenetet a 16. jelenet hazatérési előkészülete elé szerkesztjük. A nedves levél, amelyet Bogyó hozott, Pötty ölében marad. Zizi kinyitja a noteszt: a korábbi üres közép mellé a most látott vízutat rajzolja.
+ZIZI: Most már be tudom fejezni.
+LILI: Az egész kertet?
+ZIZI: Nem. Azt az utat, amin jöttünk.
+Márk a kendőben tartja a visszavett szilánkot. A térképen az első elhibázott vonalat nézi. Zizi radírozna, Márk azonban a vízkerék felé mutat.
+MÁRK: Ezt hagyd meg. Innen tudtuk meg, hogy nem oda kell menni.
+ZIZI: Akkor más színnel jelölöm, amit már tudunk.
+Pötty megmutatja a szűk járat rajzát. Morzsi a fedél mellé egy kis támaszt rajzol, Bogyó orrával rábök a notesz sarkára. Zizi oda teszi a kutya jelét. Lili nem rajzol: megmutatja a kerülőt, amelyen mindenki elfért. Márk a hat jelet egyetlen út mellé rendezi, nem a sajátját teszi középre.
+MORZSI: Az enyém mellé rajzolhatunk egy ülőkövet is?
+PÖTTY: Azt biztosan megjegyzem.
+MÁRK: Ha máskor jövünk, előbb nézünk, aztán próbálunk.
+LILI: És ha más történik?
+MÁRK: Akkor megint megnézzük.
+A szél átfúj a már nyitott terelőn. A kert három hangja most könnyed, nem feladatjelzés. A csapat együtt hallgatja. Egyetlen levél Bogyó orrára tapad; Pötty leveszi, a kutya csóvál. Zizi becsukja a noteszt, visszateszi a kosárból a saját övébe. Morzsi felveszi a kosarat. Innen a 16. jelenet narancsszalag-leszedése és hatfős ellenőrzése, majd a változatlan hazatérés következik.
+Kamera: Körben ülő csoport, kézről arcra vezetett lassú kamera; a háttérben működő kert valódi több rétegű mozgással.
+Hang: Víz, harangok és növények összeálló környezeti hangja; saját háromhangos zenei motívum feloldása, beszéd alatt halkítva.
+
+S1E1_SC016_RETURN — INDULÁS A KAPUHOZ
+Tervezett: 58:00–58:20. Kapusziget / Szélkert panoráma.
+Morzsi felveszi a kosarat. Mind visszatérnek a kapusziget bokrához. Zizi leoldja a narancsszalagot, elteszi. Pötty megszámolja őket, Bogyót ezúttal maga mellett tartja.
+PÖTTY: Hat. Most biztos.
+MÁRK: Hazamegyünk. De ezt nem felejtjük el.
+
+S1E1_SC017 — HAZA, EGYÜTT
+Tervezett: 58:20–59:25. Kaputisztás, majd Makkfalva felőli ösvény.
+A csapat ugyanabban a sorrendben lép vissza az erdőbe, Morzsi utolsóként. Lili ellenőrzi a hátizsákot, a kendőt, a csapatot. Márk kezében a szilánk. A kapun át még látszik a mozgó Szélkert; a fényfelület lassan bezárul. A kő türkiz jelei halványan megmaradnak.
+PÖTTY: Most már köszöntünk, beszéltünk, és haza is jöttünk.
+MORZSI: Akkor jöhet a túra másik fele.
+Márk előveszi az uzsonnát. Morzsi nem kapja el, hanem az összes szereplőnek jut egy falat; Bogyónak külön kutyafalat a kosárból. Közben a szilánk a kendőn a fiú ölében marad.
+MÁRK: Majdnem úgy csináltam végig, mintha csak nekem lenne ötletem.
+ZIZI: Pedig nekem nagyon sok ötletem van. Néha túl sok.
+LILI: Nekünk ma pont hat kellett.
+PÖTTY: Az enyém az volt, hogy féljek egy kicsit, aztán mégis bemenjek.
+MORZSI: Az enyém, hogy ne essen le a fedél.
+MÁRK: Bogyóé meg, hogy mutassa az utat.
+Bogyó magára ismer a nevében, büszkén kihúzza magát. A levele, amit hozott, lecsúszik az orráról. Mind nevetnek.
+A csapat az ösvényen Makkfalva felé indul. A nap már alacsonyabb, de még világos. Nincs indokolatlan éjszakai időugrás.
+
+S1E1_SC018 — NEM AZ EGYETLEN
+Tervezett: 59:25–59:45. Kaputisztás; rövid rejtélynyom.
+Márk egyszer visszafordul az ösvényről. Felnyitja a kendőt. A szilánk törött oldala más irányba villan: a kapu egy eddig sötét felső körjelére. A jelben egy kicsi tollforma jelenik meg, aztán elhalványul.
+MÁRK: Lili…
+Lili megáll mellette. Mindketten látják, nem csak a néző.
+LILI: Láttam.
+MÁRK: Ez tényleg csak az első darab.
+A szilánk három rövid fényt ad. Márk visszatakarja, csatlakoznak a többiekhez. A kamera a kapun marad: a tollforma halványan egyszer visszafénylik. Új célvilág még nincs megnyitva, nincs ismert eredet, nincs új beszélő gonosz vagy megmagyarázott Csillagkulcs.
+
+S1E1_SC019 — STÁBLISTA
+Tervezett: 59:45–60:00.
+Saját rövid zenei levezetés, hiteles stáblista. Nem használhatunk kitalált gyártói neveket, nem mondhatjuk elkészültnek a riget, amely még nincs meg. A végleges stáblista tényleges hozzájárulók és licencelt assetek alapján készül. Ez a tizenöt másodperc nem történeti kitöltés.

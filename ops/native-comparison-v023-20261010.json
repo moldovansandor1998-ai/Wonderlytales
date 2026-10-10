@@ -1,0 +1,55 @@
+{
+  "sampled_frames": 81,
+  "blender": "5.0.1",
+  "baseline_sha256": "e5df53e3fdc954d0020cfa065b5dd7bc00d045b47b248bbb289054c5cf399fae",
+  "candidate_sha256": "68185d7afceb3a55d01ed559c2208518c699b7f75354910ab4c015bb744e894d",
+  "production_approved": false,
+  "candidate_rejected_for_promotion": true,
+  "reason": "Lili skin stretch worsens after support correction; other body stretch and unmatched mouth seams remain. Worker Blender 4.5.3 compatibility and full-frame acting QA not yet verified.",
+  "rows": [
+    {
+      "character": "CHAR_MARK",
+      "foot_error_before_m": 0.010977858993585882,
+      "foot_error_after_m": 0.006687322821920588,
+      "joint_speed_before_deg_s": 300.1910145884,
+      "joint_speed_after_deg_s": 300.1910145884,
+      "body_stretch_before": 4.3808065648850025,
+      "body_stretch_after": 4.3808065648850025,
+      "mouth_flips_before": 0,
+      "mouth_flips_after": 0
+    },
+    {
+      "character": "CHAR_LILI",
+      "foot_error_before_m": 0.07252691552953895,
+      "foot_error_after_m": 0.0033578615136318135,
+      "joint_speed_before_deg_s": 585.3637955693976,
+      "joint_speed_after_deg_s": 242.947315267739,
+      "body_stretch_before": 19.031828407907646,
+      "body_stretch_after": 27.86303921896329,
+      "mouth_flips_before": 0,
+      "mouth_flips_after": 0
+    },
+    {
+      "character": "CHAR_POTTY",
+      "foot_error_before_m": 0.009949394151788613,
+      "foot_error_after_m": 0.008961732893285059,
+      "joint_speed_before_deg_s": 660.1963316632978,
+      "joint_speed_after_deg_s": 362.6696850776605,
+      "body_stretch_before": 22.3587789113942,
+      "body_stretch_after": 22.3587789113942,
+      "mouth_flips_before": 0,
+      "mouth_flips_after": 0
+    },
+    {
+      "character": "CHAR_ZIZI",
+      "foot_error_before_m": 0.009070516886045136,
+      "foot_error_after_m": 0.009070516886045136,
+      "joint_speed_before_deg_s": 361.89464985216085,
+      "joint_speed_after_deg_s": 204.70607648226724,
+      "body_stretch_before": 14.393857584504223,
+      "body_stretch_after": 14.097114738321,
+      "mouth_flips_before": 11,
+      "mouth_flips_after": 0
+    }
+  ]
+}
