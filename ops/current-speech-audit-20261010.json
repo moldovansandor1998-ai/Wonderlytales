@@ -1,11 +1,11 @@
 {
-  "checked_at": "2026-10-10T16:22:00.765Z",
+  "checked_at": "2026-10-10T16:38:43.207Z",
   "total": 132,
   "decoded": 132,
   "voice_paths_match": 132,
-  "cached_current_alignments": 6,
-  "usable_alignments": 1,
-  "missing_alignments": 126,
+  "cached_current_alignments": 132,
+  "usable_alignments": 112,
+  "missing_alignments": 0,
   "phonetics_approved": false,
   "production_approved": false,
   "rows": [
@@ -22,7 +22,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.7836740000000004,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "91110003-0776-5f27-a63e-dae2a57ca5ad",
@@ -37,7 +43,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.23510199999999992,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "69bda51c-238d-5d36-87ec-70827da6e985",
@@ -52,7 +64,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.15673400000000015,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "86fdd780-a61a-5f91-b880-203935fa329e",
@@ -67,7 +85,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "a7993871-29ed-5821-a378-a251bfd6433d",
@@ -82,7 +106,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.18285700000000005,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "471f2a9b-389f-5f19-84f3-97d909229f31",
@@ -97,7 +127,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.0522450000000001,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "f1dd89c2-4283-5baa-a1c5-4770f915c2b4",
@@ -112,7 +148,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.18285699999999983,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "861e8900-fb6e-53d4-9a7c-2c0bfa918ee1",
@@ -148,7 +190,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.02612300000000012,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "3a8c4427-a2c2-5645-ba62-20a5eae5894e",
@@ -163,7 +211,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.7053060000000002,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "3d93996b-7582-55f2-bee8-c1426f417a7f",
@@ -178,7 +232,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.20897900000000003,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "1a4f38e8-9859-4a31-97e2-f219525a1898",
@@ -193,7 +253,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "78cc3f49-e8bd-57fd-bc08-ecf2f11d82c0",
@@ -208,7 +274,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.1044900000000002,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "2b64d328-61f2-5379-b56b-0195a2c7b536",
@@ -223,7 +295,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.287347,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "5e163a2b-1ad7-5c05-b46c-78c325f459de",
@@ -238,7 +316,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.3657140000000001,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "f6021a21-b5fb-5d83-b867-5a4c3fc193ae",
@@ -253,7 +337,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.15673400000000015,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "b0d01e4a-b5d1-5a5c-899d-3c80e82b8865",
@@ -268,7 +358,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.5485709999999999,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "d3ce5ece-87d6-5224-9e1c-66621884ac4f",
@@ -283,7 +379,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.18285700000000005,
-      "alignment": null
+      "alignment": {
+        "language": "eng",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": false
+      }
     },
     {
       "id": "5bc6fc09-9560-502d-a614-2cd62ed757cb",
@@ -298,7 +400,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.026122999999999674,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "c486e74d-7c86-59bd-a8d0-d1e8ec922f6d",
@@ -313,7 +421,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.20897999999999994,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "225ebeac-c6fb-5641-a488-fede3eb27b90",
@@ -349,7 +463,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.47020399999999984,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "2386fc17-10d1-5170-95a2-0b36f3ff120a",
@@ -364,7 +484,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.13061200000000017,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "f7008600-293c-55a7-90be-29a90764b6e3",
@@ -379,7 +505,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.13061200000000017,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "d1511295-d1f5-529c-b534-8b393bee23b7",
@@ -394,7 +526,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.13061199999999995,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "2f0930b8-161f-5239-abbf-399526e65171",
@@ -409,7 +547,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.23510199999999992,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "7e33345c-135c-5737-b2c2-3fabd3bff89c",
@@ -424,7 +568,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": false,
+        "word_timings_valid": true,
+        "character_timings_valid": false,
+        "usable_for_lipsync": false
+      }
     },
     {
       "id": "936df75a-cbdc-58e7-b8fb-9421d2e61981",
@@ -439,7 +589,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.052244999999999875,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "b6bb4029-79d5-549f-a385-4f9a86280cae",
@@ -454,7 +610,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.5485709999999999,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "25db74df-0d73-592f-82d8-642847187bac",
@@ -469,7 +631,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.3134699999999999,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "4cfef011-a42a-57d4-8b9d-6f605fe93fc8",
@@ -505,7 +673,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.6791840000000002,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "14ccb186-e1eb-5ce3-b03a-a89334d9bf2b",
@@ -520,7 +694,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.02612199999999998,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "5309e767-5148-5c2c-b78b-78fd8bcff5d1",
@@ -535,7 +715,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.3657149999999998,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "ba27c505-1cba-5f36-8ca5-3d29a83ec974",
@@ -550,7 +736,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.18285699999999983,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "73956111-1041-505c-9c41-f4fe9b53d960",
@@ -565,7 +757,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.13061199999999995,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "b21ab5f7-c8d6-5378-a9a4-e5bb316c2866",
@@ -580,7 +778,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.20897999999999994,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "165ae290-a683-5036-a462-cb44fd4c9d9f",
@@ -595,7 +799,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.287347,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "3511b9ad-52e2-5666-910c-fa9ceb5e4803",
@@ -610,7 +820,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.600816,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "971cb9b5-361f-5309-a44b-d87c0d7e1256",
@@ -625,7 +841,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.783674,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": false,
+        "usable_for_lipsync": false
+      }
     },
     {
       "id": "0a415faa-7978-5324-892e-2070fe388496",
@@ -640,7 +862,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.7836730000000003,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "e2ba4057-2070-539d-abba-804b021f4d92",
@@ -655,7 +883,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.7575509999999999,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "0b4fdc91-8abb-5fe5-b580-e3df1366c953",
@@ -670,7 +904,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.18285799999999997,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "a1507187-0bb2-5117-8ce6-feac27ea8b0d",
@@ -685,7 +925,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.2089789999999998,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "1da1be2c-df22-5c11-8756-c9a55d466feb",
@@ -700,7 +946,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.313469,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "f4bf4416-7a04-5e2e-8acb-257f5c8ea78c",
@@ -715,7 +967,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.600816,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "0f70cefc-a76f-57ee-b88f-d843e0f71a2b",
@@ -730,7 +988,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.47020399999999984,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "feeb63a3-af1f-54c0-88d1-e744fdd66163",
@@ -745,7 +1009,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.07836700000000008,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "53c5f26f-2f3e-5aa5-8782-da57667dfaef",
@@ -760,7 +1030,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.7314289999999999,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "8901d1fc-e3d1-5cf9-8cdd-18cc230da21a",
@@ -775,7 +1051,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.4440820000000001,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "5c05627c-9300-5543-b355-aba67c5f8556",
@@ -790,7 +1072,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.18285700000000005,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "43187395-39a5-5b09-adb3-3b827e3f80bd",
@@ -805,7 +1093,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.23510199999999992,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "1c101b7b-c767-523a-be6e-e85916fe0bd2",
@@ -820,7 +1114,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.7314289999999999,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": false,
+        "word_timings_valid": true,
+        "character_timings_valid": false,
+        "usable_for_lipsync": false
+      }
     },
     {
       "id": "12e7c19e-723b-55ac-885d-0f8f33a484b3",
@@ -835,7 +1135,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.33959200000000056,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "11a1c913-8fec-52e8-b266-f1b5682cc1ff",
@@ -850,7 +1156,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.7836740000000004,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "181a5c89-2658-56a3-a39b-86b931d531e4",
@@ -865,7 +1177,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.07836699999999963,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "50346244-a4fa-59c0-a5a0-8fabfebdbfcc",
@@ -880,7 +1198,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 1.2538779999999994,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "b20e0877-47fd-5ba3-ac43-7aaa1c2c3dea",
@@ -895,7 +1219,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.10448999999999997,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "c04f419e-03c7-53a6-bb13-b9543040fb73",
@@ -910,7 +1240,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.02612199999999998,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "9c116b9d-be6a-54b8-8b66-40da4b03542d",
@@ -925,7 +1261,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.23510199999999992,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "dc000e91-6703-577f-bf9d-35b4c7c8d78c",
@@ -940,7 +1282,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.39183599999999963,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "e7b1a4b0-4761-5cf5-93e0-dbd505ec87f8",
@@ -955,7 +1303,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.18285699999999983,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "914e5854-cdf4-5652-a7d1-2e3e0d2b0f92",
@@ -970,7 +1324,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.07836700000000008,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "e29fe777-50de-5af5-b5c5-2d6949471507",
@@ -985,7 +1345,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.41795899999999975,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "d4e5157c-0775-537a-bae2-556ba9969460",
@@ -1000,7 +1366,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.39183699999999977,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "abdc8951-fbfe-5612-845d-0754af954d23",
@@ -1015,7 +1387,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.13061199999999995,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "5ac5de6c-78b8-53ae-8b1b-ab99b7712446",
@@ -1051,7 +1429,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.9142859999999997,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "3dc5484a-1823-5628-a624-1cb7c39dd315",
@@ -1066,7 +1450,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.10448999999999975,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": false,
+        "word_timings_valid": true,
+        "character_timings_valid": false,
+        "usable_for_lipsync": false
+      }
     },
     {
       "id": "9e589d4b-bbd0-589b-957f-e3a29bdf267c",
@@ -1102,7 +1492,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.07836800000000022,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "a245e68c-538b-5b61-8afd-9dfe0dcdef90",
@@ -1117,7 +1513,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 1.0710199999999999,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "d6dcb9b5-eb6b-53a2-8992-d575e8eb4010",
@@ -1132,7 +1534,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.4702040000000003,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "a18e0c90-9ac4-59fa-b965-b97b394c5aae",
@@ -1147,7 +1555,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.4179599999999999,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "6e6fcabe-9017-5cbf-a6ac-851dec1f881d",
@@ -1162,7 +1576,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.23510200000000037,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "981060f2-444a-5e0b-b663-16993c2ce4e5",
@@ -1177,7 +1597,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.07836700000000008,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": false,
+        "word_timings_valid": true,
+        "character_timings_valid": false,
+        "usable_for_lipsync": false
+      }
     },
     {
       "id": "5b59473b-9530-5ad2-bb72-ec157576bbf4",
@@ -1192,7 +1618,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.36571400000000054,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "3ec452c0-170c-590c-88b1-bf9700ec540f",
@@ -1207,7 +1639,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.13061199999999973,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "af93bfbd-b920-51e9-a751-09d3d0b7fa27",
@@ -1222,7 +1660,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "cec8c9e4-2f95-54f6-bb60-380351ca96d2",
@@ -1237,7 +1681,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.0522450000000001,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "a2b70aba-09e6-5714-8f69-c4b6c46bb1ae",
@@ -1252,7 +1702,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.6530610000000001,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": false,
+        "word_timings_valid": true,
+        "character_timings_valid": false,
+        "usable_for_lipsync": false
+      }
     },
     {
       "id": "394e46dd-52c9-5377-ac7a-73908bd76496",
@@ -1267,7 +1723,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.18285699999999983,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "94da9bb5-4069-5b99-868c-f71edb2e1611",
@@ -1282,7 +1744,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.23510199999999992,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": false,
+        "usable_for_lipsync": false
+      }
     },
     {
       "id": "3caddc7c-40a6-5359-aa22-da4d15bd9a12",
@@ -1297,7 +1765,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.36571500000000023,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "80731a80-0238-50a9-bee7-148b77de4b89",
@@ -1312,7 +1786,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.10448999999999986,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "392a3618-532a-54f7-8a29-577dfe8ef638",
@@ -1327,7 +1807,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.9142860000000002,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "408609dd-4214-57b7-9a0b-85730ee8d0eb",
@@ -1342,7 +1828,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.18285700000000027,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "3c516a6e-20ad-5c70-a370-20c0382b55d5",
@@ -1357,7 +1849,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.078368,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "49d1b961-34e2-52e6-a3a7-499348944a3d",
@@ -1372,7 +1870,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.41795899999999975,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "18db4bbc-ee44-5e6b-8bed-a557ddc42177",
@@ -1387,7 +1891,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 1.3844899999999996,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "56c9b251-87bc-5c2c-96d2-6bdb58980379",
@@ -1402,7 +1912,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.20897999999999994,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "513e043e-c5d5-5751-9787-58a8c45e6e11",
@@ -1417,7 +1933,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.15673500000000007,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "cd53ddc8-0cd1-5c4e-9613-2c7df219b8b6",
@@ -1432,7 +1954,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.574694,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "36a562ad-6160-5c46-8f22-62fac899c321",
@@ -1447,7 +1975,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.9404080000000001,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "3412d83c-0d82-50d9-b7ff-02fd13065e1a",
@@ -1462,7 +1996,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.10448999999999997,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "a719fa0a-8c3b-56e2-8ad4-f718c6072676",
@@ -1477,7 +2017,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.18285700000000005,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "9ba962c2-276b-5245-8cd5-23d695eb9b90",
@@ -1492,7 +2038,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.13061299999999987,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": false,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": false
+      }
     },
     {
       "id": "97a800e1-d55f-52b3-bb7e-8128a65d0451",
@@ -1507,7 +2059,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.809796,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "aac62198-9652-559d-811a-9bc8547e40c4",
@@ -1522,7 +2080,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.10448999999999975,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "69edecc2-f6da-576b-a4e9-1d875f86cfa0",
@@ -1537,7 +2101,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.13061199999999995,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": false,
+        "word_timings_valid": true,
+        "character_timings_valid": false,
+        "usable_for_lipsync": false
+      }
     },
     {
       "id": "9e35573c-e306-5155-943c-e7304024bc53",
@@ -1552,7 +2122,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.33959199999999967,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "210224fd-cf25-5021-b9fd-d80fdcc0b358",
@@ -1567,7 +2143,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.7314289999999999,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "3ac88256-1c44-5352-a032-cb1d16d4171b",
@@ -1582,7 +2164,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.02612300000000012,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "13330cc6-eb66-56bc-b189-afa0e69e9aec",
@@ -1597,7 +2185,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.6008170000000002,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "38ca4798-272e-514c-9641-768f0eb14756",
@@ -1612,7 +2206,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.6269389999999997,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "02292cf7-2659-51f7-bc25-bdb628b9aec5",
@@ -1627,7 +2227,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.078368,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "b459671f-c801-5242-9447-e27687e3be33",
@@ -1642,7 +2248,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.078368,
-      "alignment": null
+      "alignment": {
+        "language": "eng",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": false
+      }
     },
     {
       "id": "5b1c80f7-57e2-5cd4-ab27-b21999f0577e",
@@ -1657,7 +2269,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.20897999999999994,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "65a30093-c1cc-50c2-9f9e-fa19723df8ef",
@@ -1672,7 +2290,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "56223298-0436-565c-ab61-f6a706247f82",
@@ -1687,7 +2311,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.8620400000000004,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "8bb5238c-aebf-562f-95f9-4341cb5f7b7e",
@@ -1702,7 +2332,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.18285700000000005,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "4c11a870-0cb6-513f-89b7-8c2911f56517",
@@ -1717,7 +2353,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.2612239999999999,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "67d12ae7-e8f2-5ed1-92ec-7f9c33a31c5a",
@@ -1732,7 +2374,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.49632699999999996,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "71b47e3e-f643-56ef-b31a-3bcd4dd35988",
@@ -1747,7 +2395,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 1.149388,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "a0ae3697-0f8e-5de6-bbac-e230739ddb6e",
@@ -1762,7 +2416,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.49632699999999996,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "79e0b3f8-a01f-5075-97ee-737c5eaadbf2",
@@ -1777,7 +2437,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.4440820000000001,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": false,
+        "usable_for_lipsync": false
+      }
     },
     {
       "id": "a53e5c58-b51f-5b06-b8a6-d3bd933980ef",
@@ -1792,7 +2458,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.078368,
-      "alignment": null
+      "alignment": {
+        "language": "eng",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": false
+      }
     },
     {
       "id": "99926520-6c22-5525-b6ae-02aa7ec4871d",
@@ -1807,7 +2479,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.287347,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "fba4250d-7c5d-576c-93fb-e4b21120ef68",
@@ -1822,7 +2500,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.02612300000000012,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "b9f4b12e-ae6d-534e-8074-31f5d5f3a50f",
@@ -1837,7 +2521,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.052244999999999875,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "2c5042b2-27c7-5789-b638-cdb73d17840d",
@@ -1852,7 +2542,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.3395920000000001,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "a92c5bd8-ddb1-5e64-9051-1cfab1bce788",
@@ -1867,7 +2563,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.313469,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "38889253-51e7-56a4-adad-782ec64e5497",
@@ -1882,7 +2584,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.07836700000000008,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "24f1ab63-c1e2-5b8b-81de-1da5322ba8e1",
@@ -1897,7 +2605,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.20897900000000025,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "89f36e19-0d54-504e-8083-74e66ce72c5f",
@@ -1912,7 +2626,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.3395920000000001,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "02bb84bd-8e89-5095-a35c-ee7cc562c378",
@@ -1927,7 +2647,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.4440820000000003,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "df5a9b77-32ef-5694-8eba-cd95c99a0a4d",
@@ -1942,7 +2668,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.26122500000000004,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "c90094a3-97a0-5f14-bafd-fc223bdc754c",
@@ -1957,7 +2689,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.9665309999999998,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": false,
+        "usable_for_lipsync": false
+      }
     },
     {
       "id": "80340fc7-c517-5440-977c-2918254b62b1",
@@ -1993,7 +2731,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.13061299999999998,
-      "alignment": null
+      "alignment": {
+        "language": "eng",
+        "text_matches": false,
+        "word_timings_valid": true,
+        "character_timings_valid": false,
+        "usable_for_lipsync": false
+      }
     },
     {
       "id": "13d0a321-d2ac-5dd0-b137-d79f91e0ef3e",
@@ -2008,7 +2752,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 0.7314279999999999,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     },
     {
       "id": "e8c053e2-c61e-59f7-a061-5988b8a79bd0",
@@ -2023,7 +2773,13 @@
       "decoded": true,
       "voice_path_matches": true,
       "duration_delta": 3.866123,
-      "alignment": null
+      "alignment": {
+        "language": "hun",
+        "text_matches": true,
+        "word_timings_valid": true,
+        "character_timings_valid": true,
+        "usable_for_lipsync": true
+      }
     }
   ]
 }

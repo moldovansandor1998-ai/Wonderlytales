@@ -6,6 +6,22 @@ import { assessHungarianTranscript, reviewHungarianSpeech } from './speechReview
 const revision = 'scribe_v2_character_v1';
 const letters = (text: string) => text.normalize('NFC').toLocaleLowerCase('hu').replace(/[^\p{L}\p{N}]/gu, '');
 type Timing = { text: string; start: number; end: number; type?: string; characters?: Timing[] };
+const multigraphs = ['dzs','dz','cs','gy','ly','ny','sz','ty','zs'];
+const spellings = [...multigraphs.map(p => p[0]+p), ...multigraphs,
+  ...[...'bcdfghjklmnprstvwxyz'].map(p => p+p)].sort((a,b)=>b.length-a.length);
+/** A multigraph is one sound: zero-length component letters are acceptable only
+ * inside a measured, positive-duration group. Never invent missing timestamps. */
+export function validHungarianGraphemes(chars: Timing[]): boolean {
+  const spoken=chars.filter(c=>letters(c.text));
+  for(let i=0;i<spoken.length;) {
+    const spelling=spellings.find(s=>spoken.slice(i,i+s.length).map(c=>c.text.toLocaleLowerCase('hu')).join('')===s
+      && spoken.slice(i,i+s.length-1).every((c,j)=>spoken[i+j+1].start-c.end<.08));
+    const n=spelling?.length??1;
+    if(spoken[i+n-1].end<=spoken[i].start) return false;
+    i+=n;
+  }
+  return spoken.length>0;
+}
 export function recordingTimingKey(audio: Buffer, expected: string) {
   return `audio/alignment/hu/${createHash('sha256').update(audio).update('\0').update(expected).update('\0' + revision).digest('hex')}.json`;
 }
@@ -29,7 +45,7 @@ export function validCharacterTimings(words: unknown, expected: string): boolean
     const chars = word.characters;
     if (!validWordTimings(chars) || letters(chars.map(c => c.text).join('')) !== letters(word.text)) return false;
     if (chars.some(c => c.start < word.start - .001 || c.end > word.end + .001
-      || [...c.text.normalize('NFC')].length !== 1 || (letters(c.text) && c.end <= c.start))) return false;
+      || [...c.text.normalize('NFC')].length !== 1) || !validHungarianGraphemes(chars)) return false;
   }
   return true;
 }
@@ -40,7 +56,7 @@ export function validateRecordedReview(cached: any, audio: Buffer, expected: str
   const assessment = assessHungarianTranscript(expected, cached.transcript, cached.language);
   const wordValid = validWordTimings(cached.words);
   const characterValid = validCharacterTimings(cached.words, expected);
-  return { ...cached, ...assessment, validation_revision: 2,
+  return { ...cached, ...assessment, validation_revision: 3,
     word_timings_valid: wordValid, character_timings_valid: characterValid,
     usable_for_lipsync: assessment.hungarian && assessment.textMatches && characterValid,
     phoneme_alignment_verified: false, facial_animation_approved: false };

@@ -63,12 +63,11 @@ def aligned_cues(review,expected,duration,source_sha):
    last_end=b
    if text.isdigit():raise ValueError('Numerals require a reviewed spoken transcript')
    if text.isalpha():
-    if b<=a:raise ValueError('Zero-duration spoken character')
     characters.append(dict(text=text.casefold(),start=a,end=b,word_index=wi))
  if not characters:raise ValueError('No measured character timing')
  cues=[];i=0
  # Hungarian doubled multigraphs: ssz = sz+sz, ggy = gy+gy, ddzs = dzs+dzs.
- phones=tuple((p[0]+p,p) for p in DIGRAPHS)+tuple((p,p) for p in DIGRAPHS)
+ phones=tuple((p[0]+p,p) for p in DIGRAPHS)+tuple((p,p) for p in DIGRAPHS)+tuple((p+p,p) for p in 'bcdfghjklmnprstvwxyz')
  while i<len(characters):
   n=1;phone=characters[i]['text']
   for spelling,base in sorted(phones,key=lambda pair:len(pair[0]),reverse=True):
@@ -76,6 +75,7 @@ def aligned_cues(review,expected,duration,source_sha):
    if ''.join(c['text'] for c in group)==spelling and len({c['word_index'] for c in group})==1 and all(y['start']-x['end']<.08 for x,y in zip(group,group[1:])):
     n=len(spelling);phone=base;break
   a=characters[i]['start'];b=characters[i+n-1]['end'];wi=characters[i]['word_index'];i+=n
+  if b<=a:raise ValueError('Zero-duration spoken grapheme')
   # Preserve measured onsets, bridge only tiny gaps inside the SAME word.
   if cues and cues[-1]['word_index']==wi and 0<=a-cues[-1]['end']<=.06:cues[-1]['end']=a
   cues.append({'start':a,'end':b,'value':viseme(phone),'phone':phone,'word_index':wi})
@@ -87,7 +87,7 @@ def aligned_cues(review,expected,duration,source_sha):
   else:result.append(cue)
   cursor=cue['end']
  if cursor<duration:result.append({'start':cursor,'end':duration,'value':'X','phone':'sil'})
- return validate_track({'schema':'WONDERLY_HU_VISEMES_V1','audio_sha256':source_sha,'duration':duration,'language':'hu','method':'MATCHED_AUDIO_CHARACTER_ALIGNMENT_HU_DIGRAPHS','alignment_revision':2,'expected_text':expected,'transcript_matches':True,'artist_verified':False,'phoneme_boundaries_verified':False,'mouthCues':result})
+ return validate_track({'schema':'WONDERLY_HU_VISEMES_V1','audio_sha256':source_sha,'duration':duration,'language':'hu','method':'MATCHED_AUDIO_CHARACTER_ALIGNMENT_HU_DIGRAPHS','alignment_revision':3,'expected_text':expected,'transcript_matches':True,'artist_verified':False,'phoneme_boundaries_verified':False,'mouthCues':result})
 
 def weights_at(track,t,blend=.035):
  cues=track['mouthCues'];weights={v:0. for v in VISEMES}

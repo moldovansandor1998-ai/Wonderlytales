@@ -1,0 +1,1 @@
+{"checked_at":"2026-10-10T16:38:42Z","project":"vruxiyvlynbivzjuijed","frames":86400,"scenes":300,"minutes":60,"paid_jobs":0,"elapsed_ms":53.483,"render_tasks":300,"assembly_tasks":1,"idempotency_pass":true,"quality_gate_pass":true,"fixtures_rolled_back":true,"scope":"Live enqueue/database integration. Not a GPU render or 60-minute media assembly test."}

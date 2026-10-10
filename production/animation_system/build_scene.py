@@ -6,7 +6,7 @@ import bpy
 from mathutils import Vector, Matrix, Quaternion
 from mathutils.bvhtree import BVHTree
 from animation_system.spec import validate_scene, digest, atomic_json, smooth, QUADRUPEDS
-from animation_system.motion import root_at, active_action, foot_at, foot_heading, CATALOG
+from animation_system.motion import root_at, active_action, foot_at, foot_heading, support_shift, CATALOG
 from animation_system.facial import FORMS, driver
 from animation_system.lipsync import weights_at, validate_track
 
@@ -109,12 +109,7 @@ def main(master,registry_path,script_path,dest):
    for bone,values in rotation.items():
     p=r.pose.bones[bone];p.rotation_mode='XYZ';p.rotation_euler=values;p.keyframe_insert('rotation_euler')
    # Independent supporting-pelvis translation and breathing; feet remain fixed.
-   pelvis=r.pose.bones['CTRL_pelvis'];phase=math.tau*(t-clip['start'])/CATALOG[clip['clip']]['seconds']
-   shift=Vector((.004*math.sin(phase) if clip['clip'] in ('walk','run') else 0,0,0))
-   if clip['clip'] in ('walk','run'):shift.z=(-.015 if clip['clip']=='walk' else -.026)+.002*math.cos(phase*2)
-   if clip['clip']=='turn':shift.z=-.035*math.sin(math.pi*(t-clip['start'])/(clip['end']-clip['start']))**2
-   if clip['clip']=='jump':shift.z=.22*math.sin(math.pi*(t-clip['start'])/(clip['end']-clip['start']))**2
-   if clip['clip']=='sit':shift.z=-.11*smooth((t-clip['start'])/(clip['end']-clip['start']))
+   pelvis=r.pose.bones['CTRL_pelvis'];shift=Vector(support_shift(a,t))
    pelvis.location=pelvis.bone.matrix_local.to_3x3().inverted()@shift
    pelvis.keyframe_insert('location')
    for foot in spec['feet']:

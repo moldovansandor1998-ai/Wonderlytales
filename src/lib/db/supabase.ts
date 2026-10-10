@@ -1,6 +1,7 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { createServerSupabase } from "../auth";
 import type { Db } from "./index";
+import { readAllRows } from './pagination';
 
 export class SupabaseDb implements Db {
   private client: SupabaseClient | null;
@@ -9,7 +10,15 @@ export class SupabaseDb implements Db {
   }
   private c(): SupabaseClient { return this.client ?? createServerSupabase(); }
   mode(): "supabase" { return "supabase"; }
-  async list<T>(table:string):Promise<T[]>{const{data,error}=await this.c().from(table).select("*");if(error)throw new Error(error.message);return(data??[])as T[];}
+  async list<T>(table:string):Promise<T[]>{
+    return readAllRows<T>(async after=>{
+      let query=this.c().from(table).select('*').order('id').limit(1000);
+      if(after!==undefined) query=query.gt('id',after);
+      const {data,error}=await query;
+      if(error) throw new Error(error.message);
+      return (data??[]) as (T & {id:string})[];
+    });
+  }
   async find<T>(table:string,pred:(row:T)=>boolean):Promise<T[]>{return(await this.list<T>(table)).filter(pred);}
   async get<T extends{id:string}>(table:string,id:string):Promise<T|null>{const{data,error}=await this.c().from(table).select("*").eq("id",id).maybeSingle();if(error)throw new Error(error.message);return(data as T)??null;}
   async insert<T extends{id:string}>(table:string,row:T):Promise<T>{const{data,error}=await this.c().from(table).insert(row).select().single();if(error)throw new Error(error.message);return data as T;}

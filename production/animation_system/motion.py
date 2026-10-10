@@ -122,7 +122,7 @@ def face_at(clip,t):
  if clip=='fear':shapes.update(frown=.28,brow_up=.50,eye_wide=.3)
  return shapes
 
-def foot_heading(actor,foot,t):
+def _foot_heading_raw(actor,foot,t):
  """Lock sole rotation during support, while the body may turn above it."""
  a=active_action(actor,t);kind=a['clip']
  if kind in ('walk','run'):
@@ -135,3 +135,22 @@ def foot_heading(actor,foot,t):
   half=(a['end']-a['start'])/2;start=a['start']+(0 if foot['phase']<.5 else half);end=start+half;y0=root_at(actor,a['start'])[1];y1=root_at(actor,a['end']-1e-6)[1]
   return y0+((y1-y0+math.pi)%math.tau-math.pi)*smooth((t-start)/half)
  return root_at(actor,t)[1]
+
+
+def foot_heading(actor,foot,t):
+ """Blend into a new clip without snapping the sole at the first frame."""
+ yaw=_foot_heading_raw(actor,foot,t);a=active_action(actor,t);elapsed=t-a['start']
+ if a['start']>0 and 0<=elapsed<.16:
+  old=foot_heading(actor,foot,a['start']-1/24)
+  yaw=old+((yaw-old+math.pi)%math.tau-math.pi)*smooth(elapsed/.16)
+ return yaw
+
+def support_shift(actor,t):
+ """Continuous pelvis support in bind-space, shared by all character rigs."""
+ a=active_action(actor,t);kind=a['clip'];elapsed=t-a['start'];duration=a['end']-a['start'];phase=math.tau*elapsed/CATALOG[kind]['seconds'];q=[0.,0.,0.]
+ if kind in ('walk','run'):q=[.004*math.sin(phase),0.,(-.015 if kind=='walk' else -.026)+.002*math.cos(phase*2)]
+ if kind=='turn':q[2]=-.035*math.sin(math.pi*elapsed/duration)**2
+ if kind=='jump':q[2]=.22*math.sin(math.pi*elapsed/duration)**2
+ if kind=='sit':q[2]=-.11*smooth(elapsed/duration)
+ if a['start']>0 and 0<=elapsed<.16:q=lerp(support_shift(actor,a['start']-1/24),q,smooth(elapsed/.16))
+ return q

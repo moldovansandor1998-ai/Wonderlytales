@@ -61,3 +61,13 @@ describe('Character alignment validation', () => {
     expect(checked).toMatchObject({usable_for_lipsync:true,facial_animation_approved:false,phoneme_alignment_verified:false});
   });
 });
+
+describe('Hungarian multi-letter sound timing',()=>{
+ it('keeps measured ny and doubled t boundaries but rejects missing standalone speech',()=>{
+  const word=(text:string,characters:any[])=>[{type:'word',text,start:0,end:.2,characters}];
+  expect(validCharacterTimings(word('ny',[{text:'n',start:0,end:0},{text:'y',start:0,end:.2}]),'ny')).toBe(true);
+  expect(validCharacterTimings(word('tt',[{text:'t',start:0,end:.2},{text:'t',start:.2,end:.2}]),'tt')).toBe(true);
+  expect(validCharacterTimings(word('ny',[{text:'n',start:0,end:0},{text:'y',start:0,end:0}]),'ny')).toBe(false);
+  expect(validCharacterTimings(word('a',[{text:'a',start:0,end:0}]),'a')).toBe(false);
+ });
+});

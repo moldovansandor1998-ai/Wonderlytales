@@ -2,7 +2,7 @@ import unittest,tempfile,json,copy,concurrent.futures,sqlite3,shutil
 from pathlib import Path
 from animation_system.spec import compile_episode,validate_scene
 from animation_system.jobs import RenderQueue
-from animation_system.motion import foot_at,root_at,foot_heading
+from animation_system.motion import foot_at,root_at,foot_heading,support_shift
 from animation_system.lipsync import aligned_cues,weights_at,viseme,validate_track
 from animation_system.release import release_gate
 
@@ -93,4 +93,12 @@ class SystemTests(unittest.TestCase):
   actor={'position':[0,0,0],'actions':[{'clip':'turn','start':0,'end':2,'yaw':1.7}]};foot={'ankle':[-.12,0,.1],'phase':.5};self.assertEqual(foot_at(actor,foot,.1)[0],foot_at(actor,foot,.8)[0]);self.assertEqual(foot_heading(actor,foot,.1),foot_heading(actor,foot,.8));foot['phase']=0;self.assertEqual(foot_at(actor,foot,1.2)[0],foot_at(actor,foot,2)[0])
  def test_ly_matches_j_and_digraphs_do_not_cross_words(self):
   self.assertEqual(viseme('ly'),viseme('j'));self.assertNotEqual(viseme('ly'),viseme('l'));r={'language':'hun','audio_sha256':'a'*64,'textMatches':True,'transcript':'g y','words':[{'type':'word','text':'g','start':.1,'end':.2,'characters':[{'text':'g','start':.1,'end':.2}]},{'type':'word','text':'y','start':.21,'end':.3,'characters':[{'text':'y','start':.21,'end':.3}]}]};self.assertFalse(any(c['phone']=='gy' for c in aligned_cues(r,'g y',1,'a'*64)['mouthCues']))
+ def test_walk_turn_pelvis_transition_does_not_snap(self):
+  actor={'position':[0,0,0],'actions':[{'clip':'walk','start':24,'end':30,'destination':[0,-.8,0]},{'clip':'turn','start':30,'end':31,'yaw':1.2}]}
+  self.assertEqual(support_shift(actor,30),support_shift(actor,30-1/24))
+  self.assertLess(max(abs(a-b) for a,b in zip(support_shift(actor,30),support_shift(actor,30+1/24))),.005)
+ def test_zero_duration_component_is_valid_only_inside_measured_grapheme(self):
+  def review(text,chars):return {'language':'hun','audio_sha256':'a'*64,'textMatches':True,'transcript':text,'words':[{'type':'word','text':text,'start':0,'end':.2,'characters':chars}]}
+  r=review('ny',[{'text':'n','start':0,'end':0},{'text':'y','start':0,'end':.2}]);track=aligned_cues(r,'ny',1,'a'*64);self.assertEqual(track['mouthCues'][0]['phone'],'ny');self.assertEqual(track['mouthCues'][0]['end'],.2)
+  with self.assertRaises(ValueError):aligned_cues(review('a',[{'text':'a','start':0,'end':0}]),'a',1,'a'*64)
 if __name__=='__main__':unittest.main()
