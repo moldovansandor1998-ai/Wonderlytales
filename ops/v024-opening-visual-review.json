@@ -1,0 +1,334 @@
+{
+  "status": "ALL_35_SHOT_STILLS_REVIEWED",
+  "production_approved": false,
+  "sampled_shots": [
+    {
+      "scene": "SC001",
+      "shot": 1,
+      "global_sec": 3.5,
+      "frame": 85,
+      "file": "003.500_SC001_01.jpg",
+      "source_clip_sha256": "17988ad7ba1cbebb56e90c490a9fdac525c6361cc31117283f812eb7230483ef"
+    },
+    {
+      "scene": "SC001",
+      "shot": 2,
+      "global_sec": 9.0,
+      "frame": 217,
+      "file": "009.000_SC001_02.jpg",
+      "source_clip_sha256": "17988ad7ba1cbebb56e90c490a9fdac525c6361cc31117283f812eb7230483ef"
+    },
+    {
+      "scene": "SC001",
+      "shot": 3,
+      "global_sec": 13.0,
+      "frame": 313,
+      "file": "013.000_SC001_03.jpg",
+      "source_clip_sha256": "17988ad7ba1cbebb56e90c490a9fdac525c6361cc31117283f812eb7230483ef"
+    },
+    {
+      "scene": "SC001",
+      "shot": 4,
+      "global_sec": 16.0,
+      "frame": 385,
+      "file": "016.000_SC001_04.jpg",
+      "source_clip_sha256": "d802bc72daccd3078110c3a8513043077941c823c43438c7af7c5974d9eadbc7"
+    },
+    {
+      "scene": "SC001",
+      "shot": 5,
+      "global_sec": 18.0,
+      "frame": 433,
+      "file": "018.000_SC001_05.jpg",
+      "source_clip_sha256": "d802bc72daccd3078110c3a8513043077941c823c43438c7af7c5974d9eadbc7"
+    },
+    {
+      "scene": "SC001",
+      "shot": 6,
+      "global_sec": 20.5,
+      "frame": 493,
+      "file": "020.500_SC001_06.jpg",
+      "source_clip_sha256": "d802bc72daccd3078110c3a8513043077941c823c43438c7af7c5974d9eadbc7"
+    },
+    {
+      "scene": "SC001",
+      "shot": 7,
+      "global_sec": 24.0,
+      "frame": 577,
+      "file": "024.000_SC001_07.jpg",
+      "source_clip_sha256": "d802bc72daccd3078110c3a8513043077941c823c43438c7af7c5974d9eadbc7"
+    },
+    {
+      "scene": "SC001",
+      "shot": 8,
+      "global_sec": 27.5,
+      "frame": 661,
+      "file": "027.500_SC001_08.jpg",
+      "source_clip_sha256": "d802bc72daccd3078110c3a8513043077941c823c43438c7af7c5974d9eadbc7"
+    },
+    {
+      "scene": "SC001",
+      "shot": 9,
+      "global_sec": 30.0,
+      "frame": 721,
+      "file": "030.000_SC001_09.jpg",
+      "source_clip_sha256": "01228959bef55d05c98005a1c51690dd3c707800cd3136644e74c1a2453e5252"
+    },
+    {
+      "scene": "SC001",
+      "shot": 10,
+      "global_sec": 33.0,
+      "frame": 793,
+      "file": "033.000_SC001_10.jpg",
+      "source_clip_sha256": "01228959bef55d05c98005a1c51690dd3c707800cd3136644e74c1a2453e5252"
+    },
+    {
+      "scene": "SC001",
+      "shot": 11,
+      "global_sec": 36.5,
+      "frame": 877,
+      "file": "036.500_SC001_11.jpg",
+      "source_clip_sha256": "01228959bef55d05c98005a1c51690dd3c707800cd3136644e74c1a2453e5252"
+    },
+    {
+      "scene": "SC001",
+      "shot": 12,
+      "global_sec": 40.0,
+      "frame": 961,
+      "file": "040.000_SC001_12.jpg",
+      "source_clip_sha256": "01228959bef55d05c98005a1c51690dd3c707800cd3136644e74c1a2453e5252"
+    },
+    {
+      "scene": "SC001",
+      "shot": 13,
+      "global_sec": 44.0,
+      "frame": 1057,
+      "file": "044.000_SC001_13.jpg",
+      "source_clip_sha256": "01228959bef55d05c98005a1c51690dd3c707800cd3136644e74c1a2453e5252"
+    },
+    {
+      "scene": "SC001",
+      "shot": 14,
+      "global_sec": 47.5,
+      "frame": 1141,
+      "file": "047.500_SC001_14.jpg",
+      "source_clip_sha256": "9bf5f355fadbd91d3a21c327c375ef4f7cecb29160e13f9c6605290b8e6d4e9f"
+    },
+    {
+      "scene": "SC001",
+      "shot": 15,
+      "global_sec": 50.0,
+      "frame": 1201,
+      "file": "050.000_SC001_15.jpg",
+      "source_clip_sha256": "9bf5f355fadbd91d3a21c327c375ef4f7cecb29160e13f9c6605290b8e6d4e9f"
+    },
+    {
+      "scene": "SC001",
+      "shot": 16,
+      "global_sec": 52.5,
+      "frame": 1261,
+      "file": "052.500_SC001_16.jpg",
+      "source_clip_sha256": "9bf5f355fadbd91d3a21c327c375ef4f7cecb29160e13f9c6605290b8e6d4e9f"
+    },
+    {
+      "scene": "SC001",
+      "shot": 17,
+      "global_sec": 56.0,
+      "frame": 1345,
+      "file": "056.000_SC001_17.jpg",
+      "source_clip_sha256": "9bf5f355fadbd91d3a21c327c375ef4f7cecb29160e13f9c6605290b8e6d4e9f"
+    },
+    {
+      "scene": "SC003",
+      "shot": 1,
+      "global_sec": 60.5,
+      "frame": 61,
+      "file": "060.500_SC003_01.jpg",
+      "source_clip_sha256": "81ce856fb9a7fc72a85b7a50ca0c6215e41a9ad1a19c1accd557da3fcaf93f88"
+    },
+    {
+      "scene": "SC003",
+      "shot": 2,
+      "global_sec": 65.5,
+      "frame": 181,
+      "file": "065.500_SC003_02.jpg",
+      "source_clip_sha256": "81ce856fb9a7fc72a85b7a50ca0c6215e41a9ad1a19c1accd557da3fcaf93f88"
+    },
+    {
+      "scene": "SC003",
+      "shot": 3,
+      "global_sec": 69.75,
+      "frame": 283,
+      "file": "069.750_SC003_03.jpg",
+      "source_clip_sha256": "81ce856fb9a7fc72a85b7a50ca0c6215e41a9ad1a19c1accd557da3fcaf93f88"
+    },
+    {
+      "scene": "SC003",
+      "shot": 4,
+      "global_sec": 73.25,
+      "frame": 367,
+      "file": "073.250_SC003_04.jpg",
+      "source_clip_sha256": "7420fda8c5dbffff22f511b63187f7ccf04e818c63a3d19551f8a3291f2ae599"
+    },
+    {
+      "scene": "SC003",
+      "shot": 5,
+      "global_sec": 77.0,
+      "frame": 457,
+      "file": "077.000_SC003_05.jpg",
+      "source_clip_sha256": "7420fda8c5dbffff22f511b63187f7ccf04e818c63a3d19551f8a3291f2ae599"
+    },
+    {
+      "scene": "SC003",
+      "shot": 6,
+      "global_sec": 80.5,
+      "frame": 541,
+      "file": "080.500_SC003_06.jpg",
+      "source_clip_sha256": "7420fda8c5dbffff22f511b63187f7ccf04e818c63a3d19551f8a3291f2ae599"
+    },
+    {
+      "scene": "SC003",
+      "shot": 7,
+      "global_sec": 83.0,
+      "frame": 601,
+      "file": "083.000_SC003_07.jpg",
+      "source_clip_sha256": "7420fda8c5dbffff22f511b63187f7ccf04e818c63a3d19551f8a3291f2ae599"
+    },
+    {
+      "scene": "SC003",
+      "shot": 8,
+      "global_sec": 85.5,
+      "frame": 661,
+      "file": "085.500_SC003_08.jpg",
+      "source_clip_sha256": "7420fda8c5dbffff22f511b63187f7ccf04e818c63a3d19551f8a3291f2ae599"
+    },
+    {
+      "scene": "SC003",
+      "shot": 9,
+      "global_sec": 89.5,
+      "frame": 757,
+      "file": "089.500_SC003_09.jpg",
+      "source_clip_sha256": "d27ff0160c8e6c9e0740478649d64a5288f48b8745869e6b16deee4c92b083ee"
+    },
+    {
+      "scene": "SC003",
+      "shot": 10,
+      "global_sec": 94.0,
+      "frame": 865,
+      "file": "094.000_SC003_10.jpg",
+      "source_clip_sha256": "d27ff0160c8e6c9e0740478649d64a5288f48b8745869e6b16deee4c92b083ee"
+    },
+    {
+      "scene": "SC003",
+      "shot": 11,
+      "global_sec": 97.0,
+      "frame": 937,
+      "file": "097.000_SC003_11.jpg",
+      "source_clip_sha256": "d27ff0160c8e6c9e0740478649d64a5288f48b8745869e6b16deee4c92b083ee"
+    },
+    {
+      "scene": "SC003",
+      "shot": 12,
+      "global_sec": 100.5,
+      "frame": 1021,
+      "file": "100.500_SC003_12.jpg",
+      "source_clip_sha256": "d27ff0160c8e6c9e0740478649d64a5288f48b8745869e6b16deee4c92b083ee"
+    },
+    {
+      "scene": "SC003",
+      "shot": 13,
+      "global_sec": 106.0,
+      "frame": 1153,
+      "file": "106.000_SC003_13.jpg",
+      "source_clip_sha256": "2061997092171b8a04c3162f2166c629bf48437869a3ca1605af95be4f5daa5a"
+    },
+    {
+      "scene": "SC003",
+      "shot": 14,
+      "global_sec": 111.0,
+      "frame": 1273,
+      "file": "111.000_SC003_14.jpg",
+      "source_clip_sha256": "2061997092171b8a04c3162f2166c629bf48437869a3ca1605af95be4f5daa5a"
+    },
+    {
+      "scene": "SC003",
+      "shot": 15,
+      "global_sec": 115.5,
+      "frame": 1381,
+      "file": "115.500_SC003_15.jpg",
+      "source_clip_sha256": "2061997092171b8a04c3162f2166c629bf48437869a3ca1605af95be4f5daa5a"
+    },
+    {
+      "scene": "SC003",
+      "shot": 16,
+      "global_sec": 120.0,
+      "frame": 1489,
+      "file": "120.000_SC003_16.jpg",
+      "source_clip_sha256": "cbd7068ea82806dcd23713ad6873f245ab32ce354a6ff249f7ada70befe62561"
+    },
+    {
+      "scene": "SC003",
+      "shot": 17,
+      "global_sec": 124.0,
+      "frame": 1585,
+      "file": "124.000_SC003_17.jpg",
+      "source_clip_sha256": "cbd7068ea82806dcd23713ad6873f245ab32ce354a6ff249f7ada70befe62561"
+    },
+    {
+      "scene": "SC003",
+      "shot": 18,
+      "global_sec": 129.0,
+      "frame": 1705,
+      "file": "129.000_SC003_18.jpg",
+      "source_clip_sha256": "cbd7068ea82806dcd23713ad6873f245ab32ce354a6ff249f7ada70befe62561"
+    }
+  ],
+  "review_method": "Native rendered midpoint frame per completed camera shot; this does not establish temporal naturalness or lip sync",
+  "findings": [
+    {
+      "scene": "SC001",
+      "global_sec": 9.0,
+      "severity": "BLOCK_RELEASE",
+      "finding": "White eye caps rotate out of the socket; pupils absent and black outer lid gaps visible."
+    },
+    {
+      "scene": "SC001",
+      "global_sec": 44.0,
+      "severity": "BLOCK_RELEASE",
+      "finding": "Lili eye/skin seam and facial surface discontinuities remain visible."
+    },
+    {
+      "scene": "SC003",
+      "global_sec": 80.5,
+      "severity": "REVIEW",
+      "finding": "Finger-to-shard contact is visible, but the scarf below it is flat; later close-ups identify it as the original scarf prop, not a rendering tear."
+    },
+    {
+      "scene": "SC003",
+      "global_sec": 85.5,
+      "severity": "BLOCK_RELEASE",
+      "finding": "Mark pupil loss and eye socket gaps recur in the second scene."
+    },
+    {
+      "scene": "SC003",
+      "global_sec": 106.0,
+      "severity": "BLOCK_RELEASE",
+      "finding": "The folded scarf is visibly rigid and floats below the shard; hand fingers do not form a believable supported grip.",
+      "source_cause": "stage_opening_native.py keys scarf translation from PROP_star with a constant -0.022 Z offset; no rotation or cloth contact is authored."
+    },
+    {
+      "scene": "SC003",
+      "global_sec": 115.5,
+      "severity": "BLOCK_RELEASE",
+      "finding": "Same unsupported scarf/finger relationship persists in the later pickup close-up."
+    },
+    {
+      "scene": "SC003",
+      "global_sec": 124.0,
+      "severity": "BLOCK_RELEASE",
+      "finding": "Mark eye cap/pupil defect persists in the final close-up."
+    }
+  ],
+  "separate_candidate": "ops/v025-sc001-gaze-candidate-c.json",
+  "frozen_movie_contains_candidate": false
+}

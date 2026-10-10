@@ -303,8 +303,29 @@
         "width": 1920
       },
       "key": "renders/native/S1E1/bb383b0350bd9f20219196b270d40b15e8e867d7d43817f229da8f6c18025d4b/b62c7c9a5549c4882603e0953102dcab3cd558d2982ff5cd1117ef2bd526cbe6/clip.mp4",
-      "artifact_status": "NOT_OBSERVED",
-      "persisted_frame_objects": 167
+      "artifact_status": "DECODED",
+      "persisted_frame_objects": 358,
+      "sha256": "2061997092171b8a04c3162f2166c629bf48437869a3ca1605af95be4f5daa5a",
+      "bytes": 10057056,
+      "verified_frames": 360,
+      "streams": [
+        {
+          "codec_type": "video",
+          "width": 1920,
+          "height": 1080,
+          "r_frame_rate": "24/1",
+          "duration": "15.000000",
+          "nb_read_frames": "360"
+        },
+        {
+          "codec_type": "audio",
+          "sample_rate": "48000",
+          "channels": 2,
+          "r_frame_rate": "0/0",
+          "duration": "14.997000",
+          "nb_read_frames": "703"
+        }
+      ]
     },
     {
       "id": "923d25dd-764e-471b-a9d5-258446ec2139-u2",
@@ -323,11 +344,69 @@
         "width": 1920
       },
       "key": "renders/native/S1E1/bb383b0350bd9f20219196b270d40b15e8e867d7d43817f229da8f6c18025d4b/1b1f2b6411c1f965991d9d24b84d29da3f6ece13d9cd2746248723d8a1ed039c/clip.mp4",
-      "artifact_status": "NOT_OBSERVED",
-      "persisted_frame_objects": 0
+      "artifact_status": "DECODED",
+      "persisted_frame_objects": 325,
+      "sha256": "cbd7068ea82806dcd23713ad6873f245ab32ce354a6ff249f7ada70befe62561",
+      "bytes": 13160101,
+      "verified_frames": 336,
+      "streams": [
+        {
+          "codec_type": "video",
+          "width": 1920,
+          "height": 1080,
+          "r_frame_rate": "24/1",
+          "duration": "14.000000",
+          "nb_read_frames": "336"
+        },
+        {
+          "codec_type": "audio",
+          "sample_rate": "48000",
+          "channels": 2,
+          "r_frame_rate": "0/0",
+          "duration": "13.994000",
+          "nb_read_frames": "656"
+        }
+      ]
     }
   ],
-  "decoded_frames": 2472,
-  "status": "WAITING_FOR_R2_CLIPS",
-  "observed_at_utc": "2026-10-10T20:14:53.722232+00:00"
+  "decoded_frames": 3168,
+  "status": "ASSEMBLED_AND_DECODED",
+  "observed_at_utc": "2026-10-10T20:37:33.786910+00:00",
+  "result": {
+    "status": "ASSEMBLED",
+    "frames": 3168,
+    "fps": 24,
+    "decoded": true,
+    "production_approved": false,
+    "audio_sha256": "c5ef49ad4a17959dc6c35d40a1c522d83fe13f112e667027d810bc73b00c9a4d",
+    "clip": {
+      "key": "renders/native/S1E1/assembled/d7e8b9523381b50e5a78dc7c6a30ca6ae90bab95f19ee0f744e5a7901a02bd75/master.mp4",
+      "sha256": "a76eec569f2d81da981aac2db3ead7f7a4e30fe9dc7b195af705cd13cc95ade8",
+      "bytes": 113823772,
+      "verified_frames": 3168,
+      "verified_fps": 24,
+      "verified_width": 1920,
+      "verified_height": 1080
+    }
+  },
+  "streams": [
+    {
+      "codec_type": "video",
+      "width": 1920,
+      "height": 1080,
+      "r_frame_rate": "24/1",
+      "duration": "132.000000",
+      "nb_read_frames": "3168"
+    },
+    {
+      "codec_type": "audio",
+      "sample_rate": "48000",
+      "channels": 2,
+      "r_frame_rate": "0/0",
+      "duration": "132.000000",
+      "nb_read_frames": "6188"
+    }
+  ],
+  "assembly_executor": "CPU_USING_UNCHANGED_PRODUCTION_ASSEMBLY_CODE",
+  "provider_assembly_job_submitted": false
 }

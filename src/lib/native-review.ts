@@ -1,5 +1,10 @@
 /** Existing review artifacts; a successful render is not a quality approval. */
 export const V024_REVIEW_ARTIFACTS = [
+  { id: 'opening-132', title: 'Csodakapu — összefüggő nyitány, 2 perc 12 másodperc',
+    description: '1080p, eredeti magyar hangokkal. Ellenőrzési változat; az arcok és a tárgyfogás még javításra várnak.',
+    key: 'renders/native/S1E1/assembled/d7e8b9523381b50e5a78dc7c6a30ca6ae90bab95f19ee0f744e5a7901a02bd75/master.mp4',
+    sha256: 'a76eec569f2d81da981aac2db3ead7f7a4e30fe9dc7b195af705cd13cc95ade8',
+    kind: 'video', durationSec: 132, productionApproved: false },
   { id: 'scene-001', title: 'Csodakapu — első jelenet, 58 másodperc',
     description: '1080p, eredeti magyar hangokkal. A képi minőség még nincs elfogadva.',
     key: 'renders/native/S1E1/review/V024/SC001_58s.mp4',

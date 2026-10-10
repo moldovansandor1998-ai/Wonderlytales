@@ -1,7 +1,7 @@
 {
   "kind": "CONNECTED_OPENING_REVIEW",
   "production_approved": false,
-  "status": "WAITING_FOR_CLIPS",
+  "status": "ASSEMBLED_AND_DECODED",
   "checkpoint_key": "native/S1E1/V024/checkpoints/opening_assembly.json",
   "audio_key": "audio/S1E1/review/V024/WonderlyTales_V024_opening_132s.wav",
   "audio_sha256": "c5ef49ad4a17959dc6c35d40a1c522d83fe13f112e667027d810bc73b00c9a4d",
@@ -20,5 +20,44 @@
     }
   ],
   "mix_note": "19 unchanged Hungarian takes, original scratch score and environment cues; three unresolved takes flagged",
-  "planned_budget_reservation_id": "416e3140-cb2b-4f17-a02e-c4bb8effca83"
+  "planned_budget_reservation_id": "416e3140-cb2b-4f17-a02e-c4bb8effca83",
+  "result": {
+    "status": "ASSEMBLED",
+    "frames": 3168,
+    "fps": 24,
+    "decoded": true,
+    "production_approved": false,
+    "audio_sha256": "c5ef49ad4a17959dc6c35d40a1c522d83fe13f112e667027d810bc73b00c9a4d",
+    "clip": {
+      "key": "renders/native/S1E1/assembled/d7e8b9523381b50e5a78dc7c6a30ca6ae90bab95f19ee0f744e5a7901a02bd75/master.mp4",
+      "sha256": "a76eec569f2d81da981aac2db3ead7f7a4e30fe9dc7b195af705cd13cc95ade8",
+      "bytes": 113823772,
+      "verified_frames": 3168,
+      "verified_fps": 24,
+      "verified_width": 1920,
+      "verified_height": 1080
+    }
+  },
+  "artifact_checkpoint_key": "native/S1E1/V024/checkpoints/opening_storage_review_cloud.json",
+  "assembly_executor": "CPU_USING_UNCHANGED_PRODUCTION_ASSEMBLY_CODE",
+  "provider_assembly_job_submitted": false,
+  "verified_at_utc": "2026-10-10T20:37:33.786910+00:00",
+  "streams": [
+    {
+      "codec_type": "video",
+      "width": 1920,
+      "height": 1080,
+      "r_frame_rate": "24/1",
+      "duration": "132.000000",
+      "nb_read_frames": "3168"
+    },
+    {
+      "codec_type": "audio",
+      "sample_rate": "48000",
+      "channels": 2,
+      "r_frame_rate": "0/0",
+      "duration": "132.000000",
+      "nb_read_frames": "6188"
+    }
+  ]
 }

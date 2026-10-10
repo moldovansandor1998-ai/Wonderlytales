@@ -1,11 +1,33 @@
 # WonderlyTales — continuation checkpoint
 
-Last successful Git commit: `cc6f3712b00a2989fd58a3c93c79a00f2fb32d40`.
+Last successful Git commit: `dff8724fdd413feb3c3e49ca92acc369d19e6d0f`.
 The commit containing this document follows it (`git log -1`).
 Do not rebuild infrastructure or modify V022/V023 originals. Daily ceiling $200.
 User's earlier verified base: 4266970498f2f4c5dc423f1de1a27ef58dbbfbaf.
 
-## Latest recovery checkpoint (2026-10-10 20:15 UTC)
+## Completed opening review (2026-10-10T20:37:33.786910+00:00)
+- All NINE existing GPU clips decoded: 3168 native frames, 1080p24, 132 s.
+- Full movie assembled by unchanged CPU native_assembly.py; original frozen
+  Hungarian mix SHA c5ef49ad4a17959dc6c35d40a1c522d83fe13f112e667027d810bc73b00c9a4d.
+  Complete output decoded and R2 readback checksum verified; local copy also
+  downloaded, SHA checked and decoded. No duplicate GPU/assembly submissions.
+- Movie key: renders/native/S1E1/assembled/d7e8b9523381b50e5a78dc7c6a30ca6ae90bab95f19ee0f744e5a7901a02bd75/master.mp4
+  SHA a76eec569f2d81da981aac2db3ead7f7a4e30fe9dc7b195af705cd13cc95ade8
+- Source of truth: ops/v024-opening-storage-review.json, separate from last
+  observed provider statuses. ops/v024-opening-assembly.json now points to
+  the verified result. Do not restart completed jobs or reassemble this movie.
+- All three recovery entry points now use the same R2 conditional lease;
+  the obsolete provider `submit` operation is rejected before credential use.
+- Preview registry and /native-assets now include this complete review.
+- This is an inspection movie, NOT final animation approval. Gaze/eye seams,
+  rigid scarf attachment and finger articulation remain blocking issues.
+  See ops/v024-opening-visual-review.json for frame/shot evidence. Candidate C
+  is separate and unapproved; the frozen V024 movie does not contain it.
+- Next native authoring work: true eye/skin boundary reconstruction and
+  supported hand/scarf contact. Preserve all existing sources and voices;
+  do not launch the feature or a new full GPU pass before candidate proof QA.
+
+## Earlier recovery checkpoint (2026-10-10 20:15 UTC)
 - Seven existing clips / 2472 native frames / 103 seconds decoded. Two clips
   remain; full 132-second movie is NOT complete yet. Do not resubmit jobs.
 - Canonical storage-only watcher: cmd_875a2effd661475192bdb46793fd,
