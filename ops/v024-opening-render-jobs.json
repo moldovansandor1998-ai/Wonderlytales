@@ -4,12 +4,12 @@
   "endpoint": "cfog2x4xsd0adz",
   "checkpoint_key": "native/S1E1/V024/checkpoints/opening_render_jobs.json",
   "expected_total_frames": 3168,
-  "scene2_status": "hand_contact_repair_in_progress",
+  "scene2_status": "NATIVE_CONTACT_AND_GEOMETRY_REVIEW_CHECKED",
   "budget_day": "2026-10-11",
   "jobs": [
     {
       "scene_id": "S1E1_SC001_V024",
-      "status": "IN_PROGRESS",
+      "status": "COMPLETED",
       "budget_reservation_id": "e2e7aac0-8060-4f0a-8914-8c11a4ea8454",
       "reservation_usd": 2.5,
       "input": {
@@ -24,13 +24,32 @@
         "samples": 48
       },
       "id": "02899775-1fe0-41d3-b2cf-0b07241a2c01-u2",
-      "provider_date": "Sat, 10 Oct 2026 18:31:01 GMT",
+      "provider_date": "Sat, 10 Oct 2026 18:47:00 GMT",
       "workerId": "g9mrsc50ttlr8a",
-      "delayTime": 8910
+      "delayTime": 8910,
+      "executionTime": 891754,
+      "clip": {
+        "bytes": 14086957,
+        "has_scene_audio": true,
+        "key": "renders/native/S1E1/7ad6efdef7e624202cfb0f67772f5386a69b71ecf30f93ca86fafd63fccd4d79/731e6105dc6166afe08a47695e7673d13f6a3c1fb936000a6167d8ba11b9164d/clip.mp4",
+        "sha256": "17988ad7ba1cbebb56e90c490a9fdac525c6361cc31117283f812eb7230483ef",
+        "verified_fps": 24,
+        "verified_frames": 360,
+        "verified_height": 1080,
+        "verified_width": 1920
+      },
+      "devices": [
+        {
+          "backend": "OPTIX",
+          "name": "NVIDIA RTX PRO 6000 Blackwell Server Edition"
+        }
+      ],
+      "mean_frame_seconds": 2.315633838030044,
+      "result_key": "native/S1E1/V024/job-results/02899775-1fe0-41d3-b2cf-0b07241a2c01-u2.json"
     },
     {
       "scene_id": "S1E1_SC001_V024",
-      "status": "IN_QUEUE",
+      "status": "IN_PROGRESS",
       "budget_reservation_id": "5d17239f-7a01-4732-bb62-97fb624a55f0",
       "reservation_usd": 2.5,
       "input": {
@@ -45,7 +64,9 @@
         "samples": 48
       },
       "id": "7c3e1b71-102f-4c72-a4fc-a4891465c0b9-u2",
-      "provider_date": "Sat, 10 Oct 2026 18:31:15 GMT"
+      "provider_date": "Sat, 10 Oct 2026 18:47:16 GMT",
+      "workerId": "g9mrsc50ttlr8a",
+      "delayTime": 894207
     },
     {
       "scene_id": "S1E1_SC001_V024",
@@ -64,7 +85,7 @@
         "samples": 48
       },
       "id": "8fde225c-36ab-4f03-92a9-05460452189f-u1",
-      "provider_date": "Sat, 10 Oct 2026 18:31:22 GMT"
+      "provider_date": "Sat, 10 Oct 2026 18:47:22 GMT"
     },
     {
       "scene_id": "S1E1_SC001_V024",
@@ -83,7 +104,108 @@
         "samples": 48
       },
       "id": "09290717-898c-4b23-882b-be5b924c0ac3-u2",
-      "provider_date": "Sat, 10 Oct 2026 18:31:29 GMT"
+      "provider_date": "Sat, 10 Oct 2026 18:47:29 GMT"
+    },
+    {
+      "scene_id": "S1E1_SC003_V024",
+      "status": "IN_QUEUE",
+      "budget_reservation_id": "7ae7e7eb-fa7f-46fc-a0ec-1be5c700cfe2",
+      "reservation_usd": 2.5,
+      "input": {
+        "operation": "RENDER_NATIVE_FRAMES",
+        "scene_key": "native/S1E1/V024/opening_contact_v2/S1E1_SC003_V024.blend",
+        "scene_sha256": "bb383b0350bd9f20219196b270d40b15e8e867d7d43817f229da8f6c18025d4b",
+        "renderer_revision": "e3cb4348e93116c5cf56c3c9c9fa8b6a3cd2e8da",
+        "frame_start": 1,
+        "frame_end": 360,
+        "width": 1920,
+        "height": 1080,
+        "samples": 48
+      },
+      "id": "741d8182-3b2c-4489-b76d-1f9d16d5ed26-u1",
+      "provider_date": "Sat, 10 Oct 2026 18:49:09 GMT"
+    },
+    {
+      "scene_id": "S1E1_SC003_V024",
+      "status": "IN_QUEUE",
+      "budget_reservation_id": "b2fefdba-5ece-4cf0-bd06-2f05200ab97e",
+      "reservation_usd": 2.5,
+      "input": {
+        "operation": "RENDER_NATIVE_FRAMES",
+        "scene_key": "native/S1E1/V024/opening_contact_v2/S1E1_SC003_V024.blend",
+        "scene_sha256": "bb383b0350bd9f20219196b270d40b15e8e867d7d43817f229da8f6c18025d4b",
+        "renderer_revision": "e3cb4348e93116c5cf56c3c9c9fa8b6a3cd2e8da",
+        "frame_start": 361,
+        "frame_end": 720,
+        "width": 1920,
+        "height": 1080,
+        "samples": 48
+      },
+      "id": "3f23c9e3-5407-4428-b918-42d1b09894a8-u2",
+      "provider_date": "Sat, 10 Oct 2026 18:49:17 GMT"
+    },
+    {
+      "scene_id": "S1E1_SC003_V024",
+      "status": "IN_QUEUE",
+      "budget_reservation_id": "f6ff6b21-121f-49a2-9fac-ee4c28e6e83c",
+      "reservation_usd": 2.5,
+      "input": {
+        "operation": "RENDER_NATIVE_FRAMES",
+        "scene_key": "native/S1E1/V024/opening_contact_v2/S1E1_SC003_V024.blend",
+        "scene_sha256": "bb383b0350bd9f20219196b270d40b15e8e867d7d43817f229da8f6c18025d4b",
+        "renderer_revision": "e3cb4348e93116c5cf56c3c9c9fa8b6a3cd2e8da",
+        "frame_start": 721,
+        "frame_end": 1080,
+        "width": 1920,
+        "height": 1080,
+        "samples": 48
+      },
+      "id": "eebe50d0-9698-41a6-aa20-73c54a0e657c-u1",
+      "provider_date": "Sat, 10 Oct 2026 18:49:25 GMT"
+    },
+    {
+      "scene_id": "S1E1_SC003_V024",
+      "status": "IN_QUEUE",
+      "budget_reservation_id": "cdc77f83-eda8-4ba5-a9b2-32aa932d6c05",
+      "reservation_usd": 2.5,
+      "input": {
+        "operation": "RENDER_NATIVE_FRAMES",
+        "scene_key": "native/S1E1/V024/opening_contact_v2/S1E1_SC003_V024.blend",
+        "scene_sha256": "bb383b0350bd9f20219196b270d40b15e8e867d7d43817f229da8f6c18025d4b",
+        "renderer_revision": "e3cb4348e93116c5cf56c3c9c9fa8b6a3cd2e8da",
+        "frame_start": 1081,
+        "frame_end": 1440,
+        "width": 1920,
+        "height": 1080,
+        "samples": 48
+      },
+      "id": "ea3b7a52-ed30-4043-95eb-162408b8caa1-u2",
+      "provider_date": "Sat, 10 Oct 2026 18:49:33 GMT"
+    },
+    {
+      "scene_id": "S1E1_SC003_V024",
+      "status": "IN_QUEUE",
+      "budget_reservation_id": "5e2491ae-8c38-4576-a23a-d177abba5053",
+      "reservation_usd": 2.5,
+      "input": {
+        "operation": "RENDER_NATIVE_FRAMES",
+        "scene_key": "native/S1E1/V024/opening_contact_v2/S1E1_SC003_V024.blend",
+        "scene_sha256": "bb383b0350bd9f20219196b270d40b15e8e867d7d43817f229da8f6c18025d4b",
+        "renderer_revision": "e3cb4348e93116c5cf56c3c9c9fa8b6a3cd2e8da",
+        "frame_start": 1441,
+        "frame_end": 1776,
+        "width": 1920,
+        "height": 1080,
+        "samples": 48
+      },
+      "id": "923d25dd-764e-471b-a9d5-258446ec2139-u2",
+      "provider_date": "Sat, 10 Oct 2026 18:49:41 GMT"
     }
+  ],
+  "remaining_quality_defects": [
+    "Lili knee angular velocity",
+    "finger articulation unapproved",
+    "3 unresolved voice takes",
+    "mouth seams not fully verified"
   ]
 }

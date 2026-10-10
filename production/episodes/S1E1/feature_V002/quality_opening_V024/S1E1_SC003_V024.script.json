@@ -25,7 +25,7 @@
           "clip": "pickup",
           "start": 18,
           "end": 27,
-          "body_lower": 0.38
+          "body_lower": 0.24
         },
         {
           "clip": "interact",
@@ -732,6 +732,10 @@
   "source_feature_sha256": "72492a266fbcaea03c51e34a93a925f9153cedde42954fbe5b9739de74468693",
   "source_feature_scene": "S1E1_SC003",
   "production_approved": false,
+  "linear_skinning": {
+    "CHAR_MARK": "tripo_node_6ce94346-cb76-4907-ab36-3bfa23d786f6"
+  },
+  "orient_crouch_knees": true,
   "soundscape": {
     "kind": "forest_review",
     "events": [

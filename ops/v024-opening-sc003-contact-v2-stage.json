@@ -1,0 +1,69 @@
+{
+  "blender": "4.5.3 LTS",
+  "source_sha256": "9caa95f4821dc200ee769565b9a32261776bb8be73249e67395f44fd23cffce1",
+  "props_sha256": "7c8ee23e7d00c8515d2605b77e9765f34a549987d37f05565dcb3f79ce368424",
+  "audio_sha256": "de2d4590e261a7028feb836975e5b8ed46eed5d9820f6260fbd940b56e1c09c9",
+  "output_sha256": "bb383b0350bd9f20219196b270d40b15e8e867d7d43817f229da8f6c18025d4b",
+  "frames": 1776,
+  "production_approved": false,
+  "crouch_report": [
+    {
+      "character": "CHAR_MARK",
+      "side": "L",
+      "sample_frame": 541,
+      "forward_alignment": 0.9998535979539156,
+      "original_angle": -1.3744467496871948,
+      "crouch_angle": 0.29452431201934814,
+      "foot_targets_changed": false
+    },
+    {
+      "character": "CHAR_MARK",
+      "side": "R",
+      "sample_frame": 541,
+      "forward_alignment": 0.9999090763740242,
+      "original_angle": -1.7671458721160889,
+      "crouch_angle": -3.4361169973956507,
+      "foot_targets_changed": false
+    }
+  ],
+  "interaction_report": [
+    {
+      "id": "star",
+      "grasp_frame": 560,
+      "handoff_error_m": 0.0025961686277196235,
+      "max_baked_attachment_error_m": 0.0,
+      "grasp_contact_pass": true,
+      "finger_articulation_approved": false
+    }
+  ],
+  "hidden_prior_scene_objects": [
+    "Wondergate pillar stone",
+    "Wondergate pillar stone.001",
+    "Wondergate pillar stone.002",
+    "Wondergate pillar stone.003",
+    "Wondergate pillar stone.004",
+    "Wondergate pillar stone.005",
+    "Continuous ancient stone arch",
+    "PROP_FALLEN_LOG",
+    "Moving signal",
+    "Forest gate light opening",
+    "Morzsi picnic basket",
+    "Potty capped water flask",
+    "Zizi all-purpose meter",
+    "Meter moving pointer",
+    "Meter little wheel",
+    "Meter little wheel.001",
+    "Meter little wheel.002",
+    "Zizi ordinary notebook",
+    "Shared picnic bite 0",
+    "Shared picnic bite 1",
+    "Shared picnic bite 2",
+    "Shared picnic bite 3",
+    "Shared picnic bite 4",
+    "Shared picnic bite 5",
+    "QUALITY_TEST gate spark 00",
+    "QUALITY_TEST gate spark 01"
+  ],
+  "unresolved_recordings_in_trial": 3,
+  "score_status": "procedural review cue, not final music"
+}

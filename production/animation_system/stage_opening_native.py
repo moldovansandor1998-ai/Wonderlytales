@@ -9,11 +9,16 @@ from mathutils import Vector
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 from animation_system.spec import digest,atomic_json,smooth
 from animation_system.interactions import author_interactions
+from animation_system.crouch import orient_crouch_knees
 source,props,audio,dest=map(Path,sys.argv[sys.argv.index('--')+1:])
 bpy.ops.wm.open_mainfile(filepath=str(source.resolve()),use_scripts=False)
 scene=bpy.context.scene;second='SC003' in dest.name;scene.frame_set(1)
 script=json.loads(dest.with_suffix('.script.json').read_text())
 rigs={obj.get('character_code'):obj for obj in scene.objects if obj.type=='ARMATURE' and obj.get('character_code')}
+for code,name in script.get('linear_skinning',{}).items():
+    for modifier in bpy.data.objects[name].modifiers:
+        if modifier.type=='ARMATURE' and modifier.object==rigs[code]:modifier.use_deform_preserve_volume=False
+crouch_report=orient_crouch_knees(scene,script,rigs)
 interaction_report=author_interactions(scene,script,rigs)
 # Reapply the shot contract after staging revisions without rebuilding poses.
 markers=sorted(scene.timeline_markers,key=lambda marker:marker.frame)
@@ -92,4 +97,4 @@ sound=editor.strips.new_sound('V024 original HU takes and review mix',str(audio.
 sound.sound.pack()
 scene.render.use_sequencer=False;scene['production_approved']=False;scene['status']='V024_CONNECTED_OPENING_REVIEW';scene['script_sha256']=digest(dest.with_suffix('.script.json'))
 scene.frame_set(1);bpy.ops.file.pack_all();bpy.ops.wm.save_as_mainfile(filepath=str(dest.resolve()),compress=True)
-atomic_json(dest.with_suffix('.stage.json'),{'blender':bpy.app.version_string,'source_sha256':digest(source),'props_sha256':digest(props),'audio_sha256':digest(audio),'output_sha256':digest(dest),'frames':scene.frame_end,'production_approved':False,'interaction_report':interaction_report,'hidden_prior_scene_objects':hidden,'unresolved_recordings_in_trial':3,'score_status':'procedural review cue, not final music'})
+atomic_json(dest.with_suffix('.stage.json'),{'blender':bpy.app.version_string,'source_sha256':digest(source),'props_sha256':digest(props),'audio_sha256':digest(audio),'output_sha256':digest(dest),'frames':scene.frame_end,'production_approved':False,'crouch_report':crouch_report,'interaction_report':interaction_report,'hidden_prior_scene_objects':hidden,'unresolved_recordings_in_trial':3,'score_status':'procedural review cue, not final music'})

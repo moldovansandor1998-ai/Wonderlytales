@@ -57,6 +57,9 @@ def main(master,registry_path,script_path,dest):
   if code not in codes:
    for o in list(bpy.data.collections[spec['collection']].objects):bpy.data.objects.remove(o,do_unlink=True)
  floor=terrain(s);actors={a['code']:a for a in script['characters']};rigs={c:bpy.data.objects[registry['characters'][c]['rig']] for c in codes};roots={c:bpy.data.objects[registry['characters'][c]['root']] for c in codes}
+ for code,name in script.get('linear_skinning',{}).items():
+  for modifier in bpy.data.objects[name].modifiers:
+   if modifier.type=='ARMATURE' and modifier.object==rigs[code]:modifier.use_deform_preserve_volume=False
  for c,actor in actors.items():
   for action in actor.get('actions',[]):
    if action.get('look_at'):

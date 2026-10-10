@@ -69,13 +69,13 @@
       "frame_end": 360,
       "frames": 360,
       "episode_start_frame": 1393,
-      "scene_fingerprint": "ddad1ac1b6c54d93b58137c643a3614f7517328e31ca4b3aaa211d13b327d2c7",
+      "scene_fingerprint": "8d79727478e19ad7d2f0b742b808ccd70e3b90f8b7b9a0ba679eac24f5666be0",
       "assets": {
         "CHAR_MARK": "3d664f433434a034451301f2b0d4a86537f76e8cf36f57af2d011737c6ccb185",
         "CHAR_LILI": "3d664f433434a034451301f2b0d4a86537f76e8cf36f57af2d011737c6ccb185"
       },
       "location_sha256": "3d664f433434a034451301f2b0d4a86537f76e8cf36f57af2d011737c6ccb185",
-      "id": "fe7aa56257fbefed18eca41f"
+      "id": "fc197507d19b8e8cf180cc5c"
     },
     {
       "scene_id": "S1E1_SC003_V024",
@@ -83,13 +83,13 @@
       "frame_end": 720,
       "frames": 360,
       "episode_start_frame": 1753,
-      "scene_fingerprint": "ddad1ac1b6c54d93b58137c643a3614f7517328e31ca4b3aaa211d13b327d2c7",
+      "scene_fingerprint": "8d79727478e19ad7d2f0b742b808ccd70e3b90f8b7b9a0ba679eac24f5666be0",
       "assets": {
         "CHAR_MARK": "3d664f433434a034451301f2b0d4a86537f76e8cf36f57af2d011737c6ccb185",
         "CHAR_LILI": "3d664f433434a034451301f2b0d4a86537f76e8cf36f57af2d011737c6ccb185"
       },
       "location_sha256": "3d664f433434a034451301f2b0d4a86537f76e8cf36f57af2d011737c6ccb185",
-      "id": "5f8363106938c57f6c8b70ce"
+      "id": "910778fcc172529de71864b6"
     },
     {
       "scene_id": "S1E1_SC003_V024",
@@ -97,13 +97,13 @@
       "frame_end": 1080,
       "frames": 360,
       "episode_start_frame": 2113,
-      "scene_fingerprint": "ddad1ac1b6c54d93b58137c643a3614f7517328e31ca4b3aaa211d13b327d2c7",
+      "scene_fingerprint": "8d79727478e19ad7d2f0b742b808ccd70e3b90f8b7b9a0ba679eac24f5666be0",
       "assets": {
         "CHAR_MARK": "3d664f433434a034451301f2b0d4a86537f76e8cf36f57af2d011737c6ccb185",
         "CHAR_LILI": "3d664f433434a034451301f2b0d4a86537f76e8cf36f57af2d011737c6ccb185"
       },
       "location_sha256": "3d664f433434a034451301f2b0d4a86537f76e8cf36f57af2d011737c6ccb185",
-      "id": "eb7a3a0d19ca16da7be34236"
+      "id": "65a0a2f14520c220623ac687"
     },
     {
       "scene_id": "S1E1_SC003_V024",
@@ -111,13 +111,13 @@
       "frame_end": 1440,
       "frames": 360,
       "episode_start_frame": 2473,
-      "scene_fingerprint": "ddad1ac1b6c54d93b58137c643a3614f7517328e31ca4b3aaa211d13b327d2c7",
+      "scene_fingerprint": "8d79727478e19ad7d2f0b742b808ccd70e3b90f8b7b9a0ba679eac24f5666be0",
       "assets": {
         "CHAR_MARK": "3d664f433434a034451301f2b0d4a86537f76e8cf36f57af2d011737c6ccb185",
         "CHAR_LILI": "3d664f433434a034451301f2b0d4a86537f76e8cf36f57af2d011737c6ccb185"
       },
       "location_sha256": "3d664f433434a034451301f2b0d4a86537f76e8cf36f57af2d011737c6ccb185",
-      "id": "2ea0acdf47565ce21f96458d"
+      "id": "cd80fed887d5cc448308e63b"
     },
     {
       "scene_id": "S1E1_SC003_V024",
@@ -125,13 +125,13 @@
       "frame_end": 1776,
       "frames": 336,
       "episode_start_frame": 2833,
-      "scene_fingerprint": "ddad1ac1b6c54d93b58137c643a3614f7517328e31ca4b3aaa211d13b327d2c7",
+      "scene_fingerprint": "8d79727478e19ad7d2f0b742b808ccd70e3b90f8b7b9a0ba679eac24f5666be0",
       "assets": {
         "CHAR_MARK": "3d664f433434a034451301f2b0d4a86537f76e8cf36f57af2d011737c6ccb185",
         "CHAR_LILI": "3d664f433434a034451301f2b0d4a86537f76e8cf36f57af2d011737c6ccb185"
       },
       "location_sha256": "3d664f433434a034451301f2b0d4a86537f76e8cf36f57af2d011737c6ccb185",
-      "id": "1f0d5f2680ba359ad46a8238"
+      "id": "46a89a1dbf0b0cf1470248a0"
     }
   ],
   "production_approved": false

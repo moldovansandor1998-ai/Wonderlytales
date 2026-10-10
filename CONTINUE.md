@@ -1,3 +1,61 @@
+# WonderlyTales continuation — 2026-10-10 18:51 UTC
+
+Last successful Git commit: `d6b3e3d628a71849b2337683b5e331e284c002fb`.
+The commit containing this document is the next checkpoint (`git log -1`).
+
+## New completed work
+- SC003 native Blender 4.5.3 full 1776-frame QA complete. Repaired missing
+  hand drivers, lowered pelvis by 0.24 local units, calibrated forward knee
+  poles and selected explicit linear body skinning for Mark's deep bend.
+  Hand contact error 2.596 mm, Mark foot error 0.0679 mm, body stretch 4.167x.
+  Native grasp closeup checked. Finger articulation still unapproved.
+- REJECTED earlier candidates: `opening_final/SC003` contact passes but
+  deep dual-quaternion crouch creates 416.87x edge stretch; never submitted.
+  `opening_contact_final/SC003` has 22 mm hand gap, also not submitted.
+- Frozen SC003 source: `native/S1E1/V024/opening_contact_v2/S1E1_SC003_V024.blend`
+  SHA bb383b0350bd9f20219196b270d40b15e8e867d7d43817f229da8f6c18025d4b.
+  Native QA/stage report and grasp proof saved beside it. Five native GPU
+  tasks submitted/submitting; read durable manifest before doing anything.
+- First opening GPU job COMPLETED: 360 real frames, 15 seconds, 1080p24,
+  OPTIX RTX PRO 6000, 891.754 seconds execution. Clip SHA
+  17988ad7ba1cbebb56e90c490a9fdac525c6361cc31117283f812eb7230483ef.
+  Remaining ranges are queued/running, not finished; no duplicate submission.
+- All-six 480-frame diagnostic complete. Bogyó body ear-binding candidate
+  reduces worst stretch 73.740x -> 3.479x without moving geometry/shape keys.
+  Saved `native/S1E1/V024/CAST_MOTION_V024_bogyo.blend` and full reports.
+  Bogyó oral patch still flips; separate head/jaw binding experiment running.
+
+## Exact next action / background
+1. Poll `scripts/run-native-review.py poll --manifest ops/v024-opening-render-jobs.json`
+   with authorized credentials. Nine ranges total 3168 real frames / 132 sec.
+   R2 `native/S1E1/V024/checkpoints/opening_render_jobs.json` holds job IDs,
+   hashes, reservations and results. One worker; queue may take ~2 hours.
+2. Active authoring sandbox `sbx_hbrj4u6r1FOrgWWTiIRBSZUkGJFS` extended to
+   ~19:40 UTC. `bogyo_mouth.log` is the next native report to read. Preserve
+   all successful derivatives/reports to R2 before stopping the sandbox.
+3. Concatenate the two original HU scene mixes (58 + 74 sec), verify all
+   completed native clips, then use existing ASSEMBLE_NATIVE_FILM handler.
+   Reserve assembly budget separately. No full-film render approved.
+4. Expand preserved FEATURE_V002 into full storyboard and timed reading.
+   Actual whole-film duration remains unknown; do not pad to 60 minutes.
+   No 113 new TTS takes until script and performed reading are finalized.
+
+## Remaining defects / budget
+- Lili knee speed up to 883.18 deg/s in SC003; body visual/natural-motion
+  approval remains open. Morzsi's mouth has rest folds; Bogyó oral patch
+  deformation, all unmeasured facial seams, eye/gaze and finger acting remain.
+- Three unresolved recordings in opening trial explicitly flagged. All 20
+  suspect recordings independently transcribed and assembled for listening;
+  recognizer results are not auditory/acting approval. Existing voices intact.
+- Current budget day 2026-10-11 Asia/Saigon: $31 reserved ($6 authoring,
+  $2.50 completed gait diagnostic, $22.50 nine opening jobs), ceiling $200.
+  These are reservations, not verified provider bills. No budget increase.
+- Existing Supabase/RunPod/R2 production queue, 300-scene transactional test,
+  accepted V016 intro, V022/V023 originals and 132 audio sources preserved.
+
+---
+## Earlier checkpoint context (superseded above)
+
 # WonderlyTales continuation — 2026-10-10 18:34 UTC
 
 Last successful Git commit: `261a8381bd0edf5451ac4b8b87ea5e849d7d1414`.

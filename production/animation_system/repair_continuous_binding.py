@@ -8,7 +8,7 @@ from animation_system.continuous_binding import rebind_body
 from animation_system.spec import digest, atomic_json, FACE_PROFILES, QUADRUPEDS
 
 
-def main(source, registry, destination, profile='attachment'):
+def main(source, registry, destination, profile='attachment',characters=('CHAR_LILI','CHAR_POTTY','CHAR_ZIZI')):
     if source.resolve() == destination.resolve():
         raise ValueError('Never overwrite the source')
     bpy.ops.wm.open_mainfile(filepath=str(source.resolve()), use_scripts=False)
@@ -17,7 +17,7 @@ def main(source, registry, destination, profile='attachment'):
               'binding_code_sha256': digest(Path(__file__).with_name('continuous_binding.py')),
               'profile': profile,
               'production_approved': False, 'characters': {}}
-    for code in ('CHAR_LILI', 'CHAR_POTTY', 'CHAR_ZIZI'):
+    for code in characters:
         asset = reg['characters'][code]
         rig, body = bpy.data.objects[asset['rig']], bpy.data.objects[asset['body']]
         report['characters'][code] = rebind_body(body, rig, code,
@@ -33,4 +33,4 @@ def main(source, registry, destination, profile='attachment'):
 
 if __name__ == '__main__':
     args=sys.argv[sys.argv.index('--')+1:]
-    main(*map(Path,args[:3]), profile=args[3] if len(args)>3 else 'attachment')
+    main(*map(Path,args[:3]), profile=args[3] if len(args)>3 else 'attachment',characters=args[4].split(',') if len(args)>4 else ('CHAR_LILI','CHAR_POTTY','CHAR_ZIZI'))

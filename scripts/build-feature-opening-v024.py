@@ -29,6 +29,7 @@ lili1['actions'].append(action('turn',32,34,yaw=.10488))
 lili2['yaw']=-1.71969
 lili2['actions'].extend([action('turn',27,29,yaw=-3.02448),action('turn',66,68,yaw=.13255)])
 for item in [mark1,lili1,mark2,lili2]:item['actions'].sort(key=lambda a:a['start'])
+next(a for a in mark2['actions'] if a['clip']=='pickup')['body_lower']=.24
 presets={
  'W':([3.0,-4.8,2.3],[0,-.2,.85],42),
  'M':([1.0,-2.8,1.7],[-.6,-.5,1.28],58),
@@ -63,7 +64,10 @@ for source_code,duration,starts,cast,shots in [('S1E1_SC001',58,[7,11,17,19,22,3
         camera=dict(start=start,position=pos,target=target,lens=lens,end_position=[pos[0]+(.12 if i%2==0 else -.12),pos[1]+.08,pos[2]],end_target=target)
         scene['cameras'].append(camera)
         storyboard.append(dict(shot_id=f'{source_code}_SH{i+1:03}',scene_id=scene['id'],start_sec=start,end_sec=end,duration_sec=end-start,camera=camera,direction_hu=description,frame_start=round(start*24)+1,frame_end=round(end*24),timing_basis='authored blocking, existing measured recordings',animation_render_verified=False))
-    if source_code=='S1E1_SC003':scene['interactions']=[dict(id='star',kind='pickup',character='CHAR_MARK',hand='L',position=[-.1,-1.35,.23],start=20,end=26,radius=.055,carry_to_end=True)]
+    if source_code=='S1E1_SC003':
+        scene['interactions']=[dict(id='star',kind='pickup',character='CHAR_MARK',hand='L',position=[-.1,-1.35,.23],start=20,end=26,radius=.055,carry_to_end=True)]
+        scene['linear_skinning']={'CHAR_MARK':reg['characters']['CHAR_MARK']['body']}
+        scene['orient_crouch_knees']=True
     birds=[1,4,9,12,21,24,33,39,46,56] if source_code=='S1E1_SC001' else [1,9,17,32,37,50,62,70]
     shimmer=[16,29.2,30,30.8,49,54] if source_code=='S1E1_SC001' else [26,42]
     scene['soundscape']={'kind':'forest_review','events':[dict(kind='bird',start=t) for t in birds]+[dict(kind='shard',start=t) for t in shimmer],'approved':False}

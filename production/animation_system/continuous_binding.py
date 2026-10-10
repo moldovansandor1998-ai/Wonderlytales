@@ -38,7 +38,9 @@ def rebind_body(body, rig, code, head_floor, quadruped=False, profile='anatomica
             base = rig.data.bones['tail_01'].head_local
             weights[:, j] *= ease((points[:, 1] - base.y + .04) / .10)
         elif bone.name.startswith('ear'):
-            base = rig.data.bones['ear_base.' + bone.name.rsplit('.', 1)[-1]].head_local
+            side=bone.name.rsplit('.',1)[-1]
+            root=rig.data.bones.get('ear_base.'+side) or rig.data.bones.get('ear.'+side) or bone
+            base = root.head_local
             weights[:, j] *= ease((points[:, 2] - base.z + .04) / .08)
     weights /= weights.sum(axis=1, keepdims=True)
     # Head replaces only the continuously computed trunk/limb influence. Ears

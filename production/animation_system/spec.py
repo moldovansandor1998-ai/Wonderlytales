@@ -71,6 +71,8 @@ def validate_scene(scene,registry):
    if gaze.get('target') not in codes and gaze.get('target') not in ('camera','gate','prop'):raise ValueError('Missing gaze target')
    a=number(gaze.get('start'),'gaze start',0);b=number(gaze.get('end'),'gaze end',0)
    if b<=a or b>duration:raise ValueError('Gaze out of range')
+ for code,body in scene.get('linear_skinning',{}).items():
+  if code not in codes or body!=registry['characters'][code].get('body'):raise ValueError('Unknown skinning profile body')
  for event in scene.get('interactions',[]):
   if event.get('character') not in codes or event.get('kind') not in ('pickup','touch'):raise ValueError('Invalid interaction')
   if event.get('hand','R') not in ('L','R'):raise ValueError('Unknown hand')
