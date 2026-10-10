@@ -48,10 +48,10 @@ def world_offset(pos,yaw,offset):
 
 def _foot_raw(actor,foot,t,scale=1.):
  """Return ankle position, planted flag and contact-id, with fixed stance anchors."""
- a=active_action(actor,t);kind=a['clip'];pos,yaw=root_at(actor,t);rest=foot['ankle'];phase=({'forepaw.L':0.,'forepaw.R':.5,'hindpaw.L':.75,'hindpaw.R':.25}.get(foot['foot'],foot['phase']) if kind=='walk' else foot['phase']) if 'foot' in foot else foot['phase']
+ a=active_action(actor,t);kind=a['clip'];pos,yaw=root_at(actor,t);rest=foot['ankle'];turn_steps=kind=='turn' and foot.get('foot','').startswith(('forepaw','hindpaw'));phase=({'forepaw.L':0.,'forepaw.R':.5,'hindpaw.L':.75,'hindpaw.R':.25}.get(foot['foot'],foot['phase']) if kind=='walk' or turn_steps else foot['phase']) if 'foot' in foot else foot['phase']
  if kind not in ('walk','run','turn','jump'):
   return world_offset(pos,yaw,[v*scale for v in rest]),True,'rest'
- if kind=='turn':
+ if kind=='turn' and not turn_steps:
   elapsed=t-a['start'];duration=a['end']-a['start'];half=duration/2;is_first=phase<.5
   start=a['start']+(0 if is_first else half);end=start+half
   before=(t<=start);after=(t>=end)
@@ -63,7 +63,9 @@ def _foot_raw(actor,foot,t,scale=1.):
  if kind=='jump':
   u=(t-a['start'])/(a['end']-a['start']);q=world_offset(pos,yaw,[v*scale for v in rest]);q[2]+=.23*scale*math.sin(math.pi*u)**2
   return q,u<.12 or u>.88,'jump'
- cycle=a.get('cycle_seconds',CATALOG[kind]['seconds']);stance=CATALOG[kind]['stance'];phase_time=(t-a['start'])/cycle+phase
+ # Short quadruped legs need several planted turning steps. Moving a paw to
+ # the final 180-degree heading while the body is halfway makes IK impossible.
+ cycle=.55 if turn_steps else a.get('cycle_seconds',CATALOG[kind]['seconds']);stance=.58 if turn_steps else CATALOG[kind]['stance'];phase_time=(t-a['start'])/cycle+phase
  k=math.floor(phase_time);u=phase_time-k
  contact=a['start']+(k-phase)*cycle
  # Previewing the centre of the coming support period bounds ankle reach.
@@ -77,7 +79,7 @@ def _foot_raw(actor,foot,t,scale=1.):
  # Clearance scales with the actual limb, not overall character height. The
  # short hind legs of Lili and Potty cannot take a human-sized 7.5 cm step.
  # A squared sine has zero vertical velocity at lift-off and landing.
- lift=min(CATALOG[kind]['lift'],foot.get('leg_length',float('inf'))*(.26 if kind=='run' else .18))
+ lift=min(.035 if turn_steps else CATALOG[kind]['lift'],foot.get('leg_length',float('inf'))*(.26 if kind=='run' else .18))
  q[2]+=lift*scale*math.sin(math.pi*swing)**2
  return q,False,str(k)
 
@@ -130,8 +132,9 @@ def face_at(clip,t):
 def _foot_heading_raw(actor,foot,t):
  """Lock sole rotation during support, while the body may turn above it."""
  a=active_action(actor,t);kind=a['clip']
- if kind in ('walk','run'):
-  phase_offset={'forepaw.L':0.,'forepaw.R':.5,'hindpaw.L':.75,'hindpaw.R':.25}.get(foot.get('foot'),foot['phase']) if kind=='walk' else foot['phase'];cycle=a.get('cycle_seconds',CATALOG[kind]['seconds']);phase=(t-a['start'])/cycle+phase_offset;k=math.floor(phase);u=phase-k;stance=CATALOG[kind]['stance'];contact=a['start']+(k-phase_offset)*cycle
+ turn_steps=kind=='turn' and foot.get('foot','').startswith(('forepaw','hindpaw'))
+ if kind in ('walk','run') or turn_steps:
+  phase_offset={'forepaw.L':0.,'forepaw.R':.5,'hindpaw.L':.75,'hindpaw.R':.25}.get(foot.get('foot'),foot['phase']) if kind=='walk' or turn_steps else foot['phase'];cycle=.55 if turn_steps else a.get('cycle_seconds',CATALOG[kind]['seconds']);phase=(t-a['start'])/cycle+phase_offset;k=math.floor(phase);u=phase-k;stance=.58 if turn_steps else CATALOG[kind]['stance'];contact=a['start']+(k-phase_offset)*cycle
   y0=root_at(actor,max(a['start'],min(a['end']-1e-6,contact+cycle*stance*.5)))[1]
   if contact<=a['start']+1e-8:y0=foot_heading(actor,foot,a['start']-1/24)
   y1=root_at(actor,max(a['start'],min(a['end']-1e-6,contact+cycle*(1+stance*.5))))[1]

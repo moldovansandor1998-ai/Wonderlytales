@@ -362,20 +362,20 @@
     {
       "start": 15,
       "position": [
-        0.7,
-        -2.1,
-        0.4
+        -0.4,
+        -1.05,
+        0.8
       ],
       "target": [
         -0.3,
         -1.1,
         0.07
       ],
-      "lens": 60,
+      "lens": 65,
       "end_position": [
-        0.58,
-        -2.02,
-        0.4
+        -0.52,
+        -0.9700000000000001,
+        0.8
       ],
       "end_target": [
         -0.3,
@@ -458,20 +458,20 @@
     {
       "start": 26,
       "position": [
-        0.7,
-        -2.1,
-        0.4
+        -0.4,
+        -1.05,
+        0.8
       ],
       "target": [
         -0.3,
         -1.1,
         0.07
       ],
-      "lens": 60,
+      "lens": 65,
       "end_position": [
-        0.58,
-        -2.02,
-        0.4
+        -0.52,
+        -0.9700000000000001,
+        0.8
       ],
       "end_target": [
         -0.3,
@@ -530,20 +530,20 @@
     {
       "start": 35,
       "position": [
-        0.7,
-        -2.1,
-        0.4
+        -0.4,
+        -1.05,
+        0.8
       ],
       "target": [
         -0.3,
         -1.1,
         0.07
       ],
-      "lens": 60,
+      "lens": 65,
       "end_position": [
-        0.82,
-        -2.02,
-        0.4
+        -0.28,
+        -0.9700000000000001,
+        0.8
       ],
       "end_target": [
         -0.3,
@@ -699,5 +699,75 @@
   "interactions": [],
   "source_feature_sha256": "72492a266fbcaea03c51e34a93a925f9153cedde42954fbe5b9739de74468693",
   "source_feature_scene": "S1E1_SC001",
-  "production_approved": false
+  "production_approved": false,
+  "soundscape": {
+    "kind": "forest_review",
+    "events": [
+      {
+        "kind": "bird",
+        "start": 1
+      },
+      {
+        "kind": "bird",
+        "start": 4
+      },
+      {
+        "kind": "bird",
+        "start": 9
+      },
+      {
+        "kind": "bird",
+        "start": 12
+      },
+      {
+        "kind": "bird",
+        "start": 21
+      },
+      {
+        "kind": "bird",
+        "start": 24
+      },
+      {
+        "kind": "bird",
+        "start": 33
+      },
+      {
+        "kind": "bird",
+        "start": 39
+      },
+      {
+        "kind": "bird",
+        "start": 46
+      },
+      {
+        "kind": "bird",
+        "start": 56
+      },
+      {
+        "kind": "shard",
+        "start": 16
+      },
+      {
+        "kind": "shard",
+        "start": 29.2
+      },
+      {
+        "kind": "shard",
+        "start": 30
+      },
+      {
+        "kind": "shard",
+        "start": 30.8
+      },
+      {
+        "kind": "shard",
+        "start": 49
+      },
+      {
+        "kind": "shard",
+        "start": 54
+      }
+    ],
+    "approved": false
+  }
 }

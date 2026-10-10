@@ -1,3 +1,59 @@
+# WonderlyTales continuation — 2026-10-10 18:34 UTC
+
+Last successful Git commit: `261a8381bd0edf5451ac4b8b87ea5e849d7d1414`.
+Use `git log -1` for the commit containing this checkpoint.
+
+## Immediate state
+- The first 58 seconds of the connected 132-second opening is now submitted
+  as FOUR bounded native GPU jobs; no frames duplicated or interpolated.
+  IDs, input hashes, reservation IDs and statuses are in
+  `ops/v024-opening-render-jobs.json` and durable R2 checkpoint
+  `native/S1E1/V024/checkpoints/opening_render_jobs.json`.
+  Endpoint currently executes one job at a time. No infrastructure change.
+  Poll with `scripts/run-native-review.py poll`; uncertain submissions NEVER
+  automatically resubmit. Existing Supabase durable queue remains unchanged.
+- Frozen first-scene blend: native/S1E1/V024/opening_final/S1E1_SC001_V024.blend
+  SHA256 7ad6efdef7e624202cfb0f67772f5386a69b71ecf30f93ca86fafd63fccd4d79.
+  Completed 1392-frame Blender 4.5.3 QA; foot errors Mark 0.0426 mm,
+  Lili 0.0226 mm. 30 unreachable Lili turn frames eliminated by repeated
+  short planted turning steps. Knee speed remains 674.86 deg/s; unapproved.
+- Native shot proofs exposed and fixed old scene props/gate leaks, occluded
+  leaf insert and a missing pre-grasp object keyframe. Existing forests reused.
+- Real speech mix now includes original scratch forest wind/bird/shard cues.
+  All 19 original recordings retained, 3 unresolved takes explicitly flagged.
+- Root cause of broken pickup found: V022-derived master was missing hand IK
+  influence drivers despite having the constraints. New reusable restoration
+  and native driver tests added; MASTER_CAST_V024c passes all-six rig tests.
+  V022/V023/V024b kept. No phonetic or professional animation approval.
+
+## Running / exact next action
+1. Active sandbox sbx_hbrj4u6r1FOrgWWTiIRBSZUkGJFS, expires ~18:55 UTC.
+   Read final_SC003_build.log. Final hand-contact rebake PASSED: 0.525 mm error, down from 0.482 m.
+   Native closeup rendered; complete frame QA is running. Do NOT submit
+   scene 2 if grasp_contact_pass is false. Its prior 0.482 m handoff candidate
+   is rejected, not the production source.
+2. All-six 20-second walk/run/turn/face diagnostic compiling:
+   cast_motion_build.log -> CAST_MOTION_V024.blend / .qa.json. Preserve results.
+3. Persist MASTER_CAST_V024c, registry and structure report (upload started),
+   final opening sources/QA/mixes and contact proofs before stopping sandbox.
+4. Once SC003 contact/visual checks pass, reserve its 5 bounded GPU tasks,
+   append to existing review manifest, submit once, then verify actual GPU
+   clips, concatenate full 132-second audio and use native film assembly.
+5. Full FEATURE_V002 40-unit storyboard/timed reading remains unfinished.
+   113 new voices stay blocked; no artificial 60-minute duration claim.
+
+## Budget / background
+- Daily limit unchanged $200, budget day 2026-10-11 Asia/Saigon.
+  $16.50 reserved: $4 authoring, $2.50 completed 6-second diagnostic,
+  $10 four opening-scene tasks. Reservations are not verified vendor bills.
+- No 60-minute production run. Completed V016 intro and approved existing
+  assets not rerendered. No voices replaced or new TTS generated.
+- Local 26 pure animation tests pass. New native hand-influence test checks previously missing
+  original driver paths and passes V024c; no false full quality approval.
+
+---
+## Earlier checkpoint context (superseded above)
+
 # WonderlyTales continuation — 2026-10-10 18:11 UTC
 
 Last successful Git commit: `1885eb30cf0de66076ec2961baf77616dae7a2c2`.

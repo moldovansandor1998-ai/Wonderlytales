@@ -28,10 +28,22 @@ def mix_scene(script_path,compiled_path,output):
   actor=next(a for a in scene['characters'] if a['code']==event['character'])
   if not any(a['clip'] in ('walk','run','turn') and a['start']<=event['time']<a['end'] for a in actor['actions']):continue
   a=round(event['time']*sr);length=min(n-a,round(.11*sr));t=np.arange(length)/sr;noise=rng.normal(0,1,length);noise=np.convolve(noise,np.ones(7)/7,'same');sound=(noise*.045+np.sin(t*2*np.pi*95)*.028)*np.exp(-t*45);pan=max(-.6,min(.6,event['position'][0]/3));sfx[a:a+length]+=sound[:,None]*np.array([1-pan,1+pan]);steps+=1
- mix=speech+music+sfx;peak=float(np.max(np.abs(mix)));gain=min(1,.92/max(1e-9,peak));mix*=gain
+ ambience=np.zeros_like(music);cues=[]
+ if scene.get('soundscape',{}).get('kind')=='forest_review':
+  # Original synthetic scratch ambience, clearly distinguished from final Foley.
+  wind=np.cumsum(rng.normal(0,1,n+96));wind=(wind[96:]-wind[:-96])/96
+  ambience+=wind[:,None]*np.array([.025,.022])
+  for event in scene['soundscape'].get('events',[]):
+   start=float(event['start']);kind=event['kind']
+   if not 0<=start<scene['duration'] or kind not in ('bird','shard'):raise ValueError('Invalid authored sound cue')
+   a=round(start*sr);length=min(n-a,round((.4 if kind=='bird' else 1.6)*sr));t=np.arange(length)/sr
+   if kind=='bird':tone=np.sin(2*np.pi*(2100*t+650*t*t))*np.sin(np.pi*np.minimum(1,t/.4))**2*.009
+   else:tone=(np.sin(2*np.pi*1320*t)+.35*np.sin(2*np.pi*1980*t))*np.exp(-t*4)*np.minimum(1,t/.008)*.035
+   ambience[a:a+length]+=tone[:,None]*np.array([.9,1.]);cues.append(event)
+ mix=speech+music+sfx+ambience;peak=float(np.max(np.abs(mix)));gain=min(1,.92/max(1e-9,peak));mix*=gain
  with wave.open(str(output),'wb') as out:out.setnchannels(2);out.setsampwidth(2);out.setframerate(sr);out.writeframes((np.clip(mix,-1,1)*32767).astype('<i2').tobytes())
  with open(output,'rb') as file:os.fsync(file.fileno())
- report={'frames':n,'sample_rate':sr,'duration':n/sr,'peak_before_gain':peak,'peak_after_gain':float(np.max(np.abs(mix))),'gain':gain,'voices':voices,'footstep_events':steps,'music':'Original procedural development cue','sfx':'Procedural footsteps triggered by actual planned foot contacts','professional_audio_approved':False};atomic_json(Path(output).with_suffix('.mix.json'),report);return report
+ report={'frames':n,'sample_rate':sr,'duration':n/sr,'peak_before_gain':peak,'peak_after_gain':float(np.max(np.abs(mix))),'gain':gain,'voices':voices,'footstep_events':steps,'music':'Original procedural development cue','sfx':'Procedural footsteps triggered by actual planned foot contacts','ambience':'Original synthetic forest scratch track' if cues else None,'authored_sound_cues':cues,'professional_audio_approved':False};atomic_json(Path(output).with_suffix('.mix.json'),report);return report
 
 def mux(video,audio,output,frames):
  verify_video(video,frames);subprocess.run(['ffmpeg','-v','error','-y','-i',str(video),'-i',str(audio),'-map','0:v:0','-map','1:a:0','-c:v','copy','-c:a','aac','-b:a','192k','-t',str(frames/24),'-movflags','+faststart',str(output)],check=True);return verify_video(output,frames)

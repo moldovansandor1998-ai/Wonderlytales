@@ -5,10 +5,12 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 from animation_system.continuous_binding import rebind_body
 from animation_system.refine_skin_continuity import stabilize_mouth
 from animation_system.spec import digest,atomic_json,FACE_PROFILES,QUADRUPEDS
+from animation_system.interactions import restore_hand_drivers
 source,registry,dest=map(Path,sys.argv[sys.argv.index('--')+1:])
 if source.resolve()==dest.resolve():raise ValueError('Immutable V022 required')
 bpy.ops.wm.open_mainfile(filepath=str(source.resolve()),use_scripts=False)
 reg=json.loads(registry.read_text());report={'source_sha256':digest(source),'blender':bpy.app.version_string,'production_approved':False,'characters':{}}
+report['restored_hand_drivers']={code:restore_hand_drivers(bpy.data.objects[a['rig']]) for code,a in reg['characters'].items()}
 for code in ('CHAR_LILI','CHAR_POTTY','CHAR_ZIZI'):
     a=reg['characters'][code];r=bpy.data.objects[a['rig']];body=bpy.data.objects[a['body']]
     report['characters'][code]=rebind_body(body,r,code,FACE_PROFILES[code]['head_floor'],code in QUADRUPEDS)

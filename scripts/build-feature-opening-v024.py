@@ -9,7 +9,7 @@ root=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(root/'production'))
 from animation_system.spec import validate_scene,compile_episode
 feature_path=root/'production/episodes/S1E1/feature_V002/feature_scene_plan_V002.json'
-feature=json.loads(feature_path.read_text());reg=json.loads((root/'data/V024/asset_registry_V024.json').read_text())
+feature=json.loads(feature_path.read_text());reg=json.loads((root/'data/V024/asset_registry_V024b.json').read_text())
 dest=root/'production/episodes/S1E1/feature_V002/quality_opening_V024';dest.mkdir(exist_ok=True)
 runtime=root/'data/V024/opening';(runtime/'audio').mkdir(parents=True,exist_ok=True)
 def action(clip,start,end,**kwargs):return dict(clip=clip,start=start,end=end,**kwargs)
@@ -33,7 +33,7 @@ presets={
  'W':([3.0,-4.8,2.3],[0,-.2,.85],42),
  'M':([1.0,-2.8,1.7],[-.6,-.5,1.28],58),
  'L':([-.5,-2.3,1.08],[.52,-.4,.63],55),
- 'F':([.7,-2.1,.4],[-.3,-1.1,.07],60),
+ 'F':([-.4,-1.05,.8],[-.3,-1.1,.07],65),
  'S':([.7,-2.2,.7],[-.1,-1.35,.23],65),
  'T':([2.8,-2.5,1.65],[0,-.8,.85],45),
  'H':([.9,-2.2,1.05],[-.1,-1.2,.65],60),
@@ -64,6 +64,9 @@ for source_code,duration,starts,cast,shots in [('S1E1_SC001',58,[7,11,17,19,22,3
         scene['cameras'].append(camera)
         storyboard.append(dict(shot_id=f'{source_code}_SH{i+1:03}',scene_id=scene['id'],start_sec=start,end_sec=end,duration_sec=end-start,camera=camera,direction_hu=description,frame_start=round(start*24)+1,frame_end=round(end*24),timing_basis='authored blocking, existing measured recordings',animation_render_verified=False))
     if source_code=='S1E1_SC003':scene['interactions']=[dict(id='star',kind='pickup',character='CHAR_MARK',hand='L',position=[-.1,-1.35,.23],start=20,end=26,radius=.055,carry_to_end=True)]
+    birds=[1,4,9,12,21,24,33,39,46,56] if source_code=='S1E1_SC001' else [1,9,17,32,37,50,62,70]
+    shimmer=[16,29.2,30,30.8,49,54] if source_code=='S1E1_SC001' else [26,42]
+    scene['soundscape']={'kind':'forest_review','events':[dict(kind='bird',start=t) for t in birds]+[dict(kind='shard',start=t) for t in shimmer],'approved':False}
     validate_scene(scene,reg);data=json.dumps(scene,ensure_ascii=False,indent=2)+'\n'
     (dest/(scene['id']+'.script.json')).write_text(data);(runtime/(scene['id']+'.script.json')).write_text(data);scenes.append(scene)
 episode=dict(schema='WONDERLY_EPISODE_V1',id='FEATURE_V002_OPENING_V024',kind='quality_trial',scenes=scenes,target_duration_seconds=132)

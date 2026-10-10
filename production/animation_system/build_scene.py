@@ -140,22 +140,9 @@ def main(master,registry_path,script_path,dest):
     else:point=Vector(gaze.get('position',[0,5,1]))
     gaze_targets[c].location=point;gaze_targets[c].keyframe_insert('location')
   if f%240==0:print('COMPILED_FRAMES',f,count,flush=True)
- # Actual prop contact is authored from scene data, not a generic waving pose.
- for event in script.get('interactions',[]):
-  if event['kind'] not in ('pickup','touch'):raise ValueError('Unsupported interaction')
-  c=event['character'];r=rigs[c]
-  if c in QUADRUPEDS:raise ValueError('Quadruped pickup requires mouth attachment, not a hand')
-  target=Vector(event['position']);side=event.get('hand','R')
-  bpy.ops.mesh.primitive_ico_sphere_add(subdivisions=2,radius=event.get('radius',.06),location=target);prop=bpy.context.object;prop.name='PROP_'+event['id'];mat=bpy.data.materials.new(prop.name);mat.diffuse_color=(.05,.5,.8,1);prop.data.materials.append(mat)
-  for f in range(max(1,round(event['start']*24)+1),min(count,round(event['end']*24))+1):
-   s.frame_set(f);u=((f-1)/24-event['start'])/(event['end']-event['start']);r['ik_hand.'+side]=smooth(u/.2)*(1-smooth((u-.85)/.15));r.keyframe_insert('["ik_hand.'+side+'"]');set_target(r,'CTRL_hand.'+side,target)
-   if event['kind']=='pickup' and u>.55:
-    q=r.matrix_world@r.pose.bones['hand.'+side].tail;prop.location=q;prop.keyframe_insert('location')
-  for f in [max(1,round(event['start']*24)),min(count,round(event['end']*24)+1)]:r['ik_hand.'+side]=0;r.keyframe_insert('["ik_hand.'+side+'"]',frame=f)
-  if event['kind']=='pickup' and event.get('carry_to_end'):
-   for f in range(round((event['start']+(event['end']-event['start'])*.55)*24)+1,count+1):
-    s.frame_set(f);bpy.context.view_layer.update();ev=r.evaluated_get(bpy.context.evaluated_depsgraph_get())
-    prop.location=ev.matrix_world@ev.pose.bones['hand.'+side].tail;prop.keyframe_insert('location',frame=f)
+ # Evaluated contact helper is also rerun after final support baking.
+ from animation_system.interactions import author_interactions
+ interaction_report=author_interactions(s,script,rigs)
  s.timeline_markers.clear()
  for i,view in enumerate(script['cameras']):
   data=bpy.data.cameras.new(script['id']+' camera '+str(i));cam=bpy.data.objects.new(data.name,data);s.collection.objects.link(cam);cam.location=view['position'];cam.rotation_euler=(Vector(view['target'])-cam.location).to_track_quat('-Z','Y').to_euler();data.lens=view.get('lens',40)
@@ -179,7 +166,7 @@ def main(master,registry_path,script_path,dest):
  s.frame_start=1;s.frame_end=count;s.render.fps=24;s.render.use_sequencer=False;s.render.engine='CYCLES';s.cycles.device='CPU';s.cycles.samples=16;s.cycles.use_denoising=True;s.render.resolution_x=1280;s.render.resolution_y=720;s.render.resolution_percentage=100;s['production_approved']=False;s['system_version']='V021';s['script_sha256']=digest(script_path)
  s.frame_set(1);bpy.ops.wm.save_as_mainfile(filepath=str(dest),compress=True)
  with dest.open('rb') as file:os.fsync(file.fileno())
- atomic_json(dest.with_suffix('.compiled.json'),{'scene':script['id'],'master_sha256':digest(master),'scene_sha256':digest(dest),'script_sha256':digest(script_path),'frames':count,'cast':sorted(codes),'contacts':contacts,'contact_events':contact_events,'mouth_states':mouth_states,'clip_library_consumed':True,'professional_quality_approved':False})
+ atomic_json(dest.with_suffix('.compiled.json'),{'scene':script['id'],'master_sha256':digest(master),'scene_sha256':digest(dest),'script_sha256':digest(script_path),'frames':count,'cast':sorted(codes),'interaction_report':interaction_report,'contacts':contacts,'contact_events':contact_events,'mouth_states':mouth_states,'clip_library_consumed':True,'professional_quality_approved':False})
  print('SCENE_COMPILED',script['id'],count,flush=True)
 
 if __name__=='__main__':

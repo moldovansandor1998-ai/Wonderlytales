@@ -731,5 +731,51 @@
   ],
   "source_feature_sha256": "72492a266fbcaea03c51e34a93a925f9153cedde42954fbe5b9739de74468693",
   "source_feature_scene": "S1E1_SC003",
-  "production_approved": false
+  "production_approved": false,
+  "soundscape": {
+    "kind": "forest_review",
+    "events": [
+      {
+        "kind": "bird",
+        "start": 1
+      },
+      {
+        "kind": "bird",
+        "start": 9
+      },
+      {
+        "kind": "bird",
+        "start": 17
+      },
+      {
+        "kind": "bird",
+        "start": 32
+      },
+      {
+        "kind": "bird",
+        "start": 37
+      },
+      {
+        "kind": "bird",
+        "start": 50
+      },
+      {
+        "kind": "bird",
+        "start": 62
+      },
+      {
+        "kind": "bird",
+        "start": 70
+      },
+      {
+        "kind": "shard",
+        "start": 26
+      },
+      {
+        "kind": "shard",
+        "start": 42
+      }
+    ],
+    "approved": false
+  }
 }

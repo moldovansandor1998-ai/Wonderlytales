@@ -1,0 +1,390 @@
+{
+  "schema": "WONDERLY_SCENE_V1",
+  "id": "CAST_MOTION_V024",
+  "fps": 24,
+  "duration": 20,
+  "location": "LOC_FOREST_V021",
+  "studio": true,
+  "characters": [
+    {
+      "code": "CHAR_MARK",
+      "version": "V022",
+      "position": [
+        -3.75,
+        0,
+        0
+      ],
+      "yaw": 0,
+      "actions": [
+        {
+          "clip": "walk",
+          "start": 0,
+          "end": 4,
+          "destination": [
+            -3.75,
+            -1,
+            0
+          ]
+        },
+        {
+          "clip": "turn",
+          "start": 4,
+          "end": 6,
+          "yaw": 1.5707963267948966
+        },
+        {
+          "clip": "run",
+          "start": 6,
+          "end": 9,
+          "destination": [
+            -2.75,
+            -1,
+            0
+          ]
+        },
+        {
+          "clip": "turn",
+          "start": 9,
+          "end": 11,
+          "yaw": 0
+        },
+        {
+          "clip": "interact",
+          "start": 12,
+          "end": 15
+        },
+        {
+          "clip": "surprise",
+          "start": 15,
+          "end": 17
+        },
+        {
+          "clip": "laugh",
+          "start": 17,
+          "end": 20
+        }
+      ],
+      "gaze": []
+    },
+    {
+      "code": "CHAR_LILI",
+      "version": "V021",
+      "position": [
+        -2.25,
+        0,
+        0
+      ],
+      "yaw": 0,
+      "actions": [
+        {
+          "clip": "walk",
+          "start": 0,
+          "end": 4,
+          "destination": [
+            -2.25,
+            -1,
+            0
+          ]
+        },
+        {
+          "clip": "turn",
+          "start": 4,
+          "end": 6,
+          "yaw": 1.5707963267948966
+        },
+        {
+          "clip": "run",
+          "start": 6,
+          "end": 9,
+          "destination": [
+            -1.25,
+            -1,
+            0
+          ]
+        },
+        {
+          "clip": "turn",
+          "start": 9,
+          "end": 11,
+          "yaw": 0
+        },
+        {
+          "clip": "interact",
+          "start": 12,
+          "end": 15
+        },
+        {
+          "clip": "surprise",
+          "start": 15,
+          "end": 17
+        },
+        {
+          "clip": "laugh",
+          "start": 17,
+          "end": 20
+        }
+      ],
+      "gaze": []
+    },
+    {
+      "code": "CHAR_MORZSI",
+      "version": "V021",
+      "position": [
+        -0.75,
+        0,
+        0
+      ],
+      "yaw": 0,
+      "actions": [
+        {
+          "clip": "walk",
+          "start": 0,
+          "end": 4,
+          "destination": [
+            -0.75,
+            -1,
+            0
+          ]
+        },
+        {
+          "clip": "turn",
+          "start": 4,
+          "end": 6,
+          "yaw": 1.5707963267948966
+        },
+        {
+          "clip": "run",
+          "start": 6,
+          "end": 9,
+          "destination": [
+            0.25,
+            -1,
+            0
+          ]
+        },
+        {
+          "clip": "turn",
+          "start": 9,
+          "end": 11,
+          "yaw": 0
+        },
+        {
+          "clip": "interact",
+          "start": 12,
+          "end": 15
+        },
+        {
+          "clip": "surprise",
+          "start": 15,
+          "end": 17
+        },
+        {
+          "clip": "laugh",
+          "start": 17,
+          "end": 20
+        }
+      ],
+      "gaze": []
+    },
+    {
+      "code": "CHAR_POTTY",
+      "version": "V021",
+      "position": [
+        0.75,
+        0,
+        0
+      ],
+      "yaw": 0,
+      "actions": [
+        {
+          "clip": "walk",
+          "start": 0,
+          "end": 4,
+          "destination": [
+            0.75,
+            -1,
+            0
+          ]
+        },
+        {
+          "clip": "turn",
+          "start": 4,
+          "end": 6,
+          "yaw": 1.5707963267948966
+        },
+        {
+          "clip": "run",
+          "start": 6,
+          "end": 9,
+          "destination": [
+            1.75,
+            -1,
+            0
+          ]
+        },
+        {
+          "clip": "turn",
+          "start": 9,
+          "end": 11,
+          "yaw": 0
+        },
+        {
+          "clip": "interact",
+          "start": 12,
+          "end": 15
+        },
+        {
+          "clip": "surprise",
+          "start": 15,
+          "end": 17
+        },
+        {
+          "clip": "laugh",
+          "start": 17,
+          "end": 20
+        }
+      ],
+      "gaze": []
+    },
+    {
+      "code": "CHAR_ZIZI",
+      "version": "V021",
+      "position": [
+        2.25,
+        0,
+        0
+      ],
+      "yaw": 0,
+      "actions": [
+        {
+          "clip": "walk",
+          "start": 0,
+          "end": 4,
+          "destination": [
+            2.25,
+            -1,
+            0
+          ]
+        },
+        {
+          "clip": "turn",
+          "start": 4,
+          "end": 6,
+          "yaw": 1.5707963267948966
+        },
+        {
+          "clip": "run",
+          "start": 6,
+          "end": 9,
+          "destination": [
+            3.25,
+            -1,
+            0
+          ]
+        },
+        {
+          "clip": "turn",
+          "start": 9,
+          "end": 11,
+          "yaw": 0
+        },
+        {
+          "clip": "interact",
+          "start": 12,
+          "end": 15
+        },
+        {
+          "clip": "surprise",
+          "start": 15,
+          "end": 17
+        },
+        {
+          "clip": "laugh",
+          "start": 17,
+          "end": 20
+        }
+      ],
+      "gaze": []
+    },
+    {
+      "code": "CHAR_BOGYO",
+      "version": "V021",
+      "position": [
+        3.75,
+        0,
+        0
+      ],
+      "yaw": 0,
+      "actions": [
+        {
+          "clip": "walk",
+          "start": 0,
+          "end": 4,
+          "destination": [
+            3.75,
+            -1,
+            0
+          ]
+        },
+        {
+          "clip": "turn",
+          "start": 4,
+          "end": 6,
+          "yaw": 1.5707963267948966
+        },
+        {
+          "clip": "run",
+          "start": 6,
+          "end": 9,
+          "destination": [
+            4.75,
+            -1,
+            0
+          ]
+        },
+        {
+          "clip": "turn",
+          "start": 9,
+          "end": 11,
+          "yaw": 0
+        },
+        {
+          "clip": "interact",
+          "start": 12,
+          "end": 15
+        },
+        {
+          "clip": "surprise",
+          "start": 15,
+          "end": 17
+        },
+        {
+          "clip": "laugh",
+          "start": 17,
+          "end": 20
+        }
+      ],
+      "gaze": []
+    }
+  ],
+  "dialogue": [],
+  "cameras": [
+    {
+      "start": 0,
+      "position": [
+        7,
+        -13,
+        7
+      ],
+      "target": [
+        0.4,
+        -0.5,
+        0.75
+      ],
+      "lens": 42
+    }
+  ],
+  "interactions": [],
+  "production_approved": false,
+  "scope": "Native all-cast locomotion and face mechanics; not spoken acting approval"
+}

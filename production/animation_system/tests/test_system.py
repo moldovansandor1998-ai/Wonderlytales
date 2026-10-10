@@ -7,6 +7,19 @@ from animation_system.lipsync import aligned_cues,weights_at,viseme,validate_tra
 from animation_system.release import release_gate
 
 class SystemTests(unittest.TestCase):
+ def test_quadruped_half_turn_uses_short_planted_steps(self):
+  import math
+  actor={'position':[0,0,0],'actions':[{'clip':'turn','start':0,'end':3,'yaw':math.pi}]}
+  foot={'foot':'hindpaw.L','ankle':[.08,.13,.08],'phase':.5,'leg_length':.15}
+  contacts={};maximum=0
+  for frame in range(72):
+   t=frame/24;q,planted,contact=foot_at(actor,foot,t)
+   pos,yaw=root_at(actor,t);x,y,z=foot['ankle'];rest=[math.cos(yaw)*x-math.sin(yaw)*y,math.sin(yaw)*x+math.cos(yaw)*y,z]
+   maximum=max(maximum,math.dist(q,rest))
+   if planted:
+    if contact in contacts:self.assertEqual(q,contacts[contact])
+    contacts[contact]=q
+  self.assertGreater(len(contacts),4);self.assertLess(maximum,.08)
  def test_small_legs_clear_floor_without_high_lift_or_landing_kick(self):
   import math
   actor={'position':[0,0,0],'actions':[{'clip':'walk','start':0,'end':5,'destination':[0,-1,0]}]}
