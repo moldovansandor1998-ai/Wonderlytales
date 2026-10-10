@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { V024_REVIEW_ARTIFACTS } from '@/lib/native-review';
 
 type Receipt = { key: string; sha256: string; bytes: number };
 export default function NativeAssetsPage() {
@@ -57,6 +58,18 @@ export default function NativeAssetsPage() {
   return <main className="max-w-3xl mx-auto p-6 space-y-5">
     <h1 className="text-2xl font-semibold">Epizód jelenetfájljai</h1>
     <p>A kész Blender-jelenetek feltöltése a rendereléshez. A feltöltés önmagában nem hagyja jóvá a jelenet minőségét.</p>
+    <section id="previews" className="border border-slate-600 rounded p-4 space-y-3">
+      <h2 className="text-lg font-semibold">Elkészült előnézetek</h2>
+      <p>Ellenőrzési változatok. Az arcok, a tekintet és a mozgás még javításra várnak.</p>
+      <ul className="space-y-3">
+        {V024_REVIEW_ARTIFACTS.map(artifact => <li key={artifact.id}>
+          <a className="text-amber-400 underline" href={`/api/native-assets/download?${new URLSearchParams({ key: artifact.key })}`}>
+            {artifact.title}
+          </a>
+          <p className="text-sm text-slate-300">{artifact.description}</p>
+        </li>)}
+      </ul>
+    </section>
     <section className="border border-slate-600 rounded p-4 space-y-3">
       <h2 className="text-lg font-semibold">Mentett jelenet visszatöltése</h2>
       <p>A korábbi mentési igazolásban vagy projektállapotban található jelenetazonosítóval letölthető az eredeti Blender-fájl.</p>

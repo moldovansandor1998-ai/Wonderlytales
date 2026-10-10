@@ -34,6 +34,11 @@ User's earlier verified base: 4266970498f2f4c5dc423f1de1a27ef58dbbfbaf.
   Candidate is NOT production approved and NOT promoted into frozen V024.
   Candidate B is superseded and not approved. Do not rerender the opening
   merely because the numeric eye-angle gate improved.
+- Preview links added to the existing /native-assets page using the same
+  authenticated download route. Typecheck and five download tests pass.
+- Read-only eye boundary diagnostic saved in ops/v025-eye-boundary-diagnostic.json;
+  temporary merge only, no character body mesh changed. Branching boundaries
+  confirm that a simple radial stitch is unsafe.
 - Next: wait for final two exact clips, assemble using unchanged native
   assembly with original HU mix, decode/readback, save review. Facial seam
   repair requires true boundary correspondence, not another overlay.
