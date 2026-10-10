@@ -6,6 +6,8 @@ from pathlib import Path
 import re
 import subprocess
 import tempfile
+import threading
+from native_checkpoints import render_identity, restore_frames, save_frame
 
 
 def validated_input(payload):
@@ -28,11 +30,22 @@ def validated_input(payload):
     samples = payload.get('samples', 128)
     if type(samples) is not int or not 48 <= samples <= 512:
         raise ValueError('Samples must be between 48 and 512')
-    return dict(operation=operation, scene_key=key, scene_sha256=digest,
+    revision=payload.get('renderer_revision')
+    if revision is not None and not re.fullmatch(r'[a-f0-9]{40}',revision):
+        raise ValueError('Immutable renderer revision required')
+    if revision is not None and revision != os.environ.get('WORKER_RENDERER_REVISION'):
+        raise ValueError('Requested renderer revision is not the deployed worker revision')
+    return dict(operation=operation, scene_key=key, scene_sha256=digest, renderer_revision=revision,
                 frame_start=start, frame_end=end, width=width, height=height, samples=samples)
 
 
 def handler(event):
+    if event.get('input',{}).get('operation') == 'ASSEMBLE_NATIVE_FILM':
+        import boto3
+        from native_assembly import assemble_native
+        client=boto3.client('s3',endpoint_url=os.environ['S3_ENDPOINT'],region_name='auto',
+                            aws_access_key_id=os.environ['S3_ACCESS_KEY_ID'],aws_secret_access_key=os.environ['S3_SECRET_ACCESS_KEY'])
+        return assemble_native(client,os.environ['S3_BUCKET'],event['input'])
     job = validated_input(event.get('input', {}))
     with tempfile.TemporaryDirectory(prefix='wonderly-native-') as tmp:
         root = Path(tmp)
@@ -52,23 +65,35 @@ def handler(event):
             if digest != job['scene_sha256']:
                 raise ValueError('Native scene checksum mismatch')
             job.update(scene=str(source), output=str(root/'frames'))
+            identity=render_identity(job)
+            prefix=f"renders/native/S1E1/{job['scene_sha256']}/{identity}"
+            job['restored_frames']=restore_frames(client,bucket,prefix,root/'frames',job['frame_start'],job['frame_end'])
         config = root/'job.json'
         config.write_text(json.dumps(job))
-        process = subprocess.run([
+        process = subprocess.Popen([
             'blender', '--background', '--disable-autoexec', '--python',
             str(Path(__file__).with_name('native_gpu_scene.py')), '--', str(config),
-        ], capture_output=True, text=True, timeout=1700)
+        ], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, bufsize=1)
+        timer=threading.Timer(1700,process.kill);timer.start();lines=[]
+        try:
+            for line in process.stdout:
+                lines.append(line)
+                if line.startswith('WONDERLY_FRAME_READY '):
+                    frame=int(line.removeprefix('WONDERLY_FRAME_READY ').strip())
+                    save_frame(client,bucket,prefix,root/'frames'/f'frame_{frame:06d}.png')
+            process.wait()
+        finally:
+            timer.cancel()
+            if process.poll() is None: process.kill();process.wait()
+        log=''.join(lines)
         if process.returncode:
-            raise RuntimeError('Native GPU render failed: '+process.stdout[-2500:]+process.stderr[-1000:])
+            raise RuntimeError('Native GPU render failed: '+log[-3000:])
         records = [json.loads(line.removeprefix('WONDERLY_NATIVE_RESULT '))
-                   for line in process.stdout.splitlines() if line.startswith('WONDERLY_NATIVE_RESULT ')]
+                   for line in log.splitlines() if line.startswith('WONDERLY_NATIVE_RESULT ')]
         if len(records) != 1:
             raise RuntimeError('Native renderer did not return a verified result')
         result = records[0]
         if job['operation'] != 'CHECK_GPU_ACCESS':
-            identity = hashlib.sha256(json.dumps({k: v for k, v in job.items()
-                                                  if k not in ('scene', 'output')}, sort_keys=True).encode()).hexdigest()
-            prefix = f"renders/native/S1E1/{job['scene_sha256']}/{identity}"
             outputs = []
             for frame in range(job['frame_start'], job['frame_end']+1):
                 source = root/'frames'/f'frame_{frame:06d}.png'
@@ -76,7 +101,6 @@ def handler(event):
                 if not data.startswith(b'\x89PNG\r\n\x1a\n') or not data.endswith(b'IEND\xaeB`\x82'):
                     raise RuntimeError('Incomplete native render frame')
                 key = f'{prefix}/{source.name}'
-                client.upload_file(str(source), bucket, key, ExtraArgs={'ContentType': 'image/png'})
                 outputs.append({'frame': frame, 'key': key, 'sha256': hashlib.sha256(data).hexdigest()})
             result.update(outputs=outputs, source_sha256=job['scene_sha256'])
             movie = root/'frames'/'clip.mp4'

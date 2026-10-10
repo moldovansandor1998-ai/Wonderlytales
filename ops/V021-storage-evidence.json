@@ -1,0 +1,116 @@
+[
+  {
+    "key": "renders/native/S1E1/review/V021/diagnostic_60s.mp4",
+    "sha256": "b810d55fa981af67437bd9401c4407eb84f12602065910fa6d3c110de971ae04",
+    "bytes": 5886981,
+    "storage_verified": true
+  },
+  {
+    "key": "renders/native/S1E1/review/V021/73b62d5fb40a9fbe9ee4c5a3.mp4",
+    "job": {
+      "scene_id": "GATE_60S_V021",
+      "frame_start": 1,
+      "frame_end": 360,
+      "frames": 360,
+      "episode_start_frame": 1,
+      "scene_fingerprint": "f1f0842a7bc0fd8c07a3b28b7248f5192c78871bc59aab06daf85d3134cac556",
+      "assets": {
+        "CHAR_MARK": "2840932b51f97780e3e6bdfd85cdd812cf1df2f36ecefb734b94a35cd25bb082",
+        "CHAR_LILI": "2840932b51f97780e3e6bdfd85cdd812cf1df2f36ecefb734b94a35cd25bb082",
+        "CHAR_POTTY": "2840932b51f97780e3e6bdfd85cdd812cf1df2f36ecefb734b94a35cd25bb082",
+        "CHAR_ZIZI": "2840932b51f97780e3e6bdfd85cdd812cf1df2f36ecefb734b94a35cd25bb082"
+      },
+      "location_sha256": "2840932b51f97780e3e6bdfd85cdd812cf1df2f36ecefb734b94a35cd25bb082",
+      "compiled_scene_sha256": "b41be8ca5833327d51cecc3001f44b305d925ad9d7d1b57b7a32c74cc0467f88",
+      "renderer_sha256": "52dc2eca4b1047b5f5e50b7f50c4fd11914c41346732b78b36ea073d75a8d736",
+      "id": "73b62d5fb40a9fbe9ee4c5a3"
+    },
+    "sha256": "8185eeeeb20b38380c8e5980399df1e34b000ba854f500526f07235c0ef2f0bd",
+    "bytes": 893978,
+    "storage_verified": true
+  },
+  {
+    "key": "renders/native/S1E1/review/V021/4ba084df86e4dc2b2a7ed861.mp4",
+    "job": {
+      "scene_id": "GATE_60S_V021",
+      "frame_start": 361,
+      "frame_end": 720,
+      "frames": 360,
+      "episode_start_frame": 361,
+      "scene_fingerprint": "f1f0842a7bc0fd8c07a3b28b7248f5192c78871bc59aab06daf85d3134cac556",
+      "assets": {
+        "CHAR_MARK": "2840932b51f97780e3e6bdfd85cdd812cf1df2f36ecefb734b94a35cd25bb082",
+        "CHAR_LILI": "2840932b51f97780e3e6bdfd85cdd812cf1df2f36ecefb734b94a35cd25bb082",
+        "CHAR_POTTY": "2840932b51f97780e3e6bdfd85cdd812cf1df2f36ecefb734b94a35cd25bb082",
+        "CHAR_ZIZI": "2840932b51f97780e3e6bdfd85cdd812cf1df2f36ecefb734b94a35cd25bb082"
+      },
+      "location_sha256": "2840932b51f97780e3e6bdfd85cdd812cf1df2f36ecefb734b94a35cd25bb082",
+      "compiled_scene_sha256": "b41be8ca5833327d51cecc3001f44b305d925ad9d7d1b57b7a32c74cc0467f88",
+      "renderer_sha256": "52dc2eca4b1047b5f5e50b7f50c4fd11914c41346732b78b36ea073d75a8d736",
+      "id": "4ba084df86e4dc2b2a7ed861"
+    },
+    "sha256": "e28910fc789457743b8c73262bb3b4fbf9c4c9af5bda4e259108d8add68cea78",
+    "bytes": 999064,
+    "storage_verified": true
+  },
+  {
+    "key": "renders/native/S1E1/review/V021/80efa4c699acd7a3f276c14e.mp4",
+    "job": {
+      "scene_id": "GATE_60S_V021",
+      "frame_start": 721,
+      "frame_end": 1080,
+      "frames": 360,
+      "episode_start_frame": 721,
+      "scene_fingerprint": "f1f0842a7bc0fd8c07a3b28b7248f5192c78871bc59aab06daf85d3134cac556",
+      "assets": {
+        "CHAR_MARK": "2840932b51f97780e3e6bdfd85cdd812cf1df2f36ecefb734b94a35cd25bb082",
+        "CHAR_LILI": "2840932b51f97780e3e6bdfd85cdd812cf1df2f36ecefb734b94a35cd25bb082",
+        "CHAR_POTTY": "2840932b51f97780e3e6bdfd85cdd812cf1df2f36ecefb734b94a35cd25bb082",
+        "CHAR_ZIZI": "2840932b51f97780e3e6bdfd85cdd812cf1df2f36ecefb734b94a35cd25bb082"
+      },
+      "location_sha256": "2840932b51f97780e3e6bdfd85cdd812cf1df2f36ecefb734b94a35cd25bb082",
+      "compiled_scene_sha256": "b41be8ca5833327d51cecc3001f44b305d925ad9d7d1b57b7a32c74cc0467f88",
+      "renderer_sha256": "52dc2eca4b1047b5f5e50b7f50c4fd11914c41346732b78b36ea073d75a8d736",
+      "id": "80efa4c699acd7a3f276c14e"
+    },
+    "sha256": "0ef159e8a33a1997e26c1ff141c409a5c999ea40bf0ffb38e074abb0770a9560",
+    "bytes": 1469597,
+    "storage_verified": true
+  },
+  {
+    "key": "renders/native/S1E1/review/V021/09585e7db498a84ff817d1bd.mp4",
+    "job": {
+      "scene_id": "GATE_60S_V021",
+      "frame_start": 1081,
+      "frame_end": 1440,
+      "frames": 360,
+      "episode_start_frame": 1081,
+      "scene_fingerprint": "f1f0842a7bc0fd8c07a3b28b7248f5192c78871bc59aab06daf85d3134cac556",
+      "assets": {
+        "CHAR_MARK": "2840932b51f97780e3e6bdfd85cdd812cf1df2f36ecefb734b94a35cd25bb082",
+        "CHAR_LILI": "2840932b51f97780e3e6bdfd85cdd812cf1df2f36ecefb734b94a35cd25bb082",
+        "CHAR_POTTY": "2840932b51f97780e3e6bdfd85cdd812cf1df2f36ecefb734b94a35cd25bb082",
+        "CHAR_ZIZI": "2840932b51f97780e3e6bdfd85cdd812cf1df2f36ecefb734b94a35cd25bb082"
+      },
+      "location_sha256": "2840932b51f97780e3e6bdfd85cdd812cf1df2f36ecefb734b94a35cd25bb082",
+      "compiled_scene_sha256": "b41be8ca5833327d51cecc3001f44b305d925ad9d7d1b57b7a32c74cc0467f88",
+      "renderer_sha256": "52dc2eca4b1047b5f5e50b7f50c4fd11914c41346732b78b36ea073d75a8d736",
+      "id": "09585e7db498a84ff817d1bd"
+    },
+    "sha256": "01c67ebea25bb53f68787dae920c76acaa4d007c7b8b6a959edb650f3fef80ea",
+    "bytes": 1036114,
+    "storage_verified": true
+  },
+  {
+    "key": "native/S1E1/V021/GATE_60S_V021.blend",
+    "sha256": "b41be8ca5833327d51cecc3001f44b305d925ad9d7d1b57b7a32c74cc0467f88",
+    "bytes": 164356986,
+    "storage_verified": true
+  },
+  {
+    "key": "audio/S1E1/V021/full_mix.wav",
+    "sha256": "d7830077acb98296d57caaf862d84b2d2ce1f4a2586f10bb5a8225609ed7419c",
+    "bytes": 11520044,
+    "storage_verified": true
+  }
+]

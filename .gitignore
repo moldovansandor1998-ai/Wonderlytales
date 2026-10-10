@@ -15,3 +15,6 @@ production/references/**/*.png
 production/meshes/
 __pycache__/
 *.pyc
+
+# Supabase CLI transient state
+supabase/.temp/

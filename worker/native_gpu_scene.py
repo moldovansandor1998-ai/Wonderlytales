@@ -48,7 +48,11 @@ else:
         if 'FINISHED' not in mixed:
             raise RuntimeError('Authored scene audio could not be exported')
     elapsed = []
+    restored = set(job.get('restored_frames', []))
     for frame in range(start, end + 1):
+        if frame in restored:
+            elapsed.append(0.0)
+            continue
         started = time.monotonic()
         scene.frame_set(frame)
         for obj in scene.objects:
@@ -58,9 +62,11 @@ else:
         scene.render.filepath = str(output / f'frame_{frame:06d}.png')
         bpy.ops.render.render(write_still=True)
         elapsed.append(time.monotonic() - started)
+        print('WONDERLY_FRAME_READY ' + str(frame), flush=True)
     print('WONDERLY_NATIVE_RESULT ' + json.dumps({
         'status': 'RENDERED', 'devices': devices, 'frame_start': start, 'frame_end': end,
         'frames': len(elapsed), 'width': job['width'], 'height': job['height'],
         'samples': job['samples'], 'fps': 24, 'native_frame_step': 1,
         'frame_seconds': elapsed, 'production_approved': False,
+        'renderer_revision': job.get('renderer_revision'), 'restored_frames': sorted(restored),
     }))

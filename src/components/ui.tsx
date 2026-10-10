@@ -5,7 +5,7 @@ import type { ReactNode } from "react";
 const NAV = [
   ["Dashboard","/"],["Series","/series"],["Characters","/characters"],["Locations","/locations"],
   ["Props","/props"],["Animations","/animations"],["Voices","/voices"],["Render Queue","/render-queue"],
-  ["QC","/qc"],["Localization","/localization"],["Costs","/costs"],["Settings","/settings"],
+  ["Filmgyártás","/production"],["QC","/qc"],["Localization","/localization"],["Costs","/costs"],["Settings","/settings"],
 ] as const;
 
 export async function Shell({ children }: { children: ReactNode }) {

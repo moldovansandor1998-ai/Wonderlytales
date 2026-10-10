@@ -16,6 +16,7 @@ export default async function EpisodeDetail({ params }: { params: { id: string }
   return (<>
     <PageTitle title={`E${String(ep.number).padStart(2,"0")} – ${ep.title}`} sub={ep.brief} />
     <Link className="text-amber-400 block mb-4" href={`/episodes/${ep.id}/audio`}>Magyar szinkron és hangfelvételek</Link>
+    <Link className="text-amber-400 block mb-4" href="/production">Tartós filmgyártási állapot</Link>
     <Card className="mb-4"><details><summary className="font-semibold cursor-pointer text-sm">Epizód szerkesztése</summary>
       <form action={updateEpisodeAction.bind(null, ep.id, ep.season_id)} className="grid md:grid-cols-3 gap-3 mt-3">
         <div><label>Szám</label><input name="number" type="number" defaultValue={ep.number} /></div>
