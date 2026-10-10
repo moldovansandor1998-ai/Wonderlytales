@@ -42,18 +42,19 @@ export async function applyContinuity(db: Db, shot: ShotRow): Promise<{ warnings
   return { warnings };
 }
 
-/** Mock end-to-end preview pipeline: job → render → QC → (+auto retry) */
+/** Worker dispatch → actual render → QC → bounded retry. */
 export async function generatePreview(db: Db, shotId: string): Promise<RenderJob> {
   const shot = await db.get<ShotRow>("shots", shotId);
   if (!shot) throw new Error("Shot nem található");
-  const job = await enqueueJob(db, { shot_id: shotId, type: "PREVIEW", worker: "mock-worker-1", provider: "mock", max_attempts: 3, input_snapshot: { ...shot.data }, output_path: null, gpu_seconds: 0, cost_usd: 0, error: null });
+  const provider=process.env.RENDER_WORKER ?? "mock";
+  const job = await enqueueJob(db, { shot_id: shotId, type: "PREVIEW", worker: provider, provider, max_attempts: 3, input_snapshot: { ...shot.data }, output_path: null, gpu_seconds: 0, cost_usd: 0, error: null });
   await db.update<ShotRow>("shots", shotId, { status: "PREVIEW_RENDERING" });
   const done = await processNextJob(db, job.id);
   if (done?.status === "SUCCEEDED") {
     const results = await runQc(db, (await db.get<ShotRow>("shots", shotId))!, done.id, !!done.output_path, done.output_path);
     for (const r of results) {
       if (shouldAutoRetry(r.check_name, r.status, done.attempt, done.max_attempts)) {
-        await enqueueJob(db, { shot_id: shotId, type: "PREVIEW", worker: "mock-worker-1", provider: "mock", max_attempts: 3, input_snapshot: { ...shot.data }, output_path: null, gpu_seconds: 0, cost_usd: 0, error: null });
+        await enqueueJob(db, { shot_id: shotId, type: "PREVIEW", worker: provider, provider, max_attempts: 3, input_snapshot: { ...shot.data }, output_path: null, gpu_seconds: 0, cost_usd: 0, error: null });
       }
     }
   }
@@ -68,10 +69,15 @@ export async function finalRender(db: Db, shotId: string): Promise<RenderJob> {
   const shot = await db.get<ShotRow>("shots", shotId);
   if (!shot) throw new Error("Shot nem található");
   if (shot.status !== "APPROVED_FOR_FINAL") throw new Error("A shot nincs jóváhagyva final renderre");
-  const data: ShotData = { ...shot.data, render: { ...shot.data.render, quality: "FINAL", engine: shot.data.render.engine === "MOCK" ? "MOCK" : "BLENDER_EEVEE" } };
+  if (shot.data.render.engine === "MOCK") throw new Error("Mock jelenet nem készülhet végleges filmként.");
+  const data: ShotData = { ...shot.data, render: { ...shot.data.render, quality: "FINAL" } };
   await db.update<ShotRow>("shots", shotId, { status: "FINAL_RENDERING", data });
-  const job = await enqueueJob(db, { shot_id: shotId, type: "FINAL", worker: "mock-worker-1", provider: "mock", max_attempts: 2, input_snapshot: { ...data }, output_path: null, gpu_seconds: 0, cost_usd: 0, error: null });
+  const provider=process.env.RENDER_WORKER ?? "mock";
+  const job = await enqueueJob(db, { shot_id: shotId, type: "FINAL", worker: provider, provider, max_attempts: 2, input_snapshot: { ...data }, output_path: null, gpu_seconds: 0, cost_usd: 0, error: null });
   const done = await processNextJob(db, job.id);
-  if (done?.status === "SUCCEEDED") await db.update<ShotRow>("shots", shotId, { status: "FINAL_READY" });
+  if (done?.status === "SUCCEEDED") {
+    const results=await runQc(db,(await db.get<ShotRow>('shots',shotId))!,done.id,!!done.output_path,done.output_path);
+    if (results.length && results.every(r => r.status==='PASS' && r.score>=data.qc.minimum_score)) await db.update<ShotRow>("shots", shotId, { status: "FINAL_READY" });
+  }
   return done ?? job;
 }

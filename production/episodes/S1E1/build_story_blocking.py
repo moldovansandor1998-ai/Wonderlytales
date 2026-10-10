@@ -27,7 +27,7 @@ if s.sequence_editor:
  for strip in s.sequence_editor.strips:
   if strip.type=='SOUND':strip.frame_final_end=30295
 
-_keys={}
+_keys={};_instant_keys=set()
 def key(o,path,values,f):
  if isinstance(values,(float,int)):values=[values]
  for i,v in enumerate(values):_keys.setdefault((o,path,i),[]).extend((f,float(v)))
@@ -36,9 +36,17 @@ def flush_keys():
  for (o,path,index),points in _keys.items():
   o.animation_data_create()
   if not o.animation_data.action:o.animation_data.action=bpy.data.actions.new(o.name+' Story motion')
+  points=[v for pair in sorted(dict(zip(points[::2],points[1::2])).items()) for v in pair]
   fc=o.animation_data.action.fcurves.new(data_path=path,index=index);fc.keyframe_points.add(len(points)//2);fc.keyframe_points.foreach_set('co',points)
   for k in fc.keyframe_points:k.interpolation='LINEAR'
+  if path=='location':
+   for k in fc.keyframe_points:
+    if (o,int(k.co.x)) in _instant_keys:k.interpolation='CONSTANT'
   fc.update()
+ # Blender 4.5 legacy fcurves create a slot after assigning the new action.
+ # Bind it explicitly; otherwise roots/props silently hold their final pose.
+ for o in set(k[0] for k in _keys):
+  if o.animation_data.action_slot is None:o.animation_data.action_slot=o.animation_data.action.slots[0]
  print('BULK_KEYS_SAVED',len(_keys),flush=True)
 def frame(t):return 1+round(t*24)
 def smooth(x):x=max(0,min(1,x));return x*x*(3-2*x)
@@ -147,7 +155,7 @@ gate={'CHAR_MARK':(-.35,4.9),'CHAR_LILI':(-1.25,4.7),'CHAR_MORZSI':(1.1,4.0),'CH
 entry={'CHAR_MARK':(39.65,.1),'CHAR_LILI':(38.8,.1),'CHAR_MORZSI':(41.2,-.5),'CHAR_POTTY':(40.6,-.25),'CHAR_ZIZI':(41.7,.2),'CHAR_BOGYO':(40,-.55)}
 controls={'CHAR_MARK':(40,6.66),'CHAR_LILI':(39.0,5.25),'CHAR_MORZSI':(38.8,6.66),'CHAR_POTTY':(40.65,5.3),'CHAR_ZIZI':(41.2,6.66),'CHAR_BOGYO':(40.10,5.05)}
 paths={c:[] for c in codes}
-def anchor(c,t,xy,cut=False):paths[c].append((t,Vector((xy[0],xy[1],zbase[c]+(.08 if xy[0]>20 else 0))),cut))
+def anchor(c,t,xy,cut=False):paths[c].append((round(t*24)/24,Vector((xy[0],xy[1],zbase[c]+(.08 if xy[0]>20 else 0))),cut))
 for i,c in enumerate(codes):
  start=forest[c] if c in codes[:2] else (forest[c][0],forest[c][1]+3.2)
  for t,xy,cut in [(150.083,start,False),(159.3,forest[c],False),(237.5,forest[c],False),(253.0,gate[c],False),(379.9,gate[c],False),(389.80,(gate[c][0],5.9),False),(389.9167,entry[c],True),(470.96,entry[c],False),(474+i*.5,(39.85+(i%2)*.3,2.55),False),(479+i*.35,(39.85+(i%2)*.3,4.8),False),(482.95,controls[c],False),(542.375,controls[c],False),(986.0,controls[c],False)]:anchor(c,t,xy,cut)
@@ -247,24 +255,33 @@ for f in range(3603,30296,4):
  feather.scale=(1,1,1) if (1222<t<1228 or 1242<t<1247) else (.001,)*3;keyprop(feather,'scale',f)
  for i,o in enumerate(snacks):
   o.location=position(codes[i],t)+Vector((0,-.20,.52 if i else .92));o.scale=(.04,.04,.025) if 1179+i*.4<t<1205 else (.001,)*3;keyprop(o,'location',f);keyprop(o,'scale',f)
+# Preserve instantaneous editorial set changes for actors and their carried props.
+for o in set(k[0] for k in _keys if k[1]=='location'):
+ for t in [389.9167,1164.]:
+  f=frame(t);arrays=[_keys.get((o,'location',i),[]) for i in range(3)]
+  if any(not a for a in arrays):continue
+  pairs=[sorted(dict(zip(a[::2],a[1::2])).items()) for a in arrays];pre=[max((p for p in a if p[0]<f),default=a[0])[1] for a in pairs];post=[min((p for p in a if p[0]>f),default=a[-1])[1] for a in pairs]
+  if abs(post[0]-pre[0])>10:
+   key(o,'location',pre,f-1);key(o,'location',post,f);_instant_keys.add((o,f-1))
 flush_keys()
 # Source soundtrack SFX drives correct pedal pushes and pauses in the native set.
 # Existing V016 mechanism curves remain preserved above, including bell swings.
 # Cameras show speakers and the actual changed props. No still-image placeholders.
 tl=json.loads((root/'episode-v016/S1E1_timeline_V016.json').read_text());beats=[b for b in tl['beats'] if int(b['scene'][-3:])>=4]
-def add_camera(name,t0,t1,target,p,lens=42):
+def add_camera(name,t0,t1,target,p,lens=42,follow=None):
  data=bpy.data.cameras.new(name);o=bpy.data.objects.new(name,data);s.collection.objects.link(o);data.lens=lens
- for t,offset in [(t0,0),(t1,.08)]:o.location=Vector(p)+Vector((offset,0,0));o.rotation_euler=(Vector(target)-o.location).to_track_quat('-Z','Y').to_euler();o.keyframe_insert('location',frame=frame(t));o.keyframe_insert('rotation_euler',frame=frame(t))
+ for t,offset in [(t0,0),(t1,.08)]:
+  delta=position(follow,t)-position(follow,(t0+t1)/2) if follow else Vector();o.location=Vector(p)+Vector((0 if follow else offset,0,0))+delta;o.rotation_euler=(Vector(target)+delta-o.location).to_track_quat('-Z','Y').to_euler();o.keyframe_insert('location',frame=frame(t));o.keyframe_insert('rotation_euler',frame=frame(t))
  marker=s.timeline_markers.new(name,frame=frame(t0));marker.camera=o
  if not s.camera:s.camera=o
  return o
 prop_shots=[(182.33,190.33,lambda t:position('CHAR_ZIZI',t)+Vector((.1,-.3,.45))), (288.5,296.5,lambda t:Vector((0,6,1.10))), (432.08,442.08,lambda t:Vector((40,5,.3))), (482.96,490.96,lambda t:Vector((40,6,.35))), (552.38,559.38,lambda t:Vector((41.55,5.6,.25))), (611.75,623.75,lambda t:Vector((41.55,5.5,.52))), (719,727,lambda t:Vector((41.55,5.6,.38))), (805.5,815.5,lambda t:Vector((41.6,5.3,.18))), (819.04,829.04,lambda t:Vector((41.7,5.8,.33))), (934.92,946.92,lambda t:Vector((43.2,6,.35))), (1012.38,1018.38,lambda t:Vector((45.07,5.8,.5))), (1069.67,1087.67,lambda t:Vector((42.5,5.5,1.3))), (1109.5,1121.5,lambda t:Vector((40,.85,.27))), (1221,1229,lambda t:Vector((0,6,2.35)))]
 heights={'CHAR_MARK':1.31,'CHAR_LILI':.70,'CHAR_MORZSI':.95,'CHAR_POTTY':.78,'CHAR_ZIZI':.91,'CHAR_BOGYO':.44}
 for idx,b in enumerate(beats):
- a=b['start_frame']/24;end=b['end_frame']/24;mid=(a+end)/2;scene=int(b['scene'][-3:]);name=b['beat_id'];prop=next((v for v in prop_shots if abs(a-v[0])<.04),None)
+ a=b['start_frame']/24;end=b['end_frame']/24;mid=(a+end)/2;scene=int(b['scene'][-3:]);name=b['beat_id'];mid=min(mid,1163.9) if a<1164<end else mid;prop=next((v for v in prop_shots if abs(a-v[0])<.04),None)
  if scene==19:continue
  if b['kind']=='DIALOGUE':
-  c=b['character'];p=position(c,mid);target=p+Vector((0,0,heights[c]));campos=target+Vector((-.55,-1.9,.20));lens=52
+  c=b['character'];s.frame_set(frame(mid));cavity=next(o for o in s.objects if c in o.name and 'MOUTH_CAVITY' in o.name);ev=cavity.evaluated_get(bpy.context.evaluated_depsgraph_get());target=sum((ev.matrix_world@Vector(v) for v in ev.bound_box),Vector())/8+Vector((0,0,(.12 if c=='CHAR_POTTY' else .08)*ev.matrix_world.to_scale().z));campos=target+Vector((-.55,-1.9,.20));lens=52
  elif prop:
   target=prop[2](mid);campos=target+Vector((1.6,-2.2,1.05));lens=45
  elif scene in [5,6] and a<389.9167:
@@ -273,12 +290,21 @@ for idx,b in enumerate(beats):
   target=sum((position(c,mid) for c in codes),Vector())/6+Vector((0,0,.65));campos=target+Vector((-3.8,-5.5,2.3));lens=37
  else:
   target=sum((position(c,mid) for c in codes),Vector())/6+Vector((0,0,.7));campos=target+Vector((-3.8,-5.5,2.4));lens=36
- add_camera(name,a,end,target,campos,lens)
+ add_camera(name,a,end,target,campos,lens,follow=b.get('character') if b['kind']=='DIALOGUE' else None)
 # Editorial cuts across the two native sets override a beat camera at the exact crossing.
 for t in [389.9167,1164.0]:
  target=sum((position(c,t+.1) for c in codes),Vector())/6+Vector((0,0,.7));add_camera('Portal editorial crossing '+str(t),t,t+3,target,target+Vector((-3.8,-5.5,2.4)),36)
 # A true garden establishing shot replaces the portal glimpse, showing the existing world.
 add_camera('Glance through the gate into Szélkert',302.29,320.29,(42,5.4,1.3),(48,-5,5.8),35)
+# Audible surprises and laughs receive native reaction close-ups.
+add_camera('Three silent leaf controls in the new world',309.125,314.5,(40,6,.48),(42.5,2.4,1.55),45)
+add_camera('Three still golden bells',314.5,320.29,(45.5,7.2,2.95),(48,3,3.7),48)
+for rec in speech['records']:
+ if rec.get('kind')!='REACTION' or int(rec['scene'][-3:])<4:continue
+ a=(rec['start_frame'])/24;b=rec['end_frame']/24;c=rec['character'];s.frame_set(1+(rec['start_frame']+rec['end_frame'])//2)
+ cavity=next(o for o in s.objects if c in o.name and 'MOUTH_CAVITY' in o.name);ev=cavity.evaluated_get(bpy.context.evaluated_depsgraph_get());target=sum((ev.matrix_world@Vector(v) for v in ev.bound_box),Vector())/8+Vector((0,0,(.12 if c=='CHAR_POTTY' else .08)*ev.matrix_world.to_scale().z));prior=max((m for m in s.timeline_markers if m.camera and m.frame<frame(a)),key=lambda m:m.frame)
+ add_camera('Reaction close '+rec['beat_id'],a,b,target,target+Vector((-.45,-1.9,.15)),52)
+ if not any(m.frame==frame(b) for m in s.timeline_markers):m=s.timeline_markers.new('Return after '+rec['beat_id'],frame=frame(b));m.camera=prior.camera
 # End credits are native text. Exact contributors and licenses are also in the bundle.
 credits=material('Closing credit warm ivory',(.86,.78,.60),.2)
 for text,z in [('WONDERLYTALES',3.0),('Csodakapu — Az első darab',2.3),('Animációs munkaváltozat V017',1.65),('3D: Tripo • Blender',1.0),('Magyar hangok: ElevenLabs',.45),('Zene: saját • hangeffektusok: CC0',-.1)]:

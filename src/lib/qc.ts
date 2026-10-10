@@ -1,6 +1,10 @@
 import type { Db } from "./db";
 import { newId, now } from "./db";
 import { probeFile, ffmpegAvailable } from "./assembly";
+import { promises as fs } from 'fs';
+import { tmpdir } from 'os';
+import path from 'path';
+import { getStorage } from './providers/storage';
 import type { QcResult, QcStatus, ShotRow, Character, CharacterVersion, Location, LocationVersion, Prop, PropVersion, DialogueLine } from "./types";
 
 export const QC_CHECKS = ["ASSET_VERSION","CHARACTER","COSTUME","LOCATION","PROP_CONTINUITY","CLIPPING","CAMERA","EYE_DIRECTION","LIPSYNC","FACIAL_ANIMATION","BODY_ANIMATION","AUDIO","RENDER_CORRUPTION","STORY_CONTINUITY","STATIC_SHOT"] as const;
@@ -73,7 +77,7 @@ const DETERMINISTIC: Record<string, CheckFn> = {
       if (issues.length) return fail(30, `Render meta eltérés: ${issues.join("; ")}`);
       return ok(98, `ffprobe OK: ${renderProbe.width}x${renderProbe.height}@${renderProbe.fps.toFixed(0)}fps, ${renderProbe.durationSec.toFixed(1)}s`);
     }
-    return ok(95, "Render output létezik (ffprobe nem futott)");
+    return warn(0, "A videó műszaki ellenőrzése nem futott le.");
   },
   STATIC_SHOT: ({ shot }) => (shot.data.camera.movement === "STATIC" && shot.data.duration_sec > 20) ? warn(55, "Hosszú statikus shot") : ok(),
   STORY_CONTINUITY: () => ok(85, "Continuity engine által kezelt"),
@@ -87,7 +91,17 @@ function visionCheck(name: string): { status: QcStatus; score: number; details: 
 export async function runQc(db: Db, shot: ShotRow, jobId: string | null, renderExists = false, renderPath?: string | null): Promise<QcResult[]> {
   let renderProbe: QcCtx["renderProbe"] = null;
   if (renderPath && (await ffmpegAvailable())) {
-    try { renderProbe = await probeFile(renderPath); } catch { renderExists = false; }
+    let temporary: string | null = null;
+    try {
+      let file=renderPath;
+      if (!path.isAbsolute(file)) {
+        temporary=await fs.mkdtemp(path.join(tmpdir(),'wonderly-qc-'));
+        file=path.join(temporary,'clip.mp4');
+        await fs.writeFile(file,await getStorage().get(renderPath));
+      }
+      renderProbe = await probeFile(file);
+    } catch { renderExists = false; }
+    finally { if (temporary) await fs.rm(temporary,{recursive:true,force:true}); }
   }
   const ctx: QcCtx = {
     shot,
@@ -102,7 +116,9 @@ export async function runQc(db: Db, shot: ShotRow, jobId: string | null, renderE
     renderProbe,
   };
   const results: QcResult[] = [];
-  const checks = shot.data.qc.required_checks.length ? shot.data.qc.required_checks : [...QC_CHECKS];
+  const requested = shot.data.qc.required_checks.length ? shot.data.qc.required_checks : [...QC_CHECKS];
+  // Native cinema work must not omit acting, lip sync or contact checks.
+  const checks=shot.data.native_scene ? [...new Set([...requested,...QC_CHECKS])] : requested;
   for (const check of checks) {
     const r = DETERMINISTIC[check] ? DETERMINISTIC[check](ctx) : visionCheck(check);
     results.push(await db.insert<QcResult>("qc_results", { id: newId(), shot_id: shot.id, job_id: jobId, check_name: check, status: r.status, score: r.score, details: r.details, created_at: now() }));

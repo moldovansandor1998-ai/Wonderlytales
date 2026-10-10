@@ -68,6 +68,13 @@ export const ShotSchemaV1 = z.object({
   revision: z.number().int().positive().default(1),
   status: ShotStatus.default("DRAFT"),
   duration_sec: z.number().positive().max(120),
+  native_scene: z.object({
+    scene_key: z.string().regex(/^native\/S1E1\/[A-Za-z0-9_./-]+\.blend$/).refine(v => !v.includes('..')),
+    scene_sha256: z.string().regex(/^[a-f0-9]{64}$/),
+    frame_start: z.number().int().positive(),
+    frame_end: z.number().int().positive(),
+    samples: z.number().int().min(48).max(512).default(128),
+  }).refine(v => v.frame_end >= v.frame_start && v.frame_end-v.frame_start < 360, 'Natív munkánként legfeljebb 360 képkocka').optional(),
   location: z.object({
     location_id: z.string().uuid(),
     asset_id: z.string(),

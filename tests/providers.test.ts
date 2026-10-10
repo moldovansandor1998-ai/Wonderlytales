@@ -141,10 +141,10 @@ describe("Storage local", () => {
 
 describe("MockRenderWorker", () => {
   it("immutable snapshotból output", async () => {
-    const r = await new MockRenderWorker().submit({ shot_id: "s1", revision: 2, duration_sec: 5, render: { fps: 24 } }, "FINAL");
+    const r = await new MockRenderWorker().submit({ shot_id: "s1", revision: 2, duration_sec: 5, render: { fps: 24 } }, "PREVIEW");
     expect(r.status).toBe("SUCCEEDED");
-    expect(r.output).toContain("final_r2.mp4");
+    expect(r.output).toContain("preview_r2.mp4");
     expect(r.frames).toBe(120);
-    expect(r.gpuSec).toBeGreaterThan(0);
+    expect(r.gpuSec).toBe(0);
   });
 });

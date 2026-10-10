@@ -51,9 +51,8 @@ describe("Mock pipeline integráció", () => {
     const shot = (await db.list<ShotRow>("shots"))[0];
     await expect(finalRender(db, shot.id)).rejects.toThrow(/jóváhagyva/);
     await db.update<ShotRow>("shots", shot.id, { status: "APPROVED_FOR_FINAL" });
-    const job = await finalRender(db, shot.id);
-    expect(job.status).toBe("SUCCEEDED");
-    expect((await db.get<ShotRow>("shots", shot.id))!.status).toBe("FINAL_READY");
+    await expect(finalRender(db, shot.id)).rejects.toThrow(/Mock/);
+    expect((await db.get<ShotRow>("shots", shot.id))!.status).not.toBe("FINAL_READY");
   });
 
   it("retry limit: max_attempts után FAILED", async () => {

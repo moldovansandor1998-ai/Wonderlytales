@@ -1,5 +1,25 @@
 # Render worker
 
+## Authored native scenes
+
+`RENDER_WORKER=native-runpod` connects the Studio to the existing
+`Dockerfile.native-gpu` handler through `NATIVE_RUNPOD_ENDPOINT_ID`.
+It requires a `native_scene` shot field containing the storage key, immutable
+SHA-256, inclusive frame range and Cycles samples. Each job renders at most
+360 actual frames at 24 fps and Full HD or greater. Longer scenes use consecutive
+bounded jobs. The scene's own characters, rig animation, lights, VFX and cameras
+are retained. Native source assets must be uploaded to `native/S1E1/`.
+
+The handler checks the source checksum, renders every native frame, encodes the
+clip, counts and decodes its video frames, then stores checksums in its response.
+The Studio verifies the stored clip checksum before accepting the job. A successful
+render does not approve acting, facial animation, lip sync or cinematic quality.
+Production budget reservation remains mandatory. This adapter has local tests;
+the new native endpoint integration has not passed a live paid render test.
+The existing handler currently requires RTX PRO 6000 OPTIX hardware.
+
+Mock workers cannot create FINAL output, including in development.
+
 - `blender_worker.py` – Shot JSON → validálás → scene build → render → result JSON
 - Blender nélkül is fut: `python3 blender_worker.py --input fixtures/shot_demo.json --output out/ --mock`
 - Blenderrel: `blender --background --python blender_worker.py -- --input fixtures/shot_demo.json --output out/`

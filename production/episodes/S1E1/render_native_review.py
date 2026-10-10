@@ -5,7 +5,11 @@ import sys,json,struct,time,io,subprocess
 from pathlib import Path
 import moderngl,numpy as np
 from PIL import Image
-source=Path(sys.argv[1]);output=Path(sys.argv[2]);raw=source.read_bytes();size=struct.unpack_from('<I',raw,12)[0];doc=json.loads(raw[20:20+size]);blob=raw[28+size:];meta=json.loads(source.with_suffix('.json').read_text());nodes=doc['nodes']
+source=Path(sys.argv[1]);output=Path(sys.argv[2]);raw=source.read_bytes();size=struct.unpack_from('<I',raw,12)[0];doc=json.loads(raw[20:20+size]);blob=memoryview(raw)[28+size:];meta=json.loads(source.with_suffix('.json').read_text());nodes=doc['nodes']
+tail=sys.argv[3:];render_width,render_height=960,540
+if '--size' in tail:
+ k=tail.index('--size');render_width,render_height=map(int,tail[k+1:k+3]);tail=tail[:k]+tail[k+3:]
+if not 192<=render_width<=3840 or not 108<=render_height<=2160:raise ValueError('Invalid review image dimensions')
 def access(i):
  a=doc['accessors'][i];dim={'SCALAR':1,'VEC2':2,'VEC3':3,'VEC4':4,'MAT4':16}[a['type']];dt=np.dtype({5126:'<f4',5125:'<u4',5123:'<u2',5122:'<i2',5121:'u1'}[a['componentType']])
  if 'bufferView' in a:
@@ -39,16 +43,25 @@ world={}
 def walk(i,parent):
  world[i]=parent@local(nodes[i])
  for j in nodes[i].get('children',[]):walk(j,world[i])
-ctx=moderngl.create_standalone_context(backend='egl');fbo=ctx.simple_framebuffer((960,540));fbo.use();ctx.enable(moderngl.DEPTH_TEST)
+ctx=moderngl.create_standalone_context(backend='egl');fbo=ctx.simple_framebuffer((render_width,render_height));fbo.use();ctx.enable(moderngl.DEPTH_TEST)
 prog=ctx.program(vertex_shader='''#version 330
 uniform mat4 model;uniform mat4 vp;uniform mat4 shadowvp;uniform mat4 bones[64];uniform int skinned;uniform vec4 mw;
 in vec3 pos;in vec3 nor;in vec2 uv;in vec4 color;in vec4 joints;in vec4 weights;in vec3 m0;in vec3 m1;in vec3 m2;in vec3 m3;
 out vec3 n;out vec2 t;out vec4 co;out vec3 wp;out vec4 shadowpos;
 void main(){vec4 p=vec4(pos+m0*mw.x+m1*mw.y+m2*mw.z+m3*mw.w,1);mat4 skin=mat4(1);if(skinned==1){skin=bones[int(joints.x)]*weights.x+bones[int(joints.y)]*weights.y+bones[int(joints.z)]*weights.z+bones[int(joints.w)]*weights.w;}vec4 w=model*skin*p;wp=w.xyz;shadowpos=shadowvp*w;gl_Position=vp*w;n=mat3(model*skin)*nor;t=uv;co=color;}''',fragment_shader='''#version 330
-uniform sampler2D tex;uniform sampler2D shadowtex;uniform int shadowpass;uniform int hastex;uniform vec4 factor;uniform vec3 emission;uniform int procedural;
+uniform sampler2D tex;uniform sampler2D shadowtex;uniform vec3 contacts[6];uniform int shadowpass;uniform int hastex;uniform vec4 factor;uniform vec3 emission;uniform int procedural;
 in vec3 n;in vec2 t;in vec4 co;in vec3 wp;in vec4 shadowpos;out vec4 frag;
-void main(){vec4 col=factor*co;if(hastex==1){vec4 tc=texture(tex,t);col*=vec4(pow(max(tc.rgb,vec3(0)),vec3(2.2)),tc.a);}if(col.a<.3)discard;if(shadowpass==1){frag=vec4(1);return;}vec3 a=max(col.rgb,vec3(0));if(procedural==1){float noise=.88+.06*sin(wp.x*18+sin(wp.y*9))*sin(wp.z*17);a*=noise;}float d=max(0.,dot(normalize(n),normalize(vec3(-.35,.60,.72))));vec3 q=shadowpos.xyz/shadowpos.w*.5+.5;float sh=1.;if(q.x>0&&q.x<1&&q.y>0&&q.y<1&&q.z<1){sh=0.;for(int x=-1;x<=1;x++){for(int y=-1;y<=1;y++){float z=texture(shadowtex,q.xy+vec2(x,y)/1024.).r;sh+=(q.z-.0007<=z?1.:0.);}}sh/=9.;}vec3 lit=a*(vec3(.16,.18,.21)+d*sh*vec3(.92,.84,.72))+emission;lit=clamp((lit*(2.51*lit+.03))/(lit*(2.43*lit+.59)+.14),0.,1.);frag=vec4(pow(lit,vec3(1./2.2)),col.a);}''')
+void main(){vec4 col=factor*co;if(hastex==1){vec4 tc=texture(tex,t);col*=vec4(pow(max(tc.rgb,vec3(0)),vec3(2.2)),tc.a);}if(col.a<.3)discard;if(shadowpass==1){frag=vec4(1);return;}vec3 a=max(col.rgb,vec3(0));if(procedural==1){float noise=.88+.06*sin(wp.x*18+sin(wp.y*9))*sin(wp.z*17);a*=noise;}float d=max(0.,dot(normalize(n),normalize(vec3(-.35,.60,.72))));vec3 q=shadowpos.xyz/shadowpos.w*.5+.5;float sh=1.;if(q.x>0&&q.x<1&&q.y>0&&q.y<1&&q.z<1){sh=0.;for(int x=-1;x<=1;x++){for(int y=-1;y<=1;y++){float z=texture(shadowtex,q.xy+vec2(x,y)/1024.).r;sh+=(q.z-.0007<=z?1.:0.);}}sh/=9.;}float contactshade=1.;if(normalize(n).y>.55){for(int k=0;k<6;k++){float dy=contacts[k].y-wp.y;if(dy>-.03&&dy<.24){vec2 delta=wp.xz-contacts[k].xz;contactshade-=.22*(1.-smoothstep(.012,.19,dot(delta,delta)));}}}contactshade=max(.60,contactshade);vec3 lit=a*(vec3(.16,.18,.21)+d*sh*vec3(.92,.84,.72))*contactshade+emission;lit=clamp((lit*(2.51*lit+.03))/(lit*(2.43*lit+.59)+.14),0.,1.);frag=vec4(pow(lit,vec3(1./2.2)),col.a);}''')
 depthtex=ctx.depth_texture((1024,1024));depthtex.compare_func='';depthtex.filter=(moderngl.NEAREST,moderngl.NEAREST);shadowfbo=ctx.framebuffer(depth_attachment=depthtex);prog['shadowtex'].value=1;depthtex.use(1)
+parents={j:i for i,n in enumerate(nodes) for j in n.get('children',[])}
+animated={c[0] for c in channels if c[1]!='weights'}
+def dynamic_node(i):
+ if 'skin' in nodes[i]:return True
+ while True:
+  if i in animated:return True
+  if i not in parents:return False
+  i=parents[i]
+static_shadow_cache={}
 textures={};draws=[]
 def texture(i):
  if i in textures:return textures[i]
@@ -66,23 +79,38 @@ for skin in doc.get('skins',[]):
  if len(skin['joints'])>64:raise ValueError('Skin exceeds uniform palette')
  skins.append((skin['joints'],access(skin['inverseBindMatrices']).reshape(-1,4,4).transpose(0,2,1)))
 print('PREPARED',len(draws),'draws',len(channels),'channels',len(skins),'skins',start_time,flush=True)
-args=['ffmpeg','-v','error','-y','-f','rawvideo','-pixel_format','rgb24','-video_size','960x540','-framerate','12','-i','-','-vf','fps=24','-an','-c:v','libx264','-preset','veryfast','-crf','20','-pix_fmt','yuv420p',str(output.with_suffix('.partial.mp4'))];pipe=subprocess.Popen(args,stdin=subprocess.PIPE);started=time.time()
-first=int(sys.argv[3]) if len(sys.argv)>3 else 0
-last=int(sys.argv[4]) if len(sys.argv)>4 else len(meta['frames'])
+native_fps=float(meta.get('native_fps',12))
+args=['ffmpeg','-v','error','-y','-f','rawvideo','-pixel_format','rgb24','-video_size',f'{render_width}x{render_height}','-framerate',str(native_fps),'-i','-','-vf','fps=24','-an','-c:v','libx264','-preset','veryfast','-crf','20','-pix_fmt','yuv420p',str(output.with_suffix('.partial.mp4'))];pipe=subprocess.Popen(args,stdin=subprocess.PIPE);started=time.time()
+first=int(tail[0]) if tail else 0
+last=int(tail[1]) if len(tail)>1 else len(meta['frames'])
 for idx in range(first,last):
  f=meta['frames'][idx]
- t=start_time+idx/12
+ t=start_time+idx/native_fps
  for c in channels:nodes[c[0]][c[1]]=sample(c,t).tolist()
  for i in doc['scenes'][doc.get('scene',0)]['nodes']:walk(i,np.eye(4,dtype='f4'))
- y=f['yfov'];near=.025;far=150.;aspect=960/540;scale=1/np.tan(y/2);proj=np.array([[scale/aspect,0,0,0],[0,scale,0,0],[0,0,(far+near)/(near-far),2*far*near/(near-far)],[0,0,-1,0]],dtype='f4');vp=proj@np.linalg.inv(np.array(f['camera_matrix']));prog['vp'].write(vp.T.astype('f4').tobytes());fbo.clear(.25,.34,.40,1)
- center=sum((world[i][:3,3] for i in range(len(nodes)) if 'skin' in nodes[i]),np.zeros(3))/max(1,sum('skin' in n for n in nodes));direction=np.array([-.35,.60,.72]);direction/=np.linalg.norm(direction);eye=center+direction*30;forward=(center-eye)/30;right=np.cross(forward,[0,1,0]);right/=np.linalg.norm(right);up=np.cross(right,forward);view=np.eye(4);view[:3,:3]=np.array([right,up,-forward]);view[:3,3]=-view[:3,:3]@eye;ortho=np.diag([1/12,1/12,-2/70,1.]);ortho[2,3]=-1.;svp=ortho@view;prog['shadowvp'].write(svp.T.astype('f4').tobytes());palettes={}
- for shadowpass in [1,0]:
-  prog['shadowpass'].value=shadowpass
-  if shadowpass:shadowfbo.use();ctx.viewport=(0,0,1024,1024);shadowfbo.clear(depth=1.);prog['vp'].write(svp.T.astype('f4').tobytes())
-  else:fbo.use();ctx.viewport=(0,0,960,540);fbo.clear(.25,.34,.40,1);prog['vp'].write(vp.T.astype('f4').tobytes());depthtex.use(1)
+ y=f['yfov'];near=.025;far=150.;aspect=render_width/render_height;scale=1/np.tan(y/2);proj=np.array([[scale/aspect,0,0,0],[0,scale,0,0],[0,0,(far+near)/(near-far),2*far*near/(near-far)],[0,0,-1,0]],dtype='f4');vp=proj@np.linalg.inv(np.array(f['camera_matrix']));prog['vp'].write(vp.T.astype('f4').tobytes());fbo.clear(.25,.34,.40,1)
+ center=sum((world[i][:3,3] for i in range(len(nodes)) if 'skin' in nodes[i]),np.zeros(3))/max(1,sum('skin' in n for n in nodes));shadow_state=int(center[0]>20);center=np.array([42.,1.,-4.] if shadow_state else [0.,1.,-3.]);direction=np.array([-.35,.60,.72]);direction/=np.linalg.norm(direction);eye=center+direction*30;forward=(center-eye)/30;right=np.cross(forward,[0,1,0]);right/=np.linalg.norm(right);up=np.cross(right,forward);view=np.eye(4);view[:3,:3]=np.array([right,up,-forward]);view[:3,3]=-view[:3,:3]@eye;ortho=np.diag([1/12,1/12,-2/70,1.]);ortho[2,3]=-1.;svp=ortho@view;prog['shadowvp'].write(svp.T.astype('f4').tobytes());palettes={}
+ footpos=[]
+ for joints,ibm in skins:
+  feet=[j for j in joints if any(nodes[j].get('name','').lower().startswith(p) for p in ['foot.','forepaw.','hindpaw.'])]
+  footpos.append(sum((world[j][:3,3] for j in feet),np.zeros(3))/len(feet) if feet else world[joints[0]][:3,3])
+ while len(footpos)<6:footpos.append(np.array([1000.,1000.,1000.]))
+ prog['contacts'].write(np.array(footpos[:6],dtype='f4').tobytes())
+ for shadowpass in ([2,1,0] if shadow_state not in static_shadow_cache else [1,0]):
+  prog['shadowpass'].value=int(shadowpass!=0)
+  if shadowpass==2:
+   static_depth=ctx.depth_texture((1024,1024));static_depth.compare_func='';static_shadow_cache[shadow_state]=ctx.framebuffer(depth_attachment=static_depth);static_shadow_cache[shadow_state].use();ctx.viewport=(0,0,1024,1024);static_shadow_cache[shadow_state].clear(depth=1.);prog['vp'].write(svp.T.astype('f4').tobytes())
+  elif shadowpass==1:
+   ctx.copy_framebuffer(shadowfbo,static_shadow_cache[shadow_state]);shadowfbo.use();ctx.viewport=(0,0,1024,1024);prog['vp'].write(svp.T.astype('f4').tobytes())
+  else:fbo.use();ctx.viewport=(0,0,render_width,render_height);fbo.clear(.25,.34,.40,1);prog['vp'].write(vp.T.astype('f4').tobytes());depthtex.use(1)
   for i,vao,factor,em,tx,name,proc,corners in draws:
+   dyn=dynamic_node(i)
+   if shadowpass==1 and 'skin' in nodes[i]:continue
+   if (shadowpass==2 and dyn) or (shadowpass==1 and not dyn):continue
    model=world[i];clip=corners@((svp if shadowpass else vp)@model).T
-   if any(np.all(clip[:,k]<-clip[:,3]) or np.all(clip[:,k]>clip[:,3]) for k in range(3)):continue
+   # A skinned glTF bind-pose box can be far from its evaluated geometry.
+   # Culling it with the object transform incorrectly hides visible speakers.
+   if 'skin' not in nodes[i] and any(np.all(clip[:,k]<-clip[:,3]) or np.all(clip[:,k]>clip[:,3]) for k in range(3)):continue
    prog['model'].write(model.T.astype('f4').tobytes());skin=nodes[i].get('skin');prog['skinned'].value=int(skin is not None)
    if skin is not None:
     if (i,skin) not in palettes:
@@ -90,11 +118,15 @@ for idx in range(first,last):
      for k,joint in enumerate(joints):palette[k]=inv@world[joint]@ibm[k]
      palettes[(i,skin)]=palette.transpose(0,2,1).astype('f4').tobytes()
     prog['bones'].write(palettes[(i,skin)])
-   weights=nodes[i].get('weights',doc['meshes'][nodes[i]['mesh']].get('weights',[]));prog['mw'].value=(list(weights)+[0]*4)[:4];prog['factor'].value=factor;prog['emission'].value=f['emission'].get(name,em);prog['procedural'].value=int(proc);prog['hastex'].value=int(tx is not None)
+   weights=nodes[i].get('weights',doc['meshes'][nodes[i]['mesh']].get('weights',[]));prog['mw'].value=(list(weights)+[0]*4)[:4];prog['factor'].value=factor;preview_emission=f['emission'].get(name,em)
+   # The draft GL pass has no native cyan point fill. Preserve the intended
+   # turquoise fragment using its own base color, rather than clipping to white.
+   if name.startswith('Story fragment turquoise'):preview_emission=(np.array(preview_emission)*np.array(factor[:3])).tolist()
+   prog['emission'].value=preview_emission;prog['procedural'].value=int(proc);prog['hastex'].value=int(tx is not None)
    if tx:tx.use(0)
    vao.render()
- data=np.frombuffer(fbo.read(components=3,alignment=1),dtype='u1').reshape(540,960,3)[::-1].tobytes();pipe.stdin.write(data)
- if idx%120==0 or idx in [132,180,252,444,624,708,756]:Image.frombytes('RGB',(960,540),data).save(output.with_name(output.stem+f'_proof_{idx:04}.png'))
+ data=np.frombuffer(fbo.read(components=3,alignment=1),dtype='u1').reshape(render_height,render_width,3)[::-1].tobytes();pipe.stdin.write(data)
+ if idx%120==0 or idx in [132,180,252,444,624,708,756]:Image.frombytes('RGB',(render_width,render_height),data).save(output.with_name(output.stem+f'_proof_{idx:04}.png'))
  if idx%120==0:print('FRAME',idx+1,len(meta['frames']),'elapsed',round(time.time()-started,1),flush=True)
 pipe.stdin.close();code=pipe.wait()
 if code:raise RuntimeError('ffmpeg failed '+str(code))

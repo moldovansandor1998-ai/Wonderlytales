@@ -90,10 +90,22 @@ def handler(event):
             if audio.exists(): command += ['-c:a', 'aac', '-b:a', '192k']
             command += ['-movflags', '+faststart', str(movie)]
             subprocess.run(command, check=True, capture_output=True, timeout=180)
+            probe = subprocess.run(['ffprobe','-v','error','-count_frames','-select_streams','v:0',
+                                    '-show_entries','stream=width,height,r_frame_rate,nb_read_frames',
+                                    '-of','json',str(movie)],check=True,capture_output=True,text=True,timeout=180)
+            stream = json.loads(probe.stdout)['streams'][0]
+            numerator, denominator = map(int,stream['r_frame_rate'].split('/'))
+            fps = numerator/denominator
+            count = int(stream['nb_read_frames'])
+            if (count, fps, stream['width'], stream['height']) != (job['frame_end']-job['frame_start']+1,24,job['width'],job['height']):
+                raise RuntimeError('Encoded native video failed frame/dimension verification')
+            subprocess.run(['ffmpeg','-v','error','-xerror','-i',str(movie),'-f','null','-'],check=True,capture_output=True,timeout=180)
             key=f'{prefix}/clip.mp4'
             client.upload_file(str(movie), bucket, key, ExtraArgs={'ContentType':'video/mp4'})
             result['clip']={'key':key,'sha256':hashlib.sha256(movie.read_bytes()).hexdigest(),
-                            'bytes':movie.stat().st_size,'has_scene_audio':audio.exists()}
+                            'bytes':movie.stat().st_size,'has_scene_audio':audio.exists(),
+                            'verified_frames':count,'verified_fps':fps,
+                            'verified_width':stream['width'],'verified_height':stream['height']}
         return result
 
 
