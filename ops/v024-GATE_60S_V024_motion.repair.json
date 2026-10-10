@@ -1,0 +1,28 @@
+{
+  "source_sha256": "e5df53e3fdc954d0020cfa065b5dd7bc00d045b47b248bbb289054c5cf399fae",
+  "blender": "4.5.3 LTS",
+  "production_approved": false,
+  "repairs": {
+    "CHAR_MARK": {
+      "continuous_pelvis_frames": 1440,
+      "skin_diffusion_applied": false
+    },
+    "CHAR_LILI": {
+      "continuous_pelvis_frames": 1440,
+      "skin_diffusion_applied": false
+    },
+    "CHAR_POTTY": {
+      "continuous_pelvis_frames": 1440,
+      "skin_diffusion_applied": false
+    },
+    "CHAR_ZIZI": {
+      "continuous_pelvis_frames": 1440,
+      "skin_diffusion_applied": false,
+      "mouth": {
+        "vertices": 768,
+        "seam_reconstruction_complete": false
+      }
+    }
+  },
+  "candidate_sha256": "2ebc14e832b748ca3ad34f75682aad4a16b91d6fc7f9712ed3d8f020645cb1b2"
+}

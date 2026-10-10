@@ -1,3 +1,60 @@
+# WonderlyTales continuation — V024 / 2026-10-10 17:38 UTC
+
+Last successful saved checkpoint: `1c8cbb902676d15638426a2948978855776f072a`.
+This development checkpoint follows it; `git log -1` identifies its own commit.
+
+## Current verified development
+- Read the latest GitHub CONTINUE first; main matched 1c8cbb9 and was clean.
+- Live Supabase: 3 REVIEW runs / 10 DONE tasks. RunPod: 21 completed,
+  zero failed/active/queued. Existing renderer, storage, jobs and V022 preserved.
+- Official checksum-verified Blender **4.5.3 LTS** now runs successfully in the
+  authoring sandbox. Version hash 67807e1800cc. The existing downloaded official
+  archive was reused through R2, solving the local SIGBUS/runtime mismatch.
+- Native 4.5.3 V022 baseline matches the prior 5.0.1 geometry measurements.
+- Continuous anatomical skin envelopes replace discontinuous inherited tail/ear
+  masses on Lili, Potty, Zizi. Coordinates, shape keys and Mark binding unchanged.
+  Candidate only; no master promotion. Both segment and attachment profiles kept.
+- Matched 81-frame binding comparison: Lili body stretch 19.03x -> 5.11x,
+  Potty 22.36x -> 2.76x, Zizi 14.39x -> 3.07x; Lili foot error 3.36 mm.
+  Attachment-envelope refinement: 4.62x / 2.49x / 2.38x respectively.
+- New all-frame QA distinguishes partial from complete results. First complete
+  1440-frame run found missed defects: Lili foot error 17.91 mm, knee peak
+  1181.52 deg/s; Potty knee 1191.12 deg/s. Sparse QA is insufficient.
+- Native sources and measurements saved under R2 `native/S1E1/V024/`.
+  Initial binding source SHA256: 3a179b0179e52961ff4420941930d10fb1a640df05aff429d51eb2b9c8b06e34.
+  Reports: ops/v024-*.json. Small closeups in R2 are diagnostic; some targets
+  were occluded, so new isolated closeups are rendering.
+- Existing 22 pure animation tests pass. No new TTS, no GPU renders submitted.
+
+## Running work / exact next actions
+1. `bake_native_support.py` applied a 4% leg bend reserve on all 1440 frames:
+   Mark 1307, Lili 1421, Potty 1343, Zizi 1428 corrections, zero rejected frames.
+   Independent full-frame QA RUNNING, file `reachable_all_frames_453.json` in
+   sandbox. Do not approve until complete and visually checked.
+2. Inspect isolated closeups at `closeups_reachable/`, then preserve reachable
+   .blend, complete QA and support report to R2. Investigate remaining skin,
+   knee, mouth seam and body-contact defects. Morzsi/Bogyo motion still pending.
+3. Independent Hungarian recognition script prepared for the 20 flagged takes,
+   no script prompt. Medium Whisper model pinned to 8701f851d407f3f47e091bb13b8dac5290c7f7fb.
+   Local runtime needs model vocabulary.txt download; no recognition approved yet.
+4. FEATURE_V002 unchanged: 40 units / 244 lines / 113 unrecorded new lines.
+   Actual duration still NULL. Storyboard, measured reading and animatic remain.
+5. Only after native inspection, make a bounded connected GPU quality sample
+   with real audio/mix/assembly. No full feature render or release approval.
+
+## Background / budget
+- Active temporary authoring sandbox: sbx_hbrj4u6r1FOrgWWTiIRBSZUkGJFS
+  name wonderly-v024-binding-20261010, 4 vCPU / 8 GB, nonpersistent,
+  started ~17:25 UTC, 45-minute timeout. Persist artifacts before stopping.
+- Authoring reservation e00f3614-3d1c-4c65-8ac0-8609350a9b5b: $2,
+  day 2026-10-11 Asia/Saigon; limit unchanged $200. Reservation != vendor bill.
+- Local ASR setup in tools/speech-audit-venv; no paid recognition or new voice.
+- R2 originals V022, rejected V023 experiments, accepted voices and V016 intro
+  remain unchanged. No old finished media rerendered.
+
+---
+## Previous complete checkpoint (retained context)
+
 # WonderlyTales continuation — 2026-10-10 17:06 UTC
 
 Last verified successful development commit: `4266970498f2f4c5dc423f1de1a27ef58dbbfbaf`.

@@ -4,10 +4,11 @@ from pathlib import Path
 import numpy as np
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]))
 from animation_system.quality import MouthQuality
-src,regfile,out=map(Path,sys.argv[sys.argv.index('--')+1:])
+args=sys.argv[sys.argv.index('--')+1:];full='--all-frames' in args
+src,regfile,out=map(Path,[a for a in args if a!='--all-frames'])
 reg=json.loads(regfile.read_text());bpy.ops.wm.open_mainfile(filepath=str(src.resolve()),use_scripts=False)
 scene=bpy.context.scene;checks={};previous={}
-report={'source_sha256':hashlib.sha256(src.read_bytes()).hexdigest(),'blender':bpy.app.version_string,'frames':scene.frame_end,'sampling':'every 24 frames plus specified transition frames; not full-frame approval','characters':{},'production_approved':False}
+report={'source_sha256':hashlib.sha256(src.read_bytes()).hexdigest(),'blender':bpy.app.version_string,'frames':scene.frame_end,'sampling':'all authored frames' if full else 'every 24 frames plus specified transition frames; not full-frame approval','checked_frame_count':0,'complete':False,'characters':{},'production_approved':False}
 for c,a in reg['characters'].items():
  r=bpy.data.objects.get(a['rig']);p=bpy.data.objects.get(c+'_FACIAL_TOPOLOGY');body=bpy.data.objects.get(a['body'])
  if not (r and p and body):continue
@@ -15,6 +16,7 @@ for c,a in reg['characters'].items():
  checks[c]=(r,p,body,MouthQuality([p,body],reg),a,edges[mask],length[mask])
  report['characters'][c]={'max_foot_error_m':0,'max_reach_ratio':0,'max_joint_speed_deg_s':0,'max_body_stretch':1}
 frames=sorted(set(range(1,scene.frame_end+1,24))|{119,120,121,122,239,240,241,242,719,720,721,722,723,724,725,730,744,768,911,912,913,914,935,936,937,938})
+frames=list(range(scene.frame_start,scene.frame_end+1)) if full else [f for f in frames if scene.frame_start<=f<=scene.frame_end]
 report['sampled_frames']=frames
 for f in frames:
  scene.frame_set(f);dep=bpy.context.evaluated_depsgraph_get()
@@ -38,6 +40,8 @@ for f in frames:
      angle=quat.rotation_difference(old[1]).angle;speed=math.degrees(min(angle,math.tau-angle))*scene.render.fps/(f-old[0])
      if speed>result['max_joint_speed_deg_s']:result['max_joint_speed_deg_s']=speed;result['worst_joint']={'frame':f,'joint':name}
     previous[c,name]=(f,quat.copy())
+ report['checked_frame_count']+=1
  if f%240==0:out.write_text(json.dumps(report,indent=2));print('QC_FRAME',f,flush=True)
 for c,(_,_,_,q,*_) in checks.items():report['characters'][c]['mouth']=q.result()
+report['complete']=True
 out.write_text(json.dumps(report,indent=2));print('NATIVE_QC',json.dumps({c:{k:v for k,v in a.items() if not isinstance(v,dict)} for c,a in report['characters'].items()}),flush=True)

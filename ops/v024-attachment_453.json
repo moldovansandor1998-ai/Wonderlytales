@@ -1,0 +1,468 @@
+{
+  "source_sha256": "efcdd4924b576bc3c004e861c5bb8f2ccf22549a688a857b4edd4c69c803df15",
+  "blender": "4.5.3 LTS",
+  "frames": 1440,
+  "sampling": "every 24 frames plus specified transition frames; not full-frame approval",
+  "checked_frame_count": 81,
+  "complete": true,
+  "characters": {
+    "CHAR_MARK": {
+      "max_foot_error_m": 0.006687322821920588,
+      "max_reach_ratio": 1.011804528051099,
+      "max_joint_speed_deg_s": 300.1910145884,
+      "max_body_stretch": 4.3808065648850025,
+      "worst_body_edge": {
+        "frame": 145,
+        "vertices": [
+          61355,
+          61376
+        ],
+        "rest_length": 0.0006329557040822779,
+        "rest_positions": [
+          [
+            0.015132714062929153,
+            -0.05986331030726433,
+            0.3044949471950531
+          ],
+          [
+            0.014502503909170628,
+            -0.05980536714196205,
+            0.30448442697525024
+          ]
+        ],
+        "weights": [
+          {
+            "thigh.L": 0.5510812401771545,
+            "shin.L": 0.2529848515987396,
+            "thigh.R": 0.1342867910861969,
+            "shin.R": 0.06164703518152237
+          },
+          {
+            "thigh.L": 0.5433616042137146,
+            "shin.L": 0.2496209442615509,
+            "thigh.R": 0.141851007938385,
+            "shin.R": 0.06516651809215546
+          }
+        ]
+      },
+      "worst_foot": {
+        "frame": 265,
+        "foot": "foot.L",
+        "reach_ratio": 1.0118043435249904
+      },
+      "worst_joint": {
+        "frame": 120,
+        "joint": "thigh.R"
+      },
+      "mouth": {
+        "sampled_mesh_frames": 81,
+        "nonfinite": 0,
+        "max_outer_edge_stretch_ratio": 1.103017494687749,
+        "flipped_outer_triangles": 0,
+        "invalid_viseme_frames": 0,
+        "rest_folded_front_triangles": 0,
+        "sampled_seam_mesh_frames": 81,
+        "max_seam_gap_m": 5.331201499700045e-07,
+        "missing_seam_correspondences": [],
+        "outer_geometry_pass": true,
+        "unmatched_outer_boundaries": [],
+        "boundary_mapping_pass": true,
+        "seam_continuity_verified": true,
+        "pass": true,
+        "limitations": "Checks outer topology and native boundary-mapping metadata. Native correspondence is measured when available; full self-intersection and natural speech still need validation"
+      }
+    },
+    "CHAR_LILI": {
+      "max_foot_error_m": 0.0033578615136318135,
+      "max_reach_ratio": 1.0144672520205775,
+      "max_joint_speed_deg_s": 242.947315267739,
+      "max_body_stretch": 4.62209978713657,
+      "worst_body_edge": {
+        "frame": 1153,
+        "vertices": [
+          60699,
+          60390
+        ],
+        "rest_length": 0.004765820089286368,
+        "rest_positions": [
+          [
+            -0.18762105703353882,
+            -0.3713609576225281,
+            0.5303441882133484
+          ],
+          [
+            -0.18687531352043152,
+            -0.3711528182029724,
+            0.5350466966629028
+          ]
+        ],
+        "weights": [
+          {
+            "pelvis": 0.006568014156073332,
+            "spine": 0.014141214080154896,
+            "neck": 0.04068327322602272,
+            "head": 0.4964806139469147,
+            "foreleg.L": 0.2700153887271881,
+            "foreshin.L": 0.0,
+            "forepaw.L": 0.0,
+            "foreleg.R": 0.1500094085931778,
+            "foreshin.R": 0.0,
+            "forepaw.R": 0.0,
+            "tail_01": 0.0,
+            "tail_02": 0.0,
+            "tail_03": 0.0,
+            "hindleg.L": 0.012416708283126354,
+            "hindshin.L": 0.0,
+            "hindpaw.L": 0.0,
+            "hindleg.R": 0.009685374796390533,
+            "hindshin.R": 0.0,
+            "hindpaw.R": 0.0
+          },
+          {
+            "pelvis": 0.005352815147489309,
+            "spine": 0.011645553633570671,
+            "neck": 0.033717360347509384,
+            "head": 0.5970050096511841,
+            "foreleg.L": 0.21446843445301056,
+            "foreshin.L": 0.0,
+            "forepaw.L": 0.0,
+            "foreleg.R": 0.11982248723506927,
+            "foreshin.R": 0.0,
+            "forepaw.R": 0.0,
+            "tail_01": 0.0,
+            "tail_02": 0.0,
+            "tail_03": 0.0,
+            "hindleg.L": 0.010104100219905376,
+            "hindshin.L": 0.0,
+            "hindpaw.L": 0.0,
+            "hindleg.R": 0.007884218357503414,
+            "hindshin.R": 0.0,
+            "hindpaw.R": 0.0
+          }
+        ]
+      },
+      "worst_foot": {
+        "frame": 1201,
+        "foot": "forepaw.R",
+        "reach_ratio": 1.0144672520205775
+      },
+      "worst_joint": {
+        "frame": 120,
+        "joint": "foreleg.R"
+      },
+      "mouth": {
+        "sampled_mesh_frames": 81,
+        "nonfinite": 0,
+        "max_outer_edge_stretch_ratio": 1.0021935149011052,
+        "flipped_outer_triangles": 0,
+        "invalid_viseme_frames": 0,
+        "rest_folded_front_triangles": 0,
+        "sampled_seam_mesh_frames": 0,
+        "max_seam_gap_m": 0.0,
+        "missing_seam_correspondences": [
+          "CHAR_LILI_FACIAL_TOPOLOGY"
+        ],
+        "outer_geometry_pass": true,
+        "unmatched_outer_boundaries": [
+          "CHAR_LILI_FACIAL_TOPOLOGY"
+        ],
+        "boundary_mapping_pass": false,
+        "seam_continuity_verified": false,
+        "pass": false,
+        "limitations": "Checks outer topology and native boundary-mapping metadata. Native correspondence is measured when available; full self-intersection and natural speech still need validation"
+      }
+    },
+    "CHAR_POTTY": {
+      "max_foot_error_m": 0.008961732893285059,
+      "max_reach_ratio": 1.0536636198230247,
+      "max_joint_speed_deg_s": 362.6696850776605,
+      "max_body_stretch": 2.4944960254998185,
+      "worst_body_edge": {
+        "frame": 889,
+        "vertices": [
+          63288,
+          63165
+        ],
+        "rest_length": 0.00754244353322567,
+        "rest_positions": [
+          [
+            0.06738442927598953,
+            -0.1501089483499527,
+            0.42733338475227356
+          ],
+          [
+            0.0672837346792221,
+            -0.14876246452331543,
+            0.41991278529167175
+          ]
+        ],
+        "weights": [
+          {
+            "pelvis": 0.013787034898996353,
+            "spine": 0.04440195858478546,
+            "chest": 0.054216161370277405,
+            "neck": 0.05419144779443741,
+            "head": 0.6591295599937439,
+            "ear_base.L": 0.0,
+            "ear_tip.L": 0.0,
+            "ear_base.R": 0.0,
+            "ear_tip.R": 0.0,
+            "upper_arm.L": 0.06875333189964294,
+            "forearm.L": 0.03656643629074097,
+            "hand.L": 0.012804249301552773,
+            "upper_arm.R": 0.017960811033844948,
+            "forearm.R": 0.008350277319550514,
+            "hand.R": 0.004170016385614872,
+            "thigh.L": 0.008875874802470207,
+            "shin.L": 0.003483225591480732,
+            "foot.L": 0.00211186776868999,
+            "thigh.R": 0.006538499612361193,
+            "shin.R": 0.0028699575923383236,
+            "foot.R": 0.0017893158365041018,
+            "tail_01": 0.0
+          },
+          {
+            "pelvis": 0.021003063768148422,
+            "spine": 0.0660451129078865,
+            "chest": 0.07715000957250595,
+            "neck": 0.07664184272289276,
+            "head": 0.5063974261283875,
+            "ear_base.L": 0.0,
+            "ear_tip.L": 0.0,
+            "ear_base.R": 0.0,
+            "ear_tip.R": 0.0,
+            "upper_arm.L": 0.0980532094836235,
+            "forearm.L": 0.053721074014902115,
+            "hand.L": 0.019192637875676155,
+            "upper_arm.R": 0.025271745398640633,
+            "forearm.R": 0.011899268254637718,
+            "hand.R": 0.006041307467967272,
+            "thigh.L": 0.013505415059626102,
+            "shin.L": 0.005216904450207949,
+            "foot.L": 0.0031370872166007757,
+            "thigh.R": 0.009813548065721989,
+            "shin.R": 0.004267159849405289,
+            "foot.R": 0.0026431973092257977,
+            "tail_01": 0.0
+          }
+        ]
+      },
+      "worst_foot": {
+        "frame": 768,
+        "foot": "foot.R",
+        "reach_ratio": 1.0536636198230247
+      },
+      "worst_joint": {
+        "frame": 723,
+        "joint": "shin.R"
+      },
+      "mouth": {
+        "sampled_mesh_frames": 81,
+        "nonfinite": 0,
+        "max_outer_edge_stretch_ratio": 1.0035207281765672,
+        "flipped_outer_triangles": 0,
+        "invalid_viseme_frames": 0,
+        "rest_folded_front_triangles": 0,
+        "sampled_seam_mesh_frames": 0,
+        "max_seam_gap_m": 0.0,
+        "missing_seam_correspondences": [
+          "CHAR_POTTY_FACIAL_TOPOLOGY"
+        ],
+        "outer_geometry_pass": true,
+        "unmatched_outer_boundaries": [
+          "CHAR_POTTY_FACIAL_TOPOLOGY"
+        ],
+        "boundary_mapping_pass": false,
+        "seam_continuity_verified": false,
+        "pass": false,
+        "limitations": "Checks outer topology and native boundary-mapping metadata. Native correspondence is measured when available; full self-intersection and natural speech still need validation"
+      }
+    },
+    "CHAR_ZIZI": {
+      "max_foot_error_m": 0.009070516886045136,
+      "max_reach_ratio": 1.0228687798246192,
+      "max_joint_speed_deg_s": 204.70607648226724,
+      "max_body_stretch": 2.3842190850770137,
+      "worst_body_edge": {
+        "frame": 1177,
+        "vertices": [
+          97232,
+          97540
+        ],
+        "rest_length": 0.0040307968367703515,
+        "rest_positions": [
+          [
+            0.03758253529667854,
+            -0.26633530855178833,
+            0.6505799889564514
+          ],
+          [
+            0.03744329884648323,
+            -0.26663967967033386,
+            0.6545968651771545
+          ]
+        ],
+        "weights": [
+          {
+            "pelvis": 0.025932276621460915,
+            "spine": 0.06341671198606491,
+            "chest": 0.06943298876285553,
+            "neck": 0.06943357735872269,
+            "head": 0.5225276947021484,
+            "upper_arm.L": 0.05844372510910034,
+            "forearm.L": 0.040222715586423874,
+            "hand.L": 0.023946397006511688,
+            "upper_arm.R": 0.03895525634288788,
+            "forearm.R": 0.024921691045165062,
+            "hand.R": 0.015586060471832752,
+            "thigh.L": 0.016645414754748344,
+            "shin.L": 0.005632240325212479,
+            "foot.L": 0.0024497301783412695,
+            "thigh.R": 0.014847660437226295,
+            "shin.R": 0.005270777270197868,
+            "foot.R": 0.0023351027630269527,
+            "tail_01": 0.0,
+            "tail_02": 0.0,
+            "tail_03": 0.0
+          },
+          {
+            "pelvis": 0.02108999714255333,
+            "spine": 0.0523044727742672,
+            "chest": 0.05792113393545151,
+            "neck": 0.05795203521847725,
+            "head": 0.6044837832450867,
+            "upper_arm.L": 0.04875483363866806,
+            "forearm.L": 0.03327367454767227,
+            "hand.L": 0.019637571647763252,
+            "upper_arm.R": 0.0325680747628212,
+            "forearm.R": 0.0207061730325222,
+            "hand.R": 0.012854153290390968,
+            "thigh.L": 0.013532356359064579,
+            "shin.L": 0.004596868064254522,
+            "foot.L": 0.0020072038751095533,
+            "thigh.R": 0.012096399441361427,
+            "shin.R": 0.0043066199868917465,
+            "foot.R": 0.001914639608003199,
+            "tail_01": 0.0,
+            "tail_02": 0.0,
+            "tail_03": 0.0
+          }
+        ]
+      },
+      "worst_foot": {
+        "frame": 1,
+        "foot": "foot.L",
+        "reach_ratio": 1.0228687798246192
+      },
+      "worst_joint": {
+        "frame": 936,
+        "joint": "thigh.R"
+      },
+      "mouth": {
+        "sampled_mesh_frames": 81,
+        "nonfinite": 0,
+        "max_outer_edge_stretch_ratio": 1.0083277050429482,
+        "flipped_outer_triangles": 0,
+        "invalid_viseme_frames": 0,
+        "rest_folded_front_triangles": 0,
+        "sampled_seam_mesh_frames": 0,
+        "max_seam_gap_m": 0.0,
+        "missing_seam_correspondences": [
+          "CHAR_ZIZI_FACIAL_TOPOLOGY"
+        ],
+        "outer_geometry_pass": true,
+        "unmatched_outer_boundaries": [
+          "CHAR_ZIZI_FACIAL_TOPOLOGY"
+        ],
+        "boundary_mapping_pass": false,
+        "seam_continuity_verified": false,
+        "pass": false,
+        "limitations": "Checks outer topology and native boundary-mapping metadata. Native correspondence is measured when available; full self-intersection and natural speech still need validation"
+      }
+    }
+  },
+  "production_approved": false,
+  "sampled_frames": [
+    1,
+    25,
+    49,
+    73,
+    97,
+    119,
+    120,
+    121,
+    122,
+    145,
+    169,
+    193,
+    217,
+    239,
+    240,
+    241,
+    242,
+    265,
+    289,
+    313,
+    337,
+    361,
+    385,
+    409,
+    433,
+    457,
+    481,
+    505,
+    529,
+    553,
+    577,
+    601,
+    625,
+    649,
+    673,
+    697,
+    719,
+    720,
+    721,
+    722,
+    723,
+    724,
+    725,
+    730,
+    744,
+    745,
+    768,
+    769,
+    793,
+    817,
+    841,
+    865,
+    889,
+    911,
+    912,
+    913,
+    914,
+    935,
+    936,
+    937,
+    938,
+    961,
+    985,
+    1009,
+    1033,
+    1057,
+    1081,
+    1105,
+    1129,
+    1153,
+    1177,
+    1201,
+    1225,
+    1249,
+    1273,
+    1297,
+    1321,
+    1345,
+    1369,
+    1393,
+    1417
+  ]
+}
