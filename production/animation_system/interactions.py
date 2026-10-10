@@ -3,6 +3,7 @@ import bpy,math
 from mathutils import Vector
 from .spec import smooth,QUADRUPEDS
 from .facial import driver
+from .hand_rig import contact_point
 
 def restore_hand_drivers(rig):
     restored=[]
@@ -34,7 +35,7 @@ def author_interactions(scene,script,rigs):
         prop.keyframe_insert('location',frame=1);prop.keyframe_insert('location',frame=grasp-1)
         path='["ik_hand.'+side+'"]';rig['ik_hand.'+side]=0
         rig.keyframe_insert(path,frame=1);rig.keyframe_insert(path,frame=max(1,start-1));rig.keyframe_insert(path,frame=min(count,end+1))
-        hand_name='hand.'+side;control=rig.pose.bones['CTRL_hand.'+side]
+        hand_name='hand.'+side;control=rig.pose.bones['CTRL_hand.'+side];landmark=event.get('contact_landmark_local')
         for frame in range(start,end+1):
             scene.frame_set(frame);u=((frame-1)/24-event['start'])/(event['end']-event['start'])
             influence=smooth(u/.2)*(1-smooth((u-.85)/.15))
@@ -43,11 +44,11 @@ def author_interactions(scene,script,rigs):
             # restore the authored approach/release envelope.
             rig['ik_hand.'+side]=1.;rig.update_tag();bpy.context.view_layer.update()
             ev=rig.evaluated_get(bpy.context.evaluated_depsgraph_get());hand=ev.pose.bones[hand_name]
-            wrist=target-ev.matrix_world.to_3x3()@(hand.tail-hand.head)
-            for _ in range(4):
+            wrist=target-(contact_point(ev,side,landmark)-ev.matrix_world@hand.head)
+            for _ in range(8):
                 control.location=control.bone.matrix_local.inverted()@(rig.matrix_world.inverted()@wrist)
                 rig.update_tag();bpy.context.view_layer.update();ev=rig.evaluated_get(bpy.context.evaluated_depsgraph_get())
-                delta=target-ev.matrix_world@ev.pose.bones[hand_name].tail
+                delta=target-contact_point(ev,side,landmark)
                 if delta.length<.001:break
                 wrist+=delta
             control.keyframe_insert('location',frame=frame)
@@ -57,11 +58,11 @@ def author_interactions(scene,script,rigs):
         if event['kind']=='pickup':
             for frame in range(grasp,carry_end+1):
                 scene.frame_set(frame);rig.update_tag();bpy.context.view_layer.update()
-                ev=rig.evaluated_get(bpy.context.evaluated_depsgraph_get());point=ev.matrix_world@ev.pose.bones[hand_name].tail
+                ev=rig.evaluated_get(bpy.context.evaluated_depsgraph_get());point=contact_point(ev,side,landmark)
                 if frame==grasp:handoff=(point-target).length
                 prop.location=point;prop.keyframe_insert('location',frame=frame);distances.append((prop.location-point).length)
         if prop.animation_data:
             for curve in prop.animation_data.action.fcurves:
                 for key in curve.keyframe_points:key.interpolation='LINEAR'
-        report.append({'id':event['id'],'grasp_frame':grasp,'handoff_error_m':handoff,'max_baked_attachment_error_m':max(distances,default=0),'grasp_contact_pass':handoff is not None and handoff<.02,'finger_articulation_approved':False})
+        report.append({'id':event['id'],'grasp_frame':grasp,'handoff_error_m':handoff,'max_baked_attachment_error_m':max(distances,default=0),'grasp_contact_pass':handoff is not None and handoff<.02,'contact_landmark_local':landmark,'finger_articulation_approved':False})
     return report

@@ -143,6 +143,9 @@ def main(master,registry_path,script_path,dest):
     else:point=Vector(gaze.get('position',[0,5,1]))
     gaze_targets[c].location=point;gaze_targets[c].keyframe_insert('location')
   if f%240==0:print('COMPILED_FRAMES',f,count,flush=True)
+ # Shared temporal facial layer, also applicable to existing frozen scenes.
+ from animation_system.performance import apply_performance
+ performance_report=apply_performance(s,script,rigs) if script.get("performance_revision")=="V025" else None
  # Evaluated contact helper is also rerun after final support baking.
  from animation_system.interactions import author_interactions
  interaction_report=author_interactions(s,script,rigs)

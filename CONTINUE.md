@@ -1,9 +1,54 @@
 # WonderlyTales — continuation checkpoint
 
-Last successful Git commit: `dff8724fdd413feb3c3e49ca92acc369d19e6d0f`.
+Last successful Git commit: `20a81c59866017e165c801061c4969b0c8231bfe`.
 The commit containing this document follows it (`git log -1`).
 Do not rebuild infrastructure or modify V022/V023 originals. Daily ceiling $200.
 User's earlier verified base: 4266970498f2f4c5dc423f1de1a27ef58dbbfbaf.
+
+## V025 central repair work in progress (2026-10-10 21:20 UTC)
+- This is a development checkpoint, NOT a completed V025 review or approval.
+  Preserve the verified 132-second V024 and both immutable native scene sources.
+- Central motion.py now completes terminal swing before stopping and retains
+  actual support footprints during idle/talk. It no longer slides feet back to
+  neutral coordinates after a walk. Thirty pure tests pass, including four new
+  native-rate timing/contact regression tests. Native scene rebake is pending.
+- New candidate modules: facial_seams.py (source-connected eyelids), seam_edges.py
+  (coalesce only collinear cut vertices), performance.py (fully sampled blinks,
+  delayed responses to the attended dialogue partner), hand_rig.py / grip.py
+  (candidate digits, skin contact landmark, world-space rotational attachment),
+  forest.py (terrain-bound detail, cinematic light/camera candidate).
+  Performance changes are opt-in via performance_revision=V025. Forest and
+  digit authoring are NOT automatically promoted into the frozen masters.
+- SC001 Mark eye candidate E at authoring sandbox
+  /vercel/sandbox/v025/mark_seams_e/S1E1_SC001_V025.blend, SHA
+  0ec3997387a1f1aa8223e8dbc93c57e9c6f579f89aca8f5ebdd8b92c3849f82a.
+  R/L lids match 125/126 actual source vertices. First close proof removes the
+  black socket gap but eye shape, blink and side views still require review.
+  Candidate D had five subdivided seam edges; E coalesces six collinear vertices.
+  Its full 1392-frame seam audit is running; do not silently waive adjacency QC.
+- Lili has a fragmented fur mesh and strongly sloped left facial surface.
+  Planar recuts fail strict topology gates. recover_facial_edges.py can recover
+  1670 missing local triangles from edges already retained in V024; no external
+  model replacement. Current diagnostic also tests slope-aware cut selection.
+  No Lili seam candidate has passed or been saved as an approved asset.
+- SC003 grip candidate native authoring finished in the same sandbox at
+  /vercel/sandbox/v025/grip/S1E1_SC003_V025.blend; proof images and report at
+  native/S1E1/V025/grip_candidate/. Visual inspection is pending. Ten new digit
+  bones and local hand binding are candidates only, not articulation approval.
+- Original HU audio and existing viseme tracks have not been changed. No new
+  TTS or V025 GPU jobs submitted. Direct RunPod health access works again;
+  existing endpoint reports 31 completed / 0 failed / 0 in progress at the
+  read-only check. Never resubmit any completed V024 ranges.
+- Known daily reservations remain $39.50 of $200 (Asia/Saigon), not vendor
+  invoiced spend. Existing 4-vCPU authoring sandbox still runs to ~22:25 UTC:
+  sbx_hbrj4u6r1FOrgWWTiIRBSZUkGJFS. No new paid resources started.
+- An attempt to export a recovered old Library Lili reference to R2 was blocked
+  by automatic approval review. Do not retry or route that source elsewhere.
+  The safe alternative uses only vertices/edges already in the V024 source.
+- Next: inspect grip proofs, finish Lili local topology, pass Mark E native seam
+  audit, apply opt-in performance/environment/contact refinements to NEW scene
+  candidates, then short close/side/motion proof before the full V025 GPU pass.
+  The >=40/default60-minute feature remains behind the actual quality gate.
 
 ## Completed opening review (2026-10-10T20:37:33.786910+00:00)
 - All NINE existing GPU clips decoded: 3168 native frames, 1080p24, 132 s.

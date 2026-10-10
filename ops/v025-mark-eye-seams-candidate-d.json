@@ -1,0 +1,23 @@
+{
+  "source_sha256": "a8758b1537bb383c80bc7bc0350a4939d2c0d573262e1380a588a9e161373041",
+  "candidate_sha256": "425f038e678555ef5bf2778f8fff22eecd53a0853de6314309b09e1368756742",
+  "eyes": [
+    {
+      "character": "CHAR_MARK",
+      "side": "R",
+      "boundary_vertices": 125,
+      "local_crack_merges_m": [],
+      "perimeter_correction_m": 7.395136933200752e-05,
+      "production_approved": false
+    },
+    {
+      "character": "CHAR_MARK",
+      "side": "L",
+      "boundary_vertices": 126,
+      "local_crack_merges_m": [],
+      "perimeter_correction_m": 1.0166718236130836e-06,
+      "production_approved": false
+    }
+  ],
+  "production_approved": false
+}

@@ -50,13 +50,17 @@ def _foot_raw(actor,foot,t,scale=1.):
  """Return ankle position, planted flag and contact-id, with fixed stance anchors."""
  a=active_action(actor,t);kind=a['clip'];pos,yaw=root_at(actor,t);rest=foot['ankle'];turn_steps=kind=='turn' and foot.get('foot','').startswith(('forepaw','hindpaw'));phase=({'forepaw.L':0.,'forepaw.R':.5,'hindpaw.L':.75,'hindpaw.R':.25}.get(foot['foot'],foot['phase']) if kind=='walk' or turn_steps else foot['phase']) if 'foot' in foot else foot['phase']
  if kind not in ('walk','run','turn','jump'):
+  prior=next((step for step in sorted(actor.get('actions',[]),key=lambda step:step['end'],reverse=True) if step['end']<=t and step['clip'] in ('walk','run','turn','jump')),None)
+  if prior:
+   q,_,contact=_foot_raw(actor,foot,prior['end']-1e-7,scale)
+   return q,True,'settled:'+str(prior['end'])+':'+contact
   return world_offset(pos,yaw,[v*scale for v in rest]),True,'rest'
  if kind=='turn' and not turn_steps:
   elapsed=t-a['start'];duration=a['end']-a['start'];half=duration/2;is_first=phase<.5
   start=a['start']+(0 if is_first else half);end=start+half
   before=(t<=start);after=(t>=end)
   p0,y0=root_at(actor,a['start']);p1,y1=root_at(actor,a['end']-1e-6)
-  q0=world_offset(p0,y0,[v*scale for v in rest]);q1=world_offset(p1,y1,[v*scale for v in rest])
+  q0=foot_at(actor,foot,a['start']-1e-7,scale)[0] if a['start']>0 else world_offset(p0,y0,[v*scale for v in rest]);q1=world_offset(p1,y1,[v*scale for v in rest])
   if before:return q0,True,'turn_before'
   if after:return q1,True,'turn_after'
   u=(t-start)/half;q=lerp(q0,q1,smooth(u));lift=min(.045,foot.get('leg_length',float('inf'))*.18);q[2]+=lift*scale*math.sin(math.pi*u)**2;return q,False,'turn_step'
@@ -75,7 +79,11 @@ def _foot_raw(actor,foot,t,scale=1.):
  if contact<=a['start']+1e-8:
   q0=foot_at(actor,foot,a['start']-1/24,scale)[0];q0[2]=root_at(actor,a['start'])[0][2]+rest[2]*scale
  if u<stance:return q0,True,str(k)
- swing=(u-stance)/(1-stance);q=lerp(q0,q1,smooth(swing))
+ swing_start=contact+cycle*stance;landing=min(a['end'],contact+cycle)
+ # Finish an interrupted final swing at the action boundary; never blend a
+ # grounded foot sideways after the walk has ended.
+ swing=max(0.,min(1.,(t-swing_start)/max(1e-7,landing-swing_start)))
+ q=lerp(q0,q1,smooth(swing))
  # Clearance scales with the actual limb, not overall character height. The
  # short hind legs of Lili and Potty cannot take a human-sized 7.5 cm step.
  # A squared sine has zero vertical velocity at lift-off and landing.
@@ -85,7 +93,7 @@ def _foot_raw(actor,foot,t,scale=1.):
 
 def foot_at(actor,foot,t,scale=1.):
  q,planted,contact=_foot_raw(actor,foot,t,scale);a=active_action(actor,t);elapsed=t-a['start']
- if a['start']>0 and 0<=elapsed<.16:
+ if a['start']>0 and 0<=elapsed<.16 and a['clip'] in ('walk','run','turn','jump'):
   old,was_planted,_=foot_at(actor,foot,a['start']-1/24,scale);u=smooth(elapsed/.16);distance=math.sqrt(sum((x-y)**2 for x,y in zip(q,old)));q=lerp(old,q,u);planted=planted and was_planted and distance<1e-5
  return q,planted,contact
 
@@ -142,13 +150,14 @@ def _foot_heading_raw(actor,foot,t):
  if kind=='turn':
   half=(a['end']-a['start'])/2;start=a['start']+(0 if foot['phase']<.5 else half);end=start+half;y0=root_at(actor,a['start'])[1];y1=root_at(actor,a['end']-1e-6)[1]
   return y0+((y1-y0+math.pi)%math.tau-math.pi)*smooth((t-start)/half)
- return root_at(actor,t)[1]
+ prior=next((step for step in sorted(actor.get('actions',[]),key=lambda step:step['end'],reverse=True) if step['end']<=t and step['clip'] in ('walk','run','turn','jump')),None)
+ return _foot_heading_raw(actor,foot,prior['end']-1e-7) if prior else root_at(actor,t)[1]
 
 
 def foot_heading(actor,foot,t):
  """Blend into a new clip without snapping the sole at the first frame."""
  yaw=_foot_heading_raw(actor,foot,t);a=active_action(actor,t);elapsed=t-a['start']
- if a['start']>0 and 0<=elapsed<.16:
+ if a['start']>0 and 0<=elapsed<.16 and a['clip'] in ('walk','run','turn','jump'):
   old=foot_heading(actor,foot,a['start']-1/24)
   yaw=old+((yaw-old+math.pi)%math.tau-math.pi)*smooth(elapsed/.16)
  return yaw
