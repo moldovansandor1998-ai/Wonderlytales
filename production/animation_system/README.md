@@ -32,6 +32,17 @@ Run contracts/queue/motion tests:
 PYTHONPATH=production python -m unittest discover -s production/animation_system/tests -v
 ```
 
+Audit actual native controls, IK constraints, Action assets and independent jaw,
+eye, blink and viseme drivers for all six masters:
+
+```sh
+blender -b -t 2 --python-exit-code 1 --python production/animation_system/tests/audit_native_rigs.py -- MASTER.blend asset_registry_V021.json native_rig_audit.json
+```
+
+Action authoring preserves facial drivers. This audit verifies evaluated driver
+responses, rather than treating the presence of bones as proof that they work.
+It does not approve skinning, facial seam continuity or natural acting.
+
 Author masters (one time) and compile a scene:
 
 ```sh

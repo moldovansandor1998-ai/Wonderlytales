@@ -23,7 +23,10 @@ def regularize(body,patch):
  ordered=np.empty(N)
  for value,count,indices in blocks:ordered[indices]=value
  ordered+=np.arange(N)*epsilon
- if ordered[-1]-ordered[0]>=math.tau:raise ValueError('Invalid cyclic perimeter')
+ span=ordered[-1]-ordered[0]
+ if span>=math.tau:
+  if span>math.tau+.1:raise ValueError(f'Invalid cyclic perimeter winding: {span}')
+  ordered=ordered[0]+(ordered-ordered[0])*((math.tau-epsilon)/span)
  boundary=original.copy();boundary[:,0]=cx+w*np.cos(ordered);boundary[:,2]=zc+h*np.sin(ordered);delta=boundary-original;maxshift=float(np.max(np.linalg.norm(delta,axis=1)))
  if maxshift>.002:raise ValueError('Perimeter correction exceeds 2 mm local cap')
  for j,i in enumerate(bi):

@@ -5,7 +5,10 @@ successful structural check. V021's six masters and 78 Action assets are retaine
 Only Mark's restored skin, mouth boundary and upper-body bindings are revised.
 
 The master is distributed with the V022 Blender checkpoint, outside git. The
-original Mark GLB must have SHA-256
+source V021 master must be the later driver-fixed file with SHA-256
+`2840932b51f97780e3e6bdfd85cdd812cf1df2f36ecefb734b94a35cd25bb082`,
+provided in the accompanying V021 base-source checkpoint. The earlier exported
+V021 master is not sufficient. The original Mark GLB must have SHA-256
 `0d3ffde042f173a0f999dcc71d835c196e978a06685268b1eab005da7e3419ee`.
 
 ```sh

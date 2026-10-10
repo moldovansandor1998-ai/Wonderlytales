@@ -37,6 +37,15 @@ class SystemTests(unittest.TestCase):
    with self.assertRaises(ValueError):validate_scene(s,self.reg)
  def test_asset_change_invalidates_cache(self):
   e=self.episode(200,12);a=compile_episode(e,self.reg);self.reg['characters']['CHAR_MARK']['asset_sha256']='c'*64;b=compile_episode(e,self.reg);self.assertNotEqual(a['jobs'][0]['id'],b['jobs'][0]['id'])
+ def test_renderer_change_invalidates_cache(self):
+  e=self.episode(200,12);e['renderer_sha256']='a'*64;a=compile_episode(e,self.reg);e['renderer_sha256']='b'*64;b=compile_episode(e,self.reg);self.assertNotEqual(a['jobs'][0]['id'],b['jobs'][0]['id'])
+ def test_queue_connections_close_and_commit_on_scope_exit(self):
+  import sqlite3
+  with tempfile.TemporaryDirectory() as d:
+   q=RenderQueue(Path(d)/'q.db')
+   with q.connect() as db:db.execute("INSERT INTO events(job,at,status,detail) VALUES('probe',0,'TEST','committed')")
+   with self.assertRaises(sqlite3.ProgrammingError):db.execute('SELECT 1')
+   with q.connect() as reopened:self.assertEqual(reopened.execute("SELECT detail FROM events WHERE job='probe'").fetchone()[0],'committed')
  def test_planted_feet_stay_put_as_body_moves(self):
   actor={'position':[0,0,0],'actions':[{'clip':'walk','start':0,'end':5,'destination':[0,-2,0]}]};foot={'ankle':[.1,0,.1],'phase':0};a=foot_at(actor,foot,1.0);b=foot_at(actor,foot,1.2);self.assertTrue(a[1] and b[1]);self.assertEqual(a[2],b[2]);self.assertEqual(a[0],b[0]);self.assertNotEqual(root_at(actor,1)[0],root_at(actor,1.2)[0])
  def test_atomic_claim_resume_stale_worker_and_tamper(self):

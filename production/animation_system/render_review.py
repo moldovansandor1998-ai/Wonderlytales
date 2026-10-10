@@ -31,7 +31,9 @@ def main(src,registry_path,output,python,start=1,end=None):
     if bs:base=list(bs.inputs['Base Color'].default_value)
     im=next((n.image for n in material.node_tree.nodes if n.type=='TEX_IMAGE' and n.image and n.image.colorspace_settings.name=='sRGB'),None)
     if im:
-     texture=str(cache/f'{oi}.png');im.filepath_raw=texture;im.file_format='PNG';im.save();base=[1,1,1,1]
+     texture=str(cache/f'{oi}.png');temporary=str(cache/f'{oi}.tmp.png');im.filepath_raw=temporary;im.file_format='PNG';im.save()
+     with open(temporary,'rb') as file:os.fsync(file.fileno())
+     os.replace(temporary,texture);base=[1,1,1,1]
   config['meshes'].append({'name':o.name,'texture':texture,'base':base});statics.append(np.concatenate((uv,colors),axis=1).astype('<f4').tobytes());ev.to_mesh_clear()
   if any(o.name==a['body'] for a in reg['characters'].values()):
    edges=np.array([e.vertices[:] for e in o.data.edges],dtype='i4');verts=np.array([v.co[:] for v in o.data.vertices]);length=np.linalg.norm(verts[edges[:,0]]-verts[edges[:,1]],axis=1);mask=length>1e-4;rest_edges[o.name]=(edges[mask],length[mask])

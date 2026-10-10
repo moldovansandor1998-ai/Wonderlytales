@@ -143,9 +143,10 @@ def refine_binding(body,r,code):
  return changed
 
 def library(r,code,torso):
+ driver_channels={(f.data_path,f.array_index) for f in r.animation_data.drivers} if r.animation_data else set()
  actions=[]
  for clip in CLIPS:
-  r.animation_data_clear();action=bpy.data.actions.new(code+'::'+clip+'::V021');action.use_fake_user=True;r.animation_data_create();r.animation_data.action=action
+  r.animation_data_create();r.animation_data.action=None;action=bpy.data.actions.new(code+'::'+clip+'::V021');action.use_fake_user=True;r.animation_data.action=action
   count=round(CATALOG[clip]['seconds']*24)
   for f in range(1,count+2,2):
    t=(f-1)/24
@@ -154,9 +155,10 @@ def library(r,code,torso):
     if bone:bone.rotation_mode='XYZ';bone.rotation_euler=rotation;bone.keyframe_insert('rotation_euler',frame=f)
    for prop,value in face_at(clip,t).items():r[prop]=value;r.keyframe_insert('["'+prop+'"]',frame=f)
   action.asset_mark();action.asset_data.description=f'{code}, {clip}: reusable V021 DEVELOPMENT action; artist review pending';action['clip']=clip;action['anatomy']='quadruped' if code in QUADRUPEDS else 'biped';action['artist_approved']=False;actions.append(action.name)
- r.animation_data_clear()
+ r.animation_data.action=None
  for p in r.pose.bones:p.rotation_euler=(0,0,0);p.location=(0,0,0);p.scale=(1,1,1)
  for prop in ['smile','frown','brow_up','brow_down','squint','eye_wide']:r[prop]=0
+ if {(f.data_path,f.array_index) for f in r.animation_data.drivers}!=driver_channels:raise RuntimeError('Action authoring removed facial drivers')
  return actions
 
 def main(source,out):

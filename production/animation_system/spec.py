@@ -106,6 +106,7 @@ def compile_episode(episode,registry,max_job_frames=360):
    end=min(count,start+max_job_frames-1)
    job={'scene_id':scene['id'],'frame_start':start,'frame_end':end,'frames':end-start+1,'episode_start_frame':offset+start,'scene_fingerprint':fingerprint(scene),'assets':locked,'location_sha256':registry['locations'][scene['location']]['asset_sha256']}
    if scene.get('compiled_scene_sha256'):job['compiled_scene_sha256']=scene['compiled_scene_sha256']
+   if episode.get('renderer_sha256'):job['renderer_sha256']=episode['renderer_sha256']
    job['id']=fingerprint(job)[:24];jobs.append(job)
   offset+=count
  target=episode.get('target_duration_seconds',3600)

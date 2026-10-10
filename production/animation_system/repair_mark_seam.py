@@ -30,6 +30,7 @@ def ordered_boundary(edges):
 
 def repair(source,registry_path,out,raw_model):
  out.mkdir(parents=True,exist_ok=True)
+ if digest(source)!='2840932b51f97780e3e6bdfd85cdd812cf1df2f36ecefb734b94a35cd25bb082':raise ValueError('Requires latest V021 driver-fixed master, not the earlier export')
  if digest(raw_model)!='0d3ffde042f173a0f999dcc71d835c196e978a06685268b1eab005da7e3419ee':raise ValueError('Original Mark Tripo source checksum mismatch')
  bpy.ops.wm.open_mainfile(filepath=str(source),use_scripts=False)
  s=bpy.context.scene;reg=json.loads(registry_path.read_text());a=reg['characters']['CHAR_MARK'];body=bpy.data.objects[a['body']];rig=bpy.data.objects[a['rig']];old=bpy.data.objects['CHAR_MARK_FACIAL_TOPOLOGY']
