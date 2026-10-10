@@ -1,0 +1,78 @@
+{
+  "version": "V025",
+  "production_approved": false,
+  "full_132_second_visual_review_complete": false,
+  "next_scene_production_allowed": false,
+  "immutable_v024_preserved": true,
+  "hungarian_audio_preserved": true,
+  "native_frames_audited": 3168,
+  "review_scope": {
+    "native_proofs": [
+      "faces 82, 130, 150",
+      "grip 560, 630"
+    ],
+    "gait_motion_samples": "32 frames at 4 fps covering every quarter-second of the 8-second gait clip",
+    "final_reel_status": "complete_and_decoded",
+    "native_gpu_proofs": [
+      "Lili face frames 40 and 70, 1080p, 48 samples"
+    ],
+    "face_motion_samples": "32 frames at 4 fps across all 8 seconds, plus native exact closed-blink proofs at frames 82/150",
+    "final_reel_frames": 528,
+    "final_reel_duration_seconds": 22,
+    "grip_motion_samples": "24 frames at 4 fps across all 6 seconds",
+    "label_proof": "Native final video frame at 2 seconds, 1920x1080"
+  },
+  "findings": [
+    {
+      "area": "eyes_and_lids",
+      "technical": "Connected outer seams pass all frames; full blink control reaches 1.0 in both eyes; native full-closure proofs show no exposed globe/pupil.",
+      "visual": "Rejected: broad circular skin/color patches, excessively protruding globes in side view and bulbous closed lids on Mark; artificial radial fur, missing fur detail and deep sockets on Lili.",
+      "status": "partial_not_approved"
+    },
+    {
+      "area": "mouth_and_speech",
+      "technical": "Both characters pass native outer oral topology, seam adjacency and continuity throughout both full scenes. Existing HU visemes preserved.",
+      "visual": "Natural speech/coarticulation and inner mouth self-collision remain unapproved; short face reel covers only part of one utterance.",
+      "status": "partial_not_approved"
+    },
+    {
+      "area": "prop_contact",
+      "technical": "Hand-relative position and rotation attachment; retained hand digits and grip-driven contact corrective. Zero inside vertices in closed-star audit at three sampled grasp/hold poses.",
+      "visual": "Rejected: thumb opposition, fingertip shapes and rigid scarf motion need refinement. Prop/scarf visibly crosses the supporting rock during the lift/carry transition around SC003 25.25 seconds (reel 12.25 seconds). Hand-star vertex containment QA does not cover this environment collision. No demonstrated release/placement approval.",
+      "status": "partial_not_approved"
+    },
+    {
+      "area": "locomotion",
+      "technical": "Final swing settles and stance anchors remain fixed; maximum stationary ankle drift 0.052 mm across 3168 frames.",
+      "visual": "Sampled stop/turn reaches stable support; knee compression and marching cadence remain mechanical. Numeric support does not certify full sole contact or natural gait.",
+      "status": "partial_not_approved"
+    },
+    {
+      "area": "reactions",
+      "technical": "Delayed partner reaction curves and bounded gaze added centrally, retaining existing dialogue timing.",
+      "visual": "Partner-oriented turn is visible, but expressive performance and response variety remain limited.",
+      "status": "partial_not_approved"
+    },
+    {
+      "area": "forest_lighting_cameras",
+      "technical": "Existing forest retained with 420 terrain-bound leaves, three soft lights, depth of field and restrained camera arcs.",
+      "visual": "Forest is readable but ground detail is sparse/repetitive and lighting lacks strong cinematic separation. Full-shot continuity review is pending.",
+      "status": "partial_not_approved"
+    }
+  ],
+  "decision": "Do not render the full 132-second V025 or advance feature production until the visible face/grip/acting defects are corrected. Preserve all existing completed renders and job IDs.",
+  "budget": {
+    "day": "2026-10-11",
+    "timezone": "Asia/Saigon",
+    "reserved_usd": 52,
+    "daily_limit_usd": 200,
+    "vendor_invoiced_spend_verified": false
+  },
+  "updated_at": "2026-10-10T22:41:02.396725+00:00",
+  "source_recovery": {
+    "original_lili_same_character_available_locally": true,
+    "original_lili_sha256": "fe924ebb52b78fadcb163457c65e5236365b2ba315eb46dfee64f42012328f67",
+    "original_lili_export_approval": "blocked_by_automatic_approval_review_pending_explicit_user_permission",
+    "existing_v005_glb_not_substituted": "Earlier TRELLIS drafts differ from the retained TRIPO characters; substituting them would violate character continuity."
+  }
+}

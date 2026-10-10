@@ -96,7 +96,7 @@
       "scene_id": "V025_gait",
       "budget_reservation_id": "52d34c7c-f789-4dfd-9599-bd29a1f6388e",
       "reservation_usd": 2.5,
-      "status": "IN_PROGRESS",
+      "status": "COMPLETED",
       "input": {
         "operation": "RENDER_NATIVE_FRAMES",
         "renderer_revision": "e3cb4348e93116c5cf56c3c9c9fa8b6a3cd2e8da",
@@ -109,15 +109,34 @@
         "scene_sha256": "09f8d7ea9290cd29019d1d69061575e18280cba1af1618f7b933048cc57b66ad"
       },
       "id": "51853935-8099-44c6-9117-b8b8943ff8ff-u1",
-      "provider_date": "Sat, 10 Oct 2026 22:21:40 GMT",
+      "provider_date": "Sat, 10 Oct 2026 22:24:48 GMT",
       "workerId": "g9mrsc50ttlr8a",
-      "delayTime": 594808
+      "delayTime": 594808,
+      "executionTime": 472517,
+      "clip": {
+        "bytes": 8088610,
+        "has_scene_audio": true,
+        "key": "renders/native/S1E1/09f8d7ea9290cd29019d1d69061575e18280cba1af1618f7b933048cc57b66ad/9681be6220337b234a13e56fad636dfba3728fff45f68768464199809675788e/clip.mp4",
+        "sha256": "9f3c3b91cb86e1fbf418eb0e8131c927d00e47843e2e09cc85307f8638c31472",
+        "verified_fps": 24,
+        "verified_frames": 192,
+        "verified_height": 1080,
+        "verified_width": 1920
+      },
+      "devices": [
+        {
+          "backend": "OPTIX",
+          "name": "NVIDIA RTX PRO 6000 Blackwell Server Edition"
+        }
+      ],
+      "mean_frame_seconds": 2.287330081254671,
+      "result_key": "native/S1E1/V025/job-results/51853935-8099-44c6-9117-b8b8943ff8ff-u1.json"
     },
     {
       "scene_id": "V025_faces_final",
       "budget_reservation_id": "cdee6f56-2fd4-4b06-a293-3dc52cea0538",
       "reservation_usd": 2.5,
-      "status": "IN_QUEUE",
+      "status": "COMPLETED",
       "input": {
         "operation": "RENDER_NATIVE_FRAMES",
         "renderer_revision": "e3cb4348e93116c5cf56c3c9c9fa8b6a3cd2e8da",
@@ -130,13 +149,34 @@
         "scene_sha256": "61d3780f8b7ea78bf1e2dd35f8007225e5bee2fb84487f79b912fe8100f0a204"
       },
       "id": "86dc8ac4-1261-4e44-a7ae-ed7dbbf1ac4f-u1",
-      "provider_date": "Sat, 10 Oct 2026 22:21:51 GMT"
+      "provider_date": "Sat, 10 Oct 2026 22:32:46 GMT",
+      "workerId": "g9mrsc50ttlr8a",
+      "delayTime": 244398,
+      "executionTime": 482066,
+      "clip": {
+        "bytes": 11614822,
+        "has_scene_audio": true,
+        "key": "renders/native/S1E1/61d3780f8b7ea78bf1e2dd35f8007225e5bee2fb84487f79b912fe8100f0a204/dfadc5e96817a3abe618baef49fed96a9be7829d172f33dc3d116b8bd63480c4/clip.mp4",
+        "sha256": "fd32086bc36698e0fac97d5227e29c8af31771940666f59aa393d055dbb90034",
+        "verified_fps": 24,
+        "verified_frames": 192,
+        "verified_height": 1080,
+        "verified_width": 1920
+      },
+      "devices": [
+        {
+          "backend": "OPTIX",
+          "name": "NVIDIA RTX PRO 6000 Blackwell Server Edition"
+        }
+      ],
+      "mean_frame_seconds": 2.318859628714563,
+      "result_key": "native/S1E1/V025/job-results/86dc8ac4-1261-4e44-a7ae-ed7dbbf1ac4f-u1.json"
     },
     {
       "scene_id": "V025_grip_final",
       "budget_reservation_id": "edd50224-2fcc-47d4-bafb-8df33b57fc2d",
       "reservation_usd": 2.5,
-      "status": "IN_QUEUE",
+      "status": "COMPLETED",
       "input": {
         "operation": "RENDER_NATIVE_FRAMES",
         "renderer_revision": "e3cb4348e93116c5cf56c3c9c9fa8b6a3cd2e8da",
@@ -149,7 +189,28 @@
         "scene_sha256": "8883cd2aaf3b7f509f055d69453fa6190590e23ad60a57d226446cb1bbcb27e0"
       },
       "id": "c2b78649-f4b5-4f71-b96e-12b8c032291b-u2",
-      "provider_date": "Sat, 10 Oct 2026 22:21:56 GMT"
+      "provider_date": "Sat, 10 Oct 2026 22:38:52 GMT",
+      "workerId": "g9mrsc50ttlr8a",
+      "delayTime": 722232,
+      "executionTime": 349581,
+      "clip": {
+        "bytes": 4490188,
+        "has_scene_audio": true,
+        "key": "renders/native/S1E1/8883cd2aaf3b7f509f055d69453fa6190590e23ad60a57d226446cb1bbcb27e0/b37569b90a9ed0eb465bfb05f8bc5fc1e6420e1bd6d215e48112c2089d865216/clip.mp4",
+        "sha256": "48080ea6eafd6ae392f80a7b2356ab16300e56b75c09a977cec209a395c1516f",
+        "verified_fps": 24,
+        "verified_frames": 144,
+        "verified_height": 1080,
+        "verified_width": 1920
+      },
+      "devices": [
+        {
+          "backend": "OPTIX",
+          "name": "NVIDIA RTX PRO 6000 Blackwell Server Edition"
+        }
+      ],
+      "mean_frame_seconds": 2.2497912631531816,
+      "result_key": "native/S1E1/V025/job-results/c2b78649-f4b5-4f71-b96e-12b8c032291b-u2.json"
     }
   ],
   "limitations": "Technical close/side/motion review only. Does not replace or approve the 132-second story movie.",

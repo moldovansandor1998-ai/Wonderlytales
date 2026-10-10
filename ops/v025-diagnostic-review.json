@@ -1,0 +1,44 @@
+{
+  "version": "V025",
+  "kind": "TECHNICAL_DIAGNOSTIC_REEL",
+  "production_approved": false,
+  "full_132_second_movie": false,
+  "frames": 528,
+  "duration_seconds": 22,
+  "width": 1920,
+  "height": 1080,
+  "fps": 24,
+  "sha256": "88d8492978875674437c316eb1f7cff554c6d68f192b90d2815674e8c2f726e4",
+  "bytes": 18700580,
+  "original_movie_audio_source_sha256": "a76eec569f2d81da981aac2db3ead7f7a4e30fe9dc7b195af705cd13cc95ade8",
+  "segments": [
+    {
+      "scene_id": "V025_faces_final",
+      "job_id": "86dc8ac4-1261-4e44-a7ae-ed7dbbf1ac4f-u1",
+      "native_source_sha256": "61d3780f8b7ea78bf1e2dd35f8007225e5bee2fb84487f79b912fe8100f0a204",
+      "clip_sha256": "fd32086bc36698e0fac97d5227e29c8af31771940666f59aa393d055dbb90034",
+      "frames": 192,
+      "original_audio_start_seconds": 0.0
+    },
+    {
+      "scene_id": "V025_grip_final",
+      "job_id": "c2b78649-f4b5-4f71-b96e-12b8c032291b-u2",
+      "native_source_sha256": "8883cd2aaf3b7f509f055d69453fa6190590e23ad60a57d226446cb1bbcb27e0",
+      "clip_sha256": "48080ea6eafd6ae392f80a7b2356ab16300e56b75c09a977cec209a395c1516f",
+      "frames": 144,
+      "original_audio_start_seconds": 79.0
+    },
+    {
+      "scene_id": "V025_gait",
+      "job_id": "51853935-8099-44c6-9117-b8b8943ff8ff-u1",
+      "native_source_sha256": "09f8d7ea9290cd29019d1d69061575e18280cba1af1618f7b933048cc57b66ad",
+      "clip_sha256": "9f3c3b91cb86e1fbf418eb0e8131c927d00e47843e2e09cc85307f8638c31472",
+      "frames": 192,
+      "original_audio_start_seconds": 5.0
+    }
+  ],
+  "decoded_entire_video": true,
+  "key": "native/S1E1/V025/review/WonderlyTales_V025_ellenorzo_22s_1080p.mp4",
+  "library_file_id": "libfile_d40702b1b4708191aaa46114a593bc34",
+  "local_filename": "WonderlyTales_V025_ellenorzo_22s_1080p.mp4"
+}

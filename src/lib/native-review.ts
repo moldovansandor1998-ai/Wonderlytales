@@ -1,6 +1,6 @@
 /** Existing review artifacts; a successful render is not a quality approval. */
 export const V024_REVIEW_ARTIFACTS = [
-  { id: 'opening-132', title: 'Csodakapu — összefüggő nyitány, 2 perc 12 másodperc',
+  { id: 'opening-132', title: 'V024 — Csodakapu nyitány, 2 perc 12 másodperc',
     description: '1080p, eredeti magyar hangokkal. Ellenőrzési változat; az arcok és a tárgyfogás még javításra várnak.',
     key: 'renders/native/S1E1/assembled/d7e8b9523381b50e5a78dc7c6a30ca6ae90bab95f19ee0f744e5a7901a02bd75/master.mp4',
     sha256: 'a76eec569f2d81da981aac2db3ead7f7a4e30fe9dc7b195af705cd13cc95ade8',
@@ -22,8 +22,18 @@ export const V024_REVIEW_ARTIFACTS = [
     kind: 'html', durationSec: null, productionApproved: false },
 ] as const;
 
+export const V025_REVIEW_ARTIFACTS = [
+  { id: 'v025-diagnostics-22', title: 'V025 — arc-, fogás- és járáspróba, 22 másodperc',
+    description: '1080p, eredeti magyar hangrészletekkel. Közeli és oldalnézeti műszaki próba; még nem gyártásra elfogadott, teljes jelenetváltozat.',
+    key: 'native/S1E1/V025/review/WonderlyTales_V025_ellenorzo_22s_1080p.mp4',
+    sha256: '88d8492978875674437c316eb1f7cff554c6d68f192b90d2815674e8c2f726e4',
+    kind: 'video', durationSec: 22, productionApproved: false },
+] as const;
+
+export const NATIVE_REVIEW_ARTIFACTS = [...V025_REVIEW_ARTIFACTS, ...V024_REVIEW_ARTIFACTS] as const;
+
 export function isNativeReviewArtifactKey(key: string): boolean {
-  return V024_REVIEW_ARTIFACTS.some(a => a.key === key)
+  return NATIVE_REVIEW_ARTIFACTS.some(a => a.key === key)
     || /^renders\/native\/S1E1\/assembled\/[a-f0-9]{64}\/master\.mp4$/.test(key)
     || /^native\/S1E1\/V024\/face_review\/CHAR_(MARK|LILI|MORZSI|POTTY|ZIZI|BOGYO)_(1|456)\.png$/.test(key);
 }

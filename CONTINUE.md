@@ -1,12 +1,12 @@
 # WonderlyTales — continuation checkpoint
 
-Last successful Git commit: `84a1f316609a792b81aac15dd3294dfd2dc3b9d9`.
+Last successful Git commit: `a405bb36e337bc60ebfeaa772dca34799f984e12`.
 The commit containing this document follows it (`git log -1`).
-Do not rebuild infrastructure or modify V022/V023 originals. Daily ceiling $200.
+Do not rebuild infrastructure or modify V022/V023/V024 originals. Daily ceiling $200.
 User's earlier verified base: 4266970498f2f4c5dc423f1de1a27ef58dbbfbaf.
 
-## V025 native repair checkpoint (2026-10-10 22:22 UTC)
-- **NOT production approved.** A 22-second 1080p24 diagnostic reel is rendering;
+## V025 native repair checkpoint (2026-10-10 22:40 UTC)
+- **NOT production approved.** A 22-second 1080p24 diagnostic reel is COMPLETE;
   a complete new 132-second V025 movie has NOT been produced. Do not confuse the
   short face/grip/gait reel with the preserved complete V024 story review.
 - Latest separate native story sources, all uploaded and readback SHA verified:
@@ -15,6 +15,7 @@ User's earlier verified base: 4266970498f2f4c5dc423f1de1a27ef58dbbfbaf.
   - native/S1E1/V025/review_ready/S1E1_SC003_V025.blend
     SHA 4f2fd21583b98491fa25e3318da1cc0d83acb07cb29484c15fba813999b0377f
   Full source/proof lineage: ops/v025-native-source-artifacts.json.
+  Visual decisions and exact remaining failures: ops/v025-visual-review.json.
 - Independent FINAL-SOURCE audits completed all 1392 + 1776 = 3168 frames.
   Foot support, stationary ankle targets, shared eye/mouth boundary adjacency
   and mouth outer topology PASS. Maximum stationary ankle slip 0.052 mm;
@@ -35,14 +36,26 @@ User's earlier verified base: 4266970498f2f4c5dc423f1de1a27ef58dbbfbaf.
   However Mark's broad circular eye patches and skin-color transitions remain
   conspicuous; Lili's radial eyelid fur and deep sockets look artificial.
   The scarf remains too rigid; grasp/placement/acting need visual refinement.
+  Final reel also exposes prop/scarf intersection with the support rock near
+  SC003 25.25 s. Add lift-before-translate hand-path clearance; do not offset
+  the held prop independently of the grasp. Hand-star QA does not cover rock.
   Do NOT promote a candidate because geometric metrics alone pass.
 - Reusable motion.py finishes the last swing and preserves support footprints
   during stops. finish_v025.py adds terrain-bound leaf detail, soft lights,
   restrained camera arcs and response timing without changing original HU takes.
-- GPU manifest: ops/v025-diagnostic-render-jobs.json. First face/grip passes
+- GPU manifest: ops/v025-diagnostic-render-jobs.json. ALL FIVE jobs COMPLETE.
+  First face/grip passes
   are retained as superseded evidence; final sources have DIFFERENT hashes.
-  Final assembly selects V025_faces_final (192f), V025_grip_final (144f), and
-  V025_gait (192f), total 528 frames / 22 seconds. Poll existing IDs ONLY.
+  Completed assembly selects V025_faces_final (192f), V025_grip_final (144f), and
+  V025_gait (192f), total 528 frames / 22 seconds. No pending GPU jobs remain.
+  Movie key native/S1E1/V025/review/WonderlyTales_V025_ellenorzo_22s_1080p.mp4,
+  SHA 88d8492978875674437c316eb1f7cff554c6d68f192b90d2815674e8c2f726e4.
+  All video/audio decoded; R2 readback checksum verified; original HU audio
+  excerpts reused. ops/v025-diagnostic-review.json holds the complete evidence.
+  User deliverable saved as libfile_d40702b1b4708191aaa46114a593bc34, filename
+  WonderlyTales_V025_ellenorzo_22s_1080p.mp4 (18,700,580 bytes).
+  The native-assets preview registry includes the exact new private artifact.
+  TypeScript typecheck PASS after restoring existing locked dependencies.
   Never resubmit COMPLETED, IN_QUEUE, IN_PROGRESS or SUBMISSION_UNCERTAIN jobs.
 - Budget day 2026-10-11 Asia/Saigon: $52 reserved / $200 ceiling after FIVE
   diagnostic reservations ($12.50). This is ledger reservation, not vendor
@@ -52,6 +65,7 @@ User's earlier verified base: 4266970498f2f4c5dc423f1de1a27ef58dbbfbaf.
   intact. No infrastructure rebuild or duplicate V024 renders.
 - Existing authoring sandbox sbx_hbrj4u6r1FOrgWWTiIRBSZUkGJFS expires ~22:25 UTC.
   All latest native sources, proof frames and full-frame audits are durable.
+  Do not restart that expired sandbox solely to recover already saved outputs.
   GPU jobs and local assembly do not depend on that session staying alive.
 - Automatic approval review blocked exporting recovered original
   CHAR_LILI_TRIPO_V003_BODY_CANDIDATE.blend from the Library to project R2,
@@ -60,7 +74,7 @@ User's earlier verified base: 4266970498f2f4c5dc423f1de1a27ef58dbbfbaf.
   already existing V024 scenes/retained edges. Original is locally recovered at
   private/v025/originals/CHAR_LILI_TRIPO_V003_BODY_CANDIDATE.blend, SHA
   fe924ebb52b78fadcb163457c65e5236365b2ba315eb46dfee64f42012328f67.
-- Next: finish/inspect the diagnostic reel, restore source-faithful facial
+- Next: restore source-faithful facial
   surface/material continuity, improve hand opposition/scarf deformation and
   acting, then pass close/front/side/motion review before a full V025 render.
   Only after that quality gate continue Csodakapu next-scene production prep.

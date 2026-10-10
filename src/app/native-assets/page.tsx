@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { V024_REVIEW_ARTIFACTS } from '@/lib/native-review';
+import { NATIVE_REVIEW_ARTIFACTS } from '@/lib/native-review';
 
 type Receipt = { key: string; sha256: string; bytes: number };
 export default function NativeAssetsPage() {
@@ -62,7 +62,7 @@ export default function NativeAssetsPage() {
       <h2 className="text-lg font-semibold">Elkészült előnézetek</h2>
       <p>Ellenőrzési változatok. Az arcok, a tekintet és a mozgás még javításra várnak.</p>
       <ul className="space-y-3">
-        {V024_REVIEW_ARTIFACTS.map(artifact => <li key={artifact.id}>
+        {NATIVE_REVIEW_ARTIFACTS.map(artifact => <li key={artifact.id}>
           <a className="text-amber-400 underline" href={`/api/native-assets/download?${new URLSearchParams({ key: artifact.key })}`}>
             {artifact.title}
           </a>
