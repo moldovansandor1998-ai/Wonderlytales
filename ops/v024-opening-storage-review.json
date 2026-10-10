@@ -1,0 +1,333 @@
+{
+  "kind": "R2_ARTIFACT_REVIEW",
+  "production_approved": false,
+  "provider_api_access": "BLOCKED_PROXY_403",
+  "source_manifest_sha256": "997d58c5a9c5e707803e9f0214157764e98469cb2c6dbd2f7bac06482b8b1759",
+  "checkpoint_key": "native/S1E1/V024/checkpoints/opening_storage_review_cloud.json",
+  "assembly_reservation_id": "416e3140-cb2b-4f17-a02e-c4bb8effca83",
+  "jobs": [
+    {
+      "id": "02899775-1fe0-41d3-b2cf-0b07241a2c01-u2",
+      "scene_id": "S1E1_SC001_V024",
+      "last_observed_provider_status": "COMPLETED",
+      "provider_status_observed_at": "Sat, 10 Oct 2026 18:47:00 GMT",
+      "input": {
+        "frame_end": 360,
+        "frame_start": 1,
+        "height": 1080,
+        "operation": "RENDER_NATIVE_FRAMES",
+        "renderer_revision": "e3cb4348e93116c5cf56c3c9c9fa8b6a3cd2e8da",
+        "samples": 48,
+        "scene_key": "native/S1E1/V024/opening_final/S1E1_SC001_V024.blend",
+        "scene_sha256": "7ad6efdef7e624202cfb0f67772f5386a69b71ecf30f93ca86fafd63fccd4d79",
+        "width": 1920
+      },
+      "key": "renders/native/S1E1/7ad6efdef7e624202cfb0f67772f5386a69b71ecf30f93ca86fafd63fccd4d79/731e6105dc6166afe08a47695e7673d13f6a3c1fb936000a6167d8ba11b9164d/clip.mp4",
+      "artifact_status": "DECODED",
+      "sha256": "17988ad7ba1cbebb56e90c490a9fdac525c6361cc31117283f812eb7230483ef",
+      "bytes": 14086957,
+      "verified_frames": 360,
+      "streams": [
+        {
+          "codec_type": "video",
+          "width": 1920,
+          "height": 1080,
+          "r_frame_rate": "24/1",
+          "duration": "15.000000",
+          "nb_read_frames": "360"
+        },
+        {
+          "codec_type": "audio",
+          "sample_rate": "48000",
+          "channels": 2,
+          "r_frame_rate": "0/0",
+          "duration": "14.997000",
+          "nb_read_frames": "703"
+        }
+      ]
+    },
+    {
+      "id": "7c3e1b71-102f-4c72-a4fc-a4891465c0b9-u2",
+      "scene_id": "S1E1_SC001_V024",
+      "last_observed_provider_status": "COMPLETED",
+      "provider_status_observed_at": "Sat, 10 Oct 2026 19:01:46 GMT",
+      "input": {
+        "frame_end": 720,
+        "frame_start": 361,
+        "height": 1080,
+        "operation": "RENDER_NATIVE_FRAMES",
+        "renderer_revision": "e3cb4348e93116c5cf56c3c9c9fa8b6a3cd2e8da",
+        "samples": 48,
+        "scene_key": "native/S1E1/V024/opening_final/S1E1_SC001_V024.blend",
+        "scene_sha256": "7ad6efdef7e624202cfb0f67772f5386a69b71ecf30f93ca86fafd63fccd4d79",
+        "width": 1920
+      },
+      "key": "renders/native/S1E1/7ad6efdef7e624202cfb0f67772f5386a69b71ecf30f93ca86fafd63fccd4d79/38fb21f5f02c3acd26a7f8a9365d1983c7b584ccc550b52ec2577010d8fb0583/clip.mp4",
+      "artifact_status": "DECODED",
+      "sha256": "d802bc72daccd3078110c3a8513043077941c823c43438c7af7c5974d9eadbc7",
+      "bytes": 12267625,
+      "verified_frames": 360,
+      "streams": [
+        {
+          "codec_type": "video",
+          "width": 1920,
+          "height": 1080,
+          "r_frame_rate": "24/1",
+          "duration": "15.000000",
+          "nb_read_frames": "360"
+        },
+        {
+          "codec_type": "audio",
+          "sample_rate": "48000",
+          "channels": 2,
+          "r_frame_rate": "0/0",
+          "duration": "14.997000",
+          "nb_read_frames": "703"
+        }
+      ]
+    },
+    {
+      "id": "8fde225c-36ab-4f03-92a9-05460452189f-u1",
+      "scene_id": "S1E1_SC001_V024",
+      "last_observed_provider_status": "COMPLETED",
+      "provider_status_observed_at": "Sat, 10 Oct 2026 19:14:11 GMT",
+      "input": {
+        "frame_end": 1080,
+        "frame_start": 721,
+        "height": 1080,
+        "operation": "RENDER_NATIVE_FRAMES",
+        "renderer_revision": "e3cb4348e93116c5cf56c3c9c9fa8b6a3cd2e8da",
+        "samples": 48,
+        "scene_key": "native/S1E1/V024/opening_final/S1E1_SC001_V024.blend",
+        "scene_sha256": "7ad6efdef7e624202cfb0f67772f5386a69b71ecf30f93ca86fafd63fccd4d79",
+        "width": 1920
+      },
+      "key": "renders/native/S1E1/7ad6efdef7e624202cfb0f67772f5386a69b71ecf30f93ca86fafd63fccd4d79/ab585041007595e52e1db2daa2f08a40d171ec46aedcad208660256a6efc0073/clip.mp4",
+      "artifact_status": "DECODED",
+      "sha256": "01228959bef55d05c98005a1c51690dd3c707800cd3136644e74c1a2453e5252",
+      "bytes": 16510083,
+      "verified_frames": 360,
+      "streams": [
+        {
+          "codec_type": "video",
+          "width": 1920,
+          "height": 1080,
+          "r_frame_rate": "24/1",
+          "duration": "15.000000",
+          "nb_read_frames": "360"
+        },
+        {
+          "codec_type": "audio",
+          "sample_rate": "48000",
+          "channels": 2,
+          "r_frame_rate": "0/0",
+          "duration": "14.997000",
+          "nb_read_frames": "703"
+        }
+      ]
+    },
+    {
+      "id": "09290717-898c-4b23-882b-be5b924c0ac3-u2",
+      "scene_id": "S1E1_SC001_V024",
+      "last_observed_provider_status": "COMPLETED",
+      "provider_status_observed_at": "Sat, 10 Oct 2026 19:40:04 GMT",
+      "input": {
+        "frame_end": 1392,
+        "frame_start": 1081,
+        "height": 1080,
+        "operation": "RENDER_NATIVE_FRAMES",
+        "renderer_revision": "e3cb4348e93116c5cf56c3c9c9fa8b6a3cd2e8da",
+        "samples": 48,
+        "scene_key": "native/S1E1/V024/opening_final/S1E1_SC001_V024.blend",
+        "scene_sha256": "7ad6efdef7e624202cfb0f67772f5386a69b71ecf30f93ca86fafd63fccd4d79",
+        "width": 1920
+      },
+      "key": "renders/native/S1E1/7ad6efdef7e624202cfb0f67772f5386a69b71ecf30f93ca86fafd63fccd4d79/f222b263ba1dec55f42a406566b4f4ed9903d97611d8a7324a21ba393cbb48b2/clip.mp4",
+      "artifact_status": "DECODED",
+      "sha256": "9bf5f355fadbd91d3a21c327c375ef4f7cecb29160e13f9c6605290b8e6d4e9f",
+      "bytes": 9111669,
+      "verified_frames": 312,
+      "streams": [
+        {
+          "codec_type": "video",
+          "width": 1920,
+          "height": 1080,
+          "r_frame_rate": "24/1",
+          "duration": "13.000000",
+          "nb_read_frames": "312"
+        },
+        {
+          "codec_type": "audio",
+          "sample_rate": "48000",
+          "channels": 2,
+          "r_frame_rate": "0/0",
+          "duration": "12.992000",
+          "nb_read_frames": "609"
+        }
+      ]
+    },
+    {
+      "id": "741d8182-3b2c-4489-b76d-1f9d16d5ed26-u1",
+      "scene_id": "S1E1_SC003_V024",
+      "last_observed_provider_status": "COMPLETED",
+      "provider_status_observed_at": "Sat, 10 Oct 2026 19:40:14 GMT",
+      "input": {
+        "frame_end": 360,
+        "frame_start": 1,
+        "height": 1080,
+        "operation": "RENDER_NATIVE_FRAMES",
+        "renderer_revision": "e3cb4348e93116c5cf56c3c9c9fa8b6a3cd2e8da",
+        "samples": 48,
+        "scene_key": "native/S1E1/V024/opening_contact_v2/S1E1_SC003_V024.blend",
+        "scene_sha256": "bb383b0350bd9f20219196b270d40b15e8e867d7d43817f229da8f6c18025d4b",
+        "width": 1920
+      },
+      "key": "renders/native/S1E1/bb383b0350bd9f20219196b270d40b15e8e867d7d43817f229da8f6c18025d4b/6baa14be2e1b6a4e20cf5a2ae3a8f6074db21c2d325fcac4c8a76af926141d8d/clip.mp4",
+      "artifact_status": "DECODED",
+      "sha256": "81ce856fb9a7fc72a85b7a50ca0c6215e41a9ad1a19c1accd557da3fcaf93f88",
+      "bytes": 11122351,
+      "verified_frames": 360,
+      "streams": [
+        {
+          "codec_type": "video",
+          "width": 1920,
+          "height": 1080,
+          "r_frame_rate": "24/1",
+          "duration": "15.000000",
+          "nb_read_frames": "360"
+        },
+        {
+          "codec_type": "audio",
+          "sample_rate": "48000",
+          "channels": 2,
+          "r_frame_rate": "0/0",
+          "duration": "14.997000",
+          "nb_read_frames": "703"
+        }
+      ]
+    },
+    {
+      "id": "3f23c9e3-5407-4428-b918-42d1b09894a8-u2",
+      "scene_id": "S1E1_SC003_V024",
+      "last_observed_provider_status": "COMPLETED",
+      "provider_status_observed_at": "Sat, 10 Oct 2026 19:40:20 GMT",
+      "input": {
+        "frame_end": 720,
+        "frame_start": 361,
+        "height": 1080,
+        "operation": "RENDER_NATIVE_FRAMES",
+        "renderer_revision": "e3cb4348e93116c5cf56c3c9c9fa8b6a3cd2e8da",
+        "samples": 48,
+        "scene_key": "native/S1E1/V024/opening_contact_v2/S1E1_SC003_V024.blend",
+        "scene_sha256": "bb383b0350bd9f20219196b270d40b15e8e867d7d43817f229da8f6c18025d4b",
+        "width": 1920
+      },
+      "key": "renders/native/S1E1/bb383b0350bd9f20219196b270d40b15e8e867d7d43817f229da8f6c18025d4b/664c0789782479c39d4e37fe3662f545fe4c44abe7f07aa215fbd0be3835c125/clip.mp4",
+      "artifact_status": "DECODED",
+      "sha256": "7420fda8c5dbffff22f511b63187f7ccf04e818c63a3d19551f8a3291f2ae599",
+      "bytes": 13277117,
+      "verified_frames": 360,
+      "streams": [
+        {
+          "codec_type": "video",
+          "width": 1920,
+          "height": 1080,
+          "r_frame_rate": "24/1",
+          "duration": "15.000000",
+          "nb_read_frames": "360"
+        },
+        {
+          "codec_type": "audio",
+          "sample_rate": "48000",
+          "channels": 2,
+          "r_frame_rate": "0/0",
+          "duration": "14.997000",
+          "nb_read_frames": "703"
+        }
+      ]
+    },
+    {
+      "id": "eebe50d0-9698-41a6-aa20-73c54a0e657c-u1",
+      "scene_id": "S1E1_SC003_V024",
+      "last_observed_provider_status": "IN_PROGRESS",
+      "provider_status_observed_at": "Sat, 10 Oct 2026 19:40:24 GMT",
+      "input": {
+        "frame_end": 1080,
+        "frame_start": 721,
+        "height": 1080,
+        "operation": "RENDER_NATIVE_FRAMES",
+        "renderer_revision": "e3cb4348e93116c5cf56c3c9c9fa8b6a3cd2e8da",
+        "samples": 48,
+        "scene_key": "native/S1E1/V024/opening_contact_v2/S1E1_SC003_V024.blend",
+        "scene_sha256": "bb383b0350bd9f20219196b270d40b15e8e867d7d43817f229da8f6c18025d4b",
+        "width": 1920
+      },
+      "key": "renders/native/S1E1/bb383b0350bd9f20219196b270d40b15e8e867d7d43817f229da8f6c18025d4b/7ac47f77bd1c15bf8ac1e9e1711258f8ebb8de6cc666d583c5c7744ce45c9867/clip.mp4",
+      "artifact_status": "DECODED",
+      "sha256": "d27ff0160c8e6c9e0740478649d64a5288f48b8745869e6b16deee4c92b083ee",
+      "bytes": 14238818,
+      "verified_frames": 360,
+      "streams": [
+        {
+          "codec_type": "video",
+          "width": 1920,
+          "height": 1080,
+          "r_frame_rate": "24/1",
+          "duration": "15.000000",
+          "nb_read_frames": "360"
+        },
+        {
+          "codec_type": "audio",
+          "sample_rate": "48000",
+          "channels": 2,
+          "r_frame_rate": "0/0",
+          "duration": "14.997000",
+          "nb_read_frames": "703"
+        }
+      ]
+    },
+    {
+      "id": "ea3b7a52-ed30-4043-95eb-162408b8caa1-u2",
+      "scene_id": "S1E1_SC003_V024",
+      "last_observed_provider_status": "IN_QUEUE",
+      "provider_status_observed_at": "Sat, 10 Oct 2026 19:40:28 GMT",
+      "input": {
+        "frame_end": 1440,
+        "frame_start": 1081,
+        "height": 1080,
+        "operation": "RENDER_NATIVE_FRAMES",
+        "renderer_revision": "e3cb4348e93116c5cf56c3c9c9fa8b6a3cd2e8da",
+        "samples": 48,
+        "scene_key": "native/S1E1/V024/opening_contact_v2/S1E1_SC003_V024.blend",
+        "scene_sha256": "bb383b0350bd9f20219196b270d40b15e8e867d7d43817f229da8f6c18025d4b",
+        "width": 1920
+      },
+      "key": "renders/native/S1E1/bb383b0350bd9f20219196b270d40b15e8e867d7d43817f229da8f6c18025d4b/b62c7c9a5549c4882603e0953102dcab3cd558d2982ff5cd1117ef2bd526cbe6/clip.mp4",
+      "artifact_status": "NOT_OBSERVED",
+      "persisted_frame_objects": 167
+    },
+    {
+      "id": "923d25dd-764e-471b-a9d5-258446ec2139-u2",
+      "scene_id": "S1E1_SC003_V024",
+      "last_observed_provider_status": "IN_QUEUE",
+      "provider_status_observed_at": "Sat, 10 Oct 2026 19:40:32 GMT",
+      "input": {
+        "frame_end": 1776,
+        "frame_start": 1441,
+        "height": 1080,
+        "operation": "RENDER_NATIVE_FRAMES",
+        "renderer_revision": "e3cb4348e93116c5cf56c3c9c9fa8b6a3cd2e8da",
+        "samples": 48,
+        "scene_key": "native/S1E1/V024/opening_contact_v2/S1E1_SC003_V024.blend",
+        "scene_sha256": "bb383b0350bd9f20219196b270d40b15e8e867d7d43817f229da8f6c18025d4b",
+        "width": 1920
+      },
+      "key": "renders/native/S1E1/bb383b0350bd9f20219196b270d40b15e8e867d7d43817f229da8f6c18025d4b/1b1f2b6411c1f965991d9d24b84d29da3f6ece13d9cd2746248723d8a1ed039c/clip.mp4",
+      "artifact_status": "NOT_OBSERVED",
+      "persisted_frame_objects": 0
+    }
+  ],
+  "decoded_frames": 2472,
+  "status": "WAITING_FOR_R2_CLIPS",
+  "observed_at_utc": "2026-10-10T20:14:53.722232+00:00"
+}

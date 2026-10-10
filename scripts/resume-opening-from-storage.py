@@ -10,6 +10,7 @@ ROOT=pathlib.Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'worker'))
 from native_checkpoints import render_identity
 from native_assembly import assemble_native
+from review_lease import ReviewLease
 
 def sha(path):
     with path.open('rb') as f:return hashlib.file_digest(f,'sha256').hexdigest()
@@ -37,6 +38,7 @@ def main():
     bucket=env['S3_BUCKET'];cache=ROOT/'data/V024/storage_review';cache.mkdir(parents=True,exist_ok=True)
     checkpoint=ROOT/'ops/v024-opening-storage-review.json'
     checkpoint_key='native/S1E1/V024/checkpoints/opening_storage_review_cloud.json'
+    lease=ReviewLease(s3,bucket,'native/S1E1/V024/checkpoints/opening_storage_review_lease.json').acquire()
     raw=s3.get_object(Bucket=bucket,Key='native/S1E1/V024/checkpoints/opening_render_jobs.json')['Body'].read()
     manifest=json.loads(raw);jobs=manifest['jobs']
     expected=[('S1E1_SC001_V024',1392,'7ad6efdef7e624202cfb0f67772f5386a69b71ecf30f93ca86fafd63fccd4d79'),
@@ -53,6 +55,24 @@ def main():
             start=spec['frame_end']+1;cursor+=1
         if start!=total+1:raise ValueError('Incomplete planned scene coverage')
     if cursor!=9 or len(jobs)!=9:raise ValueError('Expected exactly nine existing jobs')
+    # A restarted watcher must not assemble an already-verified movie again.
+    try:
+        prior=json.loads(s3.get_object(Bucket=bucket,Key=checkpoint_key)['Body'].read())
+    except ClientError as exc:
+        if exc.response['Error']['Code'] not in ('NoSuchKey','404'):raise
+        prior={}
+    if prior.get('status')=='ASSEMBLED_AND_DECODED':
+        clip=prior['result']['clip'];final=ROOT/'data/V024/WonderlyTales_V024_opening_132s.mp4'
+        if prior['result'].get('audio_sha256')!='c5ef49ad4a17959dc6c35d40a1c522d83fe13f112e667027d810bc73b00c9a4d':
+            raise ValueError('Completed movie does not use the frozen Hungarian mix')
+        if not final.exists() or sha(final)!=clip['sha256']:
+            s3.download_file(bucket,clip['key'],str(final))
+        if sha(final)!=clip['sha256']:raise ValueError('Completed movie checksum differs')
+        streams=inspect(final,3168);track=next(s for s in streams if s['codec_type']=='audio')
+        if abs(float(track['duration'])-132)>.05:raise ValueError('Completed movie audio duration differs')
+        checkpoint.write_text(json.dumps(prior,indent=2)+'\n')
+        print(json.dumps({'status':'ASSEMBLED_AND_DECODED','reused':True,'clip':clip}),flush=True)
+        lease.release();return
     doc={'kind':'R2_ARTIFACT_REVIEW','production_approved':False,'provider_api_access':'BLOCKED_PROXY_403',
          'source_manifest_sha256':hashlib.sha256(raw).hexdigest(),'checkpoint_key':checkpoint_key,
          'assembly_reservation_id':'416e3140-cb2b-4f17-a02e-c4bb8effca83','jobs':[]}
@@ -68,6 +88,7 @@ def main():
         s3.put_object(Bucket=bucket,Key=checkpoint_key,Body=data,ContentType='application/json')
     deadline=time.monotonic()+a.watch_seconds
     while True:
+        lease.renew()
         for original,job in zip(jobs,doc['jobs']):
             spec=job['input'];frames=spec['frame_end']-spec['frame_start']+1
             local=cache/(job['id']+'.mp4')
@@ -93,6 +114,7 @@ def main():
         doc['status']='ALL_CLIPS_DECODED' if doc['decoded_frames']==3168 else 'WAITING_FOR_R2_CLIPS';save()
         print(json.dumps({'decoded_frames':doc['decoded_frames'],'pending_frame_objects':[j.get('persisted_frame_objects',0) for j in doc['jobs'] if j['artifact_status']!='DECODED']}),flush=True)
         if doc['status']=='ALL_CLIPS_DECODED':
+            lease.renew()
             payload={'operation':'ASSEMBLE_NATIVE_FILM','frames':3168,
                 'clips':[{'key':j['key'],'sha256':j['sha256'],'frames':j['verified_frames']} for j in doc['jobs']],
                 'audio_key':'audio/S1E1/review/V024/WonderlyTales_V024_opening_132s.wav',
@@ -116,4 +138,5 @@ def main():
             save();print(json.dumps({'status':doc['status'],'result':result}),flush=True);break
         if time.monotonic()>=deadline:break
         time.sleep(min(30,max(0,deadline-time.monotonic())))
+    lease.release()
 if __name__=='__main__':main()

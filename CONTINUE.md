@@ -1,11 +1,44 @@
 # WonderlyTales — continuation checkpoint
 
-Last successful Git commit: `e1b85d6af84031dfc8eefc2ae57a148df2a5f3f9`.
+Last successful Git commit: `cc6f3712b00a2989fd58a3c93c79a00f2fb32d40`.
 The commit containing this document follows it (`git log -1`).
 Do not rebuild infrastructure or modify V022/V023 originals. Daily ceiling $200.
 User's earlier verified base: 4266970498f2f4c5dc423f1de1a27ef58dbbfbaf.
 
-## Immediate running state / next action (2026-10-10 19:40 UTC)
+## Latest recovery checkpoint (2026-10-10 20:15 UTC)
+- Seven existing clips / 2472 native frames / 103 seconds decoded. Two clips
+  remain; full 132-second movie is NOT complete yet. Do not resubmit jobs.
+- Canonical storage-only watcher: cmd_875a2effd661475192bdb46793fd,
+  PID 20508, /vercel/sandbox/project, --watch-seconds 6000, running after the
+  previous observer exited. Log /vercel/sandbox/storage-review-leased.log.
+  New R2 lease prevents duplicate recovery/assembly; five fault tests pass.
+  Reuse S3_* env and PYTHONPATH=/vercel/sandbox/python-deps. Entry points
+  scripts/resume-opening-from-storage.py and scripts/watch-opening-review.py
+  both use storage only. Already verified full movies are reused after restart.
+  Latest artifact checkpoint: ops/v024-opening-storage-review.json / R2
+  native/S1E1/V024/checkpoints/opening_storage_review_cloud.json.
+- Earlier provider-API watcher was stopped at 20:06 UTC. No new GPU jobs,
+  assembly provider requests, TTS, or worker scale changes were submitted.
+- Same authoring sandbox extended until approximately 22:25 UTC. Budget
+  reservations 7e80035d-b20d-4ca9-b85d-b4b23c2c3789 and
+  c8dffde9-b9e1-40bc-add2-2ae7e580cc88 ($2 each). Known daily reservations
+  now $39.50, not vendor invoiced spend; ceiling remains $200 Asia/Saigon.
+- Separate SC001 V025 eye candidate C saved with native proofs and report at
+  native/S1E1/V025/gaze_candidate_c/. Blend SHA
+  a8758b1537bb383c80bc7bc0350a4939d2c0d573262e1380a588a9e161373041.
+  All 1392 frames measured: maximum head-relative eye angle reduced from
+  53.60/57.98 to 19.63 degrees; maximum step from 53.60/57.98 to 8.10 degrees.
+  Repaired collapsed custom-property ranges, bounded head-relative gaze,
+  closed head-bound sclera, and conformed independent iris/pupil surfaces.
+  Visual proofs 145/217/289: eye-socket and outer lid seams STILL VISIBLE.
+  Candidate is NOT production approved and NOT promoted into frozen V024.
+  Candidate B is superseded and not approved. Do not rerender the opening
+  merely because the numeric eye-angle gate improved.
+- Next: wait for final two exact clips, assemble using unchanged native
+  assembly with original HU mix, decode/readback, save review. Facial seam
+  repair requires true boundary correspondence, not another overlay.
+
+## Earlier running state (superseded by checkpoint above, 19:40 UTC)
 - Existing NINE native GPU jobs cover SC001 58 s + SC003 74 s (3168 frames).
   First four SC001 clips fully decoded; 58-second scene mixed and saved.
   Do not resubmit existing jobs or rerender finished frames.

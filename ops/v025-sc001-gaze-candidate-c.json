@@ -1,0 +1,63 @@
+{
+  "source_sha256": "7ad6efdef7e624202cfb0f67772f5386a69b71ecf30f93ca86fafd63fccd4d79",
+  "candidate_sha256": "a8758b1537bb383c80bc7bc0350a4939d2c0d573262e1380a588a9e161373041",
+  "before": {
+    "CHAR_MARK": {
+      "max_eye_angle_deg": 53.5973037945067,
+      "max_interframe_eye_angle_deg": 53.5973037945067
+    },
+    "CHAR_LILI": {
+      "max_eye_angle_deg": 57.9810523925097,
+      "max_interframe_eye_angle_deg": 57.9810523925097
+    }
+  },
+  "after": {
+    "CHAR_MARK": {
+      "max_eye_angle_deg": 19.62716841969882,
+      "max_interframe_eye_angle_deg": 8.09609045436739
+    },
+    "CHAR_LILI": {
+      "max_eye_angle_deg": 19.62716841969882,
+      "max_interframe_eye_angle_deg": 8.09609045436739
+    }
+  },
+  "sclera": {
+    "CHAR_MARK": [
+      "CHAR_MARK_EYEBALL.R",
+      "CHAR_MARK_EYEBALL.L"
+    ],
+    "CHAR_LILI": [
+      "CHAR_LILI_EYEBALL.R",
+      "CHAR_LILI_EYEBALL.L"
+    ]
+  },
+  "bake": {
+    "yaw_limit_rad": 0.28,
+    "pitch_limit_rad": 0.2,
+    "max_axis_step_rad_per_frame": 0.1,
+    "frames": 1392,
+    "professional_quality_approved": false
+  },
+  "production_approved": false,
+  "note": "Requires rendered iris, lid and seam inspection",
+  "candidate_key": "native/S1E1/V025/gaze_candidate_c/S1E1_SC001_V025_gaze.blend",
+  "visual_review": {
+    "frames": [
+      145,
+      217,
+      289
+    ],
+    "resolution": [
+      960,
+      540
+    ],
+    "samples": 12,
+    "iris_visible_after_surface_conformance": true,
+    "remaining_defects": [
+      "Mark eye-socket/lid boundary gap remains visible in frame 217",
+      "Lili outer eye/skin seam remains visible in frame 289"
+    ],
+    "decision": "NOT_PRODUCTION_APPROVED",
+    "promoted_to_frozen_opening": false
+  }
+}
