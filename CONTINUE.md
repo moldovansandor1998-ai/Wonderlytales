@@ -1,7 +1,7 @@
 # WonderlyTales continuation — 2026-10-10 17:06 UTC
 
-Last verified successful GitHub commit: `b29e4ee024ffe201478c49a86c68a2c98c39a45a`.
-The commit containing this checkpoint is the next successful checkpoint; resolve HEAD.
+Last verified successful development commit: `4266970498f2f4c5dc423f1de1a27ef58dbbfbaf`.
+This file-only continuation update follows it. Use `git log -1` for the checkpoint-document commit.
 
 ## Completed / preserved
 - Recovered main from `4dccf23`; no later saved dialogue fix existed.
