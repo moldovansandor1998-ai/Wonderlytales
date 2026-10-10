@@ -36,8 +36,13 @@ for frame in range(scene.frame_start,scene.frame_end+1):
    a=np.array([p.matrix_world@pm.vertices[i].co for i in pi]);c=np.array([b.matrix_world@bm.vertices[i].co for i in bi]);gap=float(np.linalg.norm(a-c,axis=1).max())
    if not np.isfinite(a).all() or not np.isfinite(c).all():raise ValueError('Nonfinite native facial geometry')
    seam_report[patch.name]['max_gap_m']=max(seam_report[patch.name]['max_gap_m'],gap)
-  if frame in (560,700,1153) and bpy.data.objects.get('PROP_STAR_SHARD'):
-   star=bpy.data.objects['PROP_STAR_SHARD'];se,sm=evaluated_mesh(star);tree=BVHTree.FromPolygons([se.matrix_world@v.co for v in sm.vertices],[p.vertices[:] for p in sm.polygons])
+  if frame in (560,700,1153) and bpy.data.objects.get('PROP_STAR_SHARD') and bpy.data.objects[assets['CHAR_MARK']['rig']].pose.bones.get('finger_index_01.L'):
+   star=bpy.data.objects['PROP_STAR_SHARD'];points=[];polygons=[]
+   for part in [star]+list(star.children_recursive):
+    if part.type!='MESH' or part.hide_render:continue
+    se,sm=evaluated_mesh(part);offset=len(points);points.extend(se.matrix_world@v.co for v in sm.vertices);polygons.extend(tuple(offset+i for i in p.vertices) for p in sm.polygons)
+   if not points:raise ValueError('Visible star geometry missing')
+   tree=BVHTree.FromPolygons(points,polygons)
    body=bpy.data.objects[assets['CHAR_MARK']['body']];be,bm=evaluated_mesh(body);groups={g.index:g.name for g in body.vertex_groups};digits={}
    for vertex in body.data.vertices:
     names=[groups[g.group] for g in vertex.groups if groups[g.group].startswith('finger_') and groups[g.group].endswith('.L') and g.weight>.35]

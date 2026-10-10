@@ -1,0 +1,82 @@
+[
+  {
+    "key": "native/S1E1/V025/contact_corrected/S1E1_SC003_V025.blend",
+    "sha256": "22be763c0f39b71ce106582dd499042fda3f8578c17c2628b91de4ffe2f2e89c",
+    "bytes": 107298232
+  },
+  {
+    "key": "native/S1E1/V025/contact_corrected/S1E1_SC003_V025.contact-fit.json",
+    "sha256": "70b250f1c7be5e4632eb7c190b5472f6488262d1e7a3d977fa4571556cd12fb8",
+    "bytes": 534
+  },
+  {
+    "key": "native/S1E1/V025/contact_corrected/finger-collision.json",
+    "sha256": "ec56eeae2e60fd5cd42f16ff1cddf0f90c96643922debdc93a0b454ff3e4ac16",
+    "bytes": 1505
+  },
+  {
+    "key": "native/S1E1/V025/review_ready/S1E1_SC001_V025.blend",
+    "sha256": "b91659b94d674028c0d6bc027641285f4fcf032816b4c8a83e1af3e540890157",
+    "bytes": 103566536
+  },
+  {
+    "key": "native/S1E1/V025/review_ready/S1E1_SC001_V025.aperture.json",
+    "sha256": "ff960729cdfa5fe2348107e028e325b7395508c71b282c5f093f37b4ad680bfa",
+    "bytes": 661
+  },
+  {
+    "key": "native/S1E1/V025/review_ready/S1E1_SC003_V025.blend",
+    "sha256": "4f2fd21583b98491fa25e3318da1cc0d83acb07cb29484c15fba813999b0377f",
+    "bytes": 107297684
+  },
+  {
+    "key": "native/S1E1/V025/review_ready/S1E1_SC003_V025.aperture.json",
+    "sha256": "24fb4117279f3577b7fe52de080fadfc3cfde3600a330de36fc3e47e9524e64b",
+    "bytes": 661
+  },
+  {
+    "key": "native/S1E1/V025/diagnostic_faces_final/V025_faces.blend",
+    "sha256": "61d3780f8b7ea78bf1e2dd35f8007225e5bee2fb84487f79b912fe8100f0a204",
+    "bytes": 103587159
+  },
+  {
+    "key": "native/S1E1/V025/diagnostic_faces_final/V025_faces.review.json",
+    "sha256": "2662113eb8373f9f6f93b0895765c00ee4f823836730cd3c166e922fbc527f66",
+    "bytes": 317
+  },
+  {
+    "key": "native/S1E1/V025/diagnostic_faces_final/faces_0082.png",
+    "sha256": "f72f58979eca4649032f877f6578ddb0f5db2598b49c1ed6de95c5448227f394",
+    "bytes": 894315
+  },
+  {
+    "key": "native/S1E1/V025/diagnostic_faces_final/faces_0130.png",
+    "sha256": "1cdb3033d05073677d80950e870739f9df7d2255d3793c471bf66ba31fab5c1a",
+    "bytes": 798184
+  },
+  {
+    "key": "native/S1E1/V025/diagnostic_faces_final/faces_0150.png",
+    "sha256": "bed859d723223ed6a081d33a426912e185640f3d7ea3152bfe74669d3247ed03",
+    "bytes": 756599
+  },
+  {
+    "key": "native/S1E1/V025/diagnostic_grip_final/V025_grip.blend",
+    "sha256": "8883cd2aaf3b7f509f055d69453fa6190590e23ad60a57d226446cb1bbcb27e0",
+    "bytes": 107317447
+  },
+  {
+    "key": "native/S1E1/V025/diagnostic_grip_final/V025_grip.review.json",
+    "sha256": "23298e5f9835156cbc3c197a166c13296b3730fbd28a4fc11429a89023c7e756",
+    "bytes": 318
+  },
+  {
+    "key": "native/S1E1/V025/diagnostic_grip_final/grip_0560.png",
+    "sha256": "d5bf21a4df18e24955ab8d1db1a06407fb7051b04d984aed130d637b546f386d",
+    "bytes": 651419
+  },
+  {
+    "key": "native/S1E1/V025/diagnostic_grip_final/grip_0630.png",
+    "sha256": "99679f3f6d7de8c55b135dbe659ff6386c7cc46b047be654646eaad760d08ab4",
+    "bytes": 697011
+  }
+]

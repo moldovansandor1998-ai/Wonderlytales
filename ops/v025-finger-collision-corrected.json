@@ -1,0 +1,53 @@
+{
+  "source_sha256": "22be763c0f39b71ce106582dd499042fda3f8578c17c2628b91de4ffe2f2e89c",
+  "frames": [
+    {
+      "frame": 560,
+      "closed_prop_parts": 1,
+      "unclosed_prop_parts": [],
+      "inside_hand_vertices": 0,
+      "max_depth_m": 0.0,
+      "digit_min_gap_m": {
+        "palm": 0.0002172410167986527,
+        "index": 0.0002172410167986527,
+        "thumb": 0.0002172410167986527,
+        "middle": 0.0005984652671031654,
+        "little": 0.0010898781474679708,
+        "ring": 0.00026716425782069564
+      }
+    },
+    {
+      "frame": 700,
+      "closed_prop_parts": 1,
+      "unclosed_prop_parts": [],
+      "inside_hand_vertices": 0,
+      "max_depth_m": 0.0,
+      "digit_min_gap_m": {
+        "palm": 0.0002173039538320154,
+        "index": 0.0002173039538320154,
+        "thumb": 0.0002173039538320154,
+        "middle": 0.0005983568844385445,
+        "little": 0.0010897746542468667,
+        "ring": 0.00026725916541181505
+      }
+    },
+    {
+      "frame": 1153,
+      "closed_prop_parts": 1,
+      "unclosed_prop_parts": [],
+      "inside_hand_vertices": 0,
+      "max_depth_m": 0.0,
+      "digit_min_gap_m": {
+        "palm": 0.0002172171080019325,
+        "index": 0.0002172171080019325,
+        "thumb": 0.0002172171080019325,
+        "middle": 0.0005985907046124339,
+        "little": 0.001089908997528255,
+        "ring": 0.0002672296541277319
+      }
+    }
+  ],
+  "production_approved": false,
+  "closed_prop_geometry_verified": true,
+  "sampled_penetration_pass": true
+}

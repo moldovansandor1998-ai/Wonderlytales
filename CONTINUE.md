@@ -1,61 +1,70 @@
 # WonderlyTales — continuation checkpoint
 
-Last successful Git commit: `8e0ea3e5a5b359346530839d6a51f17d689622fd`.
+Last successful Git commit: `84a1f316609a792b81aac15dd3294dfd2dc3b9d9`.
 The commit containing this document follows it (`git log -1`).
 Do not rebuild infrastructure or modify V022/V023 originals. Daily ceiling $200.
 User's earlier verified base: 4266970498f2f4c5dc423f1de1a27ef58dbbfbaf.
 
-## V025 central native repair checkpoint (2026-10-10 21:52 UTC)
-- Development continues. No V025 movie or professional-quality approval yet.
-  Preserve the complete 132-second V024, both immutable source scenes and HU mix.
-- Thirty pure timing/motion tests pass. New stop logic retains support footprints
-  and finishes the last swing. Native rebakes have evaluated all 1392 / 1776
-  frames with reachable, fixed foot targets. Full final-candidate QA is pending.
-- Mark eye candidate E passed all 1392 native frames: both eyelid boundaries and
-  the existing mouth have zero missing boundary edges; maximum gap <0.000001 m.
-  R2 native/S1E1/V025/mark_seams_e/S1E1_SC001_V025.blend, SHA
-  0ec3997387a1f1aa8223e8dbc93c57e9c6f579f89aca8f5ebdd8b92c3849f82a.
-  Evidence: ops/v025-mark-eye-seams-candidate-e.json. This is not eye-shape approval.
-- Lili fur is disconnected geometry. Rejected experiments: voxel skin (no closed
-  aperture), rectangular skin (visible surface patch), early local skin (wrong
-  unevaluated parent transform), un-oriented eyes (deep artificial sockets).
-  Latest local candidate H uses recovered existing V024 triangle edges, exact
-  fur clipping, continuous per-eye skin, cheek-derived eye depth/orientation,
-  connected eyelids and native short fur. The face still needs close/side/motion
-  review. Do not promote an earlier Lili prototype based on seam numbers alone.
-- mouth_support.py connects Lili's existing 64-vertex oral boundary to a local
-  under-fur skin with identical boundary weights and shape deltas. Existing HU
-  visemes, jaw, oral interior, original character geometry are retained.
-- Grip A was REJECTED (wrong hand / 0.658 m handoff). B-D were also rejected.
-  Grip E adds 10 left-hand digit bones to the existing mesh, skin landmarks,
-  bounded 38.9 mm body reach with fixed foot controls, and rotational attachment.
-  Evaluated grasp error 0.00025933 m; held rigid-transform error zero.
-  Evidence: ops/v025-grip-candidate-e.json. Native source at sandbox
-  /vercel/sandbox/v025/grip_e/S1E1_SC003_V025.blend, SHA
-  94a74f11ed034c42ab7026299edc953b2a341ff32f712c92ce96a94a241ef05c.
-  Finger articulation / surface collision / cloth appearance are NOT approved.
-- Reusable finish_v025.py layers irregular fully sampled blinks, delayed partner
-  responses, bounded gaze, 420 terrain-bound leaves, three soft lights and
-  shallow camera arcs onto retained scenes. It rebakes held props after body
-  changes. Original scene audio/visemes and shot endpoints remain unchanged.
-- Final-candidate authoring is running in the existing sandbox:
-  SC001: cmd_561f9fc940264e7ea0dac578ce55, log v025/candidate-sc001.log.
-  SC003: cmd_24ae8d4c07fa49aa8830f1ffd692, log v025/candidate-sc003.log.
-  Expected outputs /vercel/sandbox/v025/final_candidates/S1E1_SC00{1,3}_V025.blend.
-  Do not assume completion: inspect exit codes and native reports.
-- Next: independent all-frame audit_v025_native.py; diagnostic_cameras.py creates
-  separate close/side sources (faces 1-192, grasp 505-648). Inspect proof frames,
-  reserve budget before any GPU jobs, then render bounded review clips. A full
-  new 132-second pass and further feature preparation remain behind quality QA.
-- Budget verified 2026-10-11 Asia/Saigon: $39.50 reserved / $200 limit. No new paid
-  resource, TTS or V025 GPU job has been submitted in this repair session.
-  Existing sandbox sbx_hbrj4u6r1FOrgWWTiIRBSZUkGJFS expires ~22:25 UTC.
-- Automatic approval review blocked exporting a recovered old Library Lili
-  reference to R2. Do not retry or route that original elsewhere. Current
-  candidates use only the existing V024 scene and its retained edges.
-- Git-backed code and reports are saved; native source persistence must also be
-  confirmed before stopping the authoring sandbox. Feature target remains
-  >=40/default60 minutes, with no downstream production approval.
+## V025 native repair checkpoint (2026-10-10 22:22 UTC)
+- **NOT production approved.** A 22-second 1080p24 diagnostic reel is rendering;
+  a complete new 132-second V025 movie has NOT been produced. Do not confuse the
+  short face/grip/gait reel with the preserved complete V024 story review.
+- Latest separate native story sources, all uploaded and readback SHA verified:
+  - native/S1E1/V025/review_ready/S1E1_SC001_V025.blend
+    SHA b91659b94d674028c0d6bc027641285f4fcf032816b4c8a83e1af3e540890157
+  - native/S1E1/V025/review_ready/S1E1_SC003_V025.blend
+    SHA 4f2fd21583b98491fa25e3318da1cc0d83acb07cb29484c15fba813999b0377f
+  Full source/proof lineage: ops/v025-native-source-artifacts.json.
+- Independent FINAL-SOURCE audits completed all 1392 + 1776 = 3168 frames.
+  Foot support, stationary ankle targets, shared eye/mouth boundary adjacency
+  and mouth outer topology PASS. Maximum stationary ankle slip 0.052 mm;
+  outer mouth seam gap <0.000001 m. Thirty pure motion/timing tests PASS.
+  Evidence ops/v025-sc001-native-audit.json, ops/v025-sc003-native-audit.json.
+  These numeric checks do NOT certify natural walking, speech or appearance.
+- Central modules now provide connected eyelids, globe/cap clearance, bounded
+  head-relative gaze, irregular 24-fps-sampled blinks, source-preserving oral
+  skin support, delayed partner reactions and supported pickup/prop rotation.
+  The SC003 hand contact is rebaked AFTER body/performance changes.
+- Contact fit uses the retained linear-skinned hand, 10 digit bones and a
+  grip-driven local pose corrective: 95 vertices moved, maximum 8.89 mm.
+  Independent closed-star vertex collision audit: zero inside hand vertices
+  at frames 560, 700, 1153, versus 89 / 8.09 mm before correction. The audit is
+  sampled and vertex-based; it does not prove collision-free swept triangles.
+  ops/v025-hand-contact-fit.json, ops/v025-finger-collision-corrected.json.
+- Native closed-blink proofs show no visible white globe/pupil breakthrough.
+  However Mark's broad circular eye patches and skin-color transitions remain
+  conspicuous; Lili's radial eyelid fur and deep sockets look artificial.
+  The scarf remains too rigid; grasp/placement/acting need visual refinement.
+  Do NOT promote a candidate because geometric metrics alone pass.
+- Reusable motion.py finishes the last swing and preserves support footprints
+  during stops. finish_v025.py adds terrain-bound leaf detail, soft lights,
+  restrained camera arcs and response timing without changing original HU takes.
+- GPU manifest: ops/v025-diagnostic-render-jobs.json. First face/grip passes
+  are retained as superseded evidence; final sources have DIFFERENT hashes.
+  Final assembly selects V025_faces_final (192f), V025_grip_final (144f), and
+  V025_gait (192f), total 528 frames / 22 seconds. Poll existing IDs ONLY.
+  Never resubmit COMPLETED, IN_QUEUE, IN_PROGRESS or SUBMISSION_UNCERTAIN jobs.
+- Budget day 2026-10-11 Asia/Saigon: $52 reserved / $200 ceiling after FIVE
+  diagnostic reservations ($12.50). This is ledger reservation, not vendor
+  invoiced spend. No new TTS, full-film render or feature generation submitted.
+- Both V024 Blender originals were SHA-reverified unchanged at 22:20 UTC.
+  V024 movie, original 19 opening takes, frozen HU mix and accepted intro stay
+  intact. No infrastructure rebuild or duplicate V024 renders.
+- Existing authoring sandbox sbx_hbrj4u6r1FOrgWWTiIRBSZUkGJFS expires ~22:25 UTC.
+  All latest native sources, proof frames and full-frame audits are durable.
+  GPU jobs and local assembly do not depend on that session staying alive.
+- Automatic approval review blocked exporting recovered original
+  CHAR_LILI_TRIPO_V003_BODY_CANDIDATE.blend from the Library to project R2,
+  citing private organizational data and no explicit permission for that export.
+  Do NOT retry that original through another route. Current repairs use only
+  already existing V024 scenes/retained edges. Original is locally recovered at
+  private/v025/originals/CHAR_LILI_TRIPO_V003_BODY_CANDIDATE.blend, SHA
+  fe924ebb52b78fadcb163457c65e5236365b2ba315eb46dfee64f42012328f67.
+- Next: finish/inspect the diagnostic reel, restore source-faithful facial
+  surface/material continuity, improve hand opposition/scarf deformation and
+  acting, then pass close/front/side/motion review before a full V025 render.
+  Only after that quality gate continue Csodakapu next-scene production prep.
+  Feature target remains >=40/default60 minutes; no runtime padding.
 
 ## Completed opening review (2026-10-10T20:37:33.786910+00:00)
 - All NINE existing GPU clips decoded: 3168 native frames, 1080p24, 132 s.

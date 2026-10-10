@@ -16,7 +16,7 @@ def save():
 def request(suffix,payload=None):
     request=urllib.request.Request(base+suffix,data=json.dumps(payload).encode() if payload is not None else None,headers=headers)
     with urllib.request.urlopen(request,timeout=45) as response:return json.load(response),response.headers.get('Date')
-if doc.get('production_approved') is not False or doc.get('kind')!='CONNECTED_OPENING_REVIEW':raise ValueError('Only the bounded review manifest is accepted')
+if doc.get('production_approved') is not False or doc.get('kind') not in ('CONNECTED_OPENING_REVIEW','NATIVE_DIAGNOSTIC_REVIEW'):raise ValueError('Only the bounded review manifest is accepted')
 if sum(j['input']['frame_end']-j['input']['frame_start']+1 for j in doc['jobs'])>3168:raise ValueError('Review exceeds 132 seconds')
 for job in doc['jobs']:
     if a.operation=='submit':
@@ -43,7 +43,9 @@ for job in doc['jobs']:
             if clip.get('verified_frames')!=expected or clip.get('verified_fps')!=24 or clip.get('verified_width')!=1920 or clip.get('verified_height')!=1080:raise ValueError('Completed clip verification differs from plan')
             job['clip']=clip;job['devices']=output.get('devices');seconds=output.get('frame_seconds',[])
             job['mean_frame_seconds']=sum(seconds)/len(seconds) if seconds else None
-            key='native/S1E1/V024/job-results/'+job['id']+'.json';client.put_object(Bucket=bucket,Key=key,Body=json.dumps(result).encode(),ContentType='application/json');job['result_key']=key
+            version=doc.get('version','V024')
+            if version not in ('V024','V025'):raise ValueError('Unsupported review version')
+            key='native/S1E1/'+version+'/job-results/'+job['id']+'.json';client.put_object(Bucket=bucket,Key=key,Body=json.dumps(result).encode(),ContentType='application/json');job['result_key']=key
         save()
     print(job.get('id',job['scene_id']),job['status'],flush=True)
 print('VERIFIED_FRAMES',sum(j.get('clip',{}).get('verified_frames',0) for j in doc['jobs']),flush=True)

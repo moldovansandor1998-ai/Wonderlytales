@@ -1,0 +1,140 @@
+{
+  "source_sha256": "4f2fd21583b98491fa25e3318da1cc0d83acb07cb29484c15fba813999b0377f",
+  "frames": 1776,
+  "feet": {
+    "CHAR_MARK": {
+      "max_ankle_target_error_m": 6.788718502162539e-05,
+      "max_stationary_target_slide_m": 5.185827608059914e-05
+    },
+    "CHAR_LILI": {
+      "max_ankle_target_error_m": 2.268198057016592e-05,
+      "max_stationary_target_slide_m": 1.3814694481631867e-05
+    }
+  },
+  "seams": {
+    "CHAR_MARK_EYELID.R": {
+      "max_gap_m": 5.63098300328588e-07,
+      "missing_body_edges": 0
+    },
+    "CHAR_MARK_EYELID.L": {
+      "max_gap_m": 5.462855929083633e-07,
+      "missing_body_edges": 0
+    },
+    "CHAR_LILI_EYELID.R": {
+      "max_gap_m": 2.5288109106536417e-07,
+      "missing_body_edges": 0
+    },
+    "CHAR_LILI_EYELID.L": {
+      "max_gap_m": 2.9200193199910854e-07,
+      "missing_body_edges": 0
+    },
+    "CHAR_MARK_FACIAL_TOPOLOGY": {
+      "max_gap_m": 6.107658604359387e-07,
+      "missing_body_edges": 0
+    },
+    "CHAR_LILI_FACIAL_TOPOLOGY": {
+      "max_gap_m": 2.5288109106536417e-07,
+      "missing_body_edges": 0
+    }
+  },
+  "mouth": {
+    "sampled_mesh_frames": 3552,
+    "nonfinite": 0,
+    "max_outer_edge_stretch_ratio": 1.0946694293493724,
+    "flipped_outer_triangles": 0,
+    "invalid_viseme_frames": 0,
+    "rest_folded_front_triangles": 0,
+    "sampled_seam_mesh_frames": 3552,
+    "max_seam_gap_m": 6.107658604359387e-07,
+    "missing_seam_correspondences": [],
+    "invalid_seam_edges": {},
+    "outer_geometry_pass": true,
+    "unmatched_outer_boundaries": [],
+    "boundary_mapping_pass": true,
+    "seam_continuity_verified": true,
+    "pass": true,
+    "limitations": "Checks outer topology, boundary edge adjacency and native correspondence. Full self-intersection and natural speech still need validation"
+  },
+  "max_blink_controls": {
+    "CHAR_MARK": {
+      "L": 1.0,
+      "R": 1.0
+    },
+    "CHAR_LILI": {
+      "L": 1.0,
+      "R": 1.0
+    }
+  },
+  "finger_contact_samples": [
+    {
+      "frame": 560,
+      "digits": {
+        "index": {
+          "min_surface_gap_m": 0.0002172410167986527,
+          "max_signed_penetration_m": 0.0
+        },
+        "little": {
+          "min_surface_gap_m": 0.006926149595528841,
+          "max_signed_penetration_m": 0.0
+        },
+        "ring": {
+          "min_surface_gap_m": 0.0006373964715749025,
+          "max_signed_penetration_m": 0.0
+        },
+        "middle": {
+          "min_surface_gap_m": 0.0006337524973787367,
+          "max_signed_penetration_m": 0.0
+        }
+      },
+      "limitation": "Nearest-surface signed distances are local indicators, not a watertight collision proof."
+    },
+    {
+      "frame": 700,
+      "digits": {
+        "index": {
+          "min_surface_gap_m": 0.0002173039538320154,
+          "max_signed_penetration_m": 0.0
+        },
+        "little": {
+          "min_surface_gap_m": 0.006926070433109999,
+          "max_signed_penetration_m": 0.0
+        },
+        "ring": {
+          "min_surface_gap_m": 0.0006373656215146184,
+          "max_signed_penetration_m": 0.0
+        },
+        "middle": {
+          "min_surface_gap_m": 0.0006337891099974513,
+          "max_signed_penetration_m": 0.0
+        }
+      },
+      "limitation": "Nearest-surface signed distances are local indicators, not a watertight collision proof."
+    },
+    {
+      "frame": 1153,
+      "digits": {
+        "index": {
+          "min_surface_gap_m": 0.0002172171080019325,
+          "max_signed_penetration_m": 0.0
+        },
+        "little": {
+          "min_surface_gap_m": 0.006926059722900391,
+          "max_signed_penetration_m": 0.0
+        },
+        "ring": {
+          "min_surface_gap_m": 0.0006373454816639423,
+          "max_signed_penetration_m": 0.0
+        },
+        "middle": {
+          "min_surface_gap_m": 0.0006337673403322697,
+          "max_signed_penetration_m": 0.0
+        }
+      },
+      "limitation": "Nearest-surface signed distances are local indicators, not a watertight collision proof."
+    }
+  ],
+  "foot_support_pass": true,
+  "mapped_seams_pass": true,
+  "production_approved": false,
+  "limitations": "Does not certify anatomical appearance, fluid movement, all surface collisions, or acting quality. Separate all-angle video review is required."
+}

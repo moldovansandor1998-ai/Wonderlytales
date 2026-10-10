@@ -1,0 +1,16 @@
+{
+  "source_sha256": "04fb48d4c765d352dfa4a6660ba895436bbc2a08e47ec0ad1f30241ee79b0a08",
+  "contact": {
+    "control": "grip.L",
+    "control_peak": 0.75,
+    "corrected_vertices": 95,
+    "max_world_correction_m": 0.008890207204436538,
+    "iterations": 2,
+    "last_iteration_inside_count": 0,
+    "other_body_regions_preserved": true,
+    "limb_lengths_preserved": true,
+    "production_approved": false
+  },
+  "production_approved": false,
+  "candidate_sha256": "22be763c0f39b71ce106582dd499042fda3f8578c17c2628b91de4ffe2f2e89c"
+}

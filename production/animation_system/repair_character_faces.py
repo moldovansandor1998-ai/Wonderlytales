@@ -32,6 +32,8 @@ def main(source,dest):
             bpy.context.view_layer.update()
             entry['fur']=[add_lid_fur(scene,rig,bpy.data.objects[code+'_EYELID.'+side],25025+i) for i,side in enumerate(('R','L'))]
         entry['mouth']=connect_oral_skin(scene,code,rig,body);report['characters'][code]=entry
+    from animation_system.lid_clearance import conform_lids
+    report['eyelid_clearance']=conform_lids(scene,rigs)
     with rig_only_evaluation(scene):bake_bounded_gaze(scene,rigs)
     scene.frame_set(1);dest.parent.mkdir(parents=True,exist_ok=True);scene['production_approved']=False
     bpy.ops.wm.save_as_mainfile(filepath=str(dest.resolve()),compress=True);report['candidate_sha256']=digest(dest);atomic_json(dest.with_suffix('.faces.json'),report);print('V025_FACES',json.dumps(report),flush=True)

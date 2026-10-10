@@ -1,0 +1,162 @@
+{
+  "version": "V025",
+  "kind": "NATIVE_DIAGNOSTIC_REVIEW",
+  "production_approved": false,
+  "budget_day": "2026-10-11",
+  "daily_reserved_usd_after_admission": 52.0,
+  "daily_limit_usd": 200,
+  "checkpoint_key": "native/S1E1/V025/checkpoints/diagnostic_render_jobs.json",
+  "endpoint": "cfog2x4xsd0adz",
+  "expected_total_frames": 528,
+  "expected_duration_seconds": 22,
+  "jobs": [
+    {
+      "scene_id": "V025_faces",
+      "budget_reservation_id": "98d2ea7a-69b7-4c34-beff-7631744810f3",
+      "reservation_usd": 2.5,
+      "status": "COMPLETED",
+      "input": {
+        "operation": "RENDER_NATIVE_FRAMES",
+        "renderer_revision": "e3cb4348e93116c5cf56c3c9c9fa8b6a3cd2e8da",
+        "width": 1920,
+        "height": 1080,
+        "samples": 48,
+        "frame_start": 1,
+        "frame_end": 192,
+        "scene_key": "native/S1E1/V025/diagnostic_faces_v3/V025_faces.blend",
+        "scene_sha256": "8c6252567009e2f12dd257109b16531bb2eef0130bc585a04af24c263a08b410"
+      },
+      "id": "d25d46d1-cb43-4822-b9d0-11e967129f9a-u1",
+      "provider_date": "Sat, 10 Oct 2026 22:17:49 GMT",
+      "workerId": "g9mrsc50ttlr8a",
+      "delayTime": 124968,
+      "executionTime": 475641,
+      "clip": {
+        "bytes": 11582043,
+        "has_scene_audio": true,
+        "key": "renders/native/S1E1/8c6252567009e2f12dd257109b16531bb2eef0130bc585a04af24c263a08b410/682298774247c4d66c9ffae1d55f10841877b54f390b2860ebfe3057d1fc4c59/clip.mp4",
+        "sha256": "cee391686b9651af22af2318a6bfb563620594e78d3ada354cf02922cd2f87ab",
+        "verified_fps": 24,
+        "verified_frames": 192,
+        "verified_height": 1080,
+        "verified_width": 1920
+      },
+      "devices": [
+        {
+          "backend": "OPTIX",
+          "name": "NVIDIA RTX PRO 6000 Blackwell Server Edition"
+        }
+      ],
+      "mean_frame_seconds": 2.299537564346489,
+      "result_key": "native/S1E1/V025/job-results/d25d46d1-cb43-4822-b9d0-11e967129f9a-u1.json",
+      "superseded_for_assembly_by": "V025_faces_final"
+    },
+    {
+      "scene_id": "V025_grip",
+      "budget_reservation_id": "60514b56-a95e-4698-ba2d-9f505493c45e",
+      "reservation_usd": 2.5,
+      "status": "COMPLETED",
+      "input": {
+        "operation": "RENDER_NATIVE_FRAMES",
+        "renderer_revision": "e3cb4348e93116c5cf56c3c9c9fa8b6a3cd2e8da",
+        "width": 1920,
+        "height": 1080,
+        "samples": 48,
+        "frame_start": 505,
+        "frame_end": 648,
+        "scene_key": "native/S1E1/V025/diagnostic_grip/V025_grip.blend",
+        "scene_sha256": "9a2d8485f0a900753bb528fa3267cd83ac2d668fc3e951db729837c6ebf39f99"
+      },
+      "id": "322dbeb4-a004-4479-95ee-e4b1f8e09257-u1",
+      "provider_date": "Sat, 10 Oct 2026 22:09:13 GMT",
+      "workerId": "g9mrsc50ttlr8a",
+      "delayTime": 3668,
+      "executionTime": 347734,
+      "clip": {
+        "bytes": 4512511,
+        "has_scene_audio": true,
+        "key": "renders/native/S1E1/9a2d8485f0a900753bb528fa3267cd83ac2d668fc3e951db729837c6ebf39f99/c9b7bd0f19c87618c1c6f2f3ebe4262a5536d33b696e2743836d5275a600aa76/clip.mp4",
+        "sha256": "a6a734af6b70c9812cec79c4f8b12779b9e615a4692682f35799459ba4d24d5e",
+        "verified_fps": 24,
+        "verified_frames": 144,
+        "verified_height": 1080,
+        "verified_width": 1920
+      },
+      "devices": [
+        {
+          "backend": "OPTIX",
+          "name": "NVIDIA RTX PRO 6000 Blackwell Server Edition"
+        }
+      ],
+      "mean_frame_seconds": 2.237860420961321,
+      "result_key": "native/S1E1/V025/job-results/322dbeb4-a004-4479-95ee-e4b1f8e09257-u1.json",
+      "superseded_for_assembly_by": "V025_grip_final"
+    },
+    {
+      "scene_id": "V025_gait",
+      "budget_reservation_id": "52d34c7c-f789-4dfd-9599-bd29a1f6388e",
+      "reservation_usd": 2.5,
+      "status": "IN_PROGRESS",
+      "input": {
+        "operation": "RENDER_NATIVE_FRAMES",
+        "renderer_revision": "e3cb4348e93116c5cf56c3c9c9fa8b6a3cd2e8da",
+        "width": 1920,
+        "height": 1080,
+        "samples": 48,
+        "frame_start": 121,
+        "frame_end": 312,
+        "scene_key": "native/S1E1/V025/diagnostic_gait/V025_gait.blend",
+        "scene_sha256": "09f8d7ea9290cd29019d1d69061575e18280cba1af1618f7b933048cc57b66ad"
+      },
+      "id": "51853935-8099-44c6-9117-b8b8943ff8ff-u1",
+      "provider_date": "Sat, 10 Oct 2026 22:21:40 GMT",
+      "workerId": "g9mrsc50ttlr8a",
+      "delayTime": 594808
+    },
+    {
+      "scene_id": "V025_faces_final",
+      "budget_reservation_id": "cdee6f56-2fd4-4b06-a293-3dc52cea0538",
+      "reservation_usd": 2.5,
+      "status": "IN_QUEUE",
+      "input": {
+        "operation": "RENDER_NATIVE_FRAMES",
+        "renderer_revision": "e3cb4348e93116c5cf56c3c9c9fa8b6a3cd2e8da",
+        "width": 1920,
+        "height": 1080,
+        "samples": 48,
+        "frame_start": 1,
+        "frame_end": 192,
+        "scene_key": "native/S1E1/V025/diagnostic_faces_final/V025_faces.blend",
+        "scene_sha256": "61d3780f8b7ea78bf1e2dd35f8007225e5bee2fb84487f79b912fe8100f0a204"
+      },
+      "id": "86dc8ac4-1261-4e44-a7ae-ed7dbbf1ac4f-u1",
+      "provider_date": "Sat, 10 Oct 2026 22:21:51 GMT"
+    },
+    {
+      "scene_id": "V025_grip_final",
+      "budget_reservation_id": "edd50224-2fcc-47d4-bafb-8df33b57fc2d",
+      "reservation_usd": 2.5,
+      "status": "IN_QUEUE",
+      "input": {
+        "operation": "RENDER_NATIVE_FRAMES",
+        "renderer_revision": "e3cb4348e93116c5cf56c3c9c9fa8b6a3cd2e8da",
+        "width": 1920,
+        "height": 1080,
+        "samples": 48,
+        "frame_start": 505,
+        "frame_end": 648,
+        "scene_key": "native/S1E1/V025/diagnostic_grip_final/V025_grip.blend",
+        "scene_sha256": "8883cd2aaf3b7f509f055d69453fa6190590e23ad60a57d226446cb1bbcb27e0"
+      },
+      "id": "c2b78649-f4b5-4f71-b96e-12b8c032291b-u2",
+      "provider_date": "Sat, 10 Oct 2026 22:21:56 GMT"
+    }
+  ],
+  "limitations": "Technical close/side/motion review only. Does not replace or approve the 132-second story movie.",
+  "rendered_total_frames_planned": 864,
+  "assembly_scene_ids": [
+    "V025_faces_final",
+    "V025_grip_final",
+    "V025_gait"
+  ]
+}
