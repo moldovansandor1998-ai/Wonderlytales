@@ -13,7 +13,7 @@ import {downloadProviderMedia,providerMediaUrl} from './media';
 import {finalFrame} from './post-media';
 import {VIDEO_NO_TEXT_RULE,NEGATIVE_PROMPT} from './shared';
 import {makeCutPlan} from './film-cut-plan';
-import {cutSpeech,finishCutShot,assembleCut} from './film-cut-media';
+import {cutSpeech,finishCutShot,assembleCut,miraDuplicateMask} from './film-cut-media';
 import {FILM_CUT_ID,CUT_VERSION,CUT_MAX_USD,cutCeiling,chargeAllowed,type FilmCut,type CutShot,type CutTask} from './film-cut-shared';
 const now=()=>new Date().toISOString();
 const avatar='kwaivgi/kling-v2-ai-avatar-pro' as const,motion='kwaivgi/kling-v3.0-pro/image-to-video' as const;
@@ -147,7 +147,7 @@ export async function advanceCut(store:R2VideoStore,workflowId:string){
   const environment=s.environment==='workshop'?c.workshop:c.street;if(!environment)throw new WaveSpeedError('CUT_ENVIRONMENT_MISSING');
   const images=await Promise.all([...shas,environment,previous].map(sha=>store.imageUrl(sha)));
   const identities=s.characters.map((k,i)=>`Image ${i+1}: canonical ${CAST[k].name}, ${CAST[k].description}. Copy this exact character face, species, fur/scales, proportions, outfit and accessories.`).join(' ');
-  const prompt=`Create ONE 16:9 cinematic 3D animated film frame, not a collage. ${identities} Image ${shas.length+1}: established environment; preserve its architecture, materials, light, door/window positions, car and street geography. Final image: immediately preceding shot; preserve the story state, held objects, costume and direction of travel. This is a motivated camera cut, not a new random location. ${s.framePrompt} ${s.kind==='speech'?'Only the speaking character is visible; clear unobstructed mouth and both eyes. No other speaking faces.':''} Keep all canonical character details. Maintain the camera axis: Felix looks left on street, Mira right. ${VIDEO_NO_TEXT_RULE}`;
+  const prompt=`Create ONE 16:9 cinematic 3D animated film frame, not a collage. ${identities} Image ${shas.length+1}: established environment; preserve its architecture, materials, light, door/window positions, car and street geography. Final image: immediately preceding shot; preserve the story state, held objects, costume and direction of travel. This is a motivated camera cut, not a new random location. ${s.framePrompt} ${s.kind==='speech'?'Only the speaking character is visible; clear unobstructed mouth and both eyes. No other speaking faces.':''} Exactly ${s.characters.length} foreground main character${s.characters.length===1?'':'s'} in the whole frame: ${s.characters.map(k=>CAST[k].name).join(', ')}, each appearing ONCE. Do not duplicate any character from reference images or the previous frame. Keep all canonical character details. Maintain the camera axis: Felix looks left on street, Mira right. ${VIDEO_NO_TEXT_RULE}`;
   const image=await providerTask(store,s.id+':frame','bytedance/seedream-v4.5/edit',{images,prompt,size:'2048*1152',enable_sync_mode:false,enable_base64_output:false},.04,'image');
   if(image)await setShot(store,s.id,{image,phase:'VIDEO'});return false;
  }
@@ -158,14 +158,21 @@ export async function advanceCut(store:R2VideoStore,workflowId:string){
   const raw=await providerTask(store,s.id+':video',s.kind==='speech'?avatar:motion,payload,s.kind==='speech'?Math.ceil(s.seconds)*.112:s.seconds*.168,'video');
   if(raw)await setShot(store,s.id,{raw,phase:'CHECK'});return false;
  }
+ if(s.objectRepair&&!s.objectCleaned){
+  if(!s.objectMask){await setShot(store,s.id,{objectMask:await miraDuplicateMask(store)});return false;}
+  const ceiling=Math.max(3,Math.ceil(s.seconds+.05))*.02;
+  if((c.tasks[s.id+':video']?.price??1.68)+ceiling+Math.max(3,Math.ceil(s.seconds+.05))*.01>reservations.wavespeed_kling+1e-6)throw new WaveSpeedError('CUT_PRICE_LIMIT',409);
+  const objectCleaned=await providerTask(store,s.id+':object-clean','wavespeed-ai/video-eraser',{video:await store.assetUrl(s.raw,'mp4'),mask_image:await store.imageUrl(s.objectMask),prompt:'Remove ONLY the stationary duplicate rabbit in the masked far-right foreground. Reconstruct the stone building facade and pavement naturally. Keep the walking rabbit on the left and the fox completely unchanged. Preserve camera, light and motion.'},ceiling,'video');
+  if(objectCleaned)await setShot(store,s.id,{objectCleaned});return false;
+ }
  if(!s.cleaned){
   // A negative prompt did not reliably prevent hallucinated captions. Clean generated
   // clips before extracting continuity frames. Preserve the paid raw output unchanged.
   // Generation + cleanup must fit the already reserved $1.68 video slot AND the
   // original user-approved total. No extra authorization is inferred from recharge.
-  const ceiling=Math.max(3,Math.ceil(s.seconds))*.01;
-  if((c.tasks[s.id+':video']?.price??1.68)+ceiling>reservations.wavespeed_kling+1e-6)throw new WaveSpeedError('CUT_PRICE_LIMIT',409);
-  const cleaned=await providerTask(store,s.id+':clean','wavespeed-ai/video-watermark-remover',{video:await store.assetUrl(s.raw,'mp4')},ceiling,'video');
+  const ceiling=Math.max(3,Math.ceil(s.seconds+.05))*.01;
+  if((c.tasks[s.id+':video']?.price??1.68)+(c.tasks[s.id+':object-clean']?.price??0)+ceiling>reservations.wavespeed_kling+1e-6)throw new WaveSpeedError('CUT_PRICE_LIMIT',409);
+  const cleaned=await providerTask(store,s.id+':clean','wavespeed-ai/video-watermark-remover',{video:await store.assetUrl(s.objectCleaned??s.raw,'mp4')},ceiling,'video');
   if(cleaned)await setShot(store,s.id,{cleaned});return false;
  }
  if(!s.asset){const finished=await finishCutShot(store,s),last=await finalFrame(store,finished.asset);await setShot(store,s.id,{...finished,lastFrame:last});if(s.scene===13)await changeCut(store,x=>({...x,workshop:last}));return false;}
@@ -180,11 +187,17 @@ export async function advanceCut(store:R2VideoStore,workflowId:string){
  await setShot(store,s.id,{phase:'READY'});return false;
 }
 export async function cutAction(raw:unknown,store:R2VideoStore){
- const input=z.object({action:z.enum(['prepare','preflight','start','stop','resume','accept-check','repair-text']),maxCostUsd:z.number().finite().min(0).max(CUT_MAX_USD).optional(),shotId:z.string().optional()}).strict().parse(raw);
+ const input=z.object({action:z.enum(['prepare','preflight','start','stop','resume','accept-check','repair-text','repair-duplicate']),maxCostUsd:z.number().finite().min(0).max(CUT_MAX_USD).optional(),shotId:z.string().optional()}).strict().parse(raw);
  if(input.action==='prepare')return {cut:await prepareCut(store)};
  if(input.action==='preflight')return {cut:await readCut(store),quote:await preflightCut(store)};
  if(input.action==='start'){if(input.maxCostUsd===undefined)throw new WaveSpeedError('PRICE_CHANGED',409);return {cut:await authorizeCut(store,input.maxCostUsd)};}
  const cut=await changeCut(store,c=>{
+  if(input.action==='repair-duplicate'){
+   const shot=c.shots[c.index];
+   // This mask is authorized only for the exact clip that was inspected.
+   if(!['STOPPED','PAUSED'].includes(c.status)||c.budget!=='RESERVED'||shot?.id!==input.shotId||shot.raw!=='74bb7f970e623648e2c71827c9b2456f62f823c45fb95dd1ecd2cb835ea88a46'||shot.objectRepair||shot.cleaned||c.shots.slice(c.index+1).some(s=>s.raw||s.image)||Object.values(c.tasks).some(t=>t.status!=='READY'))throw new WaveSpeedError('CUT_REVIEW_REQUIRED',409);
+   return {...c,status:'QUEUED',workflowId:undefined,error:undefined,shots:c.shots.map(s=>s.id===shot.id?{...s,objectRepair:'mira-right-duplicate',manualReviewRequired:true}:s)};
+  }
   if(input.action==='repair-text'){
    const index=c.shots.findIndex(s=>s.id===input.shotId),shot=c.shots[index];
    if(!['STOPPED','PAUSED'].includes(c.status)||c.budget!=='RESERVED'||!shot?.raw||!shot.asset||shot.cleaned||index>c.index||c.shots.slice(index+1).some(s=>s.raw||s.image)||Object.values(c.tasks).some(t=>['SUBMITTING','UNCERTAIN','FAILED'].includes(t.status)))throw new WaveSpeedError('CUT_REVIEW_REQUIRED',409);

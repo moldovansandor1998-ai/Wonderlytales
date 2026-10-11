@@ -1,13 +1,22 @@
 import {execFile} from 'node:child_process';
 import {promisify} from 'node:util';
 import {join} from 'node:path';
-import {writeFile} from 'node:fs/promises';
-import {R2VideoStore} from './storage';
+import {writeFile,readFile} from 'node:fs/promises';
+import {R2VideoStore,digest} from './storage';
 import {tempMedia,storeFile,speechTrack,concatenate} from './post-media';
 import {CUT_LEAD,speechDuration,type CutShot} from './film-cut-shared';
 import {WaveSpeedError} from '../providers/wavespeed';
 const exec=promisify(execFile),ffmpeg=join(process.cwd(),'node_modules/ffmpeg-static/ffmpeg');
 const fit='scale=1920:1080:force_original_aspect_ratio=decrease,pad=1920:1080:(ow-iw)/2:(oh-ih)/2,setsar=1';
+export async function miraDuplicateMask(store:R2VideoStore){
+ return tempMedia(async dir=>{
+  // Measured against the reviewed 1920x1080 entrance clip. The real Mira walks
+  // on the left; only the stationary duplicate on the far right is masked.
+  const out=join(dir,'mask.png');
+  await run(['-f','lavfi','-i','color=c=black:s=1920x1080','-vf','drawbox=x=1440:y=250:w=480:h=830:color=white:t=fill','-frames:v','1',out]);
+  const bytes=await readFile(out),sha=digest(bytes);await store.putChunk(sha,0,bytes);await store.completeImage(sha,bytes.length);return sha;
+ });
+}
 async function run(args:string[]){try{return await exec(ffmpeg,['-nostdin','-hide_banner','-y',...args],{timeout:90000,maxBuffer:1024*1024});}catch{throw new WaveSpeedError('CUT_MEDIA_FAILED');}}
 export async function mediaInfo(path:string){
  const r=await run(['-i',path,'-t','0','-f','null','-']);

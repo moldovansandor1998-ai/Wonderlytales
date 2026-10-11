@@ -12,6 +12,7 @@ export type CutShot={
  seconds:number;maxSeconds:number;reframe:boolean;environment:'street'|'workshop';
  frameFrom?:string;recording?:string;image?:string;audio?:string;source?:string;raw?:string;cleaned?:string;asset?:string;lastFrame?:string;
  previousAsset?:string;manualReviewRequired?:boolean;
+ objectRepair?:'mira-right-duplicate';objectMask?:string;objectCleaned?:string;
  sourceJob?:string;start?:number;end?:number;phase:'WAITING'|'AUDIO'|'FRAME'|'VIDEO'|'CHECK'|'READY';
  check?:{passed:boolean;text:string};
 };
@@ -31,7 +32,7 @@ export function speechDuration(seconds:number,max=10){
 }
 export function shotCeiling(s:CutShot){
  if(s.kind==='reuse')return 0;
- return (s.kind==='speech'?Math.ceil(s.maxSeconds)*.112:s.maxSeconds*.168)+Math.max(3,Math.ceil(s.maxSeconds))*.01+(s.reframe ? .04 : 0)+.02+(s.line && !s.recording ? .25 : 0);
+ return (s.kind==='speech'?Math.ceil(s.maxSeconds)*.112:s.maxSeconds*.168)+Math.max(3,Math.ceil(s.maxSeconds+.05))*.01+(s.reframe ? .04 : 0)+.02+(s.line && !s.recording ? .25 : 0);
 }
 export function cutCeiling(shots:CutShot[]){return Math.ceil((shots.reduce((n,s)=>n+shotCeiling(s),0)-1e-8)*100)/100;}
 export function chargeAllowed(c:FilmCut,price:number,ceiling:number){
