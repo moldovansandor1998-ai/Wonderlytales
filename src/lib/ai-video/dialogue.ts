@@ -7,10 +7,13 @@ import { isProduction } from '../config';
 import { reserveProductionBudget } from '../budget';
 export type DialogueRecording={id:string;characterId:string;voiceId:string;voiceRowId:string;text:string;language?:'hu'|'en';model:'eleven_v3';status:'SUBMITTING'|'COMPLETED'|'FAILED'|'UNCERTAIN';sha256?:string;duration?:number;alignment?:{characters:string[];character_start_times_seconds:number[];character_end_times_seconds:number[]}};
 const inputSchema=z.object({characterId:z.string().uuid(),expectedVoiceId:z.string(),text:z.string().trim().min(1).max(250),language:z.enum(['hu','en']).default('hu')}).strict();
-export async function recordCharacterDialogue(raw:unknown,store:R2VideoStore):Promise<DialogueRecording> {
-  const input=inputSchema.parse(raw),{characters,voices}=await readCast();
-  const character=characters.find(c=>c.id===input.characterId);
-  const voice=character && characterVoice(character,voices);
+// Only server-side orchestration may supply a frozen, preauthorized voice/budget.
+export type DialogueExecution={voices:Record<string,{id:string;voice_id:string}>;reserve:()=>Promise<void>};
+export async function recordCharacterDialogue(raw:unknown,store:R2VideoStore,execution?:DialogueExecution):Promise<DialogueRecording> {
+  const input=inputSchema.parse(raw);
+  const cast=execution?null:await readCast();
+  const character=execution?{id:input.characterId}:cast!.characters.find(c=>c.id===input.characterId);
+  const voice=execution?.voices[input.characterId]??(cast&&character?characterVoice(cast.characters.find(c=>c.id===input.characterId)!,cast.voices):null);
   if(!voice)throw new WaveSpeedError('CHARACTER_VOICE_MISSING',409);
   if(input.expectedVoiceId!==voice.voice_id)throw new WaveSpeedError('VOICE_ASSIGNMENT_CHANGED',409);
   const key=process.env.ELEVENLABS_API_KEY;
@@ -20,7 +23,7 @@ export async function recordCharacterDialogue(raw:unknown,store:R2VideoStore):Pr
   const old=await store.readDialogue<DialogueRecording>(id);if(old)return old;
   let result:DialogueRecording={id,characterId:character!.id,voiceId:voice.voice_id,voiceRowId:voice.id,text:input.text,language:input.language,model,status:'SUBMITTING'};
   if(!await store.claimDialogue(id,result))return (await store.readDialogue<DialogueRecording>(id))!;
-  try {await reserveProductionBudget('tts_dialogue');}
+  try {await (execution?.reserve??(()=>reserveProductionBudget('tts_dialogue')))();}
   catch {result={...result,status:'FAILED'};await store.saveDialogue(id,result);return result;}
   // No fallback voice and no automatic retries. The immutable record is the charge claim.
   try {

@@ -52,10 +52,11 @@ export async function submitCreative(job:CreativeJob,inputs:Record<string,unknow
     job={...job,status:'PROCESSING',taskId:task.id};
     if(!await store.writeRecord(job.kind,job.id,job,claimed.etag))throw new Error('save uncertain');
     return job;
-  }catch{
+  }catch(error){
     const latest=await store.readRecord<CreativeJob>(job.kind,job.id);
     if(latest?.value.taskId)return latest.value;
-    job={...job,status:'UNCERTAIN'};if(latest)await store.writeRecord(job.kind,job.id,job,latest.etag);return job;
+    const taskId=job.taskId??(error instanceof WaveSpeedError?error.taskId:undefined);
+    job={...job,taskId,status:taskId?'PROCESSING':'UNCERTAIN'};if(latest)await store.writeRecord(job.kind,job.id,job,latest.etag);return job;
   }
 }
 export async function startSceneImage(raw:unknown,store:R2VideoStore,api:WaveSpeedClient) {

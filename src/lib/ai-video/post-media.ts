@@ -17,6 +17,9 @@ export async function storeFile(store:R2VideoStore,file:string,ext:'wav'|'mp4'){
 // Input URLs come only from owned job records. Download before invoking ffmpeg: no remote protocols in filters.
 export async function downloadOwned(url:string,file:string,maxBytes=100*1024*1024){const r=await fetch(url,{redirect:'error',signal:AbortSignal.timeout(45000)});if(!r.ok||!r.body)throw new WaveSpeedError('MEDIA_UNAVAILABLE');const reader=r.body.getReader(),chunks:Uint8Array[]=[];let size=0;while(true){const x=await reader.read();if(x.done)break;size+=x.value.length;if(size>maxBytes){await reader.cancel();throw new WaveSpeedError('MEDIA_TOO_LARGE');}chunks.push(x.value);}await writeFile(file,Buffer.concat(chunks));}
 export async function normalizeVideo(input:string,output:string,start:number,end:number){await run(['-i',input,'-ss',String(start),'-t',String(end-start),'-map','0:v:0','-vf',fit,...encode,'-an','-movflags','+faststart',output]);}
+// Decode the final second and overwrite one PNG through the last decoded frame.
+// This avoids approximating the endpoint from duration or inventing a new still.
+export async function extractFinalFrame(store:R2VideoStore,asset:string){return tempMedia(async dir=>{const input=join(dir,'final.mp4'),output=join(dir,'last.png');await writeFile(input,await store.assetBytes(asset,'mp4'));await run(['-sseof','-1','-i',input,'-map','0:v:0','-an','-update','1',output]);return readFile(output);});}
 export async function speechTrack(dir:string,store:R2VideoStore,lines:SceneLine[],ids:Record<string,string>,duration:number,trimStart:number,selected?:(l:SceneLine)=>boolean){
  const used=lines.map((line,index)=>({line,index})).filter(x=>!selected||selected(x.line)),out=join(dir,'speech-'+Math.random().toString(36).slice(2)+'.wav');
  if(!used.length){await run(['-f','lavfi','-i','anullsrc=r=48000:cl=stereo','-t',String(duration),'-c:a','pcm_s16le',out]);return out;}

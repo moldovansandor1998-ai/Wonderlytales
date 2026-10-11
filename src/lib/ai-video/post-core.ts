@@ -7,12 +7,17 @@ import type {DialogueRecording} from './dialogue';
 import {WaveSpeedError} from '../providers/wavespeed';
 export async function currentVoices(){const {characters,voices}=await readCast();return Object.fromEntries(Object.entries(CAST).map(([key,c])=>[key,characterVoice(characters.find(x=>x.id===c.id)??{...c,code:'',voice_id:null},voices)?.voice_id??null])) as Record<CastKey,string|null>;}
 export function sourceHash(lines:SceneLine[]){return digest(JSON.stringify(lines));}
-export function fingerprint(state:SceneState,variant:LanguageVersion,lang:Language,voices:Record<CastKey,string|null>){const lines=lang==='hu'?state.dialogue:variant.dialogue??[];return digest(JSON.stringify({video:state.videoJobId,start:state.trimStart,end:state.trimEnd,lines,voices:lines.map(l=>voices[l.character]),recordings:lines.map((_,i)=>variant.recordings[String(i)]??(lang==='hu'?state.recordings[String(i)]:null)),mix:variant.mix,lang,source:lang==='en'?sourceHash(state.dialogue):undefined}));}
+export function effectiveLines(state:SceneState,variant:LanguageVersion,lang:Language){
+ const lines=lang==='hu'?state.dialogue:variant.dialogue??[],timing=variant.autoTiming;
+ const ids=lines.map((_,i)=>variant.recordings[String(i)]??(lang==='hu'?state.recordings[String(i)]:undefined));
+ return timing?.sourceHash===sourceHash(lines)&&timing.offsets.length===lines.length&&JSON.stringify(ids)===JSON.stringify(timing.recordingIds)?lines.map((l,i)=>({...l,offset:timing.offsets[i]})):lines;
+}
+export function fingerprint(state:SceneState,variant:LanguageVersion,lang:Language,voices:Record<CastKey,string|null>){const lines=effectiveLines(state,variant,lang);return digest(JSON.stringify({video:state.videoJobId,start:state.trimStart,end:state.trimEnd,lines,voices:lines.map(l=>voices[l.character]),recordings:lines.map((_,i)=>variant.recordings[String(i)]??(lang==='hu'?state.recordings[String(i)]:null)),mix:variant.mix,lang,source:lang==='en'?sourceHash(state.dialogue):undefined}));}
 export async function postContext(store:R2VideoStore,id:string,language:Language,voiceMap?:Record<CastKey,string|null>){
  const definition=EPISODE_SCENES.find(d=>d.id===id);if(!definition)throw new WaveSpeedError('SCENE_NOT_FOUND',404);
  const [scene,saved,voices]=await Promise.all([store.readRecord<SceneState>('episode-scene',id),store.readRecord<PostScene>('post-scene',id),voiceMap??currentVoices()]);
  const state=normalizeSceneState(scene?.value??defaultSceneState(definition)),post=saved?.value??{id,revision:0,variants:{}},variant=post.variants[language]??{...newVersion(),mix:{...newVersion().mix,...(definition.kind==='intro'?{sourceSpeech:'loop-intro' as const}:{})}};
- const lines=language==='hu'?state.dialogue:variant.dialogue??[];
+ const lines=effectiveLines(state,variant,language);
  const recordings=Object.fromEntries((await Promise.all(lines.map(async(_,i)=>{const key=String(i),rec=variant.recordings[key]??(language==='hu'?state.recordings[key]:undefined);return [key,rec?await store.readDialogue<DialogueRecording>(rec):null];}))).filter(([,r])=>r)) as Record<string,DialogueRecording>;
  const job=variant.jobId?(await store.readRecord<PostJob>('post-job',variant.jobId))?.value??null:null;
  const hash=fingerprint(state,variant,language,voices);

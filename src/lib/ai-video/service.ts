@@ -74,12 +74,12 @@ export class WaveSpeedVideoService {
       job = applyTask(job,task);
       if (!await this.store.save(job,claimed.etag)) throw new WaveSpeedError('JOB_STATE_UNCERTAIN');
       return job;
-    } catch {
+    } catch (error) {
       // The permanent claim remains even if the provider response or storage write was lost.
       // Never automatically resubmit and never return provider response bodies or credentials.
       const saved = await this.store.read(input.id);
       if (saved?.job.taskId) return saved.job;
-      job = { ...job, status: 'SUBMISSION_UNCERTAIN', error: 'A kérés kimenetele bizonytalan. Nincs automatikus újraküldés; ellenőrizd a WaveSpeed előzményeket.' };
+      job = { ...job, taskId: job.taskId ?? (error instanceof WaveSpeedError ? error.taskId : undefined), status: 'SUBMISSION_UNCERTAIN', error: 'A kérés kimenetele bizonytalan. Nincs automatikus újraküldés; ellenőrizd a WaveSpeed előzményeket.' };
       if (saved) await this.store.save(job,saved.etag);
       return job;
     }

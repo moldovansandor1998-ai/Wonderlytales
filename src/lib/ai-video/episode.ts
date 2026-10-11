@@ -50,12 +50,12 @@ export async function episodeOverview(store:R2VideoStore){
  const voiceMap=Object.fromEntries(Object.entries(cast).map(([k,v])=>[k,v.voiceId])) as Record<CastKey,string|null>;
  const decorated=await Promise.all(scenes.map(async scene=>{
   const post=posts.find(p=>p.id===scene.state.id),summary:NonNullable<EpisodeScene['post']>={};
-  for(const language of ['hu','en'] as const){const v=post?.variants[language];if(!v)continue;const job=v.jobId?(await store.readRecord<PostJob>('post-job',v.jobId))?.value:null;const hash=fingerprint(scene.state,v,language,voiceMap);summary[language]={approved:scene.state.review!=='needs-work'&&!!job?.finalAsset&&job.status==='READY'&&hash===job.fingerprint&&v.approvedFingerprint===hash,finalAsset:job?.finalAsset,status:job?.status};}
+  for(const language of ['hu','en'] as const){const v=post?.variants[language];if(!v)continue;const job=v.jobId?(await store.readRecord<PostJob>('post-job',v.jobId))?.value:null;const hash=fingerprint(scene.state,v,language,voiceMap);summary[language]={approved:scene.state.review!=='needs-work'&&!!job?.finalAsset&&job.status==='READY'&&hash===job.fingerprint&&v.approvedFingerprint===hash,finalAsset:job?.fingerprint===hash?job.finalAsset:undefined,status:job?.fingerprint===hash?job.status:undefined};}
   return {...scene,post:summary};
  }));
  return {title:EPISODE_TITLE,duration:600,scenes:decorated,cast};
 }
-export async function episodeAction(raw:unknown,store:R2VideoStore){
+export async function episodeAction(raw:unknown,store:R2VideoStore,options:{deferVideo?:boolean}={}){
  const c=commandSchema.parse(raw),d=definition(c.id);
  let {state}=await stateOf(store,c.id);
  const api=()=>new WaveSpeedClient(process.env.WAVESPEED_API_KEY??'');
@@ -121,7 +121,7 @@ export async function episodeAction(raw:unknown,store:R2VideoStore){
   if(c.action==='quote')return {scene:await episodeScene(store,c.id),quote:await service().quote(input)};
   if(!state.videoRequest&&!state.videoJobId)state=await change(store,c.id,c.revision,s=>({...s,videoJobId:input.id,videoRequest:input,review:'pending'}));
   if(!state.videoRequest)throw new WaveSpeedError('VIDEO_EXISTS',409);
-  await service().submit(state.videoRequest);await archive(store,state.videoRequest.id);
+  if(!options.deferVideo){await service().submit(state.videoRequest);await archive(store,state.videoRequest.id);}
  }else if(c.action==='video-poll'){
   if(!state.videoJobId)throw new WaveSpeedError('JOB_NOT_FOUND',404);
   await service().poll(state.videoJobId);await archive(store,state.videoJobId);

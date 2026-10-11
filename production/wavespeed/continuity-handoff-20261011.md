@@ -36,3 +36,40 @@ Publication blocker: automatic approval review rejected direct push to main beca
 explicit authorization to mutate the default branch was absent. Do NOT bypass it
 with an alternate main write or production deployment. Draft PR #5 is the concrete
 reviewable result; request explicit merge/publication permission after ready.
+
+## Automatic finished-video pipeline and batch request (latest steering)
+
+User additionally requested one-click finished video (no timing work), automatic
+speaker recognition, and up to ten consecutive scenes with review after the queue.
+Implemented on this branch, NOT yet published to main:
+
+- Workflow SDK 5.2.0 durable orchestration, sequential persisted steps, owner-scoped
+  single-worker CAS claims. Only authenticated same-origin POST starts a pipeline.
+  All service ceilings are reserved under the user's existing budget before any
+  worker runs; no session/refresh token or service-role credential enters a workflow.
+- One generate action runs motion -> video-based character recognition -> frozen
+  ElevenLabs voices -> measured-duration timing -> left/right lip-sync -> ducked
+  ambience/final MP4. Only the current completed final is shown by default; manual
+  postproduction lives under repair settings, raw assets remain in Gallery.
+- Recognition maps canonical species/costume to screen position and usable face
+  visibility intervals. It fails closed on uncertain identity or crossing sides.
+  Current lip-sync provider supports at most TWO visible speaking characters per
+  shot; this is preflight-checked. Three lines/offscreen voices remain supported.
+  No claim of infallible character recognition or lip-sync quality.
+- Automatic timing fits complete recordings in script order and available visible
+  windows, with a pause and trim margins. It does not truncate or overlap speech.
+  Speech that cannot fit requests shorter text instead of charging another take.
+- Batch selection permits 1–10 consecutive story scenes. Each starts only after the
+  preceding mixed MP4 is READY; server ffmpeg extracts its actual last decoded frame.
+  Batch consent allows provisional continuity WITHOUT asserting quality approval.
+  The first source still requires the prior accepted frame; later review stays pending.
+  Prior clips/images/post assets remain preserved when new variants are assigned.
+- Provider task IDs survive malformed results, and replayed start attempts cannot
+  repeat a paid task. Errors pause the saved run instead of regenerating automatically.
+- Preview requires a separate app login. No paid motion, analysis, TTS dialogue or
+  lip-sync request was launched to exercise the new pipeline in this conversation.
+
+Validation now: 66 targeted automated tests plus one real ffmpeg final-frame
+comparison passed (67 total). Production build generated both Workflow handlers;
+ffmpeg is included in the handler trace. Typecheck passed. Latest build still has
+non-fatal Next 14 warnings for newer optional Workflow config keys.

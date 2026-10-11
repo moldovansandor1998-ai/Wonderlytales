@@ -201,7 +201,11 @@ export class R2VideoStore implements VideoStore {
     return values.flatMap(v=>v?[v.value]:[]);
   }
   async importImage(url:string) {
-    const bytes=await downloadProviderMedia(url,MAX_IMAGE_BYTES),meta=imageMetadata(bytes),sha256=digest(bytes);
+    return this.putImage(await downloadProviderMedia(url,MAX_IMAGE_BYTES));
+  }
+  async putImage(bytes:Buffer) {
+    if(bytes.length>MAX_IMAGE_BYTES)throw new WaveSpeedError('INVALID_IMAGE',400);
+    const meta=imageMetadata(bytes),sha256=digest(bytes);
     await this.client.send(new PutObjectCommand({Bucket:this.bucket,Key:this.imageKey(sha256),Body:bytes,ContentType:meta.mime,Metadata:{sha256,width:String(meta.width),height:String(meta.height)}}));
     return {sha256,...meta};
   }
@@ -233,4 +237,4 @@ export class R2VideoStore implements VideoStore {
     const r=await this.client.send(new GetObjectCommand({Bucket:this.bucket,Key:this.assetKey(id,extension)}));return Buffer.from(await r.Body!.transformToByteArray());
   }
 }
-export type RecordKind='video-element'|'scene-image'|'analysis'|'reference'|'episode-scene'|'voice-design'|'post-scene'|'post-job'|'episode-master';
+export type RecordKind='auto-batch'|'auto-batch-index'|'auto-run'|'auto-scene'|'video-element'|'scene-image'|'analysis'|'reference'|'episode-scene'|'voice-design'|'post-scene'|'post-job'|'episode-master';
