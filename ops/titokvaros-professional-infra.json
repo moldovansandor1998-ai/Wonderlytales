@@ -1,0 +1,26 @@
+{
+  "checked_at": "2026-10-11T02:43:48.944022+00:00",
+  "runpod_endpoint": "cfog2x4xsd0adz",
+  "new_paid_actions": 0,
+  "runpod_health": {
+    "jobs": {
+      "completed": 42,
+      "failed": 0,
+      "inProgress": 0,
+      "inQueue": 0,
+      "retried": 0
+    },
+    "workers": {
+      "idle": 1,
+      "initializing": 0,
+      "ready": 1,
+      "running": 0,
+      "throttled": 0,
+      "unhealthy": 0
+    }
+  },
+  "r2_archived_review": {
+    "bytes": 36082604,
+    "sha256": "15635367e37cde98948c700217b66c2083f682d2b11ba6e9ef6bfad2a8692efe"
+  }
+}

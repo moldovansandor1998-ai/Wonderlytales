@@ -1,0 +1,16 @@
+{
+  "kind": "HOST_PREFLIGHT_ONLY",
+  "system": "Linux",
+  "maya_executable": null,
+  "unreal_executable": null,
+  "maya_runtime_tested": false,
+  "unreal_runtime_tested": false,
+  "license_verified": false,
+  "production_approved": false,
+  "status": "BLOCKED_MISSING_DCC",
+  "blockers": [
+    "MAYA_NOT_AVAILABLE",
+    "UNREAL_NOT_AVAILABLE"
+  ],
+  "paid_process_started": false
+}

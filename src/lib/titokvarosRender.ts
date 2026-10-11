@@ -6,6 +6,7 @@ import { getStorage } from './providers/storage';
 import { fetchWithTimeout } from './providers/translation';
 import manifest from '../../production/titokvaros/render-manifest.json';
 import { titokvarosPrefix } from './titokvaros';
+import { assertLegacyTitokvarosSubmissionAllowed } from './titokvarosProductionPolicy';
 export {manifest as titokvarosRenderManifest};
 export type DemoRender={status:string;id:string;provider_job_id?:string;clip_key?:string;clip_sha256?:string;frames?:number;error?:string};
 function spec(id:string){const job=manifest.jobs.find(j=>j.id===id);if(!job)throw new Error('Ismeretlen Titokváros renderfeladat.');return {...job,scene_key:('scene_key' in job?job.scene_key:manifest.scene_key) as string,scene_sha256:('scene_sha256' in job?job.scene_sha256:manifest.scene_sha256) as string};}
@@ -13,7 +14,7 @@ function stateKey(id:string){spec(id);return `${titokvarosPrefix}/jobs/${id}.jso
 export async function readDemoRender(id:string):Promise<DemoRender|null>{const s=getStorage();return await s.exists(stateKey(id))?JSON.parse((await s.get(stateKey(id))).toString()):null;}
 function provider(){if(!process.env.RUNPOD_API_KEY||!process.env.NATIVE_RUNPOD_ENDPOINT_ID)throw new Error('A natív RunPod nincs beállítva.');return {base:`https://api.runpod.ai/v2/${process.env.NATIVE_RUNPOD_ENDPOINT_ID}`,headers:{Authorization:`Bearer ${process.env.RUNPOD_API_KEY}`,'Content-Type':'application/json'}};}
 export async function submitDemoRender(id:string){
- await requireStudioUser();const job=spec(id);const saved=await readDemoRender(id);if(saved)throw new Error('Ez a feladat már elindult. Frissítsd az állapotát.');
+ await requireStudioUser();const job=spec(id);assertLegacyTitokvarosSubmissionAllowed();const saved=await readDemoRender(id);if(saved)throw new Error('Ez a feladat már elindult. Frissítsd az állapotát.');
  const p=provider();const s=getStorage();const source=await s.get(job.scene_key);
  if(createHash('sha256').update(source).digest('hex')!==job.scene_sha256)throw new Error('A Blender forrás ellenőrzőösszege eltér.');
  const frames=job.frame_end-job.frame_start+1;if(frames<1||frames>360)throw new Error('Túl hosszú renderfeladat.');

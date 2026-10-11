@@ -1,0 +1,15 @@
+{
+  "version": "5.3.5",
+  "url": "https://github.com/mgear-dev/mgear/releases/download/5.3.5/mgear-5.3.5.zip",
+  "bytes": 8144505,
+  "sha256": "815edf12750080b72c4502cabb5a64cee5f66dd56be52926fe0af6c785bdd786",
+  "downloaded": true,
+  "maya_loaded": false,
+  "production_approved": false,
+  "release_stage": "PREVIEW_ANIM_PICKER_NOT_PRODUCTION_APPROVED",
+  "uegear": {
+    "repository": "https://github.com/mgear-dev/ueGear",
+    "revision": "e5b733c0af2a54aa00eab0a8466ea94a521360b1",
+    "runtime_loaded": false
+  }
+}

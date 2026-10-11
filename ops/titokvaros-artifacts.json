@@ -238,5 +238,23 @@
     "sha256": "26348ff8ea903ee7088242d27e26f05e84b64aaee7887f27ed440db96dee7db5",
     "bytes": 34585921,
     "readback_verified": true
+  },
+  {
+    "key": "native/S1E1/TITOKVAROS/V001/FELIX_TRIPO_INPUT_V001.fbx",
+    "sha256": "2e8d1f9a3142c6b8aacf086c23462e80daa20abdd2dca8aa49804349144cae1b",
+    "bytes": 278944,
+    "readback_verified": true
+  },
+  {
+    "key": "native/S1E1/TITOKVAROS/V001/FELIX_INPUT_FRONT_V001.png",
+    "sha256": "3d891be4af48707348c453b9de25e31fda84a006f8749920b94e74b14350aae8",
+    "bytes": 355213,
+    "readback_verified": true
+  },
+  {
+    "key": "native/S1E1/TITOKVAROS/V001/TV_PRO_PIPELINE_EVIDENCE_V001.zip",
+    "sha256": "ee87f1b8ad2950c6850674199b966bcfd0cb401095ac7d3ca1e97f213e507cd8",
+    "bytes": 9789553,
+    "readback_verified": true
   }
 ]

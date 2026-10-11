@@ -1,0 +1,36 @@
+{
+  "blender": "4.5.3 LTS",
+  "source": "User-provided anthropomorphic+fox+3d+model.zip",
+  "production_approved": false,
+  "rights": "NO_LICENSE_DOCUMENT_IN_ARCHIVE",
+  "objects": [
+    {
+      "name": "tripo_node_2c72e235",
+      "type": "MESH",
+      "vertices": 5394,
+      "polygons": 6039,
+      "uv_layers": 0,
+      "vertex_groups": 0,
+      "shape_keys": [],
+      "armature_modifiers": 0,
+      "triangles": 1476,
+      "quads": 4563,
+      "ngons": 0,
+      "boundary_edges": 182,
+      "nonmanifold_edges": 182,
+      "loose_vertices": 0,
+      "color_attributes": [],
+      "dimensions": [
+        0.83447265625,
+        0.99951171875,
+        0.69873046875
+      ],
+      "material_names": [
+        "tripo_mat_2c72e235"
+      ]
+    }
+  ],
+  "images": [],
+  "actions": [],
+  "rigged": false
+}

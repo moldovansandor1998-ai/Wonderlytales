@@ -1,0 +1,21 @@
+{
+  "revision": "TV_PRO_PIPELINE_V001",
+  "updated": "2026-10-11",
+  "workflow": "MAYA_UNREAL",
+  "hero": "Félix",
+  "demo_seconds": 30,
+  "fps": 24,
+  "frame_count": 720,
+  "legacy_render_submissions_enabled": false,
+  "feature_production_enabled": false,
+  "production_approved": false,
+  "new_paid_actions": 0,
+  "checks": [
+    {"id":"infrastructure","label":"Meglévő infrastruktúra","state":"Működik","detail":"GitHub és Vercel egyező kiadás; Supabase elérhető; R2-forrás megőrizve; RunPod egészséges, aktív feladat nélkül."},
+    {"id":"maya","label":"Autodesk Maya","state":"Hozzáférés szükséges","detail":"Nincs elérhető Maya / mayapy telepítés és aktivált licenc ebben a futtatókörnyezetben."},
+    {"id":"felix","label":"Félix professzionális rigje","state":"Nem készült el","detail":"A Tripo FBX statikus háló: 5394 csúcs, 6039 lap; nincs csontváz, súlyozás, UV, textúra vagy arcmorf. Vizuális referencia lehet, végleges animációs assetként nincs elfogadva."},
+    {"id":"transfer","label":"Maya → Unreal átviteli próba","state":"Nem futott le","detail":"Valódi Maya-export és Unreal-import még nincs. A csontváz, animáció, morfok, bunda és anyagok külön igazolást igényelnek."},
+    {"id":"street","label":"Részletes Unreal városi utca","state":"Nem készült el","detail":"Unreal Editor, GPU-munkakörnyezet és hozzáférhető városi assetcsomag szükséges."},
+    {"id":"movie","label":"30 másodperces Félix-jelenet","state":"Nincs kész videó","detail":"A korábbi 48 másodperces munkakópia másik, elutasított kísérlet. Nem tekinthető ennek a jelenetnek."}
+  ]
+}

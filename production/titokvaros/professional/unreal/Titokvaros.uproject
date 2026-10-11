@@ -1,0 +1,15 @@
+{
+  "FileVersion": 3,
+  "Category": "Film",
+  "Description": "Titokvaros exchange test scaffold — no finished street or film",
+  "Plugins": [
+    {"Name":"PythonScriptPlugin","Enabled":true},
+    {"Name":"EditorScriptingUtilities","Enabled":true},
+    {"Name":"SequencerScripting","Enabled":true},
+    {"Name":"ControlRig","Enabled":true},
+    {"Name":"IKRig","Enabled":true},
+    {"Name":"MovieRenderPipeline","Enabled":true},
+    {"Name":"HairStrands","Enabled":true},
+    {"Name":"AlembicGroomImporter","Enabled":true}
+  ]
+}

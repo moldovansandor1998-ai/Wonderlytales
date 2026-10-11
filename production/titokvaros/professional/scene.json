@@ -1,0 +1,94 @@
+{
+  "id": "TV_FELIX_030_V001",
+  "status": "AUTHORED_SHOT_SPEC_NOT_RENDERED",
+  "production_approved": false,
+  "fps": 24,
+  "frame_start": 1001,
+  "frame_end": 1720,
+  "duration_seconds": 30,
+  "title": "Félix — A féknyom",
+  "location": "Révszirt, Rézrakpart: teraszos kikötőváros, eső utáni reggeli utca",
+  "hero": {
+    "name": "Félix",
+    "species": "antropomorf vörös róka",
+    "role": "a városi csőposta 26 éves hibakeresője",
+    "costume": "mély kékeszöld munkakabát, csontszínű nyakvédő, rozsdavörös szerszámtáska; saját szabás és jelképek",
+    "performance": "figyelmes és lendületes; veszélyben előbb a többieket figyelmezteti, utána menti magát; a megkönnyebbülést elneveti",
+    "voice": "saját magyar fiatal felnőtt férfihang, meleg középfekvés, levegős kifulladás; casting függőben"
+  },
+  "shots": [
+    {
+      "id": "FX010",
+      "start": 1001,
+      "end": 1096,
+      "lens_mm": 32,
+      "action": "Oldalazó követés: Félix a járdán sétál; kezében lezárt rézkapszula. Előtérben borz pék pakol, a túloldalon vidra száll ki egy vízitaxiból. Villamos halad a háttérben.",
+      "sound": "Nedves út, lépések, távoli villamos, üzletajtó csengő, halk ritmikus zenekezdés."
+    },
+    {
+      "id": "FX020",
+      "start": 1097,
+      "end": 1168,
+      "lens_mm": 65,
+      "action": "Közeli: Félix füle hátrafordul, mielőtt a feje követné. A fékező kisáruszállító tükröződik a kirakatban; tekintete a járműről a járdán álló állatokra vált.",
+      "sound": "Féknyikorgás; a zene mély hangon megtorpan. Félix belélegez."
+    },
+    {
+      "id": "FX030",
+      "start": 1169,
+      "end": 1264,
+      "lens_mm": 40,
+      "action": "Félix int a péknek, aki hátralép. A rakomány elmozdul, a jármű feléjük sodródik. Félix testsúlyt helyez, elrugaszkodik, majd futni kezd a járda mentén.",
+      "dialogue": "Félix: Vigyázz! Félre az útból!",
+      "dialogue_status": "NOT_RECORDED",
+      "sound": "Magyar kiáltás, gyorsuló lépések, csúszó láda, zene felépülése."
+    },
+    {
+      "id": "FX040",
+      "start": 1265,
+      "end": 1384,
+      "lens_mm": 28,
+      "action": "Alacsony követés: Félix egy terasz asztala és egy rakodókerékpár között fut. Vállát és farkát külön húzza el; keze röviden megtámaszkodik az asztal szélén. A kameratengely következetes.",
+      "sound": "Külön cipőkontaktusok, szövet, asztal megcsörrenése, motor és gumi közeledik."
+    },
+    {
+      "id": "FX050",
+      "start": 1385,
+      "end": 1528,
+      "lens_mm": 35,
+      "action": "Tágabb háromnegyed: a jármű a rakparti védőbaknak ütközik. Félix egy alacsony korlát fölött oldalra vetődik a terasz biztonságos mélyedésébe; karja védi a fejét, farok ellenforgással követi a testet. A kapszulát végig megtartja.",
+      "sound": "Becsapódás, rövid törmelékhang, visszafojtott felkiáltás; a zene a mozdulat csúcsán megszakad."
+    },
+    {
+      "id": "FX060",
+      "start": 1529,
+      "end": 1624,
+      "lens_mm": 50,
+      "action": "Talajközeli érkezés: tenyér, láb, majd térd tompít. Félix megcsúszik fél lépést, visszanyeri az egyensúlyát. A kabát és bunda lecsengő mozgása követi a megállást.",
+      "sound": "Tenyérkontaktus, cipősúrlódás, kifújás; az utca zaja fokozatosan visszatér."
+    },
+    {
+      "id": "FX070",
+      "start": 1625,
+      "end": 1720,
+      "lens_mm": 75,
+      "action": "Érzelmi közeli: Félix ellenőrzi, hogy a pék biztonságban van. A kezében a sértetlen kapszulán egy ismeretlen városjel villan. Először elmosolyodik, majd gyanakodva felnéz.",
+      "dialogue": "Félix: Na… ezt nem kérem még egyszer.",
+      "dialogue_status": "NOT_RECORDED",
+      "sound": "Kifulladt magyar mondat, távoli madárpolgárok beszéde, két hangból álló rejtélymotívum."
+    }
+  ],
+  "required_assets": [
+    "FELIX_HERO_RIG_APPROVED",
+    "FELIX_FACE_GROOM_LOOKDEV_APPROVED",
+    "REZRAKPART_UE_STREET",
+    "ANIMAL_EXTRAS_ONLY",
+    "DELIVERY_VAN_RIG",
+    "CYCLE_CARGO_PROP",
+    "CAFE_CONTACT_SET",
+    "TRAFFIC_SIGNAL_SYSTEM",
+    "HU_FELIX_DIALOGUE",
+    "LICENSED_ORIGINAL_SCORE_AND_FOLEY"
+  ],
+  "runtime_note": "A 720 képkocka szerkesztési terv, nem elkészült animáció vagy igazolt filmes minőség."
+}

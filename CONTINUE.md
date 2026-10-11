@@ -1,8 +1,89 @@
 # WonderlyTales: Titokváros — authoritative continuation
 
 Updated 2026-10-11. Continue this existing repository and infrastructure.
+LATEST USER DIRECTION (2026-10-11, 09:41 Asia/Saigon): Maya -> Unreal Engine 5
+is now PRIMARY. First hero is FELIX, an original anthropomorphic red fox; first
+acceptance film is 30 seconds (busy street, vehicle danger, escape, HU speech,
+complete sound). The prior Blender-first 48-second production target is superseded.
+STOP extending the procedural animation system and STOP rendering the rejected
+proxy cast. No feature production until cinematic footage passes. No new paid
+software, asset or subscription without explicit approval. Keep $200/day cap.
+The older suggestion to keep repairing proxy models is superseded.
 Csodakapu is archived, not deleted. All new characters/world assets are original
 Titokváros work. No Disney asset, character, city or scene is imported.
+
+## ACTIVE handoff: Félix / Maya -> Unreal (supersedes older recovery steps)
+
+Read `production/titokvaros/professional/README.md` and `status.json` first.
+The requested professional Félix rig, detailed Unreal street and 30s film DO NOT
+EXIST yet. Maya/UE runtime compatibility has NOT been tested. Do not relabel the
+old 48s video or new static FBX audit pictures as this deliverable.
+
+Completed in this revision:
+- Existing GitHub/Vercel version reconciled; Supabase read verified; R2 old movie
+  metadata matches; RunPod health reports 1 healthy idle worker and 0 queued/running
+  jobs. `ops/titokvaros-professional-infra.json`. Daily reservations still $72;
+  new paid operations/subscriptions/assets: ZERO.
+- User's supplied Tripo fox ZIP materialized, FBX actually imported in Blender
+  4.5.3 solely for input inspection. 5394 vertices, 6039 polygons, no rig/weights,
+  shape keys, UVs, images or animations. 182 boundary edges; those may include
+  intentional clothing openings, not automatically topology defects. Three actual
+  clay audit views rendered. `ops/titokvaros-felix-input-audit.json`.
+  Original FBX SHA `2e8d1f9a3142c6b8aacf086c23462e80daa20abdd2dca8aa49804349144cae1b`.
+  Source may guide silhouette; it is NOT approved as a final animation asset.
+- All old Titokváros diagnostic submissions blocked server-side before storage
+  claim/budget/provider call; reads/polls and existing media remain. Main Studio
+  and /production now show Félix / Maya -> Unreal / 30s; old creative materials
+  and rejected videos are in a collapsible archive. Nine relevant tests passed.
+- `professional/scene.json`: seven contiguous shots, 1001–1720 at 24fps, 720
+  planned frames. Detailed action, lenses, sound and original HU lines. No audio
+  recording or animation has been generated for these new lines.
+- Official mGear 5.3.5 ZIP downloaded with SHA and MIT license, Maya 2027 Linux
+  solvers present. New Anim Picker is PREVIEW; package is a candidate only.
+  ueGear source pinned at `e5b733c0af2a54aa00eab0a8466ea94a521360b1`.
+  Neither framework was loaded in Maya or UE. See `ops/titokvaros-mgear-package.json`.
+- `professional/doctor.py` actually runs and exits 2 / BLOCKED_MISSING_DCC.
+  Maya and Unreal adapter Python files compile; this is syntax evidence ONLY.
+  `.uproject` is a test scaffold, not a created city. Existing actual frame ledger,
+  R2 versioning, authentication, cost cap and ElevenLabs infrastructure stay intact.
+- Verification: TypeScript typecheck passes; the 9 targeted retirement/archive
+  tests pass; Python adapter syntax compiles. All three new R2 artifacts were
+  uploaded and read back with identical SHA-256. Evidence ZIP SHA
+  `ee87f1b8ad2950c6850674199b966bcfd0cb401095ac7d3ca1e97f213e507cd8`.
+  These checks do not demonstrate Maya/Unreal runtime or cinematic quality.
+
+Blockers and precise next actions:
+1. Need accessible activated Autodesk Maya and Epic UE5 installation on a GPU
+   workstation. Local Ubuntu 24.04 has ~10GiB RAM, ~23GiB free disk and no GPU.
+   Existing RunPod serverless worker is Blender-only, not an Unreal workstation.
+   Previous GraphQL Cloudflare block remains; never bypass it.
+2. User must approve any purchase. Concrete initial Maya option: Flex minimum
+   33 tokens / $99, Maya 6 tokens ($18) per active 24h; five full Maya days plus
+   3 tokens. Local tax/checkout and $200/day cap must be checked. Monthly Maya
+   public USA list $255 exceeds the daily cap alone; no purchase made. Existing
+   owned license may avoid a new purchase. mGear is free. UE licensing depends
+   on annual gross revenue; see linked official sources, do not assume eligibility.
+3. Build a professionally authored original Félix topology, full body/face rig,
+   groom and lookdev in Maya using established tools. No more proxy-remesh loop
+   and no custom motion engine. License activation alone will not produce these.
+4. Execute a real Maya export -> Unreal import test, then check scale, axes,
+   skinning, root motion, morphs, groom binding and PBR materials in actual frames.
+   Native FBX carries baked deformation, not the complete Maya control network.
+   ueGear source notes open limitations; do not assume universal rig transfer.
+5. Assemble the original Révszirt street; free UE-only Epic City Sample Buildings
+   is a candidate, not downloaded/imported. No human crowd characters. Then create
+   and review the actual 30s action and complete HU sound. Keep feature hold.
+
+Durable new artifact names (readback details in `ops/titokvaros-artifacts.json`):
+`FELIX_TRIPO_INPUT_V001.fbx`, `FELIX_INPUT_FRONT_V001.png`,
+`TV_PRO_PIPELINE_EVIDENCE_V001.zip`, under the existing new-series R2 prefix.
+Archive contains input FBX, real three-view evidence, audits, adapters, shot spec,
+licensed mGear package and third-party motion-source notices. Not a finished rig.
+
+The earlier Blender/Rokoko test was stopped when the user changed direction.
+Addon 1.4.3 registered; live dependencies were missing; BVH imported but retarget
+failed due to unmapped toe controls. Do not claim retarget/export PASS and do not
+keep developing it. Files under `technology/` are archived test code/evidence.
 
 ## Current result and hard quality hold
 

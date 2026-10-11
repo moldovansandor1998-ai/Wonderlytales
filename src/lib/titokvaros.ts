@@ -4,6 +4,9 @@ import ids from '../../production/titokvaros/ids.json';
 export { bible as titokvarosBible, demo as titokvarosDemo, ids as titokvarosIds };
 export const titokvarosPrefix = 'native/S1E1/TITOKVAROS/V001';
 export const titokvarosFiles = {
+ felix_input: {key:`${titokvarosPrefix}/FELIX_TRIPO_INPUT_V001.fbx`,mime:'application/octet-stream'},
+ felix_input_front: {key:`${titokvarosPrefix}/FELIX_INPUT_FRONT_V001.png`,mime:'image/png'},
+ professional_evidence: {key:`${titokvarosPrefix}/TV_PRO_PIPELINE_EVIDENCE_V001.zip`,mime:'application/zip'},
  candidate: {key:`${titokvarosPrefix}/TV_ANIMATED_V006.blend`,mime:'application/octet-stream'},
  turnaround: {key:`${titokvarosPrefix}/Titokvaros_turnarounds_V001.png`,mime:'image/png'},
  tv_char_mira: {key:`${titokvarosPrefix}/TV_CHAR_MIRA_V001.blend`,mime:'application/octet-stream'},
