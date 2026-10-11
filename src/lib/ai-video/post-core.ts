@@ -41,3 +41,13 @@ export function validateRecordings(ctx:Awaited<ReturnType<typeof postContext>>){
  if(visible.length===2&&(!ctx.variant.mix.layoutConfirmed||!visible.includes(ctx.variant.mix.leftSpeaker!)))throw new WaveSpeedError('SPEAKER_LAYOUT_REQUIRED',409);
  return visible;
 }
+
+/** Cached recognition may include a character removed from the scene. Never
+ * create a silent second track for that stale character. */
+export function postSpeakerOrder(ctx:Awaited<ReturnType<typeof postContext>>,visible:CastKey[]){
+ if(visible.some(k=>!ctx.state.characters.includes(k)))throw new WaveSpeedError('AUTO_CHARACTER_UNCERTAIN',409);
+ const automatic=ctx.variant.autoTiming?.sourceHash===sourceHash(ctx.language==='hu'?ctx.state.dialogue:ctx.variant.dialogue??[])
+  ? [...new Set(ctx.variant.autoSpeakerOrder?.filter(k=>ctx.state.characters.includes(k))??[])]:[];
+ return automatic.length>0&&automatic.length<=2&&visible.every(k=>automatic.includes(k))?automatic
+  :visible.length===2?[ctx.variant.mix.leftSpeaker!,visible.find(k=>k!==ctx.variant.mix.leftSpeaker)!]:visible;
+}

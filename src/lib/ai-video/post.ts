@@ -4,7 +4,7 @@ import {writeFile} from 'node:fs/promises';
 import {z} from 'zod';
 import {R2VideoStore,digest} from './storage';
 import {CAST,type SceneLine,type CastKey} from './episode-shared';
-import {postContext,sourceHash,validateRecordings} from './post-core';
+import {postContext,sourceHash,validateRecordings,postSpeakerOrder} from './post-core';
 import {newVersion,type Language,type LanguageVersion,type PostJob} from './post-shared';
 import {ENGLISH_LINES} from './episode-english';
 import {recordCharacterDialogue,type DialogueExecution} from './dialogue';
@@ -28,7 +28,7 @@ export async function postAction(raw:unknown,store:R2VideoStore,execution:PostEx
   if(ctx.job&&['PREPARING','SUBMITTING','PROCESSING','UNCERTAIN'].includes(ctx.job.status))throw new WaveSpeedError('JOB_ACTIVE',409);
   if(!ctx.job)throw new WaveSpeedError('PREPARE_REQUIRED',409);
   // Explicit new edit; keep raw footage, recordings, and every prior output.
-  await setVariant({...ctx.variant,repairRevision:(ctx.variant.repairRevision??0)+1,jobId:undefined,history:[...new Set([...ctx.variant.history,ctx.job.id])],approvedFingerprint:undefined,approvedAt:undefined});
+  await setVariant({...ctx.variant,repairRevision:(ctx.variant.repairRevision??0)+1,autoSpeakerOrder:ctx.variant.autoSpeakerOrder?.filter(k=>ctx.state.characters.includes(k)),jobId:undefined,history:[...new Set([...ctx.variant.history,ctx.job.id])],approvedFingerprint:undefined,approvedAt:undefined});
  }else if(input.action==='english'){
   if(input.language!=='en')throw new WaveSpeedError('INVALID_INPUT',400);
   if(!ctx.variant.dialogue){
@@ -70,8 +70,7 @@ export async function postAction(raw:unknown,store:R2VideoStore,execution:PostEx
    job={...job,videoAsset:await storeFile(store,normalized,'mp4'),dialogueAsset:await storeFile(store,speech,'wav')};
    if(!visible.length){const out=join(dir,'final.mp4');await mixVideo(normalized,original,speech,out,ctx.variant.mix,ctx.state.trimStart,job.duration);job={...job,status:'READY',finalAsset:await storeFile(store,out,'mp4')};}
    else{
-    const automatic=ctx.variant.autoTiming?.sourceHash===sourceHash(input.language==='hu'?ctx.state.dialogue:ctx.variant.dialogue??[])?ctx.variant.autoSpeakerOrder:undefined;
-    const order=automatic?.length&&automatic.length<=2&&visible.every(k=>automatic.includes(k))?automatic:visible.length===2?[ctx.variant.mix.leftSpeaker!,visible.find(k=>k!==ctx.variant.mix.leftSpeaker)!]:visible;
+    const order=postSpeakerOrder(ctx,visible);
     const speakerAssets=[];for(const k of order){const path=await speechTrack(dir,store,ctx.lines,ids,job.duration,ctx.state.trimStart,l=>l.character===k&&l.delivery==='visible');speakerAssets.push(await storeFile(store,path,'wav'));}
     job={...job,speechWindows:ctx.lines.flatMap((l,i)=>l.delivery==='visible'?[{start:l.offset-ctx.state.trimStart,end:l.offset-ctx.state.trimStart+ctx.recordings[String(i)].duration!}]:[]),speakerAssets,model:order.length===2?'wavespeed-ai/infinitetalk/video-to-video-multi':'sync/lipsync-2',prompt:`Preserve this original stylized 3D animated film exactly: same animal faces, muzzle shape, fur, clothing, body proportions, background architecture, movement and camera. ${order.map((k,i)=>`${i===0?'Left / primary':'Right'} speaker: ${CAST[k].name}, ${CAST[k].description}`).join('. ')}. Only these characters speak their assigned audio. Other characters remain silent. No cuts, no added gestures, no new objects or characters.`,status:'PREPARED'};
     // A new mix of the same performance reuses its completed lip-sync video.
@@ -83,6 +82,7 @@ export async function postAction(raw:unknown,store:R2VideoStore,execution:PostEx
   });}catch(e){await saveJob({...job,status:'FAILED',error:e instanceof WaveSpeedError?e.code:'MIX_FAILED'});throw e;}
  }else if(['quote','start'].includes(input.action)){
   let job=ctx.job;if(!job||job.fingerprint!==ctx.fingerprint||job.status!=='PREPARED'||!job.model)throw new WaveSpeedError('PREPARE_REQUIRED',409);
+  if(ctx.variant.autoSpeakerOrder?.some(k=>!ctx.state.characters.includes(k)))throw new WaveSpeedError('PREPARE_REQUIRED',409);
   const payload=await lipsyncPayload(job,store),provider=api();
   const [price,balance]=await Promise.all([provider.creativePrice(job.model,payload),provider.balance()]);
   if(price>.66)throw new WaveSpeedError('LIPSYNC_PRICE_TOO_HIGH',409);

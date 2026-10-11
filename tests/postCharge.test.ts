@@ -31,3 +31,15 @@ it('refuses approval of a visually rejected clip even when the final video is re
  await expect(postAction({id,language:'hu',action:'approve'},store as unknown as R2VideoStore)).rejects.toThrow('SCENE_VISUAL_REVIEW_REQUIRED');
  expect(calls.submit).not.toHaveBeenCalled();
 });
+
+it('refuses to pay for a prepared job whose cached cast includes a removed character',async()=>{
+ const store=memory(),scene=await store.readRecord('episode-scene',id),post=await store.readRecord('post-scene',id),job=await store.readRecord('post-job',jid);
+ const state={...(scene!.value as object),characters:['felix']};
+ const variant={...(post!.value as any).variants.hu,autoSpeakerOrder:['felix','mira']};
+ const hash=fingerprint(state as any,variant,'hu',{felix:null,mira:null,nera:null,tilda:null,oszkar:null});
+ await store.writeRecord('episode-scene',id,state,scene!.etag);
+ await store.writeRecord('post-scene',id,{...(post!.value as object),variants:{hu:variant}},post!.etag);
+ await store.writeRecord('post-job',jid,{...(job!.value as object),fingerprint:hash},job!.etag);
+ await expect(postAction({id,language:'hu',action:'start',data:{maxCostUsd:.6}},store as unknown as R2VideoStore)).rejects.toThrow('PREPARE_REQUIRED');
+ expect(calls.submit).not.toHaveBeenCalled();expect(calls.price).not.toHaveBeenCalled();
+});

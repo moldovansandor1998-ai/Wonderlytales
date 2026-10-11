@@ -1,6 +1,6 @@
 import {it,expect,vi,beforeEach} from 'vitest';
 vi.mock('@/lib/ai-video/voices',()=>({readCast:vi.fn(),characterVoice:vi.fn()}));
-import {fingerprint,validateRecordings,requirePreviousApproval} from '@/lib/ai-video/post-core';
+import {fingerprint,validateRecordings,requirePreviousApproval,postSpeakerOrder,sourceHash} from '@/lib/ai-video/post-core';
 import {newVersion} from '@/lib/ai-video/post-shared';
 import {EPISODE_SCENES,defaultSceneState} from '@/lib/ai-video/episode-data';
 import {readCast,characterVoice} from '@/lib/ai-video/voices';
@@ -51,4 +51,12 @@ it('blocks continuation of a visually rejected scene even if its sound was appro
  const store={readRecord:vi.fn(async(kind:string)=>({value:records[kind],etag:'1'})),readDialogue:vi.fn()} as unknown as R2VideoStore;
  expect((await postContext(store,scene.id,'hu',voiceMap)).approved).toBe(false);
  await expect(requirePreviousApproval(store,2)).rejects.toThrow('PREVIOUS_POST_APPROVAL_REQUIRED');
+});
+
+it('drops a stale silent rabbit from the single-fox lip-sync input',()=>{
+ const c=context();c.state={...c.state,characters:['felix']};
+ c.variant={...c.variant,autoSpeakerOrder:['felix','mira'],autoTiming:{sourceHash:sourceHash(c.state.dialogue),offsets:[3],recordingIds:['r']}};
+ expect(postSpeakerOrder(c,validateRecordings(c))).toEqual(['felix']);
+ c.state.characters=['felix','mira'];
+ expect(postSpeakerOrder(c,validateRecordings(c))).toEqual(['felix','mira']);
 });
