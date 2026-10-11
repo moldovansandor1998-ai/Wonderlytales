@@ -29,7 +29,8 @@ export async function postAction(raw:unknown,store:R2VideoStore){
    const seed=ENGLISH_LINES[ctx.definition.order]??[];
    let lines:SceneLine[]=ctx.state.dialogue.map((l,i)=>({...l,text:ctx.definition.dialogue[i]?.text===l.text?seed[i]??'': ''}));
    if(ctx.definition.kind==='intro')lines=[{character:'felix',text:'Subscribe to the channel!',offset:5.5,delivery:'visible'}];
-   if(lines.some(l=>!l.text))throw new WaveSpeedError('SOURCE_CHANGED_TRANSLATION_REQUIRED',409);
+   // Keep changed source lines as editable empty drafts; approval requires all text.
+
    await setVariant({...ctx.variant,dialogue:lines,sourceHash:sourceHash(ctx.state.dialogue),translationApproved:false,mix:{...ctx.variant.mix,...(ctx.definition.kind==='intro'?{sourceSpeech:'loop-intro' as const}:{})}});
   }
  }else if(input.action==='save'){

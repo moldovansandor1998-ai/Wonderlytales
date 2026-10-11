@@ -131,6 +131,8 @@ export async function episodeAction(raw:unknown,store:R2VideoStore){
   if(!line)throw new WaveSpeedError('INVALID_INPUT',400);
   const {characters,voices}=await readCast(),character=characters.find(x=>x.id===CAST[line.character].id),voice=character&&characterVoice(character,voices);
   if(!voice)throw new WaveSpeedError('CHARACTER_VOICE_MISSING',409);
+  const designed=await store.readRecord<{status:string;newVoiceId?:string}>('voice-design',character!.id);
+  if(designed?.value.status!=='ACTIVE'||designed.value.newVoiceId!==voice.voice_id)throw new WaveSpeedError('NEW_CHARACTER_VOICE_REQUIRED',409);
   const rec=await recordCharacterDialogue({characterId:character!.id,expectedVoiceId:voice.voice_id,text:line.text},store);
   await change(store,c.id,undefined,s=>JSON.stringify(s.dialogue[data.index])===JSON.stringify(line)?{...s,recordings:{...s.recordings,[String(data.index)]:rec.id}}:s);
  }
