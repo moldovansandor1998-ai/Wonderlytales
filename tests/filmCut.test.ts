@@ -49,6 +49,8 @@ describe('speech-led preview through scene 15',()=>{
  it('fails closed when the visual check is malformed or reports captions',()=>{
   const check={text_overlay:false,unexpected_character:false,teleportation:false,identity_change:false,reason:'Rendben'};
   expect(parseCutCheck(JSON.stringify(check)).passed).toBe(true);
+  expect(parseCutCheck(JSON.stringify({...check,reason:undefined,string_reason:'No defects'})).passed).toBe(true);
+  expect(parseCutCheck(JSON.stringify({...check,reason:undefined,string_reason:'No defects',teleportation:undefined})).passed).toBe(false);
   expect(parseCutCheck(JSON.stringify({...check,text_overlay:true})).passed).toBe(false);
   expect(parseCutCheck('looks good')).toEqual({passed:false,text:'looks good'});
  });

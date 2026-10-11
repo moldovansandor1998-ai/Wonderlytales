@@ -126,7 +126,7 @@ async function voiceForShot(store:R2VideoStore,c:FilmCut,s:CutShot){
 }
 export function parseCutCheck(text:string){
  const match=/\{[\s\S]*\}/.exec(text);if(!match)return {passed:false,text};
- try{const v=z.object({text_overlay:z.boolean(),unexpected_character:z.boolean(),teleportation:z.boolean(),identity_change:z.boolean(),reason:z.string()}).parse(JSON.parse(match[0]));return {passed:!v.text_overlay&&!v.unexpected_character&&!v.teleportation&&!v.identity_change,text:v.reason};}catch{return {passed:false,text};}
+ try{const raw=JSON.parse(match[0]),v=z.object({text_overlay:z.boolean(),unexpected_character:z.boolean(),teleportation:z.boolean(),identity_change:z.boolean(),reason:z.string()}).parse({...raw,reason:raw.reason??raw.string_reason});return {passed:!v.text_overlay&&!v.unexpected_character&&!v.teleportation&&!v.identity_change,text:v.reason};}catch{return {passed:false,text};}
 }
 export async function advanceCutBatch(store:R2VideoStore,workflowId:string){
  const c=await readCut(store);if(!c||c.status!=='RUNNING'||c.workflowId!==workflowId)return true;
