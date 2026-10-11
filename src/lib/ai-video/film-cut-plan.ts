@@ -11,7 +11,7 @@ const specs:ShotSpec[]=[
  {scene:5,line:0,characters:['felix'],label:'Félix visszakérdez',frame:'Reverse medium close-up of Felix, facing screen left toward Mira off camera. The original street remains behind him.',motion:'Felix gives a wry half-smile, raises one eyebrow and speaks to Mira off camera.'},
  {scene:5,line:1,characters:['mira'],label:'Mira válasza',frame:'Return to the same Mira close-up and camera axis as her previous shot.',motion:'Mira answers dryly, then glances toward the street as something catches her attention.'},
  {scene:6,characters:[],label:'A gyanús autó visszatér',seconds:4,frame:'Eyeline insert: the same silver car seen in the street reference is visible further up the same road, approaching the familiar red awning. No foreground characters. Same architecture, pavement and daylight.',motion:'The same silver car rolls into the established street, slows and stops beside the red awning. Wheels turn then stop; coherent road direction. No new cars appearing suddenly.'},
- {scene:7,line:0,characters:['mira'],label:'Mira a sofőrről kérdez',frame:'Same Mira medium close-up by the doorway, with the stopped car subtly visible in the distant background. Mira faces screen right.',motion:'Mira briefly looks toward the stopped car, then asks Felix off camera her question.'},
+ {scene:7,line:0,characters:['mira'],label:'Mira a sofőrről kérdez',frame:'Same Mira medium close-up by the doorway. The stopped car is off camera in her eyeline. Mira faces screen right.',motion:'Mira briefly looks toward the stopped car, then asks Felix off camera her question.'},
  {scene:7,line:1,characters:['felix'],label:'Félix és az ismeretlen sofőr',frame:'Same Felix reverse close-up, facing screen left. Keep the street and original outfit.',motion:'Felix answers cautiously, glancing once toward the stopped silver car.'},
  {scene:8,line:0,characters:['mira'],label:'Mira a táskára mutat',frame:'Same Mira close-up, slightly wider to show her hand gesturing toward Felix backpack outside the frame.',motion:'Mira asks her question and makes one small downward gesture toward the backpack.'},
  {scene:8,line:1,characters:['felix'],label:'Félix a táskához nyúl',frame:'Medium shot of Felix with the same backpack in his hands, looking screen left toward Mira off camera. Mouth unobstructed.',motion:'Felix answers while lowering the same backpack from his shoulder. He reaches toward the zipper, then pauses as his phone vibrates. Keep his speaking face clear.'},
@@ -39,5 +39,14 @@ export function makeCutPlan(lines:(scene:number)=>SceneLine[]=n=>EPISODE_SCENES[
   if(kind==='speech'&&(s.characters.length!==1||s.characters[0]!==line?.character))throw new Error('CUT_SPEAKER_CHANGED');
   return {id:`shot-${s.scene}-${i}`,scene:s.scene,label:s.label,kind,characters:s.characters,line,lineIndex:s.line,framePrompt:s.frame,motionPrompt:s.motion,seconds:s.seconds??0,maxSeconds:s.seconds??10,reframe:!s.continuous,environment:s.scene>=14?'workshop':'street',phase:'WAITING'};
  });
+ // Return to fixed camera plates for repeated reverse shots. This avoids paying
+ // for a newly invented face/background on every short response.
+ const cameraReturns:[number,number,number,number][]=[[5,1,4,0],[7,0,4,0],[8,0,4,0],[10,0,4,0],[7,1,5,0],[10,1,9,1]];
+ for(const [scene,line,fromScene,fromLine] of cameraReturns){
+  const shot=shots.find(s=>s.scene===scene&&s.lineIndex===line)!;
+  const source=shots.find(s=>s.scene===fromScene&&s.lineIndex===fromLine)!;
+  if(source.characters.join()!==shot.characters.join())throw new Error('CUT_CAMERA_CHARACTER_MISMATCH');
+  shot.frameFrom=source.id;shot.reframe=false;
+ }
  return [...reused,...shots];
 }

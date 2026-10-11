@@ -138,6 +138,7 @@ export async function advanceCut(store:R2VideoStore,workflowId:string){
  if(s.line&&!s.audio){await setShot(store,s.id,{...await cutSpeech(store,s),phase:'FRAME'});return false;}
  if(!s.image){
   const previous=c.shots[c.index-1]?.lastFrame;if(!previous)throw new WaveSpeedError('CUT_PREVIOUS_FRAME_MISSING');
+  if(s.frameFrom){const fixed=c.shots.find(x=>x.id===s.frameFrom)?.image;if(!fixed)throw new WaveSpeedError('CUT_CAMERA_FRAME_MISSING');await setShot(store,s.id,{image:fixed,phase:'VIDEO'});return false;}
   if(!s.reframe){await setShot(store,s.id,{image:previous,phase:'VIDEO'});return false;}
   const shas=s.characters.map(k=>c.refs[k]!);if(shas.some(x=>!x))throw new WaveSpeedError('CHARACTER_REFERENCE_MISSING');
   const environment=s.environment==='workshop'?c.workshop:c.street;if(!environment)throw new WaveSpeedError('CUT_ENVIRONMENT_MISSING');

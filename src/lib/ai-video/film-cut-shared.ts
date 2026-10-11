@@ -10,7 +10,7 @@ export type CutShot={
  id:string;scene:number;label:string;kind:'reuse'|'speech'|'action';characters:CastKey[];
  line?:SceneLine;lineIndex?:number;framePrompt:string;motionPrompt:string;
  seconds:number;maxSeconds:number;reframe:boolean;environment:'street'|'workshop';
- recording?:string;image?:string;audio?:string;source?:string;raw?:string;asset?:string;lastFrame?:string;
+ frameFrom?:string;recording?:string;image?:string;audio?:string;source?:string;raw?:string;asset?:string;lastFrame?:string;
  sourceJob?:string;start?:number;end?:number;phase:'WAITING'|'AUDIO'|'FRAME'|'VIDEO'|'CHECK'|'READY';
  check?:{passed:boolean;text:string};
 };

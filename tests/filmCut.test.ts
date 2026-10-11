@@ -9,6 +9,8 @@ describe('speech-led preview through scene 15',()=>{
   expect(shots.at(-1)?.scene).toBe(15);expect(shots.some(s=>s.scene>15)).toBe(false);
   for(let n=3;n<=15;n++)expect(shots.filter(s=>s.scene===n&&s.line).map(s=>s.line)).toEqual(EPISODE_SCENES[n].dialogue);
   expect(shots.filter(s=>s.kind==='speech').every(s=>s.characters.length===1&&s.characters[0]===s.line?.character)).toBe(true);
+  expect(shots.filter(s=>s.frameFrom)).toHaveLength(6);
+  for(const s of shots.filter(s=>s.frameFrom)){const source=shots.find(x=>x.id===s.frameFrom)!;expect(source.characters).toEqual(s.characters);expect(shots.indexOf(source)).toBeLessThan(shots.indexOf(s));expect(s.reframe).toBe(false);}
   expect(shots.filter(s=>s.kind==='action').map(s=>s.seconds)).toEqual([4,4,4,3,5]);
   expect(shots.find(s=>s.scene===9&&s.kind==='action')?.line?.delivery).toBe('offscreen');
  });
