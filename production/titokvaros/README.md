@@ -118,3 +118,10 @@ inserted into the four-part V003 movie as if it shared the same source.
 Run `python3 scripts/titokvaros-assemble-review.py` only when all four V003
 chunks are locally downloaded and verified. The movie contains known rejected
 modeling/performance defects. A complete output file is not a quality approval.
+
+The final QC evidence ZIP also preserves the completed provider result JSON
+records, so a future session does not depend on temporary RunPod status
+retention. Restore that registered ZIP and its `full_render/*.json` evidence
+when recovering old completed chunks; the status script validates cached
+COMPLETED records and the downloaded video hashes. The final assembled movie
+itself is a registered independent R2 artifact.

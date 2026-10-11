@@ -1,0 +1,48 @@
+{
+  "file": "TV_motion_review_V001.mp4",
+  "sha256": "15635367e37cde98948c700217b66c2083f682d2b11ba6e9ef6bfad2a8692efe",
+  "bytes": 36082604,
+  "production_approved": false,
+  "stage": "DEVELOPMENT_REVIEW",
+  "probe": {
+    "programs": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "codec_type": "video",
+        "width": 1920,
+        "height": 1080,
+        "r_frame_rate": "24/1",
+        "duration": "48.000000",
+        "nb_read_frames": "1152"
+      },
+      {
+        "codec_name": "aac",
+        "codec_type": "audio",
+        "sample_rate": "48000",
+        "channels": 2,
+        "r_frame_rate": "0/0",
+        "duration": "48.000000",
+        "nb_read_frames": "2250"
+      }
+    ],
+    "format": {
+      "duration": "48.000000"
+    }
+  },
+  "source_jobs": [
+    "TV_DEMO_V003_PART1",
+    "TV_DEMO_V003_PART2",
+    "TV_DEMO_V003_PART3",
+    "TV_DEMO_V003_PART4"
+  ],
+  "source_sha256": "10b4c5728d0c00079f2944bf35955f2c288e5e8cafb3fbe6ec579076a0367556",
+  "sound_sha256": "8cc15658b7c2b4e876ed3cc70f826e63eda97f0c567cb39d5dfc232ed5406cec",
+  "native_frames": 1152,
+  "timestamp_normalization": "setpts=N/(24*TB); passthrough; no duplicated frames",
+  "generated_or_duplicated_padding_frames": 0,
+  "visual_review": "FAILED_FEATURE_QUALITY",
+  "listening_review": "PENDING",
+  "visual_review_scope": "Four actual chunks sampled at 2fps; extra 24 consecutive run-onset frames; 16 final-movie boundary/cut frames. Not a complete real-time audiovisual watch.",
+  "complete_decode_verified": true
+}

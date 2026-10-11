@@ -1,38 +1,52 @@
 [
   {
     "id": "TV_DEMO_V003_PART1",
+    "provider_job_id": "86ee479e-6408-402f-b8e8-9d2c124e7daa-u1",
     "status": "COMPLETED",
-    "source_sha256": "10b4c5728d0c00079f2944bf35955f2c288e5e8cafb3fbe6ec579076a0367556",
-    "clip": {
-      "bytes": 9251586,
-      "has_scene_audio": true,
-      "key": "renders/native/S1E1/10b4c5728d0c00079f2944bf35955f2c288e5e8cafb3fbe6ec579076a0367556/6473698608eb2b5dde67af806523ddbdc23ff1f71bd1f37e48b8ed7b40125246/clip.mp4",
-      "sha256": "73d3eb4e339943e40a7a86e22a82382f8a8783fefddb2130f0802bd7bbe67665",
-      "verified_fps": 24,
-      "verified_frames": 288,
-      "verified_height": 1080,
-      "verified_width": 1920
-    },
-    "frames": 288,
     "execution_ms": 811634,
-    "production_approved": false
+    "frames": 288,
+    "has_audio": true,
+    "clip_sha256": "73d3eb4e339943e40a7a86e22a82382f8a8783fefddb2130f0802bd7bbe67665",
+    "download_verified": true
   },
   {
     "id": "TV_DEMO_V003_PART2",
+    "provider_job_id": "9c1565a5-ab19-4332-be37-5a62c2903baa-u1",
     "status": "COMPLETED",
-    "source_sha256": "10b4c5728d0c00079f2944bf35955f2c288e5e8cafb3fbe6ec579076a0367556",
-    "clip": {
-      "bytes": 9915756,
-      "has_scene_audio": true,
-      "key": "renders/native/S1E1/10b4c5728d0c00079f2944bf35955f2c288e5e8cafb3fbe6ec579076a0367556/bcc1a03fe8c9b3059babfbf76995e2171bc1166ed7c4f64072178e99b66aa8ad/clip.mp4",
-      "sha256": "096149f693297d0e8c77e95c8b054a4ec88d96533986b9a1c2755a845e80597b",
-      "verified_fps": 24,
-      "verified_frames": 288,
-      "verified_height": 1080,
-      "verified_width": 1920
-    },
-    "frames": 288,
     "execution_ms": 825534,
-    "production_approved": false
+    "frames": 288,
+    "has_audio": true,
+    "clip_sha256": "096149f693297d0e8c77e95c8b054a4ec88d96533986b9a1c2755a845e80597b",
+    "download_verified": true
+  },
+  {
+    "id": "TV_DEMO_V003_PART3",
+    "provider_job_id": "01ae7c72-3109-4273-8501-56d9a7df3b64-u1",
+    "status": "COMPLETED",
+    "execution_ms": 832338,
+    "frames": 288,
+    "has_audio": true,
+    "clip_sha256": "8af4e3e0863eaf1ef7195aadef442f06fbea2dff834a0173b5d214195c1b7c0b",
+    "download_verified": true
+  },
+  {
+    "id": "TV_DEMO_V003_PART4",
+    "provider_job_id": "89430fee-2775-4213-a61a-4efa9742d9b6-u2",
+    "status": "COMPLETED",
+    "execution_ms": 827122,
+    "frames": 288,
+    "has_audio": true,
+    "clip_sha256": "70e173139f79a6605323febf065e22b6feca864c55b95bfee9e46424434990cf",
+    "download_verified": true
+  },
+  {
+    "id": "TV_CONTACT_V006_2S",
+    "provider_job_id": "8fd969a2-96c3-4512-bcf2-7d9a9a03d4a7-u2",
+    "status": "COMPLETED",
+    "execution_ms": 148047,
+    "frames": 48,
+    "has_audio": true,
+    "clip_sha256": "bc491cdfb7beb6fca77d75700409eb626f37754da16d06b0d5490872cc4bba89",
+    "download_verified": true
   }
 ]

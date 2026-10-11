@@ -4,12 +4,12 @@
   "episode": "TV_S1E1",
   "sequence": "TV_DEMO_001",
   "title": "A rakpart, amely nincs a térképen",
-  "stage": "DEVELOPMENT",
+  "stage": "DEVELOPMENT_VIDEO_REVIEW",
   "production_approved": false,
   "fps": 24,
   "duration_frames": 1152,
   "target_duration_seconds": 48,
-  "actual_rendered_duration_seconds": null,
+  "actual_rendered_duration_seconds": 48,
   "characters": [
     "MIRA",
     "BRUNO",
@@ -151,5 +151,7 @@
     "editing_continuity",
     "complete_video_watch",
     "complete_audio_listen"
-  ]
+  ],
+  "completed_movie_source": "TV_ANIMATED_V003",
+  "corrected_source_candidate": "TV_ANIMATED_V006"
 }

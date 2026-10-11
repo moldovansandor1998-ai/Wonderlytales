@@ -116,3 +116,32 @@ arm gesture render, but there is insufficient weight, anticipation, reaction
 or escalation for the written rescue. The intended map handling and gap
 crossing in demo.json are NOT implemented performances. Camera/action text in
 that document is direction, not evidence that every action is in the movie.
+
+PART4 actual 12-second video was reviewed in 24 decoded images at 2 fps.
+The light event and final camera cut are present, but the blue spill is harsh
+and the long held poses do not deliver the written emotional/action payoff.
+No full real-time audiovisual approval is claimed. All four actual chunks
+have now received sampled visual review; the artistic decision remains FAIL.
+
+The first final-movie encode was correctly rejected by the verification gate:
+video started at 0.041016 s and contained 1151 frames after the 48s cutoff.
+The assembler now assigns decoded frames consecutive N/24 timestamps with
+FFmpeg setpts and passthrough mode; no frame is duplicated/interpolated.
+The corrected output must still pass the independent count/duration/decode
+checks before it can be published. This correction does not render on the GPU.
+
+Final corrected encode PASSED: 1152 frames, 1920×1080, 24fps, exact 48.000s
+video and stereo 48kHz AAC, complete decode without errors. Final SHA
+`15635367e37cde98948c700217b66c2083f682d2b11ba6e9ef6bfad2a8692efe`.
+Sixteen decoded final-movie frames at the beginning/end and both sides of
+every camera cut were inspected. Development watermark is present.
+
+V006 short actual video completed: 48 frames/2.000s, SHA
+`bc491cdfb7beb6fca77d75700409eb626f37754da16d06b0d5490872cc4bba89`.
+All 48 decoded frames were visually inspected. The stop/grip and shot-4/5 cut
+are visible without the foreground pole, and the crate no longer passes
+through Bruno in this interval. The sudden stop, weak weight transfer,
+shoulder deformation, artificial finger grip and exposed bat fingers remain
+unacceptable. This bounded correction test does not prove the whole revised
+48-second scene or the full chase; V006 remains DEVELOPMENT_UNAPPROVED.
+Full real-time audiovisual listening/performance review is still pending.

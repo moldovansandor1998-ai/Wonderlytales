@@ -220,5 +220,23 @@
     "sha256": "87d4cb87481052d73761d30f9416264e44532cc29597c3214ae04c5431f60389",
     "bytes": 129883495,
     "readback_verified": true
+  },
+  {
+    "key": "native/S1E1/TITOKVAROS/V001/TV_motion_review_V001.mp4",
+    "sha256": "15635367e37cde98948c700217b66c2083f682d2b11ba6e9ef6bfad2a8692efe",
+    "bytes": 36082604,
+    "readback_verified": true
+  },
+  {
+    "key": "native/S1E1/TITOKVAROS/V001/final_media_audit.json",
+    "sha256": "a98e83d0bc5c39a333e6a0ddb1c778831eaaa2354825af07680ed8dd90065793",
+    "bytes": 1526,
+    "readback_verified": true
+  },
+  {
+    "key": "native/S1E1/TITOKVAROS/V001/TV_QC_EVIDENCE_V001.zip",
+    "sha256": "26348ff8ea903ee7088242d27e26f05e84b64aaee7887f27ed440db96dee7db5",
+    "bytes": 34585921,
+    "readback_verified": true
   }
 ]
