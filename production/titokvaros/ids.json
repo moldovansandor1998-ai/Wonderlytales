@@ -1,0 +1,22 @@
+{
+  "series": "a2746bb2-96da-50d2-a433-c0a61207b2da",
+  "season": "587a0966-2776-5d7b-acb3-06ed9323b94f",
+  "episodes": {
+    "1": "732d0fd0-151a-595c-acca-d802a5624dd1",
+    "2": "5e81ff40-4241-54b3-a23c-b8e341933561",
+    "3": "0fc4402d-d690-55c3-bae6-3350e1296ec8",
+    "4": "e611aa15-5a9e-54db-bc08-f191741fc834",
+    "5": "69cf0d7f-0a7a-59d0-8248-af5c93e70dcc",
+    "6": "809f8ed2-8211-5b14-b84f-9066dc4b29e0"
+  },
+  "characters": {
+    "MIRA": "2f0eb3f6-0953-598e-8dad-e6cc0a6963a0",
+    "BRUNO": "45d26413-7b23-522d-b90c-793c61cd3578",
+    "KIPP": "2733bd73-05cd-59e2-b0b2-23bfbf4223b0",
+    "NERA": "cbdb8391-dea7-5ac0-8841-c83cc5d3f5e9",
+    "DORKA": "8534560a-3af5-5026-895f-0496ec295388",
+    "ARON": "f29cdf3a-54d1-550a-96bd-a8a0cc3ce6f5",
+    "TILDA": "cc299a50-e504-53e9-aac9-c9dbb51c298a",
+    "OSZKAR": "630ed3ce-dd2c-5111-ae74-9194443a8156"
+  }
+}

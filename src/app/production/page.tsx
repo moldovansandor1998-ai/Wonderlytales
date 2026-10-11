@@ -20,6 +20,7 @@ export default async function Production() {
  const live=heartbeat && Date.now()-heartbeat.getTime()<180000;
  return <>
   <PageTitle title="Filmgyártás" sub="Minimum 40, alapértelmezetten 60 perces epizódok. A render elkészülte után külön minőségi ellenőrzés szükséges." />
+  <Card className="mb-5"><h2 className="text-lg font-semibold">Aktív sorozat: Titokváros</h2><p className="my-2">Új állatváros, nyolc saját főszereplő és natív 3D animáció. Először a 48 másodperces bemutatójelenet készül. A Csodakapu korábbi próbái archív anyagok.</p><Link className="text-amber-400" href="/titokvaros">Titokváros megnyitása — karakterek, évad és hangpróbák</Link></Card>
   <Card className="mb-5">
    <div className="flex gap-3 flex-wrap"><Badge text={live?"Vezérlő működik":"Vezérlő nem igazolt"} tone={live?"green":"red"}/><Badge text={c.dispatch_enabled && c.endpoint_verified?"Natív render engedélyezve":"Natív render indítása blokkolva"} tone="amber"/><Refresh/></div>
    <p className="mt-3 text-sm">Utolsó automatikus jelzés: {heartbeat?heartbeat.toLocaleString("hu-HU",{timeZone:"Asia/Saigon"}):"nincs"}. Folyamatban lévő külső munkák: {c.active_remote}.</p>

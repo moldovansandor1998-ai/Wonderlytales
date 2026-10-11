@@ -1,0 +1,27 @@
+import Link from 'next/link';
+import { requireStudioUser } from '@/lib/auth';
+import { titokvarosBible as bible, titokvarosDemo as demo, titokvarosIds, voiceDesigns } from '@/lib/titokvaros';
+import { readVoiceAudition } from '@/lib/titokvarosVoices';
+import { PageTitle, Card, Badge } from '@/components/ui';
+import { ActionButton } from '@/components/forms';
+import { designVoiceAction,selectVoiceAction } from './actions';
+export const dynamic='force-dynamic';
+export const maxDuration=300;
+export default async function Titokvaros(){
+ await requireStudioUser();
+ const auditions=await Promise.all(Object.keys(voiceDesigns).map(async code=>({code,saved:await readVoiceAudition(code).catch(()=>null)})));
+ return <>
+  <PageTitle title="WonderlyTales: Titokváros" sub="Új világ, nyolc állatfőszereplő, hat egész estés kaland. A Csodakapu archívuma megmarad."/>
+  <Card className="mb-6"><div className="flex gap-3 mb-3"><Badge text="Fejlesztés alatt" tone="amber"/><Badge text="A filmminőség még nincs igazolva"/></div>
+   <p className="mb-4">{bible.logline}</p>
+   <a href="/api/titokvaros/artifact?file=concept" target="_blank" className="text-amber-400">Karakterek és Rézrakpart — látványterv</a>
+   <p className="mt-3 text-sm text-zinc-400">A látványterv a kívánt irányt mutatja. A 3D modellek, rigek és a 48 másodperces jelenet külön ellenőrzést kapnak.</p>
+   <div className="flex flex-wrap gap-4 mt-4"><Link className="text-amber-400" href={`/series/${titokvarosIds.series}`}>Sorozat és epizódok</Link><Link className="text-amber-400" href="/production">Filmgyártás</Link><a className="text-amber-400" href="/api/titokvaros/artifact?file=master">Blender fejlesztési forrás</a><a className="text-amber-400" href="/api/titokvaros/artifact?file=proof">Első 3D modellpróba</a></div>
+  </Card>
+  <div className="grid md:grid-cols-2 gap-5">{bible.characters.map(c=><Card key={c.code}><h2 className="font-semibold text-xl" style={{color:c.color}}>{c.name} · {c.species}</h2><p className="text-sm text-zinc-400 mb-3">{c.age} éves · {c.job}</p><p>{c.personality}</p><p className="mt-3 text-sm">{c.arc}</p><details className="mt-3"><summary className="text-amber-400 cursor-pointer">Külső, mozgás, hang és kapcsolatok</summary><p className="mt-2">{c.appearance}</p><p className="mt-2">{c.movement}</p><p className="mt-2">{c.voice}</p><p className="mt-2 text-zinc-400">Erősség: {c.strength} Gyengeség: {c.weakness}</p><p className="mt-2 text-zinc-400">{Object.values(c.relations).filter(Boolean).join(' ')}</p></details></Card>)}</div>
+  <Card className="my-6"><h2 className="text-xl font-semibold mb-3">A város</h2><p>{bible.premise}</p><div className="grid md:grid-cols-2 gap-4 mt-4">{bible.districts.map(d=><div key={d.code}><h3 className="font-semibold">{d.name} — {d.function}</h3><p className="text-sm text-zinc-400">{d.look}</p></div>)}</div></Card>
+  <Card className="my-6"><h2 className="text-xl font-semibold mb-3">Első évad</h2>{bible.season.map(e=><div key={e.number} className="mb-4"><h3 className="font-semibold">{e.number}. {e.title}</h3><p>{e.adventure}</p><p className="text-sm text-zinc-400">{e.emotion}</p></div>)}<p className="text-amber-300">Filmenként 60 perc a cél, legalább 40 perc valódi történettel. A kész játékidő még nincs megmérve.</p></Card>
+  <Card className="my-6"><h2 className="text-xl font-semibold">48 másodperces bemutatójelenet</h2><p className="my-3">{demo.title} · 7 beállítás · Mira, Brúnó és Kipp · Rézrakpart</p><p>A jelenet elkészülte és elfogadása előtt a teljes film gyártása várakozik.</p>{demo.dialogue.map(l=><p className="my-2" key={l.id}><strong>{bible.characters.find(c=>c.code===l.character)?.name}:</strong> {l.text}</p>)}</Card>
+  <Card className="my-6"><h2 className="text-xl font-semibold">Új magyar karakterhangok</h2><p className="text-sm text-zinc-400 my-3">Eredeti hangtervek. A próbák meghallgatása után választható ki a karakter állandó hangja.</p>{auditions.map(({code,saved})=><section className="border-t border-zinc-800 py-4" key={code}><h3 className="font-semibold">{bible.characters.find(c=>c.code===code)?.name}</h3>{saved?<p className="text-sm my-2">{saved.status}{saved.error?`: ${saved.error}`:''}</p>:<ActionButton label="Három hangpróba készítése" action={designVoiceAction.bind(null,code)}/>} {saved?.previews?.map((p,i)=><div key={p.id} className="my-3"><p>Változat {i+1}</p><audio controls preload="none" src={`/api/titokvaros/artifact?voice=${code}&preview=${i}`}/>{!saved.voice_id&&<ActionButton label={`Változat ${i+1} mentése karakterhangként`} action={selectVoiceAction.bind(null,code,i)}/>}</div>)}</section>)}</Card>
+ </>;
+}

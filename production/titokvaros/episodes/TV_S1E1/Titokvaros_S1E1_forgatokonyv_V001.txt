@@ -1,0 +1,786 @@
+WONDERLYTALES: TITOKVÁROS
+1. film — A VÁROS TITKA
+Teljes történeti forgatókönyv, első rendezői változat / TV_V001
+Nyelv: magyar. Kép: natív 3D, 24 kép/mp. Nincs narrátor.
+
+JÁTÉKIDŐ ÉS ÁLLAPOT
+Alapértelmezett cél: 60 perc; minimum: 40 perc. Az alábbi jelenetek végigvezetik az első film teljes, lezárt kalandját, az évadrejtély első nyomával. A kamera- és hangterv rendezői kiindulópont, nem végleges vágólista. A játékidő nincs lejátszott olvasópróbával vagy animatikkal igazolva. A dialógusokat nem szabad mesterségesen lassítani, a csendeket nem szabad hosszkitöltésre használni. Ha az előadás rövidebb 40 percnél, a cselekményt kell bővíteni, nem az üres képeket. A 48 másodperces gyártási demonstráció a 8. jelenet sűrített, külön időzített kivonata; a filmben a demonstrációt nem ismételjük meg másodszor.
+
+FŐ DRAMATURGIAI VONAL
+Mira vissza akarja tenni a térképre a Rézrakpartot. Mire megérti, hogy a térképet szándékosan hamisítják, már egy téves kiürítés fenyegeti a lakókat. Brúnó a mentésben vállal kockázatot, Kipp megtanulja kimondani, amit hallott, Néra pedig vállalja egy elhallgatott irat következményét. Az árvízi kapu hibáját ebben a filmben megoldják. Aki a rendszert átprogramozza, és az éjszakánként közlekedő régi vonat ügye a következő történethez vezet.
+
+FOLYTONOSSÁG
+Mira térképtokja kezdetben a jobb vállán, az üldözés után a balon van, mert a jobb heveder elszakad. Brúnó csavarkulcsa rézszínű kötéllel rögzített; nem jelenhet meg két helyen egyszerre. Kipp fejhallgatója a 8. jelenetben megreped, a jobb oldal onnantól néma. Néra levéltári pecsétje csak a 21. jelenetben kerül Mirához. A folyó a film elején apad; a kikötői mérőléc és az áramlás fordulása végig jelzi az időt. A város lakói kizárólag állatok, a háttérlakók is.
+
+I. FELVONÁS — AMI NINCS A TÉRKÉPEN
+
+01. KÜLSŐ — RÉZSZIRTI FOLYÓTOROK, HAJNAL
+
+KÉP: 24 mm-es magas totál a vízről; a kamera egy teherhajó mellett halad be a városba. Nem turisztikai montázs: egyetlen munkanap indulását követjük. Dorka hajója elengedi a vontatókötelet, Oszkár a fedélzetről felkap egy postazsákot, majd a rakparti lépcsőn kerékpárral tolva szalad fel. A fölötte elhaladó villamosban Brúnó a nyitott szerelőfedél alatt dolgozik. Mindhárom mozgásnak felismerhető kezdete és célja van.
+
+HANG: hajómotor, kötél nyikorgása, sirály helyett a távolban dolgozó madárlakók beszélgetése; a város háromhangos csengőmotívuma egymásnak felel. ZENE: rövid, lendületes nyitótéma rézfúvóval és pizzicatóval, a párbeszéd alatt visszahúzva.
+
+DORKA: Oszkár! A zsák ne érjen a vízbe!
+OSZKÁR: Soha nem engednék tengerbe hivatalos levelet.
+DORKA: Folyóban vagyunk.
+OSZKÁR: Akkor szerencse, hogy szóltál.
+
+A zsák pántja felakad. Oszkár nagy lendülettel továbbindul, a pánt visszahúzza. A tréfát a megakadt mozdulat zárja, nem egy hozzáadott csattanóhang. Dorka kiszabadítja, és odanyújtja.
+
+DORKA: Előbb azt nézd, mi tart. Utána azt, merre mész.
+OSZKÁR: Ezt a versenyen is mondhatnád.
+DORKA: Ott is ezt mondom. Csak gyorsabban hagysz faképnél.
+
+A villamos felsővezetékén egy kis szikra fut végig. Két fémes koppanás. A város hangja egy pillanatra elvékonyodik. Brúnó felnéz. Vágás a szeme helyett a mozdulatára: azonnal a kézifék fölé teszi a kezét.
+
+02. BELSŐ — MIRA TÉRKÉPMŰHELYE, REGGEL
+
+KÉP: 50 mm, közeli ecset és régi papír; kitágul a kép, ahogy Mira apró súlyt emel le egy sarokról. A falon fényképek helyett saját rajzok és térképrétegek: az apját nem magyarázó felirat mutatja be. Egy javított tok csatján M. R. monogram. Az utcai fény ferdén súrolja a karcolt asztalt.
+
+Mira a régi és új várostérképet egymásra teszi. Az egyik kanyarban hiányzik egy utca. Először a papírt igazítja meg. A hiba nem mozdul. Megfordítja a lapot, majd az ablakon át lenéz ugyanarra a kanyarra.
+
+BORKA, lentről: Mira! A szokásosat?
+MIRA: Egyet kérek. Ma nem érek rá reggelizni.
+BORKA: Az már tegnap is kettő volt.
+MIRA: Tegnap két dolgot nem értem rá.
+
+Borka egy kis kosarat húz fel kötélen. Mira elkapja, félreteszi az ecsetet, a péksüteményből letör egy darabot. A régi tervrajz szélén apja kézírása: „Aki itt lakik, annak ez nem mellékutca.” Mira végighúzza rajta az ujját. Nem olvassa fel.
+
+MIRA, magának: Akkor miért nincs rajta?
+
+Megjelenik Oszkár a nyitott ajtóban, a futárkijelzőjét rázza.
+
+OSZKÁR: A csomagod szerint te a folyó közepén dolgozol.
+MIRA: És te mégis megtaláltál.
+OSZKÁR: Régi szakmai fogás. Megnéztem, hol van a házad.
+
+03. BELSŐ — MŰHELY, FOLYTATÁS
+
+KAMERA: a két térképréteg közé néző felső közeli; utána ellenbeállítás Mira arcára. Oszkár nem a nézőnek magyaráz: a saját elakadt kézbesítését próbálja megoldani.
+
+OSZKÁR: Öt címet töröltek az útvonalamból. A rendszer szerint bontási terület.
+MIRA: Borka pékségét is?
+OSZKÁR: Hétfőtől. Remélem, a pogácsák kaptak értesítést.
+MIRA: Tegnap még nem ez volt a térképen.
+OSZKÁR: Lehet, hogy rossz verziót nyitottál.
+MIRA: Mindig ezt mondják a régi térképekre.
+OSZKÁR: A futárprogramnak mondtam.
+
+Mira visszafogja az indulatát. Oszkár látja, hogy valami érzékeny ponthoz ért. A tokra pillant.
+
+OSZKÁR: Apádé?
+MIRA: Az utolsó, amit befejezett. Azt mondták, hibás.
+OSZKÁR: Attól még lehet egy jó tok.
+MIRA: Nem a tokról beszélek.
+OSZKÁR, csendesebben: Tudom.
+
+Mira elkéri a címhibákat. Oszkár egyetlen papírcetlit nyomtat a kerékpárra erősített kis gépből. A készülék háromszor annyi papírt ad ki; a mókus a farkával ügyesen megtartja, de a túlzott mozdulat lever egy üres hengert. Mira elkapja. Ketten egy pillanatra nevetnek.
+
+MIRA: Elmegyek a levéltárba. Addig ne engedd, hogy bárki elvigye Borka tábláját.
+OSZKÁR: A pogácsáiért akár egész nap őrzöm.
+
+04. BELSŐ — VÁROSI LEVÉLTÁR
+
+DÍSZLET: több méretben használható guruló létrák, nehéz rézszegélyű fiókok; valódi tárgyak és feliratok. A tér mélyében egy szarvas apró iratot próbál kibetűzni nagyítóval, mellette egy egérlakó egész falnyi tervet teker ki. A különböző méretek funkcionálisak.
+
+Néra a régi lapra pillant, majd az új verzió dátumára. A tekintete elárulja, hogy már látta a problémát.
+
+NERA: Ez a lap nem vihető ki.
+MIRA: Még be sem hoztam. Az enyém.
+NERA: Úgy értem, a hozzá tartozó irat nem vihető ki.
+MIRA: Melyik irat?
+
+Néra túl gyorsan csukja be a fiókot. Mira nem nyitja ki erővel, csak leveszi róla a kezét.
+
+MIRA: Néra. Egy pékséget ki lehet radírozni egy fájlból. De attól Borka még benne áll.
+NERA: A módosítás ideiglenes.
+MIRA: Ki mondta?
+NERA: Az, aki aláírta.
+MIRA: És te elhitted?
+NERA: Én annak nézek utána, mit írtak alá. Pontos különbség.
+
+Mira kér egy másolatot az utca eredeti alaprajzáról. Néra nem a lezárt iratot adja oda: egy nyilvános tervrajzot, amelyen a rakpart alatt vastag üres sáv húzódik.
+
+NERA: Ezt mindenki megnézheti. Csak eddig senki nem kérte.
+MIRA: Mi van az üres sávban?
+NERA: A kérdésedre nincs nyilvános válaszom.
+
+KAMERA: 65 mm, Mira szemében nem diadal, hanem csalódás. Néra megvárná, hogy a barátja visszanézzen. Mira nem néz vissza.
+
+05. KÜLSŐ — VILLAMOSMŰHELY UDVARA
+
+HANG: kalapácsok ritmusa, egy kompresszor leáll; a csendben Brúnó egy fékdobot hallgat. Mira a kerítésen át próbálja megmutatni a térképet. Brúnó egy szerelőkocsin gurul ki a villamos alól.
+
+MIRA: Azt mondták, maga ismeri a régi rakparti pályát.
+BRÚNÓ: Azt is mondták, a javított villamost nem lehet sürgetni.
+MIRA: Nem én sürgetem.
+BRÚNÓ: Akkor maga ma az első.
+
+Mira letérdel mellé, és a térképen az üres sávra mutat. Brúnó elhallgat, a kesztyűjével óvatosan arrébb húzza a zsíros szerszámot, hogy ne fogja össze a lapot.
+
+BRÚNÓ: Ez nem utca. Karbantartóhíd.
+MIRA: Fölötte háromszázan laknak.
+BRÚNÓ: Akkor már utca.
+MIRA: Miért húznák le a térképről?
+BRÚNÓ: Ha lezárnak egy kaput, a forgalomirányítás lezárja a fölötte futó útvonalat is.
+MIRA: Milyen kaput?
+
+Brúnó odabent felvillanó hibajelzőre pillant. A piros lámpa kétszer villan. Megindul a műhely felé, majd megáll.
+
+BRÚNÓ: Mióta látta ezt a módosítást?
+MIRA: Reggel óta.
+BRÚNÓ: Tegnap este ugyanez a kör esett ki. Jöjjön. De semmihez ne nyúljon.
+MIRA: Térképekhez sem?
+BRÚNÓ: Azok eddig ritkán haraptak meg.
+
+06. BELSŐ — FÉNYUDVAR HANGPRÓBÁJA
+
+Kipp egy üres színházban sorban kapcsolja a hangszórókat. A főpróbán szereplő kecske túl közel hajol a mikrofonhoz. Gerjedés. Kipp reflexből lehalkít, majd bocsánatot kér valamiért, amit ő javított meg.
+
+KIPP: Elnézést! Nem maga volt hangos. Illetve maga is, de az jó volt.
+KECSKE ELŐADÓ: Az előbb még nem is énekeltem.
+KIPP: Tudom. Az volt a jó benne. Mármint a beállításnak.
+
+A komikumot Kipp piruló füle és egy rövid, kínos csönd viszi. A háttérben Mira és Brúnó lép be. Brúnó a megszakításokról kérdezi. Kipp először a hangpult hibáját sorolja, aztán előveszi saját hangjegyzeteit.
+
+KIPP: Nem a hangpult. A fal felől jön. Kettő koppan. Utána egy mély hang. Tegnap is.
+BRÚNÓ: Fém cső a kőben. A város így beszél magában.
+KIPP: De tegnap még mást mondott.
+
+Mira nem nevet. Leül, és hagyja végighallgatni a felvételt. Kipp láthatóan meglepődik ezen.
+
+MIRA: Meg tudod mutatni, honnan vetted fel?
+KIPP: Meg. Csak... ott most zárva van.
+BRÚNÓ: Akkor kívülről nézzük meg.
+MIRA és KIPP egyszerre: Persze.
+
+Brúnó egyikükre, majd a másikukra néz. Tudja, hogy ez nem teljes ígéret.
+
+07. KÜLSŐ — RÉZRAKPART, KÉSŐ DÉLUTÁN
+
+KAMERA: folyamatos követés szemmagasságban, a látványterv valódi, háromdimenziós utcájában. Mira és Brúnó külön járásritmust tart, Kipp egy lépéssel lemaradva hallgatózik. A háttérben Fülöp utast enged le, Borka ládákat rakod, a kikötői kocsi kis emelkedőn áll rögzítve. A fék és az emelkedő már itt világosan látszik.
+
+BORKA: Néra küldött választ?
+MIRA: Találtunk valamit a rakpart alatt.
+BORKA: Én múlt héten egy elgurult sodrófát. Ha az, kérem vissza.
+BRÚNÓ: A korlátot ki javította?
+BORKA: A város. Ma hajnalban. Elég csöndes munkások voltak.
+
+A friss csavar fején még ép a festék. Brúnó kézzel ellenőrzi, nem veszi ki. Mira a térképet fordítja a lámpafény felé. Kipp a talajra teszi a markát, majd a fülét elfordítja a téren játszó zenészek felől.
+
+KIPP: Most kezdődik.
+MIRA: Micsoda?
+
+Két fémes koppanás. A kocsi rögzítője alig láthatóan meglazul. A felső villamoson kihuny a világítás, de a kocsiban utasok ülnek, nem áll le veszélyesen a híd közepén: a vészfények bekapcsolnak.
+
+08. KÜLSŐ — AZ ELSZABADULT KOCSI
+
+A bemutató kivonatának alapjelenete. A filmes változatban a mentésnek több lépése van, nem tartunk ki egyetlen futóciklust.
+
+MIRA: A térkép szerint ez az utca nem létezik.
+BRÚNÓ: Akkor tegnap nagyon rossz helyen parkoltam.
+KIPP: Halljátok? Ez nem áramszünet.
+
+A lámpák kialszanak. A fék éles kattanással elenged. A rakodókocsi megindul a kőlépcső és Borka portékája felé. Brúnó előbb ellöki a sín mellől a könnyű ládát, utána gyorsul futásba. Mira levágja az útját. Kipp a szárnyát magához húzva félrelép.
+
+BRÚNÓ: A kocsi! Elengedett a fék!
+
+KAMERA: 35 mm oldalról, három egymást követő valódi lépés látszik. Mira a kocsi oldalához ér, a karja hátrarántódik, majd a lábával utoléri a sebességet. Brúnó a kapaszkodóra fog, a tömegét aláengedi. A megfeszülő csukló, a megcsúszó első talp és a második biztos támasz mind külön mozdulat. A kocsi lassul, de még nem áll meg.
+
+KIPP: Nem megy. Én... félek.
+MIRA: Rám nézz, Kipp. Nem kell egyedül.
+
+Mira tekintete nem ugrik összevissza. Előbb a reteszt jelzi, majd Kipp szemét keresi. Kipp lenyeli a félelmét, megfog egy ép korlátrészt. Átlép a keskeny résen. Nem szükséges repülnie.
+
+BRÚNÓ: Tartom. Most!
+
+Kipp lenyomja a reteszt. A mechanikus fékpofa becsúszik. Fémes súrlódás, a kocsi megáll. A borz még egy pillanatig tartja, ellenőrzi a reteszt, csak utána enged. Mira elengedi a fogást, kezén átmeneti nyom marad a szőrben.
+
+KIPP, levegőt keresve: Legközelebb inkább létező utcában sétáljunk.
+
+Nem rögtön nevetnek. Brúnó előbb megszámolja a körülötte állókat. Aztán kicsit elmosolyodik.
+
+09. KÜLSŐ — A MENTÉS UTÁN
+
+Borka hálásan megölelné Brúnót, de a borz kezében még ott a koszos szerszám. Széttárja a karját, majd ügyetlenül viszonozza. Mira a szellőzőrács alatt végigfutó fénycsíkot nézi. A régi térképen ugyanott vékony rézvonal van.
+
+MIRA: Ez a jel. Ugyanaz.
+BRÚNÓ: Senki nem nyitja fel.
+KIPP: Én nem akartam.
+BRÚNÓ, Mirára nézve: Tudom.
+
+Mira térképtokjának pántja elszakadt. Brúnó szó nélkül átvezeti a csatot a másik oldalra, hogy tovább lehessen használni. Mira nem köszöni meg rögtön; észreveszi a mozdulat személyes figyelmét.
+
+MIRA: Maga szerint hiba volt?
+BRÚNÓ: A fék? Nem. A fék helyesen reagált egy rossz parancsra.
+MIRA: Akkor valaki kiadta.
+BRÚNÓ: Vagy valami. Ettől még nem megyünk le oda hárman.
+KIPP: Ketten sem mennétek le? Csak hogy tudjam, a létszám a probléma-e.
+
+Egy városi szolgálati autó gördül a térhez. Sárközi Vera száll ki, Róna egy mérőműszert cipel utána. Vera előbb Borkához megy, nem a hősökhöz. Megkérdezi, megsérült-e valaki.
+
+10. KÜLSŐ — VERA A RAKPARTON
+
+VERA: A mentést köszönöm. A körzet áramellátását most különítjük le.
+MIRA: Miért vették le az utcát a térképről?
+VERA: Hogy a navigáció ne vezessen ide újabb forgalmat.
+MIRA: A lakókat is lekapcsolták.
+VERA: Aki itt van, annak segítünk.
+BORKA: Aztán visszamehetek a boltomba?
+
+Vera válasz előtt egy nagyon rövid pillanatra Rónára néz. A technikus a mérőjét rejti maga mögé: nem azt mutatja, amit a jelentésben várt.
+
+VERA: Amint biztonságos.
+BRÚNÓ: A kézifék körét mi kötötte a zsilipvezérlésre?
+VERA: Régi csomópont. A bontását már megrendeltük.
+BRÚNÓ: Azt nem bontani kell, hanem leválasztani.
+VERA: Maga is tudja, hogy nem egyetlen kábelről van szó.
+
+Mira úgy érzi, a beszélgetés felnőtteknek szóló részéből kihagyják. Nem emeli fel a hangját, hanem a térképet teszi Vera elé.
+
+MIRA: Ezt a vonalat az apám rajzolta. A város elfogadta, aztán hibásnak nyilvánította. Most ezen jönnek a rossz parancsok.
+VERA: Az apja lelkiismeretes ember volt. Ettől egy régi terv még nem lesz használható.
+
+Vera nem sértésnek szánja. Éppen ezért fáj. Mira összehajtja a lapot.
+
+11. KÜLSŐ — LOMBKÖRI LÉPCSŐK, ALKONY
+
+Az akció után hosszabb, de cselekvéssel teli csend: Mira az elszakadt pántot újra beállítja, Kipp a törött fejhallgató jobb oldalát ellenőrzi, Brúnó a fékhiba számát írja fel. ZENE: a nyitótéma három hangja ezúttal befejezés nélkül marad.
+
+MIRA: Mindenki udvariasan mondja, hogy nincs igazam.
+BRÚNÓ: Még nem tudjuk, hogy igaza van-e.
+MIRA: Látta a fényt.
+BRÚNÓ: A fényt láttam. Azt nem, ki kapcsolta.
+MIRA: Ha mindent meg kell várni, mire biztos, addigra elviszik az utcát.
+BRÚNÓ: Ha meg semmit nem várunk meg, valakit elvisz a mentőhajó.
+
+Kipp összerezzen a keményebb hangra. Brúnó észreveszi, lehalkul.
+
+BRÚNÓ: Nem azért mondom, mert nem érdekel.
+MIRA: Akkor segítsen.
+
+Brúnó leül mellé a széles lépcsőre. Előveszi a műhely kulcsát, de még nem adja át.
+
+BRÚNÓ: Egy kijáratot előbb megkeresünk. Csak utána egy bejáratot.
+KIPP: Ez... meglepően jó szabály.
+MIRA: Rendben.
+
+Mira most végignéz a többieken, valóban válaszra várva. A kis csapat itt alakul meg, nem egy bemondott fogadalomban.
+
+II. FELVONÁS — A VÁROS ALATT
+
+12. BELSŐ — DORKA HAJÓJÁNAK KABINJA, ESTE
+
+Dorka egy vízálló térképet terít ki. A szárazföldi utcák halványak, a víz útjai erősek. Mira először látja úgy a várost, ahogy másnak fontos. A kabinban nincs hosszú információs monológ: minden jelölés egy mentési döntéshez kell.
+
+DORKA: Ha a régi szolgálati ajtón mentek le, a víz felől tudlak felvenni benneteket.
+MIRA: Pont oda akarunk menni.
+DORKA: Akkor jó, hogy előbb ide jöttetek.
+BRÚNÓ: Rádión ötpercenként jelentkezünk.
+KIPP: És ha közben nincs mit jelenteni?
+DORKA: Azt szeretem a legjobban hallani.
+
+Dorka a folyón lassan sodródó habot figyeli. Az áramlás iránya fordul. Felírja az időt. A mérőlécen egy régi krétavonal magasabban van a mai víznél.
+
+MIRA: Ez az előző nagy árvíz?
+DORKA: Ez az, ameddig vártak, mielőtt szóltak.
+
+Mira nem kérdez tovább. Dorka átnyújt három kisméretű rádiót és egy fényjelzőt. Azt is megmutatja, miként kell vízbe ejtve aktiválni. Később ez a tárgy valóban visszatér; nem új kellékként bukkan fel a fináléban.
+
+13. KÜLSŐ — SZOLGÁLATI AJTÓ A KIKÖTŐ FALÁBAN
+
+KÉP: 32 mm a hajóról, lépcsőzetes mélység: Dorka hajója, Brúnó, Mira, Kipp, végül az ajtó. A borz kulcsa nem illik az új zárba. Mira a falon megmaradt régi ajtókeretet veszi észre; a kiürítési járat bejárata két méterrel arrébb van.
+
+BRÚNÓ: Ezt húsz éve átépítették.
+MIRA: A kilincs helyét igen. A lépcsőét nem.
+KIPP: A hang is onnan jön.
+
+Mira félrehajtja a növényeket. Brúnó ellenőrzi a rozsdás korlátot, aztán biztonságosan kiköti. Nem rugdossák be az ajtót: a kézi reteszt a műszaki jelzés szerint oldja.
+
+BRÚNÓ: Kipp, mondod, mikor hallod újra?
+KIPP: Most nem hallom.
+BRÚNÓ: Az is információ.
+
+Kipp ettől láthatóan kihúzza magát. Belépés előtt mindhárman visszanéznek a kijáratra. Mira a térkép szélére feljegyzi az ajtó számát. Dorka ellenőrzi a rádiót.
+
+DORKA: Látlak benneteket. Menjetek.
+
+14. BELSŐ — ELSŐ SZERVIZALAGÚT
+
+KAMERA: oldalkövetés, aztán az útelágazás előtt megálló totál. A szereplők aránya végig ugyanaz a mérce; nincs megmagyarázatlanul növekvő vagy csökkenő alagút. Kipp hallás alapján balra mutat, Mira térkép alapján jobbra. Brúnó középen leül, és a fal rezgését méri a csavarkulcs nyelével.
+
+MIRA: A térkép a jobb ágat jelöli.
+KIPP: A hang a balban erősebb.
+BRÚNÓ: Mindkettő igaz lehet.
+MIRA: Ez most hogy segít?
+BRÚNÓ: Úgy, hogy nem kell egyikőtöknek rögtön tévednie.
+
+A borz felmutat a mennyezeten keresztbefutó vastag csőre. A hang azon átjutott a másik ágba. Kipp új helyre áll, és a cső zengésétől elkülöníti a talaj alatti halk kopogást.
+
+KIPP: Ott. Nem hangosabb. Csak közelebb van.
+
+Jobbra mennek. Egy keskeny vízfolyáson Brúnó elsőként lép át, megtámasztja a falat. Mira átugrana, de eszébe jut a szabályuk; megkeresi a száraz peremet. Kipp utána lép. A jelenet humorát az adja, hogy a repülni képes szereplő ellenőrzi legkétszer a talajt.
+
+15. BELSŐ — RÉGI KAPCSOLÓTEREM
+
+A falon fizikai várostérkép, mechanikus visszajelzőkkel. Néhány mai utca régi nevén szerepel. Mira a saját térképét nem illeszti azonnal rá; előbb megfigyeli a szögeket. A rakparti jel az egyetlen, amelynek friss a rézfelülete.
+
+MIRA: Valaki tisztította.
+BRÚNÓ: Vagy cserélte.
+KIPP: Ez a két koppanás. A relé és a visszajelző.
+
+Brúnó a kezét nem a vezetékek közé dugja: lekapcsolja a helyi kapcsolót, és megméri a feszültséget. A műszer még mindig jelez.
+
+BRÚNÓ: Két betáp. Az új hálózatról nem lehet leválasztani.
+MIRA: Akkor mi kapcsolja?
+
+Egy kicsi jelzőfény lassan a Rézrakpart jele felé közelít. Mira meglátja a környék összes utcáját: eltérő időpontban sorban „lezárt” állapotba fordulnak.
+
+MIRA: Nem ugyanaz az áramszünet ismétlődik. Halad valamerre.
+
+A folyosón ajtó csapódik. Mindenki elhallgat. A kamera marad; nem magyarázza túl gyors vágásokkal a félelmet.
+
+16. BELSŐ — A MŰSZAKI ŐRJÁRAT
+
+Két civil karbantartó hód tol be egy szerszámosládát. Nem gonosz katonák, csak munkát végeznek. A hősök egy alacsony válaszfal mögött állnak. Kipp füle kilóg. Mira finoman jelzi; Kipp túl nagy mozdulattal hajol le, a fejhallgatója a korlátnak ütődik.
+
+ELSŐ KARBANTARTÓ: Hallottad?
+MÁSODIK KARBANTARTÓ: Itt mindent hallok. Attól még egyik sem fizet túlórát.
+
+A két munkás a rakparti táblát LEZÁRVA állásba fordítja. Az egyik bizonytalan.
+
+ELSŐ KARBANTARTÓ: Ott még laknak.
+MÁSODIK KARBANTARTÓ: A listán már senki. Nekünk azt kell követni.
+ELSŐ KARBANTARTÓ: A lista nem lakik ott.
+
+Az első munkás nem írja alá a kiürítés készre jelentését. A második elteszi az iratot: majd a központ intézi. A jelenet bizonyítja, hogy az eltűnő lakók nem elméleti veszteség. Mira végighallja, de nem rohan elő. Brúnó tekintete figyelmezteti, hogy az ajtó felé vezető út még nyitott.
+
+17. BELSŐ — A MOZGÓ ÁTJÁRÓ
+
+A jelzőfény eléri a következő állást. Az alagút közepén álló átjáró lassan elfordul. Nem az egész utca tűnik el: egy hatalmas gátajtó fölé épített folyosó zárja le az ismert útvonalat. A mozgás súlyos, fogaskerekes, előre jelzett; a szereplőknek idejük van dönteni.
+
+BRÚNÓ: Vissza a kijárathoz!
+MIRA: Ha most elengedjük, nem tudjuk meg, hová vezet.
+BRÚNÓ: Mira!
+
+Mira belép az elforduló részbe, hogy megnézze a jelzőtábla hátát. A padló alatti rés kiszélesedik. Kipp nem utána ugrik, hanem a vészmegállítót keresi. Először rossz gomb felé nyúl, meglátja a nyíllal jelzett mechanikus kart, odalép. Brúnó elkapja Mira alkarját.
+
+MIRA: Megvagyok!
+BRÚNÓ: Attól még nem engedlek.
+
+Fizikai akció: Brúnó egyik talpa a stabil részen, másik a mozgó peremen; áthelyezi a súlyát, nem lehetetlenül nyúlik. Mira maga is felhúzza magát. Kipp fékez, az ajtó megáll. A megmentett szereplő aktívan részt vesz a mentésben.
+
+18. BELSŐ — CSEND AZ ÁTJÁRÓ MÖGÖTT
+
+Mira térképe a vizes padlóra esett. Először a papírért nyúlna. Brúnó megfogja a csuklóját, majd azonnal elengedi, amint érzi, hogy túl erős volt. Nem kiabál hosszasan.
+
+BRÚNÓ: Majdnem ott maradtál.
+MIRA: Láttam a jelzést.
+BRÚNÓ: Én meg téged láttalak.
+
+Kipp fölveszi a térképet, óvatosan lecsöpögteti. Mira rápillant, de most a borznak válaszol.
+
+MIRA: Sajnálom.
+BRÚNÓ: Ne nekem mondd úgy, hogy utána újra megteszed.
+
+Mira lehajtja a fejét. A jelenet nem oldódik azonnal viccbe. Brúnó a korláton maradt régi karcolást nézi.
+
+BRÚNÓ: Egyszer egy rossz jelzést követtem. Azt hittem, ha elég gyors vagyok, mindenkit elérek.
+MIRA: Mi történt?
+BRÚNÓ: Valaki helyettem ment be. Azóta minden lépésnél meghallom, hogy utána kellett volna szólnom.
+
+Nem mondjuk ki még a teljes régi történetet. Kipp visszaadja a lapot.
+
+KIPP: A papír javítható, ugye?
+MIRA, Brúnóra is nézve: Igen. Az.
+
+19. KÜLSŐ — NÉRA A LEVÉLTÁR LÉPCSŐJÉN
+
+Párhuzamos szál, az időt a kikötői harang köti össze. Néra egy lezárt irattal áll az üres irodában. Telefonján Mira több megválaszolatlan hívása. A fiók tetején a frissen érkezett utasítás: a régi körzet iratait „pontatlan adatok” miatt vonják ki. Néra az eredeti és javított listát nézi. Az eredetin lakócímek vannak; a javítotton üres rovatok.
+
+RÓNA belép, a vizes mérőműszert törölgeti.
+
+RÓNA: Azt mondták, itt adjam le a mérési lapot.
+NERA: Az eredetit?
+RÓNA: A javítottat.
+NERA: A mérés változott, vagy a lap?
+
+Róna nem válaszol azonnal. Néra odatol egy üres széket.
+
+NERA: Én is ezt kérdezném magamtól.
+RÓNA: Ha az eredeti marad, ki kellene üríteni a felső műszaki járatot is.
+NERA: Ki van ott?
+RÓNA: Senki. A nyilvántartás szerint.
+
+Néra rájön, hogy a mondat ugyanaz, mint a törölt lakóknál. Feláll. A bizonyítékot nem lopja el nyomtalanul: készít egy hiteles másolatot, aláírja a kiadási naplót, és vállalja a nevét. Róna elteszi az eredeti mérés másodpéldányát.
+
+20. BELSŐ — AZ ÖREG PERON
+
+Mira csoportja egy lezárt földalatti peronra ér. A falon minden óra ugyanazt az időt mutatja, de az egyik friss olajfoltot hagy. Egy hosszú lábú alak ül a padon: Áron, a daru. Brúnó felismeri, és megáll.
+
+ÁRON: Aki ezen az ajtón jön, általában eltévedt.
+BRÚNÓ: Az ajtó fordult el.
+ÁRON: Igen. Néha neki van rosszabb napja.
+
+Mira felmutatja a térképet. Áron arca megváltozik.
+
+ÁRON: Ezt ki adta neked?
+MIRA: Az apám.
+ÁRON: Akkor nem kell megkérdeznem a nevedet.
+MIRA: Attól még elmondhatná, magát honnan kell ismernem.
+ÁRON: Áron. Régen az állomáson dolgoztam.
+MIRA: Ezen?
+ÁRON: Régen sok mindenre más nevet használtunk.
+
+Kipp hall valamit a lezárt sín felől. Áron a beszélgetés közben is rá figyel. Egyikük sem mondja még ki, hogy jármű közeledik.
+
+21. BELSŐ — ÁRON SZOBÁJA A PERON MELLETT
+
+Áron tiszta csészéket vesz elő. Csak három van. A sajátját Mirának adja, ő egy kis fémdobozba tölt teát. Ettől a múltja nem mentegetett, csak emberileg — ebben a világban állatilag — megérthető.
+
+MIRA: Apám azt írta, itt laktak. Nem csak dolgoztak.
+ÁRON: Laktak is.
+MIRA: Akkor miért üres a terv?
+ÁRON: Mert könnyebb volt lezárni, mint elmagyarázni, miért zárták le.
+BRÚNÓ: A vezérlés ma is működik.
+ÁRON: A város fölé épült egy új város. A régi nem tűnt el alóla.
+
+Mira a nedves térképet kiteríti. Áron egy ajtóra mutat, de megáll, mielőtt elérné a papírt.
+
+ÁRON: Ezt a jelölést ne kövessétek.
+MIRA: Miért?
+ÁRON: Mert azt megígértem valakinek.
+MIRA: És annak, aki most ott lakik, mit ígért?
+
+Áron nem tud rögtön felelni. A konfliktust nem oldja fel egy titokzatos mondat. Brúnó közbevág, mert a rádióban Dorka hallatszik.
+
+DORKA, rádión: A víz gyorsabban jön fel, mint kéne. Kifelé induljatok.
+
+22. BELSŐ — A TÉRKÉP VALÓDI JELE
+
+Néra megérkezik a másik szolgálati járaton, Oszkár kíséri. A futárnak sikerült a felszínen megtalálnia a helyes ajtót. Áron azt hitte, azt már befalazták; Oszkár a falon kerek csengőgombot mutat.
+
+OSZKÁR: A csomagcímzés megint erősebbnek bizonyult a hivatalos várostervezésnél.
+
+Néra Mira elé teszi az iratot.
+
+NERA: Tudtam a módosításról. Nem tudtam, hogy már végrehajtják.
+MIRA: Miért nem mondtad?
+NERA: Mert féltem attól, mi történik, ha kiderül, hogy ki adta ki.
+MIRA: És most?
+NERA: Most attól félek jobban, mi történik, ha nem derül ki.
+
+Mira nem mondja, hogy minden rendben. Elfogadja a papírt.
+
+MIRA: Mutasd.
+
+A hiteles terven a térképi kapujel valójában nem ajtót, hanem nyomáskiegyenlítést jelent. Ha a felső és alsó oldal közül csak az egyiket zárják, a régi utca alá nyomják a vizet. Áron kihúzza a széket, és először segít a rajz értelmezésében.
+
+ÁRON: Két kar. Egyszerre. A rajzoló pontosan tudta.
+
+23. KÜLSŐ — ROZSDAMEZŐ, TILDA MŰHELYE
+
+A csoport kiér a felszínre. A veszély időzített, de nem szabad mindent rohanó magyarázattá alakítani. Tilda egy szétszedett jelzőt javít. Brúnó a küszöbön megáll; a kettejük régi konfliktusa testtartásból érződik.
+
+TILDA: Ha azt jöttél mondani, hogy ezt már nem lehet megjavítani, sorszámot kell húznod.
+BRÚNÓ: Azt jöttem megkérdezni, hogy működik-e még a kézi kettős retesz.
+TILDA: Ez jobb mondat.
+
+Tilda átnézi a rajzot. A hangfelvételre Kipp rámutat.
+
+KIPP: Itt a második koppanás késik.
+TILDA: Mennyit?
+KIPP: Majdnem egy negyedet. A harmadik után megint pontos.
+TILDA: Akkor nem a motor rossz. Valaki eltolta a visszajelzőt.
+
+Tilda az asztalon egyszerű, valódi modellel mutatja meg a kapcsolatot: két áttetsző víztartó és egy váltókar. Nem tökéletes digitális hologram jelenik meg. Az egyik tartály megemeli a másikban a vizet.
+
+MIRA: Tehát azt mutatja, hogy zárva, miközben még nyitva van.
+TILDA: Pontosan. A rendszer nem hazudik. Rosszul kérdezték meg.
+
+24. BELSŐ — A CSAPAT TERVE
+
+KAMERA: 40 mm, az asztal körül; mindenki látja ugyanazt a tervet, nincs elvesző tekintetirány. Mira először mondja végig a saját ötletét, aztán valóban teret ad az ellenvetésnek.
+
+MIRA: Lemegyünk a kettős reteszhez. Brúnó helyreállítja az érzékelőt. Kipp jelzi a kapcsolást. Tilda a másik oldalról tartja a kart.
+BRÚNÓ: Két oldalra nem jutunk oda egyetlen bejáratból.
+OSZKÁR: Fölül van egy futárátjáró.
+NERA: A térképen nincs.
+OSZKÁR: Kezdem azt hinni, ez a város szándékosan nehezíti a munkámat.
+ÁRON: Az az átjáró a felső műszaki folyosóra vezet. Én tudom a jelét.
+DORKA, rádión: Lent pedig én várok. De előbb kihozom a pékségből azokat, akik segíteni maradtak.
+
+Mira megáll. A terv közepén a lakók érdekét eddig egyetlen mondattal intézte el.
+
+MIRA: Várjatok. Előbb mindenki tudja meg, mi történik. Oszkár, nem csak a mi utunkat kell megtalálni.
+
+Oszkár bólint, és a versenyre feltett futárjelvényét a munkásmellényére tűzi. Nem nagy gesztusnak szánja; egyszerűen dolgozni indul.
+
+25. KÜLSŐ — A RAKPART KIÜRÍTÉSE
+
+Vera hivatalos terelése a felső átjáróra küldené a lakókat, miközben az már veszélyes. Dorka az eredeti mérési lapot mutatja Rónának. A technikus nyilvánosan kimondja, hogy a víz nem a jelentett szinten áll. Vera nem hiszi el azonnal, saját műszerrel újramér. A szám megerősíti.
+
+VERA: Miért nem ezt az adatot kaptam?
+RÓNA: Ezt kapta. A második lapon már más volt.
+VERA: Ki javította?
+NERA: Most az a fontos, hogy melyikből dolgozunk.
+
+Vera lenéz a saját aláírására. Először elbizonytalanodik, aztán azonnal dönt a jelenlegi veszélyben.
+
+VERA: A felső átjáró lezárva. A kikötői útvonal nyílik. Dorka, hány férőhely?
+DORKA: Több, ha senki nem hozza az egész nappaliját.
+BORKA, egy nehéz dobozzal: Ez kovász.
+DORKA: Akkor még egy lakó.
+
+A humor nem üti el a veszélyt. Dorka segít a dobozt biztonságosan elhelyezni, majd előbb a nehezen mozgó teknőslakót engedi fel. Oszkár több kis csoportban irányítja a járókelőket; követhető térbeli rend, nem pánikoló tömegként rángatott háttérfigurák.
+
+26. BELSŐ — ÚTON A KETTŐS RETESZHEZ
+
+Az akció különálló, új feladatokra épül. Az első lépcső járható, a másodikon víz folyik. Tilda a csapat súlyát megtartó rögzítést készít, Brúnó ellenőrzi. A borz kezéből kiesne a kulcs; a rézkötél megtartja. A korábban bevezetett kellék működik.
+
+BRÚNÓ: Jó a csomó.
+TILDA: Te tanítottad.
+BRÚNÓ: A többit meg magadtól tanultad.
+TILDA: Végre ezt is észrevetted.
+
+Nem állnak meg kibékülési beszédre. Tilda átadja a biztosítókötelet, Brúnó elfogadja. A változás a munkájukban látszik.
+
+Kipp lemarad a zaj miatt: a víz minden irányból visszaveri a hangot. Leveszi a törött fejhallgatót. Mira nem rángatja tovább.
+
+MIRA: Nem hallod?
+KIPP: Túl sok mindent hallok.
+MIRA: Mit kell elhallgattatnunk?
+
+Brúnó leállít egy fölösleges szellőzőventilátort a rendes kapcsolójával. A zúgás megszűnik, a kopogás tisztul. Kipp visszatalál a mintához.
+
+III. FELVONÁS — KÉT OLDAL, EGY DÖNTÉS
+
+27. BELSŐ — ALSÓ KAPUKAMRA
+
+Nagy tér, de először emberléptékű — állatléptékű — bemutatás: Mira keze a hideg korláton, Brúnó talpa a víz feletti rácson, Kipp arca a mély hangra reagál. Csak ezek után tárul ki a 24 mm-es totál a teljes gépre. A zsilip nem csillogó sci-fi eszköz: javítások, számozás, víznyomás okozta csíkok teszik hihetővé.
+
+Brúnó megkeresi a mechanikus áttételt. Mira a jobb térképréteget választja, Kipp a jelet figyeli. A kamera követhetően bemutatja a két oldalt és az összekötő rudat, hogy a finálé fizikája érthető legyen.
+
+BRÚNÓ: A motor leállt. A retesz még terhelés alatt van.
+MIRA: Kézzel oldható?
+BRÚNÓ: Igen. Rossz pillanatban oldva pedig letöri a kart.
+KIPP: A második koppanás után van egy csend.
+BRÚNÓ: Mekkora?
+KIPP: Elég egy döntésre. Nem elég egy vitára.
+
+Brúnó ránéz, majd elismerően bólint.
+
+28. BELSŐ — FELSŐ MŰSZAKI FOLYOSÓ
+
+Tilda, Áron és Néra kerülnek a másik oldalra. Egy fedél elfordulásakor Néra iratai a huzatba kapnak. Mindet nem tudja megmenteni. Az eredeti mérési lapot tartja meg, a másolatok elszállnak. Tilda utána nyúlna, Néra megállítja: a papírnál fontosabb a társ.
+
+NERA: Az eredeti itt van. Menjünk.
+
+Áron a retesz jelét keresi. Keze remeg, mert ugyanilyen döntési helyzetből őriz emléket. Tilda nem sürgeti vakon.
+
+TILDA: Amit biztosan tudsz, azt mondd.
+ÁRON: A felső kar nem zár. Tehermentesít.
+TILDA: Jó. Akkor ezt csináljuk.
+ÁRON: Akkor is ezt kellett volna.
+NERA: Most itt vagy.
+
+Áron odalép, és megjelöli a helyes kart. Ezzel nem kap teljes feloldozást; a múltbeli felelősségét később ki kell mondania. Most működő információt ad.
+
+29. KÜLSŐ — A VÍZIRÁNYÍTÓ TORONY
+
+Vera megpróbálja az új rendszerből megállítani a sorozatot. A kijelző azt jelzi, hogy minden lezárva, a fizikai vízmérce mást mutat. Róna felajánlja a régi kézi hírközlő csatornát. Vera félretolja a hibás jelentést.
+
+VERA: Brúnó, hall engem?
+BRÚNÓ, rádión: Most inkább Kippet kellene hallanom.
+VERA: A hálózat újabb zárást küld harminc másodperc múlva. A helyi vezérlő nem enged leállítást.
+MIRA: Ki adta ki a parancsot?
+VERA: A program az én jóváhagyásommal fut.
+
+Mira megáll egy pillanatra. Ez valódi információ, de nem itt kezdődik a felelősségre vonó vita.
+
+MIRA: Akkor mondja meg, hogyan szakíthatjuk meg.
+VERA: A mechanikus visszajelzőt kell nyitott állapotban tartani. A rendszer akkor hibára áll.
+BRÚNÓ: Ezt az elején kellett volna mondania.
+VERA: Igen.
+
+A rövid beismerés nem teszi jóvá a döntését. A jelenlegi mentéshez viszont szükséges. A toronyban Róna már a tényleges mérést olvassa hangosan.
+
+30. BELSŐ — A MEGSZAKADÓ KAPCSOLAT
+
+A kamra egyik régi lámpája kipattan. Nem véletlen robbanás: a víz eléri az előző jelenetben látott alacsony csatlakozást. Brúnó lekapcsolja az ágat. Ezzel a rádióerősítő is elhallgat. A csapat két oldala nem hallja egymást.
+
+MIRA: Tilda! Hallasz?
+
+Csak statikus zaj. Kipp felnéz a rézcsőre. Megkopogtatja: kettő rövid, egy hosszú. A felső oldalon Áron felismeri a régi kézi jelzést, és visszakopog.
+
+KIPP: Válaszoltak.
+MIRA: Mit mondtak?
+KIPP: Azt, hogy itt vannak.
+BRÚNÓ: Az most elég.
+
+Mira nem kéri Kippet, hogy hirtelen legyen bátor. Rá bízza a pontos feladatot.
+
+MIRA: Te jelzel. Mi figyelünk.
+
+Kipp fölnéz rájuk. A két nagyobb szereplő tekintete most az övét követi. Ez az érzelmi fordulat, nem a hangmagasság hirtelen hősi megemelése.
+
+31. BELSŐ — AZ ELSŐ PRÓBA
+
+Folyamatos, körülbelül másfél perces akcióegységnek szánt koreográfia, amelyet az animatik ténylegesen időzít majd. Tilda és Brúnó egyszerre terhel. Az első mozdulatra a gép megfeszül, de a felső oldalon egy törött visszatérítő rugó miatt késik a kar. Kipp az eltérő koppanásból azonnal észreveszi.
+
+KIPP: Állj! Még nem!
+
+Mira már nyúlna, megáll. Brúnó egyedül tartja a terhet néhány másodpercig; arcán a terhelés, nem torz gumifeszülés látszik. Tilda a felső oldalon nem nagyobb erővel próbálja ugyanazt: meglátja a hibás rugót, és a korábban hozott biztosítókötéllel segíti vissza a kart.
+
+TILDA: Most kell az a csomó.
+ÁRON: Tartom a fényt.
+NERA: Én pedig a kötelet.
+
+A felső csapat újraszervezi a feladatot. Lent Mira leveszi Brúnóról a térképtokot, amely beleakadt a kapaszkodóba. A borz terhelés alatt is ránéz: nem kell mindent egyedül megtartania.
+
+BRÚNÓ: Köszönöm.
+MIRA: Még nem engedjük el.
+
+32. KÜLSŐ — DORKA UTOLSÓ FORDULÓJA
+
+Borka és az utolsó lakók már a hajón. Oszkár egy fiatal sündisznó elveszett csomagjáért fordulna vissza. Meglátja, hogy az átjáróba a víz már betört. A döntés ezúttal helyes: nem lesz vakmerő csak azért, hogy hős legyen.
+
+OSZKÁR: Majd hozok másikat.
+FIATAL SÜN: Abban volt a rajzom.
+OSZKÁR: Akkor rajzolunk még egyet. De ahhoz te is kellesz.
+
+Feladja a hajóra, és maga is felszáll. Dorka észreveszi a változást, de nem dicséri hosszan. Odadob neki egy szabad kötelet.
+
+DORKA: Jó. Akkor most segíts nekem.
+
+A vízben felvillan Mira jelzőfénye. Nem vészhelyzeti pánikból dobták be: megbeszélt helyzetjelzés, amely megmutatja, melyik kiömlőhöz kell menni. Dorka elindul a megfelelő nyílás felé. A hajó mozgása és fordulósugara valós, nem csúszik oldalra a vízen.
+
+33. BELSŐ — A MÁSODIK KOPPANÁS
+
+A finálé fő akciója. ZENE: a lüktetés elhallgat, a mechanika és a szereplők légzése marad. Kipp számol, de a számokat nem kiabálja folyamatosan. A füle reagál előbb, az arca utána. A kamera egyszer mutatja a mechanikus jelzőt, majd a szereplőkön marad.
+
+Első koppanás. Tilda tartja a felső kart. Áron irányítja a fényt, Néra biztosít. A második koppanás most időben érkezik. Kipp nem vár egy fölösleges újabb megerősítésre.
+
+KIPP: Most!
+
+Mira lenyomja a helyi reteszt. Brúnó tartja az ellenkart, a vállából a talaj felé vezeti az erőt. A két oldal szinkronja fizikailag látszik. A kapcsolat rövid időre megakad; Mira nem húzza tovább a rossz irányba, hanem visszaenged egy fokot. Brúnó követi, a rugó helyére ül.
+
+BRÚNÓ: Megvan. Engedd lassan.
+MIRA: Együtt.
+
+A kapu súlyosan megindul. A víz az eredeti túlfolyóba terelődik, a nyomás csökken. A rács alól felfelé csapó permet miatt mindhárman hátralépnek. Kipp megcsúszik, de ezúttal ő kapaszkodik Mira alkarjába, miközben a másik kezével magát tartja. Mira és Brúnó együtt segítenek. Nincs lehetetlen egykezes súlytartás.
+
+A felső oldalon az új vezérlés piros hibajelzést ad, és megáll. A korábban megtévesztő „minden rendben” zöld helyett most az őszinte hiba mentette meg a várost.
+
+34. KÜLSŐ — KIÖMLŐ ÉS HAJÓ
+
+Dorka hajója a biztonságos oldalon vár. A csoportot nem sodorja ki kontrollálatlan áradat: Brúnó kinyitja a megjelölt kijáratot, a borz és Mira együtt leengedik a rövid létrát. Kipp először Dorka szemét keresi, aztán lép.
+
+DORKA: Jó helyen vagy. Látlak.
+
+Ugyanez a mondat korábban induláskor hangzott el, most más érzelmi súlya van. Brúnó utolsónak lép le, de előtte megkérdezi, mindenki megvan-e. Tilda a másik fedélzetrészről válaszol.
+
+TILDA: Mindenki. A csavarkulcsod is.
+BRÚNÓ: Akkor a neheze megvan.
+
+Kipp óvatosan felnevet. Mira vizes térképét kisimítja a padon; Néra mellé teszi a száraz hiteles másolatot. A két lap együtt olvasható, külön egyik sem teljes. A kamera nem magyarázza szavakkal a képi jelentést.
+
+35. KÜLSŐ — RÉZRAKPART, KÉSŐ ESTE
+
+A víz szintje lassan süllyed. A lakók visszatérését a műszaki ellenőrzés előzi meg. Vera az összegyűlt lakók előtt beszél, nem csak a hősöknek.
+
+VERA: A lezárási adat hibás volt. A munkát a jóváhagyásommal kezdték el. Az eredeti mérési adatokat és a teljes parancslistát átadjuk a vizsgálathoz.
+BORKA: És a bolt?
+VERA: A tartószerkezetet most ellenőrzik. Az utca visszakerül a térképre.
+MIRA: Nem elég a térképre.
+
+Vera körbenéz a lakókon. Most először hagyja, hogy a mondat befejezés nélkül is értelmes legyen.
+
+VERA: Tudom.
+
+A film nem oldja meg hat perc alatt a közigazgatást. Konkrét azonnali következmény: a hibás program felfüggesztve, a mérések nyilvánosak, a lakók biztonságos visszatérési tájékoztatást kapnak. Vera magával viszi a felelősségét, nem sétál el érintetlen tekintéllyel.
+
+36. BELSŐ — BORKA PÉKSÉGE, ÉJJEL
+
+KAMERA: 40 mm-es közös asztal, meleg fény, eső utáni tükröződések az ablakon túl. Az ünneplés kicsi és személyes. A szőr még rendezetlen, a kabáton száradó vízfolt, Kipp fejhallgatója nem javul meg magától. Brúnó egy kis alkatrészt tesz mellé.
+
+BRÚNÓ: A jobb oldalhoz.
+KIPP: Azt hittem, már nem javítható.
+TILDA: Mi itt ezt a mondatot ritkán használjuk.
+
+Mira Néra mellé ül.
+
+MIRA: Még haragszom.
+NERA: Tudom.
+MIRA: De köszönöm, hogy eljöttél.
+NERA: Legközelebb hamarabb jövök.
+MIRA: Legközelebb hamarabb kérdezek.
+
+Oszkár a közös fotóhoz állítja a kis időzítős fényképezőt. A farka kitakarja a lencsét; Kipp csendben lejjebb tolja. Mindketten nevetnek, a kép valóban elkészül. Nem ezen merevítjük ki a filmet.
+
+BORKA: Akkor most végre mindenki reggelizik?
+DORKA: Éjfél van.
+BORKA: A kovász szerint ez már holnap.
+
+37. KÜLSŐ — A VISSZAKERÜLT UTCA
+
+Mira a műhelye előtt újranyitja a digitális térképet. A Rézrakpart ismét rajta van. Mellé teszi a saját, javított papírlapját, és nem radírozza ki a vízfoltot. Brúnó egy valódi, kicsi fémkarikával megerősíti a térképtok sérült pántját.
+
+MIRA: Most már biztosan jó.
+BRÚNÓ: Nem. Most már tudjuk, hol kell legközelebb megnézni.
+
+Mira elmosolyodik. Kipp a tér közepén áll, és a visszatért városi zajokat hallgatja. Nem fedi el minden hangot fejhallgatóval. Dorka hajókürtje, Fülöp villamoscsengője és a pékség ajtajának csengése a zenei motívum három hangjává áll össze.
+
+Áron külön áll az asztaltársaságtól, a lezárt lejáratot nézi. Mira odalép hozzá.
+
+MIRA: Az apámnak tett ígéret volt?
+ÁRON: Igen.
+MIRA: El fogja mondani?
+ÁRON: El kell.
+
+Most nem menekül el a kérdés elől. Mira bólint, és hagy egy pillanatot.
+
+38. BELSŐ — RÉGI PERON, ÉJJEL
+
+Rövid, konkrét évadzáró nyom az első film végén, nem hosszú reklám a következőnek. A peron, amelyen korábban a csoport járt, most üres. Ugyanaz a poros pad, ugyanaz a három csésze. A kamera alacsonyan a sínre néz. Apró rezgés. Egy csavar alól por pereg.
+
+HANG: a már ismert két koppanás után ezúttal nem a kapu hangja következik, hanem közeledő kerekeké. Egy régi műszaki vonat fénye jelenik meg a sötétben. Nem látjuk, ki vezeti. Az oldalán a térképről lekapart jel hatodik változata.
+
+VÁGÁS: Kipp a felszínen megáll.
+
+KIPP: Ez új hang.
+MIRA: Honnan jön?
+KIPP: Lentről.
+
+Mira nem fut el egyedül. Brúnóra néz, aztán a többiekre. A borz előveszi a rádiót.
+
+BRÚNÓ: Előbb a kijárat.
+MIRA, mosolyogva: Tudom.
+
+VÉGE AZ ELSŐ FILM TÖRTÉNETÉNEK.
+A stáblista alatt az eredeti zenei motívum teljes, meleg hangszerelésben szól. Nincs újabb véletlenül feloldott veszély, és nincs ismételt jelenet a játékidő növelésére.
+
+RENDEZŐI ÉS GYÁRTÁSI MELLÉKLET
+
+JELENETCSOPORTOK
+01–06: a város és a szereplők bemutatása konkrét feladatokon keresztül.
+07–11: az első fizikai veszély, a térképrejtély és a háromfős csapat kialakulása.
+12–18: felkészült lejutás, bizonyíték, rossz döntés és érzelmi következmény.
+19–24: párhuzamos bizonyítékgyűjtés, a rejtély fizikai értelmezése, közös terv.
+25–34: kiürítés és kétoldali mentés, eltérő feladatokkal minden szereplőnek.
+35–38: felelősség, helyreállás, kapcsolati lezárás és az elveszett vonat nyoma.
+
+KAMERA
+A felszíni városban többnyire 28–50 mm, az intim párbeszédekben 50–85 mm. A veszélyt előbb térbeli totálban mutassuk meg, csak utána vágjunk közelire. Szándék nélküli körözés, állandó kamerarángás és érzelmi pillanatot túlmozgó daruzás kerülendő. A szereplők szemmagasságát külön kell követni; Kipp közeli képe nem felülről lenézett gyerekkép. A víz és a hidak földrajzát a kameraterv minden új szakaszban újra rögzíti.
+
+ANIMÁCIÓ
+Minden akcióban legyen előkészítés, súlyáthelyezés, kontaktus és lecsengés. A szájformák mért magyar hangból készüljenek, a szem és a fej ne kövesse közvetlenül az audio hangerőgörbéjét. A figyelő szereplő külön játékot kap, de nem mozog folyamatosan. A kézfogások és kapaszkodások kapcsolt világtranszformból számolódjanak, és a talajkontaktus ne törjön meg kameravágáskor. Kipp szárnyhártyája nem külön merev tárgy: a csontvázhoz és a testhez tartozik.
+
+HANG
+A hangszereplők saját, stabil hangazonosítót kapnak. A félelmet nem kizárólag hangerő és sebesség fejezi ki. A mondatokon belüli szünetek a döntésekhez tartoznak, nem egyenletes algoritmikus tagolások. A magyar hangsúly, különösen a mondat eleje, a nevek és a hosszú magánhangzók külön ellenőrzést igényelnek. A fémes vezérlőjelnek három állapota legyen: hibás késés, bizonytalan visszhang, helyes szinkron. A nézőnek hallásból is értenie kell Kipp felismerését.
+
+ÚJRAFELHASZNÁLHATÓ KÖNYVTÁR
+Rézrakpart nappal/alkony/éjjel; azonos elrendezés eltérő fényállapotokkal. Műhely, levéltár, hajókabin és szervizalagút modulok több epizódban használhatók. A mozgáskönyvtár első elemei: megállásból indulás, normál járás, gyorsulás, futásból fékezés, figyelő párbeszéd, bizonytalan átlépés, kétkezes terhelés, fogás–elengedés. Az egyéni karakterjátékot nem helyettesíti ugyanannak a ciklusnak korlátlan ismétlése.
+
+KÖVETKEZŐ ELLENŐRZÉS
+Teljes hangos olvasópróba, jelenetenként rögzített valós időkkel. Utána a tényleges dialógusokra szerkesztett 3D animatik. A 40–60 perces megfelelés csak ezen bizonyítható; ez a dokumentum önmagában nem igazolja. A 48 másodperces demonstráció modell-, rig-, kontaktus-, színészi-, hang- és filmes minőségi kapuja a teljes film költséges renderelése előtt kötelező.
