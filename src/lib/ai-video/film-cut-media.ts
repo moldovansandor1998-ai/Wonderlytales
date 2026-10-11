@@ -35,6 +35,17 @@ export async function cutSpeech(store:R2VideoStore,s:CutShot){
   return {seconds,audio};
  });
 }
+export async function prepareCutCleanup(store:R2VideoStore,s:CutShot){
+ return tempMedia(async dir=>{
+  const input=join(dir,'raw.mp4'),out=join(dir,'cleanup-input.mp4');
+  await writeFile(input,await store.assetBytes(s.objectCleaned??s.raw!,'mp4'));
+  // Avatar renders can contain a silent visual tail longer than the supplied
+  // audio. Stream-copy only the needed video before paying per-second cleanup.
+  await run(['-i',input,'-t',String(s.seconds),'-map','0:v:0','-an','-c:v','copy','-movflags','+faststart',out]);
+  const info=await mediaInfo(out);if(info.duration+1/24<s.seconds)throw new WaveSpeedError('CUT_VIDEO_TOO_SHORT');
+  return {cleanupInput:await storeFile(store,out,'mp4'),cleanupSeconds:info.duration};
+ });
+}
 export async function finishCutShot(store:R2VideoStore,s:CutShot){
  return tempMedia(async dir=>{
   const file=join(dir,'source.mp4'),out=join(dir,'finished.mp4');

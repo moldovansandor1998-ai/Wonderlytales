@@ -1,6 +1,7 @@
 import {beforeEach,it,expect,vi} from 'vitest';
 const calls=vi.hoisted(()=>({submit:vi.fn(),price:vi.fn(),balance:vi.fn()}));
 vi.mock('@/lib/providers/wavespeed',async original=>({...await original<object>(),WaveSpeedClient:class {creativePrice=calls.price;balance=calls.balance;creativeSubmit=calls.submit;}}));
+vi.mock('@/lib/ai-video/film-cut-media',async original=>({...await original<object>(),prepareCutCleanup:vi.fn(async()=>({cleanupInput:'prepared',cleanupSeconds:4}))}));
 import {advanceCut,cutAction,claimCut} from '@/lib/ai-video/film-cut';
 import {makeCutPlan} from '@/lib/ai-video/film-cut-plan';
 import {FILM_CUT_ID,type FilmCut} from '@/lib/ai-video/film-cut-shared';

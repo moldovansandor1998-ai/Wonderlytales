@@ -13,7 +13,7 @@ import {downloadProviderMedia,providerMediaUrl} from './media';
 import {finalFrame} from './post-media';
 import {VIDEO_NO_TEXT_RULE,NEGATIVE_PROMPT} from './shared';
 import {makeCutPlan} from './film-cut-plan';
-import {cutSpeech,finishCutShot,assembleCut,miraDuplicateMask} from './film-cut-media';
+import {cutSpeech,finishCutShot,assembleCut,miraDuplicateMask,prepareCutCleanup} from './film-cut-media';
 import {FILM_CUT_ID,CUT_VERSION,CUT_MAX_USD,cutCeiling,chargeAllowed,independentCutShots,type FilmCut,type CutShot,type CutTask} from './film-cut-shared';
 const now=()=>new Date().toISOString();
 const avatar='kwaivgi/kling-v2-ai-avatar-pro' as const,motion='kwaivgi/kling-v3.0-pro/image-to-video' as const;
@@ -186,9 +186,11 @@ export async function advanceCut(store:R2VideoStore,workflowId:string,precompute
   // clips before extracting continuity frames. Preserve the paid raw output unchanged.
   // Generation + cleanup must fit the already reserved $1.68 video slot AND the
   // original user-approved total. No extra authorization is inferred from recharge.
-  const ceiling=Math.max(3,Math.ceil(s.seconds+.05))*.01;
+  let cleanupInput=s.cleanupInput,cleanupSeconds=s.cleanupSeconds;
+  if(!cleanupInput){const prepared=await prepareCutCleanup(store,s);await setShot(store,s.id,prepared);cleanupInput=prepared.cleanupInput;cleanupSeconds=prepared.cleanupSeconds;}
+  const ceiling=Math.max(3,Math.ceil((cleanupSeconds??s.seconds)+.05))*.01;
   if((s.priorVideoCost??0)+(c.tasks[s.id+':video']?.price??1.68)+(c.tasks[s.id+':object-clean']?.price??0)+ceiling>reservations.wavespeed_kling+1e-6)throw new WaveSpeedError('CUT_PRICE_LIMIT',409);
-  const cleaned=await providerTask(store,s.id+':clean','wavespeed-ai/video-watermark-remover',{video:await store.assetUrl(s.objectCleaned??s.raw,'mp4')},ceiling,'video');
+  const cleaned=await providerTask(store,s.id+':clean','wavespeed-ai/video-watermark-remover',{video:await store.assetUrl(cleanupInput,'mp4')},ceiling,'video');
   if(cleaned)await setShot(store,s.id,{cleaned});return false;
  }
  if(precomputeIndex!==undefined)return false;
