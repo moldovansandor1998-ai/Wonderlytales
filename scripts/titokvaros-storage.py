@@ -13,7 +13,7 @@ import boto3
 p=argparse.ArgumentParser();p.add_argument('--config',required=True);p.add_argument('files',nargs='+');a=p.parse_args()
 c=json.loads(Path(a.config).read_text());root=Path(__file__).resolve().parents[1];data=root/'data/titokvaros'
 s=boto3.client('s3',endpoint_url=c['S3_ENDPOINT'],aws_access_key_id=c['S3_ACCESS_KEY_ID'],aws_secret_access_key=c['S3_SECRET_ACCESS_KEY'],region_name='auto')
-allowed={'Titokvaros_cast_02_V001.png','TV_ANIMATED_V002.blend','TV_model_candidate_V002.png','TV_sound_mix_V001.wav','score_original.wav','foley_original.wav','city_ambience.wav','audio_audit.json','motion_contact_audit.json','Titokvaros_visual_direction_V001.png','TV_MASTER_V001.blend','TV_model_proof_V001.png','TV_motion_review_V001.mp4','asset_audit.json','Titokvaros_S1E1_forgatokonyv_V001.txt','TV_ANIMATED_V001.blend','motion_audit.json'}
+allowed={'TV_ANIMATED_V003.blend','Titokvaros_cast_02_V001.png','TV_ANIMATED_V002.blend','TV_model_candidate_V002.png','TV_sound_mix_V001.wav','score_original.wav','foley_original.wav','city_ambience.wav','audio_audit.json','motion_contact_audit.json','Titokvaros_visual_direction_V001.png','TV_MASTER_V001.blend','TV_model_proof_V001.png','TV_motion_review_V001.mp4','asset_audit.json','Titokvaros_S1E1_forgatokonyv_V001.txt','TV_ANIMATED_V001.blend','motion_audit.json'}
 evidence=[]
 for name in a.files:
  if name not in allowed:raise ValueError('Not an approved Titokvaros artifact filename')

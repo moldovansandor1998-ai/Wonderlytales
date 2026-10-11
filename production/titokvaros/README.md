@@ -51,3 +51,11 @@ existing ElevenLabs account has 10/10 custom voice slots occupied. Saving a
 new voice received HTTP 400. No old voice was deleted and no subscription
 upgrade was made. The original auditions are preserved in R2. New casting
 and actual timestamped dialogue remain pending; do not claim audio is done.
+
+2026-10-11 checkpoint: all eight real timestamped HU lines now exist under
+`dialogue/` in R2. Licensed temporary work-track casting uses Sarah/Brian/Will;
+none is an archived character voice. New original casting remains pending.
+The actual 48-second mix includes dialogue and three original synthesized stems.
+The initial 4-second Full HD video was inspected and did not pass the artistic
+bar. The complete development cut tests sound, editing and native continuity;
+it is not the approved professional demo. See QUALITY_REVIEW_V001.md.

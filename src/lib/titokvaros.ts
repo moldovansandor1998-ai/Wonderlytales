@@ -5,7 +5,7 @@ export { bible as titokvarosBible, demo as titokvarosDemo, ids as titokvarosIds 
 export const titokvarosPrefix = 'native/S1E1/TITOKVAROS/V001';
 export const titokvarosFiles = {
  cast2: {key:`${titokvarosPrefix}/Titokvaros_cast_02_V001.png`,mime:'image/png'},
- animated: {key:`${titokvarosPrefix}/TV_ANIMATED_V002.blend`,mime:'application/octet-stream'},
+ animated: {key:`${titokvarosPrefix}/TV_ANIMATED_V003.blend`,mime:'application/octet-stream'},
  concept: {key:`${titokvarosPrefix}/Titokvaros_visual_direction_V001.png`,mime:'image/png'},
  master: {key:`${titokvarosPrefix}/TV_MASTER_V001.blend`,mime:'application/octet-stream'},
  proof: {key:`${titokvarosPrefix}/TV_model_proof_V001.png`,mime:'image/png'},

@@ -1,36 +1,155 @@
 {
-  "schema_version":1,
-  "series":"TITOKVAROS",
-  "episode":"TV_S1E1",
-  "sequence":"TV_DEMO_001",
-  "title":"A rakpart, amely nincs a térképen",
-  "stage":"DEVELOPMENT",
-  "production_approved":false,
-  "fps":24,
-  "duration_frames":1152,
-  "target_duration_seconds":48,
-  "actual_rendered_duration_seconds":null,
-  "characters":["MIRA","BRUNO","KIPP"],
-  "location":"REZRAKPART",
-  "shots":[
-    {"id":"TV_D001_SH010","start":1,"end":144,"camera":"28 mm, alacsony előrekocsizás a sín mentén, térképért lehajló Mirára","action":"Villamos halad a viadukton, hat önálló cél felé tartó háttérlakó; Mira és Brúnó sétál, Kipp a hangot figyeli.","sound":"Rakpart, távoli hajókürt, sínzaj, háromhangos eredeti városi motívum; zene kis vonós pizzicato."},
-    {"id":"TV_D001_SH020","start":145,"end":312,"camera":"50 mm, kétalakos szemmagasság; Mira jobb oldalon, Brúnó bal oldalon","action":"Mira odafordítja a térképet. Brúnó a fizikai házszámra pillant, utána Mirára.","sound":"Párbeszéd előtérben, folyamatos kikötői alapzaj."},
-    {"id":"TV_D001_SH030","start":313,"end":432,"camera":"75 mm Kipp közelije, kis rámozdulás; füle fordul előbb","action":"A lámpák kialszanak. Kipp megdermed, két koccanást hallunk, majd a rakodókocsi elindul mögötte.","sound":"Transzformátor kattan, városi zúgás megszűnik, két fémes ütés; a zene egy lélegzetnyi időre elhallgat."},
-    {"id":"TV_D001_SH040","start":433,"end":600,"camera":"35 mm oldalirányú követés, vágás előtt látható a kocsi teljes útvonala","action":"Mira és Brúnó gyorsuló lépésekből futásba vált. Kipp félrehúzza a szárnyát a kocsi mellől. Senki nem teleportál át a képtengelyen.","sound":"Eltérő talp- és tömeghangok, kerékcsattogás, fékcsikorgás; zenei lüktetés gyorsul."},
-    {"id":"TV_D001_SH050","start":601,"end":792,"camera":"50 mm, kapaszkodó kéz és szem közös közeli; mélységélesség a partner arcára vált","action":"Brúnó megfogja a kocsi kapaszkodóját és megveti a lábát. Mira a fékre támaszkodik. Kippnek egy fél méteres rést kell átlépnie; Mira rá figyel.","sound":"Erőfeszítés, ruhasúrlódás, fémfeszülés. A mondat után hagyjunk valódi reakcióidőt."},
-    {"id":"TV_D001_SH060","start":793,"end":1008,"camera":"32 mm mély alsó nézőpont, majd 65 mm Kipp döntésére","action":"Kipp átlép, lenyomja a reteszt. A kocsi ütközés nélkül lefékez; a föld alatti szellőzőből fénycsík fut végig a térkép jelével azonos mintában.","sound":"Retesz csattanás, fémes elnyúló mély hang; a motívum teljes akkordként visszatér."},
-    {"id":"TV_D001_SH070","start":1009,"end":1152,"camera":"50 mm háromalakos beállítás, lassú eltávolodás a nyitott utcatábla mellett","action":"Mira röviden Brúnó vállára teszi a kezét. Kipp nevetve kifújja a levegőt. A háttérben a lámpa alatt olvasható: Rézrakpart; a térképen ugyanott nincs utca.","sound":"Megkönnyebbült lélegzet, halk nevetés, kerekeket rögzítő utolsó kattintás; nyitott rejtélyhang."}
+  "schema_version": 1,
+  "series": "TITOKVAROS",
+  "episode": "TV_S1E1",
+  "sequence": "TV_DEMO_001",
+  "title": "A rakpart, amely nincs a térképen",
+  "stage": "DEVELOPMENT",
+  "production_approved": false,
+  "fps": 24,
+  "duration_frames": 1152,
+  "target_duration_seconds": 48,
+  "actual_rendered_duration_seconds": null,
+  "characters": [
+    "MIRA",
+    "BRUNO",
+    "KIPP"
   ],
-  "dialogue":[
-    {"id":"TV_D001_L01","character":"MIRA","at":6.2,"text":"A térkép szerint ez az utca nem létezik.","direction":"Halk, hitetlen felismerés; nem felolvasás."},
-    {"id":"TV_D001_L02","character":"BRUNO","at":9.0,"text":"Akkor tegnap nagyon rossz helyen parkoltam.","direction":"Száraz humor, a végén pillantás a villamosra."},
-    {"id":"TV_D001_L03","character":"KIPP","at":13.2,"text":"Halljátok? Ez nem áramszünet.","direction":"Figyelő suttogásból sürgető hangba vált."},
-    {"id":"TV_D001_L04","character":"BRUNO","at":18.2,"text":"A kocsi! Elengedett a fék!", "direction":"Rövid, erős figyelmeztetés, futás előtti belégzés."},
-    {"id":"TV_D001_L05","character":"KIPP","at":25.5,"text":"Nem megy. Én... félek.","direction":"Szégyellt félelem, megtorpanás, nem komikus sikoly."},
-    {"id":"TV_D001_L06","character":"MIRA","at":28.1,"text":"Rám nézz, Kipp. Nem kell egyedül.","direction":"Megnyugtató, érzelmileg jelen lévő, egyre biztosabb."},
-    {"id":"TV_D001_L07","character":"BRUNO","at":32.0,"text":"Tartom. Most!", "direction":"Fizikai erőfeszítés a hangban; a második szó tiszta jelzés."},
-    {"id":"TV_D001_L08","character":"KIPP","at":42.4,"text":"Legközelebb inkább létező utcában sétáljunk.","direction":"Megkönnyebbült, enyhén remegő humor, utána rövid nevetés."}
+  "location": "REZRAKPART",
+  "shots": [
+    {
+      "id": "TV_D001_SH010",
+      "start": 1,
+      "end": 144,
+      "camera": "28 mm, alacsony előrekocsizás a sín mentén, térképért lehajló Mirára",
+      "action": "Villamos halad a viadukton, hat önálló cél felé tartó háttérlakó; Mira és Brúnó sétál, Kipp a hangot figyeli.",
+      "sound": "Rakpart, távoli hajókürt, sínzaj, háromhangos eredeti városi motívum; zene kis vonós pizzicato."
+    },
+    {
+      "id": "TV_D001_SH020",
+      "start": 145,
+      "end": 312,
+      "camera": "50 mm, kétalakos szemmagasság; Mira jobb oldalon, Brúnó bal oldalon",
+      "action": "Mira odafordítja a térképet. Brúnó a fizikai házszámra pillant, utána Mirára.",
+      "sound": "Párbeszéd előtérben, folyamatos kikötői alapzaj."
+    },
+    {
+      "id": "TV_D001_SH030",
+      "start": 313,
+      "end": 432,
+      "camera": "75 mm Kipp közelije, kis rámozdulás; füle fordul előbb",
+      "action": "A lámpák kialszanak. Kipp megdermed, két koccanást hallunk, majd a rakodókocsi elindul mögötte.",
+      "sound": "Transzformátor kattan, városi zúgás megszűnik, két fémes ütés; a zene egy lélegzetnyi időre elhallgat."
+    },
+    {
+      "id": "TV_D001_SH040",
+      "start": 433,
+      "end": 600,
+      "camera": "35 mm oldalirányú követés, vágás előtt látható a kocsi teljes útvonala",
+      "action": "Mira és Brúnó gyorsuló lépésekből futásba vált. Kipp félrehúzza a szárnyát a kocsi mellől. Senki nem teleportál át a képtengelyen.",
+      "sound": "Eltérő talp- és tömeghangok, kerékcsattogás, fékcsikorgás; zenei lüktetés gyorsul."
+    },
+    {
+      "id": "TV_D001_SH050",
+      "start": 601,
+      "end": 792,
+      "camera": "50 mm, kapaszkodó kéz és szem közös közeli; mélységélesség a partner arcára vált",
+      "action": "Brúnó megfogja a kocsi kapaszkodóját és megveti a lábát. Mira a fékre támaszkodik. Kippnek egy fél méteres rést kell átlépnie; Mira rá figyel.",
+      "sound": "Erőfeszítés, ruhasúrlódás, fémfeszülés. A mondat után hagyjunk valódi reakcióidőt."
+    },
+    {
+      "id": "TV_D001_SH060",
+      "start": 793,
+      "end": 1008,
+      "camera": "32 mm mély alsó nézőpont, majd 65 mm Kipp döntésére",
+      "action": "Kipp átlép, lenyomja a reteszt. A kocsi ütközés nélkül lefékez; a föld alatti szellőzőből fénycsík fut végig a térkép jelével azonos mintában.",
+      "sound": "Retesz csattanás, fémes elnyúló mély hang; a motívum teljes akkordként visszatér."
+    },
+    {
+      "id": "TV_D001_SH070",
+      "start": 1009,
+      "end": 1152,
+      "camera": "50 mm háromalakos beállítás, lassú eltávolodás a nyitott utcatábla mellett",
+      "action": "Mira röviden Brúnó vállára teszi a kezét. Kipp nevetve kifújja a levegőt. A háttérben a lámpa alatt olvasható: Rézrakpart; a térképen ugyanott nincs utca.",
+      "sound": "Megkönnyebbült lélegzet, halk nevetés, kerekeket rögzítő utolsó kattintás; nyitott rejtélyhang."
+    }
   ],
-  "required_audio_stems":["dialogue_hu","foley","city_ambience","score_original"],
-  "quality_gates":["model_matches_reference","species_anatomy","ik_fk_controls","planted_feet","finger_contact","facial_topology","hungarian_speech_audited","measured_lipsync","background_life","editing_continuity","complete_video_watch","complete_audio_listen"]
+  "dialogue": [
+    {
+      "id": "TV_D001_L01",
+      "character": "MIRA",
+      "at": 6.2,
+      "text": "A térkép szerint ez az utca nem létezik.",
+      "direction": "Halk, hitetlen felismerés; nem felolvasás."
+    },
+    {
+      "id": "TV_D001_L02",
+      "character": "BRUNO",
+      "at": 9.0,
+      "text": "Akkor tegnap nagyon rossz helyen parkoltam.",
+      "direction": "Száraz humor, a végén pillantás a villamosra."
+    },
+    {
+      "id": "TV_D001_L03",
+      "character": "KIPP",
+      "at": 13.2,
+      "text": "Halljátok? Ez nem áramszünet.",
+      "direction": "Figyelő suttogásból sürgető hangba vált."
+    },
+    {
+      "id": "TV_D001_L04",
+      "character": "BRUNO",
+      "at": 18.2,
+      "text": "A kocsi! Elengedett a fék!",
+      "direction": "Rövid, erős figyelmeztetés, futás előtti belégzés."
+    },
+    {
+      "id": "TV_D001_L05",
+      "character": "KIPP",
+      "at": 25.5,
+      "text": "Nem megy. Én... félek.",
+      "direction": "Szégyellt félelem, megtorpanás, nem komikus sikoly."
+    },
+    {
+      "id": "TV_D001_L06",
+      "character": "MIRA",
+      "at": 29.1,
+      "text": "Rám nézz, Kipp. Nem kell egyedül.",
+      "direction": "Megnyugtató, érzelmileg jelen lévő, egyre biztosabb."
+    },
+    {
+      "id": "TV_D001_L07",
+      "character": "BRUNO",
+      "at": 32.0,
+      "text": "Tartom. Most!",
+      "direction": "Fizikai erőfeszítés a hangban; a második szó tiszta jelzés."
+    },
+    {
+      "id": "TV_D001_L08",
+      "character": "KIPP",
+      "at": 42.4,
+      "text": "Legközelebb inkább létező utcában sétáljunk.",
+      "direction": "Megkönnyebbült, enyhén remegő humor, utána rövid nevetés."
+    }
+  ],
+  "required_audio_stems": [
+    "dialogue_hu",
+    "foley",
+    "city_ambience",
+    "score_original"
+  ],
+  "quality_gates": [
+    "model_matches_reference",
+    "species_anatomy",
+    "ik_fk_controls",
+    "planted_feet",
+    "finger_contact",
+    "facial_topology",
+    "hungarian_speech_audited",
+    "measured_lipsync",
+    "background_life",
+    "editing_continuity",
+    "complete_video_watch",
+    "complete_audio_listen"
+  ]
 }

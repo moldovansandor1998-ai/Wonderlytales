@@ -27,6 +27,8 @@ def trolley(mats):
         for y in [-.53,.53]:
             wheel=ellipsoid('cargo wheel',(x,y,.22),(.06,.205,.205),mats['iron']);attach(wheel,root)
     attach(curve('grip contact bar',[(-.44,.38,1.15),(.44,.38,1.15)],.028,mats['iron']),root)
+    pivot=empty('TV_PROP_brake_lever');pivot.parent=root;pivot.location=(.60,.70,.70)
+    attach(cube('emergency lever grip',(0,0,.15),(.055,.055,.30),mats['copper'],.025),pivot)
     return root
 
 
@@ -88,7 +90,14 @@ def path(t):
 
 
 def set_gaze(rig,frame,t,code):
-    pb=rig.pose.bones['head'];pb.rotation_euler=(.025*math.sin(t*1.1),.025*math.sin(t*.7),(.13 if code=='MIRA' else -.13)*math.sin(t*.32));key(pb,frame)
+    yaw=(.13 if code=='MIRA' else -.13)*math.sin(t*.32);pitch=.025*math.sin(t*1.1)
+    if code=='MIRA' and 6<t<12:yaw=.28;pitch=-.04
+    if code=='BRUNO' and 8.5<t<13:yaw=-.28
+    if code=='KIPP' and 13<t<16:yaw=-.3;pitch=-.05
+    if code=='KIPP' and 25<t<32:yaw=-.38;pitch=.14
+    if code=='MIRA' and 27.8<t<32:yaw=.40;pitch=.03
+    if code=='KIPP' and 32<t<37:yaw=-.24;pitch=.06
+    pb=rig.pose.bones['head'];pb.rotation_euler=(pitch,.015*math.sin(t*.7),yaw);key(pb,frame)
     for side in ['L','R']:
         eye=rig.pose.bones['eye.'+side];eye.rotation_euler.x=.015*math.sin(t);eye.rotation_euler.z=.045*math.sin(t*.6);key(eye,frame)
         ear=rig.pose.bones['ear.'+side];ear.rotation_euler.y=.05*math.sin(t*1.7+(0 if side=='L' else 1));key(ear,frame)
@@ -100,7 +109,7 @@ def camera_keys(cast):
            (145,312,(2.4,-4.4,1.82),(2.1,-4.25,1.79),(-.2,-.75,1.37),57),
            (313,432,(2.4,-3.25,1.35),(2.23,-3.1,1.33),(1.25,-.55,1.09),70),
            (433,600,(4.8,-3.2,1.8),(4.8,-9.1,1.8),(.45,-3.4,1.0),37),
-           (601,792,(2.4,-10.7,1.8),(2.2,-10.5,1.65),(.25,-6.87,1.28),57),
+           (601,792,(2.7,-11.3,1.75),(2.5,-11.1,1.68),(.1,-6.87,1.24),39),
            (793,1008,(3.8,-10.8,1.0),(3.2,-10.5,1.35),(.8,-6.7,.9),44),
            (1009,1152,(3.4,-10.8,1.9),(4.2,-12,2.2),(.2,-6.87,1.14),50)]
     for i,(a,b,start,end,target,lens) in enumerate(specs):
@@ -138,14 +147,14 @@ def lipsync(audio_dir,report):
 
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--master',required=True);p.add_argument('--out',required=True);p.add_argument('--audio');a=p.parse_args(sys.argv[sys.argv.index('--')+1:])
+    p=argparse.ArgumentParser();p.add_argument('--master',required=True);p.add_argument('--out',required=True);p.add_argument('--audio');p.add_argument('--stems');a=p.parse_args(sys.argv[sys.argv.index('--')+1:])
     out=Path(a.out).resolve();out.mkdir(parents=True,exist_ok=True);bpy.ops.wm.open_mainfile(filepath=str(Path(a.master).resolve()),use_scripts=False)
     scene=bpy.context.scene;scene.frame_start=1;scene.frame_end=1152;scene.render.fps=24
     for obj in bpy.data.objects:
         for mod in obj.modifiers:
             if mod.type=='ARMATURE':mod.use_deform_preserve_volume=True
     cast={c:bpy.data.objects['TV_CHAR_'+c+'_RIG'] for c in DEMO['characters']}
-    trol,vehicle,extras,glow=add_city_life();report={'production_approved':False,'stage':'ANIMATED_BLOCKING','frames':1152,'fps':24,'shots':7,'dialogue':[],'contact_samples':[],'limitations':['models not feature-film quality','full wing topology and finger contact require correction','acting and audio review pending']}
+    trol,vehicle,extras,glow=add_city_life();emergency=light('TV_emergency_spill',(.5,-7,.25),0,(.10,.70,1),2,(0,-6,1.2));report={'production_approved':False,'stage':'ANIMATED_BLOCKING','frames':1152,'fps':24,'shots':7,'dialogue':[],'contact_samples':[],'limitations':['models not feature-film quality','full wing topology and finger contact require correction','acting and audio review pending']}
     for f in range(1,1153):
         t=(f-1)/24;y,speed,mode,distance=path(t)
         for i,(code,rig) in enumerate(cast.items()):
@@ -172,6 +181,13 @@ def main():
                         for seg in [1,2,3]:
                             finger=rig.pose.bones[f'f_{digit}.{seg:02}.{side}'];finger.rotation_euler.x=(.55 if seg==1 else .9)*grip;key(finger,f)
 
+            if code=='KIPP':
+                grip=max(0,min(1,(t-32)*2,(37-t)*2));side='R'
+                parent=rig.pose.bones['upper_arm_parent.'+side];parent['IK_FK']=1-grip;parent.keyframe_insert('["IK_FK"]',frame=f)
+                hand=rig.pose.bones['hand_ik.'+side];target=Vector((.95,-7.05,.97));local=(target-rig.location)/rig.scale.x;local.y+=hand.bone.length
+                matrix=Vector((0,-1,0)).to_track_quat('Y','Z').to_matrix().to_4x4();matrix.translation=local;hand.matrix=matrix;key(hand,f)
+                for seg in [1,2,3]:
+                    thumb=rig.pose.bones[f'f_thumb.{seg:02}.R'];thumb.rotation_euler.x=.65*grip;key(thumb,f)
             if 28<t<32 and code=='MIRA':
                 arm_direction(rig,'L',(.36,-.02,-.08));key(rig.pose.bones['upper_arm_fk.L'],f)
         trol.location=(.35,5 if t<15 else max(-7.75,5-(t-15)*(12.75/9)),0);trol.keyframe_insert('location',frame=f)
@@ -179,15 +195,24 @@ def main():
         for i,(root,arms,legs) in enumerate(extras):
             direction=1 if i%2 else -1;root.location=((5.65 if i<3 else -5.65),-8+i*5+direction*.18*t,0);root.rotation_euler.z=math.pi if direction==1 else 0;root.keyframe_insert('location',frame=f)
             for j,ob in enumerate(legs+arms):ob.rotation_euler.x=.24*math.sin(t*5+j*math.pi);ob.keyframe_insert('rotation_euler',frame=f)
+        lever=bpy.data.objects['TV_PROP_brake_lever'];lever.rotation_euler.x=-.75*max(0,min(1,(t-33.4)*3));lever.keyframe_insert('rotation_euler',frame=f)
+        emergency.data.energy=450*max(0,min(1,(t-34)*2));emergency.data.keyframe_insert('energy',frame=f)
+        for lampname,normal in [('warm key',1500),('sky fill',1200),('copper rim',1800)]:
+            lamp=bpy.data.objects[lampname].data;lamp.energy=normal*(.45 if 13.1<t<34 else 1);lamp.keyframe_insert('energy',frame=f)
         glow.inputs['Emission Strength'].default_value=0 if t<34 else min(7,(t-34)*3);glow.inputs['Emission Strength'].keyframe_insert('default_value',frame=f)
     # Reusable actions can be linked independently into future shots.
     for code,rig in cast.items():
         rig.animation_data.action.name=f'TV_{code}_DEMO_BLOCKING_V001';rig.animation_data.action.use_fake_user=True
     camera_keys(cast)
     if a.audio:lipsync(Path(a.audio),report)
+    if a.stems:
+        if not scene.sequence_editor:scene.sequence_editor_create()
+        for channel,name in enumerate(['score_original','foley_original','city_ambience'],start=2):
+            wav=Path(a.stems)/(name+'.wav')
+            strip=scene.sequence_editor.strips.new_sound(name,str(wav.resolve()),channel=channel,frame_start=1);strip.sound.pack()
     scene['production_approved']=False;scene['review_stage']='ANIMATED_BLOCKING';scene['not_approved_reason']='Character modeling, anatomical wing folds and physical hand contact need further authoring.'
-    scene.frame_set(1);bpy.context.view_layer.update();bpy.ops.file.pack_all();bpy.ops.wm.save_as_mainfile(filepath=str(out/'TV_ANIMATED_V001.blend'))
-    report['blend_sha256']=hashlib.sha256((out/'TV_ANIMATED_V001.blend').read_bytes()).hexdigest();(out/'motion_audit.json').write_text(json.dumps(report,indent=2))
+    scene.frame_set(1);bpy.context.view_layer.update();bpy.ops.file.pack_all();bpy.ops.wm.save_as_mainfile(filepath=str(out/'TV_ANIMATED_V003.blend'))
+    report['blend_sha256']=hashlib.sha256((out/'TV_ANIMATED_V003.blend').read_bytes()).hexdigest();(out/'motion_audit.json').write_text(json.dumps(report,indent=2))
     print('TV_ANIMATION_BUILT '+json.dumps({'frames':1152,'dialogue':len(report['dialogue']),'production_approved':False}),flush=True)
 
 DEMO=json.loads((Path(__file__).resolve().parents[1]/'episodes/TV_S1E1/demo.json').read_text())

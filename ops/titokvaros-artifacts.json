@@ -52,5 +52,47 @@
     "sha256": "d84110063ccb223f8e8a534ba89d1135ae8d76866307e7769e45d4a19cb05809",
     "bytes": 1238,
     "readback_verified": true
+  },
+  {
+    "key": "native/S1E1/TITOKVAROS/V001/TV_ANIMATED_V002.blend",
+    "sha256": "b3bd47dc2d236d175b89266b531eb3733028df5abaa292a833556ca51472fb39",
+    "bytes": 128879955,
+    "readback_verified": true
+  },
+  {
+    "key": "native/S1E1/TITOKVAROS/V001/TV_sound_mix_V001.wav",
+    "sha256": "8cc15658b7c2b4e876ed3cc70f826e63eda97f0c567cb39d5dfc232ed5406cec",
+    "bytes": 9216044,
+    "readback_verified": true
+  },
+  {
+    "key": "native/S1E1/TITOKVAROS/V001/score_original.wav",
+    "sha256": "a2be90bf5f71786734a3ecaca043427136bb258abfe9e6e8fe4f48ce60f78b5b",
+    "bytes": 9216044,
+    "readback_verified": true
+  },
+  {
+    "key": "native/S1E1/TITOKVAROS/V001/foley_original.wav",
+    "sha256": "e3cbcf9ca55865d52e01615469d71c471d90f4e1e19671f1cb0c857920ab5634",
+    "bytes": 9216044,
+    "readback_verified": true
+  },
+  {
+    "key": "native/S1E1/TITOKVAROS/V001/city_ambience.wav",
+    "sha256": "b220cbc9812ad4840e93a5f23d65383d22bfa2ba567a741dd8e25180775599ed",
+    "bytes": 9216044,
+    "readback_verified": true
+  },
+  {
+    "key": "native/S1E1/TITOKVAROS/V001/audio_audit.json",
+    "sha256": "6c74b386e99f5f426e94ef5acde66a20c234590908d57c8b449bbb18f2ba89bb",
+    "bytes": 1026,
+    "readback_verified": true
+  },
+  {
+    "key": "native/S1E1/TITOKVAROS/V001/TV_ANIMATED_V003.blend",
+    "sha256": "10b4c5728d0c00079f2944bf35955f2c288e5e8cafb3fbe6ec579076a0367556",
+    "bytes": 128879955,
+    "readback_verified": true
   }
 ]

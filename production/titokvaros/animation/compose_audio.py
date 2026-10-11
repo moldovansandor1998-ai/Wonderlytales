@@ -6,6 +6,7 @@ import argparse,json,wave,subprocess,math
 from pathlib import Path
 import numpy as np
 SR=48000;DURATION=48;N=SR*DURATION;rng=np.random.default_rng(731)
+TIMINGS={x['id']:x['at'] for x in json.loads((Path(__file__).resolve().parents[1]/'episodes/TV_S1E1/demo.json').read_text())['dialogue']}
 
 def write(path,x):
  x=np.clip(x,-.97,.97)
@@ -54,7 +55,7 @@ def main():
    d=json.loads(j.read_text());mp3=j.with_suffix('.mp3')
    if d.get('status')!='RECORDED_PENDING_REVIEW' or not mp3.exists():continue
    raw=subprocess.check_output(['ffmpeg','-v','error','-i',str(mp3),'-f','f32le','-ac','1','-ar',str(SR),'-']);samples=np.frombuffer(raw,dtype='<f4')
-   add(dialogue,samples,float(d['at']),1.05);audit['dialogue'].append({'id':d['id'],'actual_audio_duration_sec':len(samples)/SR,'at':d['at']})
+   at=TIMINGS[d['id']];add(dialogue,samples,float(at),1.05);audit['dialogue'].append({'id':d['id'],'actual_audio_duration_sec':len(samples)/SR,'at':at})
  for name,stem in [('score_original',music),('foley_original',foley),('city_ambience',city),('dialogue_hu',dialogue)]:write(out/(name+'.wav'),stem)
  mix=music+foley+city+dialogue;peak=np.max(np.abs(mix));mix*=min(1,.89/max(peak,.001));write(out/'TV_sound_mix_V001.wav',mix)
  audit['mix_peak_dbfs']=20*math.log10(max(np.max(np.abs(mix)),1e-9));(out/'audio_audit.json').write_text(json.dumps(audit,indent=2));print(json.dumps(audit))

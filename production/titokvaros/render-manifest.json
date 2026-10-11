@@ -11,6 +11,38 @@
       "frame_start": 1,
       "frame_end": 96,
       "purpose": "Four-second actual native gait diagnostic; not the final demo"
+    },
+    {
+      "id": "TV_DEMO_V003_PART1",
+      "frame_start": 1,
+      "frame_end": 288,
+      "purpose": "48-second development scene, part 1 of 4; NOT production approved",
+      "scene_key": "native/S1E1/TITOKVAROS/V001/TV_ANIMATED_V003.blend",
+      "scene_sha256": "10b4c5728d0c00079f2944bf35955f2c288e5e8cafb3fbe6ec579076a0367556"
+    },
+    {
+      "id": "TV_DEMO_V003_PART2",
+      "frame_start": 289,
+      "frame_end": 576,
+      "purpose": "48-second development scene, part 2 of 4; NOT production approved",
+      "scene_key": "native/S1E1/TITOKVAROS/V001/TV_ANIMATED_V003.blend",
+      "scene_sha256": "10b4c5728d0c00079f2944bf35955f2c288e5e8cafb3fbe6ec579076a0367556"
+    },
+    {
+      "id": "TV_DEMO_V003_PART3",
+      "frame_start": 577,
+      "frame_end": 864,
+      "purpose": "48-second development scene, part 3 of 4; NOT production approved",
+      "scene_key": "native/S1E1/TITOKVAROS/V001/TV_ANIMATED_V003.blend",
+      "scene_sha256": "10b4c5728d0c00079f2944bf35955f2c288e5e8cafb3fbe6ec579076a0367556"
+    },
+    {
+      "id": "TV_DEMO_V003_PART4",
+      "frame_start": 865,
+      "frame_end": 1152,
+      "purpose": "48-second development scene, part 4 of 4; NOT production approved",
+      "scene_key": "native/S1E1/TITOKVAROS/V001/TV_ANIMATED_V003.blend",
+      "scene_sha256": "10b4c5728d0c00079f2944bf35955f2c288e5e8cafb3fbe6ec579076a0367556"
     }
   ]
 }
