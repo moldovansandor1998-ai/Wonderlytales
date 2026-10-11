@@ -137,19 +137,19 @@ export class R2VideoStore implements VideoStore {
     const r=await this.client.send(new GetObjectCommand({Bucket:this.bucket,Key:this.dialogueKey(id,'mp3')}));
     return Buffer.from(await r.Body!.transformToByteArray());
   }
-  private recordKey(kind:'scene-image'|'analysis'|'reference'|'episode-scene',id:string) {
+  private recordKey(kind:RecordKind,id:string) {
     if(!/^[a-f0-9-]{36}$/.test(id))throw new WaveSpeedError('INVALID_INPUT',400);
     return `${this.prefix}${kind}/${id}.json`;
   }
-  async readRecord<T>(kind:'scene-image'|'analysis'|'reference'|'episode-scene',id:string):Promise<{value:T;etag:string}|null> {
+  async readRecord<T>(kind:RecordKind,id:string):Promise<{value:T;etag:string}|null> {
     try{const r=await this.client.send(new GetObjectCommand({Bucket:this.bucket,Key:this.recordKey(kind,id)}));return {value:JSON.parse(await r.Body!.transformToString()),etag:r.ETag!};}
     catch(e){if(status(e)===404)return null;throw e;}
   }
-  async writeRecord(kind:'scene-image'|'analysis'|'reference'|'episode-scene',id:string,value:unknown,etag?:string) {
+  async writeRecord(kind:RecordKind,id:string,value:unknown,etag?:string) {
     try{await this.client.send(new PutObjectCommand({Bucket:this.bucket,Key:this.recordKey(kind,id),Body:JSON.stringify(value),ContentType:'application/json',...(etag?{IfMatch:etag}:{IfNoneMatch:'*'})}));return true;}
     catch(e){if(status(e)===409||status(e)===412)return false;throw e;}
   }
-  async listRecords<T>(kind:'scene-image'|'analysis'|'reference'|'episode-scene'):Promise<T[]> {
+  async listRecords<T>(kind:RecordKind):Promise<T[]> {
     const r=await this.client.send(new ListObjectsV2Command({Bucket:this.bucket,Prefix:`${this.prefix}${kind}/`,MaxKeys:500}));
     const rows=(r.Contents??[]).sort((a,b)=>+(b.LastModified??0)-+(a.LastModified??0)).slice(0,200);
     const values=await Promise.all(rows.map(x=>this.readRecord<T>(kind,x.Key!.split('/').pop()!.replace('.json',''))));
@@ -174,4 +174,18 @@ export class R2VideoStore implements VideoStore {
     if(!job.archived)return job.outputUrl!;
     return getSignedUrl(this.client,new GetObjectCommand({Bucket:this.bucket,Key:`${this.prefix}media/${job.id}.mp4`}),{expiresIn:3600});
   }
+  private assetKey(id:string,extension:'mp4'|'wav'|'mp3') {
+    if(!/^[a-f0-9]{64}$/.test(id))throw new WaveSpeedError('INVALID_INPUT',400);
+    return `${this.prefix}post-assets/${id}.${extension}`;
+  }
+  async putAsset(id:string,extension:'mp4'|'wav'|'mp3',bytes:Buffer) {
+    await this.client.send(new PutObjectCommand({Bucket:this.bucket,Key:this.assetKey(id,extension),Body:bytes,ContentType:extension==='mp4'?'video/mp4':extension==='wav'?'audio/wav':'audio/mpeg',Metadata:{sha256:digest(bytes)}}));
+  }
+  async assetUrl(id:string,extension:'mp4'|'wav'|'mp3') {
+    return getSignedUrl(this.client,new GetObjectCommand({Bucket:this.bucket,Key:this.assetKey(id,extension)}),{expiresIn:86400});
+  }
+  async assetBytes(id:string,extension:'mp4'|'wav'|'mp3') {
+    const r=await this.client.send(new GetObjectCommand({Bucket:this.bucket,Key:this.assetKey(id,extension)}));return Buffer.from(await r.Body!.transformToByteArray());
+  }
 }
+export type RecordKind='scene-image'|'analysis'|'reference'|'episode-scene'|'voice-design'|'post-scene'|'post-job';
