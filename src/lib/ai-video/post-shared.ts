@@ -1,6 +1,6 @@
 import type {CastKey,SceneLine} from './episode-shared';
 export type Language='hu'|'en';
-export type MixSettings={background:number;voice:number;leftSpeaker:CastKey|null;layoutConfirmed:boolean;sourceSpeech:'none'|'mute'};
+export type MixSettings={background:number;voice:number;leftSpeaker:CastKey|null;layoutConfirmed:boolean;sourceSpeech:'none'|'mute'|'loop-intro'};
 export const DEFAULT_MIX:MixSettings={background:.55,voice:1,leftSpeaker:null,layoutConfirmed:false,sourceSpeech:'none'};
 export type LanguageVersion={dialogue?:SceneLine[];sourceHash?:string;translationApproved?:boolean;recordings:Record<string,string>;mix:MixSettings;jobId?:string;history:string[];approvedFingerprint?:string;approvedAt?:string};
 export type PostScene={id:string;revision:number;variants:Partial<Record<Language,LanguageVersion>>};

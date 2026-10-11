@@ -14,7 +14,7 @@ import {tempMedia,downloadOwned,normalizeVideo,speechTrack,mixVideo,storeFile} f
 import {downloadProviderMedia} from './media';
 const cast=z.enum(['felix','mira','nera','tilda','oszkar']);
 const linesSchema=z.array(z.object({character:cast,text:z.string().trim().min(1).max(250),offset:z.number().min(0).max(9.5),delivery:z.enum(['visible','offscreen'])}).strict()).max(3);
-const mixSchema=z.object({background:z.number().min(0).max(1),voice:z.number().min(.2).max(2),leftSpeaker:cast.nullable(),layoutConfirmed:z.boolean(),sourceSpeech:z.enum(['none','mute'])}).strict();
+const mixSchema=z.object({background:z.number().min(0).max(1),voice:z.number().min(.2).max(2),leftSpeaker:cast.nullable(),layoutConfirmed:z.boolean(),sourceSpeech:z.enum(['none','mute','loop-intro'])}).strict();
 const command=z.object({id:z.string().uuid(),language:z.enum(['hu','en']),action:z.enum(['save','english','record','prepare','quote','start','poll','approve','revoke']),revision:z.number().int().min(0).optional(),index:z.number().int().min(0).max(2).optional(),data:z.unknown().optional()}).strict();
 const api=()=>new WaveSpeedClient(process.env.WAVESPEED_API_KEY??'');
 export async function postOverview(store:R2VideoStore,id:string,lang:Language){const c=await postContext(store,id,lang);return {id,language:lang,revision:c.post.revision,variant:c.variant,lines:c.lines,recordings:c.recordings,job:c.job,approved:c.approved,translationCurrent:c.translationCurrent,current:c.job?.fingerprint===c.fingerprint};}
@@ -30,10 +30,11 @@ export async function postAction(raw:unknown,store:R2VideoStore){
    let lines:SceneLine[]=ctx.state.dialogue.map((l,i)=>({...l,text:ctx.definition.dialogue[i]?.text===l.text?seed[i]??'': ''}));
    if(ctx.definition.kind==='intro')lines=[{character:'felix',text:'Subscribe to the channel!',offset:5.5,delivery:'visible'}];
    if(lines.some(l=>!l.text))throw new WaveSpeedError('SOURCE_CHANGED_TRANSLATION_REQUIRED',409);
-   await setVariant({...ctx.variant,dialogue:lines,sourceHash:sourceHash(ctx.state.dialogue),translationApproved:false,mix:{...ctx.variant.mix,...(ctx.definition.kind==='intro'?{sourceSpeech:'mute' as const}:{})}});
+   await setVariant({...ctx.variant,dialogue:lines,sourceHash:sourceHash(ctx.state.dialogue),translationApproved:false,mix:{...ctx.variant.mix,...(ctx.definition.kind==='intro'?{sourceSpeech:'loop-intro' as const}:{})}});
   }
  }else if(input.action==='save'){
   const data=z.object({mix:mixSchema,dialogue:linesSchema.optional(),translationApproved:z.boolean().optional()}).strict().parse(input.data);
+  if(data.mix.sourceSpeech==='loop-intro'&&ctx.definition.kind!=='intro')throw new WaveSpeedError('INVALID_INPUT',400);
   if(input.language==='hu'&&data.dialogue)throw new WaveSpeedError('EDIT_SOURCE_DIALOGUE',400);
   await setVariant({...ctx.variant,mix:data.mix,...(data.dialogue?{dialogue:data.dialogue,sourceHash:sourceHash(ctx.state.dialogue)}:{}),translationApproved:data.translationApproved??ctx.variant.translationApproved,approvedFingerprint:undefined,approvedAt:undefined});
  }else if(input.action==='record'){

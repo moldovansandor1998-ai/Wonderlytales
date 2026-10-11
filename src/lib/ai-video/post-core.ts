@@ -1,6 +1,6 @@
 import {R2VideoStore,digest} from './storage';
 import {CAST,type SceneState,type SceneLine,type CastKey} from './episode-shared';
-import {EPISODE_SCENES,defaultSceneState} from './episode-data';
+import {EPISODE_SCENES,defaultSceneState,normalizeSceneState} from './episode-data';
 import {readCast,characterVoice} from './voices';
 import {newVersion,type Language,type LanguageVersion,type PostScene,type PostJob} from './post-shared';
 import type {DialogueRecording} from './dialogue';
@@ -11,7 +11,7 @@ export function fingerprint(state:SceneState,variant:LanguageVersion,lang:Langua
 export async function postContext(store:R2VideoStore,id:string,language:Language,voiceMap?:Record<CastKey,string|null>){
  const definition=EPISODE_SCENES.find(d=>d.id===id);if(!definition)throw new WaveSpeedError('SCENE_NOT_FOUND',404);
  const [scene,saved,voices]=await Promise.all([store.readRecord<SceneState>('episode-scene',id),store.readRecord<PostScene>('post-scene',id),voiceMap??currentVoices()]);
- const state=scene?.value??defaultSceneState(definition),post=saved?.value??{id,revision:0,variants:{}},variant=post.variants[language]??newVersion();
+ const state=normalizeSceneState(scene?.value??defaultSceneState(definition)),post=saved?.value??{id,revision:0,variants:{}},variant=post.variants[language]??{...newVersion(),mix:{...newVersion().mix,...(definition.kind==='intro'?{sourceSpeech:'loop-intro' as const}:{})}};
  const lines=language==='hu'?state.dialogue:variant.dialogue??[];
  const recordings=Object.fromEntries((await Promise.all(lines.map(async(_,i)=>{const key=String(i),rec=variant.recordings[key]??(language==='hu'?state.recordings[key]:undefined);return [key,rec?await store.readDialogue<DialogueRecording>(rec):null];}))).filter(([,r])=>r)) as Record<string,DialogueRecording>;
  const job=variant.jobId?(await store.readRecord<PostJob>('post-job',variant.jobId))?.value??null:null;

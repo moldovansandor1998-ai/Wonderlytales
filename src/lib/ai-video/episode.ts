@@ -8,7 +8,7 @@ import {WaveSpeedVideoService} from './service';
 import {startSceneImage,pollCreative,references} from './creative';
 import {readCast,characterVoice} from './voices';
 import {recordCharacterDialogue,type DialogueRecording} from './dialogue';
-import {EPISODE_SCENES,EPISODE_TITLE,defaultSceneState} from './episode-data';
+import {EPISODE_SCENES,EPISODE_TITLE,defaultSceneState,normalizeSceneState} from './episode-data';
 import {CAST,type CastKey,type SceneState,type EpisodeScene,type EpisodeCast} from './episode-shared';
 import type {CreativeJob} from './creative-shared';
 const sha=z.string().regex(/^[a-f0-9]{64}$/);
@@ -18,7 +18,7 @@ export const editSchema=z.object({mode:z.enum(['image','last-frame']),imagePromp
 export const commandSchema=z.object({id:z.string().uuid(),action:z.enum(['save','image','image-poll','approve-image','restore-image','frame','quote','video','video-poll','new-video','dialogue','attach-video']),revision:z.number().int().nonnegative().optional(),data:z.unknown().optional()}).strict();
 export function definition(id:string){const d=EPISODE_SCENES.find(s=>s.id===id);if(!d)throw new WaveSpeedError('SCENE_NOT_FOUND',404);return d;}
 export const recordingKey=(index:number)=>String(index);
-async function stateOf(store:R2VideoStore,id:string){const d=definition(id),r=await store.readRecord<SceneState>('episode-scene',id);return {state:r?.value??defaultSceneState(d),etag:r?.etag};}
+async function stateOf(store:R2VideoStore,id:string){const d=definition(id),r=await store.readRecord<SceneState>('episode-scene',id);return {state:normalizeSceneState(r?.value??defaultSceneState(d)),etag:r?.etag};}
 async function change(store:R2VideoStore,id:string,revision:number|undefined,fn:(s:SceneState)=>SceneState){
  const old=await stateOf(store,id);
  if(revision!==undefined&&old.state.revision!==revision)throw new WaveSpeedError('SCENE_CHANGED',409);
