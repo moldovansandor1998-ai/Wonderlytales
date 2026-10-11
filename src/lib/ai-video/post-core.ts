@@ -16,7 +16,7 @@ export async function postContext(store:R2VideoStore,id:string,language:Language
  const recordings=Object.fromEntries((await Promise.all(lines.map(async(_,i)=>{const key=String(i),rec=variant.recordings[key]??(language==='hu'?state.recordings[key]:undefined);return [key,rec?await store.readDialogue<DialogueRecording>(rec):null];}))).filter(([,r])=>r)) as Record<string,DialogueRecording>;
  const job=variant.jobId?(await store.readRecord<PostJob>('post-job',variant.jobId))?.value??null:null;
  const hash=fingerprint(state,variant,language,voices);
- return {language,definition,state,post,etag:saved?.etag,variant,lines,recordings,job,voices,fingerprint:hash,approved:!!job?.finalAsset&&job.status==='READY'&&variant.approvedFingerprint===hash&&job.fingerprint===hash,translationCurrent:language==='hu'||variant.sourceHash===sourceHash(state.dialogue)};
+ return {language,definition,state,post,etag:saved?.etag,variant,lines,recordings,job,voices,fingerprint:hash,approved:state.review!=='needs-work'&&!!job?.finalAsset&&job.status==='READY'&&variant.approvedFingerprint===hash&&job.fingerprint===hash,translationCurrent:language==='hu'||variant.sourceHash===sourceHash(state.dialogue)};
 }
 export async function requirePreviousApproval(store:R2VideoStore,order:number){
  if(order<1)return;

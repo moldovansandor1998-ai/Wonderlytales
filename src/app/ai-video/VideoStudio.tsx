@@ -2,6 +2,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { FELIX_SCENES, STATUS_LABELS, TERMINAL_STATUSES, WAVESPEED_CEILING_USD, documentedPrice, type VideoInput, type VideoJob } from '@/lib/ai-video/shared';
 import CharacterVoices from './CharacterVoices';
+import {lastFrame} from './client-media';
+import type {GalleryKind} from '@/lib/ai-video/gallery-shared';
 
 type UploadedImage = { sha256: string; width: number; height: number; mime: string };
 type Connection = { configured: boolean; connected: boolean; balance: number | null;
@@ -49,7 +51,7 @@ async function uploadImage(file: File): Promise<UploadedImage> {
   return request<UploadedImage>(`/upload?action=complete&${query}`,post());
 }
 
-export default function VideoStudio() {
+export default function VideoStudio({reuse}: {reuse?: {kind:GalleryKind;id:string}} = {}) {
   const [connection,setConnection] = useState<Connection | null>(null);
   const [jobs,setJobs] = useState<VideoJob[]>([]);
   const [image,setImage] = useState<UploadedImage | null>(null);
@@ -73,6 +75,33 @@ export default function VideoStudio() {
     else setError(errorText(j.reason));
   },[]);
   useEffect(() => { void refresh(); },[refresh]);
+  useEffect(() => {
+    if (!reuse) return;
+    let cancelled = false;
+    setBusy('Galériából kiválasztott forrás betöltése…');
+    void (async () => {
+      try {
+        let file: File;
+        if (reuse.kind === 'images') {
+          const response = await fetch(`/api/ai-video/image?sha256=${reuse.id}`);
+          if (!response.ok) throw new Error('A kiválasztott kép nem érhető el.');
+          const blob = await response.blob();
+          file = new File([blob], 'galeria-kep', {type:blob.type});
+        } else {
+          const url = reuse.kind === 'videos' ? `/api/ai-video/jobs/${reuse.id}/media` : `/api/ai-video/assets/${reuse.id}?type=mp4`;
+          file = (await lastFrame(url)).file;
+        }
+        if (cancelled) return;
+        const uploaded = await uploadImage(file);
+        if (cancelled) return;
+        setImage(uploaded); setEndImage(null); setQuote(null);
+        setPrompt('Continue from this exact starting frame. Preserve the characters, faces, clothing, props and location. Describe the next meaningful action here. One continuous shot, no random cut or character redesign.');
+        setNotice(reuse.kind === 'images' ? 'A galéria képe betöltve. Írd meg az új jelenet történését.' : 'A galéria videójának utolsó képkockája betöltve. Írd meg a folytatás történését.');
+      } catch (e) { if (!cancelled) setError(errorText(e)); }
+      finally { if (!cancelled) setBusy(''); }
+    })();
+    return () => { cancelled = true; };
+  }, [reuse?.kind, reuse?.id]);
   const active = jobs.filter(j => j.taskId && (!TERMINAL_STATUSES.includes(j.status) || j.status === 'SUBMISSION_UNCERTAIN')).map(j => j.id).join(',');
   useEffect(() => {
     if (!active) return;
@@ -168,7 +197,7 @@ export default function VideoStudio() {
             canvas.toBlob(b => { clearTimeout(timeout); b ? resolve(b) : fail(); },'image/png');
           } catch { fail(); }
         };
-        video.src = job.outputUrl!;
+        video.src = `/api/ai-video/jobs/${job.id}/media`;
       });
       const frame = await uploadImage(new File([blob],`last-frame-${job.id}.png`,{type:'image/png'}));
       setImage(frame); setEndImage(null);
@@ -214,7 +243,7 @@ export default function VideoStudio() {
     </fieldset>
     <CharacterVoices/>
     {busy && <p role="status" aria-live="polite" className="text-amber-300">{busy}</p>}
-    <section aria-label="Generált jelenetek" className="space-y-4"><h2 className="text-xl font-semibold">Jeleneteim</h2><p className="text-sm text-zinc-400">Az elkészült MP4-et mentsd le: a szolgáltatói videólink idővel lejárhat. A három 10 másodperces jelenet összevágása és a végső Full HD ellenőrzése külön lépés.</p>
+    <section aria-label="Generált jelenetek" className="space-y-4"><h2 className="text-xl font-semibold">Jeleneteim</h2><p className="text-sm text-zinc-400">Az elkészült fájlokat automatikusan megőrizzük. A Galériában az összes korábbi kép és videó megtalálható, letölthető és újra felhasználható.</p>
       {!jobs.length && <p className={`${panel} text-zinc-400`}>Még nincs mentett WaveSpeed-generálásod.</p>}
       {jobs.map(job=><article key={job.id} className={panel}><div className="flex flex-wrap justify-between gap-3"><h3 className="font-semibold">{job.duration} mp · {job.sound ? 'hanggal' : 'hang nélkül'}</h3><span className={job.status==='COMPLETED'?'text-emerald-300':'text-amber-300'}>{STATUS_LABELS[job.status]}</span></div><p className="mt-1 text-xs text-zinc-500">{new Date(job.createdAt).toLocaleString('hu-HU', {timeZone:'Asia/Saigon'})} (Asia/Saigon) · becsült díj: {job.estimatedCostUsd.toFixed(3)} USD</p>
         {job.error && <p className="mt-3 text-sm text-amber-200">{job.error}</p>}

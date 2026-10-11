@@ -90,3 +90,14 @@ it('continuity migration preserves generated clips, old images and custom prompt
  expect((await m.raw.readRecord('episode-scene',scene.id))?.value).toEqual(finished);
  expect((await m.raw.readRecord('episode-scene',future.id))?.value).toMatchObject({mode:'last-frame',imageHistory:[sha],prompt:'Custom prompt that must remain exactly unchanged',continuityVersion:2});
 });
+
+it('refuses a middle frame and respects the final trimmed duration for continuity',async()=>{
+ const {postContext}=await import('@/lib/ai-video/post-core');
+ const m=memory();await m.seed({...defaultSceneState(EPISODE_SCENES[2]),videoJobId:jobId});
+ m.raw.read.mockResolvedValue({job:{id:jobId,status:'COMPLETED',duration:10},etag:'1'});
+ vi.mocked(postContext).mockResolvedValueOnce({approved:true,state:{videoJobId:jobId},job:{finalAsset:'e'.repeat(64),duration:8}} as Awaited<ReturnType<typeof postContext>>);
+ await expect(episodeAction({id:scene.id,action:'frame',data:{sha256:sha,sourceJobId:jobId,sourceTime:4,sourceAsset:'e'.repeat(64)}},m.store)).rejects.toThrow('LAST_FRAME_REQUIRED');
+ vi.mocked(postContext).mockResolvedValueOnce({approved:true,state:{videoJobId:jobId},job:{finalAsset:'e'.repeat(64),duration:8}} as Awaited<ReturnType<typeof postContext>>);
+ const result=await episodeAction({id:scene.id,action:'frame',data:{sha256:sha,sourceJobId:jobId,sourceTime:7.999,sourceAsset:'e'.repeat(64)}},m.store);
+ expect(result.scene.state.sourceTime).toBe(7.999);
+});

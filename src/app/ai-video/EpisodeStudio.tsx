@@ -13,6 +13,7 @@ const button='rounded-lg bg-amber-400 px-4 py-2.5 text-sm font-semibold text-zin
 const secondary='rounded-lg border border-zinc-700 px-3 py-2 text-sm hover:bg-zinc-800 disabled:opacity-40';
 const field='w-full rounded-lg border border-zinc-700 bg-zinc-950 p-3 text-sm';
 const errors:Record<string,string>={
+ LAST_FRAME_REQUIRED:'A folytatáshoz az előző végleges videó legutolsó képkockája kell. Vedd át újra a képkockát.',
  SCENE_CHANGED:'A jelenet közben másik ablakban változott. Frissíts, és ellenőrizd a mentett változatot.',
  APPROVE_IMAGE:'Előbb nézd meg és hagyd jóvá a kezdőképet.',
  VIDEO_CHARACTER_REQUIRED:'Előbb rögzítsd a kiválasztott szereplők videóreferenciáit a Karakterreferenciák a videóhoz panelen.',
@@ -47,7 +48,7 @@ export default function EpisodeStudio(){
  const [history,setHistory]=useState<VideoJob[]>([]),[attach,setAttach]=useState('');
  const attempted=useRef(new Set<string>()),lock=useRef(false),player=useRef<HTMLVideoElement>(null),[playlist,setPlaylist]=useState(false);
  const current=overview?.scenes.find(s=>s.state.id===selected),previous=overview?.scenes[(current?.definition.order??0)-1];
- const merge=useCallback((scene:EpisodeScene)=>setOverview(o=>o?{...o,scenes:o.scenes.map(s=>s.state.id===scene.state.id?{...scene,post:s.post}:s)}:o),[]);
+ const merge=useCallback((scene:EpisodeScene)=>setOverview(o=>o?{...o,scenes:o.scenes.map(s=>s.state.id===scene.state.id?{...scene,post:scene.state.review==='needs-work'?Object.fromEntries(Object.entries(s.post??{}).map(([key,value])=>[key,{...value,approved:false}])):s.post}:s)}:o),[]);
  const load=useCallback(async()=>{
   const data=await api<EpisodeOverview>('/episode');setOverview(data);return data;
  },[]);

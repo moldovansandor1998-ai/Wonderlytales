@@ -1,5 +1,6 @@
 import {z} from 'zod';
 import {randomUUID} from 'node:crypto';
+import {matchingElementRequests} from './element-recovery';
 import {downloadProviderMedia} from './media';
 import {R2VideoStore,digest} from './storage';
 import {CAST,type CastKey} from './episode-shared';
@@ -37,10 +38,12 @@ export async function elementAction(raw:unknown,store:R2VideoStore,provider=new 
  if(input.action==='poll'){if(row.job?.taskId&&['PROCESSING','UNCERTAIN'].includes(row.job.status))await finish(row.job,await provider.creativeResult(row.job.taskId));return elementOverview(store);}
  if(input.action==='recover'){
   if(!row.job||row.job.status!=='UNCERTAIN'||row.job.taskId)return elementOverview(store);
-  const history=await provider.elementHistory();
-  const matches=history.filter(t=>JSON.stringify(t.input??t.inputs??t.request??{}).includes(row.sha256!));
-  if(matches.length===1){const found=matches[0];if(typeof found.id==='string'){const task=await provider.creativeResult(found.id);await finish(await save({...row.job,taskId:found.id,status:'PROCESSING'}),task);return elementOverview(store);}}
-  await save({...row.job,recoveryCheckedAt:new Date().toISOString(),outputShape:'Matching requests: '+matches.length+'; element history: '+history.map(t=>JSON.stringify({id:t.id,status:t.status,keys:Object.keys(t),outputs:t.outputs})).join(' ').slice(0,3500)});
+  const matches=matchingElementRequests(await provider.recentPredictions(),row.name,await store.imageUrl(row.sha256));
+  if(matches.length===1){
+   const job=await save({...row.job,taskId:matches[0].id,status:'PROCESSING',error:undefined});
+   await finish(job,await provider.creativeResult(matches[0].id));return elementOverview(store);
+  }
+  await save({...row.job,recoveryCheckedAt:new Date().toISOString(),error:matches.length?'ELEMENT_RECOVERY_AMBIGUOUS':'ELEMENT_RECOVERY_NOT_FOUND'});
   return elementOverview(store);
  }
  const retry=input.action==='retry';
@@ -55,6 +58,6 @@ export async function elementAction(raw:unknown,store:R2VideoStore,provider=new 
  if(retry){if(previous?.value.status!=='UNCERTAIN'||(previous.value.retryCount??0)>=1)throw new WaveSpeedError('ELEMENT_MANUAL_RETRY_BLOCKED',409);const archiveId=randomUUID();await store.writeRecord('video-element',archiveId,{...previous.value,id:archiveId});job={...job,retryCount:1,previousAttemptId:archiveId};}
  if(!await store.writeRecord('video-element',id,job,previous?.etag))return elementOverview(store);
  try{await reserveProductionBudget('wavespeed_element');}catch{await save({...job,status:'FAILED',error:'BUDGET_BLOCKED'});throw new WaveSpeedError('BUDGET_BLOCKED',409);}
- try{const submitted=await provider.elementSubmit(payload);if('elementId' in submitted){if(!/^[A-Za-z0-9_-]{1,160}$/.test(submitted.elementId))throw new WaveSpeedError('ELEMENT_OUTPUT_REVIEW_REQUIRED');await save({...job,status:'READY',elementId:submitted.elementId});}else{const task=submitted.task;job=await save({...job,taskId:task.id,status:'PROCESSING'});job=await finish(job,task);}}catch(e){const latest=await store.readRecord<ElementJob>('video-element',id);if(!latest?.value.taskId)await save({...job,status:'UNCERTAIN',error:e instanceof WaveSpeedError?e.code:'ELEMENT_SUBMISSION_UNCERTAIN'});}
+ try{const submitted=await provider.elementSubmit(payload);if('elementId' in submitted){if(!/^[A-Za-z0-9_-]{1,160}$/.test(submitted.elementId))throw new WaveSpeedError('ELEMENT_OUTPUT_REVIEW_REQUIRED');await save({...job,status:'READY',elementId:submitted.elementId});}else{const task=submitted.task;job=await save({...job,taskId:task.id,status:'PROCESSING'});job=await finish(job,task);}}catch(e){const latest=await store.readRecord<ElementJob>('video-element',id);if(!latest?.value.taskId)await save({...job,...(e instanceof WaveSpeedError&&e.taskId?{taskId:e.taskId}:{}),status:'UNCERTAIN',error:e instanceof WaveSpeedError?e.code:'ELEMENT_SUBMISSION_UNCERTAIN'});}
  return elementOverview(store);
 }

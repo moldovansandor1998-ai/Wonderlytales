@@ -5,6 +5,7 @@ import { requireConfiguration } from '../config';
 import { WaveSpeedError } from '../providers/wavespeed';
 import type { VideoJob } from './shared';
 import { downloadProviderMedia } from './media';
+import type { GalleryKind, GalleryPage } from './gallery-shared';
 
 export interface VersionedJob { job: VideoJob; etag: string; }
 export interface VideoStore {
@@ -74,6 +75,12 @@ export class R2VideoStore implements VideoStore {
     } catch (e) { if (status(e) === 412 || status(e) === 409) return false; throw e; }
   }
   async save(job: VideoJob, etag: string) {
+    // Preserve every completed generation, including the free-form studio.
+    // A storage failure must keep the provider result recoverable, never resubmit it.
+    if (job.status === 'COMPLETED' && !job.archived) {
+      try { await this.archiveVideo(job); job = { ...job, archived: true }; }
+      catch { /* The gallery exposes a retry for the existing file, with no AI charge. */ }
+    }
     try {
       await this.client.send(new PutObjectCommand({ Bucket: this.bucket, Key: this.jobKey(job.id),
         Body: JSON.stringify(job), ContentType: 'application/json', IfMatch: etag }));
@@ -86,6 +93,44 @@ export class R2VideoStore implements VideoStore {
     const keys = (r.Contents ?? []).sort((a,b) => +(b.LastModified ?? 0) - +(a.LastModified ?? 0)).slice(0,30);
     const rows = await Promise.all(keys.map(x => this.read(x.Key!.split('/').pop()!.replace('.json',''))));
     return rows.flatMap(r => r ? [r.job] : []).sort((a,b) => b.createdAt.localeCompare(a.createdAt));
+  }
+  async galleryPage(kind: GalleryKind, cursor?: string): Promise<GalleryPage> {
+    const directory = { images: 'images/', videos: 'jobs/', edits: 'post-assets/' }[kind];
+    if (!directory || (cursor && cursor.length > 4096)) throw new WaveSpeedError('INVALID_INPUT', 400);
+    const prefix = this.prefix + directory;
+    const result = await this.client.send(new ListObjectsV2Command({ Bucket: this.bucket, Prefix: prefix, MaxKeys: 48, ...(cursor ? { ContinuationToken: cursor } : {}) }));
+    const items: GalleryPage['items'] = [];
+    const objects = result.Contents ?? [];
+    // Bound reads per request while keeping every page accessible. No total-history cap.
+    for (let offset = 0; offset < objects.length; offset += 8) {
+      const batch = await Promise.all(objects.slice(offset, offset + 8).map(async object => {
+        const name = object.Key?.slice(prefix.length) ?? '';
+        const date = object.LastModified?.toISOString() ?? '';
+        if (kind === 'videos') {
+          if (!/^[a-f0-9-]{36}\.json$/.test(name)) return null;
+          const saved = await this.read(name.slice(0, -5));
+          if (saved?.job.status !== 'COMPLETED') return null;
+          const j = saved.job;
+          return { id: j.id, kind, url: `/api/ai-video/jobs/${j.id}/media`, title: `${j.duration} mp · eredeti videó`, createdAt: j.createdAt, prompt: j.prompt, archived: !!j.archived };
+        }
+        // Exclude temporary upload chunks and audio; retain all image and MP4 versions.
+        const valid = kind === 'images' ? /^[a-f0-9]{64}$/ : /^[a-f0-9]{64}\.mp4$/;
+        if (!valid.test(name)) return null;
+        const id = kind === 'images' ? name : name.slice(0, -4);
+        return { id, kind, url: kind === 'images' ? `/api/ai-video/image?sha256=${id}` : `/api/ai-video/assets/${id}?type=mp4`, title: kind === 'images' ? 'Megőrzött kép / képkocka' : 'Megőrzött videóváltozat', createdAt: date, size: object.Size, archived: true };
+      }));
+      for (const item of batch) if (item) items.push(item);
+    }
+    return { items, ...(result.IsTruncated && result.NextContinuationToken ? { cursor: result.NextContinuationToken } : {}) };
+  }
+  async preserveVideo(id: string) {
+    const saved = await this.read(id);
+    if (saved?.job.status !== 'COMPLETED') throw new WaveSpeedError('JOB_NOT_FOUND', 404);
+    if (!saved.job.archived) {
+      await this.archiveVideo(saved.job);
+      const latest = await this.read(id);
+      if (!latest || !await this.save({ ...latest.job, archived: true }, latest.etag)) throw new WaveSpeedError('SCENE_CHANGED', 409);
+    }
   }
   async putChunk(sha: string, index: number, bytes: Buffer) {
     await this.client.send(new PutObjectCommand({ Bucket: this.bucket, Key: `${this.imageKey(sha)}.part-${index}`, Body: bytes }));

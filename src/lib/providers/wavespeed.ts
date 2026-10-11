@@ -4,7 +4,7 @@ import { NEGATIVE_PROMPT, WAVESPEED_MODEL, type VideoInput } from '../ai-video/s
 
 const ROOT = 'https://api.wavespeed.ai/api/v3';
 export class WaveSpeedError extends Error {
-  constructor(public code: string, public httpStatus = 502) { super(code); }
+  constructor(public code: string, public httpStatus = 502, public taskId?:string) { super(code); }
 }
 export const videoInputSchema = z.object({
   id: z.string().uuid(), imageSha256: z.string().regex(/^[a-f0-9]{64}$/),
@@ -22,11 +22,19 @@ export function waveSpeedPayload(req: VideoInput, image: string, endImage?: stri
 }
 const taskSchema = z.object({ id: z.string().regex(/^[A-Za-z0-9_-]{1,160}$/),
   status: z.enum(['created', 'pending', 'queued', 'processing', 'running', 'completed', 'failed', 'cancelled', 'timeout', 'deleted']),
-  outputs: z.array(z.string()).optional(), error: z.string().optional() });
+  outputs: z.array(z.string()).nullish().transform(x=>x??undefined), error: z.string().nullish().transform(x=>x??undefined) });
 export type WaveSpeedTask = z.infer<typeof taskSchema>;
-const creativeTaskSchema=taskSchema.extend({outputs:z.array(z.union([z.string(),z.record(z.unknown())])).optional()});
+const creativeTaskSchema=taskSchema.extend({outputs:z.array(z.union([z.string(),z.record(z.unknown())])).nullish().transform(x=>x??undefined)});
 export type CreativeTask=z.infer<typeof creativeTaskSchema>;
-function parseCreativeTask(raw:unknown):CreativeTask {const obj=raw&&typeof raw==='object'?raw as Record<string,unknown>:{};return creativeTaskSchema.parse({...obj,...(obj.outputs&&typeof obj.outputs==='object'&&!Array.isArray(obj.outputs)?{outputs:[obj.outputs]}:{})});}
+const historyTaskSchema=creativeTaskSchema.extend({model:z.string(),inputs:z.record(z.unknown()).optional(),input:z.record(z.unknown()).optional()});
+export type HistoryTask=z.infer<typeof historyTaskSchema>;
+function parseCreativeTask(raw:unknown):CreativeTask {
+ const obj=raw&&typeof raw==='object'?raw as Record<string,unknown>:{};
+ const parsed=creativeTaskSchema.safeParse({...obj,...(obj.outputs&&typeof obj.outputs==='object'&&!Array.isArray(obj.outputs)?{outputs:[obj.outputs]}:{})});
+ if(parsed.success)return parsed.data;
+ const accepted=z.object({id:z.string().regex(/^[A-Za-z0-9_-]{1,160}$/)}).safeParse(raw);
+ throw new WaveSpeedError('PROVIDER_RESPONSE_REVIEW_REQUIRED',502,accepted.success?accepted.data.id:undefined);
+}
 export const CREATIVE_MODELS=['kwaivgi/kling-elements','bytedance/seedream-v4.5','bytedance/seedream-v4.5/edit','wavespeed-ai/molmo2/video-understanding','wavespeed-ai/infinitetalk/video-to-video','wavespeed-ai/infinitetalk/video-to-video-multi'] as const;
 export type CreativeModel=typeof CREATIVE_MODELS[number];
 export class WaveSpeedClient {
@@ -69,20 +77,17 @@ export class WaveSpeedClient {
     const raw=await this.call('kwaivgi/kling-elements',inputs);
     const direct=z.object({element_id:z.union([z.string(),z.number()])}).safeParse(raw);
     if(direct.success)return {elementId:String(direct.data.element_id)};
-    const obj=raw&&typeof raw==='object'?raw as Record<string,unknown>:{};
-    const normalized={...obj,...(obj.outputs&&typeof obj.outputs==='object'&&!Array.isArray(obj.outputs)?{outputs:[obj.outputs]}:{})};
-    const task=creativeTaskSchema.safeParse(normalized);
-    if(!task.success)throw new WaveSpeedError('ELEMENT_RESPONSE_SCHEMA_'+Object.keys(obj).join('_').slice(0,100));
-    return {task:task.data};
-  }
-  async elementHistory():Promise<Record<string,unknown>[]> {
-    const data=await this.call('predictions',{page:1,page_size:100,created_after:new Date(Date.now()-24*60*60*1000).toISOString()});
-    return z.object({items:z.array(z.record(z.unknown()))}).parse(data).items.filter(x=>x.model==='kwaivgi/kling-elements');
+    return {task:parseCreativeTask(raw)};
   }
   async creativeResult(id:string):Promise<CreativeTask> {
     if(!/^[A-Za-z0-9_-]{1,160}$/.test(id))throw new WaveSpeedError('INVALID_TASK',400);
     const task=parseCreativeTask(await this.call(`predictions/${id}/result`));
     if(task.id!==id)throw new WaveSpeedError('INVALID_TASK');return task;
+  }
+  async recentPredictions():Promise<HistoryTask[]> {
+    // Read-only history lookup, never a generation request. Do not expose other jobs to the client.
+    const data=z.object({items:z.array(z.unknown())}).parse(await this.call('predictions',{page:1,page_size:100}));
+    return data.items.flatMap(item=>{const parsed=historyTaskSchema.safeParse(item);return parsed.success?[parsed.data]:[];});
   }
   async price(inputs: ReturnType<typeof waveSpeedPayload>): Promise<number> {
     const quote = z.object({ model_id: z.literal(WAVESPEED_MODEL), currency: z.literal('USD'),

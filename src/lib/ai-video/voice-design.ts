@@ -76,10 +76,10 @@ export async function designVoice(raw:unknown,store:R2VideoStore){
    await save({...rec,newVoiceId:voice.voice_id});
    await assignCharacterVoice(characterId,voice.voice_id,rec.expectedRowId);
    // Preserve historical voices; only the five authorized IDs receive archive names.
-   if(rec.oldRemoved){await save({...rec,status:'ACTIVE'});return voiceDesignOverview(store);}
+   if(rec.oldRemoved){await save({...rec,status:'ACTIVE',error:undefined});return voiceDesignOverview(store);}
    const form=new FormData();form.set('name',`ARCHÍV – WonderlyTales – ${spec.oldName} V001`);
    const archived=await fetch('https://api.elevenlabs.io/v1/voices/'+spec.old+'/edit',{method:'POST',headers:{'xi-api-key':process.env.ELEVENLABS_API_KEY!},body:form,signal:AbortSignal.timeout(20000),redirect:'error'});
-   await save({...rec,status:'ACTIVE',oldRemoved:false,oldArchived:archived.ok});
+   await save({...rec,status:'ACTIVE',error:undefined,oldRemoved:false,oldArchived:archived.ok});
   }catch(e){await save({...rec,status:'UNCERTAIN',error:e instanceof WaveSpeedError?e.code:'VOICE_ACTIVATION_UNCERTAIN'});}
  }
  return voiceDesignOverview(store);

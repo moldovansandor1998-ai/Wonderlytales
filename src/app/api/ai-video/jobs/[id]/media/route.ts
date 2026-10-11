@@ -15,6 +15,7 @@ export async function GET(request: NextRequest,{ params }: { params: { id: strin
     const source=await fetch(await store.videoUrl(saved.job),{cache:'no-store',redirect:'error',signal:AbortSignal.timeout(90000),headers:range?{Range:range}:{}});
     if(!source.ok||!source.body)throw new WaveSpeedError('MEDIA_UNAVAILABLE');
     const headers=new Headers({'Content-Type':'video/mp4','Cache-Control':'private, no-store','Accept-Ranges':'bytes'});
+    if(request.nextUrl.searchParams.get('download')==='1')headers.set('Content-Disposition',`attachment; filename="wonderlytales-${saved.job.id}.mp4"`);
     for(const h of ['content-length','content-range']){const v=source.headers.get(h);if(v)headers.set(h,v);}
     return new NextResponse(source.body,{status:source.status,headers});
   } catch (e) { return apiError(e); }
