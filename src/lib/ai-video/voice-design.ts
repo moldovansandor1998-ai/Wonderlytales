@@ -15,12 +15,13 @@ export type VoiceDesign={id:string;key:CastKey;name:string;status:'DESIGNING'|'P
 async function eleven(path:string,body?:unknown,method?:string){
  const key=process.env.ELEVENLABS_API_KEY;if(!key)throw new WaveSpeedError('ELEVENLABS_NOT_CONFIGURED',503);
  const r=await fetch('https://api.elevenlabs.io'+path,{method:method??(body?'POST':'GET'),headers:{'xi-api-key':key,'Content-Type':'application/json'},...(body?{body:JSON.stringify(body)}:{}),cache:'no-store',redirect:'error',signal:AbortSignal.timeout(90000)});
- if(!r.ok)throw new WaveSpeedError(r.status===402?'VOICE_CREDITS_REQUIRED':r.status===400||r.status===422?'VOICE_DESIGN_REJECTED':'VOICE_SERVICE_FAILED',502);
+ if(!r.ok){const problem=await r.json().catch(()=>({}));const code=String(problem?.detail?.status??problem?.detail?.[0]?.type??'UNKNOWN').toUpperCase().replace(/[^A-Z0-9_]/g,'_').slice(0,70);throw new WaveSpeedError(r.status===402?'VOICE_CREDITS_REQUIRED':r.status===400||r.status===422?'VOICE_REJECTED_'+code:'VOICE_SERVICE_FAILED',502);}
  return r.status===204?{}:r.json();
 }
 export async function voiceDesignOverview(store:R2VideoStore){
  const records=await store.listRecords<VoiceDesign>('voice-design');
- return Object.entries(VOICE_DESIGNS).map(([key,d])=>({key,name:CAST[key as CastKey].name,description:d.description,record:records.find(r=>r.key===key)?((({oldMetadata,...safe})=>safe)(records.find(r=>r.key===key)!)):null}));
+ const subscription=await eleven('/v1/user/subscription');const available=await accountVoices();
+ return Object.entries(VOICE_DESIGNS).map(([key,d])=>({key,name:CAST[key as CastKey].name,description:d.description,voiceLimit:subscription.voice_limit,voiceCount:available.filter(v=>v.category!=='premade').length,record:records.find(r=>r.key===key)?((({oldMetadata,...safe})=>safe)(records.find(r=>r.key===key)!)):null}));
 }
 export async function designVoice(raw:unknown,store:R2VideoStore){
  const {key,action,preview}=z.object({key:z.enum(['felix','mira','nera','tilda','oszkar']),action:z.enum(['design','activate']),preview:z.number().int().min(0).max(2).optional()}).strict().parse(raw);
@@ -52,7 +53,7 @@ export async function designVoice(raw:unknown,store:R2VideoStore){
  }else{
   if(!rec)throw new WaveSpeedError('VOICE_PREVIEW_REQUIRED',409);
   if(rec.status==='ACTIVE')return voiceDesignOverview(store);
-  if(rec.status!=='PREVIEWS')throw new WaveSpeedError('JOB_ACTIVE',409);
+  if(rec.status!=='PREVIEWS'&&!(rec.status==='UNCERTAIN'&&!rec.newVoiceId&&(rec.error==='VOICE_DESIGN_REJECTED'||rec.error?.startsWith('VOICE_REJECTED_'))))throw new WaveSpeedError('JOB_ACTIVE',409);
   const selected=rec.previews?.[preview??0];if(!selected)throw new WaveSpeedError('INVALID_INPUT',400);
   const activation={...rec,status:'ACTIVATING' as const};
   if(!await store.writeRecord('voice-design',characterId,activation,old!.etag))throw new WaveSpeedError('SCENE_CHANGED',409);
