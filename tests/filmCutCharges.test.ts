@@ -44,3 +44,15 @@ it('free framing repair is scoped to the reviewed asset and preserves every paid
  expect(next.chargedUpperUsd).toBe(6.881);expect(next.authorizedUsd).toBe(10);expect(next.tasks.pending.taskId).toBe('keep-me');expect(next.index).toBe(0);
  expect(next.shots[0]).toMatchObject({raw:'raw',cleaned:'clean',framingRepair:'felix-bag',manualReviewRequired:true});expect(next.shots[0].asset).toBeUndefined();expect(calls.submit).not.toHaveBeenCalled();
 });
+it('returning to a repaired camera uses the corrected last frame, never the contaminated input',async()=>{
+ const s=memory(),r=await s.readRecord(),shot=r.value.shots[0];
+ await s.writeRecord('film-cut',FILM_CUT_ID,{...r.value,index:1,shots:[{...shot,id:'camera',phase:'READY',cropPreset:'right',lastFrame:'corrected'},{...shot,id:'answer',image:undefined,frameFrom:'camera'}]},r.etag);
+ await advanceCut(s as unknown as R2VideoStore,'wf');expect((await s.readRecord()).value.shots[1].image).toBe('corrected');expect(calls.submit).not.toHaveBeenCalled();
+});
+it('free closeup rejects stale assets and changes no paid task or spending limit',async()=>{
+ const s=memory(),r=await s.readRecord(),shot=r.value.shots[0],asset='a'.repeat(64);
+ await s.writeRecord('film-cut',FILM_CUT_ID,{...r.value,status:'PAUSED',shots:[{...shot,raw:'raw',cleaned:'clean',asset,check:{passed:false,text:'review'}}]},r.etag);
+ await expect(cutAction({action:'crop-closeup',shotId:shot.id,cropPreset:'right',expectedAsset:'b'.repeat(64)},s as unknown as R2VideoStore)).rejects.toThrow('CUT_REVIEW_REQUIRED');
+ const c=(await cutAction({action:'crop-closeup',shotId:shot.id,cropPreset:'right',expectedAsset:asset},s as unknown as R2VideoStore)).cut!;
+ expect(c.authorizedUsd).toBe(10);expect(c.chargedUpperUsd).toBe(0);expect(c.tasks).toEqual({});expect(c.shots[0]).toMatchObject({raw:'raw',cleaned:'clean',previousAsset:asset,cropPreset:'right',manualReviewRequired:true});expect(c.shots[0].asset).toBeUndefined();expect(calls.submit).not.toHaveBeenCalled();
+});
