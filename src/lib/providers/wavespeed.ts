@@ -28,6 +28,13 @@ const creativeTaskSchema=taskSchema.extend({outputs:z.array(z.union([z.string(),
 export type CreativeTask=z.infer<typeof creativeTaskSchema>;
 const historyTaskSchema=creativeTaskSchema.extend({model:z.string(),inputs:z.record(z.unknown()).optional(),input:z.record(z.unknown()).optional()});
 export type HistoryTask=z.infer<typeof historyTaskSchema>;
+function parseCreativeTask(raw:unknown):CreativeTask {
+ const obj=raw&&typeof raw==='object'?raw as Record<string,unknown>:{};
+ const parsed=creativeTaskSchema.safeParse({...obj,...(obj.outputs&&typeof obj.outputs==='object'&&!Array.isArray(obj.outputs)?{outputs:[obj.outputs]}:{})});
+ if(parsed.success)return parsed.data;
+ const accepted=z.object({id:z.string().regex(/^[A-Za-z0-9_-]{1,160}$/)}).safeParse(raw);
+ throw new WaveSpeedError('PROVIDER_RESPONSE_REVIEW_REQUIRED',502,accepted.success?accepted.data.id:undefined);
+}
 export const CREATIVE_MODELS=['kwaivgi/kling-elements','bytedance/seedream-v4.5','bytedance/seedream-v4.5/edit','wavespeed-ai/molmo2/video-understanding','wavespeed-ai/infinitetalk/video-to-video','wavespeed-ai/infinitetalk/video-to-video-multi'] as const;
 export type CreativeModel=typeof CREATIVE_MODELS[number];
 export class WaveSpeedClient {
@@ -64,15 +71,17 @@ export class WaveSpeedClient {
   }
   async creativeSubmit(model:CreativeModel,inputs:Record<string,unknown>):Promise<CreativeTask> {
     if(!CREATIVE_MODELS.includes(model))throw new WaveSpeedError('INVALID_MODEL');
-    const raw=await this.call(model,inputs),parsed=creativeTaskSchema.safeParse(raw);
-    if(parsed.success)return parsed.data;
-    const accepted=z.object({id:z.string().regex(/^[A-Za-z0-9_-]{1,160}$/)}).safeParse(raw);
-    // A valid provider ID must survive a malformed/changed response. Never submit again to recover it.
-    throw new WaveSpeedError('PROVIDER_RESPONSE_REVIEW_REQUIRED',502,accepted.success?accepted.data.id:undefined);
+    return parseCreativeTask(await this.call(model,inputs));
+  }
+  async elementSubmit(inputs:Record<string,unknown>):Promise<{elementId:string}|{task:CreativeTask}> {
+    const raw=await this.call('kwaivgi/kling-elements',inputs);
+    const direct=z.object({element_id:z.union([z.string(),z.number()])}).safeParse(raw);
+    if(direct.success)return {elementId:String(direct.data.element_id)};
+    return {task:parseCreativeTask(raw)};
   }
   async creativeResult(id:string):Promise<CreativeTask> {
     if(!/^[A-Za-z0-9_-]{1,160}$/.test(id))throw new WaveSpeedError('INVALID_TASK',400);
-    const task=creativeTaskSchema.parse(await this.call(`predictions/${id}/result`));
+    const task=parseCreativeTask(await this.call(`predictions/${id}/result`));
     if(task.id!==id)throw new WaveSpeedError('INVALID_TASK');return task;
   }
   async recentPredictions():Promise<HistoryTask[]> {

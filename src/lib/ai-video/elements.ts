@@ -1,13 +1,14 @@
 import {z} from 'zod';
-import {downloadProviderMedia} from './media';
+import {randomUUID} from 'node:crypto';
 import {matchingElementRequests} from './element-recovery';
+import {downloadProviderMedia} from './media';
 import {R2VideoStore,digest} from './storage';
 import {CAST,type CastKey} from './episode-shared';
 import {references} from './creative';
 import {WaveSpeedClient,WaveSpeedError,type CreativeTask} from '../providers/wavespeed';
 import {reserveProductionBudget} from '../budget';
 import type {VideoElement} from './shared';
-export type ElementJob={id:string;character:CastKey;name:string;referenceSha256:string;status:'SUBMITTING'|'PROCESSING'|'READY'|'FAILED'|'UNCERTAIN';taskId?:string;elementId?:string;error?:string;price:number;outputShape?:string};
+export type ElementJob={id:string;character:CastKey;name:string;referenceSha256:string;status:'SUBMITTING'|'PROCESSING'|'READY'|'FAILED'|'UNCERTAIN';taskId?:string;elementId?:string;error?:string;price:number;retryCount?:number;previousAttemptId?:string;recoveryCheckedAt?:string;outputShape?:string};
 const model='kwaivgi/kling-elements';
 const keys=z.enum(['felix','mira','nera','tilda','oszkar']);
 const descriptions:Record<CastKey,string>={felix:'Red fox, green eyes, red cream fur, teal jacket, white T-shirt, dark trousers, backpack.',mira:'Brown rabbit police detective. Match canonical face, ears, fur, uniform and accessories exactly.',nera:'Adult female marten art dealer. Match canonical face, fur, elegant outfit and proportions.',tilda:'Adult female pangolin mechanic. Match canonical scales, face, work apron and glasses.',oszkar:'Young adult male squirrel bicycle courier. Match canonical face, fur, helmet and courier bag.'};
@@ -24,7 +25,7 @@ export async function resolveElements(store:R2VideoStore,characters:CastKey[]):P
  const rows=await elementOverview(store);return characters.map(k=>{const row=rows.find(r=>r.character===k)!;if(row.job?.status!=='READY'||!row.job.elementId)throw new WaveSpeedError('VIDEO_CHARACTER_REQUIRED',409);return {elementId:row.job.elementId,name:row.name,referenceSha256:row.sha256!};});
 }
 export async function elementAction(raw:unknown,store:R2VideoStore,provider=new WaveSpeedClient(process.env.WAVESPEED_API_KEY??'')){
- const input=z.object({character:keys,action:z.enum(['create','poll','recover'])}).strict().parse(raw),row=(await elementOverview(store)).find(x=>x.character===input.character)!;
+ const input=z.object({character:keys,action:z.enum(['create','poll','recover','retry']),allowOneAdditionalCharge:z.literal(true).optional()}).strict().parse(raw),row=(await elementOverview(store)).find(x=>x.character===input.character)!;
  if(!row.sha256)throw new WaveSpeedError('CHARACTER_REFERENCE_MISSING',409);
  const id=elementRecordId(input.character,row.sha256);
  async function save(job:ElementJob){const prior=await store.readRecord<ElementJob>('video-element',id);if(!await store.writeRecord('video-element',id,job,prior?.etag))throw new WaveSpeedError('SCENE_CHANGED',409);return job;}
@@ -34,22 +35,29 @@ export async function elementAction(raw:unknown,store:R2VideoStore,provider=new 
    return save({...job,taskId:task.id,...(elementId?{status:'READY' as const,elementId}:{status:'UNCERTAIN' as const,error:'ELEMENT_OUTPUT_REVIEW_REQUIRED',outputShape:JSON.stringify((task.outputs??[]).map(x=>typeof x==='object'?Object.keys(x):typeof x==='string'?(x.startsWith('https:')?'https-url':x.slice(0,120)):typeof x))})});}
   return save({...job,taskId:task.id,status:['failed','cancelled','timeout','deleted'].includes(task.status)?'FAILED':'PROCESSING'});
  }
- if(input.action==='recover'){
-  if(row.job?.status!=='UNCERTAIN'||row.job.taskId)return elementOverview(store);
-  const matches=matchingElementRequests(await provider.recentPredictions(),row.name,await store.imageUrl(row.sha256));
-  if(matches.length!==1){await save({...row.job,error:matches.length?'ELEMENT_RECOVERY_AMBIGUOUS':'ELEMENT_RECOVERY_NOT_FOUND'});return elementOverview(store);}
-  // Persist the recovered request before result parsing/downloading, so transient errors remain resumable.
-  const job=await save({...row.job,taskId:matches[0].id,status:'PROCESSING',error:undefined});
-  await finish(job,await provider.creativeResult(matches[0].id));return elementOverview(store);
- }
  if(input.action==='poll'){if(row.job?.taskId&&['PROCESSING','UNCERTAIN'].includes(row.job.status))await finish(row.job,await provider.creativeResult(row.job.taskId));return elementOverview(store);}
- if(row.job)return elementOverview(store); // Never resubmit an ambiguous or failed provider request.
- const payload={name:row.name,description:descriptions[input.character],image:await store.imageUrl(row.sha256),element_refer_list:[]};
+ if(input.action==='recover'){
+  if(!row.job||row.job.status!=='UNCERTAIN'||row.job.taskId)return elementOverview(store);
+  const matches=matchingElementRequests(await provider.recentPredictions(),row.name,await store.imageUrl(row.sha256));
+  if(matches.length===1){
+   const job=await save({...row.job,taskId:matches[0].id,status:'PROCESSING',error:undefined});
+   await finish(job,await provider.creativeResult(matches[0].id));return elementOverview(store);
+  }
+  await save({...row.job,recoveryCheckedAt:new Date().toISOString(),error:matches.length?'ELEMENT_RECOVERY_AMBIGUOUS':'ELEMENT_RECOVERY_NOT_FOUND'});
+  return elementOverview(store);
+ }
+ const retry=input.action==='retry';
+ if(retry&&(!row.job||row.job.status!=='UNCERTAIN'||row.job.taskId||!row.job.recoveryCheckedAt||(row.job.retryCount??0)>=1||input.allowOneAdditionalCharge!==true))throw new WaveSpeedError('ELEMENT_MANUAL_RETRY_BLOCKED',409);
+ if(row.job&&!retry)return elementOverview(store); // Ordinary replays never resubmit.
+ const image=await store.imageUrl(row.sha256);
+ const payload={name:row.name,description:descriptions[input.character],image,element_refer_list:[image]};
  const [price,balance]=await Promise.all([provider.creativePrice(model,payload),provider.balance()]);
  if(price>.010001)throw new WaveSpeedError('ELEMENT_PRICE_CHANGED',409);if(balance<price)throw new WaveSpeedError('WAVESPEED_BALANCE_LOW',409);
  let job:ElementJob={id,character:input.character,name:row.name,referenceSha256:row.sha256,status:'SUBMITTING',price};
- if(!await store.writeRecord('video-element',id,job))return elementOverview(store);
+ const previous=retry?await store.readRecord<ElementJob>('video-element',id):null;
+ if(retry){if(previous?.value.status!=='UNCERTAIN'||(previous.value.retryCount??0)>=1)throw new WaveSpeedError('ELEMENT_MANUAL_RETRY_BLOCKED',409);const archiveId=randomUUID();await store.writeRecord('video-element',archiveId,{...previous.value,id:archiveId});job={...job,retryCount:1,previousAttemptId:archiveId};}
+ if(!await store.writeRecord('video-element',id,job,previous?.etag))return elementOverview(store);
  try{await reserveProductionBudget('wavespeed_element');}catch{await save({...job,status:'FAILED',error:'BUDGET_BLOCKED'});throw new WaveSpeedError('BUDGET_BLOCKED',409);}
- try{const task=await provider.creativeSubmit(model,payload);job=await save({...job,taskId:task.id,status:'PROCESSING'});job=await finish(job,task);}catch(e){const latest=await store.readRecord<ElementJob>('video-element',id);if(!latest?.value.taskId)await save({...job,...(e instanceof WaveSpeedError&&e.taskId?{taskId:e.taskId}:{}),status:'UNCERTAIN',error:e instanceof WaveSpeedError?e.code:'ELEMENT_SUBMISSION_UNCERTAIN'});}
+ try{const submitted=await provider.elementSubmit(payload);if('elementId' in submitted){if(!/^[A-Za-z0-9_-]{1,160}$/.test(submitted.elementId))throw new WaveSpeedError('ELEMENT_OUTPUT_REVIEW_REQUIRED');await save({...job,status:'READY',elementId:submitted.elementId});}else{const task=submitted.task;job=await save({...job,taskId:task.id,status:'PROCESSING'});job=await finish(job,task);}}catch(e){const latest=await store.readRecord<ElementJob>('video-element',id);if(!latest?.value.taskId)await save({...job,...(e instanceof WaveSpeedError&&e.taskId?{taskId:e.taskId}:{}),status:'UNCERTAIN',error:e instanceof WaveSpeedError?e.code:'ELEMENT_SUBMISSION_UNCERTAIN'});}
  return elementOverview(store);
 }

@@ -3,7 +3,7 @@ import { access, apiError, json, videoService } from '@/lib/ai-video/http';
 import { R2VideoStore } from '@/lib/ai-video/storage';
 import { WaveSpeedError } from '@/lib/providers/wavespeed';
 export const dynamic = 'force-dynamic';
-export const maxDuration = 30;
+export const maxDuration = 120;
 export async function GET(request: NextRequest,{ params }: { params: { id: string } }) {
   try {
     const user = await access(request);

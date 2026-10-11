@@ -1,3 +1,63 @@
+# Latest direction: continuous last-frame animation, 2026-10-11
+
+User rejected frequent generated starting images and reported that only the first
+two raw story clips were satisfactory; a later rabbit changed identity. They want
+every 10s interval to advance the story and continue from the previous final frame.
+
+Production bce0a0b63bedf2c9f40223f31ec37f87dc9f56e1 is READY. Main implementation
+07e4edfdabf88e4495d195f2a6f777773e975e7a. All work remains WonderlyTales only.
+Automatic image generation was REMOVED from EpisodeStudio. Next unfinished scenes
+default to previous approved final MP4's last frame; extraction is free and can
+run on scene open, but image/face review and manual paid video start remain.
+New images require an explicit scene-break selection. Server validates the stored
+previous final asset and raw job ID before quotes/submission, preventing use of a
+stale prior ending. Canonical cast portraits are shown beside each starting frame.
+
+The continuous plan was APPLIED and verified through the live UI. It preserves all
+completed/pending videos, all old images in history, and user-written custom prompts.
+Future default prompts have explicit 0-2s continuation, 2-8s event, 8-10s handoff.
+There are only four planned new-image boundaries: intro0, original story start1,
+Nera's deliberate cliffhanger cut58 and outro59. The former mid-story gallery cut39
+was converted into Felix receiving the call in the workshop; all dialogue remains.
+Raw clips3-6 were NOT regenerated, deleted or approved; quality still needs review.
+
+Crucial fix: selected canonical characters now map to real Kling Elements IDs in
+video payload element_list, together with the last-frame image. Previously the
+video payload contained no character elements, only the image and prose. At most
+3 elements are supported; the plan uses at most3. Missing references fail closed
+before a paid video quote/submit. A new service ceiling wavespeed_element=.01 USD
+was merged into the existing budget without changing the daily $200 limit.
+
+Registration is once per canonical image hash, private in video-element records.
+Generic async task decoding initially dropped two direct element creation results
+(Mira started here; Felix appeared from another concurrent UI action). Both became
+UNCERTAIN with no saved ID. Provider prediction-history lookup returned no matching
+records. Dedicated elementSubmit now handles direct element_id responses and normal
+tasks; hosted JSON and structured outputs are supported. Nera, Tilda and Oszkar
+registered successfully with the fixed handler, each within .01 USD.
+
+A single EXPLICIT manual repair per uncertain registration is available only after
+history lookup, requires allowOneAdditionalCharge:true, checks a .01 USD quote,
+preserves the prior attempt in its own record, and CAS-claims the repair. Ordinary
+replays/refreshes NEVER resubmit. The user was informed that repairing the two lost
+registrations may add at most .02 USD total within the existing correction budget.
+Both explicit repairs were submitted once and succeeded. LIVE UI verification now
+shows all FIVE canonical video references ACTIVE: Felix, Mira, Nera, Tilda, Oszkar.
+Proof screenshot: /workspace/scratch/wonderlytales-folyamatos-video-1791706427792.jpg.
+The .01/.02 amounts are request ceilings, not a verified provider billing total.
+No new motion scene, generated starting image or paid lip-sync was made here.
+
+Verification: production build/typecheck passed; 33 episode/frame/post/charge tests
+and 5 element tests passed (including concurrent claim, stale-source refusal,
+canonical elements in video payload, hosted output and single bounded repair).
+Visual consistency with actual new generated motion remains UNVERIFIED. Do not
+promise perfect identity lock, and do not propagate a visibly wrong rabbit frame.
+
+The previous five new ElevenLabs voices still await the permanent-deletion
+confirmation described below; all 15 samples remain available, old voices intact.
+
+---
+
 # Latest: character voices and required postproduction, 2026-10-11
 
 Only WonderlyTales was changed; Castora and every other project are out of scope.

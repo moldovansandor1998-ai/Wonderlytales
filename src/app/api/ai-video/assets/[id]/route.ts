@@ -10,5 +10,6 @@ export async function GET(r:NextRequest,{params}:{params:{id:string}}){try{
  const source=await fetch(await new R2VideoStore(u.id).assetUrl(params.id,extension as 'mp3'|'mp4'|'wav'),{redirect:'error',signal:AbortSignal.timeout(90000),headers:range?{Range:range}:{}});
  if(!source.ok)throw new WaveSpeedError('MEDIA_UNAVAILABLE',404);
  const headers=new Headers({'Cache-Control':'private, no-store','Content-Type':extension==='mp4'?'video/mp4':extension==='wav'?'audio/wav':'audio/mpeg','Accept-Ranges':'bytes'});
+ if(r.nextUrl.searchParams.get('download')==='1')headers.set('Content-Disposition',`attachment; filename="wonderlytales-${params.id}.${extension}"`);
  for(const h of ['content-length','content-range']){const v=source.headers.get(h);if(v)headers.set(h,v);}return new NextResponse(source.body,{status:source.status,headers});
 }catch(e){return apiError(e);}}
