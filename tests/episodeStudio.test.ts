@@ -64,3 +64,10 @@ it('changing source keeps the old image and preparing another video keeps the or
  const next=await episodeAction({id:scene.id,action:'new-video',revision:1},m.store);
  expect(next.scene.state.videoHistory).toEqual([jobId]);expect(next.scene.state.videoJobId).toBeUndefined();
 });
+it('restores a saved image without another paid request or implicit approval',async()=>{
+ const m=memory();await m.seed({...defaultSceneState(scene),mode:'last-frame',imageSha256:'b'.repeat(64),imageHistory:[sha]});
+ const r=await episodeAction({id:scene.id,action:'restore-image',revision:0,data:{sha256:sha}},m.store);
+ expect(r.scene.state).toMatchObject({mode:'image',imageSha256:sha,imageApproved:false});
+ expect(r.scene.state.imageHistory).toContain('b'.repeat(64));expect(startSceneImage).not.toHaveBeenCalled();
+ await expect(episodeAction({id:scene.id,action:'restore-image',data:{sha256:'c'.repeat(64)}},m.store)).rejects.toThrow('INVALID_INPUT');
+});

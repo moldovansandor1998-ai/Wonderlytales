@@ -13,7 +13,7 @@ const sha=z.string().regex(/^[a-f0-9]{64}$/);
 const castKey=z.enum(['felix','mira','nera','tilda','oszkar']);
 const line=z.object({character:castKey,text:z.string().trim().min(1).max(250),offset:z.number().min(0).max(9.5),delivery:z.enum(['visible','offscreen'])}).strict();
 export const editSchema=z.object({mode:z.enum(['image','last-frame']),imagePrompt:z.string().trim().min(10).max(2000),prompt:z.string().trim().min(10).max(2200),characters:z.array(castKey).max(5).refine(a=>new Set(a).size===a.length),dialogue:z.array(line).max(3),note:z.string().max(2000),review:z.enum(['pending','keep','trim','needs-work']),trimStart:z.number().min(0).max(9.9),trimEnd:z.number().min(.1).max(10),sound:z.boolean()}).strict().refine(x=>x.trimEnd>x.trimStart,{message:'Invalid trim'});
-export const commandSchema=z.object({id:z.string().uuid(),action:z.enum(['save','image','image-poll','approve-image','frame','quote','video','video-poll','new-video','dialogue','attach-video']),revision:z.number().int().nonnegative().optional(),data:z.unknown().optional()}).strict();
+export const commandSchema=z.object({id:z.string().uuid(),action:z.enum(['save','image','image-poll','approve-image','restore-image','frame','quote','video','video-poll','new-video','dialogue','attach-video']),revision:z.number().int().nonnegative().optional(),data:z.unknown().optional()}).strict();
 export function definition(id:string){const d=EPISODE_SCENES.find(s=>s.id===id);if(!d)throw new WaveSpeedError('SCENE_NOT_FOUND',404);return d;}
 export const recordingKey=(index:number)=>String(index);
 async function stateOf(store:R2VideoStore,id:string){const d=definition(id),r=await store.readRecord<SceneState>('episode-scene',id);return {state:r?.value??defaultSceneState(d),etag:r?.etag};}
@@ -72,6 +72,12 @@ export async function episodeAction(raw:unknown,store:R2VideoStore){
   if(!state.imageJobId)throw new WaveSpeedError('JOB_NOT_FOUND',404);
   const imageJob=await pollCreative('scene-image',state.imageJobId,store,api());
   if(imageJob.image&&imageJob.image.sha256!==state.imageSha256)await change(store,c.id,undefined,s=>s.imageJobId===imageJob.id?{...s,imageSha256:imageJob.image!.sha256,imageApproved:false}:s);
+ }else if(c.action==='restore-image'){
+  const data=z.object({sha256:sha}).strict().parse(c.data);
+  if(!state.imageHistory.includes(data.sha256))throw new WaveSpeedError('INVALID_INPUT',400);
+  if(state.imageJobId){const old=await store.readRecord<CreativeJob>('scene-image',state.imageJobId);if(old&&['SUBMITTING','PROCESSING','UNCERTAIN'].includes(old.value.status))throw new WaveSpeedError('JOB_ACTIVE',409);}
+  await store.imageUrl(data.sha256);
+  await change(store,c.id,c.revision,s=>({...s,mode:'image',imageSha256:data.sha256,imageApproved:false,imageJobId:undefined,imageRequest:undefined,sourceJobId:undefined,sourceTime:undefined,imageHistory:[...new Set([...s.imageHistory,...(s.imageSha256?[s.imageSha256]:[])])]}));
  }else if(c.action==='approve-image'){
   if(!state.imageSha256)throw new WaveSpeedError('IMAGE_REQUIRED',400);
   await store.imageUrl(state.imageSha256);
