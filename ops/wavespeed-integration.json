@@ -1,0 +1,28 @@
+{
+  "date": "2026-10-11",
+  "scope": {
+    "repository": "moldovansandor1998-ai/Wonderlytales",
+    "vercelProject": "prj_sWV1Mv57OR2X5uI3Qm4aHW42PSz2",
+    "supabaseProject": "vruxiyvlynbivzjuijed",
+    "otherProjectsModified": false
+  },
+  "feature": "/ai-video",
+  "model": "kwaivgi/kling-v3.0-pro/image-to-video",
+  "activation": "WAVESPEED_API_KEY is missing from WonderlyTales production environment; add as Secret then redeploy",
+  "budget": { "dailyLimitUsd": 200, "service": "wavespeed_kling", "reservationUsd": 1.68, "paidGenerationsStarted": 0, "purchases": 0 },
+  "verification": {
+    "targetedTests": { "passed": 38, "failed": 0 },
+    "typecheck": "PASS",
+    "productionBuild": "PASS; existing Supabase Edge Runtime process.version warning",
+    "providerLiveGeneration": "NOT_RUN_MISSING_CREDENTIAL",
+    "directLocalR2Probe": "BLOCKED_LOCAL_DNS_EAI_AGAIN; no storage success claimed",
+    "browser": "PENDING_DEPLOYMENT"
+  },
+  "limits": [
+    "No generated MP4 or final 30-second movie yet",
+    "Provider result URLs are not automatically archived; download before expiration",
+    "Last-frame browser extraction requires provider CDN CORS",
+    "Source aspect ratio is preserved; original Felix image is 3:2",
+    "Hungarian speech, lip sync, identity and cinematic quality require actual media review"
+  ]
+}

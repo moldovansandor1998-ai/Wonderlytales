@@ -29,6 +29,8 @@ export default async function SettingsPage() {
         <a className="text-sm text-cyan-400 underline" href="/api/authoring/hf-access" target="_blank" rel="noreferrer">Hugging Face modellhozzáférés ellenőrzése</a>
         {row("ELEVENLABS_API_KEY (TTS)", !!process.env.ELEVENLABS_API_KEY)}
         {row("AUDIO2FACE_ENDPOINT (facial)", !!process.env.AUDIO2FACE_ENDPOINT)}
+        {row("WAVESPEED_API_KEY (AI-videó)", !!process.env.WAVESPEED_API_KEY)}
+        <a className="text-sm text-cyan-400 underline" href="/ai-video">WaveSpeed kapcsolat és képből videó</a>
         {row("GENVIDEO_API_KEY", !!process.env.GENVIDEO_API_KEY)}
         {row("S3/R2 endpoint", !!process.env.S3_ENDPOINT)}
         {row("S3/R2 credentials", !!(process.env.S3_ACCESS_KEY_ID && process.env.S3_SECRET_ACCESS_KEY))}

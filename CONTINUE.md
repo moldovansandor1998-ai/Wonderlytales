@@ -1,6 +1,35 @@
 # WonderlyTales: Titokváros — authoritative continuation
 
 Updated 2026-10-11. Continue this existing repository and infrastructure.
+LATEST USER DIRECTION: connect WaveSpeed to WonderlyTales for the uploaded Félix
+image-to-video test. Only this project may be changed. Other projects are out of
+scope. Do not buy credits/subscriptions without approval.
+
+## ACTIVE: WaveSpeed image-to-video integration
+
+`/ai-video` now implements private JPEG/PNG uploads, Kling 3.0 Pro 5/10s jobs,
+optional native sound/end frame, live price and balance checks, durable per-user
+R2 job states, safe status polling, MP4 access, and browser last-frame continuation
+(subject to source CDN CORS). Three Félix scene prompts include the exact HU line.
+This is an integration, NOT a generated or quality-approved 30s movie.
+
+Required activation: add server-only `WAVESPEED_API_KEY` as a Production Secret
+to Vercel project `wonderlytales`, then redeploy. It was absent during this work.
+Never retrieve another project's secret through an application or deployment.
+The key must never be public, committed, logged or returned by an API.
+
+Only WonderlyTales budget policy was updated, adding `wavespeed_kling: 1.68`;
+the shared $200/day cap and other service ceilings are unchanged. Prices are
+checked before every submit. Permanent conditional R2 claims prevent repeat
+charges after ambiguous submission; stale polls use ETag compare-and-swap.
+No WaveSpeed paid generation was run. No credit purchase or subscription change.
+Read `production/wavespeed/README.md` and `ops/wavespeed-integration.json`.
+
+The earlier Maya → Unreal handoff below is retained, but the active requested test
+uses the supplied image and WaveSpeed. Do not resume procedural proxy rendering.
+
+## Previous handoff: Maya → Unreal (retained)
+
 LATEST USER DIRECTION (2026-10-11, 09:41 Asia/Saigon): Maya -> Unreal Engine 5
 is now PRIMARY. First hero is FELIX, an original anthropomorphic red fox; first
 acceptance film is 30 seconds (busy street, vehicle danger, escape, HU speech,
