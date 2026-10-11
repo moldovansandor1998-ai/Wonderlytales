@@ -14,6 +14,7 @@ export type CutShot={
  previousAsset?:string;manualReviewRequired?:boolean;
  framingRepair?:'felix-bag'|'felix-phone';
  cropPreset?:'left'|'center'|'right';
+ previousAttempt?:{id:string;image:string;raw:string};priorVideoCost?:number;
  objectRepair?:'mira-right-duplicate';objectMask?:string;objectCleaned?:string;
  sourceJob?:string;start?:number;end?:number;phase:'WAITING'|'AUDIO'|'FRAME'|'VIDEO'|'CHECK'|'READY';
  check?:{passed:boolean;text:string};

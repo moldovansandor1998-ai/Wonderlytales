@@ -154,9 +154,15 @@ export async function advanceCut(store:R2VideoStore,workflowId:string,precompute
   if(!s.reframe){await setShot(store,s.id,{image:previous,phase:'VIDEO'});return false;}
   const shas=s.characters.map(k=>c.refs[k]!);if(shas.some(x=>!x))throw new WaveSpeedError('CHARACTER_REFERENCE_MISSING');
   const environment=s.environment==='workshop'?c.workshop:c.street;if(!environment)throw new WaveSpeedError('CUT_ENVIRONMENT_MISSING');
-  const images=await Promise.all([...shas,environment,previous].map(sha=>store.imageUrl(sha)));
+  // A reverse shot of another species contaminated the speaker identity despite
+  // textual instructions. For a speaker change, use that speaker's last approved
+  // view as the identity/pose context; the environment remains independently fixed.
+  const prior=c.shots[index-1],sameSpeaker=s.characters.length===1&&!prior?.characters.includes(s.characters[0])
+   ?c.shots.slice(0,index).reverse().find(x=>x.phase==='READY'&&x.environment===s.environment&&x.characters.length===1&&x.characters[0]===s.characters[0]&&x.lastFrame):undefined;
+  const continuity=s.characters.length===1&&!prior?.characters.includes(s.characters[0])?(sameSpeaker?.lastFrame??c.refs[s.characters[0]]!):previous;
+  const images=await Promise.all([...shas,environment,continuity].map(sha=>store.imageUrl(sha)));
   const identities=s.characters.map((k,i)=>`Image ${i+1}: canonical ${CAST[k].name}, ${CAST[k].description}. Copy this exact character face, species, fur/scales, proportions, outfit and accessories.`).join(' ');
-  const prompt=`Create ONE 16:9 cinematic 3D animated film frame, not a collage. ${identities} Image ${shas.length+1}: established environment; preserve its architecture, materials, light, door/window positions, car and street geography. Final image: immediately preceding shot; preserve the story state, held objects, costume and direction of travel. This is a motivated camera cut, not a new random location. ${s.framePrompt} ${s.kind==='speech'?'Only the speaking character is visible; clear unobstructed mouth and both eyes. No other foreground figures, including partial faces at the frame edges. Mira is a brown rabbit, never a human woman.':''} Exactly ${s.characters.length} foreground main character${s.characters.length===1?'':'s'} in the whole frame: ${s.characters.map(k=>CAST[k].name).join(', ')}, each appearing ONCE. Do not duplicate any character from reference images or the previous frame. Keep all canonical character details. Maintain the camera axis: Felix looks left on street, Mira right. ${VIDEO_NO_TEXT_RULE}`;
+  const prompt=`Create ONE 16:9 cinematic 3D animated film frame, not a collage. ${identities} Image ${shas.length+1}: established environment ONLY; do not copy its people or animals. Preserve its architecture, materials, light, door/window positions, car and street geography. Final image: approved character continuity reference, or preceding action frame. Preserve the requested character identity, costume and direction of travel; do not blend species between reference images. This is a motivated camera cut, not a new random location. ${s.framePrompt} ${s.kind==='speech'?'Only the speaking character is visible; clear unobstructed mouth and both eyes. No other foreground figures, including partial faces at the frame edges. Mira is a brown rabbit, never a human woman.':''} Exactly ${s.characters.length} foreground main character${s.characters.length===1?'':'s'} in the whole frame: ${s.characters.map(k=>CAST[k].name).join(', ')}, each appearing ONCE. Do not duplicate any character from reference images or the previous frame. Keep all canonical character details. Maintain the camera axis: Felix looks left on street, Mira right. ${VIDEO_NO_TEXT_RULE}`;
   const image=await providerTask(store,s.id+':frame','bytedance/seedream-v4.5/edit',{images,prompt,size:'2048*1152',enable_sync_mode:false,enable_base64_output:false},.04,'image');
   if(image)await setShot(store,s.id,{image,phase:'VIDEO'});return false;
  }
@@ -164,7 +170,8 @@ export async function advanceCut(store:R2VideoStore,workflowId:string,precompute
   const image=await store.imageUrl(s.image),prompt=`One continuous shot of the established stylized 3D animated film. Preserve the exact reference character identity, clothing, anatomy, lighting and background. ${s.motionPrompt} ${VIDEO_NO_TEXT_RULE}`;
   const elements=c.elements.filter(e=>s.characters.some(k=>e.referenceSha256===c.refs[k]));
   const payload=s.kind==='speech'?{image,audio:await store.assetUrl(s.audio!,'wav'),prompt:`${prompt} Speak only the supplied audio; exact lip synchronization. Do not invent any voice or add dialogue.`}:{image,prompt:`${prompt} No speech or singing. Ambient sound and action effects only.`,negative_prompt:`${NEGATIVE_PROMPT} Speech, talking, new characters, teleportation.`,duration:s.seconds,sound:true,cfg_scale:.5,shot_type:'customize',...(elements.length?{element_list:elements.map(e=>({element_id:e.elementId}))}:{})};
-  const raw=await providerTask(store,s.id+':video',s.kind==='speech'?avatar:motion,payload,s.kind==='speech'?Math.ceil(s.seconds)*.112:s.seconds*.168,'video');
+  const quoteCeiling=s.kind==='speech'?Math.ceil(s.seconds)*.112:s.seconds*.168;
+  const raw=await providerTask(store,s.id+':video',s.kind==='speech'?avatar:motion,payload,Math.min(quoteCeiling,reservations.wavespeed_kling-(s.priorVideoCost??0)-Math.max(3,Math.ceil(s.seconds+.05))*.01),'video');
   if(raw)await setShot(store,s.id,{raw,phase:'CHECK'});return false;
  }
  if(s.objectRepair&&!s.objectCleaned){
@@ -180,7 +187,7 @@ export async function advanceCut(store:R2VideoStore,workflowId:string,precompute
   // Generation + cleanup must fit the already reserved $1.68 video slot AND the
   // original user-approved total. No extra authorization is inferred from recharge.
   const ceiling=Math.max(3,Math.ceil(s.seconds+.05))*.01;
-  if((c.tasks[s.id+':video']?.price??1.68)+(c.tasks[s.id+':object-clean']?.price??0)+ceiling>reservations.wavespeed_kling+1e-6)throw new WaveSpeedError('CUT_PRICE_LIMIT',409);
+  if((s.priorVideoCost??0)+(c.tasks[s.id+':video']?.price??1.68)+(c.tasks[s.id+':object-clean']?.price??0)+ceiling>reservations.wavespeed_kling+1e-6)throw new WaveSpeedError('CUT_PRICE_LIMIT',409);
   const cleaned=await providerTask(store,s.id+':clean','wavespeed-ai/video-watermark-remover',{video:await store.assetUrl(s.objectCleaned??s.raw,'mp4')},ceiling,'video');
   if(cleaned)await setShot(store,s.id,{cleaned});return false;
  }
@@ -204,11 +211,24 @@ export async function advanceCut(store:R2VideoStore,workflowId:string,precompute
  await setShot(store,s.id,{phase:'READY'});return false;
 }
 export async function cutAction(raw:unknown,store:R2VideoStore){
- const input=z.object({action:z.enum(['prepare','preflight','start','stop','resume','accept-check','repair-text','repair-duplicate','repair-framing','crop-closeup']),maxCostUsd:z.number().finite().min(0).max(CUT_MAX_USD).optional(),shotId:z.string().optional(),expectedAsset:z.string().regex(/^[a-f0-9]{64}$/).optional(),cropPreset:z.enum(['left','center','right']).optional()}).strict().parse(raw);
+ const input=z.object({action:z.enum(['prepare','preflight','start','stop','resume','accept-check','repair-text','repair-duplicate','repair-framing','crop-closeup','repair-radio-camera']),maxCostUsd:z.number().finite().min(0).max(CUT_MAX_USD).optional(),shotId:z.string().optional(),expectedAsset:z.string().regex(/^[a-f0-9]{64}$/).optional(),cropPreset:z.enum(['left','center','right']).optional()}).strict().parse(raw);
  if(input.action==='prepare')return {cut:await prepareCut(store)};
  if(input.action==='preflight')return {cut:await readCut(store),quote:await preflightCut(store)};
  if(input.action==='start'){if(input.maxCostUsd===undefined)throw new WaveSpeedError('PRICE_CHANGED',409);return {cut:await authorizeCut(store,input.maxCostUsd)};}
+ if(input.action==='repair-radio-camera'){
+  const c=await readCut(store),s=c?.shots[c.index],task=c?.tasks['shot-11-14:video'];
+  if(!c||!s||!['STOPPED','PAUSED'].includes(c.status)||s.id!==input.shotId||s.id!=='shot-11-14'||s.image!=='48724d39ee7bc04f261a158d9eaf074f45cd9fee03ae27eb2acdcd7b594b3ee2'||s.cleaned||!task||!['PROCESSING','READY'].includes(task.status)||!task.taskId)throw new WaveSpeedError('CUT_REVIEW_REQUIRED',409);
+  // Reconcile and preserve the known paid request first. This call cannot submit
+  // again: the immutable task above must already have a provider ID.
+  if(!await providerTask(store,s.id+':video',avatar,{},0,'video'))throw new WaveSpeedError('CUT_ORIGINAL_RENDER_PENDING',409);
+ }
  const cut=await changeCut(store,c=>{
+  if(input.action==='repair-radio-camera'){
+   const shot=c.shots[c.index],original=c.tasks['shot-11-14:video'],camera=c.shots.find(s=>s.id==='shot-4-2');
+   if(!['STOPPED','PAUSED'].includes(c.status)||c.budget!=='RESERVED'||shot?.id!=='shot-11-14'||shot.image!=='48724d39ee7bc04f261a158d9eaf074f45cd9fee03ae27eb2acdcd7b594b3ee2'||shot.cleaned||original?.status!=='READY'||!original.output||camera?.phase!=='READY'||!camera.image||c.shots.slice(c.index+1).some(s=>s.raw||s.image)||Object.values(c.tasks).some(t=>t.status!=='READY'))throw new WaveSpeedError('CUT_REVIEW_REQUIRED',409);
+   const id='shot-11-14-approved-camera';
+   return {...c,status:'QUEUED',workflowId:undefined,error:undefined,shots:c.shots.map(s=>s.id===shot.id?{...s,id,previousAttempt:{id:s.id,image:s.image!,raw:original.output!},priorVideoCost:original.price,image:camera.image,frameFrom:camera.id,reframe:false,raw:undefined,cleaned:undefined,asset:undefined,lastFrame:undefined,check:undefined,phase:'VIDEO',manualReviewRequired:true,motionPrompt:'Mira, the BROWN RABBIT detective from the exact image, speaks the entire supplied message into her existing shoulder-mounted police radio. She makes one small press near that radio, keeping her mouth clear. Keep her exact rabbit face, green coat and badge unchanged. Do not create a handheld radio, fox face or new character.'}:s)};
+  }
   if(input.action==='crop-closeup'){
    const shot=c.shots[c.index];
    if(!['STOPPED','PAUSED'].includes(c.status)||c.budget!=='RESERVED'||shot?.id!==input.shotId||!shot.raw||!shot.cleaned||!shot.asset||shot.asset!==input.expectedAsset||!input.cropPreset||c.shots.slice(c.index+1).some(s=>s.asset||(s.frameFrom===shot.id&&(s.image||s.raw)))||Object.values(c.tasks).some(t=>['SUBMITTING','UNCERTAIN','FAILED'].includes(t.status)))throw new WaveSpeedError('CUT_REVIEW_REQUIRED',409);

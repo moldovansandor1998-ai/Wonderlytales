@@ -56,3 +56,11 @@ it('free closeup rejects stale assets and changes no paid task or spending limit
  const c=(await cutAction({action:'crop-closeup',shotId:shot.id,cropPreset:'right',expectedAsset:asset},s as unknown as R2VideoStore)).cut!;
  expect(c.authorizedUsd).toBe(10);expect(c.chargedUpperUsd).toBe(0);expect(c.tasks).toEqual({});expect(c.shots[0]).toMatchObject({raw:'raw',cleaned:'clean',previousAsset:asset,cropPreset:'right',manualReviewRequired:true});expect(c.shots[0].asset).toBeUndefined();expect(calls.submit).not.toHaveBeenCalled();
 });
+it('radio correction preserves the paid original and charges only one bounded replacement',async()=>{
+ const s=memory(),r=await s.readRecord(),shot=r.value.shots[0],oldId='shot-11-14';
+ await s.writeRecord('film-cut',FILM_CUT_ID,{...r.value,status:'STOPPED',index:1,authorizedUsd:26.9,ceiling:26.9,chargedUpperUsd:9.959,shots:[{...shot,id:'shot-4-2',phase:'READY'},{...shot,id:oldId,seconds:6.125,image:'48724d39ee7bc04f261a158d9eaf074f45cd9fee03ae27eb2acdcd7b594b3ee2'}],tasks:{[oldId+':video']:{status:'READY',model:'avatar',price:.784,taskId:'keep-original',output:'old-raw'}}},r.etag);
+ const c=(await cutAction({action:'repair-radio-camera',shotId:oldId},s as unknown as R2VideoStore)).cut!;
+ expect(c.shots[1]).toMatchObject({id:oldId+'-approved-camera',image:shot.image,priorVideoCost:.784,manualReviewRequired:true,previousAttempt:{raw:'old-raw'}});expect(c.chargedUpperUsd).toBe(9.959);expect(c.tasks[oldId+':video'].taskId).toBe('keep-original');
+ await claimCut(s as unknown as R2VideoStore,'corrected');calls.price.mockResolvedValue(.784);
+ await Promise.allSettled([1,2].map(()=>advanceCut(s as unknown as R2VideoStore,'corrected')));expect(calls.submit).toHaveBeenCalledTimes(1);expect((await s.readRecord()).value.chargedUpperUsd).toBeCloseTo(10.743);
+});
