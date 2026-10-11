@@ -12,6 +12,7 @@ import {WaveSpeedClient,WaveSpeedError} from '../providers/wavespeed';
 import {reserveProductionBudget} from '../budget';
 import {tempMedia,downloadOwned,normalizeVideo,speechTrack,mixVideo,storeFile,protectedLipVideo} from './post-media';
 import {downloadProviderMedia} from './media';
+import {VIDEO_NO_TEXT_RULE} from './shared';
 const cast=z.enum(['felix','mira','nera','tilda','oszkar']);
 const linesSchema=z.array(z.object({character:cast,text:z.string().trim().min(1).max(250),offset:z.number().min(0).max(9.5),delivery:z.enum(['visible','offscreen'])}).strict()).max(3);
 const mixSchema=z.object({background:z.number().min(0).max(1),voice:z.number().min(.2).max(2),leftSpeaker:cast.nullable(),layoutConfirmed:z.boolean(),sourceSpeech:z.enum(['none','mute','loop-intro'])}).strict();
@@ -121,6 +122,6 @@ export async function postAction(raw:unknown,store:R2VideoStore,execution:PostEx
 }
 export async function lipsyncPayload(job:PostJob,store:R2VideoStore){
  if(job.model==='sync/lipsync-2')return {video:await store.assetUrl(job.videoAsset!,'mp4'),audio:await store.assetUrl(job.speakerAssets![0],'wav'),sync_mode:'cut_off'};
- const common={video:await store.assetUrl(job.videoAsset!,'mp4'),resolution:'720p',prompt:job.prompt,seed:731};
+ const common={video:await store.assetUrl(job.videoAsset!,'mp4'),resolution:'720p',prompt:`${job.prompt??''} ${VIDEO_NO_TEXT_RULE}`,seed:731};
  return job.speakerAssets?.length===2?{...common,left_audio:await store.assetUrl(job.speakerAssets[0],'wav'),right_audio:await store.assetUrl(job.speakerAssets[1],'wav'),order:'meanwhile'}:{...common,audio:await store.assetUrl(job.speakerAssets![0],'wav')};
 }

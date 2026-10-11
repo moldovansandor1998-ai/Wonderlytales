@@ -2,7 +2,9 @@
 export const WAVESPEED_MODEL = 'kwaivgi/kling-v3.0-pro/image-to-video';
 export const WAVESPEED_SERVICE = 'wavespeed_kling';
 export const WAVESPEED_CEILING_USD = 1.68; // Max 10s + sound, official price checked 2026-10-11.
-export const NEGATIVE_PROMPT = 'Different character, changed face or fur color, changed clothes, missing backpack, extra limbs, fused fingers, deformed body, sliding feet, flicker, random zoom, random cuts, subtitles, watermark.';
+// Fixed server-side rule, appended after scene instructions for every prompt-capable video model.
+export const VIDEO_NO_TEXT_RULE = 'MANDATORY VISUAL RULE FOR THE ENTIRE VIDEO: Generate clean animation only. Do not add any subtitles, captions, closed captions, karaoke text, dialogue text, speech bubbles, titles, credits, labels, logos, watermarks, letters, numbers, random symbols, or illegible pseudo-writing. Never transcribe, translate, or display the spoken audio on screen. Audio is heard only; speech is expressed through the character\'s mouth and facial animation only. Keep every frame free of newly generated text and graphic overlays, from the first frame to the last. Preserve the reference artwork and background without adding writing.';
+export const NEGATIVE_PROMPT = 'Different character, changed face or fur color, changed clothes, missing backpack, extra limbs, fused fingers, deformed body, sliding feet, flicker, random zoom, random cuts, subtitles, captions, closed captions, karaoke text, dialogue text, speech bubbles, titles, credits, labels, logos, watermarks, letters, numbers, random symbols, illegible pseudo-writing, typography, text overlays.';
 export type VideoStatus = 'SUBMITTING' | 'QUEUED' | 'RUNNING' | 'COMPLETED' | 'FAILED' | 'CANCELLED' | 'BLOCKED_BUDGET' | 'SUBMISSION_UNCERTAIN';
 export type VideoElement = {elementId:string;name:string;referenceSha256:string};
 export interface VideoInput {

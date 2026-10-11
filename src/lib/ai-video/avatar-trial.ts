@@ -5,6 +5,7 @@ import {finalFrame,speechTrack,storeFile,tempMedia} from './post-media';
 import {downloadProviderMedia} from './media';
 import {WaveSpeedClient,WaveSpeedError} from '../providers/wavespeed';
 import {reserveProductionBudget} from '../budget';
+import {VIDEO_NO_TEXT_RULE} from './shared';
 
 // One owner-scoped, immutable trial. No reset/retry/new-job action is exposed.
 export const AVATAR_TRIAL_ID='a1700001-2026-4011-8010-000000000503';
@@ -39,7 +40,7 @@ export async function avatarAction(raw:unknown,store:R2VideoStore){
  if(input.action==='start'||input.action==='quote'){
   if(job.status!=='PREPARED')return {job};
   const provider=new WaveSpeedClient(process.env.WAVESPEED_API_KEY??'');
-  const payload={image:await store.imageUrl(job.image),audio:await store.assetUrl(job.audio,'wav'),prompt:PROMPT};
+  const payload={image:await store.imageUrl(job.image),audio:await store.assetUrl(job.audio,'wav'),prompt:`${PROMPT} ${VIDEO_NO_TEXT_RULE}`};
   const [price,balance]=await Promise.all([provider.creativePrice(AVATAR_MODEL,payload),provider.balance()]);
   if(!Number.isFinite(price)||price<0||price>.560001)throw new WaveSpeedError('TRIAL_PRICE_TOO_HIGH',409);
   if(input.action==='quote')return {job,quote:{price,balance}};

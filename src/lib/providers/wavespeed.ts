@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { fetchWithTimeout } from './translation';
-import { NEGATIVE_PROMPT, WAVESPEED_MODEL, type VideoInput } from '../ai-video/shared';
+import { NEGATIVE_PROMPT, VIDEO_NO_TEXT_RULE, WAVESPEED_MODEL, type VideoInput } from '../ai-video/shared';
 
 const ROOT = 'https://api.wavespeed.ai/api/v3';
 export class WaveSpeedError extends Error {
@@ -15,7 +15,7 @@ export const videoInputSchema = z.object({
 }).strict();
 export function waveSpeedPayload(req: VideoInput, image: string, endImage?: string) {
   videoInputSchema.parse(req);
-  return { image, prompt: `${req.elements?.length?`Character identities: ${req.elements.map(e=>e.name).join(', ')}. Use the matching supplied elements for every appearance, including entering characters. `:''}${req.prompt} Audio rule: ambience, effects and music only. No spoken words, dialogue or singing. Character speech is recorded separately with the assigned ElevenLabs voice.`, negative_prompt: `${NEGATIVE_PROMPT} Speech, dialogue, singing.`,
+  return { image, prompt: `${req.elements?.length?`Character identities: ${req.elements.map(e=>e.name).join(', ')}. Use the matching supplied elements for every appearance, including entering characters. `:''}${req.prompt} Audio rule: ambience, effects and music only. No spoken words, dialogue or singing. Character speech is recorded separately with the assigned ElevenLabs voice. ${VIDEO_NO_TEXT_RULE}`, negative_prompt: `${NEGATIVE_PROMPT} Speech, dialogue, singing.`,
     duration: req.duration, sound: req.sound, cfg_scale: 0.5, shot_type: 'customize',
     ...(req.elements?.length?{element_list:req.elements.map(e=>({element_id:e.elementId}))}:{}),
     ...(endImage ? { end_image: endImage } : {}) };
