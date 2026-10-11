@@ -1,9 +1,14 @@
 import {describe,it,expect} from 'vitest';
 import {makeCutPlan} from '../src/lib/ai-video/film-cut-plan';
-import {cutCeiling,speechDuration,chargeAllowed,type FilmCut} from '../src/lib/ai-video/film-cut-shared';
+import {cutCeiling,speechDuration,chargeAllowed,cutErrorCode,type FilmCut} from '../src/lib/ai-video/film-cut-shared';
 import {parseCutCheck} from '../src/lib/ai-video/film-cut';
 import {EPISODE_SCENES} from '../src/lib/ai-video/episode-data';
 describe('speech-led preview through scene 15',()=>{
+ it('keeps deliberate review errors across workflow serialization without leaking arbitrary messages',()=>{
+  expect(cutErrorCode({message:'CUT_VISUAL_REVIEW_REQUIRED'})).toBe('CUT_VISUAL_REVIEW_REQUIRED');
+  expect(cutErrorCode({code:'WAVESPEED_BALANCE_LOW',message:'request details'})).toBe('WAVESPEED_BALANCE_LOW');
+  expect(cutErrorCode({message:'secret request URL'})).toBe('CUT_PROCESSING_FAILED');
+ });
  it('includes every line once, preserves the intro and the first two scenes, and ends at 15',()=>{
   const shots=makeCutPlan();expect(shots.slice(0,3).map(s=>[s.scene,s.kind])).toEqual([[0,'reuse'],[1,'reuse'],[2,'reuse']]);
   expect(shots.at(-1)?.scene).toBe(15);expect(shots.some(s=>s.scene>15)).toBe(false);

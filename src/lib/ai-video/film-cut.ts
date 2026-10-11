@@ -192,7 +192,8 @@ export async function cutAction(raw:unknown,store:R2VideoStore){
   }
   if(input.action==='stop'&&['QUEUED','RUNNING','PAUSED'].includes(c.status))return {...c,status:'STOPPED'};
   if(input.action==='accept-check'){
-   const shot=c.shots[c.index];if(c.status!=='PAUSED'||shot?.id!==input.shotId||!shot.asset||!shot.check||c.error!=='CUT_VISUAL_REVIEW_REQUIRED')throw new WaveSpeedError('CUT_REVIEW_REQUIRED',409);
+   const shot=c.shots[c.index],reviewPause=c.error==='CUT_VISUAL_REVIEW_REQUIRED'||(c.error==='CUT_PROCESSING_FAILED'&&shot?.manualReviewRequired&&shot.cleaned&&shot.check?.passed===false&&Object.values(c.tasks).every(t=>t.status==='READY'));
+   if(c.status!=='PAUSED'||shot?.id!==input.shotId||!shot.asset||!shot.check||!reviewPause)throw new WaveSpeedError('CUT_REVIEW_REQUIRED',409);
    return {...c,shots:c.shots.map(s=>s.id===shot.id?{...s,phase:'READY',manualReviewRequired:false,check:{passed:true,text:s.check!.text+' (Megtekintés után elfogadva.)'}}:s),error:undefined};
   }
   if(input.action==='resume'){

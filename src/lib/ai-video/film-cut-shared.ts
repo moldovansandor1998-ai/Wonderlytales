@@ -37,4 +37,11 @@ export function cutCeiling(shots:CutShot[]){return Math.ceil((shots.reduce((n,s)
 export function chargeAllowed(c:FilmCut,price:number,ceiling:number){
  return c.budget==='RESERVED'&&c.status==='RUNNING'&&Number.isFinite(price)&&price>=0&&price<=ceiling+1e-6&&c.chargedUpperUsd+price<=(c.authorizedUsd??0)+1e-6;
 }
+export function cutErrorCode(error:unknown){
+ if(error&&typeof error==='object'){
+  const value=error as {code?:unknown;message?:unknown};
+  for(const code of [value.code,value.message])if(typeof code==='string'&&/^[A-Z_]+$/.test(code))return code;
+ }
+ return 'CUT_PROCESSING_FAILED';
+}
 export const CUT_LABELS:Record<FilmCut['status'],string>={DRAFT:'Előkészítve',RESERVING:'Költségkeret rögzítése',QUEUED:'Sorba állítva',RUNNING:'A film készül',STOPPING:'Az elindított beállítás mentése',STOPPED:'Leállítva',PAUSED:'Ellenőrzést igényel',READY:'A megtekinthető film elkészült'};
