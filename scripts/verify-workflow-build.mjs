@@ -6,7 +6,7 @@ import {readFileSync} from 'node:fs';
 const root = 'src/app/.well-known/workflow/v1';
 const manifest = JSON.parse(readFileSync(`${root}/manifest.json`, 'utf8'));
 const registrations = readFileSync(`${root}/flow/__step_registrations.js`, 'utf8');
-for (const [file, workflow] of [['scene-batch', 'sceneBatch'], ['finished-video', 'finishedVideo']]) {
+for (const [file, workflow] of [['scene-batch', 'sceneBatch'], ['finished-video', 'finishedVideo'], ['film-cut', 'filmCut']]) {
   const source = `src/workflows/${file}.ts`;
   assert(manifest.workflows[source]?.[workflow], `Missing workflow: ${workflow}`);
   for (const step of ['claim', 'advance', 'pause']) {
@@ -14,4 +14,4 @@ for (const [file, workflow] of [['scene-batch', 'sceneBatch'], ['finished-video'
   }
   assert(registrations.includes(`/workflows/${file}.ts`), `Missing registration import: ${file}`);
 }
-console.log('Verified 2 production workflows and all 6 processing steps.');
+console.log('Verified 3 production workflows and all 9 processing steps.');

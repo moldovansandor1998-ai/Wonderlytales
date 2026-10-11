@@ -1,0 +1,41 @@
+'use client';
+import {useEffect,useState} from 'react';
+import Link from 'next/link';
+import {CAST,timecode} from '@/lib/ai-video/episode-shared';
+import {CUT_LABELS,type FilmCut as Cut} from '@/lib/ai-video/film-cut-shared';
+const endpoint='/api/ai-video/post-cut';
+type Quote={ceiling:number;balance:number;remaining:number;reservation:number;ready:boolean};
+const media=(id:string)=>`/api/ai-video/assets/${id}?type=mp4`;
+const errors:Record<string,string>={CUT_VISUAL_REVIEW_REQUIRED:'A képi ellenőrzés eltérést jelzett. Nézd meg az érintett beállítást; új fizetős próba nem indul automatikusan.',CUT_SPEECH_TOO_LONG:'A hang hosszabb a beállítás kereténél. A rendszer megállt, a mondatot nem vágta le.',CUT_PRICE_LIMIT:'A szolgáltató ára meghaladja a jóváhagyott keretet.',CUT_BUDGET_NOT_READY:'A szolgáltatói egyenleg vagy a napi gyártási keret nem elegendő.',CUT_SUBMISSION_UNCERTAIN:'A beküldés eredménye bizonytalan. A rendszer nem indít újabb fizetős kérést.',CUT_VOICE_UNCERTAIN:'A hangkérés eredményét ellenőrizni kell; új fizetős kérés nem indul.',CUT_REVIEW_REQUIRED:'Előbb a megállás okát kell rendezni.'};
+export default function FilmCut(){
+ const [cut,setCut]=useState<Cut|null>(null),[loaded,setLoaded]=useState(false),[busy,setBusy]=useState(false),[error,setError]=useState(''),[quote,setQuote]=useState<Quote|null>(null);
+ async function act(action:string,shotId?:string){setBusy(true);setError('');try{const r=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action,...(action==='start'?{maxCostUsd:cut?.ceiling}:{}),...(shotId?{shotId}:{})})}),d=await r.json();if(!r.ok)throw new Error(d.error??'A kérés sikertelen.');setCut(d.cut);if(d.quote)setQuote(d.quote);}catch(e){setError(e instanceof Error?e.message:String(e));}finally{setBusy(false);}}
+ useEffect(()=>{let live=true;fetch(endpoint,{cache:'no-store'}).then(async r=>{const d=await r.json();if(!r.ok)throw new Error(d.error??'Betöltési hiba');if(live)setCut(d.cut);}).catch(e=>{if(live)setError(e.message);}).finally(()=>{if(live)setLoaded(true);});return()=>{live=false;};},[]);
+ useEffect(()=>{if(!cut||!['QUEUED','RUNNING','RESERVING'].includes(cut.status))return;const t=setInterval(()=>{fetch(endpoint,{cache:'no-store'}).then(async r=>{if(!r.ok)return;const d=await r.json();setCut(d.cut);}).catch(()=>{});},8000);return()=>clearInterval(t);},[cut?.status]);
+ const displayedError=error||cut?.error;
+ const completed=cut?.shots.filter(s=>s.phase==='READY').length??0,current=cut?.shots[cut.index];
+ const buttonStyle={border:'1px solid #78602f',borderRadius:10,padding:'12px 18px',marginRight:8,marginTop:8};
+ return <main style={{maxWidth:1080,margin:'auto',padding:'28px 20px'}}>
+  <Link href="/ai-video">← Stúdió</Link><p style={{color:'#d6b667',marginTop:28}}>TITOKVÁROS · ELSŐ MEGTEKINTHETŐ FILM</p>
+  <h1 style={{fontSize:32,lineHeight:1.2}}>A bevezetőtől a „Nem egyedül érkezett” jelenetig</h1>
+  <p style={{lineHeight:1.7,margin:'18px 0'}}>A bevezető és az első két kész rész után a 3–15. jelenet következik. A párbeszéd hossza adja a beszélő beállítás idejét; a mozgások 3–5 másodperces külön képeket kapnak. Az elkészült beállításokat automatikusan egy filmbe vágjuk.</p>
+  <section style={{padding:22,border:'1px solid #78602f',borderRadius:16,margin:'24px 0',background:'#171717'}}>
+   <h2 style={{fontSize:24}} role="status">{cut?CUT_LABELS[cut.status]:loaded?'A vágás előkészítésre vár':'Betöltés…'}</h2>
+   {cut&&<><p>{completed}/{cut.shots.length} beállítás elkészült{current&&cut.status==='RUNNING'?` · ${current.label}`:''}</p><progress max={cut.shots.length} value={completed} style={{width:'100%'}}/>
+   <p>Teljes új gyártási kör: legfeljebb <strong>{cut.ceiling.toFixed(2)} USD</strong> · WaveSpeed + ElevenLabs.</p>
+   <p style={{color:'#aaa'}}>A már meglévő videókat és hangokat újra felhasználjuk. A hangok, képek, videók és a képi ellenőrzés díja benne van a plafonban. Hibánál megállunk; fizetős újragenerálás külön indítás nélkül nem történik.</p></>}
+   {!cut&&loaded&&<button style={buttonStyle} disabled={busy} onClick={()=>void act('prepare')}>Vágási terv előkészítése · generálás nélkül</button>}
+   {cut?.status==='DRAFT'&&<><button style={buttonStyle} disabled={busy} onClick={()=>void act('preflight')}>Keret és egyenleg ellenőrzése</button>{quote&&<><p>{quote.ready?'Az indítás pénzügyi feltételei rendben.':'A keret vagy az egyenleg nem elegendő.'}</p><details><summary>Keret részletei</summary><p>Szolgáltatói egyenleg: {quote.balance.toFixed(2)} USD. Napi keretből elérhető: {quote.remaining.toFixed(2)} USD. Belső biztonsági foglalás: {quote.reservation.toFixed(2)} USD; ez nem a számla összege.</p></details><button style={{...buttonStyle,background:'#cbae68',color:'#111'}} disabled={busy||!quote.ready} onClick={()=>void act('start')}>Gyártás és vágás indítása · legfeljebb {cut.ceiling.toFixed(2)} USD</button></>}</>}
+   {cut&&['QUEUED','RUNNING'].includes(cut.status)&&<><p>Az oldal bezárható; a gyártás és vágás a háttérben folytatódik.</p><button style={buttonStyle} disabled={busy} onClick={()=>void act('stop')}>További lépések leállítása</button><p style={{fontSize:14,color:'#aaa'}}>A már elindított szolgáltatói kérés ettől még befejeződhet.</p></>}
+   {cut&&['STOPPED','PAUSED'].includes(cut.status)&&<button style={buttonStyle} disabled={busy||current?.check?.passed===false||cut.budget!=='RESERVED'||Object.values(cut.tasks).some(t=>['SUBMITTING','UNCERTAIN','FAILED'].includes(t.status))} onClick={()=>void act('resume')}>Folytatás a megmaradt kerettel</button>}
+   {displayedError&&<p role="alert" style={{color:'#f2ba93'}}>{errors[displayedError]??displayedError}</p>}
+  </section>
+  {cut?.master&&<section><h2>Bevezető–15. jelenet · {timecode(cut.duration??0)}</h2><video controls playsInline preload="metadata" src={media(cut.master)} style={{width:'100%',marginTop:16}}/><p><a href={media(cut.master)} download="Titokvaros_bevezeto_15.mp4">Összevágott film letöltése</a></p><p>Megtekinthető változat. A végső minőségi jóváhagyás a megtekintés után történik.</p></section>}
+  {cut&&<><h2 style={{fontSize:26,marginTop:28}}>A film beállításai</h2><p><a href={endpoint+'?export=1'} download>Vágási terv letöltése</a> · <Link href="/ai-video/gallery">Megőrzött videók</Link></p>
+  <ol style={{listStyle:'none',padding:0}}>{cut.shots.map(s=><li key={s.id} style={{padding:'18px 0',borderBottom:'1px solid #333'}}>
+   <div style={{display:'flex',gap:16,justifyContent:'space-between'}}><strong>{s.scene.toString().padStart(2,'0')} · {s.label}</strong><span style={{color:'#cbae68',whiteSpace:'nowrap'}}>{s.kind==='reuse'?'Meglévő videó':s.kind==='action'?`${s.seconds} mp`:s.seconds?`${s.seconds.toFixed(1)} mp`:'A hang hosszához igazodik'}</span></div>
+   {s.line&&<p style={{color:'#bbb',marginTop:8}}>{CAST[s.line.character].name}{s.line.delivery==='offscreen'?' (képen kívül)':''}: „{s.line.text}”</p>}
+   {s.asset&&<details style={{marginTop:12}}><summary>{s.phase==='READY'?'Elkészült':'Ellenőrzendő'} · videó megtekintése</summary><video controls playsInline preload="none" src={media(s.asset)} style={{width:'100%',maxWidth:720,marginTop:12}}/><p><a href={media(s.asset)} download>Beállítás letöltése</a></p>{s.check&&<p>{s.check.text}</p>}{s.check?.passed===false&&cut.status==='PAUSED'&&current?.id===s.id&&<button style={buttonStyle} disabled={busy} onClick={()=>void act('accept-check',s.id)}>Megnéztem, ezt a beállítást elfogadom</button>}</details>}
+  </li>)}</ol></>}
+ </main>;
+}
