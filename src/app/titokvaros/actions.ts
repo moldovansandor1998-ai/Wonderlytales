@@ -10,3 +10,4 @@ export async function recordDemoLineAction(id:string){return run(()=>recordDemoL
 export async function inspectVoiceAccountAction(){return run(()=>inspectVoiceAccount());}
 export async function submitDemoRenderAction(id:string){return run(()=>submitDemoRender(id));}
 export async function pollDemoRenderAction(id:string){return run(()=>pollDemoRender(id));}
+export async function assignTemporaryCastAction(){return run(async()=>{const {assignTemporaryCast}=await import('@/lib/titokvarosVoices');return assignTemporaryCast();});}

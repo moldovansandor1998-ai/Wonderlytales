@@ -1,0 +1,216 @@
+{
+  "series": "TITOKVAROS",
+  "schema_version": 1,
+  "production_approved": false,
+  "heroes": [
+    {
+      "code": "MIRA",
+      "species": "eurázsiai vidra",
+      "version": "0.1.0",
+      "stage": "BLOCKING_MODEL",
+      "production_approved": false,
+      "collection": "TV_CHAR_MIRA",
+      "required_controls": [
+        "root",
+        "torso",
+        "head",
+        "hand_ik.L",
+        "hand_ik.R",
+        "foot_ik.L",
+        "foot_ik.R"
+      ],
+      "visual_reference": "Titokvaros_visual_direction_V001.png"
+    },
+    {
+      "code": "BRUNO",
+      "species": "európai borz",
+      "version": "0.1.0",
+      "stage": "BLOCKING_MODEL",
+      "production_approved": false,
+      "collection": "TV_CHAR_BRUNO",
+      "required_controls": [
+        "root",
+        "torso",
+        "head",
+        "hand_ik.L",
+        "hand_ik.R",
+        "foot_ik.L",
+        "foot_ik.R"
+      ],
+      "visual_reference": "Titokvaros_visual_direction_V001.png"
+    },
+    {
+      "code": "KIPP",
+      "species": "egyiptomi repülőkutya",
+      "version": "0.1.0",
+      "stage": "BLOCKING_MODEL",
+      "production_approved": false,
+      "collection": "TV_CHAR_KIPP",
+      "required_controls": [
+        "root",
+        "torso",
+        "head",
+        "hand_ik.L",
+        "hand_ik.R",
+        "foot_ik.L",
+        "foot_ik.R"
+      ],
+      "visual_reference": "Titokvaros_visual_direction_V001.png"
+    },
+    {
+      "code": "NERA",
+      "species": "nyest",
+      "version": "0.1.0",
+      "stage": "CONCEPT",
+      "production_approved": false,
+      "collection": "TV_CHAR_NERA",
+      "required_controls": [
+        "root",
+        "torso",
+        "head",
+        "hand_ik.L",
+        "hand_ik.R",
+        "foot_ik.L",
+        "foot_ik.R"
+      ],
+      "visual_reference": "Titokvaros_cast_02_V001.png"
+    },
+    {
+      "code": "DORKA",
+      "species": "kapibara",
+      "version": "0.1.0",
+      "stage": "CONCEPT",
+      "production_approved": false,
+      "collection": "TV_CHAR_DORKA",
+      "required_controls": [
+        "root",
+        "torso",
+        "head",
+        "hand_ik.L",
+        "hand_ik.R",
+        "foot_ik.L",
+        "foot_ik.R"
+      ],
+      "visual_reference": "Titokvaros_cast_02_V001.png"
+    },
+    {
+      "code": "ARON",
+      "species": "szürke daru",
+      "version": "0.1.0",
+      "stage": "CONCEPT",
+      "production_approved": false,
+      "collection": "TV_CHAR_ARON",
+      "required_controls": [
+        "root",
+        "torso",
+        "head",
+        "hand_ik.L",
+        "hand_ik.R",
+        "foot_ik.L",
+        "foot_ik.R"
+      ],
+      "visual_reference": "Titokvaros_cast_02_V001.png"
+    },
+    {
+      "code": "TILDA",
+      "species": "óriás tobzoska",
+      "version": "0.1.0",
+      "stage": "CONCEPT",
+      "production_approved": false,
+      "collection": "TV_CHAR_TILDA",
+      "required_controls": [
+        "root",
+        "torso",
+        "head",
+        "hand_ik.L",
+        "hand_ik.R",
+        "foot_ik.L",
+        "foot_ik.R"
+      ],
+      "visual_reference": "Titokvaros_cast_02_V001.png"
+    },
+    {
+      "code": "OSZKAR",
+      "species": "vörös mókus",
+      "version": "0.1.0",
+      "stage": "CONCEPT",
+      "production_approved": false,
+      "collection": "TV_CHAR_OSZKAR",
+      "required_controls": [
+        "root",
+        "torso",
+        "head",
+        "hand_ik.L",
+        "hand_ik.R",
+        "foot_ik.L",
+        "foot_ik.R"
+      ],
+      "visual_reference": "Titokvaros_cast_02_V001.png"
+    }
+  ],
+  "locations": [
+    {
+      "code": "TORONYPART",
+      "stage": "CONCEPT",
+      "production_approved": false
+    },
+    {
+      "code": "SZINES_LEPCSO",
+      "stage": "CONCEPT",
+      "production_approved": false
+    },
+    {
+      "code": "LOMBKOR",
+      "stage": "CONCEPT",
+      "production_approved": false
+    },
+    {
+      "code": "ALSOVONAL",
+      "stage": "CONCEPT",
+      "production_approved": false
+    },
+    {
+      "code": "REZRAKPART",
+      "stage": "BLOCKING_SET",
+      "production_approved": false
+    },
+    {
+      "code": "FENYUDVAR",
+      "stage": "CONCEPT",
+      "production_approved": false
+    },
+    {
+      "code": "ROZSDAMEZO",
+      "stage": "CONCEPT",
+      "production_approved": false
+    },
+    {
+      "code": "KILENCEDIK",
+      "stage": "CONCEPT",
+      "production_approved": false
+    }
+  ],
+  "animation_templates": [
+    "distance_planted_walk",
+    "distance_planted_run",
+    "hand_ik_grip",
+    "blink",
+    "gaze",
+    "HU_character_timed_visemes"
+  ],
+  "props": [
+    "cargo_trolley",
+    "map_case",
+    "street_sign"
+  ],
+  "vehicles": [
+    "elevated_tram"
+  ],
+  "audio_stems": [
+    "dialogue_hu",
+    "foley_original",
+    "city_ambience",
+    "score_original"
+  ],
+  "publication_gate": "Render-only diagnostic use until model, anatomy, deformation, acting, full video and full audio reviews pass."
+}

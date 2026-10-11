@@ -40,5 +40,17 @@
     "sha256": "4e61f2744f9f08cc106c487f71f07598220cd45a767e2354f57ba357299a5625",
     "bytes": 405,
     "readback_verified": true
+  },
+  {
+    "key": "native/S1E1/TITOKVAROS/V001/Titokvaros_cast_02_V001.png",
+    "sha256": "3855b664326bfdf1e0cdb2e495c9b59cbcf39f0eb110bf7a5632f3ce7d9a2d1e",
+    "bytes": 2546157,
+    "readback_verified": true
+  },
+  {
+    "key": "native/S1E1/TITOKVAROS/V001/motion_contact_audit.json",
+    "sha256": "d84110063ccb223f8e8a534ba89d1135ae8d76866307e7769e45d4a19cb05809",
+    "bytes": 1238,
+    "readback_verified": true
   }
 ]

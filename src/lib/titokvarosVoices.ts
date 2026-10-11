@@ -82,3 +82,23 @@ export async function inspectVoiceAccount(){
  }
  return `Hanghelyek: ${owned.length} / ${s.voice_limit}. Hozzáadások: ${s.voice_add_edit_counter} / ${s.max_voice_add_edits}.`;
 }
+/** Licensed premade voices, excluded from all archived character assignments.
+ * Only a temporary work track; it never overwrites the original new auditions.
+ */
+export async function assignTemporaryCast(){
+ await requireStudioUser();const s=getStorage();const poolKey=`${titokvarosPrefix}/voices/temporary_candidates.json`;
+ if(!await s.exists(poolKey))throw new Error('Előbb ellenőrizd a szabad próbahangokat.');
+ const pool=JSON.parse((await s.get(poolKey)).toString()) as {voice_id:string;name:string}[];
+ const choices={MIRA:'EXAVITQu4vr4xnSDxMaL',BRUNO:'nPczCjzI2devNBz1zQrb',KIPP:'bIHbv24MWmeRgasZH58o'};
+ const db=createServerSupabase();const {data:used,error}=await db.from('voices').select('character_id,provider_voice_id,voice_id');if(error)throw new Error('A régi hangok kizárása nem ellenőrizhető.');
+ for(const [code,id] of Object.entries(choices) as [keyof typeof voiceDesigns,string][]){
+  const candidate=pool.find(x=>x.voice_id===id);if(!candidate)throw new Error('A próbahang nincs az ellenőrzött listán.');
+  if(used?.some(x=>x.character_id!==titokvarosIds.characters[code]&&(x.voice_id===id||x.provider_voice_id===id)))throw new Error('A próbahangot már másik karakter használja.');
+  const saved=await readVoiceAudition(code);if(!saved?.previews?.length)throw new Error('Hiányzik az eredeti karakterhangterv.');
+  if(saved.voice_id&&!saved.temporary)continue;
+  const result={...saved,voice_id:id,temporary:true,temporary_voice_name:candidate.name,status:'TEMPORARY_WORK_TRACK',error:'A saját tervezett hang mentése 10/10 foglalt hanghely miatt várakozik. Ez a licencelt próbahang nem végleges szereposztás.'};
+  await s.put(key(code),JSON.stringify(result),'application/json');await assignVoice(code,id);
+  const {error:updateError}=await db.from('voices').update({status:'TEMPORARY_WORK_TRACK',settings:{series:'TITOKVAROS',version:1,review_status:'TEMPORARY_PREMADE_NOT_FINAL_CASTING'}}).eq('id',titokvarosIds.characters[code]);if(updateError)throw new Error('A próbahang jelölésének mentése javítandó.');
+ }
+ return 'Három, a régi sorozatban nem használt munkahang hozzárendelve. Új hanghely vagy előfizetés nem készült.';
+}

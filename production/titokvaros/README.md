@@ -15,3 +15,39 @@ The existing Supabase scheduler, RunPod endpoint, R2 bucket and Vercel project a
 ## Archive
 
 Csodakapu files remain in their original paths to preserve references and hashes. Its database series status becomes ARCHIVED. Nothing is deleted, moved, overwritten or reused as a Titokváros character. The historical CONTINUE.md is retained separately when the new handoff is written.
+
+## Implemented development pipeline (not film approval)
+
+- `animation/build_native.py`: new original procedural diagnostic meshes and
+  bundled Rigify skeletons. These meshes are **blocking assets**, not approved
+  feature-film hero models. No old Csodakapu rig is imported or repaired.
+- `animation/motion_library.py`: distance-based foot planting, independent
+  species timing, IK/FK control poses, blink/gaze and expression gestures.
+- `animation/assemble_demo.py`: seven cameras, 1152 authored frames, three rigs,
+  six articulated background animals, elevated tram, cargo trolley, hand IK,
+  and a conduit-light cue. Camera tracking and arm poles received corrections.
+- `animation/audit_motion.py`: evaluated world-space foot and wrist checks.
+  A passing number does not approve visual deformation or finger contact.
+- `animation/compose_audio.py`: original procedural score/foley/ambience stems.
+  It reports zero dialogue when no real recorded dialogue exists.
+- `pipeline.py`: 1–500-shot validation, bounded frame chunks, durable SQLite
+  state, immutable content identities, no automatic uncertain resubmission,
+  local revision invalidation, and preservation of superseded records.
+- Studio native rendering: only immutable allowlisted diagnostic jobs can be
+  submitted. Source SHA, an atomic cost reservation, permanent R2 claim,
+  durable RunPod job id, exact frame validation and downloaded clip SHA are
+  checked. This does not start a 60-minute film.
+
+## Explicit quality hold
+
+The procedural hero meshes do not match the concept art. The face topology,
+shoulder/arm deformation, bat wing membranes/fingers, full physical acting,
+close-up cloth/fur and facial performance require substantial new modeling
+and animation authoring. Render success, Rigify generation, planted-foot
+measurements or a longer timeline cannot remove that hold.
+
+The original three Hungarian voice designs produced nine auditions. The
+existing ElevenLabs account has 10/10 custom voice slots occupied. Saving a
+new voice received HTTP 400. No old voice was deleted and no subscription
+upgrade was made. The original auditions are preserved in R2. New casting
+and actual timestamped dialogue remain pending; do not claim audio is done.
