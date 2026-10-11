@@ -50,7 +50,7 @@ export async function episodeOverview(store:R2VideoStore){
  const voiceMap=Object.fromEntries(Object.entries(cast).map(([k,v])=>[k,v.voiceId])) as Record<CastKey,string|null>;
  const decorated=await Promise.all(scenes.map(async scene=>{
   const post=posts.find(p=>p.id===scene.state.id),summary:NonNullable<EpisodeScene['post']>={};
-  for(const language of ['hu','en'] as const){const v=post?.variants[language];if(!v)continue;const job=v.jobId?(await store.readRecord<PostJob>('post-job',v.jobId))?.value:null;const hash=fingerprint(scene.state,v,language,voiceMap);summary[language]={approved:!!job?.finalAsset&&job.status==='READY'&&hash===job.fingerprint&&v.approvedFingerprint===hash,finalAsset:job?.finalAsset,status:job?.status};}
+  for(const language of ['hu','en'] as const){const v=post?.variants[language];if(!v)continue;const job=v.jobId?(await store.readRecord<PostJob>('post-job',v.jobId))?.value:null;const hash=fingerprint(scene.state,v,language,voiceMap);summary[language]={approved:scene.state.review!=='needs-work'&&!!job?.finalAsset&&job.status==='READY'&&hash===job.fingerprint&&v.approvedFingerprint===hash,finalAsset:job?.finalAsset,status:job?.status};}
   return {...scene,post:summary};
  }));
  return {title:EPISODE_TITLE,duration:600,scenes:decorated,cast};
@@ -102,6 +102,8 @@ export async function episodeAction(raw:unknown,store:R2VideoStore){
   const finalized=await postContext(store,previous.id,'hu');
   if(data.sourceAsset!==finalized.job?.finalAsset)throw new WaveSpeedError('PREVIOUS_VIDEO_CHANGED',409);
   const prior=await stateOf(store,previous.id);
+  const finalDuration=finalized.job?.duration??prior.state.trimEnd-prior.state.trimStart;
+  if(data.sourceTime<finalDuration-.05||data.sourceTime>finalDuration+.001)throw new WaveSpeedError('LAST_FRAME_REQUIRED',409);
   if(prior.state.videoJobId!==data.sourceJobId)throw new WaveSpeedError('PREVIOUS_VIDEO_CHANGED',409);
   const source=await store.read(data.sourceJobId);
   if(source?.job.status!=='COMPLETED'||data.sourceTime>source.job.duration+.2)throw new WaveSpeedError('PREVIOUS_VIDEO_REQUIRED',409);

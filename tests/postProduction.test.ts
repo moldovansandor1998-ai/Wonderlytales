@@ -37,3 +37,18 @@ it('server blocks a next scene when there is no approved final, even if raw vide
  await expect(requirePreviousApproval(store,1)).rejects.toThrow('PREVIOUS_POST_APPROVAL_REQUIRED');
  await expect(requirePreviousApproval(store,0)).resolves.toBeUndefined();
 });
+
+it('blocks continuation of a visually rejected scene even if its sound was approved',async()=>{
+ const {postContext}=await import('@/lib/ai-video/post-core');
+ const scene={...defaultSceneState(EPISODE_SCENES[1]),review:'needs-work' as const};
+ const voiceMap={felix:null,mira:null,nera:null,tilda:null,oszkar:null};
+ const v={...newVersion(),jobId:'job'};const hash=fingerprint(scene,v,'hu',voiceMap);
+ const records:{[key:string]:unknown}={
+  'episode-scene':scene,
+  'post-scene':{id:scene.id,revision:1,variants:{hu:{...v,approvedFingerprint:hash}}},
+  'post-job':{id:'job',status:'READY',finalAsset:'a'.repeat(64),fingerprint:hash},
+ };
+ const store={readRecord:vi.fn(async(kind:string)=>({value:records[kind],etag:'1'})),readDialogue:vi.fn()} as unknown as R2VideoStore;
+ expect((await postContext(store,scene.id,'hu',voiceMap)).approved).toBe(false);
+ await expect(requirePreviousApproval(store,2)).rejects.toThrow('PREVIOUS_POST_APPROVAL_REQUIRED');
+});

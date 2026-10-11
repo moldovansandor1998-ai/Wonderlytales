@@ -95,6 +95,7 @@ export async function postAction(raw:unknown,store:R2VideoStore){
   if(job.fingerprint!==ctx.fingerprint)throw new WaveSpeedError('POST_CHANGED',409);
   await tempMedia(async dir=>{const lip=join(dir,'lip.mp4'),original=join(dir,'original.mp4'),speech=join(dir,'speech.wav'),out=join(dir,'final.mp4');await writeFile(lip,frozen.lipAsset?await store.assetBytes(frozen.lipAsset,'mp4'):await downloadProviderMedia(frozen.outputUrl!,100*1024*1024));const lipAsset=frozen.lipAsset??await storeFile(store,lip,'mp4');const source=await store.read(frozen.sourceVideoId);if(!source)throw new WaveSpeedError('VIDEO_REQUIRED',409);await downloadOwned(await store.videoUrl(source.job),original);await writeFile(speech,await store.assetBytes(frozen.dialogueAsset!,'wav'));await mixVideo(lip,original,speech,out,ctx.variant.mix,ctx.state.trimStart,frozen.duration);await saveJob({...frozen,lipAsset,status:'READY',finalAsset:await storeFile(store,out,'mp4')});});
  }else if(input.action==='approve'){
+  if(ctx.state.review==='needs-work')throw new WaveSpeedError('VISUAL_REPAIR_REQUIRED',409);
   if(ctx.job?.status!=='READY'||!ctx.job.finalAsset||ctx.job.fingerprint!==ctx.fingerprint)throw new WaveSpeedError('FINAL_REVIEW_REQUIRED',409);
   if(input.language==='en'&&(!ctx.translationCurrent||!ctx.variant.translationApproved))throw new WaveSpeedError('APPROVE_TRANSLATION',409);
   await setVariant({...ctx.variant,approvedFingerprint:ctx.fingerprint,approvedAt:new Date().toISOString()});

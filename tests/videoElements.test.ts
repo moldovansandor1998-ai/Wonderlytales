@@ -13,3 +13,21 @@ beforeEach(()=>{vi.clearAllMocks();vi.mocked(references).mockResolvedValue([{id:
 it('registers once across concurrent requests and reuses the canonical reference',async()=>{const {store,api,raw}=setup();await Promise.all([0,1].map(()=>elementAction({character:'mira',action:'create'},store,api)));await elementAction({character:'mira',action:'create'},store,api);expect(raw.creativeSubmit).toHaveBeenCalledTimes(1);expect(reserveProductionBudget).toHaveBeenCalledTimes(1);expect(await resolveElements(store,['mira'])).toEqual([{elementId:'element-123',name:'Mira',referenceSha256:sha}]);});
 it('does not repay an ambiguous registration and blocks unregistered video characters',async()=>{const {store,api,raw}=setup();raw.creativeSubmit.mockRejectedValue(new Error('timeout'));await elementAction({character:'mira',action:'create'},store,api);await elementAction({character:'mira',action:'create'},store,api);expect(raw.creativeSubmit).toHaveBeenCalledTimes(1);await expect(resolveElements(store,['mira'])).rejects.toThrow('VIDEO_CHARACTER_REQUIRED');});
 it('blocks price rises before spending and never misreads a result URL as an element id',async()=>{const {store,api,raw}=setup();raw.creativePrice.mockResolvedValue(.02);await expect(elementAction({character:'mira',action:'create'},store,api)).rejects.toThrow('ELEMENT_PRICE_CHANGED');expect(raw.creativeSubmit).not.toHaveBeenCalled();expect(elementOutput({id:'task-1',status:'completed',outputs:['https://cdn.test/data.json']})).toBeUndefined();});
+
+it('recovers a matching request without submitting or reserving budget a second time',async()=>{
+ const {store,api,raw}=setup();raw.creativeSubmit.mockRejectedValueOnce(new Error('response lost'));
+ await elementAction({character:'mira',action:'create'},store,api);
+ const recovery=Object.assign(raw,{recentPredictions:vi.fn(async()=>[{id:'recovered',model:'kwaivgi/kling-elements',status:'completed',inputs:{name:'Mira',image:'https://private.test/ref?old=1'}}]),creativeResult:vi.fn(async()=>({id:'recovered',status:'completed',outputs:[{element_id:'mira-element'}]}))});
+ await elementAction({character:'mira',action:'recover'},store,api);
+ expect(recovery.creativeResult).toHaveBeenCalledWith('recovered');
+ expect(raw.creativeSubmit).toHaveBeenCalledTimes(1);expect(reserveProductionBudget).toHaveBeenCalledTimes(1);
+ expect(await resolveElements(store,['mira'])).toEqual([{elementId:'mira-element',name:'Mira',referenceSha256:sha}]);
+});
+it('does not guess an identity when provider history contains multiple matching submissions',async()=>{
+ const {store,api,raw}=setup();raw.creativeSubmit.mockRejectedValueOnce(new Error('response lost'));
+ await elementAction({character:'mira',action:'create'},store,api);
+ const recovery=Object.assign(raw,{recentPredictions:vi.fn(async()=>['one','two'].map(id=>({id,model:'kwaivgi/kling-elements',status:'completed',inputs:{name:'Mira',image:'https://private.test/ref'}}))),creativeResult:vi.fn()});
+ await elementAction({character:'mira',action:'recover'},store,api);
+ expect(recovery.creativeResult).not.toHaveBeenCalled();expect(raw.creativeSubmit).toHaveBeenCalledTimes(1);
+ await expect(resolveElements(store,['mira'])).rejects.toThrow('VIDEO_CHARACTER_REQUIRED');
+});
