@@ -28,3 +28,10 @@ it('cleanup cannot exceed the original approved total or the reserved video slot
  const q=await s.readRecord();await s.writeRecord('film-cut',FILM_CUT_ID,{...q.value,authorizedUsd:10,tasks:{[shot.id+':video']:{status:'READY',price:1.68,model:'avatar'}}},q.etag);
  await expect(advanceCut(s as unknown as R2VideoStore,'wf')).rejects.toThrow('CUT_PRICE_LIMIT');expect(calls.submit).not.toHaveBeenCalled();
 });
+it('parallel fixed-camera preparation keeps film order and shares one atomic total budget',async()=>{
+ const s=memory(),r=await s.readRecord(),shot=r.value.shots[0];
+ await s.writeRecord('film-cut',FILM_CUT_ID,{...r.value,authorizedUsd:.6,shots:[shot,{...shot,id:'approved-camera',phase:'READY'}, {...shot,id:'later-answer',frameFrom:'approved-camera'}]},r.etag);
+ const results=await Promise.allSettled([advanceCut(s as unknown as R2VideoStore,'wf'),advanceCut(s as unknown as R2VideoStore,'wf',2)]);
+ expect(results.filter(r=>r.status==='rejected')).toHaveLength(1);expect(calls.submit).toHaveBeenCalledTimes(1);
+ const next=(await s.readRecord()).value;expect(next.chargedUpperUsd).toBeCloseTo(.448);expect(next.index).toBe(0);expect(next.shots[2].asset).toBeUndefined();
+});

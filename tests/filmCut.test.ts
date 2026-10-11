@@ -1,9 +1,18 @@
 import {describe,it,expect} from 'vitest';
 import {makeCutPlan} from '../src/lib/ai-video/film-cut-plan';
-import {cutCeiling,speechDuration,chargeAllowed,cutErrorCode,type FilmCut} from '../src/lib/ai-video/film-cut-shared';
+import {cutCeiling,speechDuration,chargeAllowed,cutErrorCode,independentCutShots,type FilmCut} from '../src/lib/ai-video/film-cut-shared';
 import {parseCutCheck} from '../src/lib/ai-video/film-cut';
 import {EPISODE_SCENES} from '../src/lib/ai-video/episode-data';
 describe('speech-led preview through scene 15',()=>{
+ it('runs ahead only on approved fixed cameras, with at most two independent clips',()=>{
+  const shots=makeCutPlan(),source=shots.find(s=>s.label==='Mira megállítja Félixet')!;
+  const c={shots,index:5} as FilmCut;source.image='verified-camera';
+  expect(independentCutShots(c)).toEqual([]);source.phase='READY';
+  const ready=independentCutShots(c);expect(ready).toHaveLength(2);
+  for(const i of ready){expect(i).toBeGreaterThan(c.index);expect(shots[i].frameFrom).toBe(source.id);expect(shots[i].kind).toBe('speech');}
+  shots[ready[0]].cleaned='complete';expect(independentCutShots(c)).not.toContain(ready[0]);
+  source.phase='CHECK';expect(independentCutShots(c)).toEqual([]);
+ });
  it('keeps deliberate review errors across workflow serialization without leaking arbitrary messages',()=>{
   expect(cutErrorCode({message:'CUT_VISUAL_REVIEW_REQUIRED'})).toBe('CUT_VISUAL_REVIEW_REQUIRED');
   expect(cutErrorCode({code:'WAVESPEED_BALANCE_LOW',message:'request details'})).toBe('WAVESPEED_BALANCE_LOW');

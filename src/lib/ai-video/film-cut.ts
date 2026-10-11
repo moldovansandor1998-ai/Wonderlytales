@@ -14,7 +14,7 @@ import {finalFrame} from './post-media';
 import {VIDEO_NO_TEXT_RULE,NEGATIVE_PROMPT} from './shared';
 import {makeCutPlan} from './film-cut-plan';
 import {cutSpeech,finishCutShot,assembleCut,miraDuplicateMask} from './film-cut-media';
-import {FILM_CUT_ID,CUT_VERSION,CUT_MAX_USD,cutCeiling,chargeAllowed,type FilmCut,type CutShot,type CutTask} from './film-cut-shared';
+import {FILM_CUT_ID,CUT_VERSION,CUT_MAX_USD,cutCeiling,chargeAllowed,independentCutShots,type FilmCut,type CutShot,type CutTask} from './film-cut-shared';
 const now=()=>new Date().toISOString();
 const avatar='kwaivgi/kling-v2-ai-avatar-pro' as const,motion='kwaivgi/kling-v3.0-pro/image-to-video' as const;
 export async function readCut(store:R2VideoStore){return (await store.readRecord<FilmCut>('film-cut',FILM_CUT_ID))?.value??null;}
@@ -128,11 +128,20 @@ export function parseCutCheck(text:string){
  const match=/\{[\s\S]*\}/.exec(text);if(!match)return {passed:false,text};
  try{const v=z.object({text_overlay:z.boolean(),unexpected_character:z.boolean(),teleportation:z.boolean(),identity_change:z.boolean(),reason:z.string()}).parse(JSON.parse(match[0]));return {passed:!v.text_overlay&&!v.unexpected_character&&!v.teleportation&&!v.identity_change,text:v.reason};}catch{return {passed:false,text};}
 }
-export async function advanceCut(store:R2VideoStore,workflowId:string){
+export async function advanceCutBatch(store:R2VideoStore,workflowId:string){
+ const c=await readCut(store);if(!c||c.status!=='RUNNING'||c.workflowId!==workflowId)return true;
+ // Only approved, fixed camera angles may run ahead. Story-dependent motion,
+ // new frames, continuity extraction, review and editing stay in film order.
+ const results=await Promise.allSettled([advanceCut(store,workflowId),...independentCutShots(c).map(index=>advanceCut(store,workflowId,index))]);
+ for(const r of results)if(r.status==='rejected')throw r.reason;
+ return results[0].status==='fulfilled'&&results[0].value;
+}
+export async function advanceCut(store:R2VideoStore,workflowId:string,precomputeIndex?:number){
  const c=await readCut(store);if(!c||c.workflowId!==workflowId||c.status!=='RUNNING'||c.budget!=='RESERVED')return true;
- const s=c.shots[c.index];
+ const index=precomputeIndex??c.index,s=c.shots[index];
+ if(precomputeIndex!==undefined&&(index<=c.index||!independentCutShots(c).includes(index)))return false;
  if(!s){const final=await assembleCut(store,c.shots);await changeCut(store,x=>({...x,...final,status:x.status==='RUNNING'?'READY':x.status}));return true;}
- if(s.phase==='READY'){await changeCut(store,x=>({...x,index:x.index===c.index?x.index+1:x.index}));return false;}
+ if(s.phase==='READY'){if(precomputeIndex===undefined)await changeCut(store,x=>({...x,index:x.index===c.index?x.index+1:x.index}));return false;}
  if(s.kind==='reuse'){
   if(!s.source){const j=(await store.read(s.sourceJob!))?.job;if(!j)throw new WaveSpeedError('CUT_SOURCE_MISSING');const url=await store.videoUrl(j);const r=await fetch(url,{redirect:'error',signal:AbortSignal.timeout(45000)});if(!r.ok)throw new WaveSpeedError('MEDIA_UNAVAILABLE');const bytes=Buffer.from(await r.arrayBuffer());if(bytes.length>100*1024*1024||bytes.toString('ascii',4,8)!=='ftyp')throw new WaveSpeedError('INVALID_MEDIA');const source=digest(bytes);await store.putAsset(source,'mp4',bytes);await setShot(store,s.id,{source});return false;}
   const done=await finishCutShot(store,s),last=await finalFrame(store,done.asset);await setShot(store,s.id,{...done,lastFrame:last,phase:'READY'});return false;
@@ -140,8 +149,8 @@ export async function advanceCut(store:R2VideoStore,workflowId:string){
  if(s.line&&!s.recording){const recording=await voiceForShot(store,c,s);await setShot(store,s.id,{recording,phase:'AUDIO'});return false;}
  if(s.line&&!s.audio){await setShot(store,s.id,{...await cutSpeech(store,s),phase:'FRAME'});return false;}
  if(!s.image){
-  const previous=c.shots[c.index-1]?.lastFrame;if(!previous)throw new WaveSpeedError('CUT_PREVIOUS_FRAME_MISSING');
   if(s.frameFrom){const fixed=c.shots.find(x=>x.id===s.frameFrom)?.image;if(!fixed)throw new WaveSpeedError('CUT_CAMERA_FRAME_MISSING');await setShot(store,s.id,{image:fixed,phase:'VIDEO'});return false;}
+  const previous=c.shots[index-1]?.lastFrame;if(!previous)throw new WaveSpeedError('CUT_PREVIOUS_FRAME_MISSING');
   if(!s.reframe){await setShot(store,s.id,{image:previous,phase:'VIDEO'});return false;}
   const shas=s.characters.map(k=>c.refs[k]!);if(shas.some(x=>!x))throw new WaveSpeedError('CHARACTER_REFERENCE_MISSING');
   const environment=s.environment==='workshop'?c.workshop:c.street;if(!environment)throw new WaveSpeedError('CUT_ENVIRONMENT_MISSING');
@@ -175,6 +184,7 @@ export async function advanceCut(store:R2VideoStore,workflowId:string){
   const cleaned=await providerTask(store,s.id+':clean','wavespeed-ai/video-watermark-remover',{video:await store.assetUrl(s.objectCleaned??s.raw,'mp4')},ceiling,'video');
   if(cleaned)await setShot(store,s.id,{cleaned});return false;
  }
+ if(precomputeIndex!==undefined)return false;
  if(!s.asset){const finished=await finishCutShot(store,s),last=await finalFrame(store,finished.asset);await setShot(store,s.id,{...finished,lastFrame:last});if(s.scene===13)await changeCut(store,x=>({...x,workshop:last}));return false;}
  if(!s.check){
   const expected=s.characters.map(k=>`${CAST[k].name} (${CAST[k].description})`).join(', ')||'only the silver car, no foreground main characters';

@@ -45,4 +45,7 @@ export function cutErrorCode(error:unknown){
  }
  return 'CUT_PROCESSING_FAILED';
 }
+export function independentCutShots(c:FilmCut){
+ return c.shots.flatMap((s,index)=>index>c.index&&s.kind==='speech'&&s.frameFrom&&!s.cleaned&&!s.asset&&c.shots.some(source=>source.id===s.frameFrom&&source.phase==='READY'&&source.image)?[index]:[]).slice(0,2);
+}
 export const CUT_LABELS:Record<FilmCut['status'],string>={DRAFT:'Előkészítve',RESERVING:'Költségkeret rögzítése',QUEUED:'Sorba állítva',RUNNING:'A film készül',STOPPING:'Az elindított beállítás mentése',STOPPED:'Leállítva',PAUSED:'Ellenőrzést igényel',READY:'A megtekinthető film elkészült'};
