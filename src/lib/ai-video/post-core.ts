@@ -12,7 +12,7 @@ export function effectiveLines(state:SceneState,variant:LanguageVersion,lang:Lan
  const ids=lines.map((_,i)=>variant.recordings[String(i)]??(lang==='hu'?state.recordings[String(i)]:undefined));
  return timing?.sourceHash===sourceHash(lines)&&timing.offsets.length===lines.length&&JSON.stringify(ids)===JSON.stringify(timing.recordingIds)?lines.map((l,i)=>({...l,offset:timing.offsets[i]})):lines;
 }
-export function fingerprint(state:SceneState,variant:LanguageVersion,lang:Language,voices:Record<CastKey,string|null>){const lines=effectiveLines(state,variant,lang);return digest(JSON.stringify({video:state.videoJobId,start:state.trimStart,end:state.trimEnd,lines,voices:lines.map(l=>voices[l.character]),recordings:lines.map((_,i)=>variant.recordings[String(i)]??(lang==='hu'?state.recordings[String(i)]:null)),mix:variant.mix,speakers:variant.autoSpeakerOrder,lang,source:lang==='en'?sourceHash(state.dialogue):undefined}));}
+export function fingerprint(state:SceneState,variant:LanguageVersion,lang:Language,voices:Record<CastKey,string|null>){const lines=effectiveLines(state,variant,lang);return digest(JSON.stringify({...(variant.repairRevision?{repairRevision:variant.repairRevision}:{}),video:state.videoJobId,start:state.trimStart,end:state.trimEnd,lines,voices:lines.map(l=>voices[l.character]),recordings:lines.map((_,i)=>variant.recordings[String(i)]??(lang==='hu'?state.recordings[String(i)]:null)),mix:variant.mix,speakers:variant.autoSpeakerOrder,lang,source:lang==='en'?sourceHash(state.dialogue):undefined}));}
 export async function postContext(store:R2VideoStore,id:string,language:Language,voiceMap?:Record<CastKey,string|null>){
  const definition=EPISODE_SCENES.find(d=>d.id===id);if(!definition)throw new WaveSpeedError('SCENE_NOT_FOUND',404);
  const [scene,saved,voices]=await Promise.all([store.readRecord<SceneState>('episode-scene',id),store.readRecord<PostScene>('post-scene',id),voiceMap??currentVoices()]);
@@ -32,7 +32,7 @@ export function validateRecordings(ctx:Awaited<ReturnType<typeof postContext>>){
  for(const [i,line] of ctx.lines.entries()){
   const rec=ctx.recordings[String(i)];
   if(!rec||rec.status!=='COMPLETED'||rec.voiceId!==ctx.voices[line.character]||rec.text!==line.text||(rec.language??'hu')!==ctx.language)throw new WaveSpeedError('CURRENT_VOICE_RECORDING_REQUIRED',409);
-  if(line.offset<ctx.state.trimStart||line.offset+(rec.duration??60)>ctx.state.trimEnd-.1)throw new WaveSpeedError('DIALOGUE_OUTSIDE_TRIM',409);
+  if(!Number.isFinite(rec.duration)||!rec.duration||rec.duration<=0||line.offset<ctx.state.trimStart||line.offset+rec.duration>ctx.state.trimEnd-.1)throw new WaveSpeedError('DIALOGUE_OUTSIDE_TRIM',409);
  }
  const spans=ctx.lines.map((l,i)=>({s:l.offset,e:l.offset+(ctx.recordings[String(i)].duration??0)})).sort((a,b)=>a.s-b.s);
  if(spans.some((s,i)=>i>0&&s.s<spans[i-1].e))throw new WaveSpeedError('DIALOGUE_OVERLAP',409);

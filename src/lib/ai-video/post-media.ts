@@ -8,6 +8,7 @@ import {R2VideoStore,digest} from './storage';
 import type {SceneLine} from './episode-shared';
 import type {MixSettings} from './post-shared';
 import {WaveSpeedError} from '../providers/wavespeed';
+import {checkVisualDrift,speechEnable,CHECK_WIDTH,CHECK_HEIGHT,CHECK_FPS,type SpeechWindow} from './post-quality';
 const exec=promisify(execFile);
 const encode=['-c:v','libx264','-preset','veryfast','-crf','20','-pix_fmt','yuv420p','-r','24'];
 const fit='scale=1920:1080:force_original_aspect_ratio=decrease,pad=1920:1080:(ow-iw)/2:(oh-ih)/2,setsar=1';
@@ -17,6 +18,14 @@ export async function storeFile(store:R2VideoStore,file:string,ext:'wav'|'mp4'){
 // Input URLs come only from owned job records. Download before invoking ffmpeg: no remote protocols in filters.
 export async function downloadOwned(url:string,file:string,maxBytes=100*1024*1024){const r=await fetch(url,{redirect:'error',signal:AbortSignal.timeout(45000)});if(!r.ok||!r.body)throw new WaveSpeedError('MEDIA_UNAVAILABLE');const reader=r.body.getReader(),chunks:Uint8Array[]=[];let size=0;while(true){const x=await reader.read();if(x.done)break;size+=x.value.length;if(size>maxBytes){await reader.cancel();throw new WaveSpeedError('MEDIA_TOO_LARGE');}chunks.push(x.value);}await writeFile(file,Buffer.concat(chunks));}
 export async function normalizeVideo(input:string,output:string,start:number,end:number){await run(['-i',input,'-ss',String(start),'-t',String(end-start),'-map','0:v:0','-vf',fit,...encode,'-an','-movflags','+faststart',output]);}
+export async function protectedLipVideo(source:string,candidate:string,out:string,dir:string,duration:number,windows:SpeechWindow[]){
+ const enabled=speechEnable(windows,duration);
+ const decode=async(input:string,name:string)=>{const file=join(dir,name);await run(['-i',input,'-map','0:v:0','-vf',`fps=${CHECK_FPS},${fit},scale=${CHECK_WIDTH}:${CHECK_HEIGHT},gblur=sigma=0.5`,'-pix_fmt','rgb24','-f','rawvideo','-an',file]);return readFile(file);};
+ const [raw,lip]=await Promise.all([decode(source,'source-check.rgb'),decode(candidate,'lip-check.rgb')]);
+ const check=checkVisualDrift(raw,lip,duration);
+ await run(['-i',source,'-i',candidate,'-filter_complex',`[0:v]fps=24,${fit},setpts=PTS-STARTPTS[base];[1:v]fps=24,${fit},setpts=PTS-STARTPTS[edit];[base][edit]overlay=eof_action=pass:enable='${enabled}'[v]`,'-map','[v]',...encode,'-an','-t',String(duration),'-movflags','+faststart',out]);
+ return check;
+}
 export async function speechTrack(dir:string,store:R2VideoStore,lines:SceneLine[],ids:Record<string,string>,duration:number,trimStart:number,selected?:(l:SceneLine)=>boolean){
  const used=lines.map((line,index)=>({line,index})).filter(x=>!selected||selected(x.line)),out=join(dir,'speech-'+Math.random().toString(36).slice(2)+'.wav');
  if(!used.length){await run(['-f','lavfi','-i','anullsrc=r=48000:cl=stereo','-t',String(duration),'-c:a','pcm_s16le',out]);return out;}

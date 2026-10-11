@@ -6,6 +6,9 @@ export type AutoRun={id:string;sceneId:string;language:Language;sourceHash:strin
 export type AutoPointer={id:string;runId:string};
 export const AUTO_LABELS:Record<AutoPhase,string>={QUEUED:'Indításra vár',VIDEO:'A jelenet videója készül',CHARACTERS:'A képen látható szereplők felismerése',VOICES:'A szereplők saját hangjának felvétele',TIMING:'A párbeszéd automatikus időzítése',LIPSYNC:'A beszélők szájmozgásának illesztése',MIX:'A végleges hangos videó összeállítása',READY:'A kész videó megtekinthető',PAUSED:'A feldolgozás megállt · az elkészült anyagok megmaradtak'};
 export const AUTO_ERRORS:Record<string,string>={
+ AUTO_UNEXPECTED_CHARACTER:'A nyers videóban nem tervezett főszereplő jelent meg. A szájmozgás nem indul; ellenőrizd a jelenetet.',
+ LIPSYNC_VISUAL_DRIFT:'A szájmozgás megváltoztatta a jelenet képét. A sor megállt; a nyers videó és a hang megmaradt.',
+ LIPSYNC_TIMING_CHANGED:'A szájmozgás kimenetének hossza eltér a forrástól. A sor megállt, hogy a kép és a beszéd ne csússzon el.',
  AUTO_SOURCE_CHANGED:'A jelenet vagy a karakterhang közben megváltozott. Indítsd el a hangos változatot a mentett, új szöveggel.',
  AUTO_DIALOGUE_TOO_LONG:'A szöveg felolvasva nem fér a jelenetbe. Rövidítsd a párbeszédet; a rendszer újra időzíti.',
  AUTO_CHARACTER_UNCERTAIN:'A videón nem azonosítható biztosan minden beszélő. A nyers videó megmaradt a galériában; ellenőrizd a karaktereket.',

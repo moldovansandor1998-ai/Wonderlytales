@@ -10,21 +10,26 @@ import {ENGLISH_LINES} from './episode-english';
 import {recordCharacterDialogue,type DialogueExecution} from './dialogue';
 import {WaveSpeedClient,WaveSpeedError} from '../providers/wavespeed';
 import {reserveProductionBudget} from '../budget';
-import {tempMedia,downloadOwned,normalizeVideo,speechTrack,mixVideo,storeFile} from './post-media';
+import {tempMedia,downloadOwned,normalizeVideo,speechTrack,mixVideo,storeFile,protectedLipVideo} from './post-media';
 import {downloadProviderMedia} from './media';
 const cast=z.enum(['felix','mira','nera','tilda','oszkar']);
 const linesSchema=z.array(z.object({character:cast,text:z.string().trim().min(1).max(250),offset:z.number().min(0).max(9.5),delivery:z.enum(['visible','offscreen'])}).strict()).max(3);
 const mixSchema=z.object({background:z.number().min(0).max(1),voice:z.number().min(.2).max(2),leftSpeaker:cast.nullable(),layoutConfirmed:z.boolean(),sourceSpeech:z.enum(['none','mute','loop-intro'])}).strict();
-const command=z.object({id:z.string().uuid(),language:z.enum(['hu','en']),action:z.enum(['save','english','record','prepare','quote','start','poll','approve','revoke']),revision:z.number().int().min(0).optional(),index:z.number().int().min(0).max(2).optional(),data:z.unknown().optional()}).strict();
+const command=z.object({id:z.string().uuid(),language:z.enum(['hu','en']),action:z.enum(['save','repair','english','record','prepare','quote','start','poll','approve','revoke']),revision:z.number().int().min(0).optional(),index:z.number().int().min(0).max(2).optional(),data:z.unknown().optional()}).strict();
 const api=()=>new WaveSpeedClient(process.env.WAVESPEED_API_KEY??'');
 export type PostExecution={voices?:Record<CastKey,string|null>;dialogue?:DialogueExecution;reserveLipsync?:()=>Promise<void>};
-export async function postOverview(store:R2VideoStore,id:string,lang:Language,execution:PostExecution={}){const c=await postContext(store,id,lang,execution.voices);return {id,language:lang,revision:c.post.revision,variant:c.variant,lines:c.lines,recordings:c.recordings,job:c.job,approved:c.approved,translationCurrent:c.translationCurrent,current:c.job?.fingerprint===c.fingerprint};}
+export async function postOverview(store:R2VideoStore,id:string,lang:Language,execution:PostExecution={}){const c=await postContext(store,id,lang,execution.voices);return {id,language:lang,revision:c.post.revision,variant:c.variant,lines:c.lines,recordings:c.recordings,job:c.job,approved:c.approved,translationCurrent:c.translationCurrent,current:c.job?.fingerprint===c.fingerprint,visualReview:c.state.review};}
 export async function postAction(raw:unknown,store:R2VideoStore,execution:PostExecution={}){
  const input=command.parse(raw);let ctx=await postContext(store,input.id,input.language,execution.voices);
  if(input.revision!==undefined&&input.revision!==ctx.post.revision)throw new WaveSpeedError('SCENE_CHANGED',409);
  async function setVariant(v:LanguageVersion){const next={...ctx.post,revision:ctx.post.revision+1,variants:{...ctx.post.variants,[input.language]:v}};if(!await store.writeRecord('post-scene',input.id,next,ctx.etag))throw new WaveSpeedError('SCENE_CHANGED',409);ctx=await postContext(store,input.id,input.language,execution.voices);}
  async function saveJob(j:PostJob){const old=await store.readRecord<PostJob>('post-job',j.id);if(!await store.writeRecord('post-job',j.id,j,old?.etag))throw new WaveSpeedError('SCENE_CHANGED',409);return j;}
- if(input.action==='english'){
+ if(input.action==='repair'){
+  if(ctx.job&&['PREPARING','SUBMITTING','PROCESSING','UNCERTAIN'].includes(ctx.job.status))throw new WaveSpeedError('JOB_ACTIVE',409);
+  if(!ctx.job)throw new WaveSpeedError('PREPARE_REQUIRED',409);
+  // Explicit new edit; keep raw footage, recordings, and every prior output.
+  await setVariant({...ctx.variant,repairRevision:(ctx.variant.repairRevision??0)+1,jobId:undefined,history:[...new Set([...ctx.variant.history,ctx.job.id])],approvedFingerprint:undefined,approvedAt:undefined});
+ }else if(input.action==='english'){
   if(input.language!=='en')throw new WaveSpeedError('INVALID_INPUT',400);
   if(!ctx.variant.dialogue){
    const seed=ENGLISH_LINES[ctx.definition.order]??[];
@@ -54,7 +59,7 @@ export async function postAction(raw:unknown,store:R2VideoStore,execution:PostEx
   for(const k of new Set(ctx.lines.map(l=>l.character))){const designed=await store.readRecord<{status:string;newVoiceId?:string}>('voice-design',CAST[k].id);if(designed?.value.status!=='ACTIVE'||designed.value.newVoiceId!==ctx.voices[k])throw new WaveSpeedError('NEW_CHARACTER_VOICE_REQUIRED',409);}
   const visible=validateRecordings(ctx);
   if(ctx.job?.fingerprint===ctx.fingerprint&&ctx.job.status!=='PREPARING'&&!(ctx.job.status==='FAILED'&&!ctx.job.taskId))return postOverview(store,input.id,input.language,execution);
-  let job:PostJob=ctx.job?.fingerprint===ctx.fingerprint?ctx.job:{id:randomUUID(),sceneId:input.id,language:input.language,fingerprint:ctx.fingerprint,status:'PREPARING',sourceVideoId:video.job.id,duration:ctx.state.trimEnd-ctx.state.trimStart,createdAt:new Date().toISOString()};
+  let job:PostJob=ctx.job?.fingerprint===ctx.fingerprint?ctx.job:{repairRevision:ctx.variant.repairRevision,id:randomUUID(),sceneId:input.id,language:input.language,fingerprint:ctx.fingerprint,status:'PREPARING',sourceVideoId:video.job.id,duration:ctx.state.trimEnd-ctx.state.trimStart,createdAt:new Date().toISOString()};
   if(ctx.job?.id!==job.id){await saveJob(job);await setVariant({...ctx.variant,jobId:job.id,history:[...new Set([...ctx.variant.history,...(ctx.variant.jobId?[ctx.variant.jobId]:[])])],approvedFingerprint:undefined});}
   // Media preparation is deterministic and free to retry. No paid request occurs here.
   try{await tempMedia(async dir=>{
@@ -68,10 +73,10 @@ export async function postAction(raw:unknown,store:R2VideoStore,execution:PostEx
     const automatic=ctx.variant.autoTiming?.sourceHash===sourceHash(input.language==='hu'?ctx.state.dialogue:ctx.variant.dialogue??[])?ctx.variant.autoSpeakerOrder:undefined;
     const order=automatic?.length&&automatic.length<=2&&visible.every(k=>automatic.includes(k))?automatic:visible.length===2?[ctx.variant.mix.leftSpeaker!,visible.find(k=>k!==ctx.variant.mix.leftSpeaker)!]:visible;
     const speakerAssets=[];for(const k of order){const path=await speechTrack(dir,store,ctx.lines,ids,job.duration,ctx.state.trimStart,l=>l.character===k&&l.delivery==='visible');speakerAssets.push(await storeFile(store,path,'wav'));}
-    job={...job,speakerAssets,model:order.length===2?'wavespeed-ai/infinitetalk/video-to-video-multi':'wavespeed-ai/infinitetalk/video-to-video',prompt:`Preserve this original stylized 3D animated film exactly: same animal faces, muzzle shape, fur, clothing, body proportions, background architecture, movement and camera. ${order.map((k,i)=>`${i===0?'Left / primary':'Right'} speaker: ${CAST[k].name}, ${CAST[k].description}`).join('. ')}. Only these characters speak their assigned audio. Other characters remain silent. No cuts, no added gestures, no new objects or characters.`,status:'PREPARED'};
+    job={...job,speechWindows:ctx.lines.flatMap((l,i)=>l.delivery==='visible'?[{start:l.offset-ctx.state.trimStart,end:l.offset-ctx.state.trimStart+ctx.recordings[String(i)].duration!}]:[]),speakerAssets,model:order.length===2?'wavespeed-ai/infinitetalk/video-to-video-multi':'sync/lipsync-2',prompt:`Preserve this original stylized 3D animated film exactly: same animal faces, muzzle shape, fur, clothing, body proportions, background architecture, movement and camera. ${order.map((k,i)=>`${i===0?'Left / primary':'Right'} speaker: ${CAST[k].name}, ${CAST[k].description}`).join('. ')}. Only these characters speak their assigned audio. Other characters remain silent. No cuts, no added gestures, no new objects or characters.`,status:'PREPARED'};
     // A new mix of the same performance reuses its completed lip-sync video.
     const oldJobs=await Promise.all(ctx.variant.history.map(id=>store.readRecord<PostJob>('post-job',id)));
-    const reusable=oldJobs.find(x=>(x?.value.lipAsset||x?.value.outputUrl)&&x!.value.videoAsset===job.videoAsset&&JSON.stringify(x!.value.speakerAssets)===JSON.stringify(job.speakerAssets)&&x!.value.prompt===job.prompt);
+    const reusable=oldJobs.find(x=>(x?.value.lipAsset||x?.value.outputUrl)&&x!.value.status!=='FAILED'&&x!.value.repairRevision===job.repairRevision&&x!.value.model===job.model&&x!.value.videoAsset===job.videoAsset&&JSON.stringify(x!.value.speakerAssets)===JSON.stringify(job.speakerAssets)&&x!.value.prompt===job.prompt);
     if(reusable)job={...job,outputUrl:reusable.value.outputUrl,lipAsset:reusable.value.lipAsset,taskId:reusable.value.taskId,status:'PROCESSING'};
    }
    await saveJob(job);
@@ -95,7 +100,17 @@ export async function postAction(raw:unknown,store:R2VideoStore,execution:PostEx
   const frozen=job;
   // Mix only against the unchanged source/settings. Changed edits require another preparation.
   if(job.fingerprint!==ctx.fingerprint)throw new WaveSpeedError('POST_CHANGED',409);
-  await tempMedia(async dir=>{const lip=join(dir,'lip.mp4'),original=join(dir,'original.mp4'),speech=join(dir,'speech.wav'),out=join(dir,'final.mp4');await writeFile(lip,frozen.lipAsset?await store.assetBytes(frozen.lipAsset,'mp4'):await downloadProviderMedia(frozen.outputUrl!,100*1024*1024));const lipAsset=frozen.lipAsset??await storeFile(store,lip,'mp4');const source=await store.read(frozen.sourceVideoId);if(!source)throw new WaveSpeedError('VIDEO_REQUIRED',409);await downloadOwned(await store.videoUrl(source.job),original);await writeFile(speech,await store.assetBytes(frozen.dialogueAsset!,'wav'));await mixVideo(lip,original,speech,out,ctx.variant.mix,ctx.state.trimStart,frozen.duration);await saveJob({...frozen,lipAsset,status:'READY',finalAsset:await storeFile(store,out,'mp4')});});
+  try{await tempMedia(async dir=>{
+   const lip=join(dir,'lip.mp4'),original=join(dir,'original.mp4'),normalized=join(dir,'normalized.mp4'),protectedVideo=join(dir,'protected.mp4'),speech=join(dir,'speech.wav'),out=join(dir,'final.mp4');
+   await writeFile(lip,frozen.lipAsset?await store.assetBytes(frozen.lipAsset,'mp4'):await downloadProviderMedia(frozen.outputUrl!,100*1024*1024));
+   const lipAsset=frozen.lipAsset??await storeFile(store,lip,'mp4');job=await saveJob({...frozen,lipAsset});
+   const source=await store.read(frozen.sourceVideoId);if(!source)throw new WaveSpeedError('VIDEO_REQUIRED',409);
+   await downloadOwned(await store.videoUrl(source.job),original);await writeFile(normalized,await store.assetBytes(frozen.videoAsset!,'mp4'));await writeFile(speech,await store.assetBytes(frozen.dialogueAsset!,'wav'));
+   const windows=frozen.speechWindows??ctx.lines.flatMap((l,i)=>l.delivery==='visible'?[{start:l.offset-ctx.state.trimStart,end:l.offset-ctx.state.trimStart+(ctx.recordings[String(i)]?.duration??NaN)}]:[]);
+   const visualCheck=await protectedLipVideo(normalized,lip,protectedVideo,dir,frozen.duration,windows);
+   await mixVideo(protectedVideo,original,speech,out,ctx.variant.mix,ctx.state.trimStart,frozen.duration);
+   await saveJob({...job!,visualCheck,status:'READY',finalAsset:await storeFile(store,out,'mp4')});
+  });}catch(e){const code=e instanceof WaveSpeedError?e.code:'MIX_FAILED';await saveJob({...job!,status:['LIPSYNC_VISUAL_DRIFT','LIPSYNC_TIMING_CHANGED','DIALOGUE_OUTSIDE_TRIM'].includes(code)?'FAILED':'PROCESSING',error:code});throw e;}
  }else if(input.action==='approve'){
   if(ctx.state.review==='needs-work')throw new WaveSpeedError('SCENE_VISUAL_REVIEW_REQUIRED',409);
   if(ctx.job?.status!=='READY'||!ctx.job.finalAsset||ctx.job.fingerprint!==ctx.fingerprint)throw new WaveSpeedError('FINAL_REVIEW_REQUIRED',409);
@@ -104,7 +119,8 @@ export async function postAction(raw:unknown,store:R2VideoStore,execution:PostEx
  }else if(input.action==='revoke'){await setVariant({...ctx.variant,approvedFingerprint:undefined,approvedAt:undefined});}
  return postOverview(store,input.id,input.language,execution);
 }
-async function lipsyncPayload(job:PostJob,store:R2VideoStore){
+export async function lipsyncPayload(job:PostJob,store:R2VideoStore){
+ if(job.model==='sync/lipsync-2')return {video:await store.assetUrl(job.videoAsset!,'mp4'),audio:await store.assetUrl(job.speakerAssets![0],'wav'),sync_mode:'cut_off'};
  const common={video:await store.assetUrl(job.videoAsset!,'mp4'),resolution:'720p',prompt:job.prompt,seed:731};
  return job.speakerAssets?.length===2?{...common,left_audio:await store.assetUrl(job.speakerAssets[0],'wav'),right_audio:await store.assetUrl(job.speakerAssets[1],'wav'),order:'meanwhile'}:{...common,audio:await store.assetUrl(job.speakerAssets![0],'wav')};
 }

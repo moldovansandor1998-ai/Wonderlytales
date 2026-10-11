@@ -13,6 +13,15 @@ function memory(){let seq=0;const map=new Map<string,{value:unknown;etag:string}
 beforeEach(()=>vi.clearAllMocks());
 it('two simultaneous submissions charge the provider only once',async()=>{const store=memory();calls.submit.mockResolvedValue({id:'provider-id',status:'processing'});const r=await Promise.allSettled([1,2].map(()=>postAction({id,language:'hu',action:'start',revision:0,data:{maxCostUsd:.6}},store as unknown as R2VideoStore)));expect(r.filter(x=>x.status==='fulfilled')).toHaveLength(1);expect(calls.submit).toHaveBeenCalledTimes(1);});
 it('an uncertain provider submission never retries or charges automatically',async()=>{const store=memory();calls.submit.mockRejectedValue(new Error('timeout'));const input={id,language:'hu',action:'start',data:{maxCostUsd:.6}};await postAction(input,store as unknown as R2VideoStore);await expect(postAction(input,store as unknown as R2VideoStore)).rejects.toThrow('PREPARE_REQUIRED');expect(calls.submit).toHaveBeenCalledTimes(1);});
+it('repair keeps source footage and recordings, archives the result, and never charges',async()=>{
+ const store=memory(),old=await store.readRecord('post-job',jid);
+ await store.writeRecord('post-job',jid,{...(old!.value as object),status:'READY',finalAsset:'old-final'},old!.etag);
+ const result=await postAction({id,language:'hu',action:'repair',revision:0},store as unknown as R2VideoStore);
+ expect(result.variant.repairRevision).toBe(1);expect(result.variant.history).toContain(jid);expect(result.job).toBeNull();
+ expect((await store.readRecord('post-job',jid))?.value).toMatchObject({finalAsset:'old-final'});
+ expect((await store.readRecord('episode-scene',id))?.value).toMatchObject({videoJobId:jid});
+ expect(calls.submit).not.toHaveBeenCalled();
+});
 
 it('refuses approval of a visually rejected clip even when the final video is ready',async()=>{
  const store=memory();
