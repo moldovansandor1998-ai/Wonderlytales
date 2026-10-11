@@ -11,7 +11,7 @@ export const VOICE_DESIGNS={
  tilda:{old:'8ik405hgdHADnz9lglMf',oldName:'Zizi',description:'Original adult FEMALE Hungarian animated film actor, age 48. Grounded warm contralto with gentle natural huskiness, practical resourceful pangolin mechanic. Motherly but not elderly, cheerful directness and dry humor, firm when danger approaches. Clearly female, not a male voice. Native standard Hungarian and fluent English, consistent identity. Clean studio recording, no music.',sample:'Tedd csak ide azt az alkatrészt, aranyom. Amit más eldob, abból én még csodát csinálok. De ezt a jeladót ne kapcsold be! Előbb tudnunk kell, hogy ki figyel a másik oldalon.'},
  oszkar:{old:'vmhWRuUG7LqpLLPY9sM1',oldName:'Márk',description:'Original young ADULT male Hungarian animated film actor, age 23. Bright agile light tenor, energetic squirrel bicycle courier with lovable nervous humor. Fast but intelligible, youthful without childish squeaks, sincere courage beneath the jokes. Native standard Hungarian, also fluent clear English with same identity. Clean studio recording, no music.',sample:'Én csak egy csomagot hoztam! Jó, meg talán egy kis bajt is. De tudok egy rövidebb utat a műhelyhez. Kapaszkodjatok! Titokvárosban a legjobb futár mindig talál egy nyitott kaput.'},
 } as const;
-export type VoiceDesign={id:string;key:CastKey;name:string;status:'DESIGNING'|'PREVIEWS'|'ACTIVATING'|'ACTIVE'|'UNCERTAIN'|'FAILED';previews?:{id:string;asset:string;duration:number}[];newVoiceId?:string;oldRemoved?:boolean;oldMetadata?:unknown;expectedRowId:string|null;error?:string};
+export type VoiceDesign={id:string;key:CastKey;name:string;status:'DESIGNING'|'PREVIEWS'|'ACTIVATING'|'ACTIVE'|'UNCERTAIN'|'FAILED';previews?:{id:string;asset:string;duration:number}[];newVoiceId?:string;oldRemoved?:boolean;oldArchived?:boolean;oldMetadata?:unknown;expectedRowId:string|null;error?:string};
 async function eleven(path:string,body?:unknown,method?:string){
  const key=process.env.ELEVENLABS_API_KEY;if(!key)throw new WaveSpeedError('ELEVENLABS_NOT_CONFIGURED',503);
  const r=await fetch('https://api.elevenlabs.io'+path,{method:method??(body?'POST':'GET'),headers:{'xi-api-key':key,'Content-Type':'application/json'},...(body?{body:JSON.stringify(body)}:{}),cache:'no-store',redirect:'error',signal:AbortSignal.timeout(90000)});
@@ -62,9 +62,10 @@ export async function designVoice(raw:unknown,store:R2VideoStore){
    if(typeof voice.voice_id!=='string')throw new Error('Invalid voice');
    await save({...rec,newVoiceId:voice.voice_id});
    await assignCharacterVoice(characterId,voice.voice_id,rec.expectedRowId);
-   // Only the five explicitly authorized old IDs can be removed, after replacement succeeds.
-   await eleven('/v1/voices/'+spec.old,undefined,'DELETE');
-   await save({...rec,status:'ACTIVE',oldRemoved:true});
+   // Preserve historical voices; only the five authorized IDs receive archive names.
+   const form=new FormData();form.set('name',`ARCHÍV – WonderlyTales – ${spec.oldName} V001`);
+   const archived=await fetch('https://api.elevenlabs.io/v1/voices/'+spec.old+'/edit',{method:'POST',headers:{'xi-api-key':process.env.ELEVENLABS_API_KEY!},body:form,signal:AbortSignal.timeout(20000),redirect:'error'});
+   await save({...rec,status:'ACTIVE',oldRemoved:false,oldArchived:archived.ok});
   }catch(e){await save({...rec,status:'UNCERTAIN',error:e instanceof WaveSpeedError?e.code:'VOICE_ACTIVATION_UNCERTAIN'});}
  }
  return voiceDesignOverview(store);
