@@ -63,7 +63,10 @@ export async function preflightCut(store:R2VideoStore){
  const c=await readCut(store);if(!c)throw new WaveSpeedError('CUT_NOT_PREPARED',409);
  const [budget,balance]=await Promise.all([getProductionBudget(),new WaveSpeedClient(process.env.WAVESPEED_API_KEY??'').balance()]);
  const list=services(c),reservation=list.reduce((n,s)=>n+reservations[s],0);
- return {ceiling:c.ceiling,balance,remaining:budget?.remaining_usd??0,reservation:Math.ceil((reservation-1e-8)*100)/100,ready:!!budget&&list.every(s=>budget.configured_services[s]===reservations[s])&&budget.remaining_usd>=reservation&&balance>=c.ceiling};
+ const voiceCeiling=c.shots.filter(s=>s.line&&!s.recording).length*.25;
+ // Admission needs enough for the next bounded request, not every worst-case ten-second shot.
+ // Each later provider request still checks its actual quote and remaining balance.
+ return {ceiling:c.ceiling,balance,balanceCoversCeiling:balance>=c.ceiling-voiceCeiling,remaining:budget?.remaining_usd??0,reservation:Math.ceil((reservation-1e-8)*100)/100,ready:!!budget&&list.every(s=>budget.configured_services[s]===reservations[s])&&budget.remaining_usd>=reservation&&balance>=1.12};
 }
 export async function authorizeCut(store:R2VideoStore,maxCostUsd:number){
  let c=await readCut(store);if(!c)throw new WaveSpeedError('CUT_NOT_PREPARED',409);
