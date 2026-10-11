@@ -27,7 +27,7 @@ export type WaveSpeedTask = z.infer<typeof taskSchema>;
 const creativeTaskSchema=taskSchema.extend({outputs:z.array(z.union([z.string(),z.record(z.unknown())])).optional()});
 export type CreativeTask=z.infer<typeof creativeTaskSchema>;
 function parseCreativeTask(raw:unknown):CreativeTask {const obj=raw&&typeof raw==='object'?raw as Record<string,unknown>:{};return creativeTaskSchema.parse({...obj,...(obj.outputs&&typeof obj.outputs==='object'&&!Array.isArray(obj.outputs)?{outputs:[obj.outputs]}:{})});}
-export const CREATIVE_MODELS=['kwaivgi/kling-elements','bytedance/seedream-v4.5','bytedance/seedream-v4.5/edit','wavespeed-ai/molmo2/video-understanding','wavespeed-ai/infinitetalk/video-to-video','wavespeed-ai/infinitetalk/video-to-video-multi','sync/lipsync-2'] as const;
+export const CREATIVE_MODELS=['kwaivgi/kling-v2-ai-avatar-pro','kwaivgi/kling-elements','bytedance/seedream-v4.5','bytedance/seedream-v4.5/edit','wavespeed-ai/molmo2/video-understanding','wavespeed-ai/infinitetalk/video-to-video','wavespeed-ai/infinitetalk/video-to-video-multi','sync/lipsync-2'] as const;
 export type CreativeModel=typeof CREATIVE_MODELS[number];
 export class WaveSpeedClient {
   constructor(private key: string) {
