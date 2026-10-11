@@ -213,7 +213,7 @@ export async function advanceCut(store:R2VideoStore,workflowId:string,precompute
  await setShot(store,s.id,{phase:'READY'});return false;
 }
 export async function cutAction(raw:unknown,store:R2VideoStore){
- const input=z.object({action:z.enum(['prepare','preflight','start','stop','resume','accept-check','repair-text','repair-duplicate','repair-framing','crop-closeup','repair-radio-camera']),maxCostUsd:z.number().finite().min(0).max(CUT_MAX_USD).optional(),shotId:z.string().optional(),expectedAsset:z.string().regex(/^[a-f0-9]{64}$/).optional(),cropPreset:z.enum(['left','center','right']).optional()}).strict().parse(raw);
+ const input=z.object({action:z.enum(['prepare','preflight','start','stop','resume','accept-check','repair-text','repair-duplicate','repair-framing','crop-closeup','repair-radio-camera']),maxCostUsd:z.number().finite().min(0).max(CUT_MAX_USD).optional(),shotId:z.string().optional(),expectedAsset:z.string().regex(/^[a-f0-9]{64}$/).optional(),cropPreset:z.enum(['left','center','right','original-radio']).optional()}).strict().parse(raw);
  if(input.action==='prepare')return {cut:await prepareCut(store)};
  if(input.action==='preflight')return {cut:await readCut(store),quote:await preflightCut(store)};
  if(input.action==='start'){if(input.maxCostUsd===undefined)throw new WaveSpeedError('PRICE_CHANGED',409);return {cut:await authorizeCut(store,input.maxCostUsd)};}
@@ -233,7 +233,7 @@ export async function cutAction(raw:unknown,store:R2VideoStore){
   }
   if(input.action==='crop-closeup'){
    const shot=c.shots[c.index];
-   if(!['STOPPED','PAUSED'].includes(c.status)||c.budget!=='RESERVED'||shot?.id!==input.shotId||!shot.raw||!shot.cleaned||!shot.asset||shot.asset!==input.expectedAsset||!input.cropPreset||c.shots.slice(c.index+1).some(s=>s.asset||(s.frameFrom===shot.id&&(s.image||s.raw)))||Object.values(c.tasks).some(t=>['SUBMITTING','UNCERTAIN','FAILED'].includes(t.status)))throw new WaveSpeedError('CUT_REVIEW_REQUIRED',409);
+   if(!['STOPPED','PAUSED'].includes(c.status)||c.budget!=='RESERVED'||shot?.id!==input.shotId||!shot.raw||!shot.cleaned||!shot.asset||shot.asset!==input.expectedAsset||!input.cropPreset||(input.cropPreset==='original-radio'&&shot.raw!=='130e15c7198f80b8581fdcf63d7061d978bcda181d9390847f0df2c8a90733c0')||c.shots.slice(c.index+1).some(s=>s.asset||(s.frameFrom===shot.id&&(s.image||s.raw)))||Object.values(c.tasks).some(t=>['SUBMITTING','UNCERTAIN','FAILED'].includes(t.status)))throw new WaveSpeedError('CUT_REVIEW_REQUIRED',409);
    // Always recrop the preserved source, never progressively degrade an earlier crop.
    return {...c,status:'QUEUED',workflowId:undefined,error:undefined,master:undefined,duration:undefined,shots:c.shots.map(s=>s.id===shot.id?{...s,previousAsset:s.asset,asset:undefined,lastFrame:undefined,check:undefined,phase:'CHECK',cropPreset:input.cropPreset,manualReviewRequired:true}:s)};
   }

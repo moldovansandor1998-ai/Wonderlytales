@@ -49,7 +49,7 @@ export async function prepareCutCleanup(store:R2VideoStore,s:CutShot){
 export async function finishCutShot(store:R2VideoStore,s:CutShot){
  return tempMedia(async dir=>{
   const file=join(dir,'source.mp4'),out=join(dir,'finished.mp4');
-  await writeFile(file,await store.assetBytes(s.cleaned??s.raw??s.source!,'mp4'));
+  await writeFile(file,await store.assetBytes(s.cropPreset==='original-radio'?s.raw!:s.cleaned??s.raw??s.source!,'mp4'));
   const info=await mediaInfo(file),start=s.kind==='reuse'?(s.start??0):0;
   const seconds=s.kind==='reuse'?Math.min(s.end??info.duration,info.duration)-start:s.seconds;
   if(seconds<=0||info.duration+1/24<start+seconds)throw new WaveSpeedError('CUT_VIDEO_TOO_SHORT');
@@ -66,7 +66,7 @@ export async function finishCutShot(store:R2VideoStore,s:CutShot){
   }
   else if(!info.audio)args.push('-f','lavfi','-i','anullsrc=r=48000:cl=stereo');
   const audio=replacement||useExtraAudio||!info.audio?'1:a:0':'0:a:0';
-  const framing=s.cropPreset?`crop=1280:720:${{left:0,center:320,right:640}[s.cropPreset]}:0,`+fit:s.framingRepair==='felix-bag'?'crop=1600:900:0:0,'+fit:s.framingRepair==='felix-phone'?'crop=1408:792:128:120,'+fit:fit;
+  const framing=s.cropPreset?`crop=1280:720:${{left:0,center:320,right:640,'original-radio':320}[s.cropPreset]}:${s.cropPreset==='original-radio'?120:0},`+fit:s.framingRepair==='felix-bag'?'crop=1600:900:0:0,'+fit:s.framingRepair==='felix-phone'?'crop=1408:792:128:120,'+fit:fit;
   // Keep words intact: shot length comes from the complete decoded MP3 + handles.
   // Original generated voices are replaced with the exact assigned character recording.
   await run([...args,'-ss',String(start),'-t',String(seconds),'-map','0:v:0','-map',audio,'-vf',framing,'-c:v','libx264','-preset','veryfast','-crf','20','-pix_fmt','yuv420p','-r','24','-af',`aresample=48000,aformat=channel_layouts=stereo,apad,atrim=0:${seconds},afade=t=in:d=0.015,afade=t=out:st=${Math.max(0,seconds-.035)}:d=0.035,alimiter=limit=0.95:level=false`,'-c:a','aac','-b:a','192k','-ar','48000','-ac','2','-movflags','+faststart',out]);

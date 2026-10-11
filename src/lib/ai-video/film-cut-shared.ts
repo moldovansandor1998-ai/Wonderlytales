@@ -13,7 +13,7 @@ export type CutShot={
  frameFrom?:string;recording?:string;image?:string;audio?:string;source?:string;raw?:string;cleaned?:string;asset?:string;lastFrame?:string;
  previousAsset?:string;manualReviewRequired?:boolean;
  framingRepair?:'felix-bag'|'felix-phone';
- cropPreset?:'left'|'center'|'right';
+ cropPreset?:'left'|'center'|'right'|'original-radio';
  previousAttempt?:{id:string;image:string;raw:string};priorVideoCost?:number;
  cleanupInput?:string;cleanupSeconds?:number;
  objectRepair?:'mira-right-duplicate';objectMask?:string;objectCleaned?:string;
