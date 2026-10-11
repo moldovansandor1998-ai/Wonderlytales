@@ -9,7 +9,7 @@ export type CastCharacter = { id:string; name:string; code:string; voice_id:stri
 export type CastVoice = { id:string; character_id:string; language:string; provider:string; voice_id:string|null; provider_voice_id:string|null; model:string|null; status:string };
 export type AccountVoice = { id:string; name:string; category:string };
 export function characterVoice(character:CastCharacter, voices:CastVoice[]) {
-  const own=voices.filter(v=>v.character_id===character.id && v.language==='hu' && v.provider==='elevenlabs');
+  const own=voices.filter(v=>v.character_id===character.id && v.language==='hu' && v.provider==='elevenlabs' && !['TEMPORARY_WORK_TRACK','RETIRED'].includes(v.status));
   const voice=character.voice_id ? own.find(v=>v.id===character.voice_id) : own.length===1 ? own[0] : undefined;
   if(!voice) return null;
   const id=voice.provider_voice_id || voice.voice_id;

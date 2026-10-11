@@ -22,6 +22,10 @@ const taskSchema = z.object({ id: z.string().regex(/^[A-Za-z0-9_-]{1,160}$/),
   status: z.enum(['created', 'pending', 'queued', 'processing', 'running', 'completed', 'failed', 'cancelled', 'timeout', 'deleted']),
   outputs: z.array(z.string()).optional(), error: z.string().optional() });
 export type WaveSpeedTask = z.infer<typeof taskSchema>;
+const creativeTaskSchema=taskSchema.extend({outputs:z.array(z.union([z.string(),z.record(z.unknown())])).optional()});
+export type CreativeTask=z.infer<typeof creativeTaskSchema>;
+export const CREATIVE_MODELS=['bytedance/seedream-v4.5','bytedance/seedream-v4.5/edit','wavespeed-ai/molmo2/video-understanding'] as const;
+export type CreativeModel=typeof CREATIVE_MODELS[number];
 export class WaveSpeedClient {
   constructor(private key: string) {
     if (!key.trim()) throw new WaveSpeedError('WAVESPEED_NOT_CONFIGURED', 503);
@@ -48,6 +52,20 @@ export class WaveSpeedClient {
   }
   async balance(): Promise<number> {
     return z.object({ balance: z.number().finite().nonnegative() }).parse(await this.call('balance')).balance;
+  }
+  async creativePrice(model:CreativeModel,inputs:Record<string,unknown>) {
+    if(!CREATIVE_MODELS.includes(model))throw new WaveSpeedError('INVALID_MODEL');
+    const data=z.object({currency:z.literal('USD'),discounted_price:z.number().finite().nonnegative()}).parse(await this.call('model/price',{model_id:model,inputs}));
+    return data.discounted_price;
+  }
+  async creativeSubmit(model:CreativeModel,inputs:Record<string,unknown>):Promise<CreativeTask> {
+    if(!CREATIVE_MODELS.includes(model))throw new WaveSpeedError('INVALID_MODEL');
+    return creativeTaskSchema.parse(await this.call(model,inputs));
+  }
+  async creativeResult(id:string):Promise<CreativeTask> {
+    if(!/^[A-Za-z0-9_-]{1,160}$/.test(id))throw new WaveSpeedError('INVALID_TASK',400);
+    const task=creativeTaskSchema.parse(await this.call(`predictions/${id}/result`));
+    if(task.id!==id)throw new WaveSpeedError('INVALID_TASK');return task;
   }
   async price(inputs: ReturnType<typeof waveSpeedPayload>): Promise<number> {
     const quote = z.object({ model_id: z.literal(WAVESPEED_MODEL), currency: z.literal('USD'),

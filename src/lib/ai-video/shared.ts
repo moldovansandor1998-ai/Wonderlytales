@@ -12,6 +12,8 @@ export interface VideoJob extends VideoInput {
   requestHash: string; model: string; status: VideoStatus; createdAt: string;
   estimatedCostUsd: number; taskId?: string; outputUrl?: string; error?: string;
   mediaVerified: false; productionApproved: false;
+  archived?:boolean;
+  continuityNote?:string;
   transcript?: { status: "SUBMITTING" | "PROCESSING" | "COMPLETED" | "FAILED" | "UNCERTAIN"; taskId?: string; text?: string; estimatedCostUsd: number };
 }
 export const TERMINAL_STATUSES: VideoStatus[] = ['COMPLETED', 'FAILED', 'CANCELLED', 'BLOCKED_BUDGET', 'SUBMISSION_UNCERTAIN'];
