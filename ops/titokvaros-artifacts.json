@@ -10,5 +10,35 @@
     "sha256": "0abff6901802657a1ca0ee8b48fca9af72bfad6bd8be7776cdd8400a10e76e7b",
     "bytes": 46084,
     "readback_verified": true
+  },
+  {
+    "key": "native/S1E1/TITOKVAROS/V001/TV_MASTER_V001.blend",
+    "sha256": "a0b93d60446ca5290b06590c4a35096688e2f0f1fe2a8b2d1a599b1412784861",
+    "bytes": 34970301,
+    "readback_verified": true
+  },
+  {
+    "key": "native/S1E1/TITOKVAROS/V001/TV_model_proof_V001.png",
+    "sha256": "2800589c8e13e78c12b3d57a71229a490515cf22222b4b839a62c87320058531",
+    "bytes": 1242849,
+    "readback_verified": true
+  },
+  {
+    "key": "native/S1E1/TITOKVAROS/V001/asset_audit.json",
+    "sha256": "6496115274b3becd8b9e25e634f47d8bcefff56dfc603ddb1a57567e2ccc9e5e",
+    "bytes": 34937,
+    "readback_verified": true
+  },
+  {
+    "key": "native/S1E1/TITOKVAROS/V001/TV_ANIMATED_V001.blend",
+    "sha256": "6a359a8282160407572fe47a4f14a38d804cff3bddd3c152a68b9987cff1814e",
+    "bytes": 97094402,
+    "readback_verified": true
+  },
+  {
+    "key": "native/S1E1/TITOKVAROS/V001/motion_audit.json",
+    "sha256": "4e61f2744f9f08cc106c487f71f07598220cd45a767e2354f57ba357299a5625",
+    "bytes": 405,
+    "readback_verified": true
   }
 ]

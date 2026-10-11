@@ -1,0 +1,16 @@
+{
+  "series": "TITOKVAROS",
+  "stage": "DIAGNOSTIC_ONLY",
+  "production_approved": false,
+  "scene_key": "native/S1E1/TITOKVAROS/V001/TV_ANIMATED_V001.blend",
+  "scene_sha256": "6a359a8282160407572fe47a4f14a38d804cff3bddd3c152a68b9987cff1814e",
+  "renderer_revision": "e3cb4348e93116c5cf56c3c9c9fa8b6a3cd2e8da",
+  "jobs": [
+    {
+      "id": "TV_GAIT_V001",
+      "frame_start": 1,
+      "frame_end": 96,
+      "purpose": "Four-second actual native gait diagnostic; not the final demo"
+    }
+  ]
+}

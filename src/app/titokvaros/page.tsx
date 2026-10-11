@@ -4,15 +4,17 @@ import { titokvarosBible as bible, titokvarosDemo as demo, titokvarosIds, voiceD
 import { readVoiceAudition, type VoiceAudition } from '@/lib/titokvarosVoices';
 import { PageTitle, Card, Badge } from '@/components/ui';
 import { ActionButton } from '@/components/forms';
-import { designVoiceAction,selectVoiceAction,recordDemoLineAction,inspectVoiceAccountAction } from './actions';
+import { designVoiceAction,selectVoiceAction,recordDemoLineAction,inspectVoiceAccountAction,submitDemoRenderAction,pollDemoRenderAction } from './actions';
+import { titokvarosRenderManifest, readDemoRender, type DemoRender } from '@/lib/titokvarosRender';
 import { readDemoLine } from '@/lib/titokvarosAudio';
 export const dynamic='force-dynamic';
 export const maxDuration=300;
 export default async function Titokvaros(){
  await requireStudioUser();
- const [auditions,recordings]=await Promise.all([
+ const [auditions,recordings,renders]=await Promise.all([
   Promise.all(Object.keys(voiceDesigns).map(async code=>({code,saved:await readVoiceAudition(code).catch(():VoiceAudition=>({status:'READ_FAILED',code,error:'A mentett hang állapota nem olvasható; új fizetős kérés nem indul.'}))}))),
-  Promise.all(demo.dialogue.map(line=>readDemoLine(line.id).catch(()=>({id:line.id,status:'READ_FAILED'}))))
+  Promise.all(demo.dialogue.map(line=>readDemoLine(line.id).catch(()=>({id:line.id,status:'READ_FAILED'})))),
+  Promise.all(titokvarosRenderManifest.jobs.map(job=>readDemoRender(job.id).catch(():DemoRender=>({id:job.id,status:'READ_FAILED'}))))
  ]);
  return <>
   <PageTitle title="WonderlyTales: Titokváros" sub="Új világ, nyolc állatfőszereplő, hat egész estés kaland. A Csodakapu archívuma megmarad."/>
@@ -26,6 +28,7 @@ export default async function Titokvaros(){
   <Card className="my-6"><h2 className="text-xl font-semibold mb-3">A város</h2><p>{bible.premise}</p><div className="grid md:grid-cols-2 gap-4 mt-4">{bible.districts.map(d=><div key={d.code}><h3 className="font-semibold">{d.name} — {d.function}</h3><p className="text-sm text-zinc-400">{d.look}</p></div>)}</div></Card>
   <Card className="my-6"><h2 className="text-xl font-semibold mb-3">Első évad</h2>{bible.season.map(e=><div key={e.number} className="mb-4"><h3 className="font-semibold">{e.number}. {e.title}</h3><p>{e.adventure}</p><p className="text-sm text-zinc-400">{e.emotion}</p></div>)}<p className="text-amber-300">Filmenként 60 perc a cél, legalább 40 perc valódi történettel. A kész játékidő még nincs megmérve.</p></Card>
   <Card className="my-6"><h2 className="text-xl font-semibold">48 másodperces bemutatójelenet</h2><p className="my-3">{demo.title} · 7 beállítás · Mira, Brúnó és Kipp · Rézrakpart</p><p>A jelenet elkészülte és elfogadása előtt a teljes film gyártása várakozik.</p><a className="text-amber-400 inline-block my-3" href="/api/titokvaros/artifact?file=screenplay">Az első film teljes magyar forgatókönyve · TXT · első változat</a>{demo.dialogue.map((l,i)=><div className="my-4" key={l.id}><p><strong>{bible.characters.find(c=>c.code===l.character)?.name}:</strong> {l.text}</p><p className="text-xs text-zinc-400 my-1">{l.direction}</p>{recordings[i]?.status==='RECORDED_PENDING_REVIEW'?<audio controls preload="none" src={`/api/titokvaros/artifact?line=${l.id}`}/>:recordings[i]?<p>{recordings[i]?.status}</p>:auditions.find(a=>a.code===l.character)?.saved?.voice_id?<ActionButton label="Mondat felvétele időzítéssel" action={recordDemoLineAction.bind(null,l.id)}/>:null}</div>)}</Card>
+  <Card className="my-6"><h2 className="text-xl font-semibold">Natív 3D mozgásellenőrzés</h2><p className="text-sm text-zinc-400 my-3">Rövid technikai próba. A karakterek és a mozgás még nem filmes minőségűek; a 48 másodperces bemutató minőségi ellenőrzése nyitott.</p>{titokvarosRenderManifest.jobs.map((job,i)=><div className="my-3" key={job.id}><p className="mb-2">{job.id} · {((job.frame_end-job.frame_start+1)/24).toFixed(1)} másodperc · Full HD · 24 fps</p>{renders[i]?<><p>{renders[i]?.status}</p>{renders[i]?.error&&<p className="text-red-300">{renders[i]?.error}</p>}{renders[i]?.provider_job_id&&renders[i]?.status!=='RENDERED_PENDING_QC'&&<ActionButton label="Távoli állapot frissítése" action={pollDemoRenderAction.bind(null,job.id)}/>} {renders[i]?.clip_key&&<video controls preload="metadata" className="w-full max-w-3xl my-3" src={`/api/titokvaros/artifact?render=${job.id}`}/>}</>:<ActionButton label="Natív mozgáspróba renderelése" action={submitDemoRenderAction.bind(null,job.id)}/>}</div>)}</Card>
   <Card className="my-6"><h2 className="text-xl font-semibold">Új magyar karakterhangok</h2><p className="text-sm text-zinc-400 my-3">Eredeti hangtervek. A próbák meghallgatása után választható ki a karakter állandó hangja.</p><ActionButton label="Hanghelyek és mentett hangok ellenőrzése" action={inspectVoiceAccountAction}/>{auditions.map(({code,saved})=><section className="border-t border-zinc-800 py-4" key={code}><h3 className="font-semibold">{bible.characters.find(c=>c.code===code)?.name}</h3>{saved?<p className="text-sm my-2">{saved.status}{saved.error?`: ${saved.error}`:''}</p>:<ActionButton label="Három hangpróba készítése" action={designVoiceAction.bind(null,code)}/>} {saved?.previews?.map((p,i)=><div key={p.id} className="my-3"><p>Változat {i+1}</p><audio controls preload="none" src={`/api/titokvaros/artifact?voice=${code}&preview=${i}`}/>{!saved.voice_id&&<ActionButton label={`Változat ${i+1} mentése karakterhangként`} action={selectVoiceAction.bind(null,code,i)}/>}</div>)}</section>)}</Card>
  </>;
 }
