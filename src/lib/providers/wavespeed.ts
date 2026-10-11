@@ -14,7 +14,7 @@ export const videoInputSchema = z.object({
 }).strict();
 export function waveSpeedPayload(req: VideoInput, image: string, endImage?: string) {
   videoInputSchema.parse(req);
-  return { image, prompt: req.prompt, negative_prompt: NEGATIVE_PROMPT,
+  return { image, prompt: `${req.prompt} Audio rule: ambience, effects and music only. No spoken words, dialogue or singing. Character speech is recorded separately with the assigned ElevenLabs voice.`, negative_prompt: `${NEGATIVE_PROMPT} Speech, dialogue, singing.`,
     duration: req.duration, sound: req.sound, cfg_scale: 0.5, shot_type: 'customize',
     ...(endImage ? { end_image: endImage } : {}) };
 }
@@ -37,6 +37,14 @@ export class WaveSpeedClient {
     const result = z.object({ code: z.number(), data: z.unknown() }).safeParse(await r.json());
     if (!result.success || result.data.code !== 200) throw new WaveSpeedError('WAVESPEED_REQUEST_FAILED');
     return result.data.data;
+  }
+  async transcriptionPrice(video: string): Promise<number> {
+    const data = z.object({ currency: z.literal('USD'), discounted_price: z.number().finite().nonnegative() }).parse(
+      await this.call('model/price',{model_id:'wavespeed-ai/openai-whisper-with-video',inputs:{video,language:'auto',task:'transcribe',enable_timestamps:true}}));
+    return data.discounted_price;
+  }
+  async transcribe(video: string): Promise<WaveSpeedTask> {
+    return taskSchema.parse(await this.call('wavespeed-ai/openai-whisper-with-video',{video,language:'auto',task:'transcribe',enable_timestamps:true}));
   }
   async balance(): Promise<number> {
     return z.object({ balance: z.number().finite().nonnegative() }).parse(await this.call('balance')).balance;

@@ -1,7 +1,7 @@
 -- WonderlyTales ONLY. DML applied 2026-10-11 after official provider pricing review.
 -- Does not change the shared daily limit or other service ceilings.
 update production_private.budget_policy
-set service_ceilings = service_ceilings || '{"wavespeed_kling":1.68}'::jsonb,
+set service_ceilings = service_ceilings || '{"wavespeed_kling":1.68,"wavespeed_transcript":0.03}'::jsonb,
     updated_at = now()
 where id = true and daily_limit_usd = 200
   and exists (select 1 from public.projects

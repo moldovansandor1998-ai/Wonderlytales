@@ -114,4 +114,26 @@ export class R2VideoStore implements VideoStore {
     imageMetadata(image.bytes);
     return getSignedUrl(this.client, new GetObjectCommand({ Bucket: this.bucket, Key: this.imageKey(sha) }), { expiresIn: 86400 });
   }
+  private dialogueKey(id:string,extension:string) {
+    if(!/^[a-f0-9]{64}$/.test(id))throw new WaveSpeedError('INVALID_INPUT',400);
+    return `${this.prefix}dialogue/${id}.${extension}`;
+  }
+  async readDialogue<T>(id:string):Promise<T|null> {
+    try {const r=await this.client.send(new GetObjectCommand({Bucket:this.bucket,Key:this.dialogueKey(id,'json')}));return JSON.parse(await r.Body!.transformToString());}
+    catch(e){if(status(e)===404)return null;throw e;}
+  }
+  async claimDialogue(id:string,value:unknown) {
+    try {await this.client.send(new PutObjectCommand({Bucket:this.bucket,Key:this.dialogueKey(id,'json'),Body:JSON.stringify(value),ContentType:'application/json',IfNoneMatch:'*'}));return true;}
+    catch(e){if(status(e)===409||status(e)===412)return false;throw e;}
+  }
+  async saveDialogue(id:string,value:unknown) {
+    await this.client.send(new PutObjectCommand({Bucket:this.bucket,Key:this.dialogueKey(id,'json'),Body:JSON.stringify(value),ContentType:'application/json'}));
+  }
+  async putDialogueAudio(id:string,bytes:Buffer) {
+    await this.client.send(new PutObjectCommand({Bucket:this.bucket,Key:this.dialogueKey(id,'mp3'),Body:bytes,ContentType:'audio/mpeg',Metadata:{sha256:digest(bytes)}}));
+  }
+  async dialogueAudio(id:string) {
+    const r=await this.client.send(new GetObjectCommand({Bucket:this.bucket,Key:this.dialogueKey(id,'mp3')}));
+    return Buffer.from(await r.Body!.transformToByteArray());
+  }
 }

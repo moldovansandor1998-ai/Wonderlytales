@@ -11,7 +11,9 @@ and redeploy. The existing R2 settings and Supabase Studio authorization are reu
 The application only reports key presence; it cannot display or save a key.
 Use the Connection refresh button: it calls the provider balance API, without
 buying credits or starting a generation. A valid funded key is required for a live
-provider test. No WaveSpeed key was available when this integration was deployed.
+provider test. The user subsequently supplied the project key; it is configured
+as a WonderlyTales-only Production Secret. Live connection and 12.51 USD balance
+were verified. See the ops record for the current trial.
 
 ## User flow
 
@@ -62,3 +64,21 @@ See `ops/wavespeed-integration.json` for deployment and live verification eviden
 - https://wavespeed.ai/docs/docs-api/kwaivgi/kwaivgi-kling-v3.0-pro-image-to-video
 - https://wavespeed.ai/docs/pricing-api
 - https://wavespeed.ai/docs/check-balance
+
+## Character voice rule
+
+The user requires every character to retain their ElevenLabs voice. `/ai-video`
+now lists Titokváros characters and account voices through authenticated server
+requests. Voice selection updates only that character and preserves prior voice
+rows and recordings. An explicit foreign-character, missing, ambiguous or
+inconsistent mapping cannot generate speech. Existing single-character legacy
+assignments are retained, marked temporary where applicable.
+
+`/api/ai-video/dialogue` records Hungarian text (max 250 characters) using the
+resolved voice and stores character, voice row, provider ID, text, SHA and character
+timings. Same text/voice is cached; permanent conditional claims prevent duplicate
+paid requests. Existing `tts_dialogue` budget reserves $0.25. No secret is returned.
+The MP3 is separate; no automatic video lip sync or final assembly is claimed.
+Kling receives an explicit no-dialogue rule; its native audio is ambience/music.
+An optional Whisper video transcript check reserves at most $0.03, never retries
+an uncertain submission, and is not a pronunciation or lip-sync quality approval.

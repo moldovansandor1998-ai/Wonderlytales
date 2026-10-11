@@ -1,6 +1,7 @@
 'use client';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { FELIX_SCENES, STATUS_LABELS, TERMINAL_STATUSES, WAVESPEED_CEILING_USD, documentedPrice, type VideoInput, type VideoJob } from '@/lib/ai-video/shared';
+import CharacterVoices from './CharacterVoices';
 
 type UploadedImage = { sha256: string; width: number; height: number; mime: string };
 type Connection = { configured: boolean; connected: boolean; balance: number | null;
@@ -171,16 +172,23 @@ export default function VideoStudio() {
       });
       const frame = await uploadImage(new File([blob],`last-frame-${job.id}.png`,{type:'image/png'}));
       setImage(frame); setEndImage(null);
-      const next = Math.min(2,scene+1); setScene(next); setPrompt(FELIX_SCENES[next].prompt); setDuration(10);
+      const sourceScene = FELIX_SCENES.findIndex(s => s.prompt === job.prompt);
+      const next = Math.min(2,(sourceScene >= 0 ? sourceScene : scene)+1); setScene(next); setPrompt(FELIX_SCENES[next].prompt); setDuration(10);
       setNotice('Az elkészült videó utolsó dekódolt képkockája lett az új kiinduló kép. Ellenőrizd a következő jelenet leírását.');
     } catch (e) { setError(errorText(e)); }
     finally { video.removeAttribute('src'); video.load(); setBusy(''); }
+  }
+  async function transcript(job: VideoJob) {
+    setBusy('Beszéd ellenőrzése…');setError('');
+    try { mergeJob((await request<{job:VideoJob}>(`/jobs/${job.id}/transcript`,post())).job); }
+    catch(e) {setError(errorText(e));}
+    finally {setBusy('');}
   }
   const canGenerate = !!connection?.connected && !!connection.budget?.ready && connection.budget.remaining >= (connection.budget.reservationUsd ?? Infinity);
   return <div className="space-y-5">
     <section className={panel} aria-label="WaveSpeed kapcsolat">
       <div className="flex flex-wrap items-center justify-between gap-3"><div><h2 className="font-semibold">Kling 3.0 Pro · kép → videó</h2>
-        <p className="mt-1 text-sm text-zinc-400">5 vagy 10 másodperc · választható generált hang · saját kiinduló és zárókép</p></div>
+        <p className="mt-1 text-sm text-zinc-400">5 vagy 10 másodperc · választható zene és környezeti hangok · saját kiinduló és zárókép</p></div>
         <button className={secondary} disabled={!!busy} onClick={() => { setError(''); void refresh(); }}>Kapcsolat és előzmények frissítése</button></div>
       <p className={`mt-4 text-sm ${connection?.connected ? 'text-emerald-300' : 'text-amber-300'}`}>{!connection ? 'Kapcsolat ellenőrzése…' : connection.connected ? `Csatlakoztatva · WaveSpeed-egyenleg: ${connection.balance?.toFixed(2)} USD` : 'A bekötés elkészült. A WaveSpeed-kulcs megadása szükséges.'}</p>
       {connection && !connection.configured && <p className="mt-2 text-sm text-zinc-300">A WonderlyTales <a className="text-amber-400 underline" href="https://vercel.com/moldovansandor1998-ais-projects/wonderlytales/settings/environment-variables" target="_blank" rel="noreferrer">Vercel-beállításainál</a> add meg a <code>WAVESPEED_API_KEY</code> titkos változót a Production környezethez, majd telepítsd újra az oldalt. A kulcs a <a className="text-amber-400 underline" href="https://wavespeed.ai/accesskey" target="_blank" rel="noreferrer">WaveSpeed-fiókban</a> érhető el.</p>}
@@ -197,21 +205,23 @@ export default function VideoStudio() {
       </section>
       <section className={panel}><h2 className="font-semibold">2. Jelenet és hang</h2><label className="mt-4 block text-sm">Titokváros jelenetterv<select value={scene} className={field} onChange={e => { const i=Number(e.target.value);setScene(i);setPrompt(FELIX_SCENES[i].prompt);invalidate(); }}>{FELIX_SCENES.map((s,i)=><option key={s.title} value={i}>{s.title}</option>)}</select></label>
         <label className="mt-4 block text-sm">Mozgás, kamera és hang<textarea className={`${field} min-h-56`} maxLength={2500} minLength={10} value={prompt} onChange={e=>{setPrompt(e.target.value);invalidate();}}/></label><p className="mt-1 text-right text-xs text-zinc-500">{prompt.length} / 2500</p>
-        <div className="mt-3 flex flex-wrap gap-6 items-center"><label className="text-sm">Hossz<select className={`${field} !w-auto ml-3 !mt-0`} value={duration} onChange={e=>{setDuration(Number(e.target.value) as 5|10);invalidate();}}><option value={5}>5 mp</option><option value={10}>10 mp</option></select></label><label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={sound} onChange={e=>{setSound(e.target.checked);invalidate();}}/>Hang generálása</label></div>
+        <div className="mt-3 flex flex-wrap gap-6 items-center"><label className="text-sm">Hossz<select className={`${field} !w-auto ml-3 !mt-0`} value={duration} onChange={e=>{setDuration(Number(e.target.value) as 5|10);invalidate();}}><option value={5}>5 mp</option><option value={10}>10 mp</option></select></label><label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={sound} onChange={e=>{setSound(e.target.checked);invalidate();}}/>Zene és környezeti hangok</label></div>
         <p className="mt-4 text-sm text-zinc-400">Tájékoztató listaár: {documentedPrice(duration,sound).toFixed(2)} USD. Indítás előtt lekérjük a fiókod aktuális árát és egyenlegét.</p>
         {quote && <div className="mt-3 rounded bg-zinc-950 p-3 text-sm"><p>Aktuális becsült díj: <strong>{quote.price.toFixed(3)} USD</strong> · egyenleg: {quote.balance.toFixed(2)} USD</p><p className="mt-1 text-zinc-400">A napi keretből {quote.reservationUsd.toFixed(2)} USD foglalódik. A végleges díjat a WaveSpeed számlázza.</p></div>}
         <div className="mt-4 flex flex-wrap gap-3"><button type="button" className={secondary} disabled={!image || !canGenerate || prompt.trim().length<10} onClick={getQuote}>Aktuális díj lekérése</button><button type="button" className={btn} disabled={!quote || !canGenerate || quote.balance<quote.price} onClick={generate}>{duration} mp videó generálása</button></div>
-        <p className="mt-4 text-xs leading-5 text-zinc-400">A képet és a jelenetleírást a WaveSpeed dolgozza fel. A magyar beszéd, szájmozgás és karakterazonosság eredményét a kész videón kell ellenőrizni.</p>
+        <p className="mt-4 text-xs leading-5 text-zinc-400">A képet és a jelenetleírást a WaveSpeed dolgozza fel. A beszéd külön, az ElevenLabs karakterhangjával készül. A szájmozgást és karakterazonosságot a végső videón kell ellenőrizni.</p>
       </section>
     </fieldset>
+    <CharacterVoices/>
     {busy && <p role="status" aria-live="polite" className="text-amber-300">{busy}</p>}
     <section aria-label="Generált jelenetek" className="space-y-4"><h2 className="text-xl font-semibold">Jeleneteim</h2><p className="text-sm text-zinc-400">Az elkészült MP4-et mentsd le: a szolgáltatói videólink idővel lejárhat. A három 10 másodperces jelenet összevágása és a végső Full HD ellenőrzése külön lépés.</p>
       {!jobs.length && <p className={`${panel} text-zinc-400`}>Még nincs mentett WaveSpeed-generálásod.</p>}
-      {jobs.map(job=><article key={job.id} className={panel}><div className="flex flex-wrap justify-between gap-3"><h3 className="font-semibold">{job.duration} mp · {job.sound ? 'hanggal' : 'hang nélkül'}</h3><span className={job.status==='COMPLETED'?'text-emerald-300':'text-amber-300'}>{STATUS_LABELS[job.status]}</span></div><p className="mt-1 text-xs text-zinc-500">{new Date(job.createdAt).toLocaleString('hu-HU')} · becsült díj: {job.estimatedCostUsd.toFixed(3)} USD</p>
+      {jobs.map(job=><article key={job.id} className={panel}><div className="flex flex-wrap justify-between gap-3"><h3 className="font-semibold">{job.duration} mp · {job.sound ? 'hanggal' : 'hang nélkül'}</h3><span className={job.status==='COMPLETED'?'text-emerald-300':'text-amber-300'}>{STATUS_LABELS[job.status]}</span></div><p className="mt-1 text-xs text-zinc-500">{new Date(job.createdAt).toLocaleString('hu-HU', {timeZone:'Asia/Saigon'})} (Asia/Saigon) · becsült díj: {job.estimatedCostUsd.toFixed(3)} USD</p>
         {job.error && <p className="mt-3 text-sm text-amber-200">{job.error}</p>}
         {job.status==='SUBMITTING' && <p className="mt-3 text-sm text-amber-200">Ha a beküldés tartósan ebben az állapotban marad, előbb ellenőrizd a WaveSpeed előzményeit.</p>}
         {job.outputUrl && <video controls playsInline preload="metadata" className="my-4 max-h-[560px] w-full rounded bg-black" src={`/api/ai-video/jobs/${job.id}/media`}/>}
         <div className="mt-3 flex flex-wrap gap-3">{job.taskId && job.status!=='COMPLETED' && <button className={secondary} disabled={!!busy} onClick={()=>void pollOne(job.id)}>Állapot frissítése</button>}{job.outputUrl && <><a className={btn} href={`/api/ai-video/jobs/${job.id}/media`} target="_blank" rel="noreferrer">MP4 megnyitása / letöltés</a><button className={secondary} disabled={!!busy || !!pending} onClick={()=>void continueFromFrame(job)}>Folytatás az utolsó képkockából</button></>}</div>
+        {job.outputUrl && <div className="mt-4 border-t border-zinc-800 pt-4"><button className={secondary} disabled={!!busy || ['COMPLETED','FAILED','UNCERTAIN','SUBMITTING'].includes(job.transcript?.status ?? '')} onClick={()=>void transcript(job)}>{job.transcript?.status === 'PROCESSING' ? 'Átirat állapotának frissítése' : 'Beszéd felismerése · legfeljebb 0,03 USD'}</button>{job.transcript && <p className="mt-2 whitespace-pre-wrap text-sm text-zinc-300">{job.transcript.status === 'COMPLETED' ? (job.transcript.text || 'Nem talált felismerhető beszédet.') : job.transcript.status === 'PROCESSING' ? 'Beszédfelismerés folyamatban. A frissítés nem indít új fizetős feladatot.' : job.transcript.status === 'SUBMITTING' ? 'Beszédfelismerési kérés beküldése; új beküldés zárolva.' : 'A beszédellenőrzés nem fejeződött be. Nincs automatikus újraküldés.'}</p>}<p className="mt-2 text-xs text-zinc-500">Automatikus átirat; a kiejtést, színészi játékot és szájmozgást külön is meg kell hallgatni és nézni.</p></div>}
         <details className="mt-4 text-sm"><summary className="cursor-pointer text-zinc-400">Jelenetleírás és azonosítók</summary><p className="mt-3 whitespace-pre-wrap">{job.prompt}</p><p className="mt-3 break-all text-xs text-zinc-500">Munka: {job.id}{job.taskId ? ` · WaveSpeed: ${job.taskId}` : ''}</p></details>
       </article>)}
     </section>

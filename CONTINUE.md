@@ -1,6 +1,11 @@
 # WonderlyTales: Titokváros — authoritative continuation
 
 Updated 2026-10-11. Continue this existing repository and infrastructure.
+LATEST 11:06 Asia/Saigon: user likes the two AI clips and requests a 10-minute
+episode launch plan, with reusable 10s intro, 10s outro, episode number/title,
+strong ensemble story, rich city and lower cost. Read
+`production/wavespeed/10-minute-format.md`. This is a proposal, not a finished
+script or authorization to buy credits. Character-specific ElevenLabs rule remains.
 LATEST USER DIRECTION: connect WaveSpeed to WonderlyTales for the uploaded Félix
 image-to-video test. Only this project may be changed. Other projects are out of
 scope. Do not buy credits/subscriptions without approval.
@@ -10,11 +15,15 @@ scope. Do not buy credits/subscriptions without approval.
 `/ai-video` now implements private JPEG/PNG uploads, Kling 3.0 Pro 5/10s jobs,
 optional native sound/end frame, live price and balance checks, durable per-user
 R2 job states, safe status polling, MP4 access, and browser last-frame continuation
-(subject to source CDN CORS). Three Félix scene prompts include the exact HU line.
-This is an integration, NOT a generated or quality-approved 30s movie.
+(subject to source CDN CORS). Three Félix scene prompts provide motion only. Dialogue MUST use the character-assigned ElevenLabs voice.
+Two actual AI MP4 clips exist; no completed or quality-approved 30s film yet.
 
-Required activation: add server-only `WAVESPEED_API_KEY` as a Production Secret
-to Vercel project `wonderlytales`, then redeploy. It was absent during this work.
+Activation completed: user supplied the WonderlyTales-specific WaveSpeed key; it
+is saved as a Production Secret only in Vercel project `wonderlytales`. Deployment
+`dpl_DT53pcnaJGhCyoiPzYMrBPJarcoN` is READY. The authenticated UI verified a
+12.51 USD balance, the original Félix PNG upload, and a 1.680 USD live quote.
+First trial submitted as `af642e9e-f142-432e-bc56-2c9ed19f09a9`; reconcile it before
+any new attempt. Never duplicate this job. See liveTrial in the ops JSON.
 Never retrieve another project's secret through an application or deployment.
 The key must never be public, committed, logged or returned by an API.
 
@@ -22,7 +31,20 @@ Only WonderlyTales budget policy was updated, adding `wavespeed_kling: 1.68`;
 the shared $200/day cap and other service ceilings are unchanged. Prices are
 checked before every submit. Permanent conditional R2 claims prevent repeat
 charges after ambiguous submission; stale polls use ETag compare-and-swap.
-No WaveSpeed paid generation was run. No credit purchase or subscription change.
+First two WaveSpeed clips COMPLETED: tasks `0b6686d870854be18bce7731762602db` and
+`aab5fb7d490a4ac39d1d023db7236e9a`. Total debit 3.36 USD; balance 9.15 USD.
+Both original MP4s saved to ChatGPT files. Scene 1 sample frames retain identity.
+Scene 2 needs camera/continuity correction: running ends in a cropped extreme
+close-up and background figures lose animal clarity. Do not pass it as approved.
+
+LATEST voice rule: always use each character's assigned ElevenLabs voice.
+Added character TV_FELIX (`fc68c57c-443f-46d6-a509-4473ce7b0aa9`) to Titokváros.
+Félix currently has NO assigned voice; never borrow Mira/Brúnó/Kipp's voice.
+AI-video voice panel lists server-side ElevenLabs account voices and allows explicit
+character binding. Speech locks character + voice + text in immutable recordings,
+reserves existing tts_dialogue ceiling and never retries ambiguous paid calls.
+Kling prompts prohibit generated dialogue. Audio placement and lip sync remain
+separate, not automatically completed by this integration. No credit purchase or subscription change.
 Read `production/wavespeed/README.md` and `ops/wavespeed-integration.json`.
 
 The earlier Maya → Unreal handoff below is retained, but the active requested test

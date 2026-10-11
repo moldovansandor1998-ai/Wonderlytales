@@ -8,21 +8,71 @@
   },
   "feature": "/ai-video",
   "model": "kwaivgi/kling-v3.0-pro/image-to-video",
-  "activation": "WAVESPEED_API_KEY is missing from WonderlyTales production environment; add as Secret then redeploy",
-  "budget": { "dailyLimitUsd": 200, "service": "wavespeed_kling", "reservationUsd": 1.68, "paidGenerationsStarted": 0, "purchases": 0 },
+  "activation": "WAVESPEED_API_KEY configured as WonderlyTales Production Secret; provider connection verified in authenticated production UI",
+  "budget": {
+    "dailyLimitUsd": 200,
+    "service": "wavespeed_kling",
+    "reservationUsd": 1.68,
+    "paidGenerationsStarted": 2,
+    "purchases": 0
+  },
   "verification": {
-    "targetedTests": { "passed": 38, "failed": 0 },
+    "targetedTests": {
+      "passed": 46,
+      "failed": 0
+    },
     "typecheck": "PASS",
     "productionBuild": "PASS; existing Supabase Edge Runtime process.version warning",
-    "providerLiveGeneration": "NOT_RUN_MISSING_CREDENTIAL",
+    "providerLiveGeneration": "TWO_MP4_FILES_COMPLETED",
     "directLocalR2Probe": "BLOCKED_LOCAL_DNS_EAI_AGAIN; no storage success claimed",
-    "browser": "PENDING_DEPLOYMENT"
+    "browser": "PASS: /ai-video renders; 12.51 USD live WaveSpeed balance; real uploaded Felix PNG 1536x1024; exact request price 1.680 USD",
+    "productionR2": "PASS: original PNG upload/readback, permanent task claim, saved provider id and poll compare-and-swap observed in production UI"
   },
   "limits": [
-    "No generated MP4 or final 30-second movie yet",
+    "No completed final 30-second movie; two actual 10-second generated clips saved",
     "Provider result URLs are not automatically archived; download before expiration",
     "Last-frame browser extraction requires provider CDN CORS",
     "Source aspect ratio is preserved; original Felix image is 3:2",
     "Hungarian speech, lip sync, identity and cinematic quality require actual media review"
-  ]
+  ],
+  "deployment": {
+    "id": "dpl_DT53pcnaJGhCyoiPzYMrBPJarcoN",
+    "state": "READY",
+    "sourceCommit": "c02e2f5d2dc9855aa30d89d0701ebd19ccef0450",
+    "url": "https://wonderlytales.vercel.app/ai-video"
+  },
+  "liveTrial": {
+    "firstLocalJobId": "af642e9e-f142-432e-bc56-2c9ed19f09a9",
+    "status": "COMPLETED",
+    "duplicateSubmissionForbidden": true,
+    "firstProviderTaskId": "0b6686d870854be18bce7731762602db",
+    "actualFirstDebitUsd": 1.68,
+    "balanceAfterFirstSubmitUsd": 10.83,
+    "secondLocalJobId": "7b0d342b-28fe-4292-b387-153d728a7cb8",
+    "secondProviderTaskId": "aab5fb7d490a4ac39d1d023db7236e9a",
+    "balanceAfterSecondSubmitUsd": 9.15,
+    "clips": [
+      {
+        "name": "Felix_01_WaveSpeed.mp4",
+        "sha256": "c3a9dcecc32b23e9a480173a148835d2cd282a5e8a485ad26a3f71284f8bf78b",
+        "library_file_id": "libfile_98aa526df6dc81918bbca5f383e71878"
+      },
+      {
+        "name": "Felix_02_WaveSpeed.mp4",
+        "sha256": "86b0baed7dec62a4e68c319049154858f5743d5847bde86c5cfc4d1ce39a198c",
+        "library_file_id": "libfile_4d4747f5ae548191a2ffe95a63e51a89",
+        "qualityIssue": "Extreme close-up at end; inconsistent background animal clarity"
+      }
+    ],
+    "userFeedback": "2026-10-11 11:06 Asia/Saigon: user likes both clips and the visual direction; wants economical 10-minute episodes"
+  },
+  "characterVoice": {
+    "provider": "elevenlabs",
+    "policy": "Always assigned character voice; no generic voice fallback",
+    "felixCharacterId": "fc68c57c-443f-46d6-a509-4473ce7b0aa9",
+    "felixAssignment": "MISSING",
+    "nativeKlingDialogue": "prohibited",
+    "videoLipSync": "not implemented"
+  },
+  "episodePlan": "production/wavespeed/10-minute-format.md"
 }
