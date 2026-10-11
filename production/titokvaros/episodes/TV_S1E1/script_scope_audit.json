@@ -1,0 +1,198 @@
+{
+  "status": "NOT_A_RUNTIME_MEASUREMENT",
+  "dialogue_words": 1600,
+  "scene_count": 38,
+  "runtime_verified": false,
+  "scene_breakdown": [
+    {
+      "scene": "01. KÜLSŐ — RÉZSZIRTI FOLYÓTOROK, HAJNAL",
+      "dialogue_words": 41,
+      "total_words": 192
+    },
+    {
+      "scene": "02. BELSŐ — MIRA TÉRKÉPMŰHELYE, REGGEL",
+      "dialogue_words": 39,
+      "total_words": 185
+    },
+    {
+      "scene": "03. BELSŐ — MŰHELY, FOLYTATÁS",
+      "dialogue_words": 75,
+      "total_words": 168
+    },
+    {
+      "scene": "04. BELSŐ — VÁROSI LEVÉLTÁR",
+      "dialogue_words": 75,
+      "total_words": 203
+    },
+    {
+      "scene": "05. KÜLSŐ — VILLAMOSMŰHELY UDVARA",
+      "dialogue_words": 80,
+      "total_words": 165
+    },
+    {
+      "scene": "06. BELSŐ — FÉNYUDVAR HANGPRÓBÁJA",
+      "dialogue_words": 72,
+      "total_words": 173
+    },
+    {
+      "scene": "07. KÜLSŐ — RÉZRAKPART, KÉSŐ DÉLUTÁN",
+      "dialogue_words": 33,
+      "total_words": 151
+    },
+    {
+      "scene": "08. KÜLSŐ — AZ ELSZABADULT KOCSI",
+      "dialogue_words": 35,
+      "total_words": 235
+    },
+    {
+      "scene": "09. KÜLSŐ — A MENTÉS UTÁN",
+      "dialogue_words": 48,
+      "total_words": 146
+    },
+    {
+      "scene": "10. KÜLSŐ — VERA A RAKPARTON",
+      "dialogue_words": 98,
+      "total_words": 165
+    },
+    {
+      "scene": "11. KÜLSŐ — LOMBKÖRI LÉPCSŐK, ALKONY",
+      "dialogue_words": 64,
+      "total_words": 158
+    },
+    {
+      "scene": "12. BELSŐ — DORKA HAJÓJÁNAK KABINJA, ESTE",
+      "dialogue_words": 48,
+      "total_words": 148
+    },
+    {
+      "scene": "13. KÜLSŐ — SZOLGÁLATI AJTÓ A KIKÖTŐ FALÁBAN",
+      "dialogue_words": 30,
+      "total_words": 124
+    },
+    {
+      "scene": "14. BELSŐ — ELSŐ SZERVIZALAGÚT",
+      "dialogue_words": 31,
+      "total_words": 147
+    },
+    {
+      "scene": "15. BELSŐ — RÉGI KAPCSOLÓTEREM",
+      "dialogue_words": 31,
+      "total_words": 128
+    },
+    {
+      "scene": "16. BELSŐ — A MŰSZAKI ŐRJÁRAT",
+      "dialogue_words": 26,
+      "total_words": 132
+    },
+    {
+      "scene": "17. BELSŐ — A MOZGÓ ÁTJÁRÓ",
+      "dialogue_words": 17,
+      "total_words": 138
+    },
+    {
+      "scene": "18. BELSŐ — CSEND AZ ÁTJÁRÓ MÖGÖTT",
+      "dialogue_words": 51,
+      "total_words": 134
+    },
+    {
+      "scene": "19. KÜLSŐ — NÉRA A LEVÉLTÁR LÉPCSŐJÉN",
+      "dialogue_words": 42,
+      "total_words": 153
+    },
+    {
+      "scene": "20. BELSŐ — AZ ÖREG PERON",
+      "dialogue_words": 48,
+      "total_words": 122
+    },
+    {
+      "scene": "21. BELSŐ — ÁRON SZOBÁJA A PERON MELLETT",
+      "dialogue_words": 60,
+      "total_words": 148
+    },
+    {
+      "scene": "22. BELSŐ — A TÉRKÉP VALÓDI JELE",
+      "dialogue_words": 50,
+      "total_words": 142
+    },
+    {
+      "scene": "23. KÜLSŐ — ROZSDAMEZŐ, TILDA MŰHELYE",
+      "dialogue_words": 66,
+      "total_words": 143
+    },
+    {
+      "scene": "24. BELSŐ — A CSAPAT TERVE",
+      "dialogue_words": 70,
+      "total_words": 149
+    },
+    {
+      "scene": "25. KÜLSŐ — A RAKPART KIÜRÍTÉSE",
+      "dialogue_words": 46,
+      "total_words": 151
+    },
+    {
+      "scene": "26. BELSŐ — ÚTON A KETTŐS RETESZHEZ",
+      "dialogue_words": 23,
+      "total_words": 128
+    },
+    {
+      "scene": "27. BELSŐ — ALSÓ KAPUKAMRA",
+      "dialogue_words": 34,
+      "total_words": 127
+    },
+    {
+      "scene": "28. BELSŐ — FELSŐ MŰSZAKI FOLYOSÓ",
+      "dialogue_words": 28,
+      "total_words": 113
+    },
+    {
+      "scene": "29. KÜLSŐ — A VÍZIRÁNYÍTÓ TORONY",
+      "dialogue_words": 53,
+      "total_words": 137
+    },
+    {
+      "scene": "30. BELSŐ — A MEGSZAKADÓ KAPCSOLAT",
+      "dialogue_words": 16,
+      "total_words": 114
+    },
+    {
+      "scene": "31. BELSŐ — AZ ELSŐ PRÓBA",
+      "dialogue_words": 20,
+      "total_words": 135
+    },
+    {
+      "scene": "32. KÜLSŐ — DORKA UTOLSÓ FORDULÓJA",
+      "dialogue_words": 21,
+      "total_words": 117
+    },
+    {
+      "scene": "33. BELSŐ — A MÁSODIK KOPPANÁS",
+      "dialogue_words": 5,
+      "total_words": 191
+    },
+    {
+      "scene": "34. KÜLSŐ — KIÖMLŐ ÉS HAJÓ",
+      "dialogue_words": 12,
+      "total_words": 108
+    },
+    {
+      "scene": "35. KÜLSŐ — RÉZRAKPART, KÉSŐ ESTE",
+      "dialogue_words": 39,
+      "total_words": 118
+    },
+    {
+      "scene": "36. BELSŐ — BORKA PÉKSÉGE, ÉJJEL",
+      "dialogue_words": 41,
+      "total_words": 124
+    },
+    {
+      "scene": "37. KÜLSŐ — A VISSZAKERÜLT UTCA",
+      "dialogue_words": 23,
+      "total_words": 124
+    },
+    {
+      "scene": "38. BELSŐ — RÉGI PERON, ÉJJEL",
+      "dialogue_words": 9,
+      "total_words": 487
+    }
+  ]
+}

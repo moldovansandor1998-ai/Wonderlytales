@@ -53,3 +53,41 @@ if sample count or duration could produce feature-film quality.
 The next 48-second development cut must keep `production_approved=false`.
 Its purpose is to test actual Hungarian timing, scene editing and the complete
 native production path. It must not be labelled the finished professional demo.
+
+## Full-scene integration review, in progress
+
+The first 12-second chunk of V003 completed: 288 Full HD frames, real packed
+Hungarian audio, clip SHA
+`73d3eb4e339943e40a7a86e22a82382f8a8783fefddb2130f0802bd7bbe67665`.
+The actual video was decoded into a 24-image ordered sheet (2 fps). It shows
+continuous locomotion and a cut to dialogue, but it also exposes a performance
+bug: the head controller's local Z axis was used as if it were world yaw.
+Rigify's upright head bone has a different local basis. The assembler now
+converts the intended world rotation into the rest-bone basis. This correction
+belongs to a separate V004 source candidate; the current V003 integration movie
+must not be represented as containing it. Do not rerender the full film to
+hide the remaining blocking-model problems.
+
+The first continuous-garment remesh introduced shoulder crumpling and was
+rejected. A second experiment explicitly includes scapular bones and blends
+four influences; it requires visual evaluation before any promotion.
+
+The 48-second real sound mix measures -17.79 LUFS integrated and -2.94 dBTP
+true peak with ffmpeg loudnorm. This is a technical measurement only, not
+approval of voice acting, Hungarian pronunciation or the listening experience.
+The first screenplay contains about 1600 dialogue words under the mechanical
+uppercase-speaker count. It is a complete story draft, but not an established
+40–60-minute shooting script. A timed read and substantial dramaturgical work
+remain necessary; never fill the runtime with loops or artificially slow speech.
+
+V004 head correction was rendered at dialogue/contact frames 245 and 711:
+head turn direction is now readable, with eased transitions rather than abrupt
+angle switches. Source SHA
+`d9dbdb566f3b09680dc64a6d41f10293f5c851a5f038a053dc21a6026d034eda`.
+This source is preserved in R2, but has no full paid render and no approval.
+Both shoulder-union studies were rejected after real 3D frame inspection;
+the second still has visible tearing/crumpling. Their sources and review images
+are preserved in `TV_MODELING_STUDIES_V001.zip`. A proper shoulder topology and
+explicit deformation authoring are required; do not keep promoting remesh output.
+A new three-view concept sheet for Mira/Brúnó/Kipp is a sculpting reference, not
+proof of native model quality and not an exact engineering orthographic drawing.

@@ -178,5 +178,23 @@
     "sha256": "5b4e49ab289d95f31bd3e4d3a598a4fdcb948138f7611c6480f68cbd09796513",
     "bytes": 2417,
     "readback_verified": true
+  },
+  {
+    "key": "native/S1E1/TITOKVAROS/V001/TV_MODELING_STUDIES_V001.zip",
+    "sha256": "e54243c6651d65ebdde4c09a2fb116702711661313c097e6479b5560e09340fb",
+    "bytes": 16986064,
+    "readback_verified": true
+  },
+  {
+    "key": "native/S1E1/TITOKVAROS/V001/Titokvaros_turnarounds_V001.png",
+    "sha256": "1ee5415863edbbb55dcba3166bbf59a4038f654401ba924a6d16cf248d2978d8",
+    "bytes": 2006985,
+    "readback_verified": true
+  },
+  {
+    "key": "native/S1E1/TITOKVAROS/V001/TV_ANIMATED_V004.blend",
+    "sha256": "d9dbdb566f3b09680dc64a6d41f10293f5c851a5f038a053dc21a6026d034eda",
+    "bytes": 128879955,
+    "readback_verified": true
   }
 ]

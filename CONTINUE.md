@@ -149,3 +149,26 @@ Read-only `scripts/titokvaros-render-status.py --config <protected-config>
 --download` verifies/downloads completed clips and counts durable frame checkpoints.
 Current daily reservation readback: $69.50 on budget day 2026-10-11, not invoices.
 Full 48-second rendered movie remains pending until all four verified clips exist.
+
+## Actual V003 review findings
+
+PART1 finished (288 frames/12 seconds/audio), SHA recorded in QUALITY_REVIEW.
+Subsequent parts still pending at this checkpoint. Source inspection against
+actual video exposed incorrect head yaw-axis handling; fixed in assembler's
+V004 candidate with rest-basis conversion. The immutable V003 render remains
+an integration work copy, not an approved performance. V004 is not in the GPU
+queue. First fused-shoulder mesh failed review; second candidate is unapproved.
+First screenplay is about 1600 dialogue words, so do NOT imply that 40–60 minutes
+has been written/timed/proven. Full story arc exists; feature length is pending.
+Archived historical film runs are tagged and the Studio server blocks RESUME;
+PAUSE and all old media/history stay available. Three archive regression tests pass.
+
+V004 candidate persisted with readback SHA
+`d9dbdb566f3b09680dc64a6d41f10293f5c851a5f038a053dc21a6026d034eda`.
+It corrects head rotation basis and eases the conversational turns. Two actual
+rendered frames were inspected, but this is not a full revised video. Keep V003
+source attached to the current V003 movie; do not mislabel source/film versions.
+Both shoulder-union candidates were rejected; preserve the canonical master.
+Rejected studies zip and new three-view concept sheet persisted in R2; hashes
+are in ops/titokvaros-artifacts.json. Next modeling work needs authored shoulder
+edge flow, not another blind remesh or additional render samples.

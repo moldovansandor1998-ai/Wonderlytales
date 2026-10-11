@@ -28,12 +28,12 @@ export default async function Production() {
    <p className="mt-2 text-xs text-zinc-400">Az adatbázis vezérlője zárt böngésző és megszakadt Work mellett is fut. Blender a külön natív háttérfeldolgozón renderel; a vezérlő önmagában nem készít videót.</p>
   </Card>
   {(runs.data as FilmRun[]).map(r => { const p=filmProgress(r,tasks.data as FilmTask[]); return <Card key={r.id} className="mb-5">
-   <div className="flex gap-3 items-center flex-wrap"><h2 className="font-semibold text-lg">{r.title}</h2><Badge text={r.mode==="DIAGNOSTIC"?"Minőségvizsgálati próba":"Epizód"}/><Badge text={r.status}/><Badge text={p.approved?"Minőségileg elfogadott":"Minőségileg nincs elfogadva"} tone={p.approved?"green":"amber"}/></div>
+   <div className="flex gap-3 items-center flex-wrap"><h2 className="font-semibold text-lg">{r.title}</h2><Badge text={r.mode==="DIAGNOSTIC"?"Minőségvizsgálati próba":"Epizód"}/><Badge text={r.status}/>{r.quality_report.archived===true&&<Badge text="Csodakapu archívum"/>}<Badge text={p.approved?"Minőségileg elfogadott":"Minőségileg nincs elfogadva"} tone={p.approved?"green":"amber"}/></div>
    <p className="my-3">Hossz: {(p.seconds/60).toFixed(2)} perc · {r.scene_count} jelenet · {p.done}/{p.tasks} renderfeladat · {p.errors} hibás vagy blokkolt feladat</p>
    <progress value={p.percent} max={100} className="w-full h-3 accent-amber-400"/><p className="text-sm mt-1">{p.percent}% render kész. Ez nem a film minőségi készültsége.</p>
    <div className="flex gap-4 my-3">{r.output_key && <Link className="text-amber-400" href={`/api/production/video?run=${r.id}`} target="_blank">Elkészült videó megnyitása</Link>}
    {r.status==="ACTIVE" && <form action={controlFilm.bind(null,r.id,"PAUSE")}><button className="text-amber-400">Új feladatok szüneteltetése</button></form>}
-   {["HELD","PAUSED"].includes(r.status) && c.dispatch_enabled && c.endpoint_verified && (r.mode==="DIAGNOSTIC" || r.quality_report.production_approved===true) && <form action={controlFilm.bind(null,r.id,"RESUME")}><button className="text-amber-400">Folytatás</button></form>}</div>
+   {r.quality_report.archived!==true && ["HELD","PAUSED"].includes(r.status) && c.dispatch_enabled && c.endpoint_verified && (r.mode==="DIAGNOSTIC" || r.quality_report.production_approved===true) && <form action={controlFilm.bind(null,r.id,"RESUME")}><button className="text-amber-400">Folytatás</button></form>}</div>
    {r.error && <p className="text-red-400 my-2">{r.error}</p>}
    <details className="my-3"><summary className="cursor-pointer text-amber-400">Minőségi jelentés</summary><pre className="whitespace-pre-wrap text-xs mt-2">{JSON.stringify(r.quality_report,null,2)}</pre></details>
    <Table head={["Feladat","Jelenet","Állapot","Próbálkozás","Külső azonosító","Hiba"]}>

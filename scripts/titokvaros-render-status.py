@@ -13,9 +13,11 @@ for job in m['jobs']:
  try:state=json.loads(s.get_object(Bucket=c['S3_BUCKET'],Key='native/S1E1/TITOKVAROS/V001/jobs/'+job['id']+'.json')['Body'].read())
  except s.exceptions.NoSuchKey:summary.append({'id':job['id'],'status':'NOT_SUBMITTED'});continue
  if not state.get('provider_job_id'):summary.append({'id':job['id'],'status':state['status']});continue
- req=urllib.request.Request('https://api.runpod.ai/v2/cfog2x4xsd0adz/status/'+state['provider_job_id'],headers={'Authorization':'Bearer '+c['RUNPOD_API_KEY']})
- with urllib.request.urlopen(req,timeout=30) as r:d=json.load(r)
- (out/(job['id']+'.json')).write_text(json.dumps(d,indent=2))
+ cached=out/(job['id']+'.json');d=json.loads(cached.read_text()) if cached.exists() else {}
+ if d.get('status')!='COMPLETED':
+  req=urllib.request.Request('https://api.runpod.ai/v2/cfog2x4xsd0adz/status/'+state['provider_job_id'],headers={'Authorization':'Bearer '+c['RUNPOD_API_KEY']})
+  with urllib.request.urlopen(req,timeout=30) as r:d=json.load(r)
+  cached.write_text(json.dumps(d,indent=2))
  row={'id':job['id'],'provider_job_id':state['provider_job_id'],'status':d['status'],'execution_ms':d.get('executionTime')}
  if d.get('error'):row['error']=str(d['error'])[:1000]
  if d['status']=='COMPLETED':

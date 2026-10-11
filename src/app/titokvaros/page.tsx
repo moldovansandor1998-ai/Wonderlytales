@@ -20,7 +20,7 @@ export default async function Titokvaros(){
   <PageTitle title="WonderlyTales: Titokváros" sub="Új világ, nyolc állatfőszereplő, hat egész estés kaland. A Csodakapu archívuma megmarad."/>
   <Card className="mb-6"><div className="flex gap-3 mb-3"><Badge text="Fejlesztés alatt" tone="amber"/><Badge text="A filmminőség még nincs igazolva"/></div>
    <p className="mb-4">{bible.logline}</p>
-   <a href="/api/titokvaros/artifact?file=concept" target="_blank" className="text-amber-400">Mira, Brúnó, Kipp és Rézrakpart — látványterv</a><a href="/api/titokvaros/artifact?file=cast2" target="_blank" className="text-amber-400 ml-4">A további öt főszereplő látványterve</a>
+   <a href="/api/titokvaros/artifact?file=concept" target="_blank" className="text-amber-400">Mira, Brúnó, Kipp és Rézrakpart — látványterv</a><a href="/api/titokvaros/artifact?file=cast2" target="_blank" className="text-amber-400 ml-4">A további öt főszereplő látványterve</a><a href="/api/titokvaros/artifact?file=turnaround" target="_blank" className="text-amber-400 ml-4">Mira, Brúnó és Kipp — háromnézeti modellreferencia</a>
    <p className="mt-3 text-sm text-zinc-400">A látványterv a kívánt irányt mutatja. A 3D modellek, rigek és a 48 másodperces jelenet külön ellenőrzést kapnak.</p>
    <div className="flex flex-wrap gap-4 mt-4"><Link className="text-amber-400" href={`/series/${titokvarosIds.series}`}>Sorozat és epizódok</Link><Link className="text-amber-400" href="/production">Filmgyártás</Link><a className="text-amber-400" href="/api/titokvaros/artifact?file=master">Blender fejlesztési forrás</a><a className="text-amber-400" href="/api/titokvaros/artifact?file=proof">Első 3D modellpróba</a></div>
   </Card>

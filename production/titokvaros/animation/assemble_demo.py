@@ -4,7 +4,7 @@ Not production-approved. No imported old character, image slideshow or AI video.
 import argparse,json,math,sys,hashlib
 from pathlib import Path
 import bpy
-from mathutils import Vector,Matrix
+from mathutils import Vector,Matrix,Euler
 sys.path.insert(0,str(Path(__file__).resolve().parent))
 from build_native import cube,ellipsoid,curve,material,look_at,light,bind
 from motion_library import locomotion,expression,arm_direction,key,pose_position
@@ -92,13 +92,19 @@ def path(t):
 
 def set_gaze(rig,frame,t,code):
     yaw=(.13 if code=='MIRA' else -.13)*math.sin(t*.32);pitch=.025*math.sin(t*1.1)
-    if code=='MIRA' and 6<t<12:yaw=.28;pitch=-.04
-    if code=='BRUNO' and 8.5<t<13:yaw=-.28
-    if code=='KIPP' and 13<t<16:yaw=-.3;pitch=-.05
-    if code=='KIPP' and 25<t<32:yaw=-.38;pitch=.14
-    if code=='MIRA' and 27.8<t<32:yaw=.40;pitch=.03
-    if code=='KIPP' and 32<t<37:yaw=-.24;pitch=.06
-    pb=rig.pose.bones['head'];pb.rotation_euler=(pitch,.015*math.sin(t*.7),yaw);key(pb,frame)
+    def turn(a,b,y,p):
+        nonlocal yaw,pitch
+        ease=lambda x:max(0,min(1,x))**2*(3-2*max(0,min(1,x)))
+        weight=ease((t-a)/.6)*ease((b-t)/.6)
+        yaw=yaw*(1-weight)+y*weight;pitch=pitch*(1-weight)+p*weight
+    if code=='MIRA':turn(6,12,.75,-.04);turn(27.8,32,.95,.03)
+    if code=='BRUNO':turn(8.5,13,-.65,0)
+    if code=='KIPP':turn(13,16,-.6,-.05);turn(25,32,-.75,.14);turn(32,37,-.55,.06)
+    pb=rig.pose.bones['head'];basis=pb.bone.matrix_local.to_3x3()
+    # Rigify head local Y follows the upright bone; local Z is not world yaw.
+    # Convert intended world-axis acting into the controller's rest basis.
+    delta=Euler((pitch,.015*math.sin(t*.7),yaw),'XYZ').to_matrix()
+    pb.rotation_euler=(basis.inverted()@delta@basis).to_euler('XYZ');key(pb,frame)
     for side in ['L','R']:
         eye=rig.pose.bones['eye.'+side];eye.rotation_euler.x=.015*math.sin(t);eye.rotation_euler.z=.045*math.sin(t*.6);key(eye,frame)
         ear=rig.pose.bones['ear.'+side];ear.rotation_euler.y=.05*math.sin(t*1.7+(0 if side=='L' else 1));key(ear,frame)
@@ -214,8 +220,8 @@ def main():
             wav=Path(a.stems)/(name+'.wav')
             strip=scene.sequence_editor.strips.new_sound(name,str(wav.resolve()),channel=channel,frame_start=1);strip.sound.pack()
     scene['production_approved']=False;scene['review_stage']='ANIMATED_BLOCKING';scene['not_approved_reason']='Character modeling, anatomical wing folds and physical hand contact need further authoring.'
-    scene.frame_set(1);bpy.context.view_layer.update();bpy.ops.file.pack_all();bpy.ops.wm.save_as_mainfile(filepath=str(out/'TV_ANIMATED_V003.blend'))
-    report['blend_sha256']=hashlib.sha256((out/'TV_ANIMATED_V003.blend').read_bytes()).hexdigest();(out/'motion_audit.json').write_text(json.dumps(report,indent=2))
+    scene.frame_set(1);bpy.context.view_layer.update();bpy.ops.file.pack_all();bpy.ops.wm.save_as_mainfile(filepath=str(out/'TV_ANIMATED_V004.blend'))
+    report['blend_sha256']=hashlib.sha256((out/'TV_ANIMATED_V004.blend').read_bytes()).hexdigest();(out/'motion_audit.json').write_text(json.dumps(report,indent=2))
     print('TV_ANIMATION_BUILT '+json.dumps({'frames':1152,'dialogue':len(report['dialogue']),'production_approved':False}),flush=True)
 
 DEMO=json.loads((Path(__file__).resolve().parents[1]/'episodes/TV_S1E1/demo.json').read_text())
