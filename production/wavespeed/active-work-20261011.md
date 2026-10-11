@@ -1,3 +1,77 @@
+# Latest: character voices and required postproduction, 2026-10-11
+
+Only WonderlyTales was changed; Castora and every other project are out of scope.
+Production main d1a6ad83b2fcb4310c8845ec1f88ad74ec1bb7f0 reached READY
+(deployment dpl_CNAiKVsa33tmNMy1XH4LSpz1xRMA). Signed-in live studio verified at
+https://wonderlytales.vercel.app/ai-video.
+
+Implemented video -> fixed character speech -> WaveSpeed InfiniteTalk lip sync
+-> FFmpeg sound mix -> user review -> next-scene generation gate. Both UI and
+server enforce the gate. Reference images and all existing raw footage remain.
+Old TTS generation button was replaced with direction to the postproduction panel;
+legacy endpoint also refuses old unactivated character voices. Pending new voice
+activation blocks paid spoken postproduction. No paid lip-sync job was submitted.
+
+HU/EN variants retain distinct script, recording, mix, approval and export state.
+ALL 60 English script drafts were prepared through the live UI; success message
+confirmed. These drafts need per-scene language review and voices, not approval
+on the user's behalf. Changed Hungarian source can create editable empty English
+lines; they must be filled before approval. Intro CTA is included in both languages;
+its first four speech-free music seconds can be looped with crossfades to replace
+old speech without discarding the music. No new motion video was generated.
+
+Live FREE mix of story scene1 succeeded: asset
+2142e401042e79e090ada3ed8c16f634337edec9948f05f7ba0e8b85e55dac31.
+Browser decoded final MP4 at 1920x1080, 10s, readyState4, no media error.
+User approval remains pending. Seven raw cards were completed when observed
+(intro + six story scenes); the user may keep generating separately. Do not assume
+older counts in this document are still current.
+
+Lip sync is provider-native 720p and then fitted into the 1080p final output;
+the UI explicitly discloses this. Animal muzzle quality remains UNVERIFIED live.
+User review is mandatory. Audio/video fingerprint invalidates approval if the
+source, trims, language, lines, voice IDs, recordings or mix change. Mix-only edits
+reuse a matching completed lip-sync video. Uncertain paid requests never auto-retry.
+Full-episode export assembles six groups and one final MP4 per language only after
+all 60 current scene variants are approved; the full movie does NOT yet exist.
+
+Five new ElevenLabs voice designs are prepared, three samples each (15 total):
+Morzsi -> Felix, Lili -> Mira, Potty -> Nera, Zizi -> Tilda, Mark -> Oszkar.
+Canonical Hungarian accents are preserved in app voice names. All are original
+adult synthetic character voices with HU/EN identity prompts, V002 names.
+Old voices are still active and have NOT been renamed or removed. First attempted
+save refused with VOICE_REJECTED_VOICE_LIMIT_REACHED. Official subscription now
+confirmed voice_slots_used=10, voice_limit=10. The UI shows exact 10/10 capacity.
+
+BLOCKER: to activate new designed voices, permanently remove ONLY the five old
+allowlisted WonderlyTales voices. Browser permanent-deletion guidance requires
+an action-time confirmation. User has authorized redesign/replacement, but has
+NOT yet explicitly confirmed irreversible removal after this consequence was
+identified. DO NOT click the five confirmation checkboxes/replacement buttons
+until that confirmation. Other voices (including Dora and Zsofi) must stay.
+Existing recorded MP3s remain intact; deleted old voice IDs cannot be restored.
+The replacement backend validates exact old ID, name/prefix, current character
+mapping, capacity and edit quota, stores old metadata, and claims durably before
+calling deletion/create. All preview samples are private and retained.
+
+Budget policy retained existing daily $200 ceiling and timezone. Added per-service
+ceilings: voice_design .50, wavespeed_lipsync .66, translation .05 USD.
+Five design reservations are ceilings, not a statement of provider billed cost.
+No subscription, credit top-up, or new motion-scene generation was purchased.
+
+Verification: 39 targeted tests passed for the full feature, production build,
+typecheck and diff check passed. Following final small fixes, typecheck and 14
+relevant episode/postproduction/charge tests passed again. Local FFmpeg render,
+concat and intro music-loop checks passed. Both Next post routes trace the
+ffmpeg-static binary. Live 1080p mixing, all 60 English drafts and all 15 preview
+players verified. Full episode and animal lip sync remain unverified as noted.
+
+Next: obtain ONE confirmation covering the five permanent replacements, activate
+and verify each V002 mapping, then run a bounded live spoken lip-sync test with
+the new character voice and review actual output. User approves finished scenes.
+
+---
+
 # Live verification update
 
 Episode workshop released on main (feature commits 376ff4b6 and 19d3a016).
