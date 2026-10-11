@@ -55,9 +55,10 @@ export async function finishCutShot(store:R2VideoStore,s:CutShot){
   }
   else if(!info.audio)args.push('-f','lavfi','-i','anullsrc=r=48000:cl=stereo');
   const audio=replacement||useExtraAudio||!info.audio?'1:a:0':'0:a:0';
+  const framing=s.framingRepair==='felix-bag'?'crop=1600:900:0:0,'+fit:fit;
   // Keep words intact: shot length comes from the complete decoded MP3 + handles.
   // Original generated voices are replaced with the exact assigned character recording.
-  await run([...args,'-ss',String(start),'-t',String(seconds),'-map','0:v:0','-map',audio,'-vf',fit,'-c:v','libx264','-preset','veryfast','-crf','20','-pix_fmt','yuv420p','-r','24','-af',`aresample=48000,aformat=channel_layouts=stereo,apad,atrim=0:${seconds},afade=t=in:d=0.015,afade=t=out:st=${Math.max(0,seconds-.035)}:d=0.035,alimiter=limit=0.95:level=false`,'-c:a','aac','-b:a','192k','-ar','48000','-ac','2','-movflags','+faststart',out]);
+  await run([...args,'-ss',String(start),'-t',String(seconds),'-map','0:v:0','-map',audio,'-vf',framing,'-c:v','libx264','-preset','veryfast','-crf','20','-pix_fmt','yuv420p','-r','24','-af',`aresample=48000,aformat=channel_layouts=stereo,apad,atrim=0:${seconds},afade=t=in:d=0.015,afade=t=out:st=${Math.max(0,seconds-.035)}:d=0.035,alimiter=limit=0.95:level=false`,'-c:a','aac','-b:a','192k','-ar','48000','-ac','2','-movflags','+faststart',out]);
   const result=await mediaInfo(out);if(!result.audio||Math.abs(result.duration-seconds)>.1)throw new WaveSpeedError('CUT_MEDIA_DURATION_MISMATCH');
   return {asset:await storeFile(store,out,'mp4'),seconds};
  });

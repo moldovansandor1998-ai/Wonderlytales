@@ -35,3 +35,12 @@ it('parallel fixed-camera preparation keeps film order and shares one atomic tot
  expect(results.filter(r=>r.status==='rejected')).toHaveLength(1);expect(calls.submit).toHaveBeenCalledTimes(1);
  const next=(await s.readRecord()).value;expect(next.chargedUpperUsd).toBeCloseTo(.448);expect(next.index).toBe(0);expect(next.shots[2].asset).toBeUndefined();
 });
+it('free framing repair is scoped to the reviewed asset and preserves every paid task',async()=>{
+ const s=memory(),r=await s.readRecord(),shot=r.value.shots[0];
+ await s.writeRecord('film-cut',FILM_CUT_ID,{...r.value,status:'STOPPED',index:1,chargedUpperUsd:6.881,tasks:{pending:{status:'PROCESSING',price:.04,model:'frame',taskId:'keep-me'}},shots:[{...shot,raw:'raw',cleaned:'clean',asset:'different',lastFrame:'old',phase:'READY'}]},r.etag);
+ await expect(cutAction({action:'repair-framing',shotId:shot.id},s as unknown as R2VideoStore)).rejects.toThrow('CUT_REVIEW_REQUIRED');
+ const q=await s.readRecord();await s.writeRecord('film-cut',FILM_CUT_ID,{...q.value,shots:[{...q.value.shots[0],asset:'12f29b9fa6187176afbf22cd9e9dc143f9c05d992bd01b15d726f6cbae4ae97a'}]},q.etag);
+ const next=(await cutAction({action:'repair-framing',shotId:shot.id},s as unknown as R2VideoStore)).cut!;
+ expect(next.chargedUpperUsd).toBe(6.881);expect(next.authorizedUsd).toBe(10);expect(next.tasks.pending.taskId).toBe('keep-me');expect(next.index).toBe(0);
+ expect(next.shots[0]).toMatchObject({raw:'raw',cleaned:'clean',framingRepair:'felix-bag',manualReviewRequired:true});expect(next.shots[0].asset).toBeUndefined();expect(calls.submit).not.toHaveBeenCalled();
+});

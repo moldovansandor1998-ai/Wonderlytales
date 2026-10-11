@@ -12,6 +12,7 @@ export type CutShot={
  seconds:number;maxSeconds:number;reframe:boolean;environment:'street'|'workshop';
  frameFrom?:string;recording?:string;image?:string;audio?:string;source?:string;raw?:string;cleaned?:string;asset?:string;lastFrame?:string;
  previousAsset?:string;manualReviewRequired?:boolean;
+ framingRepair?:'felix-bag';
  objectRepair?:'mira-right-duplicate';objectMask?:string;objectCleaned?:string;
  sourceJob?:string;start?:number;end?:number;phase:'WAITING'|'AUDIO'|'FRAME'|'VIDEO'|'CHECK'|'READY';
  check?:{passed:boolean;text:string};
