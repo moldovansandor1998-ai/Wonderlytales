@@ -106,3 +106,13 @@ and uses 32 mm. Actual local 577/589 renders now show the complete cart and
 three leads without the foreground obstruction. This is a camera correction,
 not artistic approval. Only TV_CONTACT_V006_2S (565–612) should be submitted;
 no V005 diagnostic was sent. V006 retains the V005 corrected cargo trajectory.
+
+PART3 actual clip completed: 288 frames/12 s, SHA
+`8af4e3e0863eaf1ef7195aadef442f06fbea2dff834a0173b5d214195c1b7c0b`.
+24 decoded frames sampled at 2 fps show the V003 lamp occlusion at the start,
+then an extended largely static dialogue pose. Finger grip remains artificial;
+Kipp's wing fingers have no believable membrane fold. The blue light cue and
+arm gesture render, but there is insufficient weight, anticipation, reaction
+or escalation for the written rescue. The intended map handling and gap
+crossing in demo.json are NOT implemented performances. Camera/action text in
+that document is direction, not evidence that every action is in the movie.

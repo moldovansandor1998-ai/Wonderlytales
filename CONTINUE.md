@@ -187,3 +187,16 @@ short actual-video verification. It is not part of the 48-second V003 assembly.
 Do not rerender the entire weak-model movie merely to claim quality improvement.
 
 V006 keeps the V005 corrected cart, but moves the chase camera inside the lamp-post line. V005 frame 577 exposed an occluding pole. V006 source SHA 87d4cb87481052d73761d30f9416264e44532cc29597c3214ae04c5431f60389. The distinct short job is now TV_CONTACT_V006_2S (565–612); V005 was never submitted.
+
+## Latest active checkpoint
+
+PART1–3 completed, downloaded and hash/frame verified: 36 seconds of V003.
+PART4 `89430fee-2775-4213-a61a-4efa9742d9b6-u2` is still IN_PROGRESS.
+V006 two-second correction job `8fd969a2-96c3-4512-bcf2-7d9a9a03d4a7-u2`
+is submitted and queued. DO NOT resubmit either. Daily reservation readback
+is $72.00 (2026-10-11), not actual invoiced spend.
+Quality remains rejected. PART3 actual decoded video shows static acting and
+poor hand/wing contact; full details in QUALITY_REVIEW_V001.md. The Studio
+now exposes a candid quality checklist. `scripts/titokvaros-restore.py` restores
+only registered Titokváros assets and verifies size/SHA without overwriting
+different local files; two native library restores were actually verified.

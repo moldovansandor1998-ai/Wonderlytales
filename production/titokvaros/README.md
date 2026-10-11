@@ -1,6 +1,6 @@
 # TITOKVÁROS — independent series, native 3D
 
-User-authorized creative reset, 2026-10-11 Asia/Saigon. Existing Wonderlytales repository and infrastructure. No Csodakapu assets are inputs to this series.
+User-authorized creative reset, 2026-10-11 UTC. Existing Wonderlytales repository and infrastructure. No Csodakapu assets are inputs to this series.
 
 `bible/series.json` is the canonical creative contract. Names/designs are original proposals, not a legal clearance certificate. Existing Disney characters, city layouts and scenes are excluded. The concept board is visual development only; it is not proof of a rendered film.
 
@@ -49,8 +49,7 @@ measurements or a longer timeline cannot remove that hold.
 The original three Hungarian voice designs produced nine auditions. The
 existing ElevenLabs account has 10/10 custom voice slots occupied. Saving a
 new voice received HTTP 400. No old voice was deleted and no subscription
-upgrade was made. The original auditions are preserved in R2. New casting
-and actual timestamped dialogue remain pending; do not claim audio is done.
+upgrade was made. The original auditions are preserved in R2. Final original casting remains pending; temporary recorded dialogue exists as described below.
 
 2026-10-11 checkpoint: all eight real timestamped HU lines now exist under
 `dialogue/` in R2. Licensed temporary work-track casting uses Sarah/Brian/Will;
@@ -77,3 +76,45 @@ The tested ledger does not claim the existence of 500 finished scenes.
 native chunks. It creates exactly 1152 frames with the real 48-second audio mix,
 adds a visible development label and verifies full decode. It never pads time
 with repeated frames or marks the result production-approved.
+
+## Recovery and reproducible commands
+
+Read the current root `CONTINUE.md` first. Install the repository dependencies
+with `npm ci`; use official Blender 4.5.3 LTS with bundled Rigify. Configuration
+is an external protected JSON file containing existing R2 connection settings
+(and RUNPOD_API_KEY only for status reconciliation). Never put it inside Git.
+
+Restore only needed new artifacts, verifying their registered hashes:
+
+```sh
+python3 scripts/titokvaros-restore.py --config /protected/runtime.json \
+  --out data/titokvaros/restored TV_ANIMATED_V006.blend
+```
+
+For a source rebuild from the independently published libraries, restore the
+nine collection files listed in `published-libraries.json` plus
+`library_manifest.json` into one directory; restore actual dialogue with
+`scripts/titokvaros-download-audio.py`. The three original WAV stems live beside
+their registered sound mix. Do not generate voices again just because scratch
+is empty. Existing permanent R2 claims and recordings are authoritative.
+
+```sh
+blender -b --python production/titokvaros/animation/assemble_demo.py -- \
+  --libraries data/titokvaros/restored \
+  --audio data/titokvaros/dialogue --stems data/titokvaros/audio_stems \
+  --out data/titokvaros/rebuilt
+python3 scripts/titokvaros-render-status.py --config /protected/runtime.json \
+  --download --diagnostics
+```
+
+The assembler emits a NEW candidate, not an immutable released asset. A
+rebuild may have a different file hash. Use a new version before publishing;
+never replace the registered V003/V004/V005/V006 sources. Submit only through
+the authenticated Studio after source readback and a successful budget claim.
+The status command only polls existing provider ids; it never submits a job.
+`TV_CONTACT_V006_2S` is a separate 565–612-frame correction test and must not be
+inserted into the four-part V003 movie as if it shared the same source.
+
+Run `python3 scripts/titokvaros-assemble-review.py` only when all four V003
+chunks are locally downloaded and verified. The movie contains known rejected
+modeling/performance defects. A complete output file is not a quality approval.

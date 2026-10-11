@@ -1,0 +1,37 @@
+{
+  "production_approved": false,
+  "source_version": "TV_ANIMATED_V003",
+  "decision": "A professzionális bemutató követelménye nem teljesült.",
+  "checks": [
+    {
+      "label": "Natív, szerkeszthető 3D jelenet",
+      "status": "Működik",
+      "detail": "Három új rig, hét kamera, háttérlakók és járművek. Nem generatív AI-videó."
+    },
+    {
+      "label": "Karaktermodellek és anatómia",
+      "status": "Nem megfelelő",
+      "detail": "A főszereplők formája elmarad a látványtervtől; váll, szárnymembrán és ujjak új modellezést igényelnek."
+    },
+    {
+      "label": "Mozgás és kontaktus",
+      "status": "Nem megfelelő",
+      "detail": "A V003 videóban a kocsi Brúnó testén halad át. Az új forrásban a pálya javítva, de az ujjak és a súlyérzet még nem elfogadottak."
+    },
+    {
+      "label": "Arcmimika és színészi játék",
+      "status": "Nem megfelelő",
+      "detail": "A beszéd időzített szájformákat vezérel, de a tekintet, reakciók és érzelmi gesztusok további kidolgozást igényelnek."
+    },
+    {
+      "label": "Magyar hang és zene",
+      "status": "Munkaváltozat",
+      "detail": "Nyolc rögzített magyar mondat, eredeti szintetizált zene és effektek. Teljes meghallgatási jóváhagyás még nincs."
+    },
+    {
+      "label": "Egész estés film",
+      "status": "Gyártás visszatartva",
+      "detail": "A hat film történetíve és az első történeti forgatókönyv elkészült; 40–60 perces játékidő nincs igazolva."
+    }
+  ]
+}
