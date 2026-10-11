@@ -112,12 +112,12 @@ def camera_keys(cast):
            (793,1008,(3.8,-10.8,1.0),(3.2,-10.5,1.35),(.8,-6.7,.9),44),
            (1009,1152,(3.4,-10.8,1.9),(4.2,-12,2.2),(.2,-6.87,1.14),50)]
     for i,(a,b,start,end,target,lens) in enumerate(specs):
-        d=bpy.data.cameras.new(f'TV_CAM_SH{i+1:02}');d.lens=lens;d.clip_end=160
+        d=bpy.data.cameras.new(f'TV_CAM_SH{i+1:02}');d.lens=32 if i==3 else lens;d.clip_end=160
         c=bpy.data.objects.new(d.name,d);bpy.context.collection.objects.link(c)
         frames=range(a,b+1) if i==3 else [a,b]
         for f in frames:
             if i==3:
-                y=path((f-1)/24)[0];position=(5.0,y-2.2,1.8);tar=(.25,y+.15,1.0)
+                y=path((f-1)/24)[0];position=(3.8,y-3.4,2.1);tar=(.25,y-.35,1.05)
             else:position=start if f==a else end;tar=target
             c.location=position;look_at(c,tar);c.keyframe_insert('location',frame=f);c.keyframe_insert('rotation_euler',frame=f)
         marker=scene.timeline_markers.new(f'TV_D001_SH{(i+1)*10:03}',frame=a);marker.camera=c
@@ -215,8 +215,8 @@ def main():
             wav=Path(a.stems)/(name+'.wav')
             strip=scene.sequence_editor.strips.new_sound(name,str(wav.resolve()),channel=channel,frame_start=1);strip.sound.pack()
     scene['production_approved']=False;scene['review_stage']='ANIMATED_BLOCKING';scene['not_approved_reason']='Character modeling, anatomical wing folds and physical hand contact need further authoring.'
-    scene.frame_set(1);bpy.context.view_layer.update();bpy.ops.file.pack_all();bpy.ops.wm.save_as_mainfile(filepath=str(out/'TV_ANIMATED_V005.blend'))
-    report['blend_sha256']=hashlib.sha256((out/'TV_ANIMATED_V005.blend').read_bytes()).hexdigest();(out/'motion_audit.json').write_text(json.dumps(report,indent=2))
+    scene.frame_set(1);bpy.context.view_layer.update();bpy.ops.file.pack_all();bpy.ops.wm.save_as_mainfile(filepath=str(out/'TV_ANIMATED_V006.blend'))
+    report['blend_sha256']=hashlib.sha256((out/'TV_ANIMATED_V006.blend').read_bytes()).hexdigest();(out/'motion_audit.json').write_text(json.dumps(report,indent=2))
     print('TV_ANIMATION_BUILT '+json.dumps({'frames':1152,'dialogue':len(report['dialogue']),'production_approved':False}),flush=True)
 
 DEMO=json.loads((Path(__file__).resolve().parents[1]/'episodes/TV_S1E1/demo.json').read_text())

@@ -99,3 +99,10 @@ is a blocking animation failure, not noise or low sampling. V005 changes the
 trajectory so the heroes chase a cart ahead of them. Native evaluated geometry
 checks on 241 frames changed from 82 torso-box intersections (V003) to zero
 (V005). A separate 2-second native diagnostic is planned; V003 stays rejected.
+
+V005 local frame 577 exposed a near-camera lamp post occluding the stop/grip.
+V006 moves shot 4 from x=5.0 to x=3.8 inside the lamp line, raises the camera
+and uses 32 mm. Actual local 577/589 renders now show the complete cart and
+three leads without the foreground obstruction. This is a camera correction,
+not artistic approval. Only TV_CONTACT_V006_2S (565–612) should be submitted;
+no V005 diagnostic was sent. V006 retains the V005 corrected cargo trajectory.

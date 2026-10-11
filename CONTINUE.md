@@ -182,6 +182,8 @@ rolls the wheels, and computes grip targets from the moving cart. The same
 241-frame audit reports zero torso intersections. This is NOT a full collision
 or acting approval; fingers, wings and feet still need review.
 V005 source SHA `b866b7d3464082ecdcedc1005cf67c1ea75c4909b59b3f21b1bdd8e18a374155`.
-A distinct `TV_CONTACT_V005_2S` diagnostic, frames 489–536, is defined for a
+A distinct `TV_CONTACT_V005_2S` diagnostic, frames 565–612, is defined for a
 short actual-video verification. It is not part of the 48-second V003 assembly.
 Do not rerender the entire weak-model movie merely to claim quality improvement.
+
+V006 keeps the V005 corrected cart, but moves the chase camera inside the lamp-post line. V005 frame 577 exposed an occluding pole. V006 source SHA 87d4cb87481052d73761d30f9416264e44532cc29597c3214ae04c5431f60389. The distinct short job is now TV_CONTACT_V006_2S (565–612); V005 was never submitted.

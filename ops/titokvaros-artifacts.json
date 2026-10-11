@@ -214,5 +214,11 @@
     "sha256": "8e1f46f442663a37b022656d5bcacbe66c9d53eaf06531b60e0dc781b2758f43",
     "bytes": 236,
     "readback_verified": true
+  },
+  {
+    "key": "native/S1E1/TITOKVAROS/V001/TV_ANIMATED_V006.blend",
+    "sha256": "87d4cb87481052d73761d30f9416264e44532cc29597c3214ae04c5431f60389",
+    "bytes": 129883495,
+    "readback_verified": true
   }
 ]
