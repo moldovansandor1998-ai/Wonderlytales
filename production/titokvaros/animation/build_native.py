@@ -56,19 +56,21 @@ def mesh(name, verts, faces, mat, sub=0):
 
 
 def ellipsoid(name, loc, scale, mat, seg=32, rings=20):
-    bpy.ops.mesh.primitive_uv_sphere_add(segments=seg, ring_count=rings, location=loc)
-    o=bpy.context.object; o.name=name; o.scale=scale
-    bpy.ops.object.transform_apply(location=False, rotation=False, scale=True)
-    if mat:o.data.materials.append(mat)
-    for p in o.data.polygons:p.use_smooth=True
+    # Data API avoids thousands of full-scene dependency updates during a build.
+    import bmesh
+    d=bpy.data.meshes.new(name);bm=bmesh.new()
+    bmesh.ops.create_uvsphere(bm,u_segments=seg,v_segments=rings,radius=1)
+    for v in bm.verts:v.co.x*=scale[0];v.co.y*=scale[1];v.co.z*=scale[2]
+    bm.to_mesh(d);bm.free();o=bpy.data.objects.new(name,d);bpy.context.collection.objects.link(o);o.location=loc
+    if mat:d.materials.append(mat)
+    for p in d.polygons:p.use_smooth=True
     return o
 
 
 def cube(name, loc, scale, mat, bevel=.03):
-    bpy.ops.mesh.primitive_cube_add(size=1, location=loc)
-    o=bpy.context.object;o.name=name;o.scale=scale
-    bpy.ops.object.transform_apply(location=False, rotation=False, scale=True)
-    if mat:o.data.materials.append(mat)
+    vs=[(x*scale[0]/2,y*scale[1]/2,z*scale[2]/2) for x,y,z in [(-1,-1,-1),(-1,-1,1),(-1,1,-1),(-1,1,1),(1,-1,-1),(1,-1,1),(1,1,-1),(1,1,1)]]
+    o=mesh(name,vs,[(0,4,6,2),(1,3,7,5),(0,1,5,4),(2,6,7,3),(0,2,3,1),(4,5,7,6)],mat);o.location=loc
+    for p in o.data.polygons:p.use_smooth=False
     if bevel:
         b=o.modifiers.new('Soft machined edges','BEVEL');b.width=bevel;b.segments=3
         o.modifiers.new('Weighted normals','WEIGHTED_NORMAL')
@@ -89,8 +91,9 @@ def bind(obj, rig, bone):
     """Rigid parts use an armature modifier too; mesh space is preserved."""
     if obj.type!='MESH':
         active(obj);bpy.ops.object.convert(target='MESH')
-    mat=obj.matrix_world.copy()
-    obj.parent=rig;obj.matrix_world=mat
+    # Newly created data-API objects have not entered the dependency graph yet.
+    # matrix_world can still be stale identity; keep their authored local basis.
+    obj.parent=rig;obj.matrix_parent_inverse=Matrix.Identity(4)
     g=obj.vertex_groups.new(name=bone);g.add(list(range(len(obj.data.vertices))),1,'REPLACE')
     mod=obj.modifiers.new('Rigify deformation','ARMATURE');mod.object=rig
     return obj
@@ -98,10 +101,10 @@ def bind(obj, rig, bone):
 
 def weighted(obj,rig,bones):
     """Distance to explicit anatomical chains; unrelated limbs cannot attract skin."""
-    mat=obj.matrix_world.copy();obj.parent=rig;obj.matrix_world=mat
+    obj.parent=rig;obj.matrix_parent_inverse=Matrix.Identity(4)
     groups={n:obj.vertex_groups.new(name=n) for n in bones}
     for v in obj.data.vertices:
-        co=obj.matrix_world@v.co
+        co=Matrix.LocRotScale(obj.location,obj.rotation_euler,obj.scale)@v.co
         ds=[]
         for n in bones:
             b=rig.data.bones[n];a=b.head_local;delta=b.tail_local-a
@@ -140,6 +143,20 @@ def bone_tube(name, a, b, ra, rb, mat):
     return mesh(name,vs,fs,mat,1)
 
 
+def limb_surface(name, joints, radii, mat):
+    """One connected skin across elbow/knee; no separate capsule joint gaps."""
+    vs=[];fs=[];N=24
+    for j,(point,radius) in enumerate(zip(joints,radii)):
+        point=Vector(point)
+        direction=(Vector(joints[min(j+1,len(joints)-1)])-Vector(joints[max(0,j-1)])).normalized()
+        u=direction.cross(Vector((0,1,0))).normalized();v=direction.cross(u)
+        vs.extend([tuple(point+radius*(u*math.cos(i*math.tau/N)+v*math.sin(i*math.tau/N))) for i in range(N)])
+    for j in range(len(joints)-1):
+        for i in range(N):fs.append((j*N+i,j*N+(i+1)%N,(j+1)*N+(i+1)%N,(j+1)*N+i))
+    fs.extend([tuple(reversed(range(N))),tuple((len(joints)-1)*N+i for i in range(N))])
+    return mesh(name,vs,fs,mat,2)
+
+
 def remap_z(z):
     src=[0,.0852,.5372,1.072,1.2929,1.4657,1.6582,1.7197,1.95]
     dst=[0,.13,.43,.78,.96,1.13,1.28,1.34,1.7]
@@ -161,8 +178,9 @@ def rigify_body(code,width):
     original={b.name:(b.head.copy(),b.tail.copy()) for b in meta.data.edit_bones}
     for b in meta.data.edit_bones:
         a,z=original[b.name]
-        b.head=(a.x*width,a.y,remap_z(a.z))
-        b.tail=(z.x*width,z.y,remap_z(z.z))
+        def rx(x):return math.copysign(min(abs(x),.196)*width+max(0,abs(x)-.196)*1.05,x)
+        b.head=(rx(a.x),a.y,remap_z(a.z))
+        b.tail=(rx(z.x),z.y,remap_z(z.z))
     # Additional anatomy belongs to this new metarig, not a patched old rig.
     extras=[]
     for side,s in [('L',1),('R',-1)]:
@@ -219,7 +237,7 @@ def facial_mouth(code,rig,cream,dark):
     # Connected annular lip surface, with dedicated cavity and oral interior.
     # Shapes preserve topology; jaw-open is not a random skin displacement.
     N=48;vs=[];fs=[]
-    for rx,rz,y in [(.14,.057,-.273),(.126,.044,-.321),(.106,.028,-.331),(.098,.023,-.300)]:
+    for rx,rz,y in [(.113,.017,-.300),(.108,.012,-.314),(.100,.006,-.319),(.096,.005,-.307)]:
         vs += [(rx*math.cos(i*math.tau/N),y,1.452+rz*math.sin(i*math.tau/N)) for i in range(N)]
     for j in range(3):
         for i in range(N):fs.append((j*N+i,j*N+(i+1)%N,(j+1)*N+(i+1)%N,(j+1)*N+i))
@@ -230,14 +248,24 @@ def facial_mouth(code,rig,cream,dark):
         k=lip.shape_key_add(name=key);shapes[key]=k
         for i,p in enumerate(k.data):
             x,y,z=vs[i];side=abs(x)/.14
-            if key in ['jawOpen','viseme_A']:p.co.z-=max(0,(1.46-z)/.065)*.08
+            if key in ['jawOpen','viseme_A']:p.co.z-=max(0,(1.466-z)/.032)*.052
             if key=='mouthSmile':p.co.z+=side**2*.035
             if key=='mouthFrown':p.co.z-=side**2*.025
             if key=='viseme_E':p.co.x*=1.12;p.co.z=1.452+(z-1.452)*.7
             if key in ['viseme_O','viseme_U']:p.co.x*=.55;p.co.y-=.018;p.co.z=1.452+(z-1.452)*(1.45 if key=='viseme_O' else 1.1)
             if key=='viseme_MBP':p.co.z=1.452+(z-1.452)*.12
             if key=='viseme_FV' and z<1.452:p.co.z+=.017
-    bind(ellipsoid(code+'_mouth_cavity',(0,-.286,1.438),(.107,.046,.075),dark),rig,'DEF-spine.006')
+    cavity=bind(ellipsoid(code+'_mouth_cavity',(0,-.304,1.451),(.097,.010,.006),dark),rig,'DEF-spine.006')
+    cavity.shape_key_add(name='Basis')
+    for key in shapes:
+        k=cavity.shape_key_add(name=key)
+        for p in k.data:
+            if key in ['jawOpen','viseme_A']:p.co.z=p.co.z*5-.025
+            if key in ['viseme_O','viseme_U']:p.co.x*=.55;p.co.z=p.co.z*4-.014
+            if key=='viseme_MBP':p.co.z*=.15
+        driver=k.driver_add('value').driver;driver.type='AVERAGE'
+        v=driver.variables.new();v.type='SINGLE_PROP';v.targets[0].id_type='KEY';v.targets[0].id=lip.data.shape_keys
+        v.targets[0].data_path=f'key_blocks["{key}"].value'
     return lip
 
 
@@ -298,11 +326,11 @@ def character(code):
         ear.rotation_euler[1]=s*.32;bind(ear,rig,'DEF-ear.'+side)
         earin=ellipsoid(code+'_ear_inner_'+side,(s*.197,-.039,1.749 if code!='KIPP' else 1.809),(ew*.66,.013,eh*.7),material(code+'_ear_skin_'+side,(.31,.12,.075),.6))
         earin.rotation_euler[1]=s*.32;bind(earin,rig,'DEF-ear.'+side)
-        # Continuous limb meshes, no detached ball joints.
-        for label,mt,r in [('upper_arm',cloth,.087),('forearm',fur if code=='KIPP' else cloth,.068)]:
-            b=rig.data.bones['ORG-'+label+'.'+side]
-            o=bone_tube(code+'_'+label+'_'+side,b.head_local,b.tail_local,r*(1.3 if code=='BRUNO' else 1),r*.85,mt)
-            weighted(o,rig,['DEF-'+label+'.'+side,'DEF-'+label+'.'+side+'.001'])
+        upper=rig.data.bones['ORG-upper_arm.'+side];lower=rig.data.bones['ORG-forearm.'+side]
+        joints=[upper.head_local,upper.head_local.lerp(upper.tail_local,.25),upper.tail_local,lower.head_local.lerp(lower.tail_local,.55),lower.tail_local]
+        radii=[r*(1.35 if code=='BRUNO' else 1) for r in [.095,.092,.066,.064,.047]]
+        o=limb_surface(code+'_ARM_SKIN_'+side,joints,radii,fur if code=='KIPP' else cloth)
+        weighted(o,rig,['DEF-'+label+'.'+side+suffix for label in ['upper_arm','forearm'] for suffix in ['', '.001']])
         hb=rig.data.bones['ORG-hand.'+side]
         palm=bone_tube(code+'_hand_'+side,hb.head_local,hb.tail_local,.051,.035,fur);bind(palm,rig,'DEF-hand.'+side)
         for digit in ['thumb','index','middle','ring','pinky']:
@@ -310,10 +338,11 @@ def character(code):
                 bn=f'DEF-f_{digit}.{i:02}.{side}';bb=rig.data.bones[bn]
                 ob=bone_tube(code+f'_{digit}_{side}_{i}',bb.head_local,bb.tail_local,.012,.010,fur)
                 bind(ob,rig,bn)
-        for label,r in [('thigh',.11),('shin',.077)]:
-            b=rig.data.bones['ORG-'+label+'.'+side]
-            o=bone_tube(code+'_'+label+'_'+side,b.head_local,b.tail_local,r*(1.35 if code=='BRUNO' else 1),r*.82,pants if code!='BRUNO' else cloth)
-            weighted(o,rig,['DEF-'+label+'.'+side,'DEF-'+label+'.'+side+'.001'])
+        upper=rig.data.bones['ORG-thigh.'+side];lower=rig.data.bones['ORG-shin.'+side]
+        joints=[upper.head_local,upper.head_local.lerp(upper.tail_local,.23),upper.tail_local,lower.head_local.lerp(lower.tail_local,.65),lower.tail_local]
+        radii=[r*(1.35 if code=='BRUNO' else 1) for r in [.109,.116,.08,.077,.069]]
+        o=limb_surface(code+'_TROUSER_SKIN_'+side,joints,radii,pants if code!='BRUNO' else cloth)
+        weighted(o,rig,['DEF-'+label+'.'+side+suffix for label in ['thigh','shin'] for suffix in ['', '.001']])
         b=rig.data.bones['ORG-foot.'+side]
         shoe=ellipsoid(code+'_boot_'+side,(b.head_local.x,-.065,.099),(.09,.171,.084),leather);bind(shoe,rig,'DEF-foot.'+side)
         sole=cube(code+'_sole_'+side,(b.head_local.x,-.065,.043),(.179,.292,.045),dark,.018);bind(sole,rig,'DEF-foot.'+side)
@@ -327,6 +356,17 @@ def character(code):
     for z in [.82,.93,1.04,1.15]:bind(ellipsoid(code+'_button_'+str(z),(0,-.18,z),(.010,.007,.010),brass,12,8),rig,'DEF-spine.002')
     for s in [-1,1]:
         pocket=cube(code+'_pocket_'+str(s),(s*w*.61,-.156,.855),(w*.60,.037,.13),cloth,.01);bind(pocket,rig,'DEF-spine.001')
+        collar=mesh(code+'_collar_'+str(s),[(s*.045,-.102,1.278),(s*.17,-.174,1.20),(s*.08,-.185,1.14)],[(0,1,2)],cream if code=='BRUNO' else cloth)
+        bind(collar,rig,'DEF-spine.003')
+    if code=='MIRA':
+        bind(curve('MIRA_satchel_strap',[(-.16,-.18,1.24),(-.055,-.195,1.01),(.17,-.16,.79)],.019,leather),rig,'DEF-spine.002')
+        bind(bone_tube('MIRA_map_case',(.19,.13,.73),(.22,.12,1.16),.052,.052,leather),rig,'DEF-spine.001')
+    if code=='BRUNO':
+        for x in [-.15,.15]:bind(cube('BRUNO_overall_strap',(x,-.182,1.11),(.058,.03,.29),cloth,.01),rig,'DEF-spine.003')
+        bind(cube('BRUNO_toolbelt',(0,-.16,.78),(.55,.055,.065),leather,.018),rig,'DEF-spine.001')
+    if code=='KIPP':
+        bind(curve('KIPP_headphone_band',[(-.19,.015,1.60),(-.19,.06,1.78),(0,.07,1.81),(.19,.06,1.78),(.19,.015,1.60)],.018,dark),rig,headbone)
+        for x in [-.23,.23]:bind(ellipsoid('KIPP_headphone_cup',(x,.012,1.59),(.035,.062,.066),dark),rig,headbone)
     if code!='KIPP':
         ns=[]
         for i in range(9):t=i/8;ns.append((0,.10+t*.53,.79-t*.44,.095*(1-t)+.011,.08*(1-t)+.01))
@@ -426,9 +466,13 @@ def pose_rest(c):
     r=c['rig']
     # Lower arms from Rigify's authored A-pose into a natural relaxed stance.
     for side,sgn in [('L',1),('R',-1)]:
-        r.pose.bones['upper_arm_fk.'+side].rotation_euler[1]=sgn*0.08
-        r.pose.bones['upper_arm_fk.'+side].rotation_euler[2]=sgn*.31
-        r.pose.bones['forearm_fk.'+side].rotation_euler[0]=-.10
+        pb=r.pose.bones['upper_arm_fk.'+side]
+        basis=pb.bone.matrix_local.to_3x3()
+        direction=(pb.bone.tail_local-pb.bone.head_local).normalized()
+        desired=Vector((sgn*.13,-.04,-.40)).normalized()
+        delta=direction.rotation_difference(desired).to_matrix()
+        pb.rotation_euler=(basis.inverted()@delta@basis).to_euler('XYZ')
+        r.pose.bones['forearm_fk.'+side].rotation_euler[0]=-.12
 
 
 def main():
