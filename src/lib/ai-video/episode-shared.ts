@@ -1,3 +1,5 @@
+import type {StoryBeat} from './continuity-data';
+import type {VideoElement} from './shared';
 import type {VideoJob} from './shared';
 import type {CreativeJob} from './creative-shared';
 import type {DialogueRecording} from './dialogue';
@@ -11,8 +13,8 @@ export const CAST = {
 } as const;
 export type CastKey=keyof typeof CAST;
 export type SceneLine={character:CastKey;text:string;offset:number;delivery:'visible'|'offscreen'};
-export type SceneDefinition={id:string;order:number;title:string;act:string;location:string;duration:10;characters:CastKey[];imagePrompt:string;prompt:string;dialogue:SceneLine[];continuity:string;kind:'intro'|'story'|'outro'};
-export type SceneState={id:string;revision:number;updatedAt:string;mode:'image'|'last-frame';imagePrompt:string;prompt:string;characters:CastKey[];dialogue:SceneLine[];imageSha256?:string;imageApproved:boolean;imageJobId?:string;imageRequest?:{id:string;prompt:string;characterIds:string[];referenceSha256?:string};videoJobId?:string;videoRequest?:{id:string;imageSha256:string;prompt:string;duration:10;sound:boolean;maxCostUsd:number};videoHistory:string[];imageHistory:string[];recordings:Record<string,string>;review:'pending'|'keep'|'trim'|'needs-work';note:string;trimStart:number;trimEnd:number;sound:boolean;sourceJobId?:string;sourceTime?:number};
+export type SceneDefinition={id:string;order:number;title:string;act:string;location:string;duration:10;sceneBreak?:boolean;beats?:StoryBeat;characters:CastKey[];imagePrompt:string;prompt:string;dialogue:SceneLine[];continuity:string;kind:'intro'|'story'|'outro'};
+export type SceneState={id:string;revision:number;updatedAt:string;continuityVersion?:2;sceneBreak?:boolean;sourceAsset?:string;mode:'image'|'last-frame';imagePrompt:string;prompt:string;characters:CastKey[];dialogue:SceneLine[];imageSha256?:string;imageApproved:boolean;imageJobId?:string;imageRequest?:{id:string;prompt:string;characterIds:string[];referenceSha256?:string};videoJobId?:string;videoRequest?:{elements?:VideoElement[];id:string;imageSha256:string;prompt:string;duration:10;sound:boolean;maxCostUsd:number};videoHistory:string[];imageHistory:string[];recordings:Record<string,string>;review:'pending'|'keep'|'trim'|'needs-work';note:string;trimStart:number;trimEnd:number;sound:boolean;sourceJobId?:string;sourceTime?:number};
 export type EpisodeScene={definition:SceneDefinition;state:SceneState;video:VideoJob|null;imageJob:CreativeJob|null;recordings:Record<string,DialogueRecording>;analysis:CreativeJob|null;post?:Partial<Record<'hu'|'en',{approved:boolean;finalAsset?:string;status?:string}>>};
 export type EpisodeCast=Record<CastKey,{id:string;name:string;sha256:string|null;voiceId:string|null}>;
 export type EpisodeOverview={title:string;duration:number;scenes:EpisodeScene[];cast:EpisodeCast};

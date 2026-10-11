@@ -4,8 +4,9 @@ export const WAVESPEED_SERVICE = 'wavespeed_kling';
 export const WAVESPEED_CEILING_USD = 1.68; // Max 10s + sound, official price checked 2026-10-11.
 export const NEGATIVE_PROMPT = 'Different character, changed face or fur color, changed clothes, missing backpack, extra limbs, fused fingers, deformed body, sliding feet, flicker, random zoom, random cuts, subtitles, watermark.';
 export type VideoStatus = 'SUBMITTING' | 'QUEUED' | 'RUNNING' | 'COMPLETED' | 'FAILED' | 'CANCELLED' | 'BLOCKED_BUDGET' | 'SUBMISSION_UNCERTAIN';
+export type VideoElement = {elementId:string;name:string;referenceSha256:string};
 export interface VideoInput {
-  id: string; imageSha256: string; endImageSha256?: string;
+  id: string; imageSha256: string; endImageSha256?: string; elements?:VideoElement[];
   prompt: string; duration: 5 | 10; sound: boolean; maxCostUsd: number;
 }
 export interface VideoJob extends VideoInput {

@@ -9,13 +9,15 @@ export class WaveSpeedError extends Error {
 export const videoInputSchema = z.object({
   id: z.string().uuid(), imageSha256: z.string().regex(/^[a-f0-9]{64}$/),
   endImageSha256: z.string().regex(/^[a-f0-9]{64}$/).optional(),
+  elements:z.array(z.object({elementId:z.string().regex(/^[A-Za-z0-9_-]{1,160}$/),name:z.string().min(1).max(20),referenceSha256:z.string().regex(/^[a-f0-9]{64}$/)}).strict()).max(3).optional(),
   prompt: z.string().trim().min(10).max(2500), duration: z.union([z.literal(5), z.literal(10)]),
   sound: z.boolean(), maxCostUsd: z.number().finite().min(0).max(1.68),
 }).strict();
 export function waveSpeedPayload(req: VideoInput, image: string, endImage?: string) {
   videoInputSchema.parse(req);
-  return { image, prompt: `${req.prompt} Audio rule: ambience, effects and music only. No spoken words, dialogue or singing. Character speech is recorded separately with the assigned ElevenLabs voice.`, negative_prompt: `${NEGATIVE_PROMPT} Speech, dialogue, singing.`,
+  return { image, prompt: `${req.elements?.length?`Character identities: ${req.elements.map(e=>e.name).join(', ')}. Use the matching supplied elements for every appearance, including entering characters. `:''}${req.prompt} Audio rule: ambience, effects and music only. No spoken words, dialogue or singing. Character speech is recorded separately with the assigned ElevenLabs voice.`, negative_prompt: `${NEGATIVE_PROMPT} Speech, dialogue, singing.`,
     duration: req.duration, sound: req.sound, cfg_scale: 0.5, shot_type: 'customize',
+    ...(req.elements?.length?{element_list:req.elements.map(e=>({element_id:e.elementId}))}:{}),
     ...(endImage ? { end_image: endImage } : {}) };
 }
 const taskSchema = z.object({ id: z.string().regex(/^[A-Za-z0-9_-]{1,160}$/),
@@ -24,7 +26,7 @@ const taskSchema = z.object({ id: z.string().regex(/^[A-Za-z0-9_-]{1,160}$/),
 export type WaveSpeedTask = z.infer<typeof taskSchema>;
 const creativeTaskSchema=taskSchema.extend({outputs:z.array(z.union([z.string(),z.record(z.unknown())])).optional()});
 export type CreativeTask=z.infer<typeof creativeTaskSchema>;
-export const CREATIVE_MODELS=['bytedance/seedream-v4.5','bytedance/seedream-v4.5/edit','wavespeed-ai/molmo2/video-understanding','wavespeed-ai/infinitetalk/video-to-video','wavespeed-ai/infinitetalk/video-to-video-multi'] as const;
+export const CREATIVE_MODELS=['kwaivgi/kling-elements','bytedance/seedream-v4.5','bytedance/seedream-v4.5/edit','wavespeed-ai/molmo2/video-understanding','wavespeed-ai/infinitetalk/video-to-video','wavespeed-ai/infinitetalk/video-to-video-multi'] as const;
 export type CreativeModel=typeof CREATIVE_MODELS[number];
 export class WaveSpeedClient {
   constructor(private key: string) {

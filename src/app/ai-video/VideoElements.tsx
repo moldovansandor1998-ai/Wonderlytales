@@ -1,0 +1,15 @@
+'use client';
+import {useEffect,useRef,useState} from 'react';
+import {CAST,type CastKey} from '@/lib/ai-video/episode-shared';
+import type {ElementJob} from '@/lib/ai-video/elements';
+type Row={character:CastKey;name:string;sha256:string|null;job:ElementJob|null};
+const labels={READY:'Videóreferencia aktív',PROCESSING:'Rögzítés folyamatban',SUBMITTING:'Kérés mentve',UNCERTAIN:'Ellenőrzést igényel · nincs újrafizetés',FAILED:'Nem készült el · nincs automatikus újrapróbálás'};
+export default function VideoElements(){
+ const [rows,setRows]=useState<Row[]>([]),[busy,setBusy]=useState(false),[error,setError]=useState('');const lock=useRef(false);
+ async function load(){const r=await fetch('/api/ai-video/elements',{cache:'no-store'});if(!r.ok)throw new Error('A videóreferenciák nem tölthetők be.');setRows(await r.json());}
+ async function run(character:CastKey,action:'create'|'poll'){if(lock.current)return;lock.current=true;setBusy(true);setError('');try{const r=await fetch('/api/ai-video/elements',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({character,action})});const d=await r.json();if(!r.ok)throw new Error(`A karakter rögzítése ellenőrzést igényel (${d.error}).`);setRows(d);}catch(e){setError((e as Error).message);}finally{lock.current=false;setBusy(false);}}
+ useEffect(()=>{void load().catch(e=>setError(e.message));},[]);
+ const pending=rows.find(r=>r.job?.status==='PROCESSING');
+ useEffect(()=>{if(!pending)return;const timer=setInterval(()=>{if(document.visibilityState==='visible')void run(pending.character,'poll');},8000);return()=>clearInterval(timer);},[pending?.character]);
+ return <section className="rounded-xl border border-sky-800 p-4" aria-label="Rögzített videókarakterek"><h3 className="font-semibold">Karakterreferenciák a videóhoz</h3><p className="mt-2 text-sm text-zinc-400">Az utolsó képkocka adja a jelenet folytonosságát; ezek a referenciák adják Félix, Mira és a többiek külsejét. Egy videóhoz legfeljebb három kiválasztott karakter köthető. A rögzítés egyszeri, legfeljebb 0,01 USD karakterenként, és nem készít új jelenetképet vagy videót.</p>{error&&<p role="alert" className="mt-3 text-amber-200">{error}</p>}<div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-5">{rows.map(r=><div className="rounded bg-zinc-900 p-3" key={r.character}>{r.sha256&&<img alt={r.name+' videóreferencia'} loading="lazy" className="aspect-video w-full rounded object-contain" src={'/api/ai-video/image?sha256='+r.sha256}/>}<p className="mt-2 font-medium">{CAST[r.character].name}</p><p className="my-2 text-xs text-sky-200">{r.job?labels[r.job.status]:'Rögzítésre vár'}</p>{!r.job?<button disabled={busy||!r.sha256} className="rounded border border-zinc-600 p-2 text-xs disabled:opacity-40" onClick={()=>run(r.character,'create')}>Rögzítés · {r.name} · max. 0,01 USD</button>:r.job.status==='PROCESSING'?<button disabled={busy} className="rounded border border-zinc-600 p-2 text-xs" onClick={()=>run(r.character,'poll')}>Referencia állapota · {r.name}</button>:null}</div>)}</div></section>;
+}

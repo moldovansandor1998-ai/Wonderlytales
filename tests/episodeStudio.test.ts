@@ -1,8 +1,8 @@
 import {beforeEach,expect,it,vi} from 'vitest';
-vi.mock('@/lib/ai-video/post-core',()=>({requirePreviousApproval:vi.fn().mockResolvedValue(undefined),postContext:vi.fn().mockResolvedValue({job:{finalAsset:undefined}}),fingerprint:vi.fn()}));
+vi.mock('@/lib/ai-video/post-core',()=>({requirePreviousApproval:vi.fn().mockResolvedValue(undefined),postContext:vi.fn().mockResolvedValue({approved:true,state:{videoJobId:'ffffffff-2026-4011-8010-000000000000'},job:{finalAsset:'e'.repeat(64)}}),fingerprint:vi.fn()}));
 vi.mock('@/lib/ai-video/creative',()=>({startSceneImage:vi.fn(),pollCreative:vi.fn(),references:vi.fn()}));
 vi.mock('@/lib/ai-video/service',()=>({WaveSpeedVideoService:vi.fn()}));
-import {episodeAction,editSchema} from '@/lib/ai-video/episode';
+import {episodeAction,editSchema,applyContinuityPlan} from '@/lib/ai-video/episode';
 import {EPISODE_SCENES,defaultSceneState} from '@/lib/ai-video/episode-data';
 import {CAST,type SceneState} from '@/lib/ai-video/episode-shared';
 import {startSceneImage} from '@/lib/ai-video/creative';
@@ -37,20 +37,20 @@ it('rejects stale edits and invalidates approval when the cast changes',async()=
  expect(r.scene.state.imageApproved).toBe(false);expect(r.scene.state.revision).toBe(3);
 });
 it('freezes an image request before submitting and reuses it after a timeout',async()=>{
- const m=memory();vi.mocked(startSceneImage).mockRejectedValueOnce(new Error('timeout'));
+ const m=memory();await m.seed({...defaultSceneState(scene),mode:'image',sceneBreak:true});vi.mocked(startSceneImage).mockRejectedValueOnce(new Error('timeout'));
  await expect(episodeAction({id:scene.id,action:'image',revision:0},m.store)).rejects.toThrow('timeout');
  const first=vi.mocked(startSceneImage).mock.calls[0][0];
  await episodeAction({id:scene.id,action:'image',revision:1},m.store);
  expect(vi.mocked(startSceneImage).mock.calls[1][0]).toEqual(first);
 });
 it('parallel first-open requests cannot create two distinct image jobs',async()=>{
- const m=memory();
+ const m=memory();await m.seed({...defaultSceneState(scene),mode:'image',sceneBreak:true});
  const results=await Promise.allSettled([0,1].map(()=>episodeAction({id:scene.id,action:'image',revision:0},m.store)));
  expect(results.filter(r=>r.status==='fulfilled')).toHaveLength(1);expect(startSceneImage).toHaveBeenCalledTimes(1);
 });
 it('only permits a frame from the immediately preceding owned completed video',async()=>{
  const m=memory();await m.seed({...defaultSceneState(EPISODE_SCENES[2]),videoJobId:jobId});
- const data={sha256:sha,sourceJobId:jobId,sourceTime:9.999};
+ const data={sha256:sha,sourceJobId:jobId,sourceTime:9.999,sourceAsset:'e'.repeat(64)};
  await expect(episodeAction({id:scene.id,action:'frame',data},m.store)).rejects.toThrow('PREVIOUS_VIDEO_REQUIRED');
  m.raw.read.mockResolvedValue({job:{id:jobId,status:'COMPLETED',duration:10},etag:'1'});
  const r=await episodeAction({id:scene.id,action:'frame',revision:0,data},m.store);
@@ -58,7 +58,7 @@ it('only permits a frame from the immediately preceding owned completed video',a
  expect(startSceneImage).not.toHaveBeenCalled();
 });
 it('changing source keeps the old image and preparing another video keeps the original',async()=>{
- const m=memory();await m.seed({...defaultSceneState(scene),imageSha256:sha,imageApproved:true,videoJobId:jobId});
+ const m=memory();await m.seed({...defaultSceneState(scene),mode:'image',imageSha256:sha,imageApproved:true,videoJobId:jobId});
  m.raw.read.mockResolvedValue({job:{id:jobId,status:'COMPLETED',duration:10},etag:'1'});
  const r=await episodeAction({id:scene.id,action:'save',revision:0,data:{...edit(),mode:'last-frame'}},m.store);
  expect(r.scene.state.imageHistory).toEqual([sha]);expect(r.scene.state.imageSha256).toBeUndefined();
@@ -71,4 +71,22 @@ it('restores a saved image without another paid request or implicit approval',as
  expect(r.scene.state).toMatchObject({mode:'image',imageSha256:sha,imageApproved:false});
  expect(r.scene.state.imageHistory).toContain('b'.repeat(64));expect(startSceneImage).not.toHaveBeenCalled();
  await expect(episodeAction({id:scene.id,action:'restore-image',data:{sha256:'c'.repeat(64)}},m.store)).rejects.toThrow('INVALID_INPUT');
+});
+
+it('defaults to frame continuity and blocks image generation without a deliberate scene break',async()=>{
+ expect(defaultSceneState(EPISODE_SCENES[7]).mode).toBe('last-frame');
+ const m=memory();await m.seed({...defaultSceneState(scene),mode:'image',sceneBreak:false});
+ await expect(episodeAction({id:scene.id,action:'image'},m.store)).rejects.toThrow('SCENE_BREAK_REQUIRED');expect(startSceneImage).not.toHaveBeenCalled();
+});
+it('rejects stale previous final frames before any paid quote or video call',async()=>{
+ const m=memory();await m.seed({...defaultSceneState(scene),imageSha256:sha,imageApproved:true,sourceJobId:jobId,sourceAsset:'b'.repeat(64)});
+ await expect(episodeAction({id:scene.id,action:'quote'},m.store)).rejects.toThrow('PREVIOUS_VIDEO_CHANGED');expect(WaveSpeedVideoService).not.toHaveBeenCalled();
+});
+it('continuity migration preserves generated clips, old images and custom prompts',async()=>{
+ const m=memory(),future=EPISODE_SCENES[7];
+ const finished={...defaultSceneState(scene),continuityVersion:undefined,videoJobId:jobId,prompt:'Already generated original prompt'};
+ await m.seed(finished);await m.seed({...defaultSceneState(future),continuityVersion:undefined,mode:'image',imageSha256:sha,prompt:'Custom prompt that must remain exactly unchanged'});
+ await applyContinuityPlan(m.store);
+ expect((await m.raw.readRecord('episode-scene',scene.id))?.value).toEqual(finished);
+ expect((await m.raw.readRecord('episode-scene',future.id))?.value).toMatchObject({mode:'last-frame',imageHistory:[sha],prompt:'Custom prompt that must remain exactly unchanged',continuityVersion:2});
 });

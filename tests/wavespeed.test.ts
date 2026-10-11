@@ -108,3 +108,8 @@ describe('image validation',()=>{
     expect(()=>imageMetadata(Buffer.from('<svg onload="bad"/>'))).toThrow('INVALID_IMAGE');
   });
 });
+
+it('binds reusable character elements without replacing the continuing first frame',()=>{
+ const p=waveSpeedPayload({...input,elements:[{elementId:'12345',name:'Mira',referenceSha256:'b'.repeat(64)}]},'https://start.test/last-frame.png');
+ expect(p.image).toBe('https://start.test/last-frame.png');expect(p.element_list).toEqual([{element_id:'12345'}]);expect(p.prompt).toContain('Mira');
+});
