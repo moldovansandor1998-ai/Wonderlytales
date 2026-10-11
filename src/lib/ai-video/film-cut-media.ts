@@ -29,14 +29,23 @@ export async function cutSpeech(store:R2VideoStore,s:CutShot){
 export async function finishCutShot(store:R2VideoStore,s:CutShot){
  return tempMedia(async dir=>{
   const file=join(dir,'source.mp4'),out=join(dir,'finished.mp4');
-  await writeFile(file,await store.assetBytes(s.raw??s.source!,'mp4'));
+  await writeFile(file,await store.assetBytes(s.cleaned??s.raw??s.source!,'mp4'));
   const info=await mediaInfo(file),start=s.kind==='reuse'?(s.start??0):0;
   const seconds=s.kind==='reuse'?Math.min(s.end??info.duration,info.duration)-start:s.seconds;
   if(seconds<=0||info.duration+1/24<start+seconds)throw new WaveSpeedError('CUT_VIDEO_TOO_SHORT');
   const args=['-i',file],replacement=s.kind!=='reuse'&&s.audio;
+  let useExtraAudio=false;
   if(replacement){const wav=join(dir,'voice.wav');await writeFile(wav,await store.assetBytes(s.audio!,'wav'));args.push('-i',wav);}
+  else if(s.cleaned&&s.raw){
+   // Text cleanup is a visual operation. Retain the original action sound even
+   // when the cleanup provider omits or changes its output audio track.
+   const original=join(dir,'original.mp4');await writeFile(original,await store.assetBytes(s.raw,'mp4'));
+   if((await mediaInfo(original)).audio)args.push('-i',original);
+   else args.push('-f','lavfi','-i','anullsrc=r=48000:cl=stereo');
+   useExtraAudio=true;
+  }
   else if(!info.audio)args.push('-f','lavfi','-i','anullsrc=r=48000:cl=stereo');
-  const audio=replacement||!info.audio?'1:a:0':'0:a:0';
+  const audio=replacement||useExtraAudio||!info.audio?'1:a:0':'0:a:0';
   // Keep words intact: shot length comes from the complete decoded MP3 + handles.
   // Original generated voices are replaced with the exact assigned character recording.
   await run([...args,'-ss',String(start),'-t',String(seconds),'-map','0:v:0','-map',audio,'-vf',fit,'-c:v','libx264','-preset','veryfast','-crf','20','-pix_fmt','yuv420p','-r','24','-af',`aresample=48000,aformat=channel_layouts=stereo,apad,atrim=0:${seconds},afade=t=in:d=0.015,afade=t=out:st=${Math.max(0,seconds-.035)}:d=0.035,alimiter=limit=0.95:level=false`,'-c:a','aac','-b:a','192k','-ar','48000','-ac','2','-movflags','+faststart',out]);

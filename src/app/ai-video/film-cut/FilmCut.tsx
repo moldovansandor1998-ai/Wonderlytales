@@ -35,6 +35,7 @@ export default function FilmCut(){
   <ol style={{listStyle:'none',padding:0}}>{cut.shots.map(s=><li key={s.id} style={{padding:'18px 0',borderBottom:'1px solid #333'}}>
    <div style={{display:'flex',gap:16,justifyContent:'space-between'}}><strong>{s.scene.toString().padStart(2,'0')} · {s.label}</strong><span style={{color:'#cbae68',whiteSpace:'nowrap'}}>{s.kind==='reuse'?'Meglévő videó':s.kind==='action'?`${s.seconds} mp`:s.seconds?`${s.seconds.toFixed(1)} mp`:'A hang hosszához igazodik'}</span></div>
    {s.line&&<p style={{color:'#bbb',marginTop:8}}>{CAST[s.line.character].name}{s.line.delivery==='offscreen'?' (képen kívül)':''}: „{s.line.text}”</p>}
+   {s.raw&&s.asset&&!s.cleaned&&['STOPPED','PAUSED'].includes(cut.status)&&<button style={buttonStyle} disabled={busy} onClick={()=>void act('repair-text',s.id)}>Generált felirat javítása · a meglévő keretből</button>}
    {s.asset&&<details style={{marginTop:12}}><summary>{s.phase==='READY'?'Elkészült':'Ellenőrzendő'} · videó megtekintése</summary><video controls playsInline preload="none" src={media(s.asset)} style={{width:'100%',maxWidth:720,marginTop:12}}/><p><a href={media(s.asset)} download>Beállítás letöltése</a></p>{s.check&&<p>{s.check.text}</p>}{s.check?.passed===false&&cut.status==='PAUSED'&&current?.id===s.id&&<button style={buttonStyle} disabled={busy} onClick={()=>void act('accept-check',s.id)}>Megnéztem, ezt a beállítást elfogadom</button>}</details>}
   </li>)}</ol></>}
  </main>;
