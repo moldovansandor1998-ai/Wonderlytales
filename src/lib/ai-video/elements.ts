@@ -1,11 +1,12 @@
 import {z} from 'zod';
+import {downloadProviderMedia} from './media';
 import {R2VideoStore,digest} from './storage';
 import {CAST,type CastKey} from './episode-shared';
 import {references} from './creative';
 import {WaveSpeedClient,WaveSpeedError,type CreativeTask} from '../providers/wavespeed';
 import {reserveProductionBudget} from '../budget';
 import type {VideoElement} from './shared';
-export type ElementJob={id:string;character:CastKey;name:string;referenceSha256:string;status:'SUBMITTING'|'PROCESSING'|'READY'|'FAILED'|'UNCERTAIN';taskId?:string;elementId?:string;error?:string;price:number};
+export type ElementJob={id:string;character:CastKey;name:string;referenceSha256:string;status:'SUBMITTING'|'PROCESSING'|'READY'|'FAILED'|'UNCERTAIN';taskId?:string;elementId?:string;error?:string;price:number;outputShape?:string};
 const model='kwaivgi/kling-elements';
 const keys=z.enum(['felix','mira','nera','tilda','oszkar']);
 const descriptions:Record<CastKey,string>={felix:'Red fox, green eyes, red cream fur, teal jacket, white T-shirt, dark trousers, backpack.',mira:'Brown rabbit police detective. Match canonical face, ears, fur, uniform and accessories exactly.',nera:'Adult female marten art dealer. Match canonical face, fur, elegant outfit and proportions.',tilda:'Adult female pangolin mechanic. Match canonical scales, face, work apron and glasses.',oszkar:'Young adult male squirrel bicycle courier. Match canonical face, fur, helmet and courier bag.'};
@@ -27,10 +28,12 @@ export async function elementAction(raw:unknown,store:R2VideoStore,provider=new 
  const id=elementRecordId(input.character,row.sha256);
  async function save(job:ElementJob){const prior=await store.readRecord<ElementJob>('video-element',id);if(!await store.writeRecord('video-element',id,job,prior?.etag))throw new WaveSpeedError('SCENE_CHANGED',409);return job;}
  async function finish(job:ElementJob,task:CreativeTask){
-  if(task.status==='completed'){const elementId=elementOutput(task);return save({...job,taskId:task.id,...(elementId?{status:'READY' as const,elementId}:{status:'UNCERTAIN' as const,error:'ELEMENT_OUTPUT_REVIEW_REQUIRED'})});}
+  if(task.status==='completed'){let elementId=elementOutput(task);
+   if(!elementId)for(const output of task.outputs??[]){if(typeof output==='string'&&output.startsWith('https://')){const data=(await downloadProviderMedia(output,1024*1024)).toString('utf8');elementId=elementOutput({...task,outputs:[data]});if(elementId)break;}}
+   return save({...job,taskId:task.id,...(elementId?{status:'READY' as const,elementId}:{status:'UNCERTAIN' as const,error:'ELEMENT_OUTPUT_REVIEW_REQUIRED',outputShape:JSON.stringify((task.outputs??[]).map(x=>typeof x==='object'?Object.keys(x):typeof x==='string'?(x.startsWith('https:')?'https-url':x.slice(0,120)):typeof x))})});}
   return save({...job,taskId:task.id,status:['failed','cancelled','timeout','deleted'].includes(task.status)?'FAILED':'PROCESSING'});
  }
- if(input.action==='poll'){if(row.job?.taskId&&row.job.status==='PROCESSING')await finish(row.job,await provider.creativeResult(row.job.taskId));return elementOverview(store);}
+ if(input.action==='poll'){if(row.job?.taskId&&['PROCESSING','UNCERTAIN'].includes(row.job.status))await finish(row.job,await provider.creativeResult(row.job.taskId));return elementOverview(store);}
  if(row.job)return elementOverview(store); // Never resubmit an ambiguous or failed provider request.
  const payload={name:row.name,description:descriptions[input.character],image:await store.imageUrl(row.sha256),element_refer_list:[]};
  const [price,balance]=await Promise.all([provider.creativePrice(model,payload),provider.balance()]);
@@ -38,6 +41,6 @@ export async function elementAction(raw:unknown,store:R2VideoStore,provider=new 
  let job:ElementJob={id,character:input.character,name:row.name,referenceSha256:row.sha256,status:'SUBMITTING',price};
  if(!await store.writeRecord('video-element',id,job))return elementOverview(store);
  try{await reserveProductionBudget('wavespeed_element');}catch{await save({...job,status:'FAILED',error:'BUDGET_BLOCKED'});throw new WaveSpeedError('BUDGET_BLOCKED',409);}
- try{const task=await provider.creativeSubmit(model,payload);job=await finish(job,task);}catch{const latest=await store.readRecord<ElementJob>('video-element',id);if(!latest?.value.taskId)await save({...job,status:'UNCERTAIN',error:'ELEMENT_SUBMISSION_UNCERTAIN'});}
+ try{const task=await provider.creativeSubmit(model,payload);job=await save({...job,taskId:task.id,status:'PROCESSING'});job=await finish(job,task);}catch{const latest=await store.readRecord<ElementJob>('video-element',id);if(!latest?.value.taskId)await save({...job,status:'UNCERTAIN',error:'ELEMENT_SUBMISSION_UNCERTAIN'});}
  return elementOverview(store);
 }
