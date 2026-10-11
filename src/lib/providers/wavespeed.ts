@@ -64,6 +64,20 @@ export class WaveSpeedClient {
     if(!CREATIVE_MODELS.includes(model))throw new WaveSpeedError('INVALID_MODEL');
     return creativeTaskSchema.parse(await this.call(model,inputs));
   }
+  async elementSubmit(inputs:Record<string,unknown>):Promise<{elementId:string}|{task:CreativeTask}> {
+    const raw=await this.call('kwaivgi/kling-elements',inputs);
+    const direct=z.object({element_id:z.union([z.string(),z.number()])}).safeParse(raw);
+    if(direct.success)return {elementId:String(direct.data.element_id)};
+    const obj=raw&&typeof raw==='object'?raw as Record<string,unknown>:{};
+    const normalized={...obj,...(obj.outputs&&typeof obj.outputs==='object'&&!Array.isArray(obj.outputs)?{outputs:[obj.outputs]}:{})};
+    const task=creativeTaskSchema.safeParse(normalized);
+    if(!task.success)throw new WaveSpeedError('ELEMENT_RESPONSE_SCHEMA_'+Object.keys(obj).join('_').slice(0,100));
+    return {task:task.data};
+  }
+  async elementHistory():Promise<Record<string,unknown>[]> {
+    const data=await this.call('predictions',{page:1,page_size:100,created_after:new Date(Date.now()-24*60*60*1000).toISOString()});
+    return z.object({items:z.array(z.record(z.unknown()))}).parse(data).items.filter(x=>x.model==='kwaivgi/kling-elements');
+  }
   async creativeResult(id:string):Promise<CreativeTask> {
     if(!/^[A-Za-z0-9_-]{1,160}$/.test(id))throw new WaveSpeedError('INVALID_TASK',400);
     const task=creativeTaskSchema.parse(await this.call(`predictions/${id}/result`));

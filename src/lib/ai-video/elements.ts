@@ -23,7 +23,7 @@ export async function resolveElements(store:R2VideoStore,characters:CastKey[]):P
  const rows=await elementOverview(store);return characters.map(k=>{const row=rows.find(r=>r.character===k)!;if(row.job?.status!=='READY'||!row.job.elementId)throw new WaveSpeedError('VIDEO_CHARACTER_REQUIRED',409);return {elementId:row.job.elementId,name:row.name,referenceSha256:row.sha256!};});
 }
 export async function elementAction(raw:unknown,store:R2VideoStore,provider=new WaveSpeedClient(process.env.WAVESPEED_API_KEY??'')){
- const input=z.object({character:keys,action:z.enum(['create','poll'])}).strict().parse(raw),row=(await elementOverview(store)).find(x=>x.character===input.character)!;
+ const input=z.object({character:keys,action:z.enum(['create','poll','recover'])}).strict().parse(raw),row=(await elementOverview(store)).find(x=>x.character===input.character)!;
  if(!row.sha256)throw new WaveSpeedError('CHARACTER_REFERENCE_MISSING',409);
  const id=elementRecordId(input.character,row.sha256);
  async function save(job:ElementJob){const prior=await store.readRecord<ElementJob>('video-element',id);if(!await store.writeRecord('video-element',id,job,prior?.etag))throw new WaveSpeedError('SCENE_CHANGED',409);return job;}
@@ -34,13 +34,22 @@ export async function elementAction(raw:unknown,store:R2VideoStore,provider=new 
   return save({...job,taskId:task.id,status:['failed','cancelled','timeout','deleted'].includes(task.status)?'FAILED':'PROCESSING'});
  }
  if(input.action==='poll'){if(row.job?.taskId&&['PROCESSING','UNCERTAIN'].includes(row.job.status))await finish(row.job,await provider.creativeResult(row.job.taskId));return elementOverview(store);}
+ if(input.action==='recover'){
+  if(!row.job||row.job.status!=='UNCERTAIN'||row.job.taskId)return elementOverview(store);
+  const history=await provider.elementHistory();
+  const matches=history.filter(t=>JSON.stringify(t.input??t.inputs??t.request??{}).includes(row.sha256!));
+  if(matches.length===1){const found=matches[0];if(typeof found.id==='string'){const task=await provider.creativeResult(found.id);await finish(await save({...row.job,taskId:found.id,status:'PROCESSING'}),task);return elementOverview(store);}}
+  await save({...row.job,outputShape:'Matching requests: '+matches.length+'; element history: '+history.map(t=>JSON.stringify({id:t.id,status:t.status,keys:Object.keys(t),outputs:t.outputs})).join(' ').slice(0,3500)});
+  return elementOverview(store);
+ }
  if(row.job)return elementOverview(store); // Never resubmit an ambiguous or failed provider request.
- const payload={name:row.name,description:descriptions[input.character],image:await store.imageUrl(row.sha256),element_refer_list:[]};
+ const image=await store.imageUrl(row.sha256);
+ const payload={name:row.name,description:descriptions[input.character],image,element_refer_list:[image]};
  const [price,balance]=await Promise.all([provider.creativePrice(model,payload),provider.balance()]);
  if(price>.010001)throw new WaveSpeedError('ELEMENT_PRICE_CHANGED',409);if(balance<price)throw new WaveSpeedError('WAVESPEED_BALANCE_LOW',409);
  let job:ElementJob={id,character:input.character,name:row.name,referenceSha256:row.sha256,status:'SUBMITTING',price};
  if(!await store.writeRecord('video-element',id,job))return elementOverview(store);
  try{await reserveProductionBudget('wavespeed_element');}catch{await save({...job,status:'FAILED',error:'BUDGET_BLOCKED'});throw new WaveSpeedError('BUDGET_BLOCKED',409);}
- try{const task=await provider.creativeSubmit(model,payload);job=await save({...job,taskId:task.id,status:'PROCESSING'});job=await finish(job,task);}catch{const latest=await store.readRecord<ElementJob>('video-element',id);if(!latest?.value.taskId)await save({...job,status:'UNCERTAIN',error:'ELEMENT_SUBMISSION_UNCERTAIN'});}
+ try{const submitted=await provider.elementSubmit(payload);if('elementId' in submitted){if(!/^[A-Za-z0-9_-]{1,160}$/.test(submitted.elementId))throw new WaveSpeedError('ELEMENT_OUTPUT_REVIEW_REQUIRED');await save({...job,status:'READY',elementId:submitted.elementId});}else{const task=submitted.task;job=await save({...job,taskId:task.id,status:'PROCESSING'});job=await finish(job,task);}}catch(e){const latest=await store.readRecord<ElementJob>('video-element',id);if(!latest?.value.taskId)await save({...job,status:'UNCERTAIN',error:e instanceof WaveSpeedError?e.code:'ELEMENT_SUBMISSION_UNCERTAIN'});}
  return elementOverview(store);
 }
