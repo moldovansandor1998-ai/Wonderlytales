@@ -14,6 +14,15 @@ export async function finishedVideo(owner:string,id:string){
   await pause(owner,id,workflowId,'AUTO_TIMEOUT');
  }catch(e){await pause(owner,id,workflowId,e instanceof Error?e.message:'AUTO_PROVIDER_FAILED');}
 }
-async function claim(owner:string,id:string,workflowId:string){'use step';return claimAutomatic(new R2VideoStore(owner),id,workflowId);}
-async function advance(owner:string,id:string,workflowId:string){'use step';return advanceAutomatic(new R2VideoStore(owner),id,workflowId);}
-async function pause(owner:string,id:string,workflowId:string,error:string){'use step';await pauseAutomatic(new R2VideoStore(owner),id,workflowId,error);}
+async function claim(owner:string,id:string,workflowId:string){
+ 'use step';
+ return claimAutomatic(new R2VideoStore(owner),id,workflowId);
+}
+async function advance(owner:string,id:string,workflowId:string){
+ 'use step';
+ return advanceAutomatic(new R2VideoStore(owner),id,workflowId);
+}
+async function pause(owner:string,id:string,workflowId:string,error:string){
+ 'use step';
+ await pauseAutomatic(new R2VideoStore(owner),id,workflowId,error);
+}

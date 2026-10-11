@@ -85,7 +85,7 @@ export async function advanceBatch(store:R2VideoStore,id:string,workflowId:strin
  if(batchSourceHash(item.continuous?{...c.state,mode:'last-frame',sceneBreak:false}:c.state)!==item.sourceHash)throw new WaveSpeedError('AUTO_SOURCE_CHANGED',409);
  if(item.phase==='READY'){
   if(c.job?.status!=='READY'||c.job.fingerprint!==c.fingerprint||c.job.finalAsset!==item.finalAsset)throw new WaveSpeedError('AUTO_SOURCE_CHANGED',409);
-  await updateBatch(store,id,{index:b.index+1},workflowId);return false;
+  const done=b.index+1>=b.items.length;await updateBatch(store,id,{index:b.index+1,...(done?{status:'READY' as const}:{})},workflowId);return done;
  }
  if(item.regenerate&&c.state.videoJobId!==item.videoId){
   let image=c.state.imageSha256,sourceAsset:string|undefined,sourceJobId:string|undefined,sourceTime:number|undefined;

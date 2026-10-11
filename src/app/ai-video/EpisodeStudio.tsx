@@ -59,7 +59,7 @@ export default function EpisodeStudio(){
  const load=useCallback(async()=>{
   const data=await api<EpisodeOverview>('/episode');setOverview(data);return data;
  },[]);
- useEffect(()=>{void load().then(o=>{const next=o.scenes.find(s=>!s.post?.hu?.approved)||o.scenes[0];setSelected(next.state.id);setDraft(next.state);}).catch(e=>setError(e.message));},[load]);
+ useEffect(()=>{void load().then(o=>{const next=o.scenes.find(s=>!s.video||s.state.review==='needs-work')||o.scenes.find(s=>!s.post?.hu?.approved)||o.scenes[0];setSelected(next.state.id);setDraft(next.state);}).catch(e=>setError(e.message));},[load]);
  function choose(s:EpisodeScene){if(lock.current)return;if(dirty){setError('Mentsd a módosításokat, vagy válaszd a módosítások elvetését.');return;}setSelected(s.state.id);setDraft(s.state);setQuote(null);setError('');setNotice('');setAttach('');setPlaylist(false);}
  function edit(value:Partial<SceneState>){setDraft(d=>d?{...d,...value}:d);setDirty(true);setQuote(null);}
  async function run(action:string,data?:unknown,label='Mentés…'){
