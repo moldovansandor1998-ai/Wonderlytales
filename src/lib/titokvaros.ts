@@ -4,6 +4,7 @@ import ids from '../../production/titokvaros/ids.json';
 export { bible as titokvarosBible, demo as titokvarosDemo, ids as titokvarosIds };
 export const titokvarosPrefix = 'native/S1E1/TITOKVAROS/V001';
 export const titokvarosFiles = {
+ candidate: {key:`${titokvarosPrefix}/TV_ANIMATED_V005.blend`,mime:'application/octet-stream'},
  turnaround: {key:`${titokvarosPrefix}/Titokvaros_turnarounds_V001.png`,mime:'image/png'},
  tv_char_mira: {key:`${titokvarosPrefix}/TV_CHAR_MIRA_V001.blend`,mime:'application/octet-stream'},
  tv_char_bruno: {key:`${titokvarosPrefix}/TV_CHAR_BRUNO_V001.blend`,mime:'application/octet-stream'},

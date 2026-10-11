@@ -91,3 +91,11 @@ are preserved in `TV_MODELING_STUDIES_V001.zip`. A proper shoulder topology and
 explicit deformation authoring are required; do not keep promoting remesh output.
 A new three-view concept sheet for Mira/Brúnó/Kipp is a sculpting reference, not
 proof of native model quality and not an exact engineering orthographic drawing.
+
+
+Actual PART2 review: 24 sampled video frames plus all 24 consecutive frames at
+run onset were inspected. The moving trolley visibly intersects Bruno. This
+is a blocking animation failure, not noise or low sampling. V005 changes the
+trajectory so the heroes chase a cart ahead of them. Native evaluated geometry
+checks on 241 frames changed from 82 torso-box intersections (V003) to zero
+(V005). A separate 2-second native diagnostic is planned; V003 stays rejected.

@@ -172,3 +172,16 @@ Both shoulder-union candidates were rejected; preserve the canonical master.
 Rejected studies zip and new three-view concept sheet persisted in R2; hashes
 are in ops/titokvaros-artifacts.json. Next modeling work needs authored shoulder
 edge flow, not another blind remesh or additional render samples.
+
+## V003 collision finding and V005 correction
+
+Actual PART2 video revealed the trolley passing through Bruno's torso. A native
+Blender audit of 241 chase frames found 82 crate/torso AABB intersections in V003.
+The V005 source moves the cart ahead in a separate lane, eases its trajectory,
+rolls the wheels, and computes grip targets from the moving cart. The same
+241-frame audit reports zero torso intersections. This is NOT a full collision
+or acting approval; fingers, wings and feet still need review.
+V005 source SHA `b866b7d3464082ecdcedc1005cf67c1ea75c4909b59b3f21b1bdd8e18a374155`.
+A distinct `TV_CONTACT_V005_2S` diagnostic, frames 489–536, is defined for a
+short actual-video verification. It is not part of the 48-second V003 assembly.
+Do not rerender the entire weak-model movie merely to claim quality improvement.

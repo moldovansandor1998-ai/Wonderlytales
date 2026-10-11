@@ -1,0 +1,38 @@
+[
+  {
+    "id": "TV_DEMO_V003_PART1",
+    "status": "COMPLETED",
+    "source_sha256": "10b4c5728d0c00079f2944bf35955f2c288e5e8cafb3fbe6ec579076a0367556",
+    "clip": {
+      "bytes": 9251586,
+      "has_scene_audio": true,
+      "key": "renders/native/S1E1/10b4c5728d0c00079f2944bf35955f2c288e5e8cafb3fbe6ec579076a0367556/6473698608eb2b5dde67af806523ddbdc23ff1f71bd1f37e48b8ed7b40125246/clip.mp4",
+      "sha256": "73d3eb4e339943e40a7a86e22a82382f8a8783fefddb2130f0802bd7bbe67665",
+      "verified_fps": 24,
+      "verified_frames": 288,
+      "verified_height": 1080,
+      "verified_width": 1920
+    },
+    "frames": 288,
+    "execution_ms": 811634,
+    "production_approved": false
+  },
+  {
+    "id": "TV_DEMO_V003_PART2",
+    "status": "COMPLETED",
+    "source_sha256": "10b4c5728d0c00079f2944bf35955f2c288e5e8cafb3fbe6ec579076a0367556",
+    "clip": {
+      "bytes": 9915756,
+      "has_scene_audio": true,
+      "key": "renders/native/S1E1/10b4c5728d0c00079f2944bf35955f2c288e5e8cafb3fbe6ec579076a0367556/bcc1a03fe8c9b3059babfbf76995e2171bc1166ed7c4f64072178e99b66aa8ad/clip.mp4",
+      "sha256": "096149f693297d0e8c77e95c8b054a4ec88d96533986b9a1c2755a845e80597b",
+      "verified_fps": 24,
+      "verified_frames": 288,
+      "verified_height": 1080,
+      "verified_width": 1920
+    },
+    "frames": 288,
+    "execution_ms": 825534,
+    "production_approved": false
+  }
+]

@@ -4,12 +4,12 @@ Never submits or retries jobs; authenticated Studio owns budget and claims.
 import argparse,json,hashlib,urllib.request,subprocess
 from pathlib import Path
 import boto3
-p=argparse.ArgumentParser();p.add_argument('--config',required=True);p.add_argument('--download',action='store_true');a=p.parse_args()
+p=argparse.ArgumentParser();p.add_argument('--config',required=True);p.add_argument('--download',action='store_true');p.add_argument('--diagnostics',action='store_true');a=p.parse_args()
 root=Path(__file__).resolve().parents[1];c=json.loads(Path(a.config).read_text());m=json.loads((root/'production/titokvaros/render-manifest.json').read_text())
 s=boto3.client('s3',endpoint_url=c['S3_ENDPOINT'],aws_access_key_id=c['S3_ACCESS_KEY_ID'],aws_secret_access_key=c['S3_SECRET_ACCESS_KEY'],region_name='auto');out=root/'data/titokvaros/full_render';out.mkdir(exist_ok=True,parents=True)
 summary=[]
 for job in m['jobs']:
- if not job['id'].startswith('TV_DEMO_'):continue
+ if not (job['id'].startswith('TV_DEMO_') or (a.diagnostics and job['id'].startswith('TV_CONTACT_'))):continue
  try:state=json.loads(s.get_object(Bucket=c['S3_BUCKET'],Key='native/S1E1/TITOKVAROS/V001/jobs/'+job['id']+'.json')['Body'].read())
  except s.exceptions.NoSuchKey:summary.append({'id':job['id'],'status':'NOT_SUBMITTED'});continue
  if not state.get('provider_job_id'):summary.append({'id':job['id'],'status':state['status']});continue

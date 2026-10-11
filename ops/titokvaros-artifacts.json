@@ -196,5 +196,23 @@
     "sha256": "d9dbdb566f3b09680dc64a6d41f10293f5c851a5f038a053dc21a6026d034eda",
     "bytes": 128879955,
     "readback_verified": true
+  },
+  {
+    "key": "native/S1E1/TITOKVAROS/V001/TV_ANIMATED_V005.blend",
+    "sha256": "b866b7d3464082ecdcedc1005cf67c1ea75c4909b59b3f21b1bdd8e18a374155",
+    "bytes": 129883495,
+    "readback_verified": true
+  },
+  {
+    "key": "native/S1E1/TITOKVAROS/V001/cargo_collision_V003.json",
+    "sha256": "136512d5029f31460cab7165de5f42be32e08f9e90363dfaa88986043b2464ed",
+    "bytes": 14894,
+    "readback_verified": true
+  },
+  {
+    "key": "native/S1E1/TITOKVAROS/V001/cargo_collision_V005.json",
+    "sha256": "8e1f46f442663a37b022656d5bcacbe66c9d53eaf06531b60e0dc781b2758f43",
+    "bytes": 236,
+    "readback_verified": true
   }
 ]

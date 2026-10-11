@@ -43,6 +43,14 @@
       "purpose": "48-second development scene, part 4 of 4; NOT production approved",
       "scene_key": "native/S1E1/TITOKVAROS/V001/TV_ANIMATED_V003.blend",
       "scene_sha256": "10b4c5728d0c00079f2944bf35955f2c288e5e8cafb3fbe6ec579076a0367556"
+    },
+    {
+      "id": "TV_CONTACT_V005_2S",
+      "frame_start": 565,
+      "frame_end": 612,
+      "purpose": "Two-second corrected stop/grip and camera-cut diagnostic after V003 footage exposed torso penetration; not approved film",
+      "scene_key": "native/S1E1/TITOKVAROS/V001/TV_ANIMATED_V005.blend",
+      "scene_sha256": "b866b7d3464082ecdcedc1005cf67c1ea75c4909b59b3f21b1bdd8e18a374155"
     }
   ]
 }
