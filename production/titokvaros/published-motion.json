@@ -1,0 +1,78 @@
+{
+  "stage": "DEVELOPMENT",
+  "production_approved": false,
+  "actions": [
+    {
+      "character": "MIRA",
+      "action": "TV_MIRA_WALK_ROOTMOTION_V001",
+      "cycle_frames": 24,
+      "stride_m": 0.48,
+      "root_motion": true,
+      "production_approved": false,
+      "file": "TV_MOTION_MIRA_V001.blend",
+      "sha256": "5f7ffc25447a691649f150046d14aeeb5cb21ff99511e080ab4d5db2b9031777",
+      "bytes": 73333,
+      "reload_manifest_verified": true
+    },
+    {
+      "character": "MIRA",
+      "action": "TV_MIRA_RUN_ROOTMOTION_V001",
+      "cycle_frames": 12,
+      "stride_m": 0.72,
+      "root_motion": true,
+      "production_approved": false,
+      "file": "TV_MOTION_MIRA_V001.blend",
+      "sha256": "5f7ffc25447a691649f150046d14aeeb5cb21ff99511e080ab4d5db2b9031777",
+      "bytes": 73333,
+      "reload_manifest_verified": true
+    },
+    {
+      "character": "BRUNO",
+      "action": "TV_BRUNO_WALK_ROOTMOTION_V001",
+      "cycle_frames": 24,
+      "stride_m": 0.48,
+      "root_motion": true,
+      "production_approved": false,
+      "file": "TV_MOTION_BRUNO_V001.blend",
+      "sha256": "3266207eb384e327e9a91e1b20f94d10986b783bcd5250eae15e0210a79d7842",
+      "bytes": 73485,
+      "reload_manifest_verified": true
+    },
+    {
+      "character": "BRUNO",
+      "action": "TV_BRUNO_RUN_ROOTMOTION_V001",
+      "cycle_frames": 12,
+      "stride_m": 0.72,
+      "root_motion": true,
+      "production_approved": false,
+      "file": "TV_MOTION_BRUNO_V001.blend",
+      "sha256": "3266207eb384e327e9a91e1b20f94d10986b783bcd5250eae15e0210a79d7842",
+      "bytes": 73485,
+      "reload_manifest_verified": true
+    },
+    {
+      "character": "KIPP",
+      "action": "TV_KIPP_WALK_ROOTMOTION_V001",
+      "cycle_frames": 24,
+      "stride_m": 0.48,
+      "root_motion": true,
+      "production_approved": false,
+      "file": "TV_MOTION_KIPP_V001.blend",
+      "sha256": "3877504245ca18403a3f76ad3f55c810af62efa547f44eef51eefb5c74f95087",
+      "bytes": 73538,
+      "reload_manifest_verified": true
+    },
+    {
+      "character": "KIPP",
+      "action": "TV_KIPP_RUN_ROOTMOTION_V001",
+      "cycle_frames": 12,
+      "stride_m": 0.72,
+      "root_motion": true,
+      "production_approved": false,
+      "file": "TV_MOTION_KIPP_V001.blend",
+      "sha256": "3877504245ca18403a3f76ad3f55c810af62efa547f44eef51eefb5c74f95087",
+      "bytes": 73538,
+      "reload_manifest_verified": true
+    }
+  ]
+}

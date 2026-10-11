@@ -59,3 +59,21 @@ The actual 48-second mix includes dialogue and three original synthesized stems.
 The initial 4-second Full HD video was inspected and did not pass the artistic
 bar. The complete development cut tests sound, editing and native continuity;
 it is not the approved professional demo. See QUALITY_REVIEW_V001.md.
+
+## Published native libraries
+
+`published-libraries.json` lists nine reload-verified `.blend` collections;
+`published-motion.json` lists six native Action assets in three files. They are
+registered in Supabase with explicit DEVELOPMENT_UNAPPROVED status. The Studio
+exposes authenticated downloads for the individual assets. The assembler can
+now use `--libraries <directory>` instead of a monolithic `--master` source.
+Its actual rendered comparison frame matches the original composition.
+
+`pipeline.py` accepts optional immutable `source_sha256` per shot, allowing a
+single independently exported scene to change without invalidating 499 others.
+The tested ledger does not claim the existence of 500 finished scenes.
+
+`scripts/titokvaros-assemble-review.py` accepts only four completed, hash-verified
+native chunks. It creates exactly 1152 frames with the real 48-second audio mix,
+adds a visible development label and verifies full decode. It never pads time
+with repeated frames or marks the result production-approved.

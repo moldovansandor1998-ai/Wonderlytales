@@ -125,3 +125,27 @@ and light cues have changed. Do not overwrite immutable V001 artifacts.
 
 V002 revealed a cropped emotional dialogue camera; V003 widens shot 5 before
 paid rendering. V002 remains preserved, not overwritten.
+
+## Separate reusable libraries now persisted
+
+Nine compressed native .blend libraries (3 characters, quay, lighting, trolley,
+tram, 7 cameras, 6 background residents), all independently reloaded and checked.
+Three additional motion libraries contain six real walk/run Actions. Manifests:
+`published-libraries.json`, `published-motion.json`; R2 hashes in ops registry.
+12 asset records, 3 character versions, 6 animation records and one location
+version registered idempotently in Supabase, all DEVELOPMENT_UNAPPROVED.
+`assemble_demo.py --libraries <dir>` rebuilds the voiced scene from these files;
+actual frame 171 was rendered and visually compared to the monolithic source.
+500-shot ledger supports per-shot source hashes; changing one leaves 499 intact.
+No existing archive asset was modified or deleted.
+
+Active GPU jobs (do not re-submit):
+- PART1: 86ee479e-6408-402f-b8e8-9d2c124e7daa-u1
+- PART2: 9c1565a5-ab19-4332-be37-5a62c2903baa-u1
+- PART3: 01ae7c72-3109-4273-8501-56d9a7df3b64-u1
+- PART4: 89430fee-2775-4213-a61a-4efa9742d9b6-u2
+All `TV_DEMO_V003_PARTn`. Same existing endpoint, no scaling changes.
+Read-only `scripts/titokvaros-render-status.py --config <protected-config>
+--download` verifies/downloads completed clips and counts durable frame checkpoints.
+Current daily reservation readback: $69.50 on budget day 2026-10-11, not invoices.
+Full 48-second rendered movie remains pending until all four verified clips exist.

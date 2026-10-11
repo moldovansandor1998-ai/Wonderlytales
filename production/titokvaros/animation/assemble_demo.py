@@ -8,6 +8,7 @@ from mathutils import Vector,Matrix
 sys.path.insert(0,str(Path(__file__).resolve().parent))
 from build_native import cube,ellipsoid,curve,material,look_at,light,bind
 from motion_library import locomotion,expression,arm_direction,key,pose_position
+from load_libraries import load_published
 
 
 def empty(name):
@@ -147,8 +148,10 @@ def lipsync(audio_dir,report):
 
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--master',required=True);p.add_argument('--out',required=True);p.add_argument('--audio');p.add_argument('--stems');a=p.parse_args(sys.argv[sys.argv.index('--')+1:])
-    out=Path(a.out).resolve();out.mkdir(parents=True,exist_ok=True);bpy.ops.wm.open_mainfile(filepath=str(Path(a.master).resolve()),use_scripts=False)
+    p=argparse.ArgumentParser();source=p.add_mutually_exclusive_group(required=True);source.add_argument('--master');source.add_argument('--libraries');p.add_argument('--out',required=True);p.add_argument('--audio');p.add_argument('--stems');a=p.parse_args(sys.argv[sys.argv.index('--')+1:])
+    out=Path(a.out).resolve();out.mkdir(parents=True,exist_ok=True)
+    if a.libraries:load_published(a.libraries)
+    else:bpy.ops.wm.open_mainfile(filepath=str(Path(a.master).resolve()),use_scripts=False)
     scene=bpy.context.scene;scene.frame_start=1;scene.frame_end=1152;scene.render.fps=24
     for obj in bpy.data.objects:
         for mod in obj.modifiers:

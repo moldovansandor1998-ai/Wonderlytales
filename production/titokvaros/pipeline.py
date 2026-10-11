@@ -39,7 +39,9 @@ def plan(db,manifest,source_sha,chunk_frames=144):
     current=[]
     with db:
         for shot in manifest['shots']:
-            revision=identity(shot,manifest.get('assets',{}),{'fps':24,'source_sha256':source_sha})
+            shot_source=shot.get('source_sha256',source_sha)
+            if not re.fullmatch('[a-f0-9]{64}',shot_source):raise ValueError('Invalid per-shot source hash')
+            revision=identity(shot,manifest.get('assets',{}),{'fps':24,'source_sha256':shot_source})
             for start in range(shot['start'],shot['end']+1,chunk_frames):
                 end=min(shot['end'],start+chunk_frames-1)
                 key=hashlib.sha256(f'{revision}:{start}:{end}:1920:1080:48'.encode()).hexdigest();current.append(key)

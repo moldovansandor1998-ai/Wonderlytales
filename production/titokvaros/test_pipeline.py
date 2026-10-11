@@ -17,4 +17,9 @@ class PipelineTests(unittest.TestCase):
   with self.assertRaises(ValueError):p.complete(db,key,'renders/native/S1E1/test/clip.mp4','c'*64,143)
  def test_source_change_invalidates_all_dependent_tasks(self):
   db=p.database(':memory:');m=self.manifest(3);a=p.plan(db,m,'a'*64);b=p.plan(db,m,'b'*64);self.assertFalse(set(a)&set(b))
+ def test_independent_sources_only_invalidate_changed_shot(self):
+  db=p.database(':memory:');m=self.manifest()
+  for s in m['shots']:s['source_sha256']='a'*64
+  old=p.plan(db,m,'b'*64);m['shots'][237]['source_sha256']='c'*64;new=p.plan(db,m,'b'*64)
+  self.assertEqual(len(set(new)-set(old)),1);self.assertEqual(len(set(old)&set(new)),499)
 if __name__=='__main__':unittest.main()

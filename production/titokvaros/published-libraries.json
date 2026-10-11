@@ -1,0 +1,105 @@
+{
+  "series": "TITOKVAROS",
+  "production_approved": false,
+  "assets": [
+    {
+      "id": "TV_CHAR_MIRA",
+      "file": "TV_CHAR_MIRA_V001.blend",
+      "role": "character",
+      "collection": "TV_CHAR_MIRA",
+      "objects": 89,
+      "sha256": "4e17707f5f75bae6c6529e4070030528e49d5ab96776abceae742ba1220e7b6d",
+      "bytes": 1403749,
+      "production_approved": false,
+      "reload_verified": true
+    },
+    {
+      "id": "TV_CHAR_BRUNO",
+      "file": "TV_CHAR_BRUNO_V001.blend",
+      "role": "character",
+      "collection": "TV_CHAR_BRUNO",
+      "objects": 92,
+      "sha256": "54be633206125b6357ea1afaf26aecd582c2414268f649eb2e85e8be372ccd90",
+      "bytes": 1419607,
+      "production_approved": false,
+      "reload_verified": true
+    },
+    {
+      "id": "TV_CHAR_KIPP",
+      "file": "TV_CHAR_KIPP_V001.blend",
+      "role": "character",
+      "collection": "TV_CHAR_KIPP",
+      "objects": 91,
+      "sha256": "f7d209438a81e44ebd6232c9e4eb3f0fba920a317ef9ebf35650eed2d40b156c",
+      "bytes": 1429130,
+      "production_approved": false,
+      "reload_verified": true
+    },
+    {
+      "id": "TV_ENV_REZRAKPART",
+      "file": "TV_ENV_REZRAKPART_V001.blend",
+      "role": "environment",
+      "collection": "TV_ENV_REZRAKPART",
+      "objects": 1249,
+      "sha256": "f538a0fd87a53b5eca91c2c48f836316ded80b0309b952e4dfdc8a17d866c4ca",
+      "bytes": 350723,
+      "production_approved": false,
+      "reload_verified": true
+    },
+    {
+      "id": "TV_LIGHT_BLUE_HOUR",
+      "file": "TV_LIGHT_BLUE_HOUR_V001.blend",
+      "role": "lighting",
+      "collection": "TV_LIGHT_BLUE_HOUR",
+      "objects": 3,
+      "sha256": "0d01ca301f6a9c51e671f18ee9340df3460d19abb098af305438528019691918",
+      "bytes": 61489,
+      "production_approved": false,
+      "reload_verified": true
+    },
+    {
+      "id": "TV_PROP_CARGO_TROLLEY",
+      "file": "TV_PROP_CARGO_TROLLEY_V001.blend",
+      "role": "prop",
+      "collection": "TV_PROP_CARGO_TROLLEY",
+      "objects": 15,
+      "sha256": "77b3e0088a08e2e7d54f677b1f2f4360d2d8d3535063cebfbaeb4bc818135df8",
+      "bytes": 95089,
+      "production_approved": false,
+      "reload_verified": true
+    },
+    {
+      "id": "TV_VEHICLE_TRAM",
+      "file": "TV_VEHICLE_TRAM_V001.blend",
+      "role": "vehicle",
+      "collection": "TV_VEHICLE_TRAM",
+      "objects": 11,
+      "sha256": "b6e22231ce81fbac94c7d471c5d2d07b06c9918b5abb6b7fb583ab02a7c5ec94",
+      "bytes": 91264,
+      "production_approved": false,
+      "reload_verified": true
+    },
+    {
+      "id": "TV_CAM_DEMO_TEMPLATES",
+      "file": "TV_CAM_DEMO_TEMPLATES_V001.blend",
+      "role": "camera_templates",
+      "collection": "TV_CAM_DEMO_TEMPLATES",
+      "objects": 7,
+      "sha256": "c14890e6c97561ec2726db9245acfa40d4717f61074874dad299b7b68dc562eb",
+      "bytes": 74179,
+      "production_approved": false,
+      "reload_verified": true
+    },
+    {
+      "id": "TV_EXTRAS_RESIDENTS",
+      "file": "TV_EXTRAS_RESIDENTS_V001.blend",
+      "role": "background_characters",
+      "collection": "TV_EXTRAS_RESIDENTS",
+      "objects": 147,
+      "sha256": "f894c38c6cab7cb1525fef00298c7b0414d8db8eb71628b242e11891d4b470e5",
+      "bytes": 430658,
+      "production_approved": false,
+      "reload_verified": true
+    }
+  ]
+}

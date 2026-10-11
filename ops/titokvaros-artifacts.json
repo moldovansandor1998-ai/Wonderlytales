@@ -94,5 +94,89 @@
     "sha256": "10b4c5728d0c00079f2944bf35955f2c288e5e8cafb3fbe6ec579076a0367556",
     "bytes": 128879955,
     "readback_verified": true
+  },
+  {
+    "key": "native/S1E1/TITOKVAROS/V001/TV_CHAR_MIRA_V001.blend",
+    "sha256": "4e17707f5f75bae6c6529e4070030528e49d5ab96776abceae742ba1220e7b6d",
+    "bytes": 1403749,
+    "readback_verified": true
+  },
+  {
+    "key": "native/S1E1/TITOKVAROS/V001/TV_CHAR_BRUNO_V001.blend",
+    "sha256": "54be633206125b6357ea1afaf26aecd582c2414268f649eb2e85e8be372ccd90",
+    "bytes": 1419607,
+    "readback_verified": true
+  },
+  {
+    "key": "native/S1E1/TITOKVAROS/V001/TV_CHAR_KIPP_V001.blend",
+    "sha256": "f7d209438a81e44ebd6232c9e4eb3f0fba920a317ef9ebf35650eed2d40b156c",
+    "bytes": 1429130,
+    "readback_verified": true
+  },
+  {
+    "key": "native/S1E1/TITOKVAROS/V001/TV_ENV_REZRAKPART_V001.blend",
+    "sha256": "f538a0fd87a53b5eca91c2c48f836316ded80b0309b952e4dfdc8a17d866c4ca",
+    "bytes": 350723,
+    "readback_verified": true
+  },
+  {
+    "key": "native/S1E1/TITOKVAROS/V001/TV_LIGHT_BLUE_HOUR_V001.blend",
+    "sha256": "0d01ca301f6a9c51e671f18ee9340df3460d19abb098af305438528019691918",
+    "bytes": 61489,
+    "readback_verified": true
+  },
+  {
+    "key": "native/S1E1/TITOKVAROS/V001/TV_PROP_CARGO_TROLLEY_V001.blend",
+    "sha256": "77b3e0088a08e2e7d54f677b1f2f4360d2d8d3535063cebfbaeb4bc818135df8",
+    "bytes": 95089,
+    "readback_verified": true
+  },
+  {
+    "key": "native/S1E1/TITOKVAROS/V001/TV_VEHICLE_TRAM_V001.blend",
+    "sha256": "b6e22231ce81fbac94c7d471c5d2d07b06c9918b5abb6b7fb583ab02a7c5ec94",
+    "bytes": 91264,
+    "readback_verified": true
+  },
+  {
+    "key": "native/S1E1/TITOKVAROS/V001/TV_CAM_DEMO_TEMPLATES_V001.blend",
+    "sha256": "c14890e6c97561ec2726db9245acfa40d4717f61074874dad299b7b68dc562eb",
+    "bytes": 74179,
+    "readback_verified": true
+  },
+  {
+    "key": "native/S1E1/TITOKVAROS/V001/TV_EXTRAS_RESIDENTS_V001.blend",
+    "sha256": "f894c38c6cab7cb1525fef00298c7b0414d8db8eb71628b242e11891d4b470e5",
+    "bytes": 430658,
+    "readback_verified": true
+  },
+  {
+    "key": "native/S1E1/TITOKVAROS/V001/library_manifest.json",
+    "sha256": "55ccead10cdc87aee8a0a5f2e3ade180fb09e14bdda03d7a270c2c7793788bc2",
+    "bytes": 3263,
+    "readback_verified": true
+  },
+  {
+    "key": "native/S1E1/TITOKVAROS/V001/TV_MOTION_MIRA_V001.blend",
+    "sha256": "5f7ffc25447a691649f150046d14aeeb5cb21ff99511e080ab4d5db2b9031777",
+    "bytes": 73333,
+    "readback_verified": true
+  },
+  {
+    "key": "native/S1E1/TITOKVAROS/V001/TV_MOTION_BRUNO_V001.blend",
+    "sha256": "3266207eb384e327e9a91e1b20f94d10986b783bcd5250eae15e0210a79d7842",
+    "bytes": 73485,
+    "readback_verified": true
+  },
+  {
+    "key": "native/S1E1/TITOKVAROS/V001/TV_MOTION_KIPP_V001.blend",
+    "sha256": "3877504245ca18403a3f76ad3f55c810af62efa547f44eef51eefb5c74f95087",
+    "bytes": 73538,
+    "readback_verified": true
+  },
+  {
+    "key": "native/S1E1/TITOKVAROS/V001/motion_library_manifest.json",
+    "sha256": "5b4e49ab289d95f31bd3e4d3a598a4fdcb948138f7611c6480f68cbd09796513",
+    "bytes": 2417,
+    "readback_verified": true
   }
 ]

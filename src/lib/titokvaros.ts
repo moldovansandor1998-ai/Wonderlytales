@@ -4,6 +4,19 @@ import ids from '../../production/titokvaros/ids.json';
 export { bible as titokvarosBible, demo as titokvarosDemo, ids as titokvarosIds };
 export const titokvarosPrefix = 'native/S1E1/TITOKVAROS/V001';
 export const titokvarosFiles = {
+ tv_char_mira: {key:`${titokvarosPrefix}/TV_CHAR_MIRA_V001.blend`,mime:'application/octet-stream'},
+ tv_char_bruno: {key:`${titokvarosPrefix}/TV_CHAR_BRUNO_V001.blend`,mime:'application/octet-stream'},
+ tv_char_kipp: {key:`${titokvarosPrefix}/TV_CHAR_KIPP_V001.blend`,mime:'application/octet-stream'},
+ tv_env_rezrakpart: {key:`${titokvarosPrefix}/TV_ENV_REZRAKPART_V001.blend`,mime:'application/octet-stream'},
+ tv_light_blue_hour: {key:`${titokvarosPrefix}/TV_LIGHT_BLUE_HOUR_V001.blend`,mime:'application/octet-stream'},
+ tv_prop_cargo_trolley: {key:`${titokvarosPrefix}/TV_PROP_CARGO_TROLLEY_V001.blend`,mime:'application/octet-stream'},
+ tv_vehicle_tram: {key:`${titokvarosPrefix}/TV_VEHICLE_TRAM_V001.blend`,mime:'application/octet-stream'},
+ tv_cam_demo_templates: {key:`${titokvarosPrefix}/TV_CAM_DEMO_TEMPLATES_V001.blend`,mime:'application/octet-stream'},
+ tv_extras_residents: {key:`${titokvarosPrefix}/TV_EXTRAS_RESIDENTS_V001.blend`,mime:'application/octet-stream'},
+ motion_mira: {key:`${titokvarosPrefix}/TV_MOTION_MIRA_V001.blend`,mime:'application/octet-stream'},
+ motion_bruno: {key:`${titokvarosPrefix}/TV_MOTION_BRUNO_V001.blend`,mime:'application/octet-stream'},
+ motion_kipp: {key:`${titokvarosPrefix}/TV_MOTION_KIPP_V001.blend`,mime:'application/octet-stream'},
+
  cast2: {key:`${titokvarosPrefix}/Titokvaros_cast_02_V001.png`,mime:'image/png'},
  animated: {key:`${titokvarosPrefix}/TV_ANIMATED_V003.blend`,mime:'application/octet-stream'},
  concept: {key:`${titokvarosPrefix}/Titokvaros_visual_direction_V001.png`,mime:'image/png'},
