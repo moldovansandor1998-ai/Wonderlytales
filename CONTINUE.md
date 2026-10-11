@@ -51,6 +51,13 @@ Completed in this revision:
   uploaded and read back with identical SHA-256. Evidence ZIP SHA
   `ee87f1b8ad2950c6850674199b966bcfd0cb401095ac7d3ca1e97f213e507cd8`.
   These checks do not demonstrate Maya/Unreal runtime or cinematic quality.
+- Published source commit `20e0fd95a1874566024469ba59c3e735015db193`.
+  Vercel deployment `dpl_9DdYMUVj8CUJ4zacZTRy1mTU7GvQ` reached READY with
+  the production alias. Authenticated `/titokvaros` UI visibly shows the six new
+  status cards, three input/evidence links and collapsed legacy archive.
+  The browser ZIP download attempt timed out, then browser URL security policy
+  blocked further observation (non-HTTP(S) protocol restriction). Do not bypass.
+  End-user ZIP download was NOT verified; direct R2 readback/hash WAS verified.
 
 Blockers and precise next actions:
 1. Need accessible activated Autodesk Maya and Epic UE5 installation on a GPU
