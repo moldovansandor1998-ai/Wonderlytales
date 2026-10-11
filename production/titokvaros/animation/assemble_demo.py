@@ -106,7 +106,12 @@ def camera_keys(cast):
     for i,(a,b,start,end,target,lens) in enumerate(specs):
         d=bpy.data.cameras.new(f'TV_CAM_SH{i+1:02}');d.lens=lens;d.clip_end=160
         c=bpy.data.objects.new(d.name,d);bpy.context.collection.objects.link(c)
-        for f,p in [(a,start),(b,end)]:c.location=p;tar=Vector(target);tar.y+=(p[1]-start[1]) if i==3 else 0;look_at(c,tar);c.keyframe_insert('location',frame=f);c.keyframe_insert('rotation_euler',frame=f)
+        frames=range(a,b+1) if i==3 else [a,b]
+        for f in frames:
+            if i==3:
+                y=path((f-1)/24)[0];position=(5.0,y-2.2,1.8);tar=(.25,y+.15,1.0)
+            else:position=start if f==a else end;tar=target
+            c.location=position;look_at(c,tar);c.keyframe_insert('location',frame=f);c.keyframe_insert('rotation_euler',frame=f)
         marker=scene.timeline_markers.new(f'TV_D001_SH{(i+1)*10:03}',frame=a);marker.camera=c
     scene.camera=bpy.data.objects['TV_CAM_SH01']
 
@@ -136,6 +141,9 @@ def main():
     p=argparse.ArgumentParser();p.add_argument('--master',required=True);p.add_argument('--out',required=True);p.add_argument('--audio');a=p.parse_args(sys.argv[sys.argv.index('--')+1:])
     out=Path(a.out).resolve();out.mkdir(parents=True,exist_ok=True);bpy.ops.wm.open_mainfile(filepath=str(Path(a.master).resolve()),use_scripts=False)
     scene=bpy.context.scene;scene.frame_start=1;scene.frame_end=1152;scene.render.fps=24
+    for obj in bpy.data.objects:
+        for mod in obj.modifiers:
+            if mod.type=='ARMATURE':mod.use_deform_preserve_volume=True
     cast={c:bpy.data.objects['TV_CHAR_'+c+'_RIG'] for c in DEMO['characters']}
     trol,vehicle,extras,glow=add_city_life();report={'production_approved':False,'stage':'ANIMATED_BLOCKING','frames':1152,'fps':24,'shots':7,'dialogue':[],'contact_samples':[],'limitations':['models not feature-film quality','full wing topology and finger contact require correction','acting and audio review pending']}
     for f in range(1,1153):
@@ -154,6 +162,8 @@ def main():
                 grip=max(0,min(1,t-24,39-t))
                 for side,sign in [('L',1),('R',-1)]:
                     parent=rig.pose.bones['upper_arm_parent.'+side];parent['IK_FK']=1-grip;parent.keyframe_insert('["IK_FK"]',frame=f)
+                    parent['pole_vector']=True
+                    pole=rig.pose.bones['upper_arm_ik_target.'+side];pose_position(pole,(sign*.76,.32,.98));key(pole,f)
                     hand=rig.pose.bones['hand_ik.'+side]
                     contact=Vector((.35+sign*.44,-7.75+.38,1.15))
                     local=(contact-rig.location)/rig.scale.x;local.y+=hand.bone.length

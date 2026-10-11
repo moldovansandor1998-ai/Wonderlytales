@@ -6,7 +6,7 @@ import { getStorage } from './providers/storage';
 import { fetchWithTimeout } from './providers/translation';
 import { newVoiceCode, voiceDesigns, titokvarosIds, titokvarosPrefix } from './titokvaros';
 
-export type VoiceAudition = {status:string;code:string;previews?:{id:string;key:string;duration:number;language?:string}[];voice_id?:string;error?:string};
+export type VoiceAudition = {status:string;code:string;previews?:{id:string;key:string;duration:number;language?:string}[];voice_id?:string;error?:string;temporary?:boolean;temporary_voice_name?:string};
 const key=(code:string)=>`${titokvarosPrefix}/voices/${code}/audition.json`;
 export async function readVoiceAudition(code:string):Promise<VoiceAudition|null>{
  newVoiceCode(code);const s=getStorage();return await s.exists(key(code))?JSON.parse((await s.get(key(code))).toString()):null;
@@ -67,12 +67,16 @@ export async function inspectVoiceAccount(){
  const headers={'xi-api-key':process.env.ELEVENLABS_API_KEY};
  const [vr,sr]=await Promise.all([fetchWithTimeout('https://api.elevenlabs.io/v1/voices',{headers},30000),fetchWithTimeout('https://api.elevenlabs.io/v1/user/subscription',{headers},30000)]);
  if(!vr.ok||!sr.ok)throw new Error(`Hangkapacitás nem olvasható: HTTP ${vr.status}/${sr.status}`);
- const v=await vr.json() as {voices:{voice_id:string;name:string;category:string}[]};const s=await sr.json() as {voice_limit:number;voice_add_edit_counter:number;max_voice_add_edits:number;can_extend_voice_limit?:boolean};
+ const v=await vr.json() as {voices:{voice_id:string;name:string;category:string;labels?:Record<string,string>}[]};const s=await sr.json() as {voice_limit:number;voice_add_edit_counter:number;max_voice_add_edits:number;can_extend_voice_limit?:boolean};
+ const {data:used,error:usedError}=await createServerSupabase().from('voices').select('provider_voice_id,voice_id');if(usedError)throw new Error('A régi hangok kizárása nem ellenőrizhető.');
+ const excluded=new Set((used??[]).flatMap(x=>[x.provider_voice_id,x.voice_id]).filter(Boolean));
+ const candidates=v.voices.filter(x=>x.category==='premade'&&!excluded.has(x.voice_id)).map(x=>({voice_id:x.voice_id,name:x.name,labels:x.labels??{}}));
+ await getStorage().put(`${titokvarosPrefix}/voices/temporary_candidates.json`,JSON.stringify(candidates),'application/json');
  const owned=v.voices.filter(x=>x.category!=='premade'&&x.category!=='professional');
  const status={checked_at:new Date().toISOString(),voice_limit:s.voice_limit,custom_voice_count:owned.length,voice_add_edit_counter:s.voice_add_edit_counter,max_voice_add_edits:s.max_voice_add_edits,production_approved:false};
  await getStorage().put(`${titokvarosPrefix}/voices/account_status.json`,JSON.stringify(status),'application/json');
  for(const code of Object.keys(voiceDesigns) as (keyof typeof voiceDesigns)[]){
-  const found=v.voices.filter(x=>x.name===`Titokvaros ${code} V001`);if(found.length!==1)continue;
+  const found=v.voices.filter(x=>x.name===`Titokvaros ${code} V001`);if(found.length!==1){const saved=await readVoiceAudition(code);if(saved&&!saved.voice_id&&owned.length>=s.voice_limit)await getStorage().put(key(code),JSON.stringify({...saved,status:'VOICE_CAPACITY_BLOCKED',error:'Mind a 10 hanghely foglalt. A régi hangok megmaradnak; új előfizetés nem indult.'}), 'application/json');continue;}
   const saved=await readVoiceAudition(code);if(!saved||saved.voice_id)continue;
   await getStorage().put(key(code),JSON.stringify({...saved,voice_id:found[0].voice_id,status:'ASSIGNED_PENDING_ACTING_REVIEW'}),'application/json');await assignVoice(code,found[0].voice_id);
  }

@@ -1,9 +1,12 @@
 'use server';
 import { revalidatePath } from 'next/cache';
-import { designNewVoice,selectNewVoice } from '@/lib/titokvarosVoices';
-export async function designVoiceAction(code:string){await designNewVoice(code);revalidatePath('/titokvaros');}
-export async function selectVoiceAction(code:string,index:number){await selectNewVoice(code,index);revalidatePath('/titokvaros');}
-export async function recordDemoLineAction(id:string){const {recordDemoLine}=await import('@/lib/titokvarosAudio');await recordDemoLine(id);revalidatePath('/titokvaros');}
-export async function inspectVoiceAccountAction(){const {inspectVoiceAccount}=await import('@/lib/titokvarosVoices');const message=await inspectVoiceAccount();revalidatePath('/titokvaros');return message;}
-export async function submitDemoRenderAction(id:string){const {submitDemoRender}=await import('@/lib/titokvarosRender');await submitDemoRender(id);revalidatePath('/titokvaros');}
-export async function pollDemoRenderAction(id:string){const {pollDemoRender}=await import('@/lib/titokvarosRender');await pollDemoRender(id);revalidatePath('/titokvaros');}
+import { designNewVoice,selectNewVoice,inspectVoiceAccount } from '@/lib/titokvarosVoices';
+import { recordDemoLine } from '@/lib/titokvarosAudio';
+import { submitDemoRender,pollDemoRender } from '@/lib/titokvarosRender';
+async function run(action:()=>Promise<string|void>){try{const message=await action();revalidatePath('/titokvaros');return {ok:true,message:message??'Kész'};}catch(e){return {ok:false,message:e instanceof Error?e.message:'A művelet nem sikerült.'};}}
+export async function designVoiceAction(code:string){return run(()=>designNewVoice(code));}
+export async function selectVoiceAction(code:string,index:number){return run(()=>selectNewVoice(code,index));}
+export async function recordDemoLineAction(id:string){return run(()=>recordDemoLine(id));}
+export async function inspectVoiceAccountAction(){return run(()=>inspectVoiceAccount());}
+export async function submitDemoRenderAction(id:string){return run(()=>submitDemoRender(id));}
+export async function pollDemoRenderAction(id:string){return run(()=>pollDemoRender(id));}

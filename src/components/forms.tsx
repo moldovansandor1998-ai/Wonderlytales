@@ -4,7 +4,7 @@ import { useState, useTransition } from "react";
 /** Visszajelzést adó submit gomb: loading + success/error állapot */
 export function ActionButton({ label, action, className = "bg-zinc-700 hover:bg-zinc-600", confirmText }: {
   label: string;
-  action: () => Promise<string | void>;
+  action: () => Promise<string | void | { ok: boolean; message: string }>;
   className?: string;
   confirmText?: string;
 }) {
@@ -17,7 +17,7 @@ export function ActionButton({ label, action, className = "bg-zinc-700 hover:bg-
         onClick={() => {
           if (confirmText && !window.confirm(confirmText)) return;
           start(async () => {
-            try { const r = await action(); setMsg({ ok: true, text: typeof r === "string" ? r : "Kész" }); }
+            try { const r = await action(); setMsg(r && typeof r === "object" ? { ok: r.ok, text: r.message } : { ok: true, text: typeof r === "string" ? r : "Kész" }); }
             catch (e) { setMsg({ ok: false, text: e instanceof Error ? e.message : "Hiba" }); }
           });
         }}

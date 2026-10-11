@@ -7,7 +7,7 @@ vi.mock('@/lib/providers/translation',()=>({fetchWithTimeout:m.fetch}));
 vi.mock('@aws-sdk/client-s3',()=>({S3Client:class{send=m.send},PutObjectCommand:class{constructor(public input:unknown){}}}));
 import {submitDemoRender,pollDemoRender} from '@/lib/titokvarosRender';
 describe('Titokvaros native diagnostic paid boundary',()=>{
- beforeEach(()=>{vi.resetAllMocks();m.auth.mockResolvedValue({role:'studio'});m.exists.mockResolvedValue(false);});
+ beforeEach(()=>{vi.resetAllMocks();m.auth.mockResolvedValue({role:'studio'});m.exists.mockResolvedValue(false);process.env.RUNPOD_API_KEY='test-only';process.env.NATIVE_RUNPOD_ENDPOINT_ID='test-endpoint';});
  it('rejects unauthenticated submission before storage access',async()=>{m.auth.mockRejectedValue(new Error('UNAUTHORIZED'));await expect(submitDemoRender('TV_GAIT_V001')).rejects.toThrow('UNAUTHORIZED');expect(m.exists).not.toHaveBeenCalled();expect(m.fetch).not.toHaveBeenCalled();});
  it('cannot submit arbitrary frame ranges or assets',async()=>{await expect(submitDemoRender('../scene')).rejects.toThrow('Ismeretlen');expect(m.reserve).not.toHaveBeenCalled();});
  it('rejects changed source before any paid submission',async()=>{m.get.mockResolvedValue(Buffer.from('changed blend'));await expect(submitDemoRender('TV_GAIT_V001')).rejects.toThrow('ellenőrzőösszege');expect(m.reserve).not.toHaveBeenCalled();expect(m.fetch).not.toHaveBeenCalled();});

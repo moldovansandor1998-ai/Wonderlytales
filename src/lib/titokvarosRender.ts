@@ -14,10 +14,10 @@ export async function readDemoRender(id:string):Promise<DemoRender|null>{const s
 function provider(){if(!process.env.RUNPOD_API_KEY||!process.env.NATIVE_RUNPOD_ENDPOINT_ID)throw new Error('A natív RunPod nincs beállítva.');return {base:`https://api.runpod.ai/v2/${process.env.NATIVE_RUNPOD_ENDPOINT_ID}`,headers:{Authorization:`Bearer ${process.env.RUNPOD_API_KEY}`,'Content-Type':'application/json'}};}
 export async function submitDemoRender(id:string){
  await requireStudioUser();const job=spec(id);const saved=await readDemoRender(id);if(saved)throw new Error('Ez a feladat már elindult. Frissítsd az állapotát.');
- const s=getStorage();const source=await s.get(manifest.scene_key);
+ const p=provider();const s=getStorage();const source=await s.get(manifest.scene_key);
  if(createHash('sha256').update(source).digest('hex')!==manifest.scene_sha256)throw new Error('A Blender forrás ellenőrzőösszege eltér.');
  const frames=job.frame_end-job.frame_start+1;if(frames<1||frames>360)throw new Error('Túl hosszú renderfeladat.');
- const p=provider();const {S3_ENDPOINT,S3_ACCESS_KEY_ID,S3_SECRET_ACCESS_KEY,S3_BUCKET}=process.env;
+ const {S3_ENDPOINT,S3_ACCESS_KEY_ID,S3_SECRET_ACCESS_KEY,S3_BUCKET}=process.env;
  if(!S3_ENDPOINT||!S3_ACCESS_KEY_ID||!S3_SECRET_ACCESS_KEY||!S3_BUCKET)throw new Error('R2 hozzáférés szükséges.');
  const r2=new S3Client({endpoint:S3_ENDPOINT,region:'auto',credentials:{accessKeyId:S3_ACCESS_KEY_ID,secretAccessKey:S3_SECRET_ACCESS_KEY},forcePathStyle:true});
  try{await r2.send(new PutObjectCommand({Bucket:S3_BUCKET,Key:stateKey(id)+'.claim',Body:JSON.stringify({id,sha:manifest.scene_sha256,at:new Date().toISOString()}),IfNoneMatch:'*',ContentType:'application/json'}));}catch(e){if((e as {$metadata?:{httpStatusCode?:number}}).$metadata?.httpStatusCode===412)throw new Error('A feladatot már lefoglalták; nincs automatikus újraküldés.');throw e;}
