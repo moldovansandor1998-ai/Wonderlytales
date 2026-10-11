@@ -1,4 +1,5 @@
 import {resolveElements} from './elements';
+import {preserveVideo} from './archive';
 import {requirePreviousApproval,fingerprint,postContext} from './post-core';
 import type {PostScene,PostJob} from './post-shared';
 import {randomUUID} from 'crypto';
@@ -16,7 +17,7 @@ const sha=z.string().regex(/^[a-f0-9]{64}$/);
 const castKey=z.enum(['felix','mira','nera','tilda','oszkar']);
 const line=z.object({character:castKey,text:z.string().trim().min(1).max(250),offset:z.number().min(0).max(9.5),delivery:z.enum(['visible','offscreen'])}).strict();
 export const editSchema=z.object({sceneBreak:z.boolean().optional(),mode:z.enum(['image','last-frame']),imagePrompt:z.string().trim().min(10).max(2000),prompt:z.string().trim().min(10).max(2200),characters:z.array(castKey).max(5).refine(a=>new Set(a).size===a.length),dialogue:z.array(line).max(3),note:z.string().max(2000),review:z.enum(['pending','keep','trim','needs-work']),trimStart:z.number().min(0).max(9.9),trimEnd:z.number().min(.1).max(10),sound:z.boolean()}).strict().refine(x=>x.trimEnd>x.trimStart,{message:'Invalid trim'});
-export const commandSchema=z.object({id:z.string().uuid(),action:z.enum(['save','image','image-poll','approve-image','restore-image','frame','quote','video','video-poll','new-video','dialogue','attach-video']),revision:z.number().int().nonnegative().optional(),data:z.unknown().optional()}).strict();
+export const commandSchema=z.object({id:z.string().uuid(),action:z.enum(['save','image','image-poll','approve-image','restore-image','use-gallery-image','frame','quote','video','video-poll','new-video','dialogue','attach-video']),revision:z.number().int().nonnegative().optional(),data:z.unknown().optional()}).strict();
 export function definition(id:string){const d=EPISODE_SCENES.find(s=>s.id===id);if(!d)throw new WaveSpeedError('SCENE_NOT_FOUND',404);return d;}
 export const recordingKey=(index:number)=>String(index);
 async function stateOf(store:R2VideoStore,id:string){const d=definition(id),r=await store.readRecord<SceneState>('episode-scene',id);return {state:normalizeSceneState(r?.value??defaultSceneState(d)),etag:r?.etag};}
@@ -26,11 +27,6 @@ async function change(store:R2VideoStore,id:string,revision:number|undefined,fn:
  const state={...fn(old.state),id,revision:old.state.revision+1,updatedAt:new Date().toISOString()};
  if(!await store.writeRecord('episode-scene',id,state,old.etag))throw new WaveSpeedError('SCENE_CHANGED',409);
  return state;
-}
-async function archive(store:R2VideoStore,id:string){
- const old=await store.read(id);if(!old||old.job.status!=='COMPLETED'||old.job.archived)return;
- await store.archiveVideo(old.job);
- const current=await store.read(id);if(current)await store.save({...current.job,archived:true},current.etag);
 }
 export async function episodeScene(store:R2VideoStore,id:string):Promise<EpisodeScene>{
  const d=definition(id),{state}=await stateOf(store,id);
@@ -50,12 +46,12 @@ export async function episodeOverview(store:R2VideoStore){
  const voiceMap=Object.fromEntries(Object.entries(cast).map(([k,v])=>[k,v.voiceId])) as Record<CastKey,string|null>;
  const decorated=await Promise.all(scenes.map(async scene=>{
   const post=posts.find(p=>p.id===scene.state.id),summary:NonNullable<EpisodeScene['post']>={};
-  for(const language of ['hu','en'] as const){const v=post?.variants[language];if(!v)continue;const job=v.jobId?(await store.readRecord<PostJob>('post-job',v.jobId))?.value:null;const hash=fingerprint(scene.state,v,language,voiceMap);summary[language]={approved:!!job?.finalAsset&&job.status==='READY'&&hash===job.fingerprint&&v.approvedFingerprint===hash,finalAsset:job?.finalAsset,status:job?.status};}
+  for(const language of ['hu','en'] as const){const v=post?.variants[language];if(!v)continue;const job=v.jobId?(await store.readRecord<PostJob>('post-job',v.jobId))?.value:null;const hash=fingerprint(scene.state,v,language,voiceMap);summary[language]={approved:scene.state.review!=='needs-work'&&!!job?.finalAsset&&job.status==='READY'&&hash===job.fingerprint&&v.approvedFingerprint===hash,finalAsset:hash===job?.fingerprint?job?.finalAsset:undefined,status:hash===job?.fingerprint?job?.status:undefined};}
   return {...scene,post:summary};
  }));
  return {title:EPISODE_TITLE,duration:600,scenes:decorated,cast};
 }
-export async function episodeAction(raw:unknown,store:R2VideoStore){
+export async function episodeAction(raw:unknown,store:R2VideoStore,options:{deferVideo?:boolean}={}){
  const c=commandSchema.parse(raw),d=definition(c.id);
  let {state}=await stateOf(store,c.id);
  const api=()=>new WaveSpeedClient(process.env.WAVESPEED_API_KEY??'');
@@ -84,9 +80,10 @@ export async function episodeAction(raw:unknown,store:R2VideoStore){
   if(!state.imageJobId)throw new WaveSpeedError('JOB_NOT_FOUND',404);
   const imageJob=await pollCreative('scene-image',state.imageJobId,store,api());
   if(imageJob.image&&imageJob.image.sha256!==state.imageSha256)await change(store,c.id,undefined,s=>s.imageJobId===imageJob.id?{...s,imageSha256:imageJob.image!.sha256,imageApproved:false}:s);
- }else if(c.action==='restore-image'){
+ }else if(c.action==='restore-image'||c.action==='use-gallery-image'){
   const data=z.object({sha256:sha}).strict().parse(c.data);
-  if(!state.imageHistory.includes(data.sha256))throw new WaveSpeedError('INVALID_INPUT',400);
+  if(state.mode!=='image'||!state.sceneBreak)throw new WaveSpeedError('SCENE_BREAK_REQUIRED',409);
+  if(c.action==='restore-image'&&!state.imageHistory.includes(data.sha256))throw new WaveSpeedError('INVALID_INPUT',400);
   if(state.imageJobId){const old=await store.readRecord<CreativeJob>('scene-image',state.imageJobId);if(old&&['SUBMITTING','PROCESSING','UNCERTAIN'].includes(old.value.status))throw new WaveSpeedError('JOB_ACTIVE',409);}
   await store.imageUrl(data.sha256);
   await change(store,c.id,c.revision,s=>({...s,mode:'image',sceneBreak:true,imageSha256:data.sha256,imageApproved:false,imageJobId:undefined,imageRequest:undefined,sourceJobId:undefined,sourceTime:undefined,sourceAsset:undefined,imageHistory:[...new Set([...s.imageHistory,...(s.imageSha256?[s.imageSha256]:[])])]}));
@@ -100,6 +97,8 @@ export async function episodeAction(raw:unknown,store:R2VideoStore){
   if(!previous)throw new WaveSpeedError('PREVIOUS_VIDEO_REQUIRED',409);
   await requirePreviousApproval(store,d.order);
   const finalized=await postContext(store,previous.id,'hu');
+  const finalDuration=finalized.job?.duration??(finalized.state.trimEnd-finalized.state.trimStart);
+  if(data.sourceTime<Math.max(0,finalDuration-.05)||data.sourceTime>finalDuration+.001)throw new WaveSpeedError('FINAL_FRAME_REQUIRED',409);
   if(data.sourceAsset!==finalized.job?.finalAsset)throw new WaveSpeedError('PREVIOUS_VIDEO_CHANGED',409);
   const prior=await stateOf(store,previous.id);
   if(prior.state.videoJobId!==data.sourceJobId)throw new WaveSpeedError('PREVIOUS_VIDEO_CHANGED',409);
@@ -119,17 +118,21 @@ export async function episodeAction(raw:unknown,store:R2VideoStore){
   if(c.action==='quote')return {scene:await episodeScene(store,c.id),quote:await service().quote(input)};
   if(!state.videoRequest&&!state.videoJobId)state=await change(store,c.id,c.revision,s=>({...s,videoJobId:input.id,videoRequest:input,review:'pending'}));
   if(!state.videoRequest)throw new WaveSpeedError('VIDEO_EXISTS',409);
-  await service().submit(state.videoRequest);await archive(store,state.videoRequest.id);
+  if(!options.deferVideo){await service().submit(state.videoRequest);await preserveVideo(store,state.videoRequest.id);}
  }else if(c.action==='video-poll'){
   if(!state.videoJobId)throw new WaveSpeedError('JOB_NOT_FOUND',404);
-  await service().poll(state.videoJobId);await archive(store,state.videoJobId);
+  await service().poll(state.videoJobId);await preserveVideo(store,state.videoJobId);
  }else if(c.action==='new-video'){
   if(d.kind==='intro')throw new WaveSpeedError('EXISTING_INTRO',409);
   if(state.videoJobId){const old=await store.read(state.videoJobId);if(!old||['SUBMITTING','RUNNING','QUEUED','SUBMISSION_UNCERTAIN'].includes(old.job.status))throw new WaveSpeedError('JOB_ACTIVE',409);}
-  await change(store,c.id,c.revision,s=>({...s,videoHistory:s.videoJobId?[...new Set([...s.videoHistory,s.videoJobId])]:s.videoHistory,videoJobId:undefined,videoRequest:undefined,review:'pending'}));
+  if(state.videoJobId)await preserveVideo(store,state.videoJobId);
+  await change(store,c.id,c.revision,s=>({...s,videoHistory:s.videoJobId?[...new Set([...s.videoHistory,s.videoJobId])]:s.videoHistory,videoJobId:undefined,videoRequest:undefined,review:'pending',
+   ...(d.kind==='story'&&d.order>1?{mode:'last-frame' as const,sceneBreak:false,imageApproved:false,imageSha256:undefined,imageJobId:undefined,imageRequest:undefined,sourceAsset:undefined,sourceJobId:undefined,sourceTime:undefined,imageHistory:[...new Set([...s.imageHistory,...(s.imageSha256?[s.imageSha256]:[])])],prompt:s.prompt===LEGACY_SCENES[d.order].prompt?d.prompt:s.prompt}:{})}));
  }else if(c.action==='attach-video'){
   const data=z.object({jobId:z.string().uuid()}).strict().parse(c.data);
   const old=await store.read(data.jobId);if(old?.job.status!=='COMPLETED')throw new WaveSpeedError('JOB_NOT_FOUND',404);
+  if(state.videoJobId&&state.videoJobId!==data.jobId){const current=await store.read(state.videoJobId);if(!current||['SUBMITTING','RUNNING','QUEUED','SUBMISSION_UNCERTAIN'].includes(current.job.status))throw new WaveSpeedError('JOB_ACTIVE',409);await preserveVideo(store,state.videoJobId);}
+  await preserveVideo(store,data.jobId);
   await change(store,c.id,c.revision,s=>({...s,videoJobId:data.jobId,videoRequest:undefined,videoHistory:[...new Set([...s.videoHistory,...(s.videoJobId?[s.videoJobId]:[])])],review:'pending'}));
  }else if(c.action==='dialogue'){
   const data=z.object({index:z.number().int().min(0).max(2)}).strict().parse(c.data),line=state.dialogue[data.index];

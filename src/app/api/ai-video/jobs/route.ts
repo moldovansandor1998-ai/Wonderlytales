@@ -1,5 +1,6 @@
 import { NextRequest } from 'next/server';
 import { access, apiError, json, readJson, videoService } from '@/lib/ai-video/http';
+import {preserveVideo} from '@/lib/ai-video/archive';
 import { R2VideoStore } from '@/lib/ai-video/storage';
 export const dynamic = 'force-dynamic';
 export const maxDuration = 120;
@@ -10,6 +11,8 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const user = await access(request,true);
-    return json({ job: await videoService(new R2VideoStore(user.id)).submit(await readJson(request)) });
+    const store = new R2VideoStore(user.id);
+    const job = await videoService(store).submit(await readJson(request));
+    return json({job: await preserveVideo(store, job.id)});
   } catch (e) { return apiError(e); }
 }

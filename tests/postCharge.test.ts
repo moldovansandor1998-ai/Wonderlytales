@@ -13,3 +13,12 @@ function memory(){let seq=0;const map=new Map<string,{value:unknown;etag:string}
 beforeEach(()=>vi.clearAllMocks());
 it('two simultaneous submissions charge the provider only once',async()=>{const store=memory();calls.submit.mockResolvedValue({id:'provider-id',status:'processing'});const r=await Promise.allSettled([1,2].map(()=>postAction({id,language:'hu',action:'start',revision:0,data:{maxCostUsd:.6}},store as unknown as R2VideoStore)));expect(r.filter(x=>x.status==='fulfilled')).toHaveLength(1);expect(calls.submit).toHaveBeenCalledTimes(1);});
 it('an uncertain provider submission never retries or charges automatically',async()=>{const store=memory();calls.submit.mockRejectedValue(new Error('timeout'));const input={id,language:'hu',action:'start',data:{maxCostUsd:.6}};await postAction(input,store as unknown as R2VideoStore);await expect(postAction(input,store as unknown as R2VideoStore)).rejects.toThrow('PREPARE_REQUIRED');expect(calls.submit).toHaveBeenCalledTimes(1);});
+
+it('refuses approval of a visually rejected clip even when the final video is ready',async()=>{
+ const store=memory();
+ const scene=await store.readRecord('episode-scene',id),job=await store.readRecord('post-job',jid);
+ await store.writeRecord('episode-scene',id,{...(scene!.value as object),review:'needs-work'},scene!.etag);
+ await store.writeRecord('post-job',jid,{...(job!.value as object),status:'READY',finalAsset:'f'.repeat(64)},job!.etag);
+ await expect(postAction({id,language:'hu',action:'approve'},store as unknown as R2VideoStore)).rejects.toThrow('SCENE_VISUAL_REVIEW_REQUIRED');
+ expect(calls.submit).not.toHaveBeenCalled();
+});

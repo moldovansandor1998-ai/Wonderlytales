@@ -1,9 +1,10 @@
 import { NextRequest } from 'next/server';
 import { access, apiError, json, videoService } from '@/lib/ai-video/http';
+import {preserveVideo} from '@/lib/ai-video/archive';
 import { R2VideoStore } from '@/lib/ai-video/storage';
 import { WaveSpeedError } from '@/lib/providers/wavespeed';
 export const dynamic = 'force-dynamic';
-export const maxDuration = 30;
+export const maxDuration = 120;
 export async function GET(request: NextRequest,{ params }: { params: { id: string } }) {
   try {
     const user = await access(request);
@@ -15,6 +16,8 @@ export async function GET(request: NextRequest,{ params }: { params: { id: strin
 export async function POST(request: NextRequest,{ params }: { params: { id: string } }) {
   try {
     const user = await access(request,true);
-    return json({ job: await videoService(new R2VideoStore(user.id)).poll(params.id) });
+    const store = new R2VideoStore(user.id);
+    await videoService(store).poll(params.id);
+    return json({job: await preserveVideo(store, params.id)});
   } catch (e) { return apiError(e); }
 }

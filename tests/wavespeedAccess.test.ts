@@ -5,6 +5,7 @@ vi.mock('@/lib/auth',()=>({requireStudioUser:auth}));
 import { POST } from '@/app/api/ai-video/jobs/route';
 import { GET as media } from '@/app/api/ai-video/jobs/[id]/media/route';
 import { access } from '@/lib/ai-video/http';
+import {GET as gallery, POST as gallerySave} from '@/app/api/ai-video/gallery/route';
 import { POST as episode, GET as episodeRead } from '@/app/api/ai-video/episode/route';
 beforeEach(()=>auth.mockResolvedValue({id:'owner-1',role:'studio'}));
 afterEach(()=>vi.unstubAllEnvs());
@@ -27,4 +28,9 @@ it('protects episode reads and writes before accessing assets or paid APIs',asyn
  auth.mockRejectedValueOnce(new Error('UNAUTHORIZED'));
  expect((await episodeRead(new NextRequest('https://wonderlytales.vercel.app/api/ai-video/episode'))).status).toBe(401);
  expect((await episode(new NextRequest('https://wonderlytales.vercel.app/api/ai-video/episode',{method:'POST',headers:{origin:'https://other.test'}}))).status).toBe(403);
+});
+it('protects media gallery reads and persistent copies with owner authentication and same-origin writes',async()=>{
+ auth.mockRejectedValueOnce(new Error('UNAUTHORIZED'));
+ expect((await gallery(new NextRequest('https://wonderlytales.vercel.app/api/ai-video/gallery'))).status).toBe(401);
+ expect((await gallerySave(new NextRequest('https://wonderlytales.vercel.app/api/ai-video/gallery',{method:'POST',headers:{origin:'https://other.test'}}))).status).toBe(403);
 });

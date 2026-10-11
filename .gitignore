@@ -1,3 +1,4 @@
+node_modules
 node_modules/
 .next/
 .env
@@ -9,6 +10,8 @@ data/
 *.log
 .DS_Store
 coverage/
+src/app/.well-known/workflow/
+.workflow-data/
 
 # Binary authoring inputs are versioned in R2; runtime meshes remain draft.
 production/references/**/*.png
@@ -18,3 +21,4 @@ __pycache__/
 
 # Supabase CLI transient state
 supabase/.temp/
+/.swc

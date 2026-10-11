@@ -39,3 +39,16 @@ export async function concatenate(files:string[],out:string,durations:number[]){
  await writeFile(list,files.map((p,i)=>`file '${p}'\nduration ${durations[i]}`).join('\n'));
  await run(['-f','concat','-safe','0','-i',list,'-map','0:v:0','-map','0:a:0','-c:v','copy','-af','alimiter=limit=0.95:level=false','-c:a','aac','-b:a','192k','-ar','48000','-ac','2','-t',String(durations.reduce((a,b)=>a+b,0)),'-movflags','+faststart',out]);
 }
+
+/** Extract the actual final decoded frame, not an arbitrary point near the end. */
+export async function finalFrame(store:R2VideoStore,asset:string){
+ return tempMedia(async dir=>{
+  const input=join(dir,'source.mp4'),out=join(dir,'frame.jpg');
+  await writeFile(input,await store.assetBytes(asset,'mp4'));
+  await run(['-sseof','-0.5','-i',input,'-vf','reverse','-frames:v','1','-q:v','2',out]);
+  const bytes=await readFile(out),sha=digest(bytes);
+  const size=3*1024*1024;
+  for(let i=0;i<Math.ceil(bytes.length/size);i++)await store.putChunk(sha,i,bytes.subarray(i*size,(i+1)*size));
+  await store.completeImage(sha,bytes.length);return sha;
+ });
+}

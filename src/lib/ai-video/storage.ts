@@ -5,6 +5,7 @@ import { requireConfiguration } from '../config';
 import { WaveSpeedError } from '../providers/wavespeed';
 import type { VideoJob } from './shared';
 import { downloadProviderMedia } from './media';
+import type {GalleryKind} from './gallery-shared';
 
 export interface VersionedJob { job: VideoJob; etag: string; }
 export interface VideoStore {
@@ -86,6 +87,21 @@ export class R2VideoStore implements VideoStore {
     const keys = (r.Contents ?? []).sort((a,b) => +(b.LastModified ?? 0) - +(a.LastModified ?? 0)).slice(0,30);
     const rows = await Promise.all(keys.map(x => this.read(x.Key!.split('/').pop()!.replace('.json',''))));
     return rows.flatMap(r => r ? [r.job] : []).sort((a,b) => b.createdAt.localeCompare(a.createdAt));
+  }
+  async mediaPage(kind: GalleryKind, cursor?: string) {
+    const folder = kind === 'images' ? 'images/' : kind === 'videos' ? 'jobs/' : 'post-assets/';
+    const prefix = this.prefix + folder;
+    const result = await this.client.send(new ListObjectsV2Command({Bucket: this.bucket, Prefix: prefix,
+      MaxKeys: 48, ...(cursor ? {ContinuationToken: cursor} : {})}));
+    const pattern = kind === 'images' ? /^([a-f0-9]{64})$/ : kind === 'videos'
+      ? /^([a-f0-9-]{36})\.json$/ : /^([a-f0-9]{64})\.mp4$/;
+    const items = (result.Contents ?? []).flatMap(entry => {
+      // Never expose upload chunks, JSON internals, audio, or another owner's keys.
+      if (!entry.Key?.startsWith(prefix)) return [];
+      const match = pattern.exec(entry.Key.slice(prefix.length));
+      return match ? [{id: match[1], createdAt: entry.LastModified?.toISOString() ?? '', bytes: entry.Size}] : [];
+    });
+    return {items, nextCursor: result.IsTruncated ? result.NextContinuationToken : undefined};
   }
   async putChunk(sha: string, index: number, bytes: Buffer) {
     await this.client.send(new PutObjectCommand({ Bucket: this.bucket, Key: `${this.imageKey(sha)}.part-${index}`, Body: bytes }));
@@ -188,4 +204,4 @@ export class R2VideoStore implements VideoStore {
     const r=await this.client.send(new GetObjectCommand({Bucket:this.bucket,Key:this.assetKey(id,extension)}));return Buffer.from(await r.Body!.transformToByteArray());
   }
 }
-export type RecordKind='video-element'|'scene-image'|'analysis'|'reference'|'episode-scene'|'voice-design'|'post-scene'|'post-job'|'episode-master';
+export type RecordKind='auto-batch'|'auto-run'|'auto-scene'|'video-element'|'scene-image'|'analysis'|'reference'|'episode-scene'|'voice-design'|'post-scene'|'post-job'|'episode-master';

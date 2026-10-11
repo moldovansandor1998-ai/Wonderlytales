@@ -27,4 +27,6 @@ export async function middleware(req: NextRequest) {
   return res;
 }
 
-export const config = { matcher: ["/((?!_next/static|_next/image|files).*)"] };
+// Workflow's generated consumer is authenticated by Vercel Queues, independently
+// of browser sessions. Studio/API routes still require the user's session.
+export const config = { matcher: ["/((?!_next/static|_next/image|files|\\.well-known/workflow/).*)"] };
