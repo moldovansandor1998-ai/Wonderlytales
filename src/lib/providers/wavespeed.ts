@@ -24,7 +24,7 @@ const taskSchema = z.object({ id: z.string().regex(/^[A-Za-z0-9_-]{1,160}$/),
 export type WaveSpeedTask = z.infer<typeof taskSchema>;
 const creativeTaskSchema=taskSchema.extend({outputs:z.array(z.union([z.string(),z.record(z.unknown())])).optional()});
 export type CreativeTask=z.infer<typeof creativeTaskSchema>;
-export const CREATIVE_MODELS=['bytedance/seedream-v4.5','bytedance/seedream-v4.5/edit','wavespeed-ai/molmo2/video-understanding'] as const;
+export const CREATIVE_MODELS=['bytedance/seedream-v4.5','bytedance/seedream-v4.5/edit','wavespeed-ai/molmo2/video-understanding','wavespeed-ai/infinitetalk/video-to-video','wavespeed-ai/infinitetalk/video-to-video-multi'] as const;
 export type CreativeModel=typeof CREATIVE_MODELS[number];
 export class WaveSpeedClient {
   constructor(private key: string) {

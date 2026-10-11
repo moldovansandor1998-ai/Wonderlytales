@@ -20,11 +20,11 @@ async function eleven(path:string,body?:unknown,method?:string){
 }
 export async function voiceDesignOverview(store:R2VideoStore){
  const records=await store.listRecords<VoiceDesign>('voice-design');
- const subscription=await eleven('/v1/user/subscription');const available=await accountVoices();
- return Object.entries(VOICE_DESIGNS).map(([key,d])=>({key,name:CAST[key as CastKey].name,description:d.description,voiceLimit:subscription.voice_limit,voiceCount:available.filter(v=>v.category!=='premade').length,record:records.find(r=>r.key===key)?((({oldMetadata,...safe})=>safe)(records.find(r=>r.key===key)!)):null}));
+ const subscription=await eleven('/v1/user/subscription');
+ return Object.entries(VOICE_DESIGNS).map(([key,d])=>({key,name:CAST[key as CastKey].name,description:d.description,voiceLimit:subscription.voice_limit,voiceCount:subscription.voice_slots_used,oldVoiceId:d.old,oldName:d.oldName,record:records.find(r=>r.key===key)?((({oldMetadata,...safe})=>safe)(records.find(r=>r.key===key)!)):null}));
 }
 export async function designVoice(raw:unknown,store:R2VideoStore){
- const {key,action,preview}=z.object({key:z.enum(['felix','mira','nera','tilda','oszkar']),action:z.enum(['design','activate']),preview:z.number().int().min(0).max(2).optional()}).strict().parse(raw);
+ const {key,action,preview,confirmOldVoiceId}=z.object({key:z.enum(['felix','mira','nera','tilda','oszkar']),action:z.enum(['design','activate','replace']),confirmOldVoiceId:z.string().optional(),preview:z.number().int().min(0).max(2).optional()}).strict().parse(raw);
  const spec=VOICE_DESIGNS[key],characterId=CAST[key].id;
  const old=await store.readRecord<VoiceDesign>('voice-design',characterId);
  let rec=old?.value;
@@ -55,15 +55,28 @@ export async function designVoice(raw:unknown,store:R2VideoStore){
   if(rec.status==='ACTIVE')return voiceDesignOverview(store);
   if(rec.status!=='PREVIEWS'&&!(rec.status==='UNCERTAIN'&&!rec.newVoiceId&&(rec.error==='VOICE_DESIGN_REJECTED'||rec.error?.startsWith('VOICE_REJECTED_'))))throw new WaveSpeedError('JOB_ACTIVE',409);
   const selected=rec.previews?.[preview??0];if(!selected)throw new WaveSpeedError('INVALID_INPUT',400);
+  if(action==='replace'&&confirmOldVoiceId!==spec.old)throw new WaveSpeedError('VOICE_REPLACEMENT_CONFIRMATION_REQUIRED',409);
   const activation={...rec,status:'ACTIVATING' as const};
   if(!await store.writeRecord('voice-design',characterId,activation,old!.etag))throw new WaveSpeedError('SCENE_CHANGED',409);
   rec=activation;
   try{
+   if(action==='replace'){
+    if(confirmOldVoiceId!==spec.old)throw new WaveSpeedError('VOICE_REPLACEMENT_CONFIRMATION_REQUIRED',409);
+    const subscription=await eleven('/v1/user/subscription');
+    if(subscription.voice_slots_used>subscription.voice_limit)throw new WaveSpeedError('VOICE_ACCOUNT_OVER_LIMIT',409);
+    if(subscription.max_voice_add_edits!==null&&subscription.max_voice_add_edits!==undefined&&subscription.voice_add_edit_counter>=subscription.max_voice_add_edits)throw new WaveSpeedError('VOICE_EDIT_LIMIT_REACHED',409);
+    const {characters}=await readCast();if(characters.find(c=>c.id===characterId)?.voice_id!==rec.expectedRowId)throw new WaveSpeedError('VOICE_ASSIGNMENT_CHANGED',409);
+    const existing=await eleven('/v1/voices/'+spec.old);
+    if(!String(existing.name).includes(spec.oldName)||!String(existing.name).includes('Wonderly'))throw new WaveSpeedError('VOICE_SCOPE_CHANGED',409);
+    await eleven('/v1/voices/'+spec.old,undefined,'DELETE');
+    await save({...rec,oldRemoved:true});
+   }
    const voice=await eleven('/v1/text-to-voice',{voice_name:rec.name,voice_description:spec.description,generated_voice_id:selected.id,labels:{language:'hu',use_case:'characters_animation'}});
    if(typeof voice.voice_id!=='string')throw new Error('Invalid voice');
    await save({...rec,newVoiceId:voice.voice_id});
    await assignCharacterVoice(characterId,voice.voice_id,rec.expectedRowId);
    // Preserve historical voices; only the five authorized IDs receive archive names.
+   if(rec.oldRemoved){await save({...rec,status:'ACTIVE'});return voiceDesignOverview(store);}
    const form=new FormData();form.set('name',`ARCHÍV – WonderlyTales – ${spec.oldName} V001`);
    const archived=await fetch('https://api.elevenlabs.io/v1/voices/'+spec.old+'/edit',{method:'POST',headers:{'xi-api-key':process.env.ELEVENLABS_API_KEY!},body:form,signal:AbortSignal.timeout(20000),redirect:'error'});
    await save({...rec,status:'ACTIVE',oldRemoved:false,oldArchived:archived.ok});

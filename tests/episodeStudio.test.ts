@@ -1,4 +1,5 @@
 import {beforeEach,expect,it,vi} from 'vitest';
+vi.mock('@/lib/ai-video/post-core',()=>({requirePreviousApproval:vi.fn().mockResolvedValue(undefined),postContext:vi.fn().mockResolvedValue({job:{finalAsset:undefined}}),fingerprint:vi.fn()}));
 vi.mock('@/lib/ai-video/creative',()=>({startSceneImage:vi.fn(),pollCreative:vi.fn(),references:vi.fn()}));
 vi.mock('@/lib/ai-video/service',()=>({WaveSpeedVideoService:vi.fn()}));
 import {episodeAction,editSchema} from '@/lib/ai-video/episode';

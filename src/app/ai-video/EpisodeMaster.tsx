@@ -1,0 +1,10 @@
+'use client';
+import {useState,useEffect} from 'react';
+import type {Language} from '@/lib/ai-video/post-shared';
+type Master={approved:number;total:number;ready:boolean;parts:number;finalAsset?:string;duration?:number};
+export default function EpisodeMaster({language,approved}:{language:Language;approved:number}){
+ const [data,setData]=useState<Master|null>(null),[busy,setBusy]=useState(false),[error,setError]=useState('');
+ useEffect(()=>{let active=true;setData(null);if(approved===60)void fetch('/api/ai-video/post/master?language='+language).then(r=>r.json()).then(d=>{if(active)setData(d);});return()=>{active=false;};},[language,approved]);
+ async function assemble(){setBusy(true);setError('');try{for(let i=0;i<7;i++){const r=await fetch('/api/ai-video/post/master',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({language})}),next=await r.json();if(!r.ok)throw new Error('Az összeállítás megszakadt. A kész részek megmaradtak; innen folytatható.');setData(next);if(next.finalAsset)break;if(!next.ready)throw new Error('Még nincs minden jelenet jóváhagyva.');}}catch(e){setError((e as Error).message);}finally{setBusy(false);}}
+ return <div className="mt-4 rounded-lg border border-zinc-700 p-3"><p className="text-sm">Teljes {language==='hu'?'magyar':'angol'} rész · {approved}/60 hangos jelenet jóváhagyva</p><button className="mt-2 rounded bg-amber-400 px-3 py-2 text-sm font-semibold text-zinc-950 disabled:opacity-40" disabled={approved!==60||busy} onClick={assemble}>{busy?'Összeállítás… '+(data?.parts??0)+'/6':'Teljes rész MP4 összeállítása / folytatása'}</button><p className="mt-2 text-xs text-zinc-400">A jóváhagyott jeleneteket illeszti össze, új AI-videó-generálás nélkül. A magyar és az angol film külön fájl marad.</p>{error&&<p role="alert" className="mt-2 text-amber-200">{error}</p>}{data?.finalAsset&&<a className="mt-3 block text-amber-300 underline" href={'/api/ai-video/assets/'+data.finalAsset} target="_blank" rel="noreferrer">Kész {language.toUpperCase()} epizód · Full HD MP4</a>}</div>;
+}

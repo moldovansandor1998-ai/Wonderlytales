@@ -1,3 +1,5 @@
+import {requirePreviousApproval,fingerprint,postContext} from './post-core';
+import type {PostScene,PostJob} from './post-shared';
 import {randomUUID} from 'crypto';
 import {z} from 'zod';
 import {R2VideoStore} from './storage';
@@ -43,7 +45,14 @@ export async function episodeOverview(store:R2VideoStore){
  const cast=Object.fromEntries(Object.entries(CAST).map(([key,c])=>{
  const character=characters.find(x=>x.id===c.id);
  return [key,{id:c.id,name:c.name,sha256:refs.find(x=>x.id===c.id)?.reference?.sha256??null,voiceId:character?characterVoice(character,voices)?.voice_id??null:null}];})) as EpisodeCast;
- return {title:EPISODE_TITLE,duration:600,scenes,cast};
+ const posts=await store.listRecords<PostScene>('post-scene');
+ const voiceMap=Object.fromEntries(Object.entries(cast).map(([k,v])=>[k,v.voiceId])) as Record<CastKey,string|null>;
+ const decorated=await Promise.all(scenes.map(async scene=>{
+  const post=posts.find(p=>p.id===scene.state.id),summary:NonNullable<EpisodeScene['post']>={};
+  for(const language of ['hu','en'] as const){const v=post?.variants[language];if(!v)continue;const job=v.jobId?(await store.readRecord<PostJob>('post-job',v.jobId))?.value:null;const hash=fingerprint(scene.state,v,language,voiceMap);summary[language]={approved:!!job?.finalAsset&&job.status==='READY'&&hash===job.fingerprint&&v.approvedFingerprint===hash,finalAsset:job?.finalAsset,status:job?.status};}
+  return {...scene,post:summary};
+ }));
+ return {title:EPISODE_TITLE,duration:600,scenes:decorated,cast};
 }
 export async function episodeAction(raw:unknown,store:R2VideoStore){
  const c=commandSchema.parse(raw),d=definition(c.id);
@@ -58,6 +67,7 @@ export async function episodeAction(raw:unknown,store:R2VideoStore){
   const data=z.object({force:z.boolean().optional()}).strict().parse(c.data??{});
   if(state.mode!=='image')throw new WaveSpeedError('CHOOSE_FRAME',409);
   if(!state.imageSha256||data.force){
+   await requirePreviousApproval(store,d.order);
    if(data.force&&state.imageJobId){const old=await store.readRecord<CreativeJob>('scene-image',state.imageJobId);if(old&&['SUBMITTING','PROCESSING','UNCERTAIN'].includes(old.value.status))throw new WaveSpeedError('JOB_ACTIVE',409);}
    if(!state.imageRequest||data.force){
     const previous=EPISODE_SCENES[d.order-1];
@@ -83,9 +93,12 @@ export async function episodeAction(raw:unknown,store:R2VideoStore){
   await store.imageUrl(state.imageSha256);
   await change(store,c.id,c.revision,s=>({...s,imageApproved:true}));
  }else if(c.action==='frame'){
-  const data=z.object({sha256:sha,sourceJobId:z.string().uuid(),sourceTime:z.number().finite().min(0).max(20)}).strict().parse(c.data);
+  const data=z.object({sha256:sha,sourceJobId:z.string().uuid(),sourceAsset:sha.optional(),sourceTime:z.number().finite().min(0).max(20)}).strict().parse(c.data);
   const previous=EPISODE_SCENES[d.order-1];
   if(!previous)throw new WaveSpeedError('PREVIOUS_VIDEO_REQUIRED',409);
+  await requirePreviousApproval(store,d.order);
+  const finalized=await postContext(store,previous.id,'hu');
+  if(data.sourceAsset!==finalized.job?.finalAsset)throw new WaveSpeedError('PREVIOUS_VIDEO_CHANGED',409);
   const prior=await stateOf(store,previous.id);
   if(prior.state.videoJobId!==data.sourceJobId)throw new WaveSpeedError('PREVIOUS_VIDEO_CHANGED',409);
   const source=await store.read(data.sourceJobId);
@@ -95,6 +108,7 @@ export async function episodeAction(raw:unknown,store:R2VideoStore){
  }else if(c.action==='quote'||c.action==='video'){
   if(d.kind==='intro')throw new WaveSpeedError('EXISTING_INTRO',409);
   if(!state.imageSha256||!state.imageApproved)throw new WaveSpeedError('APPROVE_IMAGE',409);
+  await requirePreviousApproval(store,d.order);
   const data=z.object({maxCostUsd:z.number().min(0).max(1.68).optional()}).strict().parse(c.data??{});
   const input={id:randomUUID(),imageSha256:state.imageSha256,prompt:state.prompt,duration:10 as const,sound:state.sound,maxCostUsd:data.maxCostUsd??1.68};
   if(c.action==='quote')return {scene:await episodeScene(store,c.id),quote:await service().quote(input)};
