@@ -1,3 +1,27 @@
+# Live verification update
+
+Episode workshop released on main (feature commits 376ff4b6 and 19d3a016).
+Production deployment dpl_HfjqavyjMGEuyUhpHJA9T47aceYx reached READY.
+Verified signed-in website: https://wonderlytales.vercel.app/ai-video.
+All 60 cards load, five cast refs are registered; finished intro decodes at
+1920x1080, 10s, readyState4, no media error. Previous clip final-frame extraction,
+chunk upload and persisted selection succeeded; original doorway image then
+restored FREE through the new image-history button. Its approval stays pending.
+37 targeted checks now cover the new restored-image case in addition to earlier
+36 tests; typecheck passed. Vercel production builds passed.
+
+One real image test for shot4 cost $0.04, task eacffe3ddee94fab9a0b4636329f81b4,
+app image job cda13254-04d3-4736-bb66-7fb75df675a0. COMPLETED, private image SHA
+b91f21ebdab203de2d83e49ed7facffa6735362f419624c156875336bb7af3e9.
+QA found an unintended zebra ANIMAL and changed background archway. Preserved
+this output, set shot4 review needs-work, imageApproved false, documented issues.
+Provider prompt clarified Hungarian zebra=pedestrian crossing and preservation of
+fixed architecture for future jobs. No automatic paid retry and NO video job
+was submitted. User should continue with shot3's prepared doorway image first.
+The episode is a production plan and source workshop, not an assembled 10min MP4.
+
+---
+
 # Superseding direction: episode workshop, 2026-10-11
 
 The user approved the finished opening, five character reference portraits and the
