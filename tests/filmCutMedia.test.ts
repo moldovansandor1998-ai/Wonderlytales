@@ -36,6 +36,7 @@ describe.runIf(existsSync(ffmpeg))('speech video frame rounding',()=>{
   const out=join(dir,'mixed.mp4');await writeFile(out,assets.get(mixed.asset)!);expect((await mediaInfo(out)).duration).toBeCloseTo(3,1);
   const trimmed=await finishCutShot(store,{...shot,kind:'action',seconds:2,trimStart:1,remixSource:'raw',audio:undefined,removeNativeSpeech:true,audioBed:'voice'});
   await writeFile(out,assets.get(trimmed.asset)!);expect((await mediaInfo(out)).duration).toBeCloseTo(2,1);
+  const decoded=await exec(ffmpeg,['-nostdin','-v','error','-i',out,'-vn','-f','s16le','-ar','48000','-ac','2','-'],{encoding:'buffer',maxBuffer:2*1024*1024});expect(decoded.stdout.length/(48000*2*2)).toBeGreaterThanOrEqual(1.98);
   await expect(finishCutShot(store,{...shot,kind:'action',seconds:3,remixSource:'raw',audio:undefined,removeNativeSpeech:true})).rejects.toThrow('CUT_AUDIO_MISSING');
  },15000);
  it('still rejects missing action footage, unassigned speech, and larger gaps',async()=>{

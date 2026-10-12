@@ -94,28 +94,28 @@ export async function finishCutShot(store:R2VideoStore,s:CutShot){
   const seconds=s.kind==='reuse'&&!s.remixSource?Math.min(s.end??info.duration,info.duration)-start:s.seconds;
   if(seconds<=0)throw new WaveSpeedError('CUT_VIDEO_TOO_SHORT');
   const hold=speechTailHold(s,info.duration,start+seconds);
-  const args=['-i',file],replacement=s.audio;
+  const args=['-ss',String(start),'-i',file],replacement=s.audio;
   let useExtraAudio=false;
   if(replacement){const wav=join(dir,'voice.wav');await writeFile(wav,await store.assetBytes(s.audio!,'wav'));args.push('-i',wav);}
-  else if(s.audioBed){const wav=join(dir,'bed.wav');await writeFile(wav,await store.assetBytes(s.audioBed,'wav'));args.push('-i',wav);useExtraAudio=true;}
+  else if(s.audioBed){const wav=join(dir,'bed.wav');await writeFile(wav,await store.assetBytes(s.audioBed,'wav'));args.push('-ss',String(start),'-i',wav);useExtraAudio=true;}
   else if(s.removeNativeSpeech)throw new WaveSpeedError('CUT_AUDIO_MISSING');
   else if(s.cleaned&&s.raw){
    // Text cleanup is a visual operation. Retain the original action sound even
    // when the cleanup provider omits or changes its output audio track.
    const original=join(dir,'original.mp4');await writeFile(original,await store.assetBytes(s.raw,'mp4'));
-   if((await mediaInfo(original)).audio)args.push('-i',original);
+   if((await mediaInfo(original)).audio)args.push('-ss',String(start),'-i',original);
    else args.push('-f','lavfi','-i','anullsrc=r=48000:cl=stereo');
    useExtraAudio=true;
   }
   else if(!info.audio)args.push('-f','lavfi','-i','anullsrc=r=48000:cl=stereo');
   let audio=replacement||useExtraAudio||!info.audio?'1:a:0':'0:a:0';
-  if(replacement&&s.audioBed){const bed=join(dir,'bed.wav');await writeFile(bed,await store.assetBytes(s.audioBed,'wav'));args.push('-i',bed,'-filter_complex','[1:a]aformat=channel_layouts=stereo[v];[2:a]volume=0.7[b];[v][b]amix=inputs=2:duration=first:normalize=0[mixed]');audio='[mixed]';}
+  if(replacement&&s.audioBed){const bed=join(dir,'bed.wav');await writeFile(bed,await store.assetBytes(s.audioBed,'wav'));args.push('-ss',String(start),'-i',bed,'-filter_complex','[1:a]aformat=channel_layouts=stereo[v];[2:a]volume=0.7[b];[v][b]amix=inputs=2:duration=first:normalize=0[mixed]');audio='[mixed]';}
   const audioFilter=`aresample=48000,aformat=channel_layouts=stereo,apad,atrim=0:${seconds},afade=t=in:d=0.015,afade=t=out:st=${Math.max(0,seconds-.035)}:d=0.035,alimiter=limit=0.95:level=false`;
   if(audio==='[mixed]'){const i=args.indexOf('-filter_complex');args[i+1]=args[i+1].replace('[mixed]',','+audioFilter+'[mixed]');}
   const framing=s.remixSource?fit:s.cropPreset?`crop=1280:720:${{left:0,center:320,right:640,'original-radio':320}[s.cropPreset]}:${s.cropPreset==='original-radio'?120:0},`+fit:s.framingRepair==='felix-bag'?'crop=1600:900:0:0,'+fit:s.framingRepair==='felix-phone'?'crop=1408:792:128:120,'+fit:fit;
   // Keep words intact: shot length comes from the complete decoded MP3 + handles.
   // Original generated voices are replaced with the exact assigned character recording.
-  await run([...args,'-ss',String(start),'-t',String(seconds),'-map','0:v:0','-map',audio,'-vf',hold+framing,'-c:v','libx264','-preset','veryfast','-crf','20','-pix_fmt','yuv420p','-r','24',...(audio==='[mixed]'?[]:['-af',audioFilter]),'-c:a','aac','-b:a','192k','-ar','48000','-ac','2','-movflags','+faststart',out]);
+  await run([...args,'-t',String(seconds),'-map','0:v:0','-map',audio,'-vf',hold+framing,'-c:v','libx264','-preset','veryfast','-crf','20','-pix_fmt','yuv420p','-r','24',...(audio==='[mixed]'?[]:['-af',audioFilter]),'-c:a','aac','-b:a','192k','-ar','48000','-ac','2','-movflags','+faststart',out]);
   const result=await mediaInfo(out);if(!result.audio||Math.abs(result.duration-seconds)>.1)throw new WaveSpeedError('CUT_MEDIA_DURATION_MISMATCH');
   return {asset:await storeFile(store,out,'mp4'),seconds};
  });
