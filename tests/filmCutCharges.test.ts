@@ -1,6 +1,7 @@
 import {beforeEach,it,expect,vi} from 'vitest';
-const calls=vi.hoisted(()=>({submit:vi.fn(),price:vi.fn(),balance:vi.fn()}));
+const calls=vi.hoisted(()=>({submit:vi.fn(),price:vi.fn(),balance:vi.fn(),reserve:vi.fn()}));
 vi.mock('@/lib/providers/wavespeed',async original=>({...await original<object>(),WaveSpeedClient:class {creativePrice=calls.price;balance=calls.balance;creativeSubmit=calls.submit;}}));
+vi.mock('@/lib/budget',()=>({reserveProductionBudget:calls.reserve,getProductionBudget:vi.fn()}));
 vi.mock('@/lib/ai-video/film-cut-media',async original=>({...await original<object>(),prepareCutCleanup:vi.fn(async()=>({cleanupInput:'prepared',cleanupSeconds:4}))}));
 import {advanceCut,cutAction,claimCut} from '@/lib/ai-video/film-cut';
 import {makeCutPlan} from '@/lib/ai-video/film-cut-plan';
@@ -64,4 +65,16 @@ it('radio correction preserves the paid original and charges only one bounded re
  expect(c.shots[1]).toMatchObject({id:oldId+'-approved-camera',image:shot.image,priorVideoCost:.784,manualReviewRequired:true,previousAttempt:{raw:'old-raw'}});expect(c.chargedUpperUsd).toBe(9.959);expect(c.tasks[oldId+':video'].taskId).toBe('keep-original');
  await claimCut(s as unknown as R2VideoStore,'corrected');calls.price.mockResolvedValue(.784);
  await Promise.allSettled([1,2].map(()=>advanceCut(s as unknown as R2VideoStore,'corrected')));expect(calls.submit).toHaveBeenCalledTimes(1);expect((await s.readRecord()).value.chargedUpperUsd).toBeCloseTo(10.743);
+});
+
+it('audio audit preserves the master and uses one bounded immutable request per source asset',async()=>{
+ const s=memory(),r=await s.readRecord(),asset='a'.repeat(64),shot=r.value.shots[0];
+ await s.writeRecord('film-cut',FILM_CUT_ID,{...r.value,status:'READY',index:1,master:'original-master',duration:4,shots:[{...shot,kind:'reuse',phase:'READY',asset}],chargedUpperUsd:2},r.etag);
+ const queued=(await cutAction({action:'audit-audio'},s as unknown as R2VideoStore)).cut!;
+ expect(queued.master).toBe('original-master');expect(queued.authorizedUsd).toBe(10);expect(queued.chargedUpperUsd).toBe(2);
+ expect(queued.shots[0].asset).toBe(asset);await claimCut(s as unknown as R2VideoStore,'audit');calls.price.mockResolvedValue(.004);
+ await Promise.allSettled([1,2].map(()=>advanceCut(s as unknown as R2VideoStore,'audit')));
+ expect(calls.submit).toHaveBeenCalledTimes(1);expect(calls.reserve).toHaveBeenCalledOnce();expect(calls.reserve).toHaveBeenCalledWith('wavespeed_transcript');
+ expect(calls.submit.mock.calls[0]).toEqual(['wavespeed-ai/openai-whisper-with-video',{video:'https://owned.example/voice.wav',language:'auto',task:'transcribe',enable_timestamps:false}]);
+ expect((await s.readRecord()).value.chargedUpperUsd).toBeCloseTo(2.004);
 });

@@ -19,6 +19,7 @@ export type CutShot={
  objectRepair?:'mira-right-duplicate';objectMask?:string;objectCleaned?:string;
  sourceJob?:string;start?:number;end?:number;phase:'WAITING'|'AUDIO'|'FRAME'|'VIDEO'|'CHECK'|'READY';
  check?:{passed:boolean;text:string};
+ audioReview?:{asset:string;text:string};
 };
 export type CutTask={status:'SUBMITTING'|'PROCESSING'|'READY'|'FAILED'|'UNCERTAIN';model:string;price:number;taskId?:string;output?:string;error?:string};
 export type FilmCut={
@@ -27,6 +28,7 @@ export type FilmCut={
  voices:Record<string,{id:string;voice_id:string}>;refs:Partial<Record<CastKey,string>>;elements:VideoElement[];
  ceiling:number;authorizedUsd?:number;chargedUpperUsd:number;tasks:Record<string,CutTask>;
  street?:string;workshop?:string;master?:string;duration?:number;createdAt:string;updatedAt:string;error?:string;
+ audioAuditRequested?:boolean;
 };
 export function speechDuration(seconds:number,max=10){
  if(!Number.isFinite(seconds)||seconds<=0)throw new Error('CUT_AUDIO_INVALID');
