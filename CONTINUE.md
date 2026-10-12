@@ -2,6 +2,11 @@
 
 ## CURRENT: intro-to-scene-15 film cut
 
+The assembled preview is now available in the authenticated film-cut interface.
+On continuation, inspect and download that existing master first. Do not restart
+generation or treat a technically READY preview as final artistic approval.
+The next step is review-driven refinement; retain all original and replaced media.
+
 This section supersedes the historical morning handoff below. The active
 production interface is `/ai-video/film-cut`. Its implementation is in
 `src/lib/ai-video/film-cut*.ts`, `src/workflows/film-cut.ts`, and
