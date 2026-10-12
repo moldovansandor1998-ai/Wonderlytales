@@ -15,7 +15,7 @@ import {downloadProviderMedia,providerMediaUrl} from './media';
 import {finalFrame} from './post-media';
 import {VIDEO_NO_TEXT_RULE,NEGATIVE_PROMPT} from './shared';
 import {makeCutPlan} from './film-cut-plan';
-import {cutSpeech,finishCutShot,assembleCut,miraDuplicateMask,prepareCutCleanup,extractCutAudio,importCutAudio} from './film-cut-media';
+import {cutSpeech,finishCutShot,assembleCut,miraDuplicateMask,prepareCutCleanup,extractCutAudio,importCutAudio,originalCarFrame} from './film-cut-media';
 import {FILM_CUT_ID,CUT_VERSION,CUT_MAX_USD,cutCeiling,chargeAllowed,independentCutShots,type FilmCut,type CutShot,type CutTask} from './film-cut-shared';
 const now=()=>new Date().toISOString();
 const avatar='kwaivgi/kling-v2-ai-avatar-pro' as const,motion='kwaivgi/kling-v3.0-pro/image-to-video' as const;
@@ -240,7 +240,7 @@ export async function advanceCut(store:R2VideoStore,workflowId:string,precompute
  await setShot(store,s.id,{phase:'READY'});return false;
 }
 export async function cutAction(raw:unknown,store:R2VideoStore){
- const input=z.object({action:z.enum(['prepare','preflight','start','stop','resume','accept-check','repair-text','repair-duplicate','repair-framing','crop-closeup','repair-radio-camera','audit-audio','repair-hungarian','prepare-extension']),maxCostUsd:z.number().finite().min(0).max(CUT_MAX_USD).optional(),shotId:z.string().optional(),expectedAsset:z.string().regex(/^[a-f0-9]{64}$/).optional(),cropPreset:z.enum(['left','center','right','original-radio']).optional()}).strict().parse(raw);
+ const input=z.object({action:z.enum(['prepare','preflight','start','stop','resume','accept-check','repair-text','repair-duplicate','repair-framing','crop-closeup','repair-radio-camera','audit-audio','repair-hungarian','prepare-extension','repair-car']),maxCostUsd:z.number().finite().min(0).max(CUT_MAX_USD).optional(),shotId:z.string().optional(),expectedAsset:z.string().regex(/^[a-f0-9]{64}$/).optional(),cropPreset:z.enum(['left','center','right','original-radio']).optional()}).strict().parse(raw);
  if(input.action==='prepare')return {cut:await prepareCut(store)};
  if(input.action==='preflight')return {cut:await readCut(store),quote:await preflightCut(store)};
  if(input.action==='start'){if(input.maxCostUsd===undefined)throw new WaveSpeedError('PRICE_CHANGED',409);return {cut:await authorizeCut(store,input.maxCostUsd)};}
@@ -252,6 +252,23 @@ export async function cutAction(raw:unknown,store:R2VideoStore){
   if(!voice||!ref)throw new WaveSpeedError('CHARACTER_REFERENCE_OR_VOICE_MISSING',409);
   const shots=continuationPlan();
   return {cut:await changeCut(store,x=>{if(x.status!=='READY'||x.master!==c.master)throw new WaveSpeedError('CUT_CHANGED',409);return {...x,voices:{...x.voices,[id]:{id:voice.id,voice_id:voice.voice_id}},refs:{...x.refs,[key]:ref.sha256},extension:{shots,ceiling:cutCeiling(shots),preparedAt:now(),lastScene:30}};})};
+ }
+ if(input.action==='repair-car'){
+  const claimed=await changeCut(store,c=>{
+   const index=c.shots.findIndex(s=>s.scene===6),source=c.shots.find(s=>s.scene===2);
+   if(!['READY','PAUSED','STOPPED'].includes(c.status)||c.budget!=='RESERVED'||(c.revision??0)!==2||index<0||c.index<index||!source?.asset||source.seconds!==10||Object.entries(c.tasks).some(([k,t])=>['SUBMITTING','FAILED','UNCERTAIN'].includes(t.status)&&!(k.startsWith('audio-audit:')&&t.status==='UNCERTAIN')))throw new WaveSpeedError('CUT_REVIEW_REQUIRED',409);
+   if(c.chargedUpperUsd+.60>(c.authorizedUsd??0))throw new WaveSpeedError('CUT_PRICE_LIMIT',409);
+   return {...c,status:'RESERVING'};
+  });
+  const archive=randomUUID();
+  try{
+   if(!await store.writeRecord('film-cut',archive,{...claimed,id:archive}))throw new WaveSpeedError('CUT_CHANGED',409);
+   const source=claimed.shots.find(s=>s.scene===2)!,previous=claimed.shots.find(s=>s.scene===6)!;
+   const image=await originalCarFrame(store,source.asset!);
+   const shot:CutShot={id:'shot-6-car-v3',scene:6,label:'Ugyanaz az ezüst autó visszatér',kind:'action',characters:[],seconds:3,maxSeconds:3,reframe:false,environment:'street',image,previousAsset:previous.asset,removeNativeSpeech:true,manualReviewRequired:true,phase:'VIDEO',framePrompt:'',motionPrompt:'A tight street-level insert on this EXACT same silver sedan: same grille, round badge, headlights, hood, wheelbase and dark windshield. The car rolls slowly toward the camera along its existing road lane, brakes and comes to a clear stop. Locked camera. Do not turn onto the pavement. Keep the existing background fixed and unobtrusive. Nobody enters the foreground. No fox, no rabbit, no speaking character, no readable license plate or sign. The driver remains only a dark silhouette behind the windshield.'};
+   for(const service of services({...claimed,shots:[shot]}))await reserveProductionBudget(service);
+   return {cut:await changeCut(store,c=>{if(c.status!=='RESERVING')throw new WaveSpeedError('CUT_CHANGED',409);return {...c,status:'QUEUED',index:c.shots.findIndex(s=>s.scene===6),revision:3,workflowId:undefined,error:undefined,shots:c.shots.map(s=>s.scene===6?shot:s),archives:[...(c.archives??[]),{id:archive,master:claimed.master!,at:now()}]};})};
+  }catch{await changeCut(store,c=>({...c,status:'PAUSED',error:'CUT_BUDGET_UNCERTAIN'}));throw new WaveSpeedError('CUT_BUDGET_UNCERTAIN',409);}
  }
  if(input.action==='repair-hungarian'){
   const claimed=await changeCut(store,c=>{

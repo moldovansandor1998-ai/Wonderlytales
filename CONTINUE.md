@@ -11,6 +11,10 @@ three clearer Hungarian exchanges, motivates the workshop visit with an assigned
 Mira voiceover, and moves the workshop approach after the reluctant exchange.
 The entrance is trimmed to its interior tail to avoid repeated threshold action.
 All original assets and the previous master remain available.
+A further bounded car repair uses a reviewed crop from the original chase,
+showing the same silver sedan without the distorted foreground rabbit from the
+previous return shot. It stays within the existing authorization and archives
+the prior cut before replacing that one action insert.
 
 Whisper confirmed English speech in Mira's entrance and the workshop approach.
 The first diagnostic request was marked uncertain after a request-context budget

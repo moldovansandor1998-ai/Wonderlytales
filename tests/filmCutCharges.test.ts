@@ -96,3 +96,9 @@ it('complete-film audit bounds concurrent analysis and preserves the existing ma
  await advanceCutBatch(s as unknown as R2VideoStore,'wf');
  expect(calls.submit).toHaveBeenCalledTimes(3);const c=(await s.readRecord()).value;expect(c.chargedUpperUsd).toBeCloseTo(.015);expect(c.master).toBe('keep-master');expect(c.index).toBe(0);
 });
+it('the car continuity repair cannot exceed the previously approved allowance',async()=>{
+ const s=memory(),r=await s.readRecord(),shot=r.value.shots[0];
+ await s.writeRecord('film-cut',FILM_CUT_ID,{...r.value,status:'PAUSED',revision:2,index:2,chargedUpperUsd:9.5,shots:[{...shot,scene:2,kind:'reuse',asset:'source',seconds:10},{...shot,scene:6,kind:'action',asset:'old-car'},shot]},r.etag);
+ await expect(cutAction({action:'repair-car'},s as unknown as R2VideoStore)).rejects.toThrow('CUT_PRICE_LIMIT');
+ expect(calls.submit).not.toHaveBeenCalled();expect(calls.reserve).not.toHaveBeenCalled();expect((await s.readRecord()).value.chargedUpperUsd).toBe(9.5);
+});

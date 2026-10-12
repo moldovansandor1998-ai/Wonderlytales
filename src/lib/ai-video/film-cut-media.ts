@@ -36,6 +36,14 @@ export async function cutSpeech(store:R2VideoStore,s:CutShot){
   return {seconds,audio};
  });
 }
+export async function originalCarFrame(store:R2VideoStore,asset:string){
+ return tempMedia(async dir=>{
+  const file=join(dir,'car.mp4'),out=join(dir,'car.png');await writeFile(file,await store.assetBytes(asset,'mp4'));
+  // Reviewed crop of the first chase: complete original silver car, no foreground hero.
+  await run(['-ss','3.7','-i',file,'-vf','crop=768:432:1000:438','-frames:v','1',out]);
+  const bytes=await readFile(out),sha=digest(bytes);await store.putChunk(sha,0,bytes);await store.completeImage(sha,bytes.length);return sha;
+ });
+}
 export async function extractCutAudio(store:R2VideoStore,asset:string){
  return tempMedia(async dir=>{
   const source=join(dir,'source.mp4'),out=join(dir,'source.wav');await writeFile(source,await store.assetBytes(asset,'mp4'));

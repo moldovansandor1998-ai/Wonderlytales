@@ -59,7 +59,7 @@ export function independentCutShots(c:FilmCut){
   const returnedCamera=s.frameFrom&&c.shots.some(source=>source.id===s.frameFrom&&source.phase==='READY'&&source.image);
   // Revision closeups reuse an already reviewed frame from the previous master.
   // They change speech only, so they need no new story-dependent camera work.
-  const revisedCamera=c.revision===2&&s.id.endsWith('-hu-v2')&&s.previousAsset&&s.image&&!s.reframe;
+  const revisedCamera=(c.revision??0)>=2&&s.id.endsWith('-hu-v2')&&s.previousAsset&&s.image&&!s.reframe;
   return index>c.index&&s.kind==='speech'&&!s.cleaned&&!s.asset&&(returnedCamera||revisedCamera)?[index]:[];
  }).slice(0,2);
 }

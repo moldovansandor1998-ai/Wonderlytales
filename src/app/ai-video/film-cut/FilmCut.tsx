@@ -31,6 +31,7 @@ export default function FilmCut(){
    {(cut?.status==='READY'||(cut?.status==='PAUSED'&&cut.audioAuditRequested))&&<button style={buttonStyle} disabled={busy} onClick={()=>void act('audit-audio')}>Magyar beszéd ellenőrzése · meglévő keretből</button>}
    {cut?.status==='READY'&&(cut.revision??1)<2&&<button style={buttonStyle} disabled={busy} onClick={()=>void act('repair-hungarian')}>Magyar hang és történet javítása · meglévő keretből</button>}
    {cut?.status==='READY'&&!cut.extension&&<button style={buttonStyle} disabled={busy} onClick={()=>void act('prepare-extension')}>16–30. jelenet előkészítése · generálás nélkül</button>}
+   {cut?.revision===2&&['READY','PAUSED','STOPPED'].includes(cut.status)&&cut.index>8&&<button style={buttonStyle} disabled={busy} onClick={()=>void act('repair-car')}>Autó képi folytonosságának javítása · legfeljebb 0,60 USD</button>}
    {cut?.audioAuditRequested&&<p>A film minden beállításának beszédét ellenőrizzük. A kész film megmarad.</p>}
    {displayedError&&<p role="alert" style={{color:'#f2ba93'}}>{errors[displayedError]??displayedError}</p>}
   </section>
