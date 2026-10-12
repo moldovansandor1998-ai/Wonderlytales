@@ -21,6 +21,13 @@ Recovery workflow:
 2. For a visual-review pause, download and inspect the current finished MP4.
    Accept only after review, then resume using the remaining recorded allowance.
    Deterministic closeup repair preserves the original source.
+   Speech videos with a provider rounding shortfall of at most two 24 fps
+   frames now hold the final image inside the reserved silent tail. This is
+   applied before cleanup and finishing; assigned audio is retained in full.
+   Larger gaps and short action footage still stop for review. Resume the
+   existing cut after deployment; never regenerate a completed paid task just
+   to correct this small duration mismatch. Regression coverage lives in
+   `tests/filmCutMedia.test.ts` and requires the installed FFmpeg binary.
 3. The fixed no-text prompt and subtitle cleanup remain active. All source,
    intermediate and replaced media remain archived. The intro is reused.
 4. Final assembly requires all 25 shots to be READY. Verify the resulting MP4

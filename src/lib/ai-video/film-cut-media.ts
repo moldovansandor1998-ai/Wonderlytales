@@ -35,6 +35,15 @@ export async function cutSpeech(store:R2VideoStore,s:CutShot){
   return {seconds,audio};
  });
 }
+function speechTailHold(s:CutShot,duration:number,target:number){
+ const missing=target-duration;
+ // Providers can round a 24 fps speech track down to 30 fps video. Hold at
+ // most two output frames inside the reserved 350 ms tail. The 5 ms allowance
+ // covers mediaInfo's centisecond duration precision; never hide larger gaps.
+ if(missing>0&&missing<=2/24+.005&&s.kind==='speech'&&s.audio)return 'tpad=stop_mode=clone:stop_duration=0.1,';
+ if(missing>1/24)throw new WaveSpeedError('CUT_VIDEO_TOO_SHORT');
+ return '';
+}
 export async function prepareCutCleanup(store:R2VideoStore,s:CutShot){
  return tempMedia(async dir=>{
   const input=join(dir,'raw.mp4'),out=join(dir,'cleanup-input.mp4');
@@ -42,7 +51,13 @@ export async function prepareCutCleanup(store:R2VideoStore,s:CutShot){
   // Avatar renders can contain a silent visual tail longer than the supplied
   // audio. Stream-copy only the needed video before paying per-second cleanup.
   await run(['-i',input,'-t',String(s.seconds),'-map','0:v:0','-an','-c:v','copy','-movflags','+faststart',out]);
-  const info=await mediaInfo(out);if(info.duration+1/24<s.seconds)throw new WaveSpeedError('CUT_VIDEO_TOO_SHORT');
+  let info=await mediaInfo(out);
+  const hold=speechTailHold(s,info.duration,s.seconds);
+  if(hold){
+   await run(['-i',input,'-t',String(s.seconds),'-map','0:v:0','-an','-vf',hold+'fps=24','-c:v','libx264','-preset','veryfast','-crf','20','-pix_fmt','yuv420p','-movflags','+faststart',out]);
+   info=await mediaInfo(out);
+  }
+  if(info.duration+1/24<s.seconds)throw new WaveSpeedError('CUT_VIDEO_TOO_SHORT');
   return {cleanupInput:await storeFile(store,out,'mp4'),cleanupSeconds:info.duration};
  });
 }
@@ -52,7 +67,8 @@ export async function finishCutShot(store:R2VideoStore,s:CutShot){
   await writeFile(file,await store.assetBytes(s.cropPreset==='original-radio'?s.raw!:s.cleaned??s.raw??s.source!,'mp4'));
   const info=await mediaInfo(file),start=s.kind==='reuse'?(s.start??0):0;
   const seconds=s.kind==='reuse'?Math.min(s.end??info.duration,info.duration)-start:s.seconds;
-  if(seconds<=0||info.duration+1/24<start+seconds)throw new WaveSpeedError('CUT_VIDEO_TOO_SHORT');
+  if(seconds<=0)throw new WaveSpeedError('CUT_VIDEO_TOO_SHORT');
+  const hold=speechTailHold(s,info.duration,start+seconds);
   const args=['-i',file],replacement=s.kind!=='reuse'&&s.audio;
   let useExtraAudio=false;
   if(replacement){const wav=join(dir,'voice.wav');await writeFile(wav,await store.assetBytes(s.audio!,'wav'));args.push('-i',wav);}
@@ -69,7 +85,7 @@ export async function finishCutShot(store:R2VideoStore,s:CutShot){
   const framing=s.cropPreset?`crop=1280:720:${{left:0,center:320,right:640,'original-radio':320}[s.cropPreset]}:${s.cropPreset==='original-radio'?120:0},`+fit:s.framingRepair==='felix-bag'?'crop=1600:900:0:0,'+fit:s.framingRepair==='felix-phone'?'crop=1408:792:128:120,'+fit:fit;
   // Keep words intact: shot length comes from the complete decoded MP3 + handles.
   // Original generated voices are replaced with the exact assigned character recording.
-  await run([...args,'-ss',String(start),'-t',String(seconds),'-map','0:v:0','-map',audio,'-vf',framing,'-c:v','libx264','-preset','veryfast','-crf','20','-pix_fmt','yuv420p','-r','24','-af',`aresample=48000,aformat=channel_layouts=stereo,apad,atrim=0:${seconds},afade=t=in:d=0.015,afade=t=out:st=${Math.max(0,seconds-.035)}:d=0.035,alimiter=limit=0.95:level=false`,'-c:a','aac','-b:a','192k','-ar','48000','-ac','2','-movflags','+faststart',out]);
+  await run([...args,'-ss',String(start),'-t',String(seconds),'-map','0:v:0','-map',audio,'-vf',hold+framing,'-c:v','libx264','-preset','veryfast','-crf','20','-pix_fmt','yuv420p','-r','24','-af',`aresample=48000,aformat=channel_layouts=stereo,apad,atrim=0:${seconds},afade=t=in:d=0.015,afade=t=out:st=${Math.max(0,seconds-.035)}:d=0.035,alimiter=limit=0.95:level=false`,'-c:a','aac','-b:a','192k','-ar','48000','-ac','2','-movflags','+faststart',out]);
   const result=await mediaInfo(out);if(!result.audio||Math.abs(result.duration-seconds)>.1)throw new WaveSpeedError('CUT_MEDIA_DURATION_MISMATCH');
   return {asset:await storeFile(store,out,'mp4'),seconds};
  });
