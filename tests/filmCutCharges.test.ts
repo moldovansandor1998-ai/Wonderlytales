@@ -102,3 +102,12 @@ it('the car continuity repair cannot exceed the previously approved allowance',a
  await expect(cutAction({action:'repair-car'},s as unknown as R2VideoStore)).rejects.toThrow('CUT_PRICE_LIMIT');
  expect(calls.submit).not.toHaveBeenCalled();expect(calls.reserve).not.toHaveBeenCalled();expect((await s.readRecord()).value.chargedUpperUsd).toBe(9.5);
 });
+
+it('preparing a continuation does not implicitly approve extra spending',async()=>{
+ const s=memory(),r=await s.readRecord(),asset='b'.repeat(64);
+ await s.writeRecord('film-cut',FILM_CUT_ID,{...r.value,status:'READY',master:asset,shots:r.value.shots.map(s=>({...s,phase:'READY',asset})),chargedUpperUsd:5,extension:{shots:[],ceiling:22.09,preparedAt:'prepared',lastScene:30}},r.etag);
+ await expect(cutAction({action:'start-extension',expectedAsset:asset},s as unknown as R2VideoStore)).rejects.toThrow('CUT_REVIEW_REQUIRED');
+ await expect(cutAction({action:'start-extension',expectedAsset:asset,maxCostUsd:17},s as unknown as R2VideoStore)).rejects.toThrow('CUT_REVIEW_REQUIRED');
+ await expect(cutAction({action:'start-extension',expectedAsset:'a'.repeat(64),maxCostUsd:18},s as unknown as R2VideoStore)).rejects.toThrow('CUT_REVIEW_REQUIRED');
+ expect((await s.readRecord()).value.authorizedUsd).toBe(10);expect(calls.submit).not.toHaveBeenCalled();expect(calls.reserve).not.toHaveBeenCalled();
+});

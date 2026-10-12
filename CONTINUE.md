@@ -28,6 +28,11 @@ The 16–30 plan is prepared without paid generation. Its quote includes 19 assi
 speech shots, five explicit action inserts, cleanup and checks. Preparing it does
 not expand the existing numeric spending authorization. If its ceiling exceeds
 the remaining allowance, obtain the exact additional limit before generation.
+The prepared UI exposes `start-extension` only with the additional numeric
+allowance and an expected-master lease. It preserves the original task ledger,
+archives the ready cut, reserves the new work and appends scenes 16–30. Do not
+click that approval button without sufficient explicit numeric authorization.
+Two existing workshop speaker cameras are reused during extension preparation.
 Do not interpret a prior unspecified credit top-up instruction as unlimited spend.
 Live costs, task IDs, private asset IDs and archives belong in the authenticated
 export, not this public repository. Production must still pause for visual review.

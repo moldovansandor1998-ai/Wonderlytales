@@ -1,9 +1,13 @@
 import {describe,it,expect} from 'vitest';
 import {hungarianRevision,revisionCeiling,continuationPlan} from '../src/lib/ai-video/film-cut-revision';
 import {makeCutPlan} from '../src/lib/ai-video/film-cut-plan';
-import {cutCeiling,independentCutShots,type FilmCut} from '../src/lib/ai-video/film-cut-shared';
+import {cutCeiling,independentCutShots,extensionAllowance,type FilmCut} from '../src/lib/ai-video/film-cut-shared';
 import {EPISODE_SCENES} from '../src/lib/ai-video/episode-data';
 describe('Hungarian revision and next fifteen scenes',()=>{
+ it('quotes only the additional allowance and rounds the bound upward',()=>{
+  expect(extensionAllowance({authorizedUsd:26.9,chargedUpperUsd:18.341,extension:{ceiling:22.09}} as FilmCut)).toBe(13.54);
+  expect(extensionAllowance({authorizedUsd:26.9,chargedUpperUsd:1,extension:{ceiling:22.09}} as FilmCut)).toEqual(0);
+ });
  it('keeps originals intact, replaces confusing lines, and motivates the entrance before showing it',()=>{
   const c={shots:makeCutPlan().map((s,i)=>({...s,phase:'READY',asset:'asset'+i,image:'image'+i,lastFrame:'last'+i,seconds:s.seconds||3,...(s.line?{audio:'voice'+i}:{} )}))} as FilmCut;
   const before=structuredClone(c);const shots=hungarianRevision(c);expect(c).toEqual(before);expect(shots).toHaveLength(25);

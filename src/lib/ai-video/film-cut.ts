@@ -16,7 +16,7 @@ import {finalFrame} from './post-media';
 import {VIDEO_NO_TEXT_RULE,NEGATIVE_PROMPT} from './shared';
 import {makeCutPlan} from './film-cut-plan';
 import {cutSpeech,finishCutShot,assembleCut,miraDuplicateMask,prepareCutCleanup,extractCutAudio,importCutAudio,originalCarFrame} from './film-cut-media';
-import {FILM_CUT_ID,CUT_VERSION,CUT_MAX_USD,cutCeiling,chargeAllowed,independentCutShots,type FilmCut,type CutShot,type CutTask} from './film-cut-shared';
+import {FILM_CUT_ID,CUT_VERSION,CUT_MAX_USD,cutCeiling,chargeAllowed,extensionAllowance,independentCutShots,type FilmCut,type CutShot,type CutTask} from './film-cut-shared';
 const now=()=>new Date().toISOString();
 const avatar='kwaivgi/kling-v2-ai-avatar-pro' as const,motion='kwaivgi/kling-v3.0-pro/image-to-video' as const;
 export async function readCut(store:R2VideoStore){return (await store.readRecord<FilmCut>('film-cut',FILM_CUT_ID))?.value??null;}
@@ -156,7 +156,7 @@ export async function advanceCut(store:R2VideoStore,workflowId:string,precompute
  }
  const index=precomputeIndex??c.index,s=c.shots[index];
  if(precomputeIndex!==undefined&&(index<=c.index||!independentCutShots(c).includes(index)))return false;
- if(!s){const final=await assembleCut(store,c.shots);await changeCut(store,x=>({...x,...final,status:x.status==='RUNNING'?'READY':x.status}));return true;}
+ if(!s){const final=await assembleCut(store,c.shots);await changeCut(store,x=>({...x,...final,masterLastScene:x.shots.at(-1)?.scene??15,status:x.status==='RUNNING'?'READY':x.status}));return true;}
  if(s.phase==='READY'){if(precomputeIndex===undefined)await changeCut(store,x=>({...x,index:x.index===c.index?x.index+1:x.index}));return false;}
  if(s.removeNativeSpeech&&!s.audioBed&&(s.remixSource||s.raw)){
   if(!s.sourceAudio){await setShot(store,s.id,{sourceAudio:await extractCutAudio(store,(s.remixSource??s.raw)!)});return false;}
@@ -240,7 +240,7 @@ export async function advanceCut(store:R2VideoStore,workflowId:string,precompute
  await setShot(store,s.id,{phase:'READY'});return false;
 }
 export async function cutAction(raw:unknown,store:R2VideoStore){
- const input=z.object({action:z.enum(['prepare','preflight','start','stop','resume','accept-check','repair-text','repair-duplicate','repair-framing','crop-closeup','repair-radio-camera','audit-audio','repair-hungarian','prepare-extension','repair-car']),maxCostUsd:z.number().finite().min(0).max(CUT_MAX_USD).optional(),shotId:z.string().optional(),expectedAsset:z.string().regex(/^[a-f0-9]{64}$/).optional(),cropPreset:z.enum(['left','center','right','original-radio']).optional()}).strict().parse(raw);
+ const input=z.object({action:z.enum(['prepare','preflight','start','stop','resume','accept-check','repair-text','repair-duplicate','repair-framing','crop-closeup','repair-radio-camera','audit-audio','repair-hungarian','prepare-extension','repair-car','start-extension']),maxCostUsd:z.number().finite().min(0).max(CUT_MAX_USD).optional(),shotId:z.string().optional(),expectedAsset:z.string().regex(/^[a-f0-9]{64}$/).optional(),cropPreset:z.enum(['left','center','right','original-radio']).optional()}).strict().parse(raw);
  if(input.action==='prepare')return {cut:await prepareCut(store)};
  if(input.action==='preflight')return {cut:await readCut(store),quote:await preflightCut(store)};
  if(input.action==='start'){if(input.maxCostUsd===undefined)throw new WaveSpeedError('PRICE_CHANGED',409);return {cut:await authorizeCut(store,input.maxCostUsd)};}
@@ -251,7 +251,24 @@ export async function cutAction(raw:unknown,store:R2VideoStore){
   const character=cast.characters.find(x=>x.id===id),voice=character&&characterVoice(character,cast.voices),ref=refs.find(x=>x.id===id)?.reference;
   if(!voice||!ref)throw new WaveSpeedError('CHARACTER_REFERENCE_OR_VOICE_MISSING',409);
   const shots=continuationPlan();
+  for(const key of ['felix','tilda'] as const){const target=shots.find(s=>s.scene===16&&s.line?.character===key),source=c.shots.slice().reverse().find(s=>s.phase==='READY'&&s.environment==='workshop'&&s.characters.length===1&&s.characters[0]===key&&s.image);if(target&&source){target.frameFrom=source.id;target.reframe=false;}}
   return {cut:await changeCut(store,x=>{if(x.status!=='READY'||x.master!==c.master)throw new WaveSpeedError('CUT_CHANGED',409);return {...x,voices:{...x.voices,[id]:{id:voice.id,voice_id:voice.voice_id}},refs:{...x.refs,[key]:ref.sha256},extension:{shots,ceiling:cutCeiling(shots),preparedAt:now(),lastScene:30}};})};
+ }
+ if(input.action==='start-extension'){
+  const current=await readCut(store),amount=input.maxCostUsd;
+  if(!current||current.budget!=='RESERVED'||current.status!=='READY'||!current.extension||current.extension.startedAt||current.master!==input.expectedAsset||amount===undefined||amount<extensionAllowance(current)||current.shots.some(s=>s.phase!=='READY'||!s.asset)||Object.entries(current.tasks).some(([k,t])=>t.status!=='READY'&&!(k.startsWith('audio-audit:')&&t.status==='UNCERTAIN')))throw new WaveSpeedError('CUT_REVIEW_REQUIRED',409);
+  const [cast,refs,budget,balance]=await Promise.all([readCast(),references(store),getProductionBudget(),new WaveSpeedClient(process.env.WAVESPEED_API_KEY??'').balance()]);
+  for(const [id,v] of Object.entries(current.voices)){const char=cast.characters.find(x=>x.id===id),voice=char&&characterVoice(char,cast.voices);if(voice?.id!==v.id||voice.voice_id!==v.voice_id)throw new WaveSpeedError('VOICE_ASSIGNMENT_CHANGED',409);}
+  for(const [key,sha] of Object.entries(current.refs))if(refs.find(r=>r.id===CAST[key as CastKey].id)?.reference?.sha256!==sha)throw new WaveSpeedError('REFERENCE_CHANGED',409);
+  const list=services({...current,shots:current.extension.shots}),reservation=list.reduce((n,s)=>n+reservations[s],0);
+  if(!budget||list.some(s=>budget.configured_services[s]!==reservations[s])||budget.remaining_usd<reservation||balance<1.12)throw new WaveSpeedError('CUT_BUDGET_NOT_READY',409);
+  const claimed=await changeCut(store,c=>{if(c.status!=='READY'||c.master!==input.expectedAsset||c.extension?.startedAt||c.extension?.preparedAt!==current.extension?.preparedAt||amount<extensionAllowance(c))throw new WaveSpeedError('CUT_CHANGED',409);return {...c,status:'RESERVING'};});
+  const archive=randomUUID();
+  try{
+   if(!await store.writeRecord('film-cut',archive,{...claimed,id:archive,status:'READY'}))throw new WaveSpeedError('CUT_CHANGED',409);
+   for(const service of list)await reserveProductionBudget(service);
+   return {cut:await changeCut(store,c=>{if(c.status!=='RESERVING'||c.extension?.startedAt)throw new WaveSpeedError('CUT_CHANGED',409);const limit=(c.authorizedUsd??0)+amount;return {...c,status:'QUEUED',index:c.shots.length,shots:[...c.shots,...c.extension!.shots],ceiling:limit,authorizedUsd:limit,workflowId:undefined,error:undefined,extension:{...c.extension!,startedAt:now()},authorizations:[...(c.authorizations??[]),{at:now(),additionalUsd:amount,limitUsd:limit,throughScene:30}],archives:[...(c.archives??[]),{id:archive,master:claimed.master!,at:now()}]};})};
+  }catch{await changeCut(store,c=>({...c,status:'PAUSED',error:'CUT_BUDGET_UNCERTAIN'}));throw new WaveSpeedError('CUT_BUDGET_UNCERTAIN',409);}
  }
  if(input.action==='repair-car'){
   const claimed=await changeCut(store,c=>{

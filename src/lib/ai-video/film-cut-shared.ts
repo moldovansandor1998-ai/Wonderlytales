@@ -30,8 +30,9 @@ export type FilmCut={
  ceiling:number;authorizedUsd?:number;chargedUpperUsd:number;tasks:Record<string,CutTask>;
  street?:string;workshop?:string;master?:string;duration?:number;createdAt:string;updatedAt:string;error?:string;
  audioAuditRequested?:boolean;
+ masterLastScene?:number;authorizations?:{at:string;additionalUsd:number;limitUsd:number;throughScene:number}[];
  revision?:number;archives?:{id:string;master:string;at:string}[];
- extension?:{shots:CutShot[];ceiling:number;preparedAt:string;lastScene:30};
+ extension?:{shots:CutShot[];ceiling:number;preparedAt:string;lastScene:30;startedAt?:string};
 };
 export function speechDuration(seconds:number,max=10){
  if(!Number.isFinite(seconds)||seconds<=0)throw new Error('CUT_AUDIO_INVALID');
@@ -64,3 +65,5 @@ export function independentCutShots(c:FilmCut){
  }).slice(0,2);
 }
 export const CUT_LABELS:Record<FilmCut['status'],string>={DRAFT:'Előkészítve',RESERVING:'Költségkeret rögzítése',QUEUED:'Sorba állítva',RUNNING:'A film készül',STOPPING:'Az elindított beállítás mentése',STOPPED:'Leállítva',PAUSED:'Ellenőrzést igényel',READY:'A megtekinthető film elkészült'};
+
+export function extensionAllowance(c:FilmCut){return Math.max(0,Math.ceil(Math.max(0,c.chargedUpperUsd+(c.extension?.ceiling??0)-(c.authorizedUsd??0))*100-1e-8)/100);}
