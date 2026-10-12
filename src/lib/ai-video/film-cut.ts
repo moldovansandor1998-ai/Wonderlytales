@@ -143,7 +143,7 @@ export async function advanceCutBatch(store:R2VideoStore,workflowId:string){
 export async function advanceCut(store:R2VideoStore,workflowId:string,precomputeIndex?:number){
  const c=await readCut(store);if(!c||c.workflowId!==workflowId||c.status!=='RUNNING'||c.budget!=='RESERVED')return true;
  if(c.audioAuditRequested){
-  const shot=c.shots.find(s=>s.asset&&s.kind!=='speech'&&s.audioReview?.asset!==s.asset);
+  const shot=c.shots.find(s=>s.asset&&s.audioReview?.asset!==s.asset);
   if(!shot){await changeCut(store,x=>({...x,status:'READY',audioAuditRequested:false}));return true;}
   const result=await providerTask(store,`audio-audit:${shot.asset}`,'wavespeed-ai/openai-whisper-with-video',{video:await store.assetUrl(shot.asset!,'mp4'),language:'auto',task:'transcribe',enable_timestamps:false},.03,'analysis');
   if(result!==undefined)await setShot(store,shot.id,{audioReview:{asset:shot.asset!,text:result}});
@@ -271,7 +271,7 @@ export async function cutAction(raw:unknown,store:R2VideoStore){
    return {...c,status:'RESERVING',shots:c.shots.map(s=>c.tasks[`audio-audit:${s.asset}`]?.status==='UNCERTAIN'?{...s,audioReview:{asset:s.asset!,text:'Az átirat nem elérhető. A bizonytalan kérés megmaradt, és nem indult újra.'}}:s)};
   });
   try{
-   for(const s of claimed.shots)if(s.asset&&s.kind!=='speech'&&s.audioReview?.asset!==s.asset)await reserveProductionBudget('wavespeed_transcript');
+   for(const s of claimed.shots)if(s.asset&&s.audioReview?.asset!==s.asset)await reserveProductionBudget('wavespeed_transcript');
    return {cut:await changeCut(store,c=>({...c,status:'QUEUED',workflowId:undefined,error:undefined,audioAuditRequested:true}))};
   }catch{await changeCut(store,c=>({...c,status:'PAUSED',error:'CUT_BUDGET_UNCERTAIN'}));throw new WaveSpeedError('CUT_BUDGET_UNCERTAIN',409);}
  }
