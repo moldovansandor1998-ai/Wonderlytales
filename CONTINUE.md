@@ -22,9 +22,16 @@ the intro/entrance and Felix's short bag reply. `repair-residual-audio` replaces
 those two beds with the already checked, speech-free street ambience and records
 a clearer bag reply with Felix's assigned voice. This bounded revision preserves
 the master, ledger and original clips and cannot raise the authorized total.
-Inspect the live revision and its current-asset transcripts before reporting it
-complete. ASR on music can hallucinate words; an ASR event such as “GUNSHOT” is not
-proof that a character spoke English. Precise lip-sync still needs viewing.
+Revision 4 is now assembled and READY: 25 shots, about 98 seconds, 1080p/24 fps,
+full stereo audio and clean decode. All 25 current assets were transcribed; all
+19 dialogue-bearing shots contain Hungarian. Five changed visual clips received
+dense frame review. The scene-4 ambience still produces an unreliable isolated
+foreign word in auto-language ASR, but its decoded waveform matches the checked
+street bed at 0.995 correlation. Original entrance speech is not mixed in. An
+ASR event such as “GUNSHOT” is not proof of spoken English. Precise lip-sync and
+final artistic approval still need viewing; minor legacy visual artifacts remain.
+The repaired preview, authenticated state, QA report and continuation plan were
+prepared for delivery. Read the current export before any further submission.
 
 Whisper confirmed English speech in Mira's entrance and the workshop approach.
 The first diagnostic request was marked uncertain after a request-context budget
