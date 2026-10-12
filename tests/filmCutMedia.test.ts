@@ -31,6 +31,13 @@ describe.runIf(existsSync(ffmpeg))('speech video frame rounding',()=>{
   const info=await mediaInfo(out);expect(info.audio).toBe(true);expect(info.duration).toBeCloseTo(shot.seconds,1);
   await exec(ffmpeg,['-nostdin','-v','error','-i',out,'-f','null','-']);
  },15000);
+ it('remixes assigned Hungarian audio with a clean bed and keeps a deliberate entrance trim',async()=>{
+  const mixed=await finishCutShot(store,{...shot,kind:'action',seconds:3,remixSource:'raw',removeNativeSpeech:true,audioBed:'voice'});
+  const out=join(dir,'mixed.mp4');await writeFile(out,assets.get(mixed.asset)!);expect((await mediaInfo(out)).duration).toBeCloseTo(3,1);
+  const trimmed=await finishCutShot(store,{...shot,kind:'action',seconds:2,trimStart:1,remixSource:'raw',audio:undefined,removeNativeSpeech:true,audioBed:'voice'});
+  await writeFile(out,assets.get(trimmed.asset)!);expect((await mediaInfo(out)).duration).toBeCloseTo(2,1);
+  await expect(finishCutShot(store,{...shot,kind:'action',seconds:3,remixSource:'raw',audio:undefined,removeNativeSpeech:true})).rejects.toThrow('CUT_AUDIO_MISSING');
+ },15000);
  it('still rejects missing action footage, unassigned speech, and larger gaps',async()=>{
   await expect(prepareCutCleanup(store,{...shot,kind:'action'})).rejects.toThrow('CUT_VIDEO_TOO_SHORT');
   await expect(prepareCutCleanup(store,{...shot,audio:undefined})).rejects.toThrow('CUT_VIDEO_TOO_SHORT');

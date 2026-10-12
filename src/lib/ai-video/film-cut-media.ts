@@ -6,6 +6,7 @@ import {R2VideoStore,digest} from './storage';
 import {tempMedia,storeFile,speechTrack,concatenate} from './post-media';
 import {CUT_LEAD,speechDuration,type CutShot} from './film-cut-shared';
 import {WaveSpeedError} from '../providers/wavespeed';
+import {downloadProviderMedia} from './media';
 const exec=promisify(execFile),ffmpeg=join(process.cwd(),'node_modules/ffmpeg-static/ffmpeg');
 const fit='scale=1920:1080:force_original_aspect_ratio=decrease,pad=1920:1080:(ow-iw)/2:(oh-ih)/2,setsar=1';
 export async function miraDuplicateMask(store:R2VideoStore){
@@ -33,6 +34,22 @@ export async function cutSpeech(store:R2VideoStore,s:CutShot){
   if(seconds<minimum)throw new WaveSpeedError('CUT_SPEECH_TOO_LONG',409);
   const audio=await storeFile(store,await speechTrack(dir,store,[{...s.line!,offset:CUT_LEAD}],{'0':s.recording!},seconds,0),'wav');
   return {seconds,audio};
+ });
+}
+export async function extractCutAudio(store:R2VideoStore,asset:string){
+ return tempMedia(async dir=>{
+  const source=join(dir,'source.mp4'),out=join(dir,'source.wav');await writeFile(source,await store.assetBytes(asset,'mp4'));
+  const info=await mediaInfo(source);
+  if(info.audio)await run(['-i',source,'-vn','-ar','48000','-ac','2','-c:a','pcm_s16le',out]);
+  else await run(['-f','lavfi','-i','anullsrc=r=48000:cl=stereo','-t',String(info.duration),'-c:a','pcm_s16le',out]);
+  return storeFile(store,out,'wav');
+ });
+}
+export async function importCutAudio(store:R2VideoStore,url:string){
+ return tempMedia(async dir=>{
+  const input=join(dir,'input'),out=join(dir,'bed.wav');await writeFile(input,await downloadProviderMedia(url,30*1024*1024));
+  await run(['-i',input,'-vn','-ar','48000','-ac','2','-c:a','pcm_s16le',out]);
+  return storeFile(store,out,'wav');
  });
 }
 function speechTailHold(s:CutShot,duration:number,target:number){
@@ -64,14 +81,16 @@ export async function prepareCutCleanup(store:R2VideoStore,s:CutShot){
 export async function finishCutShot(store:R2VideoStore,s:CutShot){
  return tempMedia(async dir=>{
   const file=join(dir,'source.mp4'),out=join(dir,'finished.mp4');
-  await writeFile(file,await store.assetBytes(s.cropPreset==='original-radio'?s.raw!:s.cleaned??s.raw??s.source!,'mp4'));
-  const info=await mediaInfo(file),start=s.kind==='reuse'?(s.start??0):0;
-  const seconds=s.kind==='reuse'?Math.min(s.end??info.duration,info.duration)-start:s.seconds;
+  await writeFile(file,await store.assetBytes(s.remixSource??(s.cropPreset==='original-radio'?s.raw!:s.cleaned??s.raw??s.source!),'mp4'));
+  const info=await mediaInfo(file),start=s.trimStart??(s.kind==='reuse'&&!s.remixSource?(s.start??0):0);
+  const seconds=s.kind==='reuse'&&!s.remixSource?Math.min(s.end??info.duration,info.duration)-start:s.seconds;
   if(seconds<=0)throw new WaveSpeedError('CUT_VIDEO_TOO_SHORT');
   const hold=speechTailHold(s,info.duration,start+seconds);
-  const args=['-i',file],replacement=s.kind!=='reuse'&&s.audio;
+  const args=['-i',file],replacement=s.audio;
   let useExtraAudio=false;
   if(replacement){const wav=join(dir,'voice.wav');await writeFile(wav,await store.assetBytes(s.audio!,'wav'));args.push('-i',wav);}
+  else if(s.audioBed){const wav=join(dir,'bed.wav');await writeFile(wav,await store.assetBytes(s.audioBed,'wav'));args.push('-i',wav);useExtraAudio=true;}
+  else if(s.removeNativeSpeech)throw new WaveSpeedError('CUT_AUDIO_MISSING');
   else if(s.cleaned&&s.raw){
    // Text cleanup is a visual operation. Retain the original action sound even
    // when the cleanup provider omits or changes its output audio track.
@@ -81,11 +100,14 @@ export async function finishCutShot(store:R2VideoStore,s:CutShot){
    useExtraAudio=true;
   }
   else if(!info.audio)args.push('-f','lavfi','-i','anullsrc=r=48000:cl=stereo');
-  const audio=replacement||useExtraAudio||!info.audio?'1:a:0':'0:a:0';
-  const framing=s.cropPreset?`crop=1280:720:${{left:0,center:320,right:640,'original-radio':320}[s.cropPreset]}:${s.cropPreset==='original-radio'?120:0},`+fit:s.framingRepair==='felix-bag'?'crop=1600:900:0:0,'+fit:s.framingRepair==='felix-phone'?'crop=1408:792:128:120,'+fit:fit;
+  let audio=replacement||useExtraAudio||!info.audio?'1:a:0':'0:a:0';
+  if(replacement&&s.audioBed){const bed=join(dir,'bed.wav');await writeFile(bed,await store.assetBytes(s.audioBed,'wav'));args.push('-i',bed,'-filter_complex','[1:a]aformat=channel_layouts=stereo[v];[2:a]volume=0.7[b];[v][b]amix=inputs=2:duration=first:normalize=0[mixed]');audio='[mixed]';}
+  const audioFilter=`aresample=48000,aformat=channel_layouts=stereo,apad,atrim=0:${seconds},afade=t=in:d=0.015,afade=t=out:st=${Math.max(0,seconds-.035)}:d=0.035,alimiter=limit=0.95:level=false`;
+  if(audio==='[mixed]'){const i=args.indexOf('-filter_complex');args[i+1]=args[i+1].replace('[mixed]',','+audioFilter+'[mixed]');}
+  const framing=s.remixSource?fit:s.cropPreset?`crop=1280:720:${{left:0,center:320,right:640,'original-radio':320}[s.cropPreset]}:${s.cropPreset==='original-radio'?120:0},`+fit:s.framingRepair==='felix-bag'?'crop=1600:900:0:0,'+fit:s.framingRepair==='felix-phone'?'crop=1408:792:128:120,'+fit:fit;
   // Keep words intact: shot length comes from the complete decoded MP3 + handles.
   // Original generated voices are replaced with the exact assigned character recording.
-  await run([...args,'-ss',String(start),'-t',String(seconds),'-map','0:v:0','-map',audio,'-vf',hold+framing,'-c:v','libx264','-preset','veryfast','-crf','20','-pix_fmt','yuv420p','-r','24','-af',`aresample=48000,aformat=channel_layouts=stereo,apad,atrim=0:${seconds},afade=t=in:d=0.015,afade=t=out:st=${Math.max(0,seconds-.035)}:d=0.035,alimiter=limit=0.95:level=false`,'-c:a','aac','-b:a','192k','-ar','48000','-ac','2','-movflags','+faststart',out]);
+  await run([...args,'-ss',String(start),'-t',String(seconds),'-map','0:v:0','-map',audio,'-vf',hold+framing,'-c:v','libx264','-preset','veryfast','-crf','20','-pix_fmt','yuv420p','-r','24',...(audio==='[mixed]'?[]:['-af',audioFilter]),'-c:a','aac','-b:a','192k','-ar','48000','-ac','2','-movflags','+faststart',out]);
   const result=await mediaInfo(out);if(!result.audio||Math.abs(result.duration-seconds)>.1)throw new WaveSpeedError('CUT_MEDIA_DURATION_MISMATCH');
   return {asset:await storeFile(store,out,'mp4'),seconds};
  });

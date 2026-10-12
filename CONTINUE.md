@@ -1,5 +1,33 @@
 # WonderlyTales: Titokváros — authoritative continuation
 
+## CURRENT REQUEST: Hungarian repair and continuation through scene 30
+
+The user reports English material and unclear scenes, and requests repairs plus
+scenes 16–30 joined to the existing film. `film-cut-revision.ts` contains the
+concrete repair and 24-shot continuation plan. Read the live cut export first.
+The first repair preserves an immutable archive of the prior master and ledger.
+It removes native speech from the affected action clips and intro, re-records
+three clearer Hungarian exchanges, motivates the workshop visit with an assigned
+Mira voiceover, and moves the workshop approach after the reluctant exchange.
+The entrance is trimmed to its interior tail to avoid repeated threshold action.
+All original assets and the previous master remain available.
+
+Whisper confirmed English speech in Mira's entrance and the workshop approach.
+The first diagnostic request was marked uncertain after a request-context budget
+failure. Its immutable task is retained and skipped; never resubmit it. Daily
+reservations now happen in the authenticated HTTP request before workflow launch.
+Source separation uses the SECOND vocal-isolator output, the instrumental track;
+only assigned Hungarian recordings supply dialogue. Future motion clips require
+this separation. A negative prompt alone did not prevent English speech.
+
+The 16–30 plan is prepared without paid generation. Its quote includes 19 assigned
+speech shots, five explicit action inserts, cleanup and checks. Preparing it does
+not expand the existing numeric spending authorization. If its ceiling exceeds
+the remaining allowance, obtain the exact additional limit before generation.
+Do not interpret a prior unspecified credit top-up instruction as unlimited spend.
+Live costs, task IDs, private asset IDs and archives belong in the authenticated
+export, not this public repository. Production must still pause for visual review.
+
 ## CURRENT: intro-to-scene-15 film cut
 
 The assembled preview is now available in the authenticated film-cut interface.

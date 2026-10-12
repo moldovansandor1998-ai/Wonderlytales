@@ -20,6 +20,7 @@ export type CutShot={
  sourceJob?:string;start?:number;end?:number;phase:'WAITING'|'AUDIO'|'FRAME'|'VIDEO'|'CHECK'|'READY';
  check?:{passed:boolean;text:string};
  audioReview?:{asset:string;text:string};
+ remixSource?:string;sourceAudio?:string;audioBed?:string;removeNativeSpeech?:boolean;trimStart?:number;
 };
 export type CutTask={status:'SUBMITTING'|'PROCESSING'|'READY'|'FAILED'|'UNCERTAIN';model:string;price:number;taskId?:string;output?:string;error?:string};
 export type FilmCut={
@@ -29,6 +30,8 @@ export type FilmCut={
  ceiling:number;authorizedUsd?:number;chargedUpperUsd:number;tasks:Record<string,CutTask>;
  street?:string;workshop?:string;master?:string;duration?:number;createdAt:string;updatedAt:string;error?:string;
  audioAuditRequested?:boolean;
+ revision?:number;archives?:{id:string;master:string;at:string}[];
+ extension?:{shots:CutShot[];ceiling:number;preparedAt:string;lastScene:30};
 };
 export function speechDuration(seconds:number,max=10){
  if(!Number.isFinite(seconds)||seconds<=0)throw new Error('CUT_AUDIO_INVALID');
@@ -38,7 +41,7 @@ export function speechDuration(seconds:number,max=10){
 }
 export function shotCeiling(s:CutShot){
  if(s.kind==='reuse')return 0;
- return (s.kind==='speech'?Math.ceil(s.maxSeconds)*.112:s.maxSeconds*.168)+Math.max(3,Math.ceil(s.maxSeconds+.05))*.01+(s.reframe ? .04 : 0)+.02+(s.line && !s.recording ? .25 : 0);
+ return (s.kind==='speech'?Math.ceil(s.maxSeconds)*.112:s.maxSeconds*.168)+Math.max(3,Math.ceil(s.maxSeconds+.05))*.01+(s.reframe ? .04 : 0)+.02+(s.line && !s.recording ? .25 : 0)+(s.removeNativeSpeech ? .03 : 0);
 }
 export function cutCeiling(shots:CutShot[]){return Math.ceil((shots.reduce((n,s)=>n+shotCeiling(s),0)-1e-8)*100)/100;}
 export function chargeAllowed(c:FilmCut,price:number,ceiling:number){
