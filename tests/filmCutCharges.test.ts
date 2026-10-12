@@ -3,7 +3,7 @@ const calls=vi.hoisted(()=>({submit:vi.fn(),price:vi.fn(),balance:vi.fn(),reserv
 vi.mock('@/lib/providers/wavespeed',async original=>({...await original<object>(),WaveSpeedClient:class {creativePrice=calls.price;balance=calls.balance;creativeSubmit=calls.submit;}}));
 vi.mock('@/lib/budget',()=>({reserveProductionBudget:calls.reserve,getProductionBudget:vi.fn()}));
 vi.mock('@/lib/ai-video/film-cut-media',async original=>({...await original<object>(),prepareCutCleanup:vi.fn(async()=>({cleanupInput:'prepared',cleanupSeconds:4}))}));
-import {advanceCut,cutAction,claimCut} from '@/lib/ai-video/film-cut';
+import {advanceCut,advanceCutBatch,cutAction,claimCut} from '@/lib/ai-video/film-cut';
 import {makeCutPlan} from '@/lib/ai-video/film-cut-plan';
 import {FILM_CUT_ID,type FilmCut} from '@/lib/ai-video/film-cut-shared';
 import type {R2VideoStore} from '@/lib/ai-video/storage';
@@ -87,4 +87,12 @@ it('audit recovery preserves uncertain task and skips its asset without resubmis
  expect(c.tasks['audio-audit:'+asset]).toEqual(task);expect(c.chargedUpperUsd).toBe(2.01);expect(c.shots[0].audioReview?.asset).toBe(asset);
  await claimCut(s as unknown as R2VideoStore,'audit');await advanceCut(s as unknown as R2VideoStore,'audit');
  expect(calls.reserve).not.toHaveBeenCalled();expect(calls.submit).not.toHaveBeenCalled();expect((await s.readRecord()).value.status).toBe('READY');
+});
+
+it('complete-film audit bounds concurrent analysis and preserves the existing master',async()=>{
+ const s=memory(),r=await s.readRecord(),shot=r.value.shots[0];
+ const shots=Array.from({length:5},(_,i)=>({...shot,id:'audio-'+i,asset:String(i).repeat(64),phase:'READY' as const}));
+ await s.writeRecord('film-cut',FILM_CUT_ID,{...r.value,audioAuditRequested:true,master:'keep-master',shots},r.etag);calls.price.mockResolvedValue(.005);
+ await advanceCutBatch(s as unknown as R2VideoStore,'wf');
+ expect(calls.submit).toHaveBeenCalledTimes(3);const c=(await s.readRecord()).value;expect(c.chargedUpperUsd).toBeCloseTo(.015);expect(c.master).toBe('keep-master');expect(c.index).toBe(0);
 });

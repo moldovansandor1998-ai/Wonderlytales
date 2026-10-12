@@ -135,7 +135,11 @@ export async function advanceCutBatch(store:R2VideoStore,workflowId:string){
  const c=await readCut(store);if(!c||c.status!=='RUNNING'||c.workflowId!==workflowId)return true;
  // Only approved, fixed camera angles may run ahead. Story-dependent motion,
  // new frames, continuity extraction, review and editing stay in film order.
- if(c.audioAuditRequested)return advanceCut(store,workflowId);
+ if(c.audioAuditRequested){
+  const seen=new Set<string>();const indexes=c.shots.flatMap((s,i)=>{if(!s.asset||s.audioReview?.asset===s.asset||seen.has(s.asset))return [];seen.add(s.asset);return [i];}).slice(0,3);
+  if(!indexes.length)return advanceCut(store,workflowId);
+  const checks=await Promise.allSettled(indexes.map(i=>advanceCut(store,workflowId,i)));for(const r of checks)if(r.status==='rejected')throw r.reason;return false;
+ }
  const results=await Promise.allSettled([advanceCut(store,workflowId),...independentCutShots(c).map(index=>advanceCut(store,workflowId,index))]);
  for(const r of results)if(r.status==='rejected')throw r.reason;
  return results[0].status==='fulfilled'&&results[0].value;
@@ -143,7 +147,8 @@ export async function advanceCutBatch(store:R2VideoStore,workflowId:string){
 export async function advanceCut(store:R2VideoStore,workflowId:string,precomputeIndex?:number){
  const c=await readCut(store);if(!c||c.workflowId!==workflowId||c.status!=='RUNNING'||c.budget!=='RESERVED')return true;
  if(c.audioAuditRequested){
-  const shot=c.shots.find(s=>s.asset&&s.audioReview?.asset!==s.asset);
+  const shot=precomputeIndex===undefined?c.shots.find(s=>s.asset&&s.audioReview?.asset!==s.asset):c.shots[precomputeIndex];
+  if(shot&&(!shot.asset||shot.audioReview?.asset===shot.asset))return false;
   if(!shot){await changeCut(store,x=>({...x,status:'READY',audioAuditRequested:false}));return true;}
   const result=await providerTask(store,`audio-audit:${shot.asset}`,'wavespeed-ai/openai-whisper-with-video',{video:await store.assetUrl(shot.asset!,'mp4'),language:'auto',task:'transcribe',enable_timestamps:false},.03,'analysis');
   if(result!==undefined)await setShot(store,shot.id,{audioReview:{asset:shot.asset!,text:result}});
