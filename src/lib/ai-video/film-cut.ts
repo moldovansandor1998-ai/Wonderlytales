@@ -87,13 +87,13 @@ export async function claimCut(store:R2VideoStore,workflowId:string){
 }
 export async function pauseCut(store:R2VideoStore,workflowId:string,error:string){await changeCut(store,c=>c.workflowId===workflowId&&c.status==='RUNNING'?{...c,status:'PAUSED',error:/^[A-Z_]+$/.test(error)?error:'CUT_PROCESSING_FAILED'}:c);}
 async function taskUpdate(store:R2VideoStore,key:string,patch:Partial<CutTask>){await changeCut(store,c=>({...c,tasks:{...c.tasks,[key]:{...c.tasks[key],...patch}}}));}
-async function providerTask(store:R2VideoStore,key:string,model:CreativeModel,inputs:Record<string,unknown>,ceiling:number,output:'image'|'video'|'analysis',reserveService?:string){
+async function providerTask(store:R2VideoStore,key:string,model:CreativeModel,inputs:Record<string,unknown>,ceiling:number,output:'image'|'video'|'analysis'){
  const api=new WaveSpeedClient(process.env.WAVESPEED_API_KEY??'');let c=(await readCut(store))!,t=c.tasks[key];
  if(!t){
   const [price,balance]=await Promise.all([api.creativePrice(model,inputs),api.balance()]);
   if(balance<price)throw new WaveSpeedError('WAVESPEED_BALANCE_LOW',409);
   await changeCut(store,x=>{if(x.tasks[key])throw new WaveSpeedError('CUT_TASK_ACTIVE',409);if(!chargeAllowed(x,price,ceiling))throw new WaveSpeedError('CUT_PRICE_LIMIT',409);return {...x,chargedUpperUsd:x.chargedUpperUsd+price,tasks:{...x.tasks,[key]:{model,price,status:'SUBMITTING'}}};});
-  try{if(reserveService)await reserveProductionBudget(reserveService);const result=await api.creativeSubmit(model,inputs);await taskUpdate(store,key,{status:'PROCESSING',taskId:result.id});}
+  try{const result=await api.creativeSubmit(model,inputs);await taskUpdate(store,key,{status:'PROCESSING',taskId:result.id});}
   catch{const latest=(await readCut(store))!.tasks[key];if(!latest?.taskId)await taskUpdate(store,key,{status:'UNCERTAIN',error:'CUT_SUBMISSION_UNCERTAIN'});throw new WaveSpeedError('CUT_SUBMISSION_UNCERTAIN',409);}
   return undefined;
  }
@@ -142,7 +142,7 @@ export async function advanceCut(store:R2VideoStore,workflowId:string,precompute
  if(c.audioAuditRequested){
   const shot=c.shots.find(s=>s.asset&&s.kind!=='speech'&&s.audioReview?.asset!==s.asset);
   if(!shot){await changeCut(store,x=>({...x,status:'READY',audioAuditRequested:false}));return true;}
-  const result=await providerTask(store,`audio-audit:${shot.asset}`,'wavespeed-ai/openai-whisper-with-video',{video:await store.assetUrl(shot.asset!,'mp4'),language:'auto',task:'transcribe',enable_timestamps:false},.03,'analysis','wavespeed_transcript');
+  const result=await providerTask(store,`audio-audit:${shot.asset}`,'wavespeed-ai/openai-whisper-with-video',{video:await store.assetUrl(shot.asset!,'mp4'),language:'auto',task:'transcribe',enable_timestamps:false},.03,'analysis');
   if(result!==undefined)await setShot(store,shot.id,{audioReview:{asset:shot.asset!,text:result}});
   return false;
  }
@@ -225,6 +225,19 @@ export async function cutAction(raw:unknown,store:R2VideoStore){
  if(input.action==='prepare')return {cut:await prepareCut(store)};
  if(input.action==='preflight')return {cut:await readCut(store),quote:await preflightCut(store)};
  if(input.action==='start'){if(input.maxCostUsd===undefined)throw new WaveSpeedError('PRICE_CHANGED',409);return {cut:await authorizeCut(store,input.maxCostUsd)};}
+ if(input.action==='audit-audio'){
+  // Supabase's daily reservation needs the authenticated HTTP request. Workflow
+  // steps have no user cookies. Reserve before queuing, as with normal cut start.
+  const claimed=await changeCut(store,c=>{
+   const recovering=c.status==='PAUSED'&&c.audioAuditRequested;
+   if((c.status!=='READY'&&!recovering)||!c.master||c.budget!=='RESERVED'||c.shots.some(s=>s.phase!=='READY'||!s.asset)||Object.entries(c.tasks).some(([k,t])=>t.status!=='READY'&&!(recovering&&k.startsWith('audio-audit:')&&t.status==='UNCERTAIN')))throw new WaveSpeedError('CUT_REVIEW_REQUIRED',409);
+   return {...c,status:'RESERVING',shots:c.shots.map(s=>c.tasks[`audio-audit:${s.asset}`]?.status==='UNCERTAIN'?{...s,audioReview:{asset:s.asset!,text:'Az átirat nem elérhető. A bizonytalan kérés megmaradt, és nem indult újra.'}}:s)};
+  });
+  try{
+   for(const s of claimed.shots)if(s.asset&&s.kind!=='speech'&&s.audioReview?.asset!==s.asset)await reserveProductionBudget('wavespeed_transcript');
+   return {cut:await changeCut(store,c=>({...c,status:'QUEUED',workflowId:undefined,error:undefined,audioAuditRequested:true}))};
+  }catch{await changeCut(store,c=>({...c,status:'PAUSED',error:'CUT_BUDGET_UNCERTAIN'}));throw new WaveSpeedError('CUT_BUDGET_UNCERTAIN',409);}
+ }
  if(input.action==='repair-radio-camera'){
   const c=await readCut(store),s=c?.shots[c.index],task=c?.tasks['shot-11-14:video'];
   if(!c||!s||!['STOPPED','PAUSED'].includes(c.status)||s.id!==input.shotId||s.id!=='shot-11-14'||s.image!=='48724d39ee7bc04f261a158d9eaf074f45cd9fee03ae27eb2acdcd7b594b3ee2'||s.cleaned||!task||!['PROCESSING','READY'].includes(task.status)||!task.taskId)throw new WaveSpeedError('CUT_REVIEW_REQUIRED',409);
@@ -262,10 +275,6 @@ export async function cutAction(raw:unknown,store:R2VideoStore){
    const index=c.shots.findIndex(s=>s.id===input.shotId),shot=c.shots[index];
    if(!['STOPPED','PAUSED'].includes(c.status)||c.budget!=='RESERVED'||!shot?.raw||!shot.asset||shot.cleaned||index>c.index||c.shots.slice(index+1).some(s=>s.raw||s.image)||Object.values(c.tasks).some(t=>['SUBMITTING','UNCERTAIN','FAILED'].includes(t.status)))throw new WaveSpeedError('CUT_REVIEW_REQUIRED',409);
    return {...c,status:'QUEUED',workflowId:undefined,error:undefined,index,master:undefined,duration:undefined,shots:c.shots.map(s=>s.id===shot.id?{...s,previousAsset:s.asset,asset:undefined,lastFrame:undefined,check:undefined,phase:'CHECK',manualReviewRequired:true}:s)};
-  }
-  if(input.action==='audit-audio'){
-   if(c.status!=='READY'||!c.master||c.budget!=='RESERVED'||c.shots.some(s=>s.phase!=='READY'||!s.asset)||Object.values(c.tasks).some(t=>t.status!=='READY'))throw new WaveSpeedError('CUT_REVIEW_REQUIRED',409);
-   return {...c,status:'QUEUED',workflowId:undefined,error:undefined,audioAuditRequested:true};
   }
   if(input.action==='stop'&&['QUEUED','RUNNING','PAUSED'].includes(c.status))return {...c,status:'STOPPED'};
   if(input.action==='accept-check'){

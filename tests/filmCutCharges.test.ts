@@ -71,10 +71,20 @@ it('audio audit preserves the master and uses one bounded immutable request per 
  const s=memory(),r=await s.readRecord(),asset='a'.repeat(64),shot=r.value.shots[0];
  await s.writeRecord('film-cut',FILM_CUT_ID,{...r.value,status:'READY',index:1,master:'original-master',duration:4,shots:[{...shot,kind:'reuse',phase:'READY',asset}],chargedUpperUsd:2},r.etag);
  const queued=(await cutAction({action:'audit-audio'},s as unknown as R2VideoStore)).cut!;
- expect(queued.master).toBe('original-master');expect(queued.authorizedUsd).toBe(10);expect(queued.chargedUpperUsd).toBe(2);
+ expect(calls.reserve).toHaveBeenCalledOnce();expect(calls.submit).not.toHaveBeenCalled();expect(queued.master).toBe('original-master');expect(queued.authorizedUsd).toBe(10);expect(queued.chargedUpperUsd).toBe(2);
  expect(queued.shots[0].asset).toBe(asset);await claimCut(s as unknown as R2VideoStore,'audit');calls.price.mockResolvedValue(.004);
  await Promise.allSettled([1,2].map(()=>advanceCut(s as unknown as R2VideoStore,'audit')));
  expect(calls.submit).toHaveBeenCalledTimes(1);expect(calls.reserve).toHaveBeenCalledOnce();expect(calls.reserve).toHaveBeenCalledWith('wavespeed_transcript');
  expect(calls.submit.mock.calls[0]).toEqual(['wavespeed-ai/openai-whisper-with-video',{video:'https://owned.example/voice.wav',language:'auto',task:'transcribe',enable_timestamps:false}]);
  expect((await s.readRecord()).value.chargedUpperUsd).toBeCloseTo(2.004);
+});
+
+it('audit recovery preserves uncertain task and skips its asset without resubmission',async()=>{
+ const s=memory(),r=await s.readRecord(),asset='a'.repeat(64),shot=r.value.shots[0];
+ const task={model:'whisper',status:'UNCERTAIN' as const,price:.01};
+ await s.writeRecord('film-cut',FILM_CUT_ID,{...r.value,status:'PAUSED',audioAuditRequested:true,master:'original-master',shots:[{...shot,kind:'reuse',phase:'READY',asset}],tasks:{['audio-audit:'+asset]:task},chargedUpperUsd:2.01},r.etag);
+ const c=(await cutAction({action:'audit-audio'},s as unknown as R2VideoStore)).cut!;
+ expect(c.tasks['audio-audit:'+asset]).toEqual(task);expect(c.chargedUpperUsd).toBe(2.01);expect(c.shots[0].audioReview?.asset).toBe(asset);
+ await claimCut(s as unknown as R2VideoStore,'audit');await advanceCut(s as unknown as R2VideoStore,'audit');
+ expect(calls.reserve).not.toHaveBeenCalled();expect(calls.submit).not.toHaveBeenCalled();expect((await s.readRecord()).value.status).toBe('READY');
 });
