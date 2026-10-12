@@ -34,6 +34,17 @@ export function revisionCeiling(shots:CutShot[]){
  return Math.ceil((cutCeiling(shots.filter(s=>s.phase!=='READY'&&!s.remixSource))+shots.filter(s=>s.removeNativeSpeech).length*.03+shots.filter(s=>s.remixSource&&s.line&&!s.recording).length*.25)*100)/100;
 }
 
+export function residualAudioRevision(c:FilmCut,bed:string):CutShot[]{
+ if(c.revision!==3||c.shots.length!==25||c.shots.some(s=>s.phase!=='READY'||!s.asset))throw new Error('CUT_REVIEW_REQUIRED');
+ return c.shots.map(s=>{
+  if(s.scene===0||(s.scene===4&&s.kind==='action'))return {...s,id:s.id+'-hu-v4',previousAsset:s.asset,remixSource:s.asset,asset:undefined,audioBed:bed,removeNativeSpeech:false,audioReview:undefined,phase:'AUDIO'};
+  if(s.id!=='shot-8-9')return {...s};
+  const image=s.cropPreset||s.framingRepair?s.lastFrame:s.image;
+  if(!image||!s.line)throw new Error('CUT_CAMERA_FRAME_MISSING');
+  return {...s,id:s.id+'-hu-v4',line:{...s.line,text:'Nem tudom. Még nem nyitottam ki.'},maxSeconds:5,seconds:0,image,reframe:false,frameFrom:undefined,recording:undefined,audio:undefined,raw:undefined,cleaned:undefined,cleanupInput:undefined,cleanupSeconds:undefined,previousAsset:s.asset,asset:undefined,lastFrame:undefined,check:undefined,audioReview:undefined,phase:'AUDIO',manualReviewRequired:true,priorVideoCost:undefined,cropPreset:undefined,framingRepair:undefined};
+ });
+}
+
 const caseRule='The same closed 25 cm cylindrical copper document case with green patina and one round city seal rests on the wooden counter beside the same backpack. No readable letters. The case and bag stay here throughout this sequence.';
 const cameras:Record<string,string>={
  felix:'Felix the canonical red fox stands at the near side of the wooden counter, looking screen right toward Tilda and Mira off camera. His green jacket and cream shirt remain unchanged. Tight single-character medium close-up. No badge on Felix.',

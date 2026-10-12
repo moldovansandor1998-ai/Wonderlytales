@@ -1,9 +1,18 @@
 import {describe,it,expect} from 'vitest';
-import {hungarianRevision,revisionCeiling,continuationPlan} from '../src/lib/ai-video/film-cut-revision';
+import {hungarianRevision,residualAudioRevision,revisionCeiling,continuationPlan} from '../src/lib/ai-video/film-cut-revision';
 import {makeCutPlan} from '../src/lib/ai-video/film-cut-plan';
 import {cutCeiling,independentCutShots,extensionAllowance,type FilmCut} from '../src/lib/ai-video/film-cut-shared';
 import {EPISODE_SCENES} from '../src/lib/ai-video/episode-data';
 describe('Hungarian revision and next fifteen scenes',()=>{
+ it('replaces ambiguous background audio and preserves all other reviewed clips',()=>{
+  const c={revision:3,shots:makeCutPlan().map((s,i)=>({...s,phase:'READY',asset:'asset'+i,image:'image'+i,lastFrame:'last'+i,seconds:s.seconds||3}))} as FilmCut;
+  const before=structuredClone(c),shots=residualAudioRevision(c,'clean-bed');
+  expect(c).toEqual(before);expect(shots.filter(s=>s.phase!=='READY')).toHaveLength(3);
+  expect(shots[0]).toMatchObject({audioBed:'clean-bed',remixSource:c.shots[0].asset,removeNativeSpeech:false});
+  expect(shots.find(s=>s.id==='shot-8-9-hu-v4')?.line?.text).toBe('Nem tudom. Még nem nyitottam ki.');
+  expect(revisionCeiling(shots)).toBeLessThan(1);
+  expect(()=>residualAudioRevision({...c,revision:4},'clean-bed')).toThrow('CUT_REVIEW_REQUIRED');
+ });
  it('quotes only the additional allowance and rounds the bound upward',()=>{
   expect(extensionAllowance({authorizedUsd:26.9,chargedUpperUsd:18.341,extension:{ceiling:22.09}} as FilmCut)).toBe(13.54);
   expect(extensionAllowance({authorizedUsd:26.9,chargedUpperUsd:1,extension:{ceiling:22.09}} as FilmCut)).toEqual(0);

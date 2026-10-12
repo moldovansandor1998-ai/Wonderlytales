@@ -16,6 +16,16 @@ showing the same silver sedan without the distorted foreground rabbit from the
 previous return shot. It stays within the existing authorization and archives
 the prior cut before replacing that one action insert.
 
+The assembled repaired preview passed full MP4 decode, duration and stereo-audio
+checks. A full auto-language transcription pass then flagged ambiguous music in
+the intro/entrance and Felix's short bag reply. `repair-residual-audio` replaces
+those two beds with the already checked, speech-free street ambience and records
+a clearer bag reply with Felix's assigned voice. This bounded revision preserves
+the master, ledger and original clips and cannot raise the authorized total.
+Inspect the live revision and its current-asset transcripts before reporting it
+complete. ASR on music can hallucinate words; an ASR event such as “GUNSHOT” is not
+proof that a character spoke English. Precise lip-sync still needs viewing.
+
 Whisper confirmed English speech in Mira's entrance and the workshop approach.
 The first diagnostic request was marked uncertain after a request-context budget
 failure. Its immutable task is retained and skipped; never resubmit it. Daily
