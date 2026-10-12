@@ -1,5 +1,37 @@
 # WonderlyTales: Titokváros — authoritative continuation
 
+## CURRENT: intro-to-scene-15 film cut
+
+This section supersedes the historical morning handoff below. The active
+production interface is `/ai-video/film-cut`. Its implementation is in
+`src/lib/ai-video/film-cut*.ts`, `src/workflows/film-cut.ts`, and
+`src/app/ai-video/film-cut/FilmCut.tsx`.
+
+The current plan contains 25 shots covering the existing introduction and
+scenes 1–15. Retrieve current progress using the authenticated **Vágási terv
+letöltése** export. The live record is authoritative; never infer completed
+shots or active provider requests from this static document. Do not prepare
+a replacement cut or restart the historical Maya/Blender tests.
+
+Recovery workflow:
+1. Reconcile the existing cut and provider task ledger before any submission.
+   Preserve the recorded authorization, budget, assigned voices, references,
+   completed assets and archived versions. Never raise the existing spending
+   limit or retry an ambiguous paid submission automatically.
+2. For a visual-review pause, download and inspect the current finished MP4.
+   Accept only after review, then resume using the remaining recorded allowance.
+   Deterministic closeup repair preserves the original source.
+3. The fixed no-text prompt and subtitle cleanup remain active. All source,
+   intermediate and replaced media remain archived. The intro is reused.
+4. Final assembly requires all 25 shots to be READY. Verify the resulting MP4
+   and deliver it as a preview. Technical validation and sampled visual review
+   are distinct from the user's final sound, acting and quality approval.
+
+Keep live workflow IDs, account-specific budget state and unpublished media
+identifiers in the authenticated export, outside this public repository.
+
+## Historical handoff (superseded by the film cut above)
+
 Updated 2026-10-11. Continue this existing repository and infrastructure.
 LATEST 11:06 Asia/Saigon: user likes the two AI clips and requests a 10-minute
 episode launch plan, with reusable 10s intro, 10s outro, episode number/title,
