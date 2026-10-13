@@ -45,10 +45,10 @@ export class EventQueue {
 }
 
 export function rehearsalReply(event: LiveEvent): Reply {
-  if (event.type === "gift") return { text: `Köszönöm, ${event.user}, a ${event.count} ${event.gift || "ajándék"} meglepetést! A kapitány tiszteleg!`, emotion: "thanks" };
-  if (event.type === "follow") return { text: `Üdv a fedélzeten, ${event.user}! Már készítjük is a matrózsapkád!`, emotion: "happy" };
-  if (songRequest(event.text)) return { text: `${event.user}, felírtam a zenekérésedet a hajónaplóba!`, emotion: "happy" };
-  return { text: `Hallak, ${event.user}! A kapitány már figyel. Ez most a hang- és sorpróba.`, emotion: "neutral" };
+  if (event.type === "gift") return { text: `Köszönöm, ${event.user}, a ${event.count} ${event.gift || "ajándék"} meglepetést! Na, ezen most még én is meglepődtem!`, emotion: "thanks" };
+  if (event.type === "follow") return { text: `Szia, ${event.user}! Már te is rajtam nevetsz? Jó, akkor ülj le közénk!`, emotion: "happy" };
+  if (songRequest(event.text)) return { text: `${event.user}, felírtam a zenekérésedet a kívánságlistára!`, emotion: "happy" };
+  return { text: `Hallak, ${event.user}! Isti már figyel. Ez most a hang- és sorpróba.`, emotion: "neutral" };
 }
 
 export function replyMessages(input: ReplyInput) {
