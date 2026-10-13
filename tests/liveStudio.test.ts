@@ -5,9 +5,20 @@ import { reserveProductionBudget } from '@/lib/budget';
 import { timedSpeech } from '@/lib/live/speech';
 const event = (id: string) => eventSchema.parse({id, type:'comment', user:'Néző', text:'Szia'});
 describe('Live event handling', () => {
-  it('keeps FIFO order, including gifts, and ignores replayed event IDs', () => {
+  it('prioritizes gifts and ignores replayed event IDs', () => {
     const queue = new EventQueue(); queue.add(event('1')); queue.add({...event('2'),type:'gift'});
-    expect(queue.add(event('1'))).toBe(false); expect(queue.take()?.id).toBe('1'); expect(queue.take()?.id).toBe('2'); expect(queue.add(event('2'))).toBe(false);
+    expect(queue.add(event('1'))).toBe(false); expect(queue.take()?.id).toBe('2'); expect(queue.take()?.id).toBe('1'); expect(queue.add(event('2'))).toBe(false);
+  });
+  it('does not starve comments during a gift burst',()=>{
+    const queue=new EventQueue();queue.add(event('comment'));
+    for(let i=0;i<4;i++)queue.add({...event(`gift${i}`),type:'gift'});
+    expect([queue.take()?.id,queue.take()?.id,queue.take()?.id]).toEqual(['gift0','gift1','comment']);
+  });
+  it('accepts a gift into a full comment queue without duplicating it',()=>{
+    const queue=new EventQueue();for(let i=0;i<50;i++)queue.add(event(String(i)));
+    expect(queue.add({...event('gift'),type:'gift'})).toBe(true);
+    expect(queue.size).toBe(50);expect(queue.dropped).toBe(1);expect(queue.take()?.id).toBe('gift');
+    expect(queue.add({...event('gift'),type:'gift'})).toBe(false);
   });
   it('bounds the queue without silently replacing accepted comments', () => {
     const queue = new EventQueue(); for(let i=0;i<51;i++) queue.add(event(String(i)));
