@@ -49,5 +49,7 @@ describe("Runway live provider boundaries", () => {
   it("uses the cancellation endpoint and accepts an already-removed session", async () => {
     const fetcher = vi.fn().mockResolvedValue(response({}, 404)); vi.stubGlobal("fetch", fetcher);
     await cancelAvatar(avatarId); expect(fetcher.mock.calls[0][1].method).toBe("DELETE");
+    fetcher.mockResolvedValueOnce(new Response(null, { status: 200 }));
+    await expect(cancelAvatar(avatarId)).resolves.toBeUndefined();
   });
 });

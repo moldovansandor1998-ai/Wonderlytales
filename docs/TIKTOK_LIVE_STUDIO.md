@@ -50,7 +50,7 @@ A fizetős létrehozás előtt a szerver ellenőrzi a Runway-karakter állapotá
 
 - A felhasználó belépett a Runway Dev felületre és a kezdőbeállítás elkészült.
 - Feltöltöttük a meglévő kalózképet. A karakter rekordja: `baa672bd-4424-4732-ad14-55eb52bc81f7`.
-- A Runway „This text cannot be used for an avatar. Please update the personality or start script.” hibát jelez; a karakter nem READY, a Start chat gomb letiltott. A rövidebb kezdőszöveg mentése sikerült, a személyiségleírás módosítása nem igazolható. Az eredeti karakterrekordot megőriztük; nem töröltük és nem indítottunk újabb generálásokat.
+- A Runway „This text cannot be used for an avatar. Please update the personality or start script.” hibát jelez; a karakter nem READY, a Start chat gomb letiltott. A rövidebb kezdőszöveg mentése sikerült, a két egyszerűsített személyiségleírást is 400-as hibával utasította el a szolgáltató (Request History felületen ellenőrizve). Az eredeti karakterrekordot megőriztük; nem töröltük és nem indítottunk újabb generálásokat.
 - A megnyitott fejlesztői projekt egyenlege 0 kredit. A fogyasztói Runway-connector másik, „Moldovan” nevű munkaterületet mutatott Free csomaggal; ebből nem következtetünk a felhasználó megvásárolt előfizetésének állapotára.
 - API-kulcs létrehozására vagy titok átmásolására nem került sor. Vercelben a Runway-kulcs, az Avatar ID és az ElevenLabs Agent ID még nincs beállítva.
 - A publikus SDK itt ellenőrzött felülete mikrofon-/kamerabemenetet ad; TikTok szöveges eseményekhez nincs benne dokumentált `sendText` metódus. A teljes automatikus kommentanimációhoz a dokumentált LiveKit Agents útvonal vagy szolgáltató által igazolt szöveges vezérlés szükséges. Nem küldünk kitalált adatcsatorna-üzeneteket.

@@ -32,7 +32,7 @@ async function runway(path: string, method = "GET", body?: unknown) {
   });
   if (method === "DELETE" && response.status === 404) return null;
   if (!response.ok) throw new AvatarError(response.status === 401 ? "RUNWAY_ACCESS_DENIED" : response.status === 402 ? "RUNWAY_CREDITS_REQUIRED" : "RUNWAY_REQUEST_FAILED");
-  return response.status === 204 ? null : response.json();
+  return method === "DELETE" || response.status === 204 ? null : response.json();
 }
 async function eleven(path: string, key: string) {
   const response = await fetch(`https://api.elevenlabs.io/v1/convai/${path}`, {
