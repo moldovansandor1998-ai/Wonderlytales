@@ -204,4 +204,4 @@ export class R2VideoStore implements VideoStore {
     const r=await this.client.send(new GetObjectCommand({Bucket:this.bucket,Key:this.assetKey(id,extension)}));return Buffer.from(await r.Body!.transformToByteArray());
   }
 }
-export type RecordKind='film-cut'|'avatar-trial'|'auto-batch'|'auto-run'|'auto-scene'|'video-element'|'scene-image'|'analysis'|'reference'|'episode-scene'|'voice-design'|'post-scene'|'post-job'|'episode-master'|'live-avatar'|'live-motion';
+export type RecordKind='film-cut'|'avatar-trial'|'auto-batch'|'auto-run'|'auto-scene'|'video-element'|'scene-image'|'analysis'|'reference'|'episode-scene'|'voice-design'|'post-scene'|'post-job'|'episode-master'|'live-avatar'|'live-motion'|'live-chat';
