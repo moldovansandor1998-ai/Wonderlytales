@@ -24,7 +24,7 @@ export async function startBackdrop(store: Store) {
   if (old) return old.value;
   if (!process.env.RUNWAYML_API_SECRET) throw new AvatarError("MOTION_NOT_CONFIGURED");
   const budget = await getProductionBudget();
-  if (!budget || (budget.configured_services.genvideo ?? 0) < BACKDROP_COST) throw new AvatarError("BACKDROP_BUDGET_NOT_CONFIGURED", 409);
+  if (!budget || (budget.configured_services.runway_backdrop_5s ?? 0) < BACKDROP_COST) throw new AvatarError("BACKDROP_BUDGET_NOT_CONFIGURED", 409);
   const record: BackdropRecord = { status: "SUBMITTING", createdAt: new Date().toISOString() };
   if (!await store.writeRecord("live-backdrop", BACKDROP_ID, record)) {
     const current = await store.readRecord<BackdropRecord>("live-backdrop", BACKDROP_ID);
@@ -34,7 +34,7 @@ export async function startBackdrop(store: Store) {
   const claim = await store.readRecord<BackdropRecord>("live-backdrop", BACKDROP_ID);
   if (!claim) throw new AvatarError("BACKDROP_UNCERTAIN", 409);
   try {
-    await reserveProductionBudget("genvideo");
+    await reserveProductionBudget("runway_backdrop_5s");
     const response = await fetch("https://api.dev.runwayml.com/v1/image_to_video", {
       method: "POST", signal: AbortSignal.timeout(30000),
       headers: { Authorization: `Bearer ${process.env.RUNWAYML_API_SECRET}`, "X-Runway-Version": "2024-11-06", "Content-Type": "application/json" },
