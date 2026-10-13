@@ -8,7 +8,7 @@ const explanations: Record<string, string> = {
   AVATAR_NOT_CONFIGURED: "A Runway–ElevenLabs kapcsolat még nincs beállítva.",
   RUNWAY_CHARACTER_NOT_READY: "A Runway-karakter feldolgozása még nem sikerült. Ellenőrizd a karakter adatlapját.",
   RUNWAY_ACCESS_DENIED: "A Runway-kulcs nem fér hozzá ehhez a projekthez.",
-  RUNWAY_CREDITS_REQUIRED: "Ebben a Runway fejlesztői projektben nincs elegendő kredit.",
+  RUNWAY_CREDITS_REQUIRED: "Ebben a Runway fejlesztői projektben nincs elegendő API-kredit. A Pro webes előfizetés kreditje külön keret.",
   ELEVENLABS_AGENT_ACCESS_DENIED: "Az ElevenLabs Agent nem érhető el a stúdió kulcsával.",
   ELEVENLABS_AGENT_SETTINGS_REQUIRED: "Az ElevenLabs Agent beállítása szükséges: magyar nyelv, Mc istia hang, PCM 16000 Hz bemenet és legfeljebb 60 másodperc.",
   AVATAR_REQUEST_ALREADY_USED: "Ez a próbamenet már elindult. Leállítás után indíthatsz újat.",

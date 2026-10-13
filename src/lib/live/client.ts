@@ -1,4 +1,7 @@
 const errors: Record<string, string> = {
+  AI_BUDGET_NOT_CONFIGURED: "Az AI-válaszhoz legalább 0,01 USD ellenőrzött költségkeret szükséges.",
+  AI_TIMEOUT: "Az AI-válasz nem érkezett meg időben. A sor szünetel; nincs automatikus újrapróbálás.",
+  AI_INPUT_TOO_LARGE: "A komment és az előzmények túl hosszúak. A sor szünetel.",
   AI_NOT_CONFIGURED: "Az AI-válaszadó még nincs bekötve.",
   AI_VERIFICATION_REQUIRED: "A Vercel AI Gateway fiókellenőrzést kér a válaszadó aktiválásához.",
   AI_CREDITS_REQUIRED: "Az AI-válaszadó Vercel-kerete elfogyott. Ez külön keret a Runway-kreditektől.",
