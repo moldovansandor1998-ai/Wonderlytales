@@ -1,168 +1,225 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { eventSchema, EventQueue, rehearsalReply, songRequest, type LiveEvent, type Reply, type Emotion } from "@/lib/live/events";
+import type { StageState } from "@/lib/live/stage";
+import Stage from "./Stage";
+import { useSpeech } from "./useSpeech";
 
 type Character = { id: string; name: string; personality: string; image: string; voiceId?: string; voiceName?: string };
+type Track = { id: string; title: string; url: string };
+type Log = { event: LiveEvent; reply: string; error?: boolean };
 const INITIAL: Character = { id: "pirate", name: "Kalóz kapitány", voiceName: "Mc istia", voiceId: "f9YzCDZYS8Zjl6RbHErx", personality: "Csipkelődő, vidám magyar kalóz. Rövid válaszok, hajós humor.", image: "/live-studio/pirate.png" };
-const button = "rounded bg-amber-400 px-4 py-2 text-black font-semibold disabled:opacity-40";
+const button = "rounded-lg bg-amber-400 px-4 py-2 text-black font-semibold disabled:opacity-40";
+const field = "block w-full rounded-lg border border-zinc-700 bg-zinc-900 p-2";
+const panel = "space-y-3 rounded-2xl border border-zinc-700 bg-zinc-950/60 p-5";
+const normalize = (s: string) => s.toLocaleLowerCase("hu").normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/g, "");
 
 export default function LiveStudio() {
   const [characters, setCharacters] = useState<Character[]>([INITIAL]);
   const [selected, setSelected] = useState("pirate");
-  const [text, setText] = useState("Ahoy, matrózok! Megérkezett a kapitány! Ki kér egy kis zenét?");
-  const [message, setMessage] = useState("");
-  const [speaking, setSpeaking] = useState(false);
-  const [stage, setStage] = useState(false);
-  const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
-  const [voiceName, setVoiceName] = useState("");
-  const [music, setMusic] = useState("");
-  const [volume, setVolume] = useState(0.4);
-  const [accountVoices, setAccountVoices] = useState<{ id: string; name: string }[]>([]);
-  const [loadingVoices, setLoadingVoices] = useState(false);
-  const [voiceBusy, setVoiceBusy] = useState(false);
-  const [speechUrl, setSpeechUrl] = useState("");
-  const speechAudio = useRef<HTMLAudioElement>(null);
-  const speechRequest = useRef<AbortController | null>(null);
   const [ready, setReady] = useState(false);
-  const audio = useRef<HTMLAudioElement>(null);
-  const screen = useRef<HTMLDivElement>(null);
-  const urls = useRef<string[]>([]);
-  const character = characters.find(c => c.id === selected) || INITIAL;
+  const character = characters.find(c => c.id === selected) || characters[0] || INITIAL;
+  const [text, setText] = useState("Ahoy, matrózok! Megérkezett a kapitány! Ki kér egy kis zenét?");
+  const [caption, setCaption] = useState("Üdv a fedélzeten!");
+  const [emotion, setEmotion] = useState<Emotion>("neutral");
+  const [message, setMessage] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [mode, setMode] = useState<"ai" | "rehearsal">("rehearsal");
+  const [voiceMode, setVoiceMode] = useState<"eleven" | "browser">("eleven");
+  const [service, setService] = useState<{ai: boolean; voice: boolean} | null>(null);
+  const [accountVoices, setAccountVoices] = useState<{id:string; name:string}[]>([]);
+  const [loadingVoices, setLoadingVoices] = useState(false);
+  const speech = useSpeech();
+  const operation = useRef<AbortController | null>(null);
+  const [auto, setAuto] = useState(false);
+  const autoRef = useRef(false);
+  const queue = useRef(new EventQueue());
+  const [pending, setPending] = useState<LiveEvent[]>([]);
+  const [dropped, setDropped] = useState(0);
+  const [logs, setLogs] = useState<Log[]>([]);
+  const history = useRef<Log[]>([]);
+  const [replies, setReplies] = useState(0);
+  const [limit, setLimit] = useState(100);
+  const replyCount = useRef(0);
+  const processRef = useRef<() => Promise<void>>(async () => {});
+  const [testUser, setTestUser] = useState("Próbanéző");
+  const [testText, setTestText] = useState("Kapitány, merre van az elveszett kincs?");
+  const [connected, setConnected] = useState(false);
+  const [bridgeStatus, setBridgeStatus] = useState("Nincs kapcsolat");
+  const [username, setUsername] = useState("");
+  const [pairing, setPairing] = useState("");
+  const socket = useRef<WebSocket | null>(null);
+  const enqueueRef = useRef<(event: LiveEvent) => void>(() => {});
+  const [tracks, setTracks] = useState<Track[]>([]);
+  const [currentTrack, setCurrentTrack] = useState("");
+  const [requests, setRequests] = useState<{user:string; title:string}[]>([]);
+  const [volume, setVolume] = useState(0.35);
+  const [autoMusic, setAutoMusic] = useState(true);
+  const music = useRef<HTMLAudioElement>(null);
+  const objectUrls = useRef(new Set<string>());
+  const channel = useRef<BroadcastChannel | null>(null);
+  const outputId = useRef("");
+  const activeTrack = tracks.find(t => t.id === currentTrack);
+  const state: StageState = {name:character.name, image:character.image, caption, speaking:speech.speaking, emotion, connected, song:activeTrack?.title || ""};
+  const stageRef = useRef(state); stageRef.current = state;
 
   useEffect(() => {
     try {
-      const saved: unknown = JSON.parse(localStorage.getItem("wonderly-live-characters-v1") || "null");
+      const saved = JSON.parse(localStorage.getItem("wonderly-live-characters-v1") || "null");
       if (Array.isArray(saved)) {
         const valid = saved.filter((c): c is Character => !!c && typeof c.id === "string" && typeof c.name === "string" && typeof c.personality === "string" && typeof c.image === "string" && (c.image === INITIAL.image || /^data:image\/(png|jpeg|webp);base64,/.test(c.image)));
-        if (valid.length) setCharacters(valid);
+        if (valid.length) { setCharacters(valid.map(c => c.id === "pirate" && !c.voiceId && (!c.voiceName || c.voiceName.trim().toLowerCase() === "mc istia") ? {...c, voiceId: INITIAL.voiceId} : c)); setSelected(valid[0].id); }
       }
-    } catch { setMessage("A mentett karaktereket nem sikerült betölteni."); }
+    } catch { setMessage("A mentett karakterek nem olvashatók."); }
     setReady(true);
-    if (!("speechSynthesis" in window)) return;
-    const refresh = () => setVoices(window.speechSynthesis.getVoices().filter(v => v.lang.toLowerCase().startsWith("hu")));
-    refresh();
-    window.speechSynthesis.addEventListener("voiceschanged", refresh);
-    return () => { window.speechSynthesis.removeEventListener("voiceschanged", refresh); window.speechSynthesis.cancel(); urls.current.forEach(url => URL.revokeObjectURL(url)); };
+    const controller = new AbortController();
+    void fetch("/api/live-studio/status", {signal:controller.signal}).then(async r => { if (r.ok) setService(await r.json()); else setMessage("A szolgáltatások ellenőrzéséhez stúdiójogosultság és bejelentkezés szükséges."); }).catch(() => {});
+    outputId.current = crypto.randomUUID();
+    const c = new BroadcastChannel(`wonderly-live-${outputId.current}`); channel.current = c;
+    const publish = () => c.postMessage({type:"state", state:stageRef.current});
+    c.onmessage = e => { if (e.data?.type === "ready") publish(); };
+    const heartbeat = setInterval(publish, 2000);
+    return () => { controller.abort(); autoRef.current = false; operation.current?.abort(); socket.current?.close(); clearInterval(heartbeat); c.close(); objectUrls.current.forEach(url => URL.revokeObjectURL(url)); };
   }, []);
-
   useEffect(() => {
     if (!ready) return;
     try { localStorage.setItem("wonderly-live-characters-v1", JSON.stringify(characters)); }
-    catch { setMessage("A böngésző tárhelye megtelt. A karakter képe nem lett elmentve."); }
+    catch { setMessage("A böngésző tárhelye megtelt; a karakter módosítása nem lett elmentve."); }
   }, [characters, ready]);
+  useEffect(() => { channel.current?.postMessage({type:"state", state}); }, [character.name, character.image, caption, speech.speaking, emotion, connected, activeTrack?.title]);
+  useEffect(() => { if (music.current) music.current.volume = speech.speaking ? volume * 0.2 : volume; }, [speech.speaking, volume, currentTrack]);
 
-  useEffect(() => { if (audio.current) audio.current.volume = speaking ? volume * 0.2 : volume; }, [volume, speaking, music]);
-  useEffect(() => {
-    const change = () => { if (!document.fullscreenElement) setStage(false); };
-    document.addEventListener("fullscreenchange", change);
-    return () => document.removeEventListener("fullscreenchange", change);
-  }, []);
-
-  function update(field: "name" | "personality" | "voiceId" | "voiceName", value: string) {
-    setCharacters(current => current.map(c => c.id === character.id ? { ...c, [field]: value } : c));
+  function update(fieldName: "name" | "personality" | "voiceId" | "voiceName", value: string) {
+    setCharacters(current => current.map(c => c.id === character.id ? {...c, [fieldName]:value} : c));
   }
-  function stop() { speechRequest.current?.abort(); speechAudio.current?.pause(); if ("speechSynthesis" in window) window.speechSynthesis.cancel(); setSpeaking(false); }
-  function speak() {
-    if (!("speechSynthesis" in window) || !voices.length) { setMessage("Nincs elérhető magyar böngészőhang. A magyar hangszolgáltatás még nincs bekötve."); return; }
-    stop();
-    const utterance = new SpeechSynthesisUtterance(text.slice(0, 1500));
-    utterance.lang = "hu-HU";
-    utterance.voice = voices.find(v => v.name === voiceName) || voices[0];
-    utterance.onstart = () => setSpeaking(true);
-    utterance.onend = () => setSpeaking(false);
-    utterance.onerror = () => { setSpeaking(false); setMessage("A felolvasás megszakadt."); };
-    setMessage("");
-    window.speechSynthesis.speak(utterance);
+  function pause() { autoRef.current = false; setAuto(false); operation.current?.abort(); }
+  function stopAll() { pause(); queue.current.clear(); setPending([]); music.current?.pause(); setCurrentTrack(""); setCaption("A műsor szünetel."); setEmotion("neutral"); }
+  function addLog(log: Log) { history.current = [...history.current, log].slice(-30); setLogs(history.current); }
+  async function manualSpeech() {
+    if (operation.current) return;
+    const controller = new AbortController(); operation.current = controller; setBusy(true); setMessage(""); setCaption(text); setEmotion("neutral");
+    try { if (voiceMode === "eleven") await speech.unlock(); await speech.say(text, voiceMode, character.voiceId, controller.signal); }
+    catch (e) { if (!controller.signal.aborted) setMessage(e instanceof Error ? e.message : "Hanghiba"); }
+    finally { operation.current = null; setBusy(false); if (autoRef.current) void processRef.current(); }
+  }
+  async function processNext() {
+    if (operation.current || !autoRef.current) return;
+    if (replyCount.current >= limit) { autoRef.current = false; setAuto(false); setMessage("Elérted az adás válaszkorlátját. A folytatáshoz növeld a korlátot."); return; }
+    const event = queue.current.take(); setPending(queue.current.snapshot());
+    if (!event) return;
+    const controller = new AbortController(); operation.current = controller; setBusy(true); setMessage("");
+    try {
+      let reply: Reply;
+      const requested = event.type === "comment" ? songRequest(event.text) : null;
+      if (requested) {
+        const matches = tracks.filter(track => normalize(track.title) === normalize(requested));
+        const started = autoMusic && matches.length === 1 ? await playTrack(matches[0]) : false;
+        reply = started ? {text: `${event.user}, indul a kért dal!`, emotion: "happy"} : rehearsalReply(event);
+      }
+      else if (mode === "rehearsal") reply = rehearsalReply(event);
+      else {
+        const response = await fetch("/api/live-studio/reply", {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({event, character:{name:character.name, personality:character.personality}, history:history.current.filter(l => !l.error).slice(-6).map(l => ({user:l.event.user, text:l.event.text, reply:l.reply}))}), signal:controller.signal});
+        if (!response.ok) throw new Error("Az AI-válasz nem készült el. Ellenőrizd a bejelentkezést, az AI-kapcsolatot és a költségkeretet; a sor szünetel.");
+        reply = await response.json();
+      }
+      controller.signal.throwIfAborted(); setCaption(reply.text); setEmotion(reply.emotion);
+      await speech.say(reply.text, voiceMode, character.voiceId, controller.signal);
+      addLog({event, reply:reply.text}); replyCount.current++; setReplies(replyCount.current);
+    } catch (e) {
+      addLog({event, reply:controller.signal.aborted ? "Megszakítva" : e instanceof Error ? e.message : "Válaszhiba", error:true});
+      if (!controller.signal.aborted) { setMessage(e instanceof Error ? e.message : "Válaszhiba"); autoRef.current = false; setAuto(false); }
+    } finally {
+      operation.current = null; setBusy(false);
+      if (autoRef.current) void processRef.current();
+    }
+  }
+  processRef.current = processNext;
+  function enqueue(event: LiveEvent) {
+    if (!queue.current.add(event)) { setDropped(queue.current.dropped); return; }
+    const requested = event.type === "comment" ? songRequest(event.text) : null;
+    if (requested) setRequests(current => [...current, {user:event.user, title:requested}].slice(-30));
+    setPending(queue.current.snapshot());
+    if (autoRef.current) void processRef.current();
+  }
+  enqueueRef.current = enqueue;
+  async function toggleAuto() {
+    if (autoRef.current) { pause(); return; }
+    if (operation.current) return;
+    const controller = new AbortController(); operation.current = controller;
+    setBusy(true); autoRef.current = true; setAuto(true);
+    try { if (voiceMode === "eleven") await speech.unlock(); controller.signal.throwIfAborted(); }
+    catch { autoRef.current = false; setAuto(false); if (!controller.signal.aborted) setMessage("A böngésző nem engedte a hang indítását. Ellenőrizd az oldal hangengedélyét."); }
+    finally { if (operation.current === controller) { operation.current = null; setBusy(false); } }
+    if (autoRef.current) void processRef.current();
   }
   async function loadVoices() {
-    setLoadingVoices(true); setMessage("");
+    setLoadingVoices(true); setMessage(""); const characterId = character.id;
     try {
-      const response = await fetch("/api/live-studio/voices");
-      if (!response.ok) throw new Error("Az ElevenLabs hanglistája nem érhető el. Ellenőrizd a stúdió bejelentkezést és az ElevenLabs-kapcsolatot.");
-      const data = await response.json(); setAccountVoices(data.voices);
-      const target = (character.voiceName || "").trim().toLowerCase();
-      const matches = data.voices.filter((v: {name: string}) => v.name.trim().toLowerCase() === target);
-      if (matches.length === 1) { update("voiceId", matches[0].id); setMessage(`${matches[0].name} hang kiválasztva.`); }
-      else setMessage(matches.length > 1 ? "Több azonos nevű hang van; válassz a listából." : "A keresett hang nem található ebben az ElevenLabs-fiókban; válassz a listából.");
-    } catch (error) { setMessage(error instanceof Error ? error.message : "Hanglista hiba"); }
-    finally { setLoadingVoices(false); }
+      const r = await fetch("/api/live-studio/voices"); if (!r.ok) throw new Error("A hanglista nem elérhető; ellenőrizd a bejelentkezést és az ElevenLabs-kapcsolatot.");
+      const data = await r.json(); setAccountVoices(data.voices);
+      const matches = data.voices.filter((v:{name:string}) => v.name.trim().toLowerCase() === (character.voiceName || "").trim().toLowerCase());
+      if (matches.length === 1) { setCharacters(current => current.map(c => c.id === characterId ? {...c, voiceId:matches[0].id} : c)); setMessage(`${matches[0].name} hang kiválasztva.`); }
+      else setMessage("Válaszd ki a karakter hangját a listából.");
+    } catch (e) { setMessage(e instanceof Error ? e.message : "Hanglista hiba"); } finally { setLoadingVoices(false); }
   }
-  async function elevenSpeak() {
-    stop();
-    const controller = new AbortController(); speechRequest.current = controller;
-    setVoiceBusy(true); setMessage("");
-    try {
-      const response = await fetch("/api/live-studio/speech", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text: text.slice(0, 1000), voiceId: character.voiceId }), signal: controller.signal });
-      if (!response.ok) { const data = await response.json(); throw new Error(data.error === "ELEVENLABS_NOT_CONFIGURED" ? "Az ElevenLabs szerverkapcsolat nincs beállítva." : "A hangkészítés nem sikerült. Ellenőrizd a Voice ID-t és a szolgáltatás keretét."); }
-      const url = URL.createObjectURL(await response.blob()); urls.current.push(url);
-      if (controller.signal.aborted) return;
-      if (speechUrl) URL.revokeObjectURL(speechUrl);
-      setSpeechUrl(url);
-    } catch (error) { if (!controller.signal.aborted) setMessage(error instanceof Error ? error.message : "Hanghiba"); }
-    finally { if (speechRequest.current === controller) setVoiceBusy(false); }
+  function connect() {
+    if (!/^[a-zA-Z0-9_.]{2,32}$/.test(username.replace(/^@/, "")) || !pairing.trim()) { setMessage("Add meg a TikTok felhasználónevet és az összekötő párosítási kódját."); return; }
+    socket.current?.close(); setConnected(false); setBridgeStatus("Kapcsolódás…");
+    const ws = new WebSocket("ws://127.0.0.1:21214"); socket.current = ws;
+    ws.onopen = () => ws.send(JSON.stringify({type:"connect", username:username.replace(/^@/, ""), token:pairing.trim()}));
+    ws.onmessage = ({data}) => {
+      if (socket.current !== ws || typeof data !== "string" || data.length > 10000) return;
+      try {
+        const value = JSON.parse(data);
+        if (value.type === "status") { setConnected(value.connected === true); setBridgeStatus(String(value.message || "").slice(0, 200)); }
+        if (value.type === "event") { const parsed = eventSchema.safeParse(value.event); if (parsed.success) enqueueRef.current(parsed.data); }
+      } catch { /* Untrusted bridge frames are ignored. */ }
+    };
+    ws.onclose = () => { if (socket.current === ws) { setConnected(false); setBridgeStatus("Kapcsolat megszakadt. Az újracsatlakozást kézzel indíthatod."); } };
+    ws.onerror = () => { if (socket.current === ws) setBridgeStatus("Az összekötő nem érhető el. Indítsd el ugyanazon a számítógépen, és engedélyezd a helyi kapcsolatot a böngészőben."); };
   }
-  useEffect(() => { if (speechUrl && speechAudio.current) void speechAudio.current.play().catch(() => setMessage("A hang elkészült. Indítsd el a lejátszón.")); }, [speechUrl]);
-  useEffect(() => () => { speechRequest.current?.abort(); }, []);
-
-  async function showStage() {
-    setStage(true);
-    try { await screen.current?.requestFullscreen(); }
-    catch { setMessage("Teljes képernyő nem érhető el; az adáskép külön nézetben látható."); }
+  async function playTrack(track: Track): Promise<boolean> {
+    setCurrentTrack(track.id);
+    const player = music.current; if (!player) return false;
+    player.src = track.url; player.volume = speech.speaking ? volume * 0.2 : volume;
+    try { await player.play(); return true; } catch { setMessage("A zenét a lejátszó indítógombjával indítsd el."); return false; }
   }
 
-  return <div ref={screen} className={stage ? "fixed inset-0 z-50 bg-black overflow-auto" : "space-y-6"}>
-    {stage ? <button className="fixed right-2 top-2 z-50 rounded bg-black/70 p-2 text-white" onClick={() => { setStage(false); if (document.fullscreenElement) void document.exitFullscreen(); }}>Vissza a stúdióba</button> : <>
-      <h1 className="text-3xl font-bold">Élő karakterstúdió</h1>
-      <p className="text-zinc-400">Külön műsorstúdió • Karakterek váltása adásonként • TikTok adáskép előkészítése</p>
-      <div className="rounded border border-amber-700 p-4 text-amber-200">Előkészítési mód. TikTok nincs csatlakoztatva. Az AI-válaszok és a szájmozgás még nincsenek bekötve. ElevenLabs hangpróba Voice ID-val indítható; a karakter jelenleg állókép.</div>
-    </>}
-    <div className={stage ? "h-screen flex justify-center" : "grid gap-6 lg:grid-cols-2"}>
-      <div className="relative aspect-[9/16] max-h-[85vh] overflow-hidden rounded-lg bg-black mx-auto w-full max-w-sm">
-        {/* User-provided data images and the bundled character are displayed directly. */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={character.image} alt={character.name} className="h-full w-full object-cover" />
-        <div className="absolute top-3 left-3 rounded bg-black/70 px-3 py-1 text-xs text-white">AI-karakter • {speaking ? "Próbafelolvasás" : "Előnézet"}</div>
-        <div className="absolute bottom-4 left-4 right-4 rounded bg-black/70 p-3 text-white"><strong>{character.name}</strong><p className="text-sm">{speaking ? text : "Üdv a fedélzeten!"}</p></div>
+  return <div className="space-y-6 pb-12">
+    <header className="flex flex-wrap justify-between items-center gap-4"><div><p className="text-xs uppercase tracking-[0.25em] text-amber-400">WonderlyTales</p><h1 className="text-3xl font-bold">Élő karakterstúdió</h1><p className="mt-2 text-zinc-400">Magyar műsorvezető • Kommentek és ajándékok • Zenekérések</p></div><button className="rounded-lg bg-red-700 px-4 py-3 text-white font-bold" onClick={stopAll}>Mindent leállít</button></header>
+    <div className="rounded-xl border border-amber-700/70 bg-amber-950/20 p-4 text-sm text-amber-100">A karakter jelenleg állókép. Az időbélyeges beszéd és a műsorvezérlés használható; a professzionális száj- és testanimációhoz még animálható karakter szükséges. Az adáskép megnyitása nem indít TikTok-közvetítést.</div>
+    <div className="grid gap-6 xl:grid-cols-[minmax(280px,380px)_1fr]">
+      <aside className="space-y-4"><Stage state={state} /><button className={`${button} w-full`} onClick={() => {const popup = window.open(`/live-studio/output#${outputId.current}`, "wonderly-live-output", "width=540,height=960"); if (!popup) setMessage("Engedélyezd a felugró ablakot az adáskép megnyitásához.");}}>Tiszta adáskép külön ablakban ↗</button><p className="text-xs text-zinc-400">A LIVE Studio az adáskép ablakát rögzítse. A hang a vezérlő stúdiófülön szól; ezt hagyd nyitva.</p><div className={panel}><h2 className="font-semibold">Állapot</h2><p className="text-sm">AI: {service ? service.ai ? "beállítva" : "nincs beállítva" : "ellenőrzés…"}<br/>ElevenLabs: {service ? service.voice ? "beállítva" : "nincs beállítva" : "ellenőrzés…"}<br/>TikTok: {bridgeStatus}<br/>Elhangzott válasz: {replies} / {limit}<br/>Várakozó: {pending.length}{dropped > 0 && <><br/>Torlódás miatt kihagyva: {dropped}</>}</p>{speech.timed && <p className="text-xs text-emerald-300">Beszédidőzítés rendelkezésre áll{speech.word ? ` • ${speech.word}` : ""}</p>}</div></aside>
+      <div className="space-y-5">
+        <section className={panel}><h2 className="text-xl font-semibold">Az adás karaktere</h2>
+          <div className="flex gap-2"><select aria-label="Karakter" className={field} disabled={busy || auto} value={character.id} onChange={e => { pause(); history.current=[]; setLogs([]); setSelected(e.target.value); setCaption("Üdv a műsorban!"); }}>{characters.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}</select><button className={button} disabled={busy || auto} onClick={() => { const id=crypto.randomUUID(); setCharacters(c=>[...c,{...INITIAL,id,name:"Új karakter",voiceId:undefined,voiceName:""}]); setSelected(id); history.current=[]; setLogs([]); }}>Új</button></div>
+          <label className="block">Név<input className={field} disabled={busy || auto} maxLength={80} value={character.name} onChange={e=>update("name",e.target.value)} /></label>
+          <label className="block">Személyiség<textarea className={field} disabled={busy || auto} maxLength={2000} value={character.personality} onChange={e=>update("personality",e.target.value)} /></label>
+          <label className="block text-sm">Karakterkép (PNG, JPG, WebP; legfeljebb 2 MB)<input className="block mt-2" disabled={busy || auto} type="file" accept="image/png,image/jpeg,image/webp" onChange={e=>{const file=e.target.files?.[0]; if(!file)return; if(file.size>2097152 || !["image/png","image/jpeg","image/webp"].includes(file.type)){setMessage("Legfeljebb 2 MB méretű PNG, JPG vagy WebP kép szükséges.");return;}const id=character.id;const reader=new FileReader();reader.onerror=()=>setMessage("A kép nem olvasható.");reader.onload=()=>setCharacters(c=>c.map(item=>item.id===id?{...item,image:String(reader.result)}:item));reader.readAsDataURL(file);}} /></label><p className="text-xs text-zinc-400">A karakterek ezen a böngészőn maradnak meg.</p>
+        </section>
+        <section className={panel}><h2 className="text-xl font-semibold">A karakter hangja</h2>
+          <label className="block">Hangforrás<select className={field} disabled={busy || auto} value={voiceMode} onChange={e=>setVoiceMode(e.target.value as "eleven" | "browser")}><option value="eleven">ElevenLabs – saját karakterhang</option><option value="browser">Magyar böngészőhang – díjmentes próba</option></select></label>
+          <div className="flex gap-2"><input aria-label="Keresett ElevenLabs-hang neve" className={field} disabled={busy || auto} placeholder="ElevenLabs-hang neve" maxLength={100} value={character.voiceName || ""} onChange={e=>update("voiceName",e.target.value)} /><button className={button} disabled={loadingVoices || busy || auto} onClick={()=>void loadVoices()}>{loadingVoices?"Betöltés…":"Hanglista"}</button></div>
+          {accountVoices.length>0 && <select aria-label="ElevenLabs hang" className={field} disabled={busy || auto} value={character.voiceId || ""} onChange={e=>{update("voiceId",e.target.value);const v=accountVoices.find(v=>v.id===e.target.value);if(v)update("voiceName",v.name);}}><option value="">Válassz hangot</option>{accountVoices.map(v=><option key={v.id} value={v.id}>{v.name}</option>)}</select>}
+          <label className="block text-sm">Voice ID<input className={field} disabled={busy || auto} maxLength={100} value={character.voiceId || ""} onChange={e=>update("voiceId",e.target.value.replace(/[^a-zA-Z0-9]/g,""))} /></label>
+          <label className="block">Próbaszöveg<textarea className={field} maxLength={1000} value={text} onChange={e=>setText(e.target.value)} /></label><button className={button} disabled={busy || auto || !text.trim()} onClick={()=>void manualSpeech()}>Hangpróba</button><p className="text-xs text-zinc-400">Az ElevenLabs az eddig beállított stúdiókeretet használja. Egy szöveghez egy hangkészítési kísérlet tartozik.</p>
+        </section>
+        <section className={panel}><h2 className="text-xl font-semibold">Kommentek és ajándékok</h2>
+          <div className="grid gap-3 sm:grid-cols-2"><label>Válaszmód<select className={field} disabled={busy || auto} value={mode} onChange={e=>setMode(e.target.value as "ai" | "rehearsal")}><option value="rehearsal">Próba – előre megírt tesztválaszok</option><option value="ai" disabled={!service?.ai}>AI – karakterhez illő válaszok</option></select></label><label>Válaszkorlát ebben az adásban<input className={field} type="number" min={1} max={500} value={limit} onChange={e=>setLimit(Math.max(1,Math.min(500,Number(e.target.value)||1)))} /></label></div>
+          <button className={button} disabled={!auto && (busy || (voiceMode==="eleven" && !character.voiceId))} onClick={toggleAuto}>{auto?"Válaszadás szüneteltetése":"Automatikus válaszadás indítása"}</button>
+          <p className="text-xs text-zinc-400">A válaszok érkezési sorrendben hangzanak el, egyszerre egy. Hiba esetén a sor megáll. A próbamód előre megírt szöveget használ; ElevenLabs választásakor a hangkészítés ebben a módban is keretet fogyaszt.</p>
+          <div className="grid gap-2 sm:grid-cols-[140px_1fr]"><input aria-label="Próbanéző neve" className={field} value={testUser} maxLength={80} onChange={e=>setTestUser(e.target.value)} /><input aria-label="Próbakomment" className={field} value={testText} maxLength={500} onChange={e=>setTestText(e.target.value)} /></div>
+          <div className="flex flex-wrap gap-2"><button className={button} disabled={!testUser.trim() || !testText.trim()} onClick={()=>enqueue({id:crypto.randomUUID(),type:"comment",user:testUser.trim(),text:testText.trim(),count:1})}>Próbakomment</button><button className={button} disabled={!testUser.trim()} onClick={()=>enqueue({id:crypto.randomUUID(),type:"gift",user:testUser.trim(),text:"",gift:"rózsa",count:1})}>Próbaajándék</button><button className="rounded-lg border border-zinc-600 px-3" onClick={()=>{queue.current.clear();setPending([]);}}>Várakozók törlése</button></div>
+          {pending.length>0 && <div className="max-h-40 overflow-auto space-y-1 text-sm">{pending.map(e=><p key={e.id}><strong>{e.user}</strong>: {e.type==="gift"?`🎁 ${e.count} ${e.gift}`:e.text}</p>)}</div>}
+          {logs.length>0 && <details><summary className="cursor-pointer">Elhangzott válaszok és hibák ({logs.length})</summary><div className="max-h-64 overflow-auto space-y-3 mt-2">{[...logs].reverse().map((l,i)=><div key={`${l.event.id}-${i}`} className={`rounded-lg p-3 text-sm ${l.error?"bg-red-950/40":"bg-zinc-900"}`}><strong>{l.event.user}</strong>: {l.event.text || l.event.gift}<p className="mt-1 text-zinc-300">{l.reply}</p>{l.error && <button className="text-amber-300 mt-2" onClick={()=>enqueue({...l.event,id:crypto.randomUUID()})}>Újrapróbálás a sorban</button>}</div>)}</div></details>}
+        </section>
+        <section className={panel}><h2 className="text-xl font-semibold">TikTok-kommentkapcsolat</h2><p className="text-sm text-zinc-400">Az összekötő ugyanazon a számítógépen fusson, ahol ez a stúdió nyitva van. Aktív TikTok LIVE-adást olvas; közvetítést nem indít.</p><label className="block">TikTok felhasználónév<input className={field} placeholder="@felhasznalonev" maxLength={33} value={username} onChange={e=>setUsername(e.target.value)} /></label><label className="block">Összekötő párosítási kódja<input className={field} type="password" autoComplete="off" value={pairing} onChange={e=>setPairing(e.target.value)} /></label><div className="flex gap-2"><button className={button} onClick={connect}>Kapcsolódás</button><button className={button} onClick={()=>{socket.current?.close();setConnected(false);}}>Bontás</button></div><p role="status" className="text-sm">{bridgeStatus}</p><a className="text-sm text-amber-300 underline" href="https://github.com/moldovansandor1998-ai/Wonderlytales/tree/main/tools/tiktok-bridge" target="_blank" rel="noreferrer">Összekötő és indítási útmutató ↗</a></section>
+        <section className={panel}><h2 className="text-xl font-semibold">Zene és kívánságlista</h2><label className="block">Saját, közvetítésre jogosított zenék<input className="block mt-2" type="file" accept="audio/*" multiple onChange={e=>{const files=Array.from(e.target.files || []);const added=files.filter(f=>f.size<=100*1024*1024).slice(0,30).map(f=>{const url=URL.createObjectURL(f);objectUrls.current.add(url);return{id:crypto.randomUUID(),title:f.name.replace(/\.[^.]+$/,""),url};});setTracks(t=>[...t,...added]);}} /></label><label className="block">Hangerő<input className="block w-full" type="range" min={0} max={1} step={0.05} value={volume} onChange={e=>setVolume(Number(e.target.value))} /></label><p className="text-xs text-zinc-400">Beszéd közben a zene a beállított hangerő ötödére halkul. A nézők így kérhetnek számot: !zene számcím. A pontosan egyező című, előre betöltött szám automatikusan indulhat. A zenefájlok az oldal bezárásáig maradnak betöltve.</p><label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={autoMusic} onChange={e=>setAutoMusic(e.target.checked)} />Pontos címre érkező zenekérések automatikus lejátszása</label>{tracks.map(t=><button key={t.id} className="mr-2 rounded-lg border border-zinc-600 px-3 py-2 text-sm" onClick={()=>playTrack(t)}>▶ {t.title}</button>)}{requests.length>0 && <div className="space-y-2">{requests.map((r,i)=>{const matches=tracks.filter(t=>normalize(t.title)===normalize(r.title));return <div key={`${r.user}-${i}`} className="flex gap-2 items-center rounded-lg bg-zinc-900 p-2 text-sm"><span className="flex-1">{r.user}: {r.title}</span>{matches.length===1?<button className="text-amber-300" onClick={()=>playTrack(matches[0])}>Lejátszás</button>:<span className="text-zinc-500">Válassz zenét a listából</span>}</div>;})}</div>}<audio ref={music} controls className="w-full" onEnded={()=>setCurrentTrack("")} /></section>
+        <section className={panel}><h2 className="text-xl font-semibold">Adás indítása</h2><ol className="list-decimal pl-5 space-y-2 text-sm"><li>Válassz karaktert és hangot, majd próbáld ki a felolvasást.</li><li>Nyisd meg a tiszta adásképet; a vezérlő stúdió maradjon nyitva.</li><li>A TikTok LIVE Studio alkalmazásban állíts be 9:16 képet, az adáskép ablakának rögzítését és a géphangot.</li><li>A LIVE Studio alkalmazásból indítsd el az adást. Ezután csatlakoztasd a kommentfigyelőt és indítsd az automatikus válaszadást.</li></ol></section>
       </div>
-      {!stage && <div className="space-y-5">
-        <section className="space-y-3 rounded border border-zinc-700 p-4">
-          <h2 className="text-xl font-semibold">Az adás karaktere</h2>
-          <label className="block">Karakter<select className="block w-full rounded bg-zinc-800 p-2" value={character.id} onChange={e => { stop(); setSelected(e.target.value); }}>{characters.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}</select></label>
-          <button className={button} onClick={() => { stop(); const id = crypto.randomUUID(); setCharacters(c => [...c, { ...INITIAL, id, name: "Új karakter" }]); setSelected(id); }}>Új karakter hozzáadása</button>
-          <label className="block">Név<input maxLength={80} className="block w-full rounded bg-zinc-800 p-2" value={character.name} onChange={e => update("name", e.target.value)} /></label>
-          <label className="block">Személyiség a későbbi AI-válaszokhoz<textarea maxLength={2000} className="block w-full rounded bg-zinc-800 p-2" value={character.personality} onChange={e => update("personality", e.target.value)} /></label>
-          <label className="block">Karakterkép (PNG, JPG, WebP; legfeljebb 2 MB)<input className="block w-full" type="file" accept="image/png,image/jpeg,image/webp" onChange={e => {
-            const file = e.target.files?.[0]; const id = character.id;
-            if (!file) return;
-            if (file.size > 2 * 1024 * 1024 || !["image/png", "image/jpeg", "image/webp"].includes(file.type)) { setMessage("PNG, JPG vagy WebP képet válassz, legfeljebb 2 MB méretben."); return; }
-            const reader = new FileReader(); reader.onerror = () => setMessage("A kép nem olvasható."); reader.onload = () => { const image = String(reader.result); setCharacters(current => current.map(c => c.id === id ? { ...c, image } : c)); }; reader.readAsDataURL(file);
-          }} /></label>
-          <p className="text-xs text-zinc-400">A karakterlista ezen a böngészőn marad meg. Másik eszközre még nem szinkronizálódik.</p>
-        </section>
-        <section className="space-y-3 rounded border border-zinc-700 p-4">
-          <h2 className="text-xl font-semibold">Hangpróba</h2>
-          <label className="block">Keresett ElevenLabs-hang neve<input className="block w-full rounded bg-zinc-800 p-2" maxLength={100} value={character.voiceName || ""} onChange={e => update("voiceName", e.target.value)} /></label>
-          <button className={button} disabled={loadingVoices} onClick={() => void loadVoices()}>{loadingVoices ? "Hangok betöltése…" : "ElevenLabs hangok betöltése"}</button>
-          {accountVoices.length > 0 && <label className="block">Fiókhang kiválasztása<select className="block w-full rounded bg-zinc-800 p-2" value={character.voiceId || ""} onChange={e => { update("voiceId", e.target.value); const voice = accountVoices.find(v => v.id === e.target.value); if (voice) update("voiceName", voice.name); }}><option value="">Válassz hangot</option>{accountVoices.map(v => <option key={v.id} value={v.id}>{v.name}</option>)}</select></label>}
-          <label className="block">ElevenLabs Voice ID<input maxLength={100} className="block w-full rounded bg-zinc-800 p-2" value={character.voiceId || ""} onChange={e => update("voiceId", e.target.value.replace(/[^a-zA-Z0-9]/g, ""))} /></label>
-          <button className={button} disabled={voiceBusy || !character.voiceId || !text.trim()} onClick={() => void elevenSpeak()}>{voiceBusy ? "Hang készül…" : "ElevenLabs hangpróba"}</button>
-          <p className="text-xs text-zinc-400">A hangpróba az ElevenLabs keretét használja, a stúdió költségkorlátjával. Az API-kulcs a szerveren marad. Nem készít szájmozgást.</p>
-          <label className="block">Magyar böngészőhang<select className="block w-full rounded bg-zinc-800 p-2" value={voiceName} onChange={e => setVoiceName(e.target.value)}><option value="">{voices.length ? "Alapértelmezett magyar hang" : "Nincs magyar hang ezen az eszközön"}</option>{voices.map(v => <option key={v.voiceURI} value={v.name}>{v.name}</option>)}</select></label>
-          <label className="block">Próbaszöveg<textarea maxLength={1500} className="block w-full rounded bg-zinc-800 p-2" value={text} onChange={e => setText(e.target.value)} /></label>
-          <div className="flex gap-3"><button className={button} disabled={!text.trim() || !voices.length} onClick={speak}>Felolvasás</button><button className={button} onClick={stop}>Beszéd leállítása</button></div>
-        </section>
-        <section className="space-y-3 rounded border border-zinc-700 p-4">
-          <h2 className="text-xl font-semibold">Zenepróba</h2>
-          <label className="block">Saját, közvetítésre jogosított hangfájl<input className="block" type="file" accept="audio/*" onChange={e => { const file = e.target.files?.[0]; if (!file) return; if (music) URL.revokeObjectURL(music); const url = URL.createObjectURL(file); urls.current.push(url); setMusic(url); }} /></label>
-          <label className="block">Zene hangereje<input className="block w-full" type="range" min="0" max="1" step="0.05" value={volume} onChange={e => setVolume(Number(e.target.value))} /></label>
-          <p className="text-xs text-zinc-400">Beszéd közben a zene automatikusan halkul. Kommentes zenekérés még nincs csatlakoztatva.</p>
-        </section>
-        <button className={button} onClick={() => void showStage()}>Adáskép megnyitása</button>
-        <section className="rounded border border-zinc-700 p-4 space-y-2"><h2 className="text-xl font-semibold">TikTok közvetítés</h2><ol className="list-decimal pl-5 space-y-2"><li>Számítógépen jelentkezz be a TikTok LIVE Studio alkalmazásba, és ellenőrizd a LIVE-hozzáférést.</li><li>Nyisd meg az adásképet, majd rögzítsd a böngésző ablakát a LIVE Studio alkalmazásban.</li><li>Állíts be álló, 9:16-os képet és számítógépes hangrögzítést. Ellenőrizd külön a beszédet és a zenét.</li><li>A közvetítést a LIVE Studio alkalmazásban indítsd. Ez a gomb csak előnézetet nyit, nem indít TikTok-adást.</li></ol><p className="text-zinc-400 text-sm">A folyamatos komment- és ajándékfigyeléshez külön futó összekötő szükséges. Az automatikus válaszadás ehhez és egy AI-szolgáltatáshoz csatlakozik majd.</p></section>
-        {message && <p role="status" className="text-amber-300">{message}</p>}
-      </div>}
     </div>
-    {speechUrl && <audio ref={speechAudio} src={speechUrl} controls onPlay={() => setSpeaking(true)} onPause={() => setSpeaking(false)} onEnded={() => setSpeaking(false)} className={stage ? "fixed bottom-12 left-2 opacity-0 hover:opacity-100" : "w-full"} />}
-    {music && <audio ref={audio} src={music} controls loop className={stage ? "fixed bottom-2 left-2 opacity-0 hover:opacity-100" : "w-full"} />}
+    {message && <div role="status" className="sticky bottom-3 rounded-xl border border-amber-600 bg-zinc-950 p-4 text-amber-200">{message}<button className="float-right ml-4" aria-label="Üzenet bezárása" onClick={()=>setMessage("")}>×</button></div>}
+    <audio ref={speech.element} className="hidden" />
   </div>;
 }
