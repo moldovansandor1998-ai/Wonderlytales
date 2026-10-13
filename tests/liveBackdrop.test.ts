@@ -23,6 +23,7 @@ describe("Persistent continuous backdrop", () => {
     expect(fetch).toHaveBeenCalledTimes(1);expect(reserveProductionBudget).toHaveBeenCalledTimes(1);
     const body = JSON.parse(vi.mocked(fetch).mock.calls[0][1]?.body as string);
     expect(body).toMatchObject({ model: "gen4.5", duration: 5, ratio: "720:1280" });
+    expect(body.promptImage).toMatch(/^data:image\/webp;base64,/);
     expect(store.writeRecord).toHaveBeenCalledWith("live-backdrop", BACKDROP_ID, expect.objectContaining({ status: "SUBMITTING" }));
   });
   it("blocks an unverified price ceiling before reserving or submitting", async () => {

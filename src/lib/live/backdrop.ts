@@ -1,4 +1,6 @@
 import { z } from "zod";
+import { readFile } from "node:fs/promises";
+import path from "node:path";
 import { getProductionBudget, reserveProductionBudget } from "@/lib/budget";
 import { R2VideoStore, digest } from "@/lib/ai-video/storage";
 import { downloadProviderMedia } from "@/lib/ai-video/media";
@@ -14,7 +16,6 @@ export type BackdropRecord = {
 type Store = Pick<R2VideoStore, "readRecord" | "writeRecord" | "putAsset">;
 export const backdropPayload = {
   model: "gen4.5", duration: 5, ratio: "720:1280",
-  promptImage: "https://wonderlytales.vercel.app/live-studio/ali-isti.webp",
   promptText: "Locked-off camera, the exact two characters and the exact cozy witch cabin from the image. Quiet seamless idle animation for a live show. The purple witch stands in place, breathes softly, blinks and makes a tiny knowing smile. The seated grumpy man stays seated, shifts his shoulders slightly, blinks and glances toward the witch. Both keep their mouths closed. Gentle candle flicker. Small natural body movements only. The same faces, clothes, hats, chair, framing and lighting throughout. End in the initial pose for looping. No speech, no text, no cuts, no camera movement, no new characters, no transformations.",
 };
 
@@ -25,6 +26,9 @@ export async function startBackdrop(store: Store) {
   if (!process.env.RUNWAYML_API_SECRET) throw new AvatarError("MOTION_NOT_CONFIGURED");
   const budget = await getProductionBudget();
   if (!budget || (budget.configured_services.runway_backdrop_5s ?? 0) < BACKDROP_COST) throw new AvatarError("BACKDROP_BUDGET_NOT_CONFIGURED", 409);
+  // Static assets also sit behind the studio login. Send only this fixed local
+  // reference to Runway, without exposing a session or making the studio public.
+  const image = await readFile(path.join(process.cwd(), "public/live-studio/ali-isti.webp"));
   const record: BackdropRecord = { status: "SUBMITTING", createdAt: new Date().toISOString() };
   if (!await store.writeRecord("live-backdrop", BACKDROP_ID, record)) {
     const current = await store.readRecord<BackdropRecord>("live-backdrop", BACKDROP_ID);
@@ -38,7 +42,7 @@ export async function startBackdrop(store: Store) {
     const response = await fetch("https://api.dev.runwayml.com/v1/image_to_video", {
       method: "POST", signal: AbortSignal.timeout(30000),
       headers: { Authorization: `Bearer ${process.env.RUNWAYML_API_SECRET}`, "X-Runway-Version": "2024-11-06", "Content-Type": "application/json" },
-      body: JSON.stringify(backdropPayload),
+      body: JSON.stringify({ ...backdropPayload, promptImage: `data:image/webp;base64,${image.toString("base64")}` }),
     });
     if (!response.ok) throw new AvatarError("BACKDROP_GENERATION_FAILED");
     const taskId = z.string().uuid().parse((await response.json()).id);
