@@ -64,3 +64,20 @@ Hivatalos integrációs források:
 - https://docs.dev.runwayml.com/characters/integration/
 - https://docs.dev.runwayml.com/characters/livekit/
 - https://elevenlabs.io/docs/api-reference/agents/get
+
+## Ali és Mc Isti – közös jelenet, 2026-10-13
+
+A stúdió új alapjelenete a felhasználóval elkészített közös kép: Ali boszorkányként áll a széken duzzogó Mc Isti mellett. Az egyszereplős stúdió és korábbi karaktermentései továbbra is kiválaszthatók.
+
+A bejelentkezett production stúdió ElevenLabs-hanglistájában ellenőrzött szereposztás:
+
+- Ali → `UGsbeGldhr59N7xinjAK` (hangnév: Ali).
+- Mc Isti → `f9YzCDZYS8Zjl6RbHErx` (hangnév: Mc istia).
+
+Mindkét hang külön állítható és próbálható. A közös párbeszéd pontosan két megszólalás: a második hang csak az első lejátszásának befejezése után készül. Megszakítás vagy hiba esetén nem indul következő hang. Egy kétkarakteres válasz két, külön keretellenőrzésű TTS-kérést jelent. Nincs fizetős automatikus ismétlés.
+
+Az ajándékok a hang tényleges indulásakor legfeljebb hét másodperces mozgó képi effektet váltanak ki: rózsa/virág → rózsaszirmok, szív → szívek, más ajándék → zöld varázsköd. A külön adásablak ugyanazt a jelenetet, beszélőt, feliratot és effektidőzítést követi, a hangot nem duplázza. Leállítás és kapcsolatvesztés törli az effektet. A karakter teste és szája továbbra sem animált.
+
+A „Két hang + varázslat kipróbálása” gomb előre megírt, magyar ajándékpárbeszédet játszik le. A kommentek és ajándékok a meglévő FIFO-soron keresztül is a párost vezérlik. Az új `/api/live-studio/dialogue` végpont a meglévő AI-konfigurációt és `story` költségkeretet használja, jogosultság- és Origin-ellenőrzéssel, szigorúan ellenőrzött két szereplővel. A production AI-válaszmód továbbra is hiányzó `STORY_API_KEY` miatt nem aktív; a tesztszövegek ezt nem helyettesítik.
+
+Ellenőrzés: 36 célzott Vitest sikeres (köztük valódi sorrendtartás, megszakítás, hibánál megállás, szerepellenőrzés, API-jogosultság, költségkeret, ajándékeffekt és zenekérés). TypeScript és production build sikeres. A telepítés utáni tényleges hangpróba eredményét külön kell rögzíteni.

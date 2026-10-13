@@ -29,7 +29,7 @@ export function useSpeech() {
     finally { URL.revokeObjectURL(url); }
   }
 
-  async function say(text: string, mode: "eleven" | "browser", voiceId: string | undefined, signal: AbortSignal) {
+  async function say(text: string, mode: "eleven" | "browser", voiceId: string | undefined, signal: AbortSignal, onStart?: () => void) {
     signal.throwIfAborted(); setTimed(false); setWord("");
     if (mode === "browser") {
       if (!voices.length) throw new Error("Nincs magyar böngészőhang ezen az eszközön. Válassz ElevenLabs-hangot.");
@@ -40,7 +40,7 @@ export function useSpeech() {
         const cancel = () => { window.speechSynthesis.cancel(); done(new DOMException("Stopped", "AbortError")); };
         const watchdog = setTimeout(() => { window.speechSynthesis.cancel(); done(new Error("A felolvasás időtúllépés miatt leállt.")); }, 120000);
         signal.addEventListener("abort", cancel, {once: true});
-        utterance.onstart = () => setSpeaking(true); utterance.onend = () => done(); utterance.onerror = () => done(new Error("A felolvasás megszakadt."));
+        utterance.onstart = () => { setSpeaking(true); onStart?.(); }; utterance.onend = () => done(); utterance.onerror = () => done(new Error("A felolvasás megszakadt."));
         window.speechSynthesis.speak(utterance);
       });
     }
@@ -67,7 +67,8 @@ export function useSpeech() {
         const cancel = () => done(new DOMException("Stopped", "AbortError"));
         const watchdog = setTimeout(() => done(new Error("A hang lejátszása túl sokáig tartott; a műsor megállt.")), 120000);
         signal.addEventListener("abort", cancel, {once:true});
-        player.onplaying = () => setSpeaking(true); player.onpause = () => setSpeaking(false);
+        let started = false;
+        player.onplaying = () => { setSpeaking(true); if (!started) { started = true; onStart?.(); } }; player.onpause = () => setSpeaking(false);
         player.onended = () => done(); player.onerror = () => done(new Error("A hangfájl nem játszható le."));
         player.ontimeupdate = () => {
           const a = data.alignment;
