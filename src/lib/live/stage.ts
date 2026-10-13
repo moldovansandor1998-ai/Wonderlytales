@@ -1,4 +1,4 @@
 import type { Emotion } from "./events";
 import type { GiftEffect, Speaker } from "./duo";
-export type StageState = { name: string; image: string; caption: string; speaking: boolean; emotion: Emotion; connected: boolean; song: string; scene?: "solo" | "duo"; speaker?: Speaker; effect?: GiftEffect };
-export const initialStage: StageState = { name: "Kalóz kapitány", image: "/live-studio/pirate.png", caption: "Üdv a fedélzeten!", speaking: false, emotion: "neutral", connected: false, song: "" };
+export type StageState = { name: string; image: string; caption: string; speaking: boolean; emotion: Emotion; connected: boolean; song: string; scene?: "solo" | "duo"; speaker?: Speaker; motion?: {id:string;url:string;position:number;playing:boolean}; effect?: GiftEffect };
+export const initialStage: StageState = { name: "Mc Isti", image: "/live-studio/pirate.png", caption: "Kezdődhet a műsor!", speaking: false, emotion: "neutral", connected: false, song: "" };

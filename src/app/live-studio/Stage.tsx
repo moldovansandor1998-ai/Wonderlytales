@@ -1,4 +1,5 @@
 "use client";
+import MotionVideo from "./MotionVideo";
 import GiftMagic from "./GiftMagic";
 import { CAST } from "@/lib/live/duo";
 import type { StageState } from "@/lib/live/stage";
@@ -6,6 +7,7 @@ export default function Stage({ state, full = false }: { state: StageState; full
   return <div className={`relative isolate aspect-[9/16] overflow-hidden bg-black ${full ? "h-[100dvh] max-w-[100vw]" : "w-full max-w-sm rounded-2xl shadow-xl"}`}>
     {/* eslint-disable-next-line @next/next/no-img-element */}
     <img src={state.image} alt={state.name} className="h-full w-full object-cover" />
+    {state.motion && <MotionVideo key={state.motion.id} frame={state.motion} />}
     <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/90" />
     <div className="absolute left-5 right-5 top-5 flex justify-between items-center gap-2"><span className="rounded-full bg-black/60 px-3 py-1 text-xs text-white">{state.scene === "duo" ? "AI-paródia • Ali és Mc Isti" : "AI-karakter"}</span><span className={`rounded-full px-3 py-1 text-xs ${state.connected ? "bg-emerald-600" : "bg-zinc-800"} text-white`}>{state.connected ? "Kommentkapcsolat aktív" : "Stúdiópróba"}</span></div>
     <GiftMagic effect={state.effect} />

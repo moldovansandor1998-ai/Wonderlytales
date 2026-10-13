@@ -15,8 +15,7 @@ export function useSpeech() {
     return () => window.speechSynthesis.removeEventListener("voiceschanged", refresh);
   }, []);
 
-  async function unlock() {
-    const player = element.current;
+  async function unlock(player: HTMLMediaElement | null = element.current) {
     if (!player) throw new Error("A hanglejátszó nem elérhető.");
     const bytes = new Uint8Array(844);
     const view = new DataView(bytes.buffer);

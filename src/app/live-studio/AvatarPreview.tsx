@@ -119,7 +119,7 @@ export default function AvatarPreview({ configuration, disabled, stopSignal, onA
   }
 
   return <section className="space-y-4 rounded-2xl border border-sky-800 bg-sky-950/20 p-5">
-    <div><h2 className="text-xl font-semibold">Runway – élő karakterpróba</h2><p className="mt-2 text-sm text-zinc-300">Kalóz kapitány • Mc istia hang • legfeljebb 60 másodperc</p></div>
+    <div><h2 className="text-xl font-semibold">Runway – mikrofonos karakterpróba</h2><p className="mt-2 text-sm text-zinc-300">Mc Isti • Mc istia hang • legfeljebb 60 másodperc</p></div>
     <p className="text-sm text-zinc-400">Beszélj a mikrofonba, és ellenőrizd a karakter hangját, mozgását és válaszait. A próba külön jelenik meg; a TikTok-kommenteket és az adásablakot még nem vezérli.</p>
     {!configured && <p className="rounded-lg bg-zinc-900 p-3 text-sm">A kapcsolathoz még hiányzik: {configuration ? [!configuration.runway && "Runway fejlesztői hozzáférés", !configuration.character && "feldolgozott Runway-karakter", !configuration.elevenlabs && "ElevenLabs-hozzáférés", !configuration.agent && "ElevenLabs Agent"].filter(Boolean).join(", ") : "a hozzáférések ellenőrzése"}.</p>}
     <div className={phase === "idle" ? "hidden" : "space-y-2"}>
