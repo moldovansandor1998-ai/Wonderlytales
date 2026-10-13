@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 
 type Character = { id: string; name: string; personality: string; image: string; voiceId?: string; voiceName?: string };
-const INITIAL: Character = { id: "pirate", name: "Kalóz kapitány", voiceName: "Mc istia", personality: "Csipkelődő, vidám magyar kalóz. Rövid válaszok, hajós humor.", image: "/live-studio/pirate.png" };
+const INITIAL: Character = { id: "pirate", name: "Kalóz kapitány", voiceName: "Mc istia", voiceId: "f9YzCDZYS8Zjl6RbHErx", personality: "Csipkelődő, vidám magyar kalóz. Rövid válaszok, hajós humor.", image: "/live-studio/pirate.png" };
 const button = "rounded bg-amber-400 px-4 py-2 text-black font-semibold disabled:opacity-40";
 
 export default function LiveStudio() {
