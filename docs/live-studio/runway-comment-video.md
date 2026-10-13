@@ -47,8 +47,24 @@ A mentési és újrajátszási javítás validációja: 51 célzott teszt, telje
 
 A „Telefonos adáskép – kép és hang együtt” ugyanazon böngészőfület váltja teljes képernyős, 9:16 nézetre. A fő videóelem a váltáskor nem cserélődik le. A kezelőszervek érintésre megjelennek és 6 másodperc után elbújnak. A Vissza csak a nézetet zárja; a Mindent leállít a lejátszást, a várakozó sort és a kommentkapcsolatot is leállítja. Támogatott böngészőben képernyő-ébresztést kérünk. A mentett klipek innen újra lejátszhatók új generálás nélkül.
 
-A `/api/live-studio/tiktok` azonos eredetű, bejelentkezett stúdiófelhasználó WebSocket-kérését fogadja a Vercel Functions API-ján. Nyilvános kommentet, lezárt ajándéksorozatot és követést továbbít; TikTok-munkamenetet/jelszót nem fogad el. Nem küld TikTok-üzenetet és nem indít közvetítést. Ugyanazt a 2.5.0-s nem hivatalos összekötőt használja, mint a helyi bridge; az opcionális `EULER_STREAM_API_KEY` csak szerveroldali. Szolgáltatói hiba után nincs automatikus újrapróbálás. A 250 másodperces szerverkapcsolat tervszerű megújításakor a böngésző újracsatlakozik; az esetleges rés alatt érkező kommentek elveszhetnek. A meglévő FIFO stabil eseményazonosítókkal deduplikál. R2-ben felhasználónként feltételesen lefoglalt, lejáró lease korlátozza az aktív kapcsolatot egyre.
+A `/api/live-studio/tiktok` azonos eredetű, bejelentkezett stúdiófelhasználó WebSocket-kérését fogadja a Vercel Functions API-ján. Nyilvános kommentet, lezárt ajándéksorozatot és követést továbbít; TikTok-munkamenetet/jelszót nem fogad el. Nem küld TikTok-üzenetet és nem indít közvetítést. Ugyanazt a 2.5.0-s nem hivatalos összekötőt használja, mint a helyi bridge; az opcionális `EULER_STREAM_API_KEY` csak szerveroldali. Szolgáltatói hiba után nincs automatikus újrapróbálás. A 250 másodperces szerverkapcsolat tervszerű megújításakor a böngésző újracsatlakozik; az esetleges rés alatt érkező kommentek elveszhetnek. A sor stabil eseményazonosítókkal deduplikál; az ajándék elsőbbséget kap, de két ajándékreakció után várakozó komment következik. R2-ben felhasználónként feltételesen lefoglalt, lejáró lease korlátozza az aktív kapcsolatot egyre.
 
 A „Telefonos kapcsolat ellenőrzése” ugyanazt az autentikált WebSocket-végpontot próbálja ki, de nem kapcsolódik TikTokhoz, nem foglal lease-t és nem generál semmit. Sikere nem igazolja a TikTok-szolgáltatói kapcsolatot.
 
 A telefon TikTok Mobil játék képernyőközvetítése külön tesztelendő: a rendszerhang továbbítása, a böngésző előtérben tartása és a hálózati stabilitás készülékfüggő. A TikTok MI-jelölés legyen bekapcsolva. A Runway-generálás várakozási idejét a mobilnézet nem szünteti meg.
+
+
+## Automata műsor
+
+Az elsődleges indítás most az **Automata műsor indítása**. A saját TikTok-adás elindítása és a felhasználónév egyszeri megadása után ez egyben indítja a mozgó alapjelenetet, a kommentfigyelőt, az AI-válaszsort és a telefonos nézetet. A válaszvideókhoz nem kell a galériát kezelni.
+
+- Az álló közös képből egyszer, Gen-4.5-tel 5 másodperces, 720×1280-as alapvideó készül. Rögzített árplafon 60 API-kredit ($0.60), a meglévő `genvideo` keretből, csak igazolt elegendő plafonnal. Tulajdonosonként egy feltételesen létrehozott `live-backdrop` rekord tartja meg. Ismételt indítás, dupla kattintás, újratöltés vagy bizonytalan hiba nem generál második alapvideót. A létrejött MP4 a saját médiagalériában megmarad.
+- Ez a néma alapmozgás ismétlődik a nézői események között és a válaszra váráskor. Nem ismétel korábbi kommentválaszokat és nem indít folyamatos fizetős generálást üres adásban. Az egyszeri alapvideó elkészítése az oldal bezárása után is befejeződhet; a következő indítás a meglévő feladatot olvassa.
+- Ajándék elfogadásakor a varázseffekt azonnal indul, a generálástól függetlenül. A név szerinti, új AI-reakció elsőbbséget kap a sorban. Már beszélő szereplőt nem vág félbe.
+- A két új beszélő videó párhuzamosan készül. Csak mindkettő elkészülte után indulnak, Ali → Isti sorrendben, átfedő hang nélkül. Egy hiba vagy Stop mindkét függő munkát megszakítja. A későn elkészült videó nem indíthatja újra a leállított műsort.
+- Két ajándék után egy várakozó komment kerül sorra. A korlát 50 esemény; megtelt sornál az új ajándék egy várakozó komment helyét átveheti, a kihagyásszámláló ezt jelzi.
+- A **Mindent leállít** a válaszkészítést, a lejátszást, az alapvideót, a kommentkapcsolatot és a zenét megállítja. Szolgáltatói hiba és a beállított adáskorlát szintén megállítja a válaszadást.
+
+Az **Automata műsorpróba – komment + ajándék** TikTok nélkül egy kommentet és egy 1,5 másodperccel később beérkező próbaajándékot ad ugyanahhoz az automatikus sorhoz. Két új AI-párbeszédet, négy hangot és négy Runway-klipet használ, majd magától leáll. Nem indít TikTok-közvetítést.
+
+Korlát: ez folyamatos alapvideóval és automatikus friss válaszokkal működő műsor. A válaszok renderelési ideje megmarad; nem folyamatos WebRTC-testanimáció vagy azonnali szabad mozgás. A TikTok tényleges kommentfolyama és a telefon rendszerhangjának közvetítése külön éles próbát igényel.

@@ -25,21 +25,35 @@ export function songRequest(text: string): string | null {
   return match ? match[1].trim().slice(0, 150) : null;
 }
 
-/** Bounded FIFO, with event-id deduplication across reconnects. Gifts cannot starve comments. */
+/** Gifts get the next slot, at most two in a row while comments wait. */
 export class EventQueue {
   private seen = new Set<string>();
   private pending: LiveEvent[] = [];
+  private giftStreak = 0;
   dropped = 0;
   add(event: LiveEvent): boolean {
     if (this.seen.has(event.id)) return false;
     this.seen.add(event.id);
     if (this.seen.size > 2000) this.seen.delete(this.seen.values().next().value!);
-    if (this.pending.length >= 50) { this.dropped++; return false; }
+    if (this.pending.length >= 50) {
+      this.dropped++;
+      const replace = event.type === "gift" ? this.pending.findIndex(e => e.type !== "gift") : -1;
+      if (replace < 0) return false;
+      this.pending.splice(replace, 1);
+    }
     this.pending.push(event);
     return true;
   }
-  take() { return this.pending.shift(); }
-  clear() { this.pending = []; }
+  take() {
+    const gift = this.pending.findIndex(e => e.type === "gift");
+    const comment = this.pending.findIndex(e => e.type !== "gift");
+    const index = gift >= 0 && (this.giftStreak < 2 || comment < 0) ? gift : comment;
+    if (index < 0) return undefined;
+    const [event] = this.pending.splice(index, 1);
+    this.giftStreak = event.type === "gift" ? this.giftStreak + 1 : 0;
+    return event;
+  }
+  clear() { this.pending = []; this.giftStreak = 0; }
   get size() { return this.pending.length; }
   snapshot() { return [...this.pending]; }
 }

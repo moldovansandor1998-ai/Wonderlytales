@@ -26,7 +26,7 @@ export function useMotion() {
         player.src=url;void player.play().catch(()=>done(new Error("A böngésző letiltotta a videó hangját. Engedélyezd a webhely automatikus hangját.")));
       });
   }
-  async function say(turn:DialogueTurn,voiceId:string,signal:AbortSignal,onStart?:()=>void) {
+  async function prepare(turn:DialogueTurn,voiceId:string,signal:AbortSignal) {
     signal.throwIfAborted();
     const requestId=crypto.randomUUID();let complete=false;
     const stop=()=>{void fetch("/api/live-studio/motion",{method:"DELETE",headers:{"Content-Type":"application/json"},body:JSON.stringify({requestId}),keepalive:true}).then(r=>{if(!r.ok)setStatus("A leállítás visszaigazolása hiányzik. Új videót ne indíts a feladat ellenőrzéséig.");}).catch(()=>setStatus("A Runway-leállítás nem igazolható; a legfeljebb 30 másodperces feladat még befejeződhet."));};
@@ -42,10 +42,12 @@ export function useMotion() {
         await delay(2500,signal);
       }
       if(!url)throw new Error("A videó nem készült el három percen belül. A sor megállt.");
-      signal.throwIfAborted();setStatus("Videó lejátszása");
-      await play(url, requestId, signal, onStart);
-      setStatus("");
-    }finally{if(!complete)stop();setSpeaking(false);setFrame(undefined);if(signal.aborted)setStatus("Videós válasz leállítva.");}
+      signal.throwIfAborted();return {url,requestId};
+    }finally{if(!complete)stop();if(signal.aborted)setStatus("Videós válasz leállítva.");}
   }
-  return {element,frame,speaking,status,say,play};
+  async function say(turn:DialogueTurn,voiceId:string,signal:AbortSignal,onStart?:()=>void) {
+    try { const clip=await prepare(turn,voiceId,signal);setStatus("Videó lejátszása");await play(clip.url,clip.requestId,signal,onStart); }
+    finally { setStatus(""); }
+  }
+  return {element,frame,speaking,status,say,play,prepare};
 }
