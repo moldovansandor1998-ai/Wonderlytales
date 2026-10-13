@@ -4,17 +4,17 @@ import type { GiftEffect } from "@/lib/live/duo";
 import styles from "./GiftMagic.module.css";
 
 export default function GiftMagic({ effect }: { effect?: GiftEffect }) {
-  const [activeId, setActiveId] = useState("");
+  const [active, setActive] = useState({id:"", elapsed:0});
   useEffect(() => {
-    if (!effect) { setActiveId(""); return; }
+    if (!effect) { setActive({id:"", elapsed:0}); return; }
     const remaining = effect.startedAt + effect.duration - Date.now();
-    if (remaining <= 0) { setActiveId(""); return; }
-    setActiveId(effect.id);
-    const timer = setTimeout(() => setActiveId(""), remaining);
+    if (remaining <= 0) { setActive({id:"", elapsed:0}); return; }
+    setActive({id:effect.id, elapsed:Math.max(0, Date.now() - effect.startedAt)});
+    const timer = setTimeout(() => setActive({id:"", elapsed:0}), remaining);
     return () => clearTimeout(timer);
   }, [effect?.id, effect?.startedAt, effect?.duration]);
-  if (!effect || activeId !== effect.id) return null;
-  const elapsed = Math.max(0, Date.now() - effect.startedAt);
+  if (!effect || active.id !== effect.id) return null;
+  const elapsed = active.elapsed;
   return <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-label="Ajándék varázseffekt">
     <div className={`${styles.glow} ${styles[effect.kind]}`} />
     {Array.from({length: 18}, (_, i) => <span key={`${effect.id}-${i}`} aria-hidden="true" className={`${styles.particle} ${styles[effect.kind]}`} style={{left:`${8 + (i * 37) % 84}%`, "--delay": `${(i % 6) * 180 - elapsed}ms`, "--drift": `${((i * 29) % 100) - 50}px`} as CSSProperties}>{effect.kind === "hearts" ? "♥" : effect.kind === "petals" ? "❀" : "✦"}</span>)}

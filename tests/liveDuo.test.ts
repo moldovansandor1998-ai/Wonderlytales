@@ -40,7 +40,7 @@ describe('Two-character live dialogue',()=>{
     expect(giftEffect({...event,gift:'Heart Me'},0)?.kind).toBe('hearts');
     expect(giftEffect({...event,gift:'Váratlan'},0)?.kind).toBe('smoke');
     expect(giftEffect({...event,type:'comment'},0)).toBeUndefined();
-    expect(dialogue.turns[0].text).toContain('3 rózsa');
+    expect(giftEffect(event,0)?.label).toContain('3 × rózsa');
   });
   it('only claims a song started after the player confirms it',()=>{
     const request={...event,type:'comment' as const,text:'!zene példa'};
