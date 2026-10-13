@@ -29,3 +29,15 @@ Ali új referenciaképe: `public/live-studio/ali-avatar.webp`. A beépített ima
 ## Egyszeri ellenőrzés
 
 Az `Egyszeri AI-videópróba` a beírt kommentből új párbeszédet készít, a kiválasztott saját hangokon és Runway-karaktereken lejátssza, majd megáll. Nem kell bekapcsolni az automatikus sort. A `Mindent leállít` gomb a készítés és a lejátszás alatt is használható. A sikeres próba bekerül a beszélgetési előzménybe.
+
+## Megőrzés és visszajátszás
+
+Az elkészült Runway MP4 tartósan a tulajdonos saját médiatárába kerül; a stúdió és az adásablak az autentikált videóvégponton játssza le. A kész videó nem vész el a szolgáltatói URL lejáratakor. Sikertelen másoláskor a szolgáltatói lejátszás folytatódhat, a klipelőzmény jelzi a mentés hiányát. Az előzmény újranyitása csak az átvitelt próbálja újra, fizetős generálást nem indít.
+
+A `Korábbi videók betöltése` az adott tulajdonos legutóbbi elérhető klipjeit mutatja (legfeljebb 12, a rekordlistázás meglévő korlátain belül). A sikeresen mentett videók az AI-videó médiagaléria kész videói között is elérhetők. Az előnézeti lejátszás automatikusan megáll adás/próba indításakor és a `Mindent leállít` gombbal is.
+
+## 2026-10-14 ellenőrzés
+
+Az első éles kiadás: PR #13, `d037e6c`. Két valódi AI-kommentpróba, négy saját ElevenLabs-hang és négy Runway-videó sikeresen elkészült és lejátszódott. A külön adásablakban Isti videója `readyState=4`, `paused=false`, 6.919 másodperces időtartammal megfigyelve. TikTok-közvetítés nem indult. A videógenerálás továbbra is várakozással jár, nem folyamatos valós idejű mozgás; a székben ülő két figura közös testanimációja nincs megvalósítva.
+
+A mentési és újrajátszási javítás validációja: 51 célzott teszt, teljes Next.js build és workflow-buildellenőrzés sikeres.
