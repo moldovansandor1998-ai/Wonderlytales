@@ -34,7 +34,7 @@ export function rehearsalDialogue(event: LiveEvent, songStarted = false): Dialog
     const spell = kind === "petals" ? "Rózsazáport a duzzogó kapitánynak!" : kind === "hearts" ? "Szívecskefelhőt a kapitány köré!" : "Egy kis zöld varázsködöt a kapitány köré!";
     const retort = kind === "petals" ? "Ali, kalóz vagyok, nem virágágyás!" : kind === "hearts" ? "Ettől még nem fogok mosolyogni. Na jó, talán egy kicsit." : "Ali, ebből a székből mindjárt köddé válok!";
     return { turns: [
-      { speaker: "ali", text: `Köszönöm, ${user}, a ${event.count} ${event.gift || "ajándék"} ajándékot! ${spell}`.slice(0, 220), emotion: "thanks" },
+      { speaker: "ali", text: `Köszönöm, ${user}, az ajándékot! ${spell}`.slice(0, 220), emotion: "thanks" },
       { speaker: "isti", text: retort, emotion: "laugh" },
     ] };
   }
