@@ -10,7 +10,7 @@ const response = (data: unknown, status = 200) => new Response(JSON.stringify(da
 const generate = (signal = new AbortController().signal) => generateLiveReply(dialogueMessages(input), dialogueSchema, signal, 400);
 describe('Dynamic live AI with existing WaveSpeed connection', () => {
   beforeEach(() => {
-    vi.resetAllMocks(); vi.stubEnv('STORY_API_KEY', ''); vi.stubEnv('WAVESPEED_API_KEY', 'private-wave-key');
+    vi.resetAllMocks(); vi.stubEnv('LIVE_AI_GATEWAY_ENABLED', 'false'); vi.stubEnv('STORY_API_KEY', ''); vi.stubEnv('WAVESPEED_API_KEY', 'private-wave-key');
     vi.mocked(getProductionBudget).mockResolvedValue(null);
   });
   afterEach(() => { vi.unstubAllEnvs(); vi.unstubAllGlobals(); });
@@ -47,8 +47,8 @@ describe('Dynamic live AI with existing WaveSpeed connection', () => {
     expect((await generate()).status).toBe(502); expect(fetcher).toHaveBeenCalledOnce();
   });
   it('preserves full dialogue memory and confirmed music state outside the system prompt', () => {
-    const messages = dialogueMessages({ event, history: [{ user: 'Peti', text: 'előző komment', reply: 'Ali: korábbi tréfa. Isti: elismerem.' }], music: 'queued' });
-    expect(JSON.parse(messages[1].content)).toMatchObject({ musicPlaybackStatus: 'queued', recentConversation: [{ user: 'Peti' }] });
+    const messages = dialogueMessages({ event, history: [{ user: 'Peti', text: 'előző komment', reply: 'Ali: korábbi tréfa. Isti: elismerem.' }], music: {requested:'próbadal', started:false} });
+    expect(JSON.parse(messages[1].content)).toMatchObject({ studioMusic: {requested:'próbadal', started:false}, recentConversation: [{ user: 'Peti' }] });
     expect(messages[0].content).toContain('meghunyászkodik');
   });
 });

@@ -133,8 +133,7 @@ export default function AvatarPreview({ configuration, disabled, stopSignal, onA
       {phase === "active" && <><span>{seconds} mp</span><button className="rounded-lg border border-zinc-600 px-3 py-2" onClick={async () => { try { await session.current?.mic.toggle(); setMuted(!session.current?.mic.isEnabled); } catch { setMessage("A mikrofon nem kapcsolható."); } }}>{muted ? "Mikrofon bekapcsolása" : "Mikrofon némítása"}</button></>}
       {phase === "starting" && <span role="status">Kapcsolódás…</span>}
     </div>
-    <p className="text-sm text-zinc-300">A Runway Pro webes kreditje és az élő avatar fejlesztői API-kerete külön van. A webes 2500 kredit nem jelenik meg az API-egyenlegben.</p>
-    <p className="text-xs text-zinc-400">A próba Runway- és ElevenLabs-keretet fogyaszt. A szerver indulás előtt ellenőrzi a karaktert, a hangot és a költségkeretet. Nem indul újra automatikusan.</p>
+    <p className="text-xs text-zinc-400">A próba a Runway fejlesztői API külön keretét és ElevenLabs-keretet fogyaszt. A Runway webalkalmazásban vásárolt kreditek nem használhatók az API-ban. A szerver indulás előtt ellenőrzi a karaktert, a hangot és a költségkeretet. Nem indul újra automatikusan.</p>
     {message && <p role="status" className="text-sm text-amber-200">{message}</p>}
   </section>;
 }

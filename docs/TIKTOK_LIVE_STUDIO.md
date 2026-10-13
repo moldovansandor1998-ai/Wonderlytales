@@ -82,6 +82,18 @@ A „Két hang + varázslat kipróbálása” gomb előre megírt, magyar ajánd
 
 Ellenőrzés: 36 célzott Vitest sikeres (köztük valódi sorrendtartás, megszakítás, hibánál megállás, szerepellenőrzés, API-jogosultság, költségkeret, ajándékeffekt és zenekérés). TypeScript és production build sikeres. A production kiadás (`a9ad56f`) után Ali rövid hangpróbája, a közös rózsa-jelenet, majd egy FIFO-sorba állított szívajándék is végigment valódi ElevenLabs-hangokkal. A stúdió befejezett választ jelzett hiba nélkül; a külön adásablakban a megfelelő beszélő és felirat váltott, az effekt megjelent és lejárt. A Mindent leállít gomb után a sor leállt. Valódi TikTok-esemény nélkül, helyi próbaajándékokkal tesztelve. A további látványellenőrzéshez külön, hangkészítést nem indító effektpróba került a jelenet mellé; az effekt kezdőeltolását a heartbeat nem módosítja újra.
 
+## 2026-10-13: rögtönzött AI-kommentválaszok
+
+- Az alapmód AI: komment, ajándék, követés és zenekérés is a modellhez kerül. A hangteszt külön, kifejezetten megjelölt sablonmód.
+- Ali csípős, helyzetre épülő roastot mond; Mc Isti megszeppenő, önironikus kalózkarikatúra. Az utolsó hat párbeszédet kapják meg, a kommentadatok nem rendszerutasítások.
+- A két saját ElevenLabs-hang egymás után szól. Az AI-kommentpróba hang nélkül csak a szöveget generálja, nem használ ElevenLabs- vagy Runway-keretet.
+- Production: `LIVE_AI_GATEWAY_ENABLED=true`; a szerver a friss Vercel OIDC tokent kéri el. Modell rögzítve: `openai/gpt-4.1-mini`. Nincs szükség új titkos API-kulcsra.
+- Kérésenként legfeljebb 20 000 byte üzenet és 800 kimeneti token. A `live_ai` foglalás $0.02; a meglévő $200 napi stúdiókeret változatlan. A foglalás óvatos felső korlát, nem a tényleges modellköltség. Árforrás: https://ai-gateway.vercel.sh/v1/models (2026-10-13).
+- Hiba esetén nincs automatikus újrapróbálás vagy sablonválasz. A felület külön jelzi a Gateway-ellenőrzés, hozzáférés és kredit hiányát. Szervernaplóban csak modell/tokenmennyiség vagy kategorizált hibakód, komment és token nélkül.
+- Runway: a csatlakoztatott fogyasztói munkaterület továbbra is Moldovan (69625425), Free/0 kredit; a felhasználó 2500 kredites munkaterülete nem látható. Újracsatlakoztatáskor a megfelelő Runway-fiókot és munkaterületet kell választani; új kreditet nem vásároltunk.
+- Az Anna’s project kalózkarakterének szolgáltatói hibája változatlan: “This text cannot be used for an avatar. Please update the personality or start script.” Nem indult újabb avatárgenerálás vagy moderációmegkerülő próbálkozás.
+- A Runway webapp és fejlesztői API kreditei külön keretek: https://help.runwayml.com/hc/en-us/articles/21668552945171-Runway-API-FAQs . A kettős színpad továbbra is állókép és ajándék-részecskeeffekt; a TikTok-közvetítés külön csatlakoztatást igényel.
+
 ## Élő, rögtönzött kommentválaszok – 2026-10-13
 
 - Alapértelmezett az AI-mód. A technikai hangpróba külön, kifejezetten rögzített tesztszövegként jelölve marad.
@@ -97,3 +109,5 @@ Validáció: 43 célzott Vitest (beleértve a WaveSpeed válaszfeldolgozást, ug
 Kiadási állapot: a javítás a `codex/live-comment-banter` ágon és a 10-es draft PR-ben található. Az automatikus jóváhagyás-ellenőrzés elutasította a közvetlen main-feltöltést, külön felhasználói engedélyt kérve; production élesítés nem történt. Következő lépés a PR jóváhagyott összevonása után az éles story költségkeret és egyetlen kommentes AI/hangpróba ellenőrzése. A Runway-karakter hibás állapota ettől függetlenül továbbra is blokkolja a Runway élő próbát.
 
 Források: https://wavespeed.ai/docs/docs-api/wavespeed-ai/any-llm , https://wavespeed.ai/models/wavespeed-ai/any-llm , https://help.runwayml.com/hc/en-us/articles/21668552945171-Runway-API-FAQs .
+
+Összefésülés: a production Vercel AI Gateway elsőbbsége, OIDC-hozzáférése, live_ai kerete és eseménytípushoz igazított promptja megmarad. WaveSpeed csak akkor választható a konfigurációból, ha a Gateway nincs engedélyezve és Story-kulcs sincs; szolgáltatói hibánál nincs második fizetős kísérlet. Nyolc teljes AI-párbeszéd az előzmény, a technikai hangteszt nem kerül bele.

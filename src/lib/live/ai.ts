@@ -1,10 +1,20 @@
 import { getProductionBudget, reserveProductionBudget } from "@/lib/budget";
 import { json } from "@/lib/ai-video/http";
 import type { z } from "zod";
+import { getVercelOidcToken } from "@vercel/oidc";
 
-export function liveAiProvider(): "story" | "wavespeed" | null {
+export const LIVE_MODEL = "openai/gpt-4.1-mini";
+
+export function liveAiProvider(): "gateway" | "story" | "wavespeed" | null {
+  if (process.env.LIVE_AI_GATEWAY_ENABLED === "true") return "gateway";
   if (process.env.STORY_API_KEY) return "story";
   return process.env.WAVESPEED_API_KEY ? "wavespeed" : null;
+}
+
+export function liveAIConfiguration() {
+  const provider = liveAiProvider();
+  return { configured: provider === "gateway" ? !!(process.env.AI_GATEWAY_API_KEY || process.env.VERCEL_OIDC_TOKEN || process.env.VERCEL) : !!provider,
+    provider, model: provider === "gateway" ? LIVE_MODEL : provider === "wavespeed" ? "google/gemini-3.1-flash-lite" : process.env.STORY_MODEL || "gpt-4o" };
 }
 
 function parseReply<T>(content: unknown, schema: z.ZodType<T>) {
@@ -19,26 +29,38 @@ function parseReply<T>(content: unknown, schema: z.ZodType<T>) {
 export async function generateLiveReply<T>(messages: {role: string; content: string}[], schema: z.ZodType<T>, signal: AbortSignal, maxTokens: number) {
   const provider = liveAiProvider();
   if (!provider) return json({ error: "AI_NOT_CONFIGURED" }, 503);
+  if (Buffer.byteLength(JSON.stringify(messages), "utf8") > 20000 || maxTokens > 800) return json({ error: "AI_INPUT_TOO_LARGE" }, 400);
   signal.throwIfAborted();
+  const key = provider === "gateway" ? process.env.AI_GATEWAY_API_KEY || await getVercelOidcToken().catch(() => undefined) : provider === "story" ? process.env.STORY_API_KEY : process.env.WAVESPEED_API_KEY;
+  if (!key) return json({ error: "AI_NOT_CONFIGURED" }, 503);
   if (provider === "wavespeed") {
     // Any LLM has a documented flat $0.01/run price. Keep the existing ledger's ceiling adequate.
     const budget = await getProductionBudget();
     if (budget && !(budget.configured_services.story >= 0.01)) return json({ error: "AI_BUDGET_NOT_CONFIGURED" }, 503);
   }
-  await reserveProductionBudget("story");
+  await reserveProductionBudget(provider === "gateway" ? "live_ai" : "story");
   const bounded = AbortSignal.any([signal, AbortSignal.timeout(35000)]);
-  const key = provider === "story" ? process.env.STORY_API_KEY! : process.env.WAVESPEED_API_KEY!;
   const headers = { Authorization: `Bearer ${key}`, "Content-Type": "application/json" };
   try {
-    if (provider === "story") {
-      const response = await fetch(`${(process.env.STORY_BASE_URL || "https://api.openai.com/v1").replace(/\/$/, "")}/chat/completions`, {
+    if (provider !== "wavespeed") {
+      const base = provider === "gateway" ? "https://ai-gateway.vercel.sh/v1" : process.env.STORY_BASE_URL || "https://api.openai.com/v1";
+      const response = await fetch(`${base.replace(/\/$/, "")}/chat/completions`, {
         method: "POST", headers,
-        body: JSON.stringify({ model: process.env.STORY_MODEL || "gpt-4o", messages, response_format: { type: "json_object" }, max_tokens: maxTokens }),
+        body: JSON.stringify({ model: liveAIConfiguration().model, messages, response_format: { type: "json_object" }, max_tokens: maxTokens }),
         signal: bounded,
       });
-      if (!response.ok) return json({ error: "AI_PROVIDER_ERROR" }, 502);
+      if (!response.ok) {
+        const failure = await response.json().catch(() => ({}));
+        const code = failure?.error?.code || failure?.error?.type;
+        const error = code === "customer_verification_required" ? "AI_VERIFICATION_REQUIRED"
+          : response.status === 402 ? "AI_CREDITS_REQUIRED" : response.status === 401 || response.status === 403 ? "AI_ACCESS_DENIED"
+          : response.status === 429 ? "AI_RATE_LIMITED" : "AI_PROVIDER_ERROR";
+        console.warn("live_ai_provider_error", { status: response.status, code: error });
+        return json({ error }, 502);
+      }
       const data = await response.json();
       if (data.error || data.choices?.[0]?.finish_reason === "length") return json({ error: "AI_INVALID_REPLY" }, 502);
+      console.info("live_ai_reply", { model: liveAIConfiguration().model, inputTokens: data.usage?.prompt_tokens, outputTokens: data.usage?.completion_tokens });
       return parseReply(data.choices?.[0]?.message?.content, schema);
     }
     const base = "https://api.wavespeed.ai/api/v3";
