@@ -14,7 +14,7 @@ const typedStore = store as unknown as R2VideoStore;
 describe("Persistent continuous backdrop", () => {
   beforeEach(() => {
     vi.clearAllMocks();value = null;vi.stubEnv("RUNWAYML_API_SECRET", "test");
-    vi.mocked(getProductionBudget).mockResolvedValue({ daily_limit_usd: 10, timezone: "UTC", budget_day: "2026-10-14", reserved_usd: 0, remaining_usd: 10, provider_billing_cap_verified: true, configured_services: { genvideo: 1 } });
+    vi.mocked(getProductionBudget).mockResolvedValue({ daily_limit_usd: 10, timezone: "UTC", budget_day: "2026-10-14", reserved_usd: 0, remaining_usd: 10, provider_billing_cap_verified: true, configured_services: { runway_backdrop_5s: 1 } });
     vi.stubGlobal("fetch", vi.fn().mockResolvedValue(new Response(JSON.stringify({ id: taskId }))));
   });
   afterEach(() => { vi.unstubAllGlobals();vi.unstubAllEnvs(); });
@@ -26,7 +26,7 @@ describe("Persistent continuous backdrop", () => {
     expect(store.writeRecord).toHaveBeenCalledWith("live-backdrop", BACKDROP_ID, expect.objectContaining({ status: "SUBMITTING" }));
   });
   it("blocks an unverified price ceiling before reserving or submitting", async () => {
-    vi.mocked(getProductionBudget).mockResolvedValue({ daily_limit_usd: 10, timezone: "UTC", budget_day: "2026-10-14", reserved_usd: 0, remaining_usd: 10, provider_billing_cap_verified: true, configured_services: { genvideo: 0.1 } });
+    vi.mocked(getProductionBudget).mockResolvedValue({ daily_limit_usd: 10, timezone: "UTC", budget_day: "2026-10-14", reserved_usd: 0, remaining_usd: 10, provider_billing_cap_verified: true, configured_services: { runway_backdrop_5s: 0.1 } });
     await expect(startBackdrop(typedStore)).rejects.toThrow("BACKDROP_BUDGET_NOT_CONFIGURED");
     expect(reserveProductionBudget).not.toHaveBeenCalled();expect(fetch).not.toHaveBeenCalled();
   });
