@@ -8,7 +8,7 @@ const explanations: Record<string, string> = {
   AVATAR_NOT_CONFIGURED: "A Runway–ElevenLabs kapcsolat még nincs beállítva.",
   RUNWAY_CHARACTER_NOT_READY: "A Runway-karakter feldolgozása még nem sikerült. Ellenőrizd a karakter adatlapját.",
   RUNWAY_ACCESS_DENIED: "A Runway-kulcs nem fér hozzá ehhez a projekthez.",
-  RUNWAY_CREDITS_REQUIRED: "Ebben a Runway fejlesztői projektben nincs elegendő kredit.",
+  RUNWAY_CREDITS_REQUIRED: "Ebben a Runway fejlesztői projektben nincs elegendő API-kredit. A Pro webes előfizetés kreditje külön keret.",
   ELEVENLABS_AGENT_ACCESS_DENIED: "Az ElevenLabs Agent nem érhető el a stúdió kulcsával.",
   ELEVENLABS_AGENT_SETTINGS_REQUIRED: "Az ElevenLabs Agent beállítása szükséges: magyar nyelv, Mc istia hang, PCM 16000 Hz bemenet és legfeljebb 60 másodperc.",
   AVATAR_REQUEST_ALREADY_USED: "Ez a próbamenet már elindult. Leállítás után indíthatsz újat.",
@@ -133,6 +133,7 @@ export default function AvatarPreview({ configuration, disabled, stopSignal, onA
       {phase === "active" && <><span>{seconds} mp</span><button className="rounded-lg border border-zinc-600 px-3 py-2" onClick={async () => { try { await session.current?.mic.toggle(); setMuted(!session.current?.mic.isEnabled); } catch { setMessage("A mikrofon nem kapcsolható."); } }}>{muted ? "Mikrofon bekapcsolása" : "Mikrofon némítása"}</button></>}
       {phase === "starting" && <span role="status">Kapcsolódás…</span>}
     </div>
+    <p className="text-sm text-zinc-300">A Runway Pro webes kreditje és az élő avatar fejlesztői API-kerete külön van. A webes 2500 kredit nem jelenik meg az API-egyenlegben.</p>
     <p className="text-xs text-zinc-400">A próba Runway- és ElevenLabs-keretet fogyaszt. A szerver indulás előtt ellenőrzi a karaktert, a hangot és a költségkeretet. Nem indul újra automatikusan.</p>
     {message && <p role="status" className="text-sm text-amber-200">{message}</p>}
   </section>;

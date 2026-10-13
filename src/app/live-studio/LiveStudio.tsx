@@ -11,11 +11,25 @@ import { useSpeech } from "./useSpeech";
 
 type Character = { id: string; name: string; personality: string; image: string; voiceId?: string; voiceName?: string };
 type Track = { id: string; title: string; url: string };
-type Log = { event: LiveEvent; reply: string; error?: boolean };
+type Log = { event: LiveEvent; reply: string; source?: "ai" | "rehearsal"; error?: boolean };
 const INITIAL: Character = { id: "pirate", name: "Kalóz kapitány", voiceName: "Mc istia", voiceId: "f9YzCDZYS8Zjl6RbHErx", personality: "Csipkelődő, vidám magyar kalóz. Rövid válaszok, hajós humor.", image: "/live-studio/pirate.png" };
 const button = "rounded-lg bg-amber-400 px-4 py-2 text-black font-semibold disabled:opacity-40";
 const field = "block w-full rounded-lg border border-zinc-700 bg-zinc-900 p-2";
 const panel = "space-y-3 rounded-2xl border border-zinc-700 bg-zinc-950/60 p-5";
+async function replyFailure(response: Response): Promise<Error> {
+  const code = (await response.json().catch(() => ({}))).error;
+  const reason: Record<string, string> = {
+    AI_NOT_CONFIGURED: "Az AI-kapcsolat nincs beállítva.",
+    AI_BUDGET_NOT_CONFIGURED: "Az AI-válaszokhoz a gyártási keretben legalább 0,01 USD / kérés keret szükséges.",
+    AI_PROVIDER_ERROR: "Az AI-szolgáltató hibát jelzett. Ellenőrizd a hozzáférést és az egyenleget.",
+    AI_INVALID_REPLY: "Az AI hibás formátumú választ adott; ez nem került felolvasásra.",
+    AI_TIMEOUT: "Az AI-válasz nem érkezett meg időben.",
+    VIDEO_SERVICE_UNAVAILABLE: "Az AI-válaszhoz tartozó gyártási költségkeret nem ellenőrizhető.",
+    UNAUTHORIZED: "A stúdióba újra be kell jelentkezni.",
+    FORBIDDEN: "Ehhez stúdiójogosultság szükséges.",
+  };
+  return new Error(`${reason[code] || "Az AI-válasz nem készült el."} A sor szünetel; nincs automatikus újrapróbálás.`);
+}
 const normalize = (s: string) => s.toLocaleLowerCase("hu").normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/g, "");
 
 export default function LiveStudio() {
@@ -35,9 +49,9 @@ export default function LiveStudio() {
   const [avatarTesting, setAvatarTesting] = useState(false);
   const [avatarStop, setAvatarStop] = useState(0);
   const busy = speechBusy || avatarTesting;
-  const [mode, setMode] = useState<"ai" | "rehearsal">("rehearsal");
+  const [mode, setMode] = useState<"ai" | "rehearsal">("ai");
   const [voiceMode, setVoiceMode] = useState<"eleven" | "browser">("eleven");
-  const [service, setService] = useState<{ai: boolean; voice: boolean; avatar?: {runway:boolean; character:boolean; elevenlabs:boolean; agent:boolean}} | null>(null);
+  const [service, setService] = useState<{ai: boolean; aiProvider?: "story" | "wavespeed" | null; voice: boolean; avatar?: {runway:boolean; character:boolean; elevenlabs:boolean; agent:boolean}} | null>(null);
   const [accountVoices, setAccountVoices] = useState<{id:string; name:string}[]>([]);
   const [loadingVoices, setLoadingVoices] = useState(false);
   const speech = useSpeech();
@@ -150,7 +164,7 @@ export default function LiveStudio() {
     const controller = new AbortController(); operation.current = controller; setBusy(true); setMessage("");
     try {
       let spoken: string;
-      const recent = history.current.filter(l => !l.error).slice(-6).map(l => ({user:l.event.user, text:l.event.text, reply:l.reply.slice(0,350)}));
+      const recent = history.current.filter(l => !l.error && l.source === "ai").slice(-8).map(l => ({user:l.event.user, text:l.event.text || l.event.gift || "", reply:l.reply.slice(0,520)}));
       const requested = event.type === "comment" ? songRequest(event.text) : null;
       let started = false;
       if (requested) {
@@ -159,10 +173,10 @@ export default function LiveStudio() {
       }
       if (scene === "duo") {
         let dialogue: Dialogue;
-        if (requested || mode === "rehearsal") dialogue = rehearsalDialogue(event, started);
+        if (mode === "rehearsal") dialogue = rehearsalDialogue(event, started);
         else {
-          const response = await fetch("/api/live-studio/dialogue", {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({event, history:recent}), signal:controller.signal});
-          if (!response.ok) throw new Error("A párbeszéd nem készült el. Ellenőrizd az AI-kapcsolatot és a költségkeretet; a sor szünetel.");
+          const response = await fetch("/api/live-studio/dialogue", {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({event, history:recent, music:requested ? started ? "started" : "queued" : "none"}), signal:controller.signal});
+          if (!response.ok) throw await replyFailure(response);
           dialogue = dialogueSchema.parse(await response.json());
         }
         await speakDialogue(dialogue, event, controller.signal);
@@ -172,15 +186,15 @@ export default function LiveStudio() {
         if (requested) reply = started ? {text: `${event.user}, indul a kért dal!`, emotion: "happy"} : rehearsalReply(event);
         else if (mode === "rehearsal") reply = rehearsalReply(event);
         else {
-          const response = await fetch("/api/live-studio/reply", {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({event, character:{name:character.name, personality:character.personality}, history:recent}), signal:controller.signal});
-          if (!response.ok) throw new Error("Az AI-válasz nem készült el. Ellenőrizd a bejelentkezést, az AI-kapcsolatot és a költségkeretet; a sor szünetel.");
+          const response = await fetch("/api/live-studio/reply", {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({event, character:{name:character.name, personality:character.personality}, history:recent.slice(-6).map(h => ({...h, reply:h.reply.slice(0,350)}))}), signal:controller.signal});
+          if (!response.ok) throw await replyFailure(response);
           reply = await response.json();
         }
         controller.signal.throwIfAborted(); setSpeaker(undefined); setCaption(reply.text); setEmotion(reply.emotion);
         await speech.say(reply.text, voiceMode, character.voiceId, controller.signal);
         spoken = reply.text;
       }
-      addLog({event, reply:spoken}); replyCount.current++; setReplies(replyCount.current);
+      addLog({event, reply:spoken, source:mode}); replyCount.current++; setReplies(replyCount.current);
     } catch (e) {
       setEffect(undefined);
       addLog({event, reply:controller.signal.aborted ? "Megszakítva" : e instanceof Error ? e.message : "Válaszhiba", error:true});
@@ -202,6 +216,7 @@ export default function LiveStudio() {
   async function toggleAuto() {
     if (autoRef.current) { pause(); return; }
     if (operation.current) return;
+    if (mode === "ai" && !service?.ai) { setMessage("Az AI-kapcsolat még nem elérhető; a rendszer nem vált át próbaszövegekre."); return; }
     const controller = new AbortController(); operation.current = controller;
     setBusy(true); autoRef.current = true; setAuto(true);
     try { if (voiceMode === "eleven") await speech.unlock(); controller.signal.throwIfAborted(); }
@@ -251,7 +266,7 @@ export default function LiveStudio() {
       <div className="space-y-5">
         <section className={panel}><h2 className="text-xl font-semibold">Műsorjelenet</h2>
           <label className="block">Jelenet<select className={field} disabled={busy || auto} value={scene} onChange={e => {pause(); setScene(e.target.value as "solo" | "duo"); setSpeaker(undefined); history.current=[]; setLogs([]); setCaption("Kezdődhet a műsor!");}}><option value="duo">Ali boszorkány és a duzzogó Mc Isti</option><option value="solo">Egyszereplős karakter</option></select></label>
-          {scene === "duo" && <><p className="text-sm text-zinc-300">Ali a boszorkány, Mc Isti a széken duzzogó kalóz. Ajándék után Ali varázsol, Isti visszaszól. A két hang egymás után szólal meg.</p><p className="text-xs text-zinc-400">Rózsa → rózsaszirmok · Szív → szívecskék · Más ajándék → zöld varázsköd</p><button className={button} disabled={busy || auto} onClick={() => void demoScene()}>Két hang + varázslat kipróbálása</button><button className="ml-2 rounded-lg border border-violet-400 px-4 py-2 text-sm disabled:opacity-40" disabled={busy || auto} onClick={() => {setSpeaker(undefined); setCaption("Varázseffekt próba – hang nélkül."); setEffect(giftEffect({id:crypto.randomUUID(),type:"gift",user:"Próbanéző",text:"",gift:testGift,count:1}));}}>Varázseffekt próba hang nélkül</button></>}
+          {scene === "duo" && <><p className="text-sm text-zinc-300">Ali a kommentekre építve csípősen ugratja Istit. Isti meghunyászkodva, önironikusan felel a nézőnek és Alinak. A két hang egymás után szólal meg.</p><p className="text-xs text-zinc-400">Rózsa → rózsaszirmok · Szív → szívecskék · Más ajándék → zöld varázsköd</p><button className={button} disabled={busy || auto} onClick={() => void demoScene()}>Technikai hangpróba – rögzített tesztszöveg</button><button className="ml-2 rounded-lg border border-violet-400 px-4 py-2 text-sm disabled:opacity-40" disabled={busy || auto} onClick={() => {setSpeaker(undefined); setCaption("Varázseffekt próba – hang nélkül."); setEffect(giftEffect({id:crypto.randomUUID(),type:"gift",user:"Próbanéző",text:"",gift:testGift,count:1}));}}>Varázseffekt próba hang nélkül</button></>}
         </section>
         {scene === "solo" && <section className={panel}><h2 className="text-xl font-semibold">Az adás karaktere</h2>
           <div className="flex gap-2"><select aria-label="Karakter" className={field} disabled={busy || auto} value={character.id} onChange={e => { pause(); history.current=[]; setLogs([]); setSelected(e.target.value); setCaption("Üdv a műsorban!"); }}>{characters.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}</select><button className={button} disabled={busy || auto} onClick={() => { const id=crypto.randomUUID(); setCharacters(c=>[...c,{...INITIAL,id,name:"Új karakter",voiceId:undefined,voiceName:""}]); setSelected(id); history.current=[]; setLogs([]); }}>Új</button></div>
@@ -268,8 +283,10 @@ export default function LiveStudio() {
           <label className="block">Próbaszöveg<textarea className={field} maxLength={1000} value={text} onChange={e=>setText(e.target.value)} /></label><button className={button} disabled={busy || auto || !text.trim()} onClick={()=>void manualSpeech()}>Hangpróba</button></>}<p className="text-xs text-zinc-400">Az ElevenLabs az eddig beállított stúdiókeretet használja. Egy szöveghez egy hangkészítési kísérlet tartozik.</p>
         </section>
         <section className={panel}><h2 className="text-xl font-semibold">Kommentek és ajándékok</h2>
-          <div className="grid gap-3 sm:grid-cols-2"><label>Válaszmód<select className={field} disabled={busy || auto} value={mode} onChange={e=>setMode(e.target.value as "ai" | "rehearsal")}><option value="rehearsal">Próba – előre megírt tesztválaszok</option><option value="ai" disabled={!service?.ai}>AI – karakterhez illő válaszok</option></select></label><label>Válaszkorlát ebben az adásban<input className={field} type="number" min={1} max={500} value={limit} onChange={e=>setLimit(Math.max(1,Math.min(500,Number(e.target.value)||1)))} /></label></div>
-          <button className={button} disabled={!auto && (busy || (voiceMode==="eleven" && (scene === "duo" ? !castVoices.ali || !castVoices.isti : !character.voiceId)))} onClick={toggleAuto}>{auto?"Válaszadás szüneteltetése":"Automatikus válaszadás indítása"}</button>
+          <div className="grid gap-3 sm:grid-cols-2"><label>Válaszmód<select className={field} disabled={busy || auto} value={mode} onChange={e=>setMode(e.target.value as "ai" | "rehearsal")}><option value="ai">AI – rögtönzött válaszok a kommentekre</option><option value="rehearsal">Technikai próba – rögzített tesztválaszok</option></select></label><label>Válaszkorlát ebben az adásban<input className={field} type="number" min={1} max={500} value={limit} onChange={e=>setLimit(Math.max(1,Math.min(500,Number(e.target.value)||1)))} /></label></div>
+          <button className={button} disabled={!auto && (busy || (mode === "ai" && !service?.ai) || (voiceMode==="eleven" && (scene === "duo" ? !castVoices.ali || !castVoices.isti : !character.voiceId)))} onClick={toggleAuto}>{auto?"Válaszadás szüneteltetése":"Automatikus válaszadás indítása"}</button>
+          <p className="text-sm text-amber-200">{mode === "ai" ? "Minden válasz az érkező kommentből és az utolsó nyolc AI-párbeszédből készül. Ali csipkelődik, Isti önironikusan meghunyászkodik." : "Technikai próbamód: itt rögzített tesztszövegek szólnak."}</p>
+          {service?.aiProvider === "wavespeed" && <p className="text-xs text-zinc-400">AI-válasz: WaveSpeed, 0,01 USD / párbeszéd a meglévő gyártási keretből. A saját hangok az ElevenLabs-keretet használják. Ezek külön keretek a Runway-kredittől.</p>}
           <p className="text-xs text-zinc-400">A válaszok érkezési sorrendben hangzanak el. A közös jelenetben egy válasz két megszólalásból áll, így két hangkészítést használ. Hiba esetén a sor megáll. A próbamód előre megírt szöveget használ; ElevenLabs választásakor a hangkészítés ebben a módban is keretet fogyaszt.</p>
           <div className="grid gap-2 sm:grid-cols-[140px_1fr]"><input aria-label="Próbanéző neve" className={field} value={testUser} maxLength={80} onChange={e=>setTestUser(e.target.value)} /><input aria-label="Próbakomment" className={field} value={testText} maxLength={500} onChange={e=>setTestText(e.target.value)} /></div>
           <label className="block text-sm">Próbaajándék típusa<select className={field} value={testGift} onChange={e=>setTestGift(e.target.value)}><option value="rózsa">Rózsa – szirmok</option><option value="szív">Szív – szívecskék</option><option value="varázspálca">Varázspálca – zöld köd</option></select></label>
