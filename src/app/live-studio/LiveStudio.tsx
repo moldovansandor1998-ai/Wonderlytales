@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { eventSchema, EventQueue, rehearsalReply, songRequest, type LiveEvent, type Reply, type Emotion } from "@/lib/live/events";
 import type { StageState } from "@/lib/live/stage";
 import Stage from "./Stage";
+import AvatarPreview from "./AvatarPreview";
 import { useSpeech } from "./useSpeech";
 
 type Character = { id: string; name: string; personality: string; image: string; voiceId?: string; voiceName?: string };
@@ -24,10 +25,13 @@ export default function LiveStudio() {
   const [caption, setCaption] = useState("Üdv a fedélzeten!");
   const [emotion, setEmotion] = useState<Emotion>("neutral");
   const [message, setMessage] = useState("");
-  const [busy, setBusy] = useState(false);
+  const [speechBusy, setBusy] = useState(false);
+  const [avatarTesting, setAvatarTesting] = useState(false);
+  const [avatarStop, setAvatarStop] = useState(0);
+  const busy = speechBusy || avatarTesting;
   const [mode, setMode] = useState<"ai" | "rehearsal">("rehearsal");
   const [voiceMode, setVoiceMode] = useState<"eleven" | "browser">("eleven");
-  const [service, setService] = useState<{ai: boolean; voice: boolean} | null>(null);
+  const [service, setService] = useState<{ai: boolean; voice: boolean; avatar?: {runway:boolean; character:boolean; elevenlabs:boolean; agent:boolean}} | null>(null);
   const [accountVoices, setAccountVoices] = useState<{id:string; name:string}[]>([]);
   const [loadingVoices, setLoadingVoices] = useState(false);
   const speech = useSpeech();
@@ -94,7 +98,7 @@ export default function LiveStudio() {
     setCharacters(current => current.map(c => c.id === character.id ? {...c, [fieldName]:value} : c));
   }
   function pause() { autoRef.current = false; setAuto(false); operation.current?.abort(); }
-  function stopAll() { pause(); queue.current.clear(); setPending([]); music.current?.pause(); setCurrentTrack(""); setCaption("A műsor szünetel."); setEmotion("neutral"); }
+  function stopAll() { setAvatarStop(n => n + 1); pause(); queue.current.clear(); setPending([]); music.current?.pause(); setCurrentTrack(""); setCaption("A műsor szünetel."); setEmotion("neutral"); }
   function addLog(log: Log) { history.current = [...history.current, log].slice(-30); setLogs(history.current); }
   async function manualSpeech() {
     if (operation.current) return;
@@ -188,10 +192,11 @@ export default function LiveStudio() {
 
   return <div className="space-y-6 pb-12">
     <header className="flex flex-wrap justify-between items-center gap-4"><div><p className="text-xs uppercase tracking-[0.25em] text-amber-400">WonderlyTales</p><h1 className="text-3xl font-bold">Élő karakterstúdió</h1><p className="mt-2 text-zinc-400">Magyar műsorvezető • Kommentek és ajándékok • Zenekérések</p></div><button className="rounded-lg bg-red-700 px-4 py-3 text-white font-bold" onClick={stopAll}>Mindent leállít</button></header>
-    <div className="rounded-xl border border-amber-700/70 bg-amber-950/20 p-4 text-sm text-amber-100">A karakter jelenleg állókép. Az időbélyeges beszéd és a műsorvezérlés használható; a professzionális száj- és testanimációhoz még animálható karakter szükséges. Az adáskép megnyitása nem indít TikTok-közvetítést.</div>
+    <div className="rounded-xl border border-amber-700/70 bg-amber-950/20 p-4 text-sm text-amber-100">Az adáskép jelenleg állókép. A Runway-kapcsolat az alábbi külön élő próbában ellenőrizhető, ha a hozzáférések és a karakter elkészültek. Az adáskép megnyitása nem indít TikTok-közvetítést.</div>
     <div className="grid gap-6 xl:grid-cols-[minmax(280px,380px)_1fr]">
       <aside className="space-y-4"><Stage state={state} /><button className={`${button} w-full`} onClick={() => {const popup = window.open(`/live-studio/output#${outputId.current}`, "wonderly-live-output", "width=540,height=960"); if (!popup) setMessage("Engedélyezd a felugró ablakot az adáskép megnyitásához.");}}>Tiszta adáskép külön ablakban ↗</button><p className="text-xs text-zinc-400">A LIVE Studio az adáskép ablakát rögzítse. A hang a vezérlő stúdiófülön szól; ezt hagyd nyitva.</p><div className={panel}><h2 className="font-semibold">Állapot</h2><p className="text-sm">AI: {service ? service.ai ? "beállítva" : "nincs beállítva" : "ellenőrzés…"}<br/>ElevenLabs: {service ? service.voice ? "beállítva" : "nincs beállítva" : "ellenőrzés…"}<br/>TikTok: {bridgeStatus}<br/>Elhangzott válasz: {replies} / {limit}<br/>Várakozó: {pending.length}{dropped > 0 && <><br/>Torlódás miatt kihagyva: {dropped}</>}</p>{speech.timed && <p className="text-xs text-emerald-300">Beszédidőzítés rendelkezésre áll{speech.word ? ` • ${speech.word}` : ""}</p>}</div></aside>
       <div className="space-y-5">
+        <AvatarPreview configuration={service?.avatar} disabled={speechBusy || auto} stopSignal={avatarStop} onActive={active => {setAvatarTesting(active); if (active) {pause(); music.current?.pause(); setCurrentTrack("");}}} />
         <section className={panel}><h2 className="text-xl font-semibold">Az adás karaktere</h2>
           <div className="flex gap-2"><select aria-label="Karakter" className={field} disabled={busy || auto} value={character.id} onChange={e => { pause(); history.current=[]; setLogs([]); setSelected(e.target.value); setCaption("Üdv a műsorban!"); }}>{characters.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}</select><button className={button} disabled={busy || auto} onClick={() => { const id=crypto.randomUUID(); setCharacters(c=>[...c,{...INITIAL,id,name:"Új karakter",voiceId:undefined,voiceName:""}]); setSelected(id); history.current=[]; setLogs([]); }}>Új</button></div>
           <label className="block">Név<input className={field} disabled={busy || auto} maxLength={80} value={character.name} onChange={e=>update("name",e.target.value)} /></label>
