@@ -1,14 +1,16 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { eventSchema, replySchema, EventQueue, rehearsalReply, songRequest, type LiveEvent, type Reply, type Emotion } from "@/lib/live/events";
+import { replySchema, EventQueue, rehearsalReply, songRequest, type LiveEvent, type Reply, type Emotion } from "@/lib/live/events";
 import { readAIResponse } from "@/lib/live/client";
 import type { StageState } from "@/lib/live/stage";
 import Stage from "./Stage";
 import DuoVoices from "./DuoVoices";
 import { CAST, DUO_IMAGE, dialogueSchema, giftEffect, playDialogue, rehearsalDialogue, type CastVoices, type Dialogue, type GiftEffect, type Speaker } from "@/lib/live/duo";
 import { useMotion } from "./useMotion";
-import MotionHistory from "./MotionHistory";
+import MotionHistory, { type Clip } from "./MotionHistory";
+import { useMobileStage } from "./useMobileStage";
+import { useTikTokConnection, type ConnectionMode } from "./useTikTokConnection";
 import AvatarPreview from "./AvatarPreview";
 import { useSpeech } from "./useSpeech";
 
@@ -46,6 +48,7 @@ export default function LiveStudio() {
   const [aiPreview, setAIPreview] = useState<Dialogue | null>(null);
   const speech = useSpeech();
   const motion = useMotion();
+  const mobile = useMobileStage();
   const [motionMode,setMotionMode]=useState(false);
   const isSpeaking=speech.speaking || motion.speaking;
   const operation = useRef<AbortController | null>(null);
@@ -63,12 +66,12 @@ export default function LiveStudio() {
   const [testGift, setTestGift] = useState("rózsa");
   const [testUser, setTestUser] = useState("Próbanéző");
   const [testText, setTestText] = useState("Ali, miért duzzog már megint Isti?");
-  const [connected, setConnected] = useState(false);
-  const [bridgeStatus, setBridgeStatus] = useState("Nincs kapcsolat");
+  const [connectionMode, setConnectionMode] = useState<ConnectionMode>("cloud");
   const [username, setUsername] = useState("");
   const [pairing, setPairing] = useState("");
-  const socket = useRef<WebSocket | null>(null);
   const enqueueRef = useRef<(event: LiveEvent) => void>(() => {});
+  const tiktok = useTikTokConnection(event => enqueueRef.current(event), () => pause());
+  const connected = tiktok.connected, bridgeStatus = tiktok.status;
   const [tracks, setTracks] = useState<Track[]>([]);
   const [currentTrack, setCurrentTrack] = useState("");
   const [requests, setRequests] = useState<{user:string; title:string}[]>([]);
@@ -101,7 +104,7 @@ export default function LiveStudio() {
     const publish = () => c.postMessage({type:"state", state:stageRef.current});
     c.onmessage = e => { if (e.data?.type === "ready") publish(); };
     const heartbeat = setInterval(publish, 2000);
-    return () => { controller.abort(); autoRef.current = false; operation.current?.abort(); socket.current?.close(); clearInterval(heartbeat); c.close(); objectUrls.current.forEach(url => URL.revokeObjectURL(url)); };
+    return () => { controller.abort(); autoRef.current = false; operation.current?.abort(); clearInterval(heartbeat); c.close(); objectUrls.current.forEach(url => URL.revokeObjectURL(url)); };
   }, []);
   useEffect(() => {
     if (!ready) return;
@@ -116,11 +119,21 @@ export default function LiveStudio() {
   useEffect(() => { channel.current?.postMessage({type:"state", state}); }, [character.name, character.image, caption, isSpeaking, motion.frame, emotion, connected, activeTrack?.title, scene, speaker, effect]);
   useEffect(() => { if (music.current) music.current.volume = isSpeaking ? volume * 0.2 : volume; }, [isSpeaking, volume, currentTrack]);
 
+  async function replayOnStage(clip: Clip) {
+    if (operation.current || auto || !clip.url) return;
+    const controller = new AbortController(); operation.current = controller; setBusy(true); setMessage("");
+    setSpeaker(clip.speaker); setCaption(clip.text || "Mentett karakterpróba"); setEffect(undefined);
+    mobile.open();
+    try { await motion.play(clip.url, clip.requestId, controller.signal); }
+    catch (error) { if (!controller.signal.aborted) { setMessage(error instanceof Error ? error.message : "Lejátszási hiba"); mobile.setControls(true); } }
+    finally { if (operation.current === controller) { operation.current = null; setBusy(false); } }
+  }
+
   function update(fieldName: "name" | "personality" | "voiceId" | "voiceName", value: string) {
     setCharacters(current => current.map(c => c.id === character.id ? {...c, [fieldName]:value} : c));
   }
   function pause() { autoRef.current = false; setAuto(false); operation.current?.abort(); setEffect(undefined); }
-  function stopAll() { setAvatarStop(n => n + 1); pause(); queue.current.clear(); setPending([]); music.current?.pause(); setCurrentTrack(""); setCaption("A műsor szünetel."); setEmotion("neutral"); }
+  function stopAll() { tiktok.disconnect(); setAvatarStop(n => n + 1); pause(); queue.current.clear(); setPending([]); music.current?.pause(); setCurrentTrack(""); setCaption("A műsor szünetel."); setEmotion("neutral"); }
   function addLog(log: Log) { history.current = [...history.current, log].slice(-30); setLogs(history.current); }
   async function manualSpeech(role?: Speaker) {
     if (operation.current) return;
@@ -245,22 +258,7 @@ export default function LiveStudio() {
       else setMessage("Válaszd ki a karakter hangját a listából.");
     } catch (e) { setMessage(e instanceof Error ? e.message : "Hanglista hiba"); } finally { setLoadingVoices(false); }
   }
-  function connect() {
-    if (!/^[a-zA-Z0-9_.]{2,32}$/.test(username.replace(/^@/, "")) || !pairing.trim()) { setMessage("Add meg a TikTok felhasználónevet és az összekötő párosítási kódját."); return; }
-    socket.current?.close(); setConnected(false); setBridgeStatus("Kapcsolódás…");
-    const ws = new WebSocket("ws://127.0.0.1:21214"); socket.current = ws;
-    ws.onopen = () => ws.send(JSON.stringify({type:"connect", username:username.replace(/^@/, ""), token:pairing.trim()}));
-    ws.onmessage = ({data}) => {
-      if (socket.current !== ws || typeof data !== "string" || data.length > 10000) return;
-      try {
-        const value = JSON.parse(data);
-        if (value.type === "status") { setConnected(value.connected === true); setBridgeStatus(String(value.message || "").slice(0, 200)); }
-        if (value.type === "event") { const parsed = eventSchema.safeParse(value.event); if (parsed.success) enqueueRef.current(parsed.data); }
-      } catch { /* Untrusted bridge frames are ignored. */ }
-    };
-    ws.onclose = () => { if (socket.current === ws) { setConnected(false); setBridgeStatus("Kapcsolat megszakadt. Az újracsatlakozást kézzel indíthatod."); } };
-    ws.onerror = () => { if (socket.current === ws) setBridgeStatus("Az összekötő nem érhető el. Indítsd el ugyanazon a számítógépen, és engedélyezd a helyi kapcsolatot a böngészőben."); };
-  }
+  function connect() { tiktok.connect(connectionMode, username, pairing); }
   async function playTrack(track: Track): Promise<boolean> {
     setCurrentTrack(track.id);
     const player = music.current; if (!player) return false;
@@ -272,7 +270,14 @@ export default function LiveStudio() {
     <header className="flex flex-wrap justify-between items-center gap-4"><div><p className="text-xs uppercase tracking-[0.25em] text-amber-400">WonderlyTales</p><h1 className="text-3xl font-bold">Élő karakterstúdió</h1><p className="mt-2 text-zinc-400">Magyar műsorvezető • Kommentek és ajándékok • Zenekérések</p></div><button className="rounded-lg bg-red-700 px-4 py-3 text-white font-bold" onClick={stopAll}>Mindent leállít</button></header>
     <div className="rounded-xl border border-amber-700/70 bg-amber-950/20 p-4 text-sm text-amber-100">Ali és Mc Isti minden kommentre új AI-párbeszédet készít. Runway-módban a saját hangjukból beszélő videó készül, amely az adásképben is megjelenik. A generálásra várni kell; a válaszok sorban hangzanak el. Az adáskép megnyitása nem indít TikTok-közvetítést.</div>
     <div className="grid gap-6 xl:grid-cols-[minmax(280px,380px)_1fr]">
-      <aside className="space-y-4"><Stage state={state} /><button className={`${button} w-full`} onClick={() => {const popup = window.open(`/live-studio/output#${outputId.current}`, "wonderly-live-output", "width=540,height=960"); if (!popup) setMessage("Engedélyezd a felugró ablakot az adáskép megnyitásához.");}}>Tiszta adáskép külön ablakban ↗</button><p className="text-xs text-zinc-400">A LIVE Studio az adáskép ablakát rögzítse. A hang a vezérlő stúdiófülön szól; ezt hagyd nyitva.</p><div className={panel}><h2 className="font-semibold">Állapot</h2><p className="text-sm">AI: {service ? service.ai ? `beállítva (${service.aiModel || "AI"})` : "nincs beállítva" : "ellenőrzés…"}<br/>ElevenLabs: {service ? service.voice ? "beállítva" : "nincs beállítva" : "ellenőrzés…"}<br/>TikTok: {bridgeStatus}<br/>Elhangzott válasz: {replies} / {limit}<br/>Várakozó: {pending.length}{dropped > 0 && <><br/>Torlódás miatt kihagyva: {dropped}</>}</p>{speech.timed && <p className="text-xs text-emerald-300">Beszédidőzítés rendelkezésre áll{speech.word ? ` • ${speech.word}` : ""}</p>}</div></aside>
+      <aside className="space-y-4"><div ref={mobile.container} className={mobile.active ? "fixed inset-0 z-[100] grid place-items-center bg-black" : ""}>
+        <Stage state={state} full={mobile.active} playbackRef={motion.element} />
+        {mobile.active && <><button aria-label="Mobil adáskép vezérlőinek megjelenítése" className="absolute inset-0 z-10 cursor-default" onClick={()=>mobile.setControls(!mobile.controls)} />{mobile.controls && <div className="absolute inset-x-3 top-[max(12px,env(safe-area-inset-top))] z-20 space-y-2 rounded-xl bg-black/90 p-3 text-white">
+          <div className="flex flex-wrap gap-2"><button className={button} onClick={mobile.close}>Vissza a vezérléshez</button><button className="rounded-lg bg-red-700 px-4 py-2 font-bold" onClick={stopAll}>Mindent leállít</button></div>
+          <p className="text-xs">Érintsd meg a képet a vezérlőkhöz. A gombok 6 másodperc után eltűnnek.</p>
+          <p role="status" className="text-sm">{message || motion.status || bridgeStatus}</p>
+        </div>}</>}
+      </div><button className={`${button} w-full`} onClick={mobile.open}>Telefonos adáskép – kép és hang együtt</button><p className="text-xs text-zinc-400">A telefonon ezt az oldalt tartsd előtérben a TikTok képernyőközvetítése alatt. Az adáskép nem indít közvetítést. A kép megérintésével előhívhatod a vezérlőket.</p><button className={`${button} w-full`} onClick={() => {const popup = window.open(`/live-studio/output#${outputId.current}`, "wonderly-live-output", "width=540,height=960"); if (!popup) setMessage("Engedélyezd a felugró ablakot az adáskép megnyitásához.");}}>Tiszta adáskép külön ablakban ↗</button><p className="text-xs text-zinc-400">A LIVE Studio az adáskép ablakát rögzítse. A hang a vezérlő stúdiófülön szól; ezt hagyd nyitva.</p><div className={panel}><h2 className="font-semibold">Állapot</h2><p className="text-sm">AI: {service ? service.ai ? `beállítva (${service.aiModel || "AI"})` : "nincs beállítva" : "ellenőrzés…"}<br/>ElevenLabs: {service ? service.voice ? "beállítva" : "nincs beállítva" : "ellenőrzés…"}<br/>TikTok: {bridgeStatus}<br/>Elhangzott válasz: {replies} / {limit}<br/>Várakozó: {pending.length}{dropped > 0 && <><br/>Torlódás miatt kihagyva: {dropped}</>}</p>{speech.timed && <p className="text-xs text-emerald-300">Beszédidőzítés rendelkezésre áll{speech.word ? ` • ${speech.word}` : ""}</p>}</div></aside>
       <div className="space-y-5">
         <section className={panel}><h2 className="text-xl font-semibold">Műsorjelenet</h2>
           <label className="flex items-center gap-2"><input type="checkbox" checked={motionMode} disabled={busy || auto || scene!=="duo" || voiceMode!=="eleven" || !service?.motion?.configured} onChange={e=>setMotionMode(e.target.checked)} />Runway beszélő videó a kommentekhez</label>
@@ -306,14 +311,23 @@ export default function LiveStudio() {
           {pending.length>0 && <div className="max-h-40 overflow-auto space-y-1 text-sm">{pending.map(e=><p key={e.id}><strong>{e.user}</strong>: {e.type==="gift"?`🎁 ${e.count} ${e.gift}`:e.text}</p>)}</div>}
           {logs.length>0 && <details><summary className="cursor-pointer">Elhangzott válaszok és hibák ({logs.length})</summary><div className="max-h-64 overflow-auto space-y-3 mt-2">{[...logs].reverse().map((l,i)=><div key={`${l.event.id}-${i}`} className={`rounded-lg p-3 text-sm ${l.error?"bg-red-950/40":"bg-zinc-900"}`}><strong>{l.event.user}</strong>: {l.event.text || l.event.gift}<p className="mt-1 text-zinc-300">{l.reply}</p>{l.error && <button className="text-amber-300 mt-2" onClick={()=>enqueue({...l.event,id:crypto.randomUUID()})}>Újrapróbálás a sorban</button>}</div>)}</div></details>}
         </section>
-        <section className={panel}><h2 className="text-xl font-semibold">TikTok-kommentkapcsolat</h2><p className="text-sm text-zinc-400">Az összekötő ugyanazon a számítógépen fusson, ahol ez a stúdió nyitva van. Aktív TikTok LIVE-adást olvas; közvetítést nem indít.</p><label className="block">TikTok felhasználónév<input className={field} placeholder="@felhasznalonev" maxLength={33} value={username} onChange={e=>setUsername(e.target.value)} /></label><label className="block">Összekötő párosítási kódja<input className={field} type="password" autoComplete="off" value={pairing} onChange={e=>setPairing(e.target.value)} /></label><div className="flex gap-2"><button className={button} onClick={connect}>Kapcsolódás</button><button className={button} onClick={()=>{socket.current?.close();setConnected(false);}}>Bontás</button></div><p role="status" className="text-sm">{bridgeStatus}</p><a className="text-sm text-amber-300 underline" href="https://github.com/moldovansandor1998-ai/Wonderlytales/tree/main/tools/tiktok-bridge" target="_blank" rel="noreferrer">Összekötő és indítási útmutató ↗</a></section>
+        <section className={panel}><h2 className="text-xl font-semibold">TikTok-kommentkapcsolat</h2>
+          <label className="block">Kapcsolódás módja<select className={field} disabled={connected || tiktok.busy} value={connectionMode} onChange={e=>setConnectionMode(e.target.value as ConnectionMode)}><option value="cloud">Telefon / szerver – számítógép nélkül</option><option value="local">Számítógépes összekötő</option></select></label>
+          <p className="text-sm text-zinc-400">{connectionMode === "cloud" ? "A kommenteket és az ajándékokat a stúdió szervere olvassa. TikTok-jelszó nem kell. A fióknak már élő adásban kell lennie; ez a gomb nem indít közvetítést." : "Az összekötő ugyanazon a számítógépen fusson, ahol ez a stúdió nyitva van. Aktív TikTok LIVE-adást olvas; közvetítést nem indít."}</p>
+          <label className="block">TikTok felhasználónév<input className={field} disabled={connected || tiktok.busy} placeholder="@felhasznalonev" maxLength={33} value={username} onChange={e=>setUsername(e.target.value)} /></label>
+          {connectionMode === "local" && <label className="block">Összekötő párosítási kódja<input className={field} type="password" autoComplete="off" value={pairing} onChange={e=>setPairing(e.target.value)} /></label>}
+          <div className="flex flex-wrap gap-2"><button className={button} disabled={connected||tiktok.busy} onClick={connect}>Kapcsolódás</button><button className={button} onClick={()=>{tiktok.disconnect();pause();}}>Bontás</button>{connectionMode === "cloud" && <button className="rounded-lg border border-zinc-600 px-3 py-2 disabled:opacity-40" disabled={connected||tiktok.busy} onClick={()=>tiktok.connect("cloud","","",true)}>Telefonos kapcsolat ellenőrzése</button>}</div>
+          <p role="status" className="text-sm">{bridgeStatus}</p><p className="text-xs text-zinc-400">Az ellenőrzés nem indít adást vagy AI-generálást. A TikTok-kapcsolat nem hivatalos összekötőt használ, ezért szolgáltatói hiba vagy korlátozás esetén leállhat. Szerveres módban fiókonként egy kapcsolat futhat.</p>
+          {connectionMode === "local" && <a className="text-sm text-amber-300 underline" href="https://github.com/moldovansandor1998-ai/Wonderlytales/tree/main/tools/tiktok-bridge" target="_blank" rel="noreferrer">Összekötő és indítási útmutató ↗</a>}
+        </section>
         <section className={panel}><h2 className="text-xl font-semibold">Zene és kívánságlista</h2><label className="block">Saját, közvetítésre jogosított zenék<input className="block mt-2" type="file" accept="audio/*" multiple onChange={e=>{const files=Array.from(e.target.files || []);const added=files.filter(f=>f.size<=100*1024*1024).slice(0,30).map(f=>{const url=URL.createObjectURL(f);objectUrls.current.add(url);return{id:crypto.randomUUID(),title:f.name.replace(/\.[^.]+$/,""),url};});setTracks(t=>[...t,...added]);}} /></label><label className="block">Hangerő<input className="block w-full" type="range" min={0} max={1} step={0.05} value={volume} onChange={e=>setVolume(Number(e.target.value))} /></label><p className="text-xs text-zinc-400">Beszéd közben a zene a beállított hangerő ötödére halkul. A nézők így kérhetnek számot: !zene számcím. A pontosan egyező című, előre betöltött szám automatikusan indulhat. A zenefájlok az oldal bezárásáig maradnak betöltve.</p><label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={autoMusic} onChange={e=>setAutoMusic(e.target.checked)} />Pontos címre érkező zenekérések automatikus lejátszása</label>{tracks.map(t=><button key={t.id} className="mr-2 rounded-lg border border-zinc-600 px-3 py-2 text-sm" onClick={()=>playTrack(t)}>▶ {t.title}</button>)}{requests.length>0 && <div className="space-y-2">{requests.map((r,i)=>{const matches=tracks.filter(t=>normalize(t.title)===normalize(r.title));return <div key={`${r.user}-${i}`} className="flex gap-2 items-center rounded-lg bg-zinc-900 p-2 text-sm"><span className="flex-1">{r.user}: {r.title}</span>{matches.length===1?<button className="text-amber-300" onClick={()=>playTrack(matches[0])}>Lejátszás</button>:<span className="text-zinc-500">Válassz zenét a listából</span>}</div>;})}</div>}<audio ref={music} controls className="w-full" onEnded={()=>setCurrentTrack("")} /></section>
-        <MotionHistory disabled={busy || auto} stopSignal={avatarStop} />
+        <MotionHistory disabled={busy || auto} stopSignal={avatarStop} onStageReplay={clip=>void replayOnStage(clip)} />
         <AvatarPreview configuration={service?.avatar} disabled={speechBusy || auto} stopSignal={avatarStop} onActive={active => {setAvatarTesting(active); if (active) {pause(); music.current?.pause(); setCurrentTrack("");}}} />
-        <section className={panel}><h2 className="text-xl font-semibold">Adás indítása</h2><ol className="list-decimal pl-5 space-y-2 text-sm"><li>Válassz karaktert és hangot, majd próbáld ki a felolvasást.</li><li>Nyisd meg a tiszta adásképet; a vezérlő stúdió maradjon nyitva.</li><li>A TikTok LIVE Studio alkalmazásban állíts be 9:16 képet, az adáskép ablakának rögzítését és a géphangot.</li><li>A LIVE Studio alkalmazásból indítsd el az adást. Ezután csatlakoztasd a kommentfigyelőt és indítsd az automatikus válaszadást.</li></ol></section>
+        <section className={panel}><h2 className="text-xl font-semibold">Telefonos adás előkészítése</h2><ol className="list-decimal pl-5 space-y-2 text-sm"><li>Az elkészült videóknál próbáld ki a „Lejátszás a mobil adásképben” gombot. Ez nem generál új videót.</li><li>A TikTokban válaszd a Mobil játék módot, és kapcsold be az MI által generált tartalom jelölését.</li><li>A képernyőközvetítés engedélyezése után térj vissza a böngészőbe, és nyisd meg a telefonos adásképet.</li><li>Először ellenőrizd egy másik készüléken a képet és a karakter hangját. Az aktív adáshoz külön csatlakoztasd a kommentfigyelőt, majd indítsd az automatikus válaszadást.</li></ol><p className="text-xs text-zinc-400">A telefon képernyője és az előhívott vezérlők is látszhatnak az adásban. A rendszerhang továbbítását a saját telefonodon kell kipróbálni; a böngészős próba önmagában ezt nem igazolja.</p></section>
+        <section className={panel}><h2 className="text-xl font-semibold">Adás indítása számítógépről</h2><ol className="list-decimal pl-5 space-y-2 text-sm"><li>Válassz karaktert és hangot, majd próbáld ki a felolvasást.</li><li>Nyisd meg a tiszta adásképet; a vezérlő stúdió maradjon nyitva.</li><li>A TikTok LIVE Studio alkalmazásban állíts be 9:16 képet, az adáskép ablakának rögzítését és a géphangot.</li><li>A LIVE Studio alkalmazásból indítsd el az adást. Ezután csatlakoztasd a kommentfigyelőt és indítsd az automatikus válaszadást.</li></ol></section>
       </div>
     </div>
     {message && <div role="status" className="sticky bottom-3 rounded-xl border border-amber-600 bg-zinc-950 p-4 text-amber-200">{message}<button className="float-right ml-4" aria-label="Üzenet bezárása" onClick={()=>setMessage("")}>×</button></div>}
-    <video ref={motion.element} playsInline className="hidden" /><audio ref={speech.element} className="hidden" />
+    <audio ref={speech.element} className="hidden" />
   </div>;
 }

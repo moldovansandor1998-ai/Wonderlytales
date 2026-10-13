@@ -10,6 +10,22 @@ export function useMotion() {
   const [frame,setFrame]=useState<MotionFrame>();
   const [speaking,setSpeaking]=useState(false);
   const [status,setStatus]=useState("");
+  async function play(url:string,requestId:string,signal:AbortSignal,onStart?:()=>void) {
+    signal.throwIfAborted();
+      const player=element.current;if(!player)throw new Error("A videólejátszó nem elérhető.");
+      await new Promise<void>((resolve,reject)=>{
+        let finished=false,started=false;
+        const done=(error?:Error)=>{if(finished)return;finished=true;clearTimeout(timer);signal.removeEventListener("abort",cancel);player.onplaying=null;player.onpause=null;player.onended=null;player.onerror=null;player.ontimeupdate=null;player.pause();player.removeAttribute("src");player.load();setSpeaking(false);setFrame(undefined);error?reject(error):resolve();};
+        const cancel=()=>done(new DOMException("Stopped","AbortError"));
+        const timer=setTimeout(()=>done(new Error("A videólejátszás megakadt; a sor megállt.")),60000);
+        signal.addEventListener("abort",cancel,{once:true});
+        const publish=()=>setFrame({id:requestId,url,position:player.currentTime,playing:!player.paused});
+        player.onplaying=()=>{setSpeaking(true);publish();if(!started){started=true;onStart?.();}};
+        player.onpause=()=>{setSpeaking(false);publish();};player.ontimeupdate=publish;
+        player.onended=()=>done();player.onerror=()=>done(new Error("A Runway-videó nem játszható le."));
+        player.src=url;void player.play().catch(()=>done(new Error("A böngésző letiltotta a videó hangját. Engedélyezd a webhely automatikus hangját.")));
+      });
+  }
   async function say(turn:DialogueTurn,voiceId:string,signal:AbortSignal,onStart?:()=>void) {
     signal.throwIfAborted();
     const requestId=crypto.randomUUID();let complete=false;
@@ -27,21 +43,9 @@ export function useMotion() {
       }
       if(!url)throw new Error("A videó nem készült el három percen belül. A sor megállt.");
       signal.throwIfAborted();setStatus("Videó lejátszása");
-      const player=element.current;if(!player)throw new Error("A videólejátszó nem elérhető.");
-      await new Promise<void>((resolve,reject)=>{
-        let finished=false,started=false;
-        const done=(error?:Error)=>{if(finished)return;finished=true;clearTimeout(timer);signal.removeEventListener("abort",cancel);player.onplaying=null;player.onpause=null;player.onended=null;player.onerror=null;player.ontimeupdate=null;player.pause();player.removeAttribute("src");player.load();setSpeaking(false);setFrame(undefined);error?reject(error):resolve();};
-        const cancel=()=>done(new DOMException("Stopped","AbortError"));
-        const timer=setTimeout(()=>done(new Error("A videólejátszás megakadt; a sor megállt.")),60000);
-        signal.addEventListener("abort",cancel,{once:true});
-        const publish=()=>setFrame({id:requestId,url,position:player.currentTime,playing:!player.paused});
-        player.onplaying=()=>{setSpeaking(true);publish();if(!started){started=true;onStart?.();}};
-        player.onpause=()=>{setSpeaking(false);publish();};player.ontimeupdate=publish;
-        player.onended=()=>done();player.onerror=()=>done(new Error("A Runway-videó nem játszható le."));
-        player.src=url;void player.play().catch(()=>done(new Error("A böngésző letiltotta a videó hangját. Engedélyezd a webhely automatikus hangját.")));
-      });
+      await play(url, requestId, signal, onStart);
       setStatus("");
     }finally{if(!complete)stop();setSpeaking(false);setFrame(undefined);if(signal.aborted)setStatus("Videós válasz leállítva.");}
   }
-  return {element,frame,speaking,status,say};
+  return {element,frame,speaking,status,say,play};
 }
