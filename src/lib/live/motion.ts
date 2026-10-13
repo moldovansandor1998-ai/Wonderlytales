@@ -4,7 +4,7 @@ import { AvatarError } from "./avatar";
 
 export const motionInput = z.object({ requestId:z.string().uuid(), speaker:z.enum(["ali","isti"]), text:z.string().trim().min(1).max(220), voiceId:z.string().regex(/^[a-zA-Z0-9]{1,100}$/) }).strict();
 export const motionId = motionInput.pick({requestId:true});
-export type MotionRecord = { requestId:string; createdAt:string; state:"creating"|"active"|"cancel_requested"|"ended"; taskId?:string };
+export type MotionRecord = { requestId:string; createdAt:string; state:"creating"|"active"|"cancel_requested"|"ended"; taskId?:string; speaker?:"ali"|"isti"; text?:string; assetId?:string };
 export function motionConfiguration() {
   return { configured:!!(process.env.RUNWAYML_API_SECRET && process.env.ELEVENLABS_API_KEY && process.env.RUNWAY_AVATAR_ID && process.env.RUNWAY_ALI_AVATAR_ID) };
 }

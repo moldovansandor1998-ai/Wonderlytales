@@ -10,5 +10,5 @@ export default function MotionVideo({frame}:{frame:MotionFrame}) {
     if(current.playing)void video.play().catch(()=>{});else video.pause();
   }
   useEffect(sync,[frame.position,frame.playing,frame.url]);
-  return <video ref={ref} src={frame.url} muted playsInline onLoadedMetadata={sync} aria-label="Runway beszélő karakter" className="absolute inset-0 h-full w-full object-contain bg-black/70" />;
+  return <video ref={ref} src={frame.url} muted playsInline onLoadedMetadata={sync} aria-label="Runway beszélő karakter" className="absolute inset-0 h-full w-full object-cover bg-black" />;
 }
