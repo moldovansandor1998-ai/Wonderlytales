@@ -1,0 +1,28 @@
+import { NextRequest } from "next/server";
+import { z } from "zod";
+import { access, apiError, json, readJson } from "@/lib/ai-video/http";
+import { dialogueInput, dialogueMessages, compactDialogueSchema, dialogueSchema } from "@/lib/live/duo";
+import { generateLiveReply } from "@/lib/live/ai";
+import { streamSpeech } from "@/lib/live/speech";
+export const runtime = "nodejs";
+export const maxDuration = 60;
+const voice = z.string().regex(/^[a-zA-Z0-9]{1,100}$/);
+const inputSchema = dialogueInput.extend({voices:z.object({ali:voice,isti:voice})});
+/** One authenticated request from incoming comment through first audio bytes. */
+export async function POST(request: NextRequest) {
+  try {
+    await access(request,true);
+    const input = inputSchema.parse(await readJson(request));
+    const generated = await generateLiveReply(dialogueMessages(input),compactDialogueSchema(input),request.signal,160);
+    if (!generated.ok) return generated;
+    const dialogue = dialogueSchema.parse(await generated.json());
+    request.signal.throwIfAborted();
+    const turn = dialogue.turns[0];
+    const audio = await streamSpeech({text:turn.text,voiceId:input.voices[turn.speaker]},request.signal);
+    audio.headers.set("X-Live-Dialogue",encodeURIComponent(JSON.stringify(dialogue)));
+    return audio;
+  } catch(error) {
+    if(error instanceof Error&&["ELEVENLABS_NOT_CONFIGURED","VOICE_RATE_LIMIT","VOICE_PROVIDER_ERROR"].includes(error.message))return json({error:error.message},503);
+    return apiError(error);
+  }
+}

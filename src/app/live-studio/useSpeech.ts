@@ -29,7 +29,7 @@ export function useSpeech() {
     finally { URL.revokeObjectURL(url); }
   }
 
-  async function say(text: string, mode: "eleven" | "browser", voiceId: string | undefined, signal: AbortSignal, onStart?: () => void) {
+  async function say(text: string, mode: "eleven" | "browser", voiceId: string | undefined, signal: AbortSignal, onStart?: () => void, prepared?: Response) {
     signal.throwIfAborted(); setTimed(false); setWord("");
     if (mode === "browser") {
       if (!voices.length) throw new Error("Nincs magyar böngészőhang ezen az eszközön. Válassz ElevenLabs-hangot.");
@@ -45,7 +45,7 @@ export function useSpeech() {
       });
     }
     if (!voiceId) throw new Error("Előbb válaszd ki a karakter ElevenLabs-hangját.");
-    const response = await fetch("/api/live-studio/speech/stream", {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({text, voiceId}), signal});
+    const response = prepared || await fetch("/api/live-studio/speech/stream", {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({text, voiceId}), signal});
     if (!response.ok) throw new Error("A hangkészítés nem sikerült. Ellenőrizd a hangot és a stúdió költségkeretét.");
     await playMp3Stream(response, signal, (url, playbackSignal) => playAudio(url, playbackSignal, null, onStart));
   }

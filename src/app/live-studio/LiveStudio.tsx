@@ -237,7 +237,7 @@ export default function LiveStudio() {
     catch (e) { if (!controller.signal.aborted) setMessage(e instanceof Error ? e.message : "Hanghiba"); }
     finally { operation.current = null; setBusy(false); if (autoRef.current) void processRef.current(); }
   }
-  async function speakDialogue(dialogue: Dialogue, event: LiveEvent, signal: AbortSignal) {
+  async function speakDialogue(dialogue: Dialogue, event: LiveEvent, signal: AbortSignal, prepared?: Response) {
     setEffect(giftEffect(event));
     const visual = continuousRef.current && isBigGift(event) && npc.assets?.gags && Object.keys(npc.assets.gags).length
       ? playMusicGift(signal).catch(error=>{if(!signal.aborted)setMessage(error instanceof Error?error.message:"Geg lejátszási hiba");})
@@ -248,7 +248,7 @@ export default function LiveStudio() {
         setSpeaker(turn.speaker);setCaption(turn.text);setEmotion(turn.emotion);dj.emotion(turn.emotion,turn.text);
       };
       if(!continuousRef.current&&motionMode&&voiceMode==="eleven")await motion.say(turn,voiceId,signal,onStart);
-      else await speech.say(turn.text,continuousRef.current?"eleven":voiceMode,voiceId,signal,onStart);
+      else await speech.say(turn.text,continuousRef.current?"eleven":voiceMode,voiceId,signal,onStart,prepared);
     });
     await Promise.all([visual,voice]);
     setCaption("");setSpeaker(undefined);
@@ -261,6 +261,12 @@ export default function LiveStudio() {
     catch (e) { setEffect(undefined); if (!controller.signal.aborted) setMessage(e instanceof Error ? e.message : "Jelenethiba"); }
     finally { operation.current = null; setBusy(false); }
   }
+  async function getDialogue(event:LiveEvent,recent:{user:string;text:string;reply:string}[],signal:AbortSignal,withAudio:boolean,music?:{requested:string;started:boolean}) {
+    const combined=withAudio&&(continuousRef.current||voiceMode==="eleven")&&!motionMode;
+    const response=await fetch(combined?"/api/live-studio/respond":"/api/live-studio/dialogue",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({event,history:recent,replyIndex:replyCount.current,music,...(combined?{voices:castVoices}:{})}),signal});
+    if(combined&&response.ok&&response.headers.get("X-Live-Dialogue"))return {dialogue:dialogueSchema.parse(JSON.parse(decodeURIComponent(response.headers.get("X-Live-Dialogue")!))),audio:response};
+    return {dialogue:dialogueSchema.parse(await readAIResponse(response)),audio:undefined};
+  }
   async function previewAI(play = false) {
     if (operation.current || auto) return;
     const controller = new AbortController(); operation.current = controller; setBusy(true); setMessage(""); setAIPreview(null);
@@ -270,11 +276,10 @@ export default function LiveStudio() {
       const event: LiveEvent = {id:crypto.randomUUID(), type:"comment", user:testUser.trim(), text:testText.trim(), count:1};
       replyStartedAt.current=performance.now();
       const recent = history.current.filter(l => !l.error && l.source === "ai").slice(-8).map(l => ({user:l.event.user, text:l.event.text || l.event.gift || "", reply:l.reply.slice(0,520)}));
-      const response = await fetch("/api/live-studio/dialogue", {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({event, history:recent, replyIndex:replyCount.current}), signal:controller.signal});
-      const dialogue = dialogueSchema.parse(await readAIResponse(response));
+      const {dialogue,audio}=await getDialogue(event,recent,controller.signal,play);
       controller.signal.throwIfAborted(); setAIPreview(dialogue);
       if (play) {
-        await speakDialogue(dialogue, event, controller.signal);
+        await speakDialogue(dialogue, event, controller.signal,audio);
         addLog({event, reply:dialogue.turns.map(turn => `${CAST[turn.speaker].name}: ${turn.text}`).join(" · "), source:"ai"});
         replyCount.current++; setReplies(replyCount.current);
         setMessage("Az egyszeri AI-kommentpróba befejeződött. A rövid válasz lejátszódott.");
@@ -305,14 +310,14 @@ export default function LiveStudio() {
         started = autoMusic && matches.length === 1 ? await playTrack(matches[0]) : false;
       }
       if (scene === "duo") {
-        let dialogue: Dialogue;
+        let dialogue: Dialogue;let prepared:Response|undefined;
         if (savedGift) dialogue=giftDialogue(event,giftReplyCount.current++);
         else if (mode === "rehearsal") dialogue = rehearsalDialogue(event, started);
         else {
-          const response = await fetch("/api/live-studio/dialogue", {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({event, history:recent, replyIndex:replyCount.current, music:requested ? {requested, started} : undefined}), signal:controller.signal});
-          dialogue = dialogueSchema.parse(await readAIResponse(response));
+          const result=await getDialogue(event,recent,controller.signal,true,requested?{requested,started}:undefined);
+          dialogue=result.dialogue;prepared=result.audio;
         }
-        await speakDialogue(dialogue, event, controller.signal);
+        await speakDialogue(dialogue, event, controller.signal,prepared);
         spoken = dialogue.turns.map(turn => `${CAST[turn.speaker].name}: ${turn.text}`).join(" · ");
       } else {
         let reply: Reply;
