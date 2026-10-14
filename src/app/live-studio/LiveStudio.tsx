@@ -164,7 +164,7 @@ export default function LiveStudio() {
   function addLog(log: Log) { history.current = [...history.current, log].slice(-30); setLogs(history.current); }
   const onBackdropError=useCallback((reason:string)=>{
     autoRef.current=false;setAuto(false);setBackdropActive(false);operation.current?.abort();clearTimeout(trialGiftTimer.current);
-    setMessage(reason);
+    musicBed.stop();setMessage(reason);
   },[]);
   async function previewBackdrop(prepare=false) {
     if(operation.current||autoRef.current)return;
@@ -185,7 +185,7 @@ export default function LiveStudio() {
     await player.react(signal,async()=>{
       await new Promise<void>((resolve,reject)=>{
         const cancel=()=>{clearTimeout(timer);reject(new DOMException("Stopped","AbortError"));};
-        const timer=setTimeout(()=>{signal.removeEventListener("abort",cancel);resolve();},1600);
+        const timer=setTimeout(()=>{signal.removeEventListener("abort",cancel);resolve();},4200);
         signal.addEventListener("abort",cancel,{once:true});if(signal.aborted)cancel();
       });
       await speech.playSaved(assets.voice,signal,()=>{setSpeaker("isti");setCaption(MUSIC_GIFT_LINE);setEmotion("neutral");});
@@ -383,7 +383,7 @@ export default function LiveStudio() {
       <p className="text-xs text-zinc-400">A TikTok-adást egyszer el kell indítanod a Mobil játék módban. Utána ez a gomb a kommentfigyelőt, a válaszadást és a telefonos adásképet együtt indítja. A próba TikTok nélkül, a lent megadott kommentből és ajándékból két új választ játszik le, majd megáll.</p>
       <p className="text-xs text-amber-200">A kommentválaszok szöveget és hangot készítenek; nincs válaszonkénti videógenerálás. A zenés ajándékreakció mentett képet és hangot használ. Az adás válaszkorlátjánál a műsor megáll.</p>
       <details className="rounded-lg border border-zinc-700 p-3"><summary className="cursor-pointer">NPC-jelenetek és zenés ajándék beállítása</summary><div className="mt-3 space-y-3">
-        <p className="text-sm">Első előkészítés: három 8 másodperces alapmozgás és egy felállós reakció, összesen 320 Runway API-kredit, plusz egy elmentett kiabálás hangköltsége. Az előkészítés ismételt megnyomása a már elindított feladatokat folytatja.</p>
+        <p className="text-sm">Első előkészítés: három 8 másodperces alapmozgás és három összefűzött mozdulatból álló felállós reakció, összesen 360 Runway API-kredit, plusz egy elmentett kiabálás hangköltsége. Az előkészítés ismételt megnyomása a már elindított feladatokat folytatja.</p>
         <button className={button} disabled={busy||auto} onClick={()=>void previewBackdrop(true)}>NPC-jelenetek elkészítése vagy ellenőrzése</button>
         <label className="block">Zenés ajándék nevei (vesszővel elválasztva)<input className={field} maxLength={400} value={musicGiftNames} disabled={busy||auto} onChange={e=>{setMusicGiftNames(e.target.value);setMusicGiftId("");}} /></label>
         <label className="block">Pontos TikTok ajándékazonosító (ha ismert)<input className={field} inputMode="numeric" maxLength={30} value={musicGiftId} disabled={busy||auto} onChange={e=>setMusicGiftId(e.target.value.replace(/\D/g,""))} /></label>

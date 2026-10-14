@@ -126,3 +126,19 @@ Streak completion and event dedup remain upstream of the reaction queue.
 Validation: targeted budget/idempotency, matching, native protocol and dialogue
 checks; production build. Actual user-phone TikTok layout and system-audio
 capture remain device checks; browser verification cannot prove those settings.
+
+### Visual QA correction
+
+The first single 8s gift animation failed visual QA: the man stayed seated and
+his black mask briefly acquired a mouth-shaped opening. It is preserved in the
+gallery but no longer selected by the NPC manifest. All three idle variants
+passed frame inspection with intact masks and small natural movement.
+
+The reaction now pins three 4s transitions to a second imagegen standing
+keyframe: seated→standing, standing gesture→standing, standing→seated. Private
+R2 parts are joined losslessly by bundled ffmpeg into one 12s silent reaction;
+there is no additional video-generation charge for the join. Each part uses
+`runway_npc_4s:0.40`. Fresh preparation totals 360 credits; this owner's rejected
+80-credit first take makes this implementation's video total 440 credits.
+The saved 2.847s shout is unchanged and begins at 4.2s, during the standing beat.
+Local Whisper transcription confirmed the requested Hungarian line exactly.
