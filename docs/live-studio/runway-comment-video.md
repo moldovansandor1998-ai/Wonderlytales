@@ -68,3 +68,14 @@ Az elsődleges indítás most az **Automata műsor indítása**. A saját TikTok
 Az **Automata műsorpróba – komment + ajándék** TikTok nélkül egy kommentet és egy 1,5 másodperccel később beérkező próbaajándékot ad ugyanahhoz az automatikus sorhoz. Két új AI-párbeszédet, négy hangot és négy Runway-klipet használ, majd magától leáll. Nem indít TikTok-közvetítést.
 
 Korlát: ez folyamatos alapvideóval és automatikus friss válaszokkal működő műsor. A válaszok renderelési ideje megmarad; nem folyamatos WebRTC-testanimáció vagy azonnali szabad mozgás. A TikTok tényleges kommentfolyama és a telefon rendszerhangjának közvetítése külön éles próbát igényel.
+
+## Telefonos hibajavítás – 2026-10-14
+
+- Az alapvideó indulás előtt teljesen betöltődik a böngészőbe, majd helyi blob URL-ről ismétlődik. Nem kell minden körben autentikált média-kérést kiszolgálni. A blob az oldal bezárásakor felszabadul; a tartós eredeti változatlan.
+- A leállítás után visszautasított, már érvénytelen `play()` kérés nem jelent új hibát. Előtérbe visszatérve a lejátszó folytatja a háttérvideót; az aktív indítás megszakítását korlátozottan újrapróbálja. A valódi dekódolási és böngészőengedély-hiba külön üzenetet kap.
+- A TikTok terminális hibája a válaszsort állítja le, az alapvideót nem. A felületen a valódi kapcsolati ok marad meg. A Mindent leállít és a két eseményes próba vége továbbra is mindkét lejátszást megállítja.
+- Az SDK kezdeti error eseménye helyett a `connect()` eredménye határozza meg a hibát: offline fiók, aláíró szolgáltatás, kapcsolódási korlát, időtúllépés vagy ismeretlen adáslekérési hiba. A napló csak biztonságos hibakódot és a szerveroldali aláírókulcs jelenlétét tartalmazza.
+- Egy feldolgozhatatlan TikTok-üzenet nem bontja az egyébként működő kapcsolatot. Az opcionális ajándékkatalógus lekérése kikapcsolva; a natív ajándékeseményben szereplő nevet használjuk. A már létrejött kapcsolat hálózati megszakadását a böngésző 5/10/20 másodperces, legfeljebb három helyreállítási kísérlettel kezeli. Offline, szolgáltatói és kerethibára továbbra sincs automatikus újrapróbálás.
+- A **Mentett alapvideó próbája – új generálás nélkül** csak a meglévő videót olvassa és játssza le, TikTok, AI-, hang- vagy videókészítés nélkül. Hiányzó alapvideó esetén nem küld POST kérést.
+
+Célzott ellenőrzés: 28 teszt (késői play-megszakítás, telefonos előtérbe visszatérés, dekódolási hiba, TikTok offline ok megőrzése, nem végzetes eseményhiba, kapcsolat-helyreállítás, stream vége, költségvédelmek). Éles bejövő kommenthez továbbra is a felhasználó @azonosítója és aktív TikTok LIVE szükséges.

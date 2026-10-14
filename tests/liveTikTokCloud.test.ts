@@ -43,12 +43,27 @@ describe("cloud TikTok connection",()=>{
     upstream.handlers.get("gift")?.({giftDetails:{giftType:1,giftName:"Rose"},repeatEnd:false});
     expect(s.sent.filter(e=>e.type==="event")).toEqual([{type:"event",event:{id:"comment:abc",type:"comment",user:"Anna",text:"Szia!",count:1}}]);
     s.close(1000);await done;expect(upstream.disconnect).toHaveBeenCalledOnce();expect(release).toHaveBeenCalledOnce();
-    expect(upstream.created.mock.calls[0][1]).toMatchObject({processInitialData:false});
+    expect(upstream.created.mock.calls[0][1]).toMatchObject({processInitialData:false,enableExtendedGiftInfo:false});
   });
-  it("treats upstream errors as terminal without reconnecting or generating replies",async()=>{
+  it("does not stop a healthy connection on a single message decoding error",async()=>{
     const s=new Socket();const done=run(s);s.input({type:"connect",username:"test_user"});
-    await vi.waitFor(()=>expect(upstream.connect).toHaveBeenCalledOnce());
-    upstream.handlers.get("error")?.(new Error("Provider refused"));await done;
-    expect(s.sent.at(-1)).toMatchObject({terminal:true,connected:false});expect(upstream.connect).toHaveBeenCalledOnce();
+    await vi.waitFor(()=>expect(s.sent.some(e=>e.connected===true)).toBe(true));
+    upstream.handlers.get("error")?.({info:"Websocket message decoding failed",exception:new Error("bad event")});
+    expect(s.readyState).toBe(1);upstream.handlers.get("chat")?.({msgId:"after",comment:"Még itt vagyunk",nickname:"Anna"});
+    expect(s.sent.at(-1)).toMatchObject({type:"event"});s.close(1000);await done;
+  });
+  it("preserves the actual offline failure after an SDK error event",async()=>{
+    class UserOfflineError extends Error {}
+    upstream.connect.mockImplementation(async()=>{const error=new UserOfflineError("not live");upstream.handlers.get("error")?.({info:"Error while connecting",exception:error});throw error;});
+    const s=new Socket();const done=run(s);s.input({type:"connect",username:"test_user"});await done;
+    expect(s.sent.at(-1)).toMatchObject({terminal:true,connected:false,code:"TIKTOK_OFFLINE"});expect(upstream.connect).toHaveBeenCalledOnce();
+  });
+  it("asks the client to recover an established socket but keeps stream end terminal",async()=>{
+    const s=new Socket();const done=run(s);s.input({type:"connect",username:"test_user"});
+    await vi.waitFor(()=>expect(s.sent.some(e=>e.connected===true)).toBe(true));upstream.handlers.get("disconnected")?.();await done;
+    expect(s.closeCode).toBe(1012);expect(s.sent.at(-1)).toMatchObject({connected:false,terminal:false});
+    const second=new Socket();const ended=run(second);second.input({type:"connect",username:"test_user"});
+    await vi.waitFor(()=>expect(second.sent.some(e=>e.connected===true)).toBe(true));upstream.handlers.get("streamEnd")?.();await ended;
+    expect(second.closeCode).toBe(1000);expect(second.sent.at(-1)).toMatchObject({terminal:true});
   });
 });

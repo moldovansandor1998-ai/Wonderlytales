@@ -2,22 +2,29 @@ import type { WebSocket } from "ws";
 import { eventSchema } from "./events";
 import { normalizeEvent } from "../../../tools/tiktok-bridge/normalize.mjs";
 import { claimTikTokSession } from "./tiktok-session";
+import { tikTokFailure } from "./tiktok-error";
 
 /** No TikTok credentials are accepted or forwarded: only public LIVE events. */
 export async function serveTikTokSocket(ws:WebSocket, ownerId:string) {
   return new Promise<void>(resolve => {
     let finished = false, started = false, release:(()=>Promise<void>)|null = null;
     let connection:import("tiktok-live-connector").TikTokLiveConnection|null = null;
+    let upstreamReady = false;
     let connectTimer:ReturnType<typeof setTimeout>|undefined;
     const send = (value:unknown) => { if (!finished && ws.readyState === 1) ws.send(JSON.stringify(value)); };
-    const status = (connected:boolean,message:string,terminal=false) => send({type:"status",connected,message,terminal});
+    const status = (connected:boolean,message:string,terminal=false,code?:string) => send({type:"status",connected,message,terminal,code});
     const finish = () => {
       if (finished) return;
       finished = true; clearTimeout(authTimer); clearTimeout(lifetime); clearTimeout(connectTimer); clearInterval(heartbeat);
       void Promise.allSettled([connection?.disconnect(), release?.()]).finally(resolve);
     };
     const stop = (code:number, message:string) => { ws.close(code,message); finish(); };
-    const fail = (message:string) => { status(false,message,true); stop(1000,"Stopped"); };
+    const fail = (message:string,code?:string) => { status(false,message,true,code); stop(1000,"Stopped"); };
+    const report = (error:unknown) => {
+      const detail=tikTokFailure(error);
+      console.warn("live_tiktok_connect_failed",{code:detail.code,signerConfigured:!!process.env.EULER_STREAM_API_KEY});
+      return detail;
+    };
     const authTimer = setTimeout(()=>stop(1008,"Connection message required"),10000);
     const lifetime = setTimeout(()=>{status(false,"A szerverkapcsolat megújítása…");stop(1012,"Renew connection");},250000);
     const heartbeat = setInterval(()=>{if(ws.readyState===1)ws.ping();},20000);
@@ -40,7 +47,8 @@ export async function serveTikTokSocket(ws:WebSocket, ownerId:string) {
         connectTimer = setTimeout(()=>fail("A TikTok-kapcsolat nem épült fel időben. Ellenőrizd a felhasználónevet és az aktív LIVE-adást."),25000);
         const {TikTokLiveConnection, WebcastEvent, ControlEvent} = await import("tiktok-live-connector");
         if (finished) return;
-        connection = new TikTokLiveConnection(input.username,{processInitialData:false,enableExtendedGiftInfo:true,
+        // Native gift events include names. An optional gift-catalog request must not block connecting.
+        connection = new TikTokLiveConnection(input.username,{processInitialData:false,enableExtendedGiftInfo:false,
           ...(process.env.EULER_STREAM_API_KEY ? {signApiKey:process.env.EULER_STREAM_API_KEY} : {}),
           wsClientOptions:{handshakeTimeout:10000}
         });
@@ -54,16 +62,19 @@ export async function serveTikTokSocket(ws:WebSocket, ownerId:string) {
         connection.on(WebcastEvent.GIFT,data=>forward("gift",data));
         connection.on(WebcastEvent.FOLLOW,data=>forward("follow",data));
         connection.on(WebcastEvent.STREAM_END,()=>fail("A TikTok-adás véget ért. A kommentfigyelő megállt."));
-        connection.on(ControlEvent.DISCONNECTED,()=>{if(!finished)fail("Megszakadt a TikTok-kapcsolat. Ellenőrizd az adást, majd csatlakozz újra.");});
-        connection.on(ControlEvent.ERROR,()=>{if(!finished)fail("A TikTok vagy a kapcsolatszolgáltató hibát jelzett. Nincs automatikus újrapróbálás.");});
+        connection.on(ControlEvent.DISCONNECTED,()=>{if(!finished&&upstreamReady){status(false,"A TikTok-kapcsolat helyreállítása… Az alapvideó tovább fut.");stop(1012,"Upstream disconnected");}});
+        // The SDK emits ERROR before rejecting connect(), and also for individual undecodable messages.
+        // Await connect() for its actual reason; message decoding errors must not tear down a healthy socket.
+        connection.on(ControlEvent.ERROR,error=>{if(!finished&&upstreamReady)report(error);});
         await connection.connect();
         clearTimeout(connectTimer);
         if (finished) { await connection.disconnect(); return; }
+        upstreamReady = true;
         status(true,`@${input.username} – kommentek és ajándékok csatlakoztatva`);
       } catch (error) {
         if (finished) return;
-        console.warn("live_tiktok_connect_failed",{code:error instanceof Error?error.constructor.name:"UnknownError"});
-        fail("Nem sikerült kapcsolódni a TikTokhoz. A fiók legyen élő adásban; szolgáltatói korlátozás is akadályozhatja a kapcsolatot.");
+        const detail=report(error);
+        fail(detail.message,detail.code);
       }
     });
   });
