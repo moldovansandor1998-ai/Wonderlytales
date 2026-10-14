@@ -4,7 +4,7 @@ import { access, apiError, json, readJson } from "@/lib/ai-video/http";
 import { R2VideoStore } from "@/lib/ai-video/storage";
 import { AvatarError } from "@/lib/live/avatar";
 import { NPC_KINDS } from "@/lib/live/npc-shared";
-import { readNpc, startNpcClip, startNpcVoice } from "@/lib/live/npc";
+import { readNpc, startNpcClip, startNpcVoice, activateNpcGalaxy } from "@/lib/live/npc";
 export const runtime="nodejs";
 export const maxDuration=120;
 const voice=z.string().regex(/^[a-zA-Z0-9]{1,100}$/);
@@ -14,8 +14,8 @@ export async function GET(request:NextRequest){try{
 }catch(e){return failure(e);}}
 export async function POST(request:NextRequest){try{
   const user=await access(request,true);
-  const input=z.object({kind:z.enum([...NPC_KINDS,"voice"]),voiceId:voice,retry:z.boolean().default(false)}).strict().parse(await readJson(request));
+  const input=z.object({kind:z.enum([...NPC_KINDS,"voice"]),voiceId:voice,retry:z.boolean().default(false),action:z.enum(["prepare","recover-credit","revise-galaxy","activate-galaxy"]).default("prepare")}).strict().refine(input=>input.action==="prepare"||(!input.retry&&(input.action==="recover-credit"?input.kind.startsWith("gag-"):input.kind==="gag-galaxy"))).parse(await readJson(request));
   const store=new R2VideoStore(user.id);
-  const result=input.kind==="voice"?await startNpcVoice(store,input.voiceId):await startNpcClip(store,input.kind,input.retry);
+  const result=input.action==="activate-galaxy"?await activateNpcGalaxy(store):input.kind==="voice"?await startNpcVoice(store,input.voiceId):await startNpcClip(store,input.kind,input.retry,{recoverCredit:input.action==="recover-credit",galaxyRevision:input.action==="revise-galaxy"});
   return json({status:result.status});
 }catch(e){return failure(e);}}

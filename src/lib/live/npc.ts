@@ -10,7 +10,9 @@ import { AvatarError } from "./avatar";
 import { MUSIC_GIFT_LINE, NPC_KINDS, GAG_META, type GagKind, type NpcKind } from "./npc-shared";
 
 type Store = Pick<R2VideoStore,"readRecord"|"writeRecord"|"putAsset"|"putChunk"|"completeImage"|"assetBytes">;
-type Record = {status:"SUBMITTING"|"PENDING"|"SUCCEEDED"|"FAILED"|"UNCERTAIN"; createdAt:string; taskId?:string; assetId?:string; attempts?:number; providerStatus?:number; error?:string; previousAttempt?:{status:string;taskId?:string;createdAt:string}};
+type Record = {status:"SUBMITTING"|"PENDING"|"SUCCEEDED"|"FAILED"|"UNCERTAIN"; createdAt:string; taskId?:string; assetId?:string; attempts?:number; providerStatus?:number; error?:string; creditRecoveryUsed?:boolean; approved?:boolean; previousAttempt?:Record};
+export const GALAXY_REVISION_ID="00000000-0000-4000-8001-000000000301";
+const canRecoverCredit=(record:Record)=>record.status==="FAILED"&&record.error==="NPC_CREDITS_REQUIRED"&&!!record.providerStatus&&record.providerStatus>=400&&record.providerStatus<500&&!record.taskId&&!record.assetId&&!record.creditRecoveryUsed;
 // Keep the original idle records; revised gags get their own immutable asset slots.
 export const npcRecordId = (kind:NpcKind) => {
   const index=NPC_KINDS.indexOf(kind);
@@ -35,18 +37,21 @@ const prompts: {[K in NpcKind]:string} = {
   "idle-shrug": "The seated man makes one tiny disgruntled shoulder adjustment while keeping arms folded, then relaxes. The witch blinks, barely moving. Return precisely to the starting pose.",
   "music-gift": "Comedic angry reaction. At 1 second the seated man uncrosses his arms and stands up in front of the chair. At 2 to 5 seconds he stands and gestures angrily at an annoying noise, with one open palm, frustrated raised eyebrows. At 5 seconds he lowers his hands and sits back down. By 7 seconds he has folded his arms and regained the EXACT starting seated pose. The witch remains in place watching amused. Both people stay fully in frame, masks and hats stay on.",
 };
-export function npcPayload(kind:NpcKind, image:string) {
+export function npcPayload(kind:NpcKind, image:string, galaxyRevision=false) {
   const gag=kind.startsWith("gag-");
   return {model:"veo3.1_fast",duration:gag?GAG_META[kind as GagKind].duration:8,ratio:"720:1280",audio:false,
-    promptText:(gag ? "Professional slapstick AI parody. Fixed vertical camera, exact same two men, costumes, masks and cabin as reference. Ali stands left in blue medical mask; Isti sits right with black mask and pirate hat. Preserve identities and masks. Big readable fast action, no text, no talking. " : base)+prompts[kind],
+    promptText:(gag ? "Professional slapstick AI parody. Fixed vertical camera, exact same two men, costumes, masks and cabin as reference. Ali stands left in blue medical mask; Isti sits right with black mask and pirate hat. Preserve identities and masks. Big readable fast action, no text, no talking. " : base)+(galaxyRevision?"One wide full-body shot. 0-1s: Isti stands just in front of his chair and bends forward facing right; Ali stands to his LEFT. 1-2s: Ali lifts his RIGHT KNEE high, then straightens that leg horizontally; his clearly visible BOOT contacts Isti's padded backside. Hold this unmistakable side-on KICK pose for half a second. 2-4s: ONLY AFTER boot contact, Isti shoots upward with flailing arms in a purple-blue spiral of stars. 4-6s: Isti drops safely onto the chair with a comic bounce and shakes a fist. Ali lowers the kicking leg. Both masks stay opaque. The visible physical kick causes the flight, not a magic hand gesture. Safe theatrical slapstick, no injury.":prompts[kind]),
     // Gags play forward to an aftermath; matching first/last frames had reversed the action.
     promptImage:gag?[{uri:image,position:"first"}]:[{uri:image,position:"first"},{uri:image,position:"last"}]};
 }
 const voiceRecordId = (voiceId:string) => {const hash=digest(`npc-music-gift-v1:${voiceId}`);return `${hash.slice(0,8)}-${hash.slice(8,12)}-4${hash.slice(13,16)}-8${hash.slice(17,20)}-${hash.slice(20,32)}`;};
-export async function startNpcClip(store:Store, kind:NpcKind, retry=false) {
+export async function startNpcClip(store:Store, kind:NpcKind, retry=false, options:{recoverCredit?:boolean;galaxyRevision?:boolean}={}) {
+  if(options.galaxyRevision&&(kind!=="gag-galaxy"||retry||options.recoverCredit))throw new AvatarError("NPC_RETRY_NOT_ALLOWED",409);
+  if(options.recoverCredit&&(retry||options.galaxyRevision||!kind.startsWith("gag-")))throw new AvatarError("NPC_RETRY_NOT_ALLOWED",409);
   if(kind==="music-gift")return startNpcReaction(store);
-  const id=ids[kind],old=await store.readRecord<Record>("live-backdrop",id);
-  if(old&&!retry)return old.value;
+  const id=options.galaxyRevision?GALAXY_REVISION_ID:ids[kind],old=await store.readRecord<Record>("live-backdrop",id);
+  if(options.recoverCredit&&(!old||!canRecoverCredit(old.value)))throw new AvatarError("NPC_RETRY_NOT_ALLOWED",409);
+  if(old&&!retry&&!options.recoverCredit)return old.value;
   if(retry&&(!kind.startsWith("gag-")||!old||!["FAILED","UNCERTAIN"].includes(old.value.status)||(old.value.attempts||1)>=2))throw new AvatarError("NPC_RETRY_NOT_ALLOWED",409);
   if(!process.env.RUNWAYML_API_SECRET)throw new AvatarError("MOTION_NOT_CONFIGURED");
   const service=kind.startsWith("gag-")&&GAG_META[kind as GagKind].duration===4?"runway_npc_4s":"runway_npc_8s";
@@ -54,14 +59,14 @@ export async function startNpcClip(store:Store, kind:NpcKind, retry=false) {
   if(!budget||(budget.configured_services[service]??0)<(service==="runway_npc_4s"?0.4:0.8))throw new AvatarError("NPC_BUDGET_NOT_CONFIGURED",409);
   const image=await readFile(path.join(process.cwd(),"public/live-studio/ali-isti-masked.webp"));
   if(kind==="idle-breathe"){const sha=digest(image);await store.putChunk(sha,0,image);await store.completeImage(sha,image.length);}
-  const record:Record={status:"SUBMITTING",createdAt:new Date().toISOString(),attempts:(old?(old.value.attempts||1):0)+1,...(old?{previousAttempt:{status:old.value.status,taskId:old.value.taskId,createdAt:old.value.createdAt}}:{})};
-  if(!await store.writeRecord("live-backdrop",id,record,retry?old!.etag:undefined))return (await store.readRecord<Record>("live-backdrop",id))!.value;
+  const record:Record={status:"SUBMITTING",createdAt:new Date().toISOString(),attempts:(old?(old.value.attempts||1):0)+1,...(old?{previousAttempt:old.value}:{}),creditRecoveryUsed:options.recoverCredit||old?.value.creditRecoveryUsed};
+  if(!await store.writeRecord("live-backdrop",id,record,retry||options.recoverCredit?old!.etag:undefined))return (await store.readRecord<Record>("live-backdrop",id))!.value;
   const claim=await store.readRecord<Record>("live-backdrop",id);
   if(!claim)throw new AvatarError("NPC_UNCERTAIN",409);
   let providerStatus:number|undefined,providerError:string|undefined;
   try {
     await reserveProductionBudget(service);
-    const response=await fetch("https://api.dev.runwayml.com/v1/image_to_video",{method:"POST",signal:AbortSignal.timeout(45000),headers:{Authorization:`Bearer ${process.env.RUNWAYML_API_SECRET}`,"X-Runway-Version":"2024-11-06","Content-Type":"application/json"},body:JSON.stringify(npcPayload(kind,`data:image/webp;base64,${image.toString("base64")}`))});
+    const response=await fetch("https://api.dev.runwayml.com/v1/image_to_video",{method:"POST",signal:AbortSignal.timeout(45000),headers:{Authorization:`Bearer ${process.env.RUNWAYML_API_SECRET}`,"X-Runway-Version":"2024-11-06","Content-Type":"application/json"},body:JSON.stringify(npcPayload(kind,`data:image/webp;base64,${image.toString("base64")}`,options.galaxyRevision))});
     if(!response.ok){
       providerStatus=response.status;
       const body=await response.json().catch(()=>({}));
@@ -100,7 +105,7 @@ async function readAsset(store:Store,id:string,extension:"mp4"|"mp3") {
   const saved=await store.readRecord<Record>("live-backdrop",id);
   if(!saved)return {status:"MISSING"};
   if(saved.value.assetId)return {status:"SUCCEEDED",url:`/api/ai-video/assets/${saved.value.assetId}${extension==="mp3"?"?type=mp3":""}`};
-  if(!saved.value.taskId||saved.value.status!=="PENDING")return {status:saved.value.status,error:saved.value.error,attempts:saved.value.attempts||1};
+  if(!saved.value.taskId||saved.value.status!=="PENDING")return {status:saved.value.status,error:saved.value.error,attempts:saved.value.attempts||1,creditRecoveryAllowed:canRecoverCredit(saved.value)};
   const task=await retrieveMotion(saved.value.taskId);
   if(task.status==="FAILED"||task.status==="CANCELLED"){
     await store.writeRecord("live-backdrop",id,{...saved.value,status:"FAILED"},saved.etag);return {status:"FAILED"};
@@ -113,9 +118,20 @@ async function readAsset(store:Store,id:string,extension:"mp4"|"mp3") {
   return {status:"SUCCEEDED",url:`/api/ai-video/assets/${assetId}`};
 }
 export async function readNpc(store:Store,voiceId:string) {
-  const clips=await Promise.all(NPC_KINDS.map(async kind=>({kind,...await (kind==="music-gift"?readNpcReaction(store):readAsset(store,ids[kind],"mp4"))})));
+  const galaxyRevision=await readAsset(store,GALAXY_REVISION_ID,"mp4");
+  const revision=await store.readRecord<Record>("live-backdrop",GALAXY_REVISION_ID);
+  const approved=!!revision?.value.approved;
+  const clips=await Promise.all(NPC_KINDS.map(async kind=>({kind,...await (kind==="music-gift"?readNpcReaction(store):readAsset(store,kind==="gag-galaxy"&&approved?GALAXY_REVISION_ID:ids[kind],"mp4"))})));
   const voice=await readAsset(store,voiceRecordId(voiceId),"mp3");
-  return {clips,voice,ready:clips.filter(c=>!c.kind.startsWith("gag-")).every(c=>c.status==="SUCCEEDED")&&voice.status==="SUCCEEDED"};
+  return {clips,voice,galaxyRevision:{...galaxyRevision,approved},ready:clips.filter(c=>!c.kind.startsWith("gag-")).every(c=>c.status==="SUCCEEDED")&&voice.status==="SUCCEEDED"};
+}
+export async function activateNpcGalaxy(store:Store){
+  const saved=await store.readRecord<Record>("live-backdrop",GALAXY_REVISION_ID);
+  if(!saved||saved.value.status!=="SUCCEEDED"||!saved.value.assetId)throw new AvatarError("NPC_REVISION_NOT_READY",409);
+  if(saved.value.approved)return saved.value;
+  const next={...saved.value,approved:true};
+  if(!await store.writeRecord("live-backdrop",GALAXY_REVISION_ID,next,saved.etag))throw new AvatarError("NPC_UNCERTAIN",409);
+  return next;
 }
 
 const REACTION_MASTER="00000000-0000-4000-8001-000000000104";

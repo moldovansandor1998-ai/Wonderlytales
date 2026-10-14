@@ -5,7 +5,7 @@ import {normalizeEvent} from "../tools/tiktok-bridge/normalize.mjs";
 vi.mock("@/lib/budget",()=>({getProductionBudget:vi.fn(),reserveProductionBudget:vi.fn()}));
 vi.mock("@/lib/live/motion",()=>({retrieveMotion:vi.fn()}));
 import {getProductionBudget,reserveProductionBudget} from "@/lib/budget";
-import {startNpcClip,startNpcVoice,npcPayload,reactionPayload,readNpc,npcRecordId} from "@/lib/live/npc";
+import {startNpcClip,startNpcVoice,npcPayload,reactionPayload,readNpc,npcRecordId,activateNpcGalaxy,GALAXY_REVISION_ID} from "@/lib/live/npc";
 import {imageMetadata} from "@/lib/ai-video/storage";
 import {readFileSync} from "node:fs";
 const event={id:"1",type:"gift" as const,user:"Néző",text:"",gift:"Zene",count:1};
@@ -27,7 +27,7 @@ describe("music gifts",()=>{
 });
 describe("bounded saved NPC assets",()=>{
  const records=new Map<string,{value:any;etag:string}>();
- const store={readRecord:vi.fn(async(_kind:string,id:string)=>records.get(id)||null),writeRecord:vi.fn(async(_kind:string,id:string,value:any,etag?:string)=>{if(!etag&&records.has(id))return false;records.set(id,{value,etag:"v1"});return true;}),assetBytes:vi.fn(),putAsset:vi.fn(),putChunk:vi.fn(),completeImage:vi.fn()};
+ const store={readRecord:vi.fn(async(_kind:string,id:string)=>records.get(id)||null),writeRecord:vi.fn(async(_kind:string,id:string,value:any,etag?:string)=>{const old=records.get(id);if(etag?old?.etag!==etag:!!old)return false;records.set(id,{value,etag:String(Number(old?.etag||0)+1)});return true;}),assetBytes:vi.fn(),putAsset:vi.fn(),putChunk:vi.fn(),completeImage:vi.fn()};
  beforeEach(()=>{vi.clearAllMocks();records.clear();vi.stubEnv("RUNWAYML_API_SECRET","test");vi.stubEnv("ELEVENLABS_API_KEY","test");vi.mocked(getProductionBudget).mockResolvedValue({configured_services:{runway_npc_8s:0.8,runway_npc_4s:0.4}} as any);vi.stubGlobal("fetch",vi.fn(async()=>new Response(JSON.stringify({id:"a1111111-1111-4111-8111-111111111111"}))));});
  afterEach(()=>{vi.unstubAllGlobals();vi.unstubAllEnvs();});
  it("uses the same first and last frames, 8 seconds, and no generated audio",()=>{
@@ -65,6 +65,38 @@ describe("bounded saved NPC assets",()=>{
   vi.mocked(fetch).mockResolvedValue(new Response(new Uint8Array(200)));
   await startNpcVoice(store,"IstiVoice");await startNpcVoice(store,"IstiVoice");expect(fetch).toHaveBeenCalledTimes(1);expect(store.putAsset).toHaveBeenCalledTimes(1);
   const manifest=await readNpc(store,"IstiVoice");expect(manifest.voice.url).toMatch(/type=mp3$/);expect(manifest.ready).toBe(false);
+ });
+ it("recovers a definitively rejected credit request once after a top-up, including concurrent clicks",async()=>{
+  const rejected={status:"FAILED",createdAt:"before",attempts:2,providerStatus:400,error:"NPC_CREDITS_REQUIRED",previousAttempt:{status:"FAILED",createdAt:"first",providerStatus:429}};
+  records.set(npcRecordId("gag-bubble"),{value:rejected,etag:"1"});
+  const before=await readNpc(store,"IstiVoice");expect(before.clips.find(c=>c.kind==="gag-bubble")).toMatchObject({creditRecoveryAllowed:true});
+  await Promise.all([startNpcClip(store,"gag-bubble",false,{recoverCredit:true}),startNpcClip(store,"gag-bubble",false,{recoverCredit:true})]);
+  expect(fetch).toHaveBeenCalledTimes(1);expect(reserveProductionBudget).toHaveBeenCalledTimes(1);
+  const value=records.get(npcRecordId("gag-bubble"))!.value;
+  expect(value).toMatchObject({status:"PENDING",creditRecoveryUsed:true,attempts:3,previousAttempt:rejected});
+  await expect(startNpcClip(store,"gag-bubble",false,{recoverCredit:true})).rejects.toThrow("NPC_RETRY_NOT_ALLOWED");
+ });
+ it.each([
+  {status:"UNCERTAIN",providerStatus:503},
+  {status:"PENDING",taskId:"already-running"},
+  {status:"FAILED",providerStatus:400,taskId:"already-submitted"},
+  {status:"FAILED",providerStatus:400,creditRecoveryUsed:true},
+  {status:"FAILED",providerStatus:429,error:"NPC_CAPACITY_LIMIT"},
+ ])("never uses credit recovery to resubmit an ambiguous, paid, or recovered task: %j",async fields=>{
+  records.set(npcRecordId("gag-bubble"),{value:{createdAt:"before",error:"NPC_CREDITS_REQUIRED",attempts:2,...fields},etag:"1"});
+  await expect(startNpcClip(store,"gag-bubble",false,{recoverCredit:true})).rejects.toThrow("NPC_RETRY_NOT_ALLOWED");expect(fetch).not.toHaveBeenCalled();expect(reserveProductionBudget).not.toHaveBeenCalled();
+ });
+ it("keeps the original Galaxy active until a completed revision is explicitly selected",async()=>{
+  const original={status:"SUCCEEDED",createdAt:"before",assetId:"original"};
+  records.set(npcRecordId("gag-galaxy"),{value:original,etag:"1"});
+  await startNpcClip(store,"gag-galaxy",false,{galaxyRevision:true});await startNpcClip(store,"gag-galaxy",false,{galaxyRevision:true});
+  expect(fetch).toHaveBeenCalledTimes(1);expect(npcPayload("gag-galaxy","frame",true).promptText.length).toBeLessThanOrEqual(1000);
+  await expect(activateNpcGalaxy(store)).rejects.toThrow("NPC_REVISION_NOT_READY");
+  records.set(GALAXY_REVISION_ID,{value:{status:"SUCCEEDED",createdAt:"now",assetId:"revised"},etag:"3"});
+  let manifest=await readNpc(store,"IstiVoice");expect(manifest.clips.find(c=>c.kind==="gag-galaxy")?.url).toContain("original");
+  expect(manifest.galaxyRevision).toMatchObject({status:"SUCCEEDED",approved:false});
+  await activateNpcGalaxy(store);await activateNpcGalaxy(store);
+  manifest=await readNpc(store,"IstiVoice");expect(manifest.clips.find(c=>c.kind==="gag-galaxy")?.url).toContain("revised");expect(records.get(npcRecordId("gag-galaxy"))!.value).toEqual(original);expect(fetch).toHaveBeenCalledTimes(1);
  });
  it("pins the rise, standing gesture and sit to explicit keyframes, with no duplicate submissions",async()=>{
   const rise=reactionPayload(0,"seated","standing"),stand=reactionPayload(1,"seated","standing"),sit=reactionPayload(2,"seated","standing");

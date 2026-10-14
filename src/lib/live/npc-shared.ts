@@ -77,4 +77,5 @@ export class GiftGagPicker {
     return this.last=this.bag.pop()!;
   }
 }
-export type NpcManifest = { clips: {kind: NpcKind; status: string; url?: string;error?:string;attempts?:number}[]; voice: {status: string; url?: string}; ready: boolean };
+export type NpcOperation="prepare"|"recover-credit"|"revise-galaxy"|"activate-galaxy";
+export type NpcManifest = { clips: {kind: NpcKind; status: string; url?: string;error?:string;attempts?:number;creditRecoveryAllowed?:boolean}[]; galaxyRevision?:{status:string;url?:string;approved:boolean}; voice: {status: string; url?: string}; ready: boolean };

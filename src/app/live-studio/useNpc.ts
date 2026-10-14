@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { NPC_KINDS, GAG_KINDS, GAG_META, type GagKind, type NpcManifest } from "@/lib/live/npc-shared";
+import { NPC_KINDS, GAG_KINDS, GAG_META, type GagKind, type NpcManifest, type NpcOperation } from "@/lib/live/npc-shared";
 export type NpcAssets={idle:string[];reaction:string;voice:string;gags?:Partial<Record<GagKind,string>>};
 const wait=(signal:AbortSignal)=>new Promise<void>((resolve,reject)=>{
   const cancel=()=>{clearTimeout(timer);reject(new DOMException("Stopped","AbortError"));};
@@ -14,8 +14,8 @@ export function useNpc(){
   const cache=useRef(new Map<string,string>());
   const saved=useRef<{voiceId:string;assets:NpcAssets}>();
   useEffect(()=>()=>{cache.current.forEach(url=>URL.revokeObjectURL(url));cache.current.clear();},[]);
-  async function request(voiceId:string,signal:AbortSignal,kind?:string,retry=false){
-    const response=await fetch(`/api/live-studio/npc?voiceId=${encodeURIComponent(voiceId)}`,{signal,cache:"no-store",...(kind?{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({kind,voiceId,retry})}:{})});
+  async function request(voiceId:string,signal:AbortSignal,kind?:string,retry=false,action:NpcOperation="prepare"){
+    const response=await fetch(`/api/live-studio/npc?voiceId=${encodeURIComponent(voiceId)}`,{signal,cache:"no-store",...(kind?{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({kind,voiceId,retry,action})}:{})});
     const data=await response.json();
     if(!response.ok)throw new Error(`${kind&&kind in GAG_META?GAG_META[kind as GagKind].label+": ":""}`+(data.error==="NPC_BUDGET_NOT_CONFIGURED"?"A jelenetkészítés költségkerete nincs beállítva.":`A mentett NPC-műsor nem érhető el (${data.error||response.status}). Újrapróbálás nem indít új generálást.`));
     if(!kind)setManifest(data);
@@ -58,5 +58,9 @@ export function useNpc(){
     try{await request(voiceId,signal,kind,true);}
     finally{if(!signal.aborted)await request(voiceId,signal);}
   }
-  return {assets,status,ensure,manifest,inspect,retryClip};
+  async function recoverClip(voiceId:string,kind:GagKind,signal:AbortSignal,action:NpcOperation){
+    try{await request(voiceId,signal,kind,false,action);}
+    finally{saved.current=undefined;if(!signal.aborted)await request(voiceId,signal);}
+  }
+  return {assets,status,ensure,manifest,inspect,retryClip,recoverClip};
 }
