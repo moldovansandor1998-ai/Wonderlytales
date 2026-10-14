@@ -79,3 +79,9 @@ Korlát: ez folyamatos alapvideóval és automatikus friss válaszokkal működ�
 - A **Mentett alapvideó próbája – új generálás nélkül** csak a meglévő videót olvassa és játssza le, TikTok, AI-, hang- vagy videókészítés nélkül. Hiányzó alapvideó esetén nem küld POST kérést.
 
 Célzott ellenőrzés: 28 teszt (késői play-megszakítás, telefonos előtérbe visszatérés, dekódolási hiba, TikTok offline ok megőrzése, nem végzetes eseményhiba, kapcsolat-helyreállítás, stream vége, költségvédelmek). Éles bejövő kommenthez továbbra is a felhasználó @azonosítója és aktív TikTok LIVE szükséges.
+
+## Valódi TikTok-kommentek és ajándékok – protokolljavítás
+
+A csatlakoztatott TikTok Live Connector 2.5.0 a protobuf v3 eseményeket adja át. A komment szövege `content`, az ajándék neve/típusa `gift.name` / `gift.type`, a felhasználó azonosítója `displayId`. A régi normalizáló kizárólag a korábbi `comment` / `giftDetails` mezőket olvasta, ezért az aktív kapcsolatról érkező kommentet üresként eldobta, az ajándéksorozatot pedig nem megfelelően kezelte. A közös szerveres/helyi adapter mindkét formátumot támogatja. A regressziós teszt az alkalmazásban telepített `tiktok-live-proto/v3` kódolójával és dekódolójával készít valódi bináris eseményt, és ellenőrzi a válaszsorba kerülést, az ajándéksorozat lezárását és a rózsaszirom-effektet.
+
+A nézői TikTok-kép fekvő keretbe kicsinyített álló képernyője és a telefon mikrofonjának továbbítása külön közvetítési beállítás. A stúdió weboldala ezeket nem tudja átállítani. A mobil TikTok elrendezés- és hangbeállításait a készüléken kell ellenőrizni; az alapvideó néma, a beszélő klipek tartalmazzák a hangot.

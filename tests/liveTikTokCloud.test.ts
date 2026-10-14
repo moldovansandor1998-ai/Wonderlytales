@@ -39,8 +39,8 @@ describe("cloud TikTok connection",()=>{
     const release=vi.fn().mockResolvedValue(undefined);vi.mocked(claimTikTokSession).mockResolvedValue(release);
     const s=new Socket();const done=run(s);s.input({type:"connect",username:"test_user"});
     await vi.waitFor(()=>expect(s.sent.some(e=>e.connected===true)).toBe(true));
-    upstream.handlers.get("chat")?.({common:{msgId:"abc"},user:{nickname:"Anna"},comment:"Szia!"});
-    upstream.handlers.get("gift")?.({giftDetails:{giftType:1,giftName:"Rose"},repeatEnd:false});
+    upstream.handlers.get("chat")?.({common:{msgId:"abc"},user:{nickname:"Anna",displayId:"anna"},content:"Szia!"});
+    upstream.handlers.get("gift")?.({gift:{type:1,name:"Rose"},repeatEnd:0});
     expect(s.sent.filter(e=>e.type==="event")).toEqual([{type:"event",event:{id:"comment:abc",type:"comment",user:"Anna",text:"Szia!",count:1}}]);
     s.close(1000);await done;expect(upstream.disconnect).toHaveBeenCalledOnce();expect(release).toHaveBeenCalledOnce();
     expect(upstream.created.mock.calls[0][1]).toMatchObject({processInitialData:false,enableExtendedGiftInfo:false});
