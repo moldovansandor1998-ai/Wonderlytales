@@ -5,6 +5,23 @@ import { reserveProductionBudget } from '@/lib/budget';
 import { timedSpeech } from '@/lib/live/speech';
 const event = (id: string) => eventSchema.parse({id, type:'comment', user:'Néző', text:'Szia'});
 describe('Live event handling', () => {
+  it('keeps only recent comments during bursts without evicting gifts or allowing replays',()=>{
+    let now=0;
+    const queue=new EventQueue({maxComments:4,commentMaxAgeMs:30000,now:()=>now});
+    queue.add({...event('gift'),type:'gift'});
+    for(let i=0;i<20;i++)queue.add(event(String(i)));
+    expect(queue.snapshot().map(item=>item.id)).toEqual(['gift','16','17','18','19']);
+    expect(queue.dropped).toBe(16);
+    now=31000;queue.add(event('fresh'));
+    expect(queue.dropped).toBe(20);expect(queue.take()?.id).toBe('gift');
+    expect(queue.take()?.id).toBe('fresh');expect(queue.take()).toBeUndefined();
+    expect(queue.add(event('16'))).toBe(false);
+  });
+  it('expires old comments before paying to answer them, even with no new arrivals',()=>{
+    let now=0;const queue=new EventQueue({maxComments:4,commentMaxAgeMs:30000,now:()=>now});
+    queue.add(event('old'));now=30001;
+    expect(queue.take()).toBeUndefined();expect(queue.size).toBe(0);expect(queue.dropped).toBe(1);
+  });
   it('prioritizes gifts and ignores replayed event IDs', () => {
     const queue = new EventQueue(); queue.add(event('1')); queue.add({...event('2'),type:'gift'});
     expect(queue.add(event('1'))).toBe(false); expect(queue.take()?.id).toBe('2'); expect(queue.take()?.id).toBe('1'); expect(queue.add(event('2'))).toBe(false);

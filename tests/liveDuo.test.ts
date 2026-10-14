@@ -1,10 +1,31 @@
 import { describe, expect, it, vi } from 'vitest';
-import { CAST, dialogueMessages, dialogueSchema, giftEffect, playDialogue, rehearsalDialogue } from '@/lib/live/duo';
+import { CAST, compactDialogueSchema, dialogueMessages, dialogueSchema, giftEffect, playDialogue, rehearsalDialogue, shortSpokenLine } from '@/lib/live/duo';
 import { eventSchema } from '@/lib/live/events';
 const event=eventSchema.parse({id:'gift-1',type:'gift',user:'Néző',gift:'rózsa',count:3});
 const dialogue=rehearsalDialogue(event);
 const voices={ali:CAST.ali.voiceId,isti:CAST.isti.voiceId};
 describe('Two-character live dialogue',()=>{
+  it('bounds paid speech even when the model returns a long dialogue, preserving both roles and the music request',()=>{
+    const input={event,history:[],replyIndex:12};
+    const result=compactDialogueSchema(input).parse({turns:[
+      {speaker:'ali',text:'Te aztán nagyon bátran beszóltál ide nekünk, de Isti is mindjárt válaszol erre neked.',emotion:'laugh'},
+      {speaker:'isti',text:'Hát ezt most komolyan nekem mondod vagy csak véletlenül keveredtél ebbe az élőbe? Itt aztán mindent látni lehet.',emotion:'neutral'},
+    ]});
+    expect(result.turns.map(turn=>turn.speaker)).toEqual(['ali','isti']);
+    expect(result.turns[0].text).toContain('zeneajándékot');
+    expect(result.turns[0].text.split(/\s+/).length).toBeLessThanOrEqual(11);
+    expect(result.turns[1].text.split(/\s+/).length).toBeLessThanOrEqual(7);
+    expect(result.turns[1].text.length).toBeLessThanOrEqual(60);
+    expect(dialogueSchema.safeParse(result).success).toBe(true);
+    expect(shortSpokenLine('Ti adóztok?!')).toBe('Ti adóztok?!');
+    expect(shortSpokenLine('Ali, te dagadt kétszáz kilós!')).toBe('Ali, te dagadt kétszáz kilós!');
+    expect(shortSpokenLine('Ez rövid. Ezt már ne mondd el.')).toBe('Ez rövid.');
+  });
+  it('uses the reply counter for recurring jokes beyond the eight-turn history window',()=>{
+    expect(dialogueMessages({event,history:[],replyIndex:12})[0].content).toContain('ISTI MOST röviden forduljon a nézőkhöz');
+    expect(dialogueMessages({event,history:[],replyIndex:14})[0].content).toContain('ISTI MOST Ali színpadi figurájának');
+    expect(dialogueMessages({event,history:[],replyIndex:13})[0].content).toContain('ISTI MOST a nézőnek vagy Alinak');
+  });
   it('waits for complete playback before using the other voice',async()=>{
     let finishFirst!:()=>void;
     const first=new Promise<void>(resolve=>{finishFirst=resolve;});

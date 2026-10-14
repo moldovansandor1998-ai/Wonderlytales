@@ -30,31 +30,52 @@ export function songRequest(text: string): string | null {
 export class EventQueue {
   private seen = new Set<string>();
   private pending: LiveEvent[] = [];
+  private received = new Map<string, number>();
   private giftStreak = 0;
   dropped = 0;
+  constructor(private options: { maxComments?: number; commentMaxAgeMs?: number; now?: () => number } = {}) {}
+  private prune() {
+    const now = (this.options.now || Date.now)();
+    this.pending = this.pending.filter(event => {
+      if (event.type === "gift" || now - (this.received.get(event.id) ?? now) <= (this.options.commentMaxAgeMs ?? Infinity)) return true;
+      this.received.delete(event.id); this.dropped++; return false;
+    });
+  }
   add(event: LiveEvent): boolean {
     if (this.seen.has(event.id)) return false;
     this.seen.add(event.id);
     if (this.seen.size > 2000) this.seen.delete(this.seen.values().next().value!);
+    this.prune();
+    if (event.type !== "gift" && this.pending.filter(item => item.type !== "gift").length >= (this.options.maxComments ?? 50)) {
+      const oldest = this.pending.findIndex(item => item.type !== "gift");
+      // Opt-in freshness mode: replace the oldest comment, never a gift.
+      if (this.options.maxComments !== undefined && oldest >= 0) {
+        this.received.delete(this.pending[oldest].id); this.pending.splice(oldest, 1); this.dropped++;
+      }
+    }
     if (this.pending.length >= 50) {
       this.dropped++;
       const replace = event.type === "gift" ? this.pending.findIndex(e => e.type !== "gift") : -1;
       if (replace < 0) return false;
+      this.received.delete(this.pending[replace].id);
       this.pending.splice(replace, 1);
     }
     this.pending.push(event);
+    this.received.set(event.id, (this.options.now || Date.now)());
     return true;
   }
   take() {
+    this.prune();
     const gift = this.pending.findIndex(e => e.type === "gift");
     const comment = this.pending.findIndex(e => e.type !== "gift");
     const index = gift >= 0 && (this.giftStreak < 2 || comment < 0) ? gift : comment;
     if (index < 0) return undefined;
     const [event] = this.pending.splice(index, 1);
+    this.received.delete(event.id);
     this.giftStreak = event.type === "gift" ? this.giftStreak + 1 : 0;
     return event;
   }
-  clear() { this.pending = []; this.giftStreak = 0; }
+  clear() { this.pending = []; this.received.clear(); this.giftStreak = 0; }
   get size() { return this.pending.length; }
   snapshot() { return [...this.pending]; }
 }
