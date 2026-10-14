@@ -1,8 +1,8 @@
 import { NextRequest } from "next/server";
 import { z } from "zod";
 import { access, apiError, json, readJson } from "@/lib/ai-video/http";
-import { dialogueInput, dialogueMessages, compactDialogueSchema, dialogueSchema } from "@/lib/live/duo";
-import { generateLiveReply } from "@/lib/live/ai";
+import { dialogueInput, dialogueSchema } from "@/lib/live/duo";
+import { generateLiveDialogue } from "@/lib/live/dialogue";
 import { streamSpeech } from "@/lib/live/speech";
 export const runtime = "nodejs";
 export const maxDuration = 60;
@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
   try {
     await access(request,true);
     const input = inputSchema.parse(await readJson(request));
-    const generated = await generateLiveReply(dialogueMessages(input),compactDialogueSchema(input),request.signal,160);
+    const generated = await generateLiveDialogue(input, request.signal);
     if (!generated.ok) return generated;
     const dialogue = dialogueSchema.parse(await generated.json());
     request.signal.throwIfAborted();

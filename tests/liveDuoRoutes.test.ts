@@ -25,10 +25,24 @@ describe('Duo API boundaries',()=>{
     const fetch=vi.fn();vi.stubGlobal('fetch',fetch);
     expect((await POST(request())).status).toBe(503);expect(fetch).not.toHaveBeenCalled();
   });
-  it('reserves once and rejects unsafe model output without retries',async()=>{
-    const fetch=vi.fn(async()=>{expect(reserveProductionBudget).toHaveBeenCalledOnce();return new Response(JSON.stringify({choices:[{message:{content:JSON.stringify({turns:[{speaker:'arbitrary',text:'Szia',emotion:'happy'}]})}}]}));});
+  it('bounds unusable-output retries to two separately budgeted attempts',async()=>{
+    const fetch=vi.fn(async()=>new Response(JSON.stringify({choices:[{message:{content:JSON.stringify({turns:[{speaker:'arbitrary',text:'Szia',emotion:'happy'}]})}}]})));
     vi.stubGlobal('fetch',fetch);
-    const response=await POST(request());expect(response.status).toBe(502);expect(fetch).toHaveBeenCalledOnce();
+    const response=await POST(request());expect(response.status).toBe(502);expect(fetch).toHaveBeenCalledTimes(2);expect(reserveProductionBudget).toHaveBeenCalledTimes(2);
+  });
+  it('generates a new contextual reply after rejecting pizza instead of using a phrase bank',async()=>{
+    const outputs=['Pista harminckét négyzetméter pizzát evett, hová rakja?', 'Pista a széket is úgy nézi, mintha az tehetne róla!'];
+    const fetch=vi.fn(async()=>new Response(JSON.stringify({choices:[{message:{content:JSON.stringify({turns:[{speaker:'ali',text:outputs.shift(),emotion:'laugh'}]})}}]})));
+    vi.stubGlobal('fetch',fetch);
+    const response=await POST(request({event:{...payload.event,user:'Bence',text:'dagadt geci'}}));
+    expect(response.status).toBe(200);
+    expect((await response.json()).turns[0].text).toBe('Bence, Pista a széket is úgy nézi, mintha az tehetne róla!');
+    expect(fetch).toHaveBeenCalledTimes(2);expect(reserveProductionBudget).toHaveBeenCalledTimes(2);
+  });
+  it.each([402,429,503])('does not retry provider status %s',async(status)=>{
+    const fetch=vi.fn(async()=>new Response(JSON.stringify({error:{code:'provider_failure'}}),{status}));vi.stubGlobal('fetch',fetch);
+    expect((await POST(request())).status).toBe(502);
+    expect(fetch).toHaveBeenCalledOnce();expect(reserveProductionBudget).toHaveBeenCalledOnce();
   });
   it('returns one short response even if the provider adds another voice',async()=>{
     const dialogue={turns:[{speaker:'ali',text:'Isti már integet, csak közben elfelejtette, kinek!',emotion:'happy'},{speaker:'isti',text:'Én is köszönök.',emotion:'neutral'}]};
