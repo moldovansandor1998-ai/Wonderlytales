@@ -1,6 +1,6 @@
 import type { WebSocket } from "ws";
 import { eventSchema } from "./events";
-import { normalizeEvent } from "../../../tools/tiktok-bridge/normalize.mjs";
+import { createEventNormalizer } from "../../../tools/tiktok-bridge/normalize.mjs";
 import { claimTikTokSession } from "./tiktok-session";
 import { tikTokFailure } from "./tiktok-error";
 
@@ -56,6 +56,7 @@ export async function serveTikTokSocket(ws:WebSocket, ownerId:string) {
           ...(process.env.EULER_STREAM_API_KEY ? {signApiKey:process.env.EULER_STREAM_API_KEY} : {}),
           wsClientOptions:{handshakeTimeout:10000}
         });
+        const normalizeEvent = createEventNormalizer();
         const forward = (type:"comment"|"gift"|"follow",data:unknown) => {
           if (finished || ws.bufferedAmount > 65536) return;
           const event = normalizeEvent(type,data);

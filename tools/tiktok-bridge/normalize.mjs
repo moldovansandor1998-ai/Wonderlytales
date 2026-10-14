@@ -1,5 +1,22 @@
 import { createHash } from 'node:crypto';
 const text = (v, n) => typeof v === 'string' ? v.slice(0, n) : String(v ?? '').slice(0, n);
+/** V3 group IDs let us react on the first gift without replaying every streak tick. */
+export function createEventNormalizer() {
+  const seenStreaks = new Set();
+  return (type, data) => {
+    const giftType = Number(data.gift?.type ?? data.giftDetails?.giftType ?? data.giftDetails?.type ?? data.giftType);
+    const group = text(data.groupId, 100);
+    const uid = data.user?.id || data.user?.displayId || data.user?.uniqueId || data.uniqueId;
+    // Without a reliable streak identity, retain the final-event fallback.
+    if (type !== 'gift' || giftType !== 1 || !/^[1-9]\d*$/.test(group) || !uid) return normalizeEvent(type, data);
+    const key = createHash('sha256').update(JSON.stringify([String(uid), String(data.giftId || data.gift?.id || ''), group])).digest('hex').slice(0, 32);
+    if (seenStreaks.has(key)) return null;
+    const event = normalizeEvent(type, {...data, repeatEnd:1});
+    seenStreaks.add(key);
+    if (seenStreaks.size > 2000) seenStreaks.delete(seenStreaks.values().next().value);
+    return {...event, id:`gift-streak:${key}`};
+  };
+}
 export function normalizeEvent(type, data) {
   // Connector 2.5 uses protobuf v3 (content / gift / displayId).
   // Retain older aliases for the standalone bridge and recorded events.

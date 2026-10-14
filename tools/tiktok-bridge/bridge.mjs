@@ -1,7 +1,7 @@
 import { randomBytes, timingSafeEqual } from 'node:crypto';
 import { WebSocketServer, WebSocket } from 'ws';
 import { TikTokLiveConnection, WebcastEvent, ControlEvent } from 'tiktok-live-connector';
-import { normalizeEvent } from './normalize.mjs';
+import { createEventNormalizer } from './normalize.mjs';
 
 const token = randomBytes(24).toString('hex');
 const origins = new Set(['https://wonderlytales.vercel.app', 'http://localhost:3000', 'http://localhost:3013']);
@@ -30,6 +30,7 @@ server.on('connection', ws => {
     connection = new TikTokLiveConnection(input.username, {processInitialData: false, enableExtendedGiftInfo: true,
       ...(process.env.EULER_STREAM_API_KEY ? {signApiKey: process.env.EULER_STREAM_API_KEY} : {}),
     });
+    const normalizeEvent = createEventNormalizer();
     for (const [event, type] of [[WebcastEvent.CHAT, 'comment'], [WebcastEvent.GIFT, 'gift'], [WebcastEvent.FOLLOW, 'follow']]) {
       connection.on(event, data => { const normalized = normalizeEvent(type, data); if (normalized) send({type: 'event', event: normalized}); });
     }
