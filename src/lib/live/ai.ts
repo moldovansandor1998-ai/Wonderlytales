@@ -5,12 +5,12 @@ import { getVercelOidcToken } from "@vercel/oidc";
 import { readCompletionStream } from "./completion-stream";
 
 export const LIVE_MODEL = "openai/gpt-6.1-sol";
-export const LIVE_STREAM_MODEL = "openai/gpt-5.4-mini";
+export const LIVE_STREAM_MODEL = "openai/gpt-6-luna";
 // 20,000 input bytes + framing, including $2.50/M cache writes, and
 // <=800 combined reasoning/output tokens at $10/M in standard processing.
 export const LIVE_AI_RESERVATION_USD = 0.06;
-// Streaming mini priority: <=8,000 UTF-8 bytes + framing at <=$1.65/M input,
-// <=800 output tokens at <=$9.90/M, below the existing $0.06 reservation.
+// Streaming Luna priority: <=8,000 UTF-8 bytes + framing at <=$0.275/M cache
+// writes, <=800 output tokens at <=$1.10/M, below the $0.06 reservation.
 export const LIVE_FAST_INPUT_BYTES = 8000;
 type LiveTextStream = {onText:(text:string)=>Promise<void>; toReply:(text:string)=>unknown};
 

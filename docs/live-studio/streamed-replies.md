@@ -13,10 +13,13 @@ only before any speech was submitted. There is no repair/replay after speech sta
 
 The first production test with GPT-6.1 Sol priority still took 6.8 seconds to
 audible playback (first sentence 5,240 ms; audio 5,363 ms). The streamed path
-therefore uses GPT-5.4 Mini with reasoning disabled and priority service. The
+was tested with GPT-5.4 Mini (3.5 seconds initially, 2.5 after infrastructure
+changes), then moved to GPT-6 Luna because Mini produced an awkward Hungarian
+punchline in the final test. Luna uses reasoning disabled and priority service. The
 same character, humor and validation rules are retained. Actual service tier,
 preflight, first-text timing and token usage are logged. Current catalog prices
-(2026-10-14) including the regional premium are at most $1.65/M input and $9.90/M output.
+(2026-10-14) including the regional premium are at most $0.275/M cache writes
+and $1.10/M output.
 The 8,000-byte input ceiling plus framing and at most 800 output tokens fit the
 existing $0.06 reservation. Oldest history entries are removed if necessary; the
 current comment and character rules are never truncated. Non-streaming calls keep
