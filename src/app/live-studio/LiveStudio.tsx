@@ -308,7 +308,7 @@ export default function LiveStudio() {
     const combined=withAudio&&(continuousRef.current||voiceMode==="eleven")&&!motionMode;
     const requestedAt=performance.now();
     const response=await fetch(combined?"/api/live-studio/respond":"/api/live-studio/dialogue",{method:"POST",headers:{"Content-Type":"application/json",...(combined?{Accept:"application/x-ndjson","X-Live-Audio-Format":speech.audioFormat()}:{})},body:JSON.stringify({event,history:recent,replyIndex,music,...(combined?{voices:castVoices}:{})}),signal});
-    if(combined)console.info("live_response_client",{headersMs:Math.round(performance.now()-requestedAt),format:response.headers.get("X-Live-Audio-Format")});
+    if(combined)console.info("live_response_client",JSON.stringify({headersMs:Math.round(performance.now()-requestedAt),format:response.headers.get("X-Live-Audio-Format")}));
     if(response.ok&&response.headers.get("Content-Type")?.includes("application/x-ndjson"))return readStreamingResponse(response,signal);
     if(combined&&response.ok&&response.headers.get("X-Live-Dialogue"))return {dialogue:dialogueSchema.parse(JSON.parse(decodeURIComponent(response.headers.get("X-Live-Dialogue")!))),audio:response};
     return {dialogue:dialogueSchema.parse(await readAIResponse(response)),audio:undefined};

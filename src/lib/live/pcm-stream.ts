@@ -74,7 +74,7 @@ export async function playPcmStream(response: Response, context: AudioContext, s
           if (firstSound >= 0) {
             announced = true;
             const delay = at - context.currentTime + firstSound / PCM_SAMPLE_RATE + (context.outputLatency || 0) + (context.baseLatency || 0);
-            console.info("live_audio_client", {format:"pcm",firstBytesMs,scheduleMs:Math.round((at-context.currentTime)*1000),silenceMs:Math.round(firstSound/PCM_SAMPLE_RATE*1000),deviceMs:Math.round(((context.outputLatency||0)+(context.baseLatency||0))*1000)});
+            console.info("live_audio_client", JSON.stringify({format:"pcm",firstBytesMs,scheduleMs:Math.round((at-context.currentTime)*1000),silenceMs:Math.round(firstSound/PCM_SAMPLE_RATE*1000),deviceMs:Math.round(((context.outputLatency||0)+(context.baseLatency||0))*1000)}));
             startTimer = setTimeout(() => { if (!settled && !bounded.aborted && context.state === "running") onStart?.(); }, Math.max(0, delay * 1000));
           }
         }
