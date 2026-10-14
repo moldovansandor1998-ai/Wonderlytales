@@ -1,0 +1,13 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "functions": {
+    "src/app/api/live-studio/respond/route.ts": {
+      "regions": ["hnd1"],
+      "supportsCancellation": true
+    },
+    "src/app/api/live-studio/speech/stream/route.ts": {
+      "regions": ["hnd1"],
+      "supportsCancellation": true
+    }
+  }
+}

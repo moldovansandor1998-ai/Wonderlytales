@@ -35,3 +35,10 @@ queue, including queue wait. It does not claim to measure TikTok broadcast delay
 Server logs separately report first complete sentence, first audio bytes and
 total processing time. Browser playback and real TikTok delivery are separate
 verification steps.
+
+The Mini production test reached audible playback at 3.5 seconds, but preflight
+alone took 1,352 ms. Runtime logs placed the function in Cleveland while the
+existing Supabase project is in Tokyo (ap-northeast-1). The respond and streamed
+speech functions are therefore pinned to hnd1, close to the database, without
+caching or skipping authentication or budget checks. Request cancellation is
+enabled on these paths so a stopped/interrupted client also aborts upstream work.
