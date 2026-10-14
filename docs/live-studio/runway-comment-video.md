@@ -1,5 +1,10 @@
 # Kommentből készülő beszélő videó
 
+> Az alábbi leírás a korábbi videós mód és a fejlesztési lépések története.
+> Az aktuális automata műsor mentett NPC-mozgásokat és friss ElevenLabs-hangot használ.
+> Az éles ellenőrzés, indítás és fennmaradó készülékbeállítások:
+> [NPC-műsor ellenőrzése](npc-production-verification.md).
+
 Az AI minden kommentből új Ali–Isti párbeszédet ír. Ali csípősen ugratja a pukkancs színpadi Istit, aki rövid felháborodás után önironikusan visszakozik. A jelmez nem határozza meg a beszédet; a kalózos szófordulatok tiltottak. A referencia-videók reakcióritmusa szolgált mintául; a videókat és mondataikat nem játsszuk vissza.
 
 A Runway kapcsoló a közös jelenet ElevenLabs módjában minden megszólalást frissen renderel. Nem folyamatos WebRTC beszélgetés: a generálás alatt a sor vár. A vezérlőfül adásképének egyetlen videóeleme játssza a képet és a hangot; a külön számítógépes adásablak némított másolata követi a lejátszási időt. A sor csak a teljes lejátszás után folytatódik. A mikrofonos AvatarPreview külön korábbi prototípus, nem szükséges ehhez a módhoz.
