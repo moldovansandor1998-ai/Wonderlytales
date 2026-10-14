@@ -19,7 +19,7 @@ A meglévő WonderlyTales alkalmazás `/live-studio` része továbbfejlesztve, a
 - A production környezetben **nincs `STORY_API_KEY`**; ezért az AI-válaszmód le van tiltva a felületen. Új API-kapcsolat és a `story` szolgáltatási költségkeret ellenőrzése szükséges. Új kulcsot nem hoztunk létre és titkot nem másoltunk.
 - A karakter **állókép**. A hang karakteridőzítése rendelkezésre állhat, de nem állítunk elő professzionális száj- vagy testanimációt. A továbblépés valós időben animálható, a referenciával egyező karakter és megfelelő animációs futtató bekötése. A régi helyi, szövegalapú ál-viseme generátor nem kerül használatba a live-ban.
 - Aktív TikTok-fiók és a felhasználó közvetítő számítógépe nélkül valódi LIVE-kommentekkel nem történt végponttól végpontig teszt. Az összekötő nem hivatalos kliens; működése szolgáltatói korlátoktól függhet.
-- A karakterbeállítások böngészőhöz kötöttek; a zenefájlok csak az adott munkamenetben élnek.
+- A karakterbeállítások és a zenefájlok böngészőhöz kötöttek. A zenefájlokat az IndexedDB megőrzi újranyitásra; tárhelyhiba esetén a stúdió jelzi, hogy csak az aktuális munkamenetben használhatók.
 - A teljes adás indítása és rögzítése a felhasználó TikTok LIVE Studio hozzáférését igényli.
 
 ## Validáció
