@@ -40,6 +40,8 @@ describe('Two-character live dialogue',()=>{
     expect(repaired).toMatch(/^Peti, /);expect(repaired).toContain('pizzát');expect(repaired.split(' ').length).toBeGreaterThan(6);
     expect(spokenName('@Zsófi_123🔥')).toBe('Zsófi');
     expect(spokenName('https://example.com')).toBe('Néző');
+    expect(giftDialogue({...event,gift:'Zene',count:1},0).turns[0].text).not.toMatch(/rózsa|csokor|váza/iu);
+    expect(giftDialogue({...event,gift:'Zene',count:100},0).turns[0].text).not.toContain('virágbolt');
     expect(giftDialogue({...event,user:'Laci',count:100},1).turns[0].text).toMatch(/^Laci, 100/);
     expect(giftDialogue({...event,user:'Peti',contributors:['Peti','Anna'],count:100},1).turns[0].text).toMatch(/^Peti, Anna, /);
   });

@@ -185,6 +185,16 @@ export default function LiveStudio() {
     } catch(error) { if(!controller.signal.aborted)setMessage(error instanceof Error?error.message:"Az NPC-jelenetek nem érhetők el.");musicBed.stop(); }
     finally { if(operation.current===controller){operation.current=null;setBusy(false);} }
   }
+  async function inspectNpc(retryKind?:GagKind){
+    if(operation.current||autoRef.current)return;
+    const controller=new AbortController();operation.current=controller;setBusy(true);setMessage("");
+    try{
+      if(retryKind)await npc.retryClip(castVoices.isti,retryKind,controller.signal);
+      else await npc.inspect(castVoices.isti,controller.signal);
+      setMessage(retryKind?"Egy célzott új próbálkozás elindult. A többi mentett jelenet változatlan.":"A mentett jelenetek állapota frissítve. Nem indult új generálás.");
+    }catch(error){if(!controller.signal.aborted)setMessage(error instanceof Error?error.message:"Jelenetállapot-hiba");}
+    finally{if(operation.current===controller){operation.current=null;setBusy(false);}}
+  }
   async function playGiftGag(signal:AbortSignal,kind:GagKind) {
     if(!npcPlayer.current)throw new Error("Előbb indítsd el a mentett NPC-jelenetet.");
     if(!npc.assets?.gags?.[kind])throw new Error(`${GAG_META[kind].label}: a jelenet még nincs elmentve. Készítsd elő a gegeket.`);
@@ -419,6 +429,9 @@ export default function LiveStudio() {
       <details className="rounded-lg border border-zinc-700 p-3"><summary className="cursor-pointer">NPC-jelenetek és rövid ajándékgegek</summary><div className="mt-3 space-y-3">
         <p className="text-sm">Hat 4 másodperces geg: habkakás tál, dupla tejszínhab, óriáspite, nyálkavödör, pörgő szék és konfettiágyú. Egy kevert körben mind a hat sorra kerül. Galaxis: felrúgás csillagcsíkkal. Nagyobb ajándékok: habtornádó, óriás buborék, rakétaszék és kozmikus pitezápor. Az előkészítés megőrzi a korábbi alapjeleneteket.</p>
         <button className={button} disabled={busy||auto} onClick={()=>void previewBackdrop(true)}>NPC-jelenetek és rövid gegek előkészítése</button>
+        <button className={button} disabled={busy||auto} onClick={()=>void inspectNpc()}>Mentett gegek állapotának frissítése</button>
+        {npc.manifest&&<ul aria-label="Mentett gegek állapota" className="space-y-2 text-sm">{npc.manifest.clips.filter(clip=>clip.kind.startsWith("gag-")).map(clip=><li key={clip.kind} className="flex flex-wrap items-center gap-3"><span>{GAG_META[clip.kind as GagKind].label}: {clip.status==="SUCCEEDED"?"Elkészült":clip.status==="PENDING"?"Készül":clip.status==="MISSING"?"Még nincs elkészítve":clip.status==="SUBMITTING"?"Indítás alatt":"Ellenőrzést igényel"}{clip.error?` (${clip.error})`:""}</span>{clip.url&&<a className="text-amber-300 underline" href={clip.url} download={`${clip.kind}.mp4`}>{GAG_META[clip.kind as GagKind].label} ellenőrzése / letöltése</a>}{["FAILED","UNCERTAIN"].includes(clip.status)&&(clip.attempts||1)<2&&<button className={button} disabled={busy||auto} onClick={()=>void inspectNpc(clip.kind as GagKind)}>Új próbálkozás: {GAG_META[clip.kind as GagKind].label}</button>}</li>)}</ul>}
+        {npc.manifest?.clips.some(clip=>["FAILED","UNCERTAIN"].includes(clip.status))&&<p className="text-xs text-amber-200">Az új próbálkozás gomb egyetlen új, fizetős videót indít a kiválasztott hibás jelenethez. Az állapotfrissítés és az adásindítás nem ismétli meg a generálást.</p>}
         <label className="block">Zenés ajándék nevei (vesszővel elválasztva)<input className={field} maxLength={400} value={musicGiftNames} disabled={busy||auto} onChange={e=>{setMusicGiftNames(e.target.value);setMusicGiftId("");}} /></label>
         <label className="block">Pontos TikTok ajándékazonosító (ha ismert)<input className={field} inputMode="numeric" maxLength={30} value={musicGiftId} disabled={busy||auto} onChange={e=>setMusicGiftId(e.target.value.replace(/\D/g,""))} /></label>
         <p className="text-xs text-zinc-400">Az azonosító elsőbbséget élvez. Ha nincs megadva, csak a pontosan egyező ajándéknevek váltják a DJ hangulatát. A kommentbe írt „zene” nem ajándék. Az alábbi listában a már beérkezett valódi ajándékot egy érintéssel kiválaszthatod.</p>

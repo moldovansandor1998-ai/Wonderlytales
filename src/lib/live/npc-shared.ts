@@ -66,4 +66,4 @@ export class GiftGagPicker {
     return this.last=this.bag.pop()!;
   }
 }
-export type NpcManifest = { clips: {kind: NpcKind; status: string; url?: string}[]; voice: {status: string; url?: string}; ready: boolean };
+export type NpcManifest = { clips: {kind: NpcKind; status: string; url?: string;error?:string;attempts?:number}[]; voice: {status: string; url?: string}; ready: boolean };
