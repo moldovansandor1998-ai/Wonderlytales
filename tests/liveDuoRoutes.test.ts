@@ -46,10 +46,24 @@ describe('Duo API boundaries',()=>{
   });
   it('returns one short response even if the provider adds another voice',async()=>{
     const dialogue={turns:[{speaker:'ali',text:'Isti már integet, csak közben elfelejtette, kinek!',emotion:'happy'},{speaker:'isti',text:'Én is köszönök.',emotion:'neutral'}]};
-    vi.stubGlobal('fetch',vi.fn().mockResolvedValue(new Response(JSON.stringify({choices:[{message:{content:JSON.stringify(dialogue)}}]}))));
+    vi.stubGlobal('fetch',vi.fn(async()=>new Response(JSON.stringify({choices:[{message:{content:JSON.stringify(dialogue)}}]}))));
     const response=await POST(request());expect(response.status).toBe(200);
     const actual=await response.json();
     expect(actual.turns[0].text).toBe('Néző, Isti már integet, csak közben elfelejtette, kinek!');
     expect(actual.turns).toHaveLength(1);
+  });
+  it('returns only the coherence-edited line and supplies the actual comment and draft to the editor',async()=>{
+    const outputs=['Ketten vagyunk, mert Ali hangja nem tölti be a szobát.', 'Ketten vagyunk, de a munkát így is egymásra várjuk.'];
+    const fetch=vi.fn(async(_url,options)=>{
+      const body=JSON.parse(options.body);
+      if(fetch.mock.calls.length===2){
+        expect(body.messages[1].content).toContain('Hányan vagytok?');
+        expect(body.messages[2].content).toContain('Ali hangja nem tölti be a szobát');
+      }
+      return new Response(JSON.stringify({choices:[{message:{content:JSON.stringify({turns:[{speaker:'ali',text:outputs.shift(),emotion:'laugh'}]})}}]}));
+    });vi.stubGlobal('fetch',fetch);
+    const response=await POST(request({event:{...payload.event,text:'Hányan vagytok?'}}));
+    expect((await response.json()).turns[0].text).toBe('Néző, Ketten vagyunk, de a munkát így is egymásra várjuk.');
+    expect(fetch).toHaveBeenCalledTimes(2);expect(reserveProductionBudget).toHaveBeenCalledTimes(2);
   });
 });

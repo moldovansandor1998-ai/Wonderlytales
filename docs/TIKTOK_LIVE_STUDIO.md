@@ -8,6 +8,8 @@ A valódi próbákban a mini modell az új utasításokkal is értelmetlen csatt
 
 Az alábbi korábbi bejegyzések történeti állapotot írnak le.
 
+Felolvasás előtt a sikeres tervezet külön szerkesztői körbe kerül ugyanazzal a kommenttel, szereppel és előzménnyel. Ez az érthetőséget, az ok-okozati kapcsolatot, a csattanót és a sértés célpontját ellenőrzi, majd csak a végleges szöveget adja vissza. Legfeljebb két fizetős hívás történhet: tervezet + szerkesztés, illetve érvénytelen tervezet esetén tervezet + javítás. A két körre közös 40 másodperces határidő és legfeljebb $0.10 összesített foglalás vonatkozik. Sikertelen szerkesztés után a tervezetet nem olvassa fel.
+
 A meglévő WonderlyTales alkalmazás `/live-studio` része továbbfejlesztve, a filmgyártás és a korábbi médiaállományok változtatása nélkül.
 
 ## Elkészült
