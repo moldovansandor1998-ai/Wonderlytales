@@ -1,5 +1,13 @@
 # TikTok AI Live – 2026-10-13 folytatás
 
+## Aktuális kommentválaszok – 2026-10-14
+
+Minden kommentre önálló AI-válasz készül, rögzített komment–poén párok nélkül. Ali a nézővel együtt Istit ugratja; a név nélküli sértések célpontja Isti. A prompt a konkrét kérdés megértését, az érthető csattanót és a korábbi ötletek elkerülését kéri. A kimenetellenőrzés elutasítja az egyszavas visszhangot, az ismételt mondatokat és a kommentben nem említett pizzát. Érvénytelen válasznál legfeljebb egy új, külön keretellenőrzött generálás történik; szolgáltatói hibánál nincs új fizetős kísérlet. A néző nevét továbbra is a szerver teszi a válasz elé. A néma próba saját előzményt és szereplőváltást kapott.
+
+A valódi próbákban a mini modell az új utasításokkal is értelmetlen csattanókat adott, ezért a Gateway rögzített modellje `openai/gpt-4.1`, 0.8-as temperature értékkel. Az üzenetplafon 20 000 byte, a kimeneti maximum 800 token (kommentnél 220). A szolgáltató $2/M bemeneti és $8/M kimeneti díjához a `live_ai` felső foglalás $0.05/kísérlet; ezt a szerver ellenőrzi. A napi limit továbbra is $200. A foglalás biztonsági felső korlát, nem a tényleges számla. Árforrás: https://vercel.com/ai-gateway/models/gpt-4.1 (2026-10-14).
+
+Az alábbi korábbi bejegyzések történeti állapotot írnak le.
+
 A meglévő WonderlyTales alkalmazás `/live-studio` része továbbfejlesztve, a filmgyártás és a korábbi médiaállományok változtatása nélkül.
 
 ## Elkészült

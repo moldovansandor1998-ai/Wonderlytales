@@ -3,7 +3,9 @@ import { json } from "@/lib/ai-video/http";
 import type { z } from "zod";
 import { getVercelOidcToken } from "@vercel/oidc";
 
-export const LIVE_MODEL = "openai/gpt-4.1-mini";
+export const LIVE_MODEL = "openai/gpt-4.1";
+// 20,000 input bytes + framing at $2/M and <=800 output tokens at $8/M.
+export const LIVE_AI_RESERVATION_USD = 0.05;
 
 export function liveAiProvider(): "gateway" | "story" | "wavespeed" | null {
   if (process.env.LIVE_AI_GATEWAY_ENABLED === "true") return "gateway";
@@ -34,10 +36,12 @@ export async function generateLiveReply<T>(messages: {role: string; content: str
   signal.throwIfAborted();
   const key = provider === "gateway" ? process.env.AI_GATEWAY_API_KEY || await getVercelOidcToken().catch(() => undefined) : provider === "story" ? process.env.STORY_API_KEY : process.env.WAVESPEED_API_KEY;
   if (!key) return json({ error: "AI_NOT_CONFIGURED" }, 503);
-  if (provider === "wavespeed") {
-    // Any LLM has a documented flat $0.01/run price. Keep the existing ledger's ceiling adequate.
+  if (provider === "gateway" || provider === "wavespeed") {
+    // Verify the pinned model's ceiling before reserving or spending.
     const budget = await getProductionBudget();
-    if (budget && !(budget.configured_services.story >= 0.01)) return json({ error: "AI_BUDGET_NOT_CONFIGURED" }, 503);
+    const service = provider === "gateway" ? "live_ai" : "story";
+    const ceiling = provider === "gateway" ? LIVE_AI_RESERVATION_USD : 0.01;
+    if (budget && !(budget.configured_services[service] >= ceiling)) return json({ error: "AI_BUDGET_NOT_CONFIGURED" }, 503);
   }
   await reserveProductionBudget(provider === "gateway" ? "live_ai" : "story");
   const bounded = AbortSignal.any([signal, AbortSignal.timeout(35000)]);
@@ -47,7 +51,7 @@ export async function generateLiveReply<T>(messages: {role: string; content: str
       const base = provider === "gateway" ? "https://ai-gateway.vercel.sh/v1" : process.env.STORY_BASE_URL || "https://api.openai.com/v1";
       const response = await fetch(`${base.replace(/\/$/, "")}/chat/completions`, {
         method: "POST", headers,
-        body: JSON.stringify({ model: liveAIConfiguration().model, messages, response_format: { type: "json_object" }, max_tokens: maxTokens }),
+        body: JSON.stringify({ model: liveAIConfiguration().model, messages, response_format: { type: "json_object" }, max_tokens: maxTokens, ...(provider === "gateway" ? {temperature:0.8} : {}) }),
         signal: bounded,
       });
       if (!response.ok) {

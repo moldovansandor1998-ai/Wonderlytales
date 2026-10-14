@@ -1,9 +1,10 @@
--- Verified 2026-10-13 against https://ai-gateway.vercel.sh/v1/models:
--- openai/gpt-4.1-mini: $0.40 / 1M input, $1.60 / 1M output tokens.
+-- Verified 2026-10-14 against https://vercel.com/ai-gateway/models/gpt-4.1:
+-- openai/gpt-4.1: $2 / 1M input, $8 / 1M output tokens.
 -- ai.ts pins this model, caps serialized message bytes at 20,000 and output
--- at 800 tokens. $0.02 is a conservative per-attempt reservation, not actual
--- invoiced spend. No automatic retries; the existing daily limit is unchanged.
+-- at 800 tokens. $0.05 conservatively covers byte-token worst case plus framing.
+-- This is a per-attempt reservation, not invoiced spend. One retry is allowed
+-- for invalid dialogue only, with its own reservation; daily limit is unchanged.
 update production_private.budget_policy
-set service_ceilings = service_ceilings || '{"live_ai": 0.02}'::jsonb,
+set service_ceilings = service_ceilings || '{"live_ai": 0.05}'::jsonb,
     updated_at = now()
 where id = true;
