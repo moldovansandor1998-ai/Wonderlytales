@@ -52,18 +52,16 @@ describe('Duo API boundaries',()=>{
     expect(actual.turns[0].text).toBe('Néző, Isti már integet, csak közben elfelejtette, kinek!');
     expect(actual.turns).toHaveLength(1);
   });
-  it('returns only the coherence-edited line and supplies the actual comment and draft to the editor',async()=>{
-    const outputs=['Ketten vagyunk, mert Ali hangja nem tölti be a szobát.', 'Ketten vagyunk, de a munkát így is egymásra várjuk.'];
+  it('returns one internally reviewed contextual answer with one reservation and one provider request',async()=>{
+    const line='Ketten vagyunk, de a munkát így is egymásra várjuk.';
     const fetch=vi.fn(async(_url,options)=>{
       const body=JSON.parse(options.body);
-      if(fetch.mock.calls.length===2){
-        expect(body.messages[1].content).toContain('Hányan vagytok?');
-        expect(body.messages[2].content).toContain('Ali hangja nem tölti be a szobát');
-      }
-      return new Response(JSON.stringify({choices:[{message:{content:JSON.stringify({turns:[{speaker:'ali',text:outputs.shift(),emotion:'laugh'}]})}}]}));
+      expect(body.messages[0].content).toContain('Küldés előtt magadban ellenőrizd');
+      expect(body.messages[1].content).toContain('Hányan vagytok?');
+      return new Response(JSON.stringify({choices:[{message:{content:JSON.stringify({turns:[{speaker:'ali',text:line,emotion:'laugh'}]})}}]}));
     });vi.stubGlobal('fetch',fetch);
     const response=await POST(request({event:{...payload.event,text:'Hányan vagytok?'}}));
-    expect((await response.json()).turns[0].text).toBe('Néző, Ketten vagyunk, de a munkát így is egymásra várjuk.');
-    expect(fetch).toHaveBeenCalledTimes(2);expect(reserveProductionBudget).toHaveBeenCalledTimes(2);
+    expect((await response.json()).turns[0].text).toBe(`Néző, ${line}`);
+    expect(fetch).toHaveBeenCalledOnce();expect(reserveProductionBudget).toHaveBeenCalledOnce();
   });
 });

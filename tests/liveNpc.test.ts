@@ -1,5 +1,5 @@
 import {beforeEach,afterEach,describe,it,expect,vi} from "vitest";
-import {isMusicGift,BASIC_GAGS,GAG_KINDS,GAG_META} from "@/lib/live/npc-shared";
+import {isMusicGift,BASIC_GAGS,GAG_KINDS,GAG_META,GAG_BEG_LINE} from "@/lib/live/npc-shared";
 import {eventSchema,EventQueue} from "@/lib/live/events";
 import {normalizeEvent} from "../tools/tiktok-bridge/normalize.mjs";
 vi.mock("@/lib/budget",()=>({getProductionBudget:vi.fn(),reserveProductionBudget:vi.fn()}));
@@ -65,6 +65,15 @@ describe("bounded saved NPC assets",()=>{
   vi.mocked(fetch).mockResolvedValue(new Response(new Uint8Array(200)));
   await startNpcVoice(store,"IstiVoice");await startNpcVoice(store,"IstiVoice");expect(fetch).toHaveBeenCalledTimes(1);expect(store.putAsset).toHaveBeenCalledTimes(1);
   const manifest=await readNpc(store,"IstiVoice");expect(manifest.voice.url).toMatch(/type=mp3$/);expect(manifest.ready).toBe(false);
+ });
+ it("adds begging without changing existing clip slots and caches its exact Isti line independently",async()=>{
+  expect(npcRecordId("gag-mud")).toBe("00000000-0000-4000-8001-000000000212");
+  expect(npcRecordId("gag-meteor")).toBe("00000000-0000-4000-8001-000000000222");
+  expect(npcPayload("gag-beg","frame").promptText).toContain("BOTH KNEES");
+  const fetcher=vi.fn(async(_url:any,_options:any)=>new Response(new Uint8Array(200)));vi.stubGlobal("fetch",fetcher);
+  await startNpcVoice(store,"IstiVoice","beg");await startNpcVoice(store,"IstiVoice","beg");
+  expect(fetcher).toHaveBeenCalledOnce();expect(JSON.parse(fetcher.mock.calls[0][1].body).text).toContain(GAG_BEG_LINE);
+  const manifest=await readNpc(store,"IstiVoice");expect(manifest.begVoice.url).toMatch(/type=mp3$/);expect(manifest.voice.status).toBe("MISSING");
  });
  it("recovers a definitively rejected credit request once after a top-up, including concurrent clicks",async()=>{
   const rejected={status:"FAILED",createdAt:"before",attempts:2,providerStatus:400,error:"NPC_CREDITS_REQUIRED",previousAttempt:{status:"FAILED",createdAt:"first",providerStatus:429}};

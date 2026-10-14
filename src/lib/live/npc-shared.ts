@@ -1,12 +1,13 @@
-import { isBigGift, type LiveEvent } from "./events";
+import { isBigGift, isBegGift, type LiveEvent } from "./events";
 
 export const NPC_IMAGE = "/live-studio/ali-isti-masked.webp";
 export const BASIC_GAGS = ["gag-mud", "gag-cream", "gag-pie", "gag-slime", "gag-spin", "gag-confetti"] as const;
-export const GAG_KINDS = [...BASIC_GAGS, "gag-galaxy", "gag-tornado", "gag-bubble", "gag-rocket", "gag-meteor"] as const;
+export const GAG_KINDS = [...BASIC_GAGS, "gag-galaxy", "gag-tornado", "gag-bubble", "gag-rocket", "gag-meteor", "gag-beg"] as const;
 export type GagKind = typeof GAG_KINDS[number];
 export const NPC_KINDS = ["idle-breathe", "idle-glance", "idle-shrug", "music-gift", ...GAG_KINDS] as const;
 export type NpcKind = typeof NPC_KINDS[number];
 export const GAG_META: Record<GagKind, {label:string; duration:4|6; playbackSeconds:number; impact:number}> = {
+  "gag-beg": {label:"Isti térden könyörög • 10–199 pont",duration:6,playbackSeconds:6,impact:1.4},
   "gag-mud": {label:"Habkakás tál",duration:4,playbackSeconds:4,impact:1.25},
   "gag-cream": {label:"Dupla tejszínhab",duration:4,playbackSeconds:4,impact:0.8},
   "gag-pie": {label:"Óriáspite",duration:4,playbackSeconds:4,impact:1.3},
@@ -19,7 +20,9 @@ export const GAG_META: Record<GagKind, {label:string; duration:4|6; playbackSeco
   "gag-rocket": {label:"Rakétaszék",duration:6,playbackSeconds:6,impact:1.5},
   "gag-meteor": {label:"Kozmikus pitezápor",duration:6,playbackSeconds:6,impact:1.3},
 };
+export const GAG_BEG_LINE = "Légyszi, kétszáz pont feletti legyen, mert ez kevés, te inas!";
 export const GAG_LINES: Record<GagKind,Record<"ali"|"isti",readonly string[]>> = {
+ "gag-beg":{ali:[GAG_BEG_LINE],isti:[GAG_BEG_LINE]},
  "gag-mud":{ali:["Pistának ma szar napja lesz!", "Pucu, ez a prémium arcpakolás!", "Pista, ebbe még a NAV se nyúl bele!"],isti:["Ali, te szarházi! Inasom vagy, nem kertészem!", "Nem baj, hagyjadddd! A kalapnak úgyis mindegy.", "Ali, ezt a borravalódból mosatod ki!"]},
  "gag-cream":{ali:["Pista, készül a habosított változatod!", "Pucu, végre édes lett a pofád!", "Pista, még egy cseresznye, és mehetsz a vitrinbe!"],isti:["Ali, inasom vagy, nem cukrászom!", "Nem baj, hagyjadddd! Legalább nem száraz a műsor.", "Ali, ezt még a tortából is levonom!"]},
  "gag-pie":{ali:["Pista, ma tányérral együtt kéred!", "Pucu, nyisd nagyra! Ja, a maszk marad.", "Pista, ez házhoz ment, pofára címezve!"],isti:["Ali, harminckét négyzetméter pizzát ettem, erre hozol még pitét?!", "Nem baj, hagyjadddd! A tányér kicsit ropogós.", "Ali, ezt még a számládhoz csapom!"]},
@@ -50,7 +53,7 @@ export function availableGiftGag(requested:GagKind|undefined, available:Partial<
   if(!requested)return undefined;
   if(available[requested])return requested;
   // Keep the space kick exclusive to Galaxy gifts.
-  if(requested==="gag-galaxy")return undefined;
+  if(requested==="gag-galaxy"||requested==="gag-beg")return undefined;
   const alternatives:GagKind[]=BASIC_GAGS.includes(requested as typeof BASIC_GAGS[number])
     ? [...BASIC_GAGS]
     : ["gag-rocket","gag-meteor","gag-tornado","gag-bubble",...BASIC_GAGS];
@@ -62,6 +65,7 @@ export class GiftGagPicker {
   private last?:GagKind;
   constructor(private random:()=>number=Math.random){}
   pick(event:LiveEvent, galaxyId=""):GagKind|undefined {
+    if(isBegGift(event))return "gag-beg";
     if(!isBigGift(event))return undefined;
     if(isGalaxyGift(event,galaxyId))return "gag-galaxy";
     if((event.giftValue||0)>=1000){
@@ -77,5 +81,5 @@ export class GiftGagPicker {
     return this.last=this.bag.pop()!;
   }
 }
-export type NpcOperation="prepare"|"recover-credit"|"revise-galaxy"|"activate-galaxy";
-export type NpcManifest = { clips: {kind: NpcKind; status: string; url?: string;error?:string;attempts?:number;creditRecoveryAllowed?:boolean}[]; galaxyRevision?:{status:string;url?:string;approved:boolean}; voice: {status: string; url?: string}; ready: boolean };
+export type NpcOperation="prepare"|"recover-credit"|"revise-galaxy"|"activate-galaxy"|"prepare-beg";
+export type NpcManifest = { clips: {kind: NpcKind; status: string; url?: string;error?:string;attempts?:number;creditRecoveryAllowed?:boolean}[]; galaxyRevision?:{status:string;url?:string;approved:boolean}; voice: {status: string; url?: string}; begVoice?: {status:string;url?:string}; ready: boolean };

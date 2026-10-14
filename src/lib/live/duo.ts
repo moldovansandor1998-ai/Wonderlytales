@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { GAG_LINES, GAG_META, type GagKind } from "./npc-shared";
+import { GAG_BEG_LINE, GAG_LINES, GAG_META, type GagKind } from "./npc-shared";
 import { replyInput, songRequest, isBigGift, type LiveEvent } from "./events";
 
 export const DUO_IMAGE = "/live-studio/ali-isti.webp";
@@ -98,6 +98,7 @@ const smallGiftLines: Record<Speaker, readonly string[]> = {
   ],
 };
 export function giftDialogue(event: LiveEvent, index: number, gag?: GagKind): Dialogue {
+  if (gag === "gag-beg") return {turns:[{speaker:"isti",text:GAG_BEG_LINE,emotion:"laugh"}]};
   const speaker: Speaker = index % 2 ? "ali" : "isti";
   const rose=/r[oó]zsa|rose|vir[aá]g|flower/iu.test(event.gift || "");
   const choices=rose?smallGiftLines[speaker]:smallGiftLines[speaker].filter(line=>!/rózsa|csokor|váza/iu.test(line));
@@ -119,7 +120,7 @@ export function giftMagic(gift = ""): GiftMagic {
   return "smoke";
 }
 export function giftEffect(event: LiveEvent, now = Date.now(), gag?: GagKind): GiftEffect | undefined {
-  if (!isBigGift(event)) return undefined;
+  if (!isBigGift(event) && gag !== "gag-beg") return undefined;
   return { id: event.id, kind: giftMagic(event.gift), startedAt: now, duration: gag ? GAG_META[gag].playbackSeconds * 1000 : 4000, label: `${event.user} • ${event.count} × ${event.gift || "ajándék"}` };
 }
 export function rehearsalDialogue(event: LiveEvent, songStarted = false): Dialogue {
