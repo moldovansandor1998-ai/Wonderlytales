@@ -2,11 +2,16 @@ import { getProductionBudget, reserveProductionBudget } from "@/lib/budget";
 import { json } from "@/lib/ai-video/http";
 import type { z } from "zod";
 import { getVercelOidcToken } from "@vercel/oidc";
+import { readCompletionStream } from "./completion-stream";
 
 export const LIVE_MODEL = "openai/gpt-6.1-sol";
 // 20,000 input bytes + framing, including $2.50/M cache writes, and
 // <=800 combined reasoning/output tokens at $10/M in standard processing.
 export const LIVE_AI_RESERVATION_USD = 0.06;
+// Priority: <=8,000 UTF-8 bytes + framing at $5/M cache writes, <=800 output
+// tokens at $20/M. Worst case stays below the existing $0.06 reservation.
+export const LIVE_FAST_INPUT_BYTES = 8000;
+type LiveTextStream = {onText:(text:string)=>Promise<void>; toReply:(text:string)=>unknown};
 
 export function liveAiProvider(): "gateway" | "story" | "wavespeed" | null {
   if (process.env.LIVE_AI_GATEWAY_ENABLED === "true") return "gateway";
@@ -29,11 +34,11 @@ function parseReply<T>(content: unknown, schema: z.ZodType<T>) {
 }
 
 /** One paid submission per call; subsequent WaveSpeed requests only retrieve that task. */
-export async function generateLiveReply<T>(messages: {role: string; content: string}[], schema: z.ZodType<T>, signal: AbortSignal, maxTokens: number) {
+export async function generateLiveReply<T>(messages: {role: string; content: string}[], schema: z.ZodType<T>, signal: AbortSignal, maxTokens: number, stream?: LiveTextStream) {
   const startedAt = Date.now();
   const provider = liveAiProvider();
   if (!provider) return json({ error: "AI_NOT_CONFIGURED" }, 503);
-  if (Buffer.byteLength(JSON.stringify(messages), "utf8") > 20000 || maxTokens > 800) return json({ error: "AI_INPUT_TOO_LARGE" }, 400);
+  if (Buffer.byteLength(JSON.stringify(messages), "utf8") > (stream ? LIVE_FAST_INPUT_BYTES : 20000) || maxTokens > 800) return json({ error: "AI_INPUT_TOO_LARGE" }, 400);
   signal.throwIfAborted();
   const key = provider === "gateway" ? process.env.AI_GATEWAY_API_KEY || await getVercelOidcToken().catch(() => undefined) : provider === "story" ? process.env.STORY_API_KEY : process.env.WAVESPEED_API_KEY;
   if (!key) return json({ error: "AI_NOT_CONFIGURED" }, 503);
@@ -52,8 +57,9 @@ export async function generateLiveReply<T>(messages: {role: string; content: str
       const base = provider === "gateway" ? "https://ai-gateway.vercel.sh/v1" : process.env.STORY_BASE_URL || "https://api.openai.com/v1";
       const response = await fetch(`${base.replace(/\/$/, "")}/chat/completions`, {
         method: "POST", headers,
-        body: JSON.stringify({ model: liveAIConfiguration().model, messages, response_format: { type: "json_object" },
-          ...(provider === "gateway" ? {max_completion_tokens:800,reasoning_effort:"low",service_tier:"default"} : {max_tokens:maxTokens}) }),
+        body: JSON.stringify({ model: liveAIConfiguration().model, messages,
+          ...(stream ? {stream:true,stream_options:{include_usage:true}} : {response_format:{type:"json_object"}}),
+          ...(provider === "gateway" ? {max_completion_tokens:800,reasoning_effort:"low",service_tier:stream?"priority":"default"} : {max_tokens:maxTokens}) }),
         signal: bounded,
       });
       if (!response.ok) {
@@ -65,10 +71,11 @@ export async function generateLiveReply<T>(messages: {role: string; content: str
         console.warn("live_ai_provider_error", { status: response.status, code: error });
         return json({ error }, 502);
       }
-      const data = await response.json();
+      const data = stream ? await readCompletionStream(response, bounded, stream.onText) : await response.json();
       if (data.error || data.choices?.[0]?.finish_reason === "length") return json({ error: "AI_INVALID_REPLY" }, 502);
-      console.info("live_ai_reply", { durationMs: Date.now() - startedAt, model: liveAIConfiguration().model, inputTokens: data.usage?.prompt_tokens, outputTokens: data.usage?.completion_tokens, reasoningTokens:data.usage?.completion_tokens_details?.reasoning_tokens });
-      return parseReply(data.choices?.[0]?.message?.content, schema);
+      console.info("live_ai_reply", { durationMs: Date.now() - startedAt, model: liveAIConfiguration().model, serviceTier:data.service_tier, streamed:!!stream, inputTokens: data.usage?.prompt_tokens, outputTokens: data.usage?.completion_tokens, reasoningTokens:data.usage?.completion_tokens_details?.reasoning_tokens });
+      const content = data.choices?.[0]?.message?.content;
+      return parseReply(stream && typeof content === "string" ? stream.toReply(content) : content, schema);
     }
     const base = "https://api.wavespeed.ai/api/v3";
     const submitted = await fetch(`${base}/wavespeed-ai/any-llm`, {
@@ -85,7 +92,7 @@ export async function generateLiveReply<T>(messages: {role: string; content: str
     const taskId = task.id;
     while (!bounded.aborted) {
       if (body.error || task.error || ["failed", "cancelled", "timeout", "deleted"].includes(task.status)) return json({ error: "AI_PROVIDER_ERROR" }, 502);
-      if (task.status === "completed") return parseReply(task.outputs?.[0], schema);
+      if (task.status === "completed") return parseReply(stream ? stream.toReply(task.outputs?.[0] || "") : task.outputs?.[0], schema);
       if (!/^[a-zA-Z0-9_-]{1,160}$/.test(taskId || "") || !["created", "pending", "processing", "in_queue", "running"].includes(task.status)) return json({ error: "AI_INVALID_REPLY" }, 502);
       await new Promise<void>((resolve, reject) => {
         const abort = () => { clearTimeout(timer); bounded.removeEventListener("abort", abort); reject(bounded.reason); };
@@ -98,7 +105,7 @@ export async function generateLiveReply<T>(messages: {role: string; content: str
       body = await response.json(); task = body.data || body;
     }
     return json({ error: "AI_TIMEOUT" }, 504);
-  } catch {
-    return json({ error: bounded.aborted ? "AI_TIMEOUT" : "AI_PROVIDER_ERROR" }, bounded.aborted ? 504 : 502);
+  } catch (error) {
+    return json({ error: bounded.aborted ? "AI_TIMEOUT" : error instanceof Error && error.message === "AI_INVALID_REPLY" ? "AI_INVALID_REPLY" : "AI_PROVIDER_ERROR" }, bounded.aborted ? 504 : 502);
   }
 }

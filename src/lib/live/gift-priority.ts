@@ -3,7 +3,15 @@ import type { LiveEvent } from "./events";
 /** Play at most two gifts while the same comment request continues in the background. */
 export class GiftPriority {
   private wake?: () => void;
-  notify() { this.wake?.(); }
+  private playingComment?: AbortController;
+  notify() { this.playingComment?.abort(new GiftInterruption()); this.wake?.(); }
+
+  /** Settle the interrupted playback cleanup before the queue starts its gift. */
+  async playComment<T>(controller: AbortController, play: () => Promise<T>) {
+    controller.signal.throwIfAborted();this.playingComment=controller;
+    try {return await play();}
+    finally {if(this.playingComment===controller)this.playingComment=undefined;}
+  }
 
   async during<T>(preparing: Promise<T>, signal: AbortSignal, takeGift: () => LiveEvent | undefined, play: (event: LiveEvent) => Promise<void>): Promise<T> {
     let settled = false;
@@ -33,4 +41,8 @@ export class GiftPriority {
       return result.value;
     } finally { signal.removeEventListener("abort", abort); }
   }
+}
+
+export class GiftInterruption extends Error {
+  constructor(){super("Ajándék érkezett; a kommentválasz megszakítva.");this.name="GiftInterruption";}
 }
