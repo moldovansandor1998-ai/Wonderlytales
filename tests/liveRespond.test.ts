@@ -38,10 +38,11 @@ describe('Comment to streamed speech in one request',()=>{
   expect(streamSpeech).toHaveBeenCalledOnce();expect(streamSpeech).toHaveBeenCalledWith({text:dialogue.turns[0].text,voiceId:'IstiVoice'},expect.any(AbortSignal));
   expect(new Uint8Array(await response.arrayBuffer())).toEqual(new Uint8Array([1,2,3]));
  });
- it('never voices the first draft if its editorial review fails',async()=>{
+ it('starts speech immediately after the first validated reply without a second paid model pass',async()=>{
   const dialogue={turns:[{speaker:'isti',text:'Teszt, A lábam indulna, de én még ülök!',emotion:'laugh'}]};
-  vi.mocked(generateLiveReply).mockResolvedValueOnce(new Response(JSON.stringify(dialogue)) as any).mockResolvedValueOnce(new Response(JSON.stringify({error:'AI_PROVIDER_ERROR'}),{status:502}) as any);
-  expect((await POST(request())).status).toBe(502);
-  expect(generateLiveReply).toHaveBeenCalledTimes(2);expect(streamSpeech).not.toHaveBeenCalled();
+  vi.mocked(generateLiveReply).mockResolvedValueOnce(new Response(JSON.stringify(dialogue)) as any);
+  vi.mocked(streamSpeech).mockResolvedValue(new Response(new Uint8Array([1])));
+  expect((await POST(request())).status).toBe(200);
+  expect(generateLiveReply).toHaveBeenCalledOnce();expect(streamSpeech).toHaveBeenCalledOnce();
  });
 });

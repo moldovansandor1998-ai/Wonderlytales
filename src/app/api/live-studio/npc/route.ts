@@ -14,8 +14,13 @@ export async function GET(request:NextRequest){try{
 }catch(e){return failure(e);}}
 export async function POST(request:NextRequest){try{
   const user=await access(request,true);
-  const input=z.object({kind:z.enum([...NPC_KINDS,"voice"]),voiceId:voice,retry:z.boolean().default(false),action:z.enum(["prepare","recover-credit","revise-galaxy","activate-galaxy"]).default("prepare")}).strict().refine(input=>input.action==="prepare"||(!input.retry&&(input.action==="recover-credit"?input.kind.startsWith("gag-"):input.kind==="gag-galaxy"))).parse(await readJson(request));
+  const input=z.object({kind:z.enum([...NPC_KINDS,"voice"]),voiceId:voice,retry:z.boolean().default(false),action:z.enum(["prepare","recover-credit","revise-galaxy","activate-galaxy","prepare-beg"]).default("prepare")}).strict().refine(input=>input.action==="prepare"||(!input.retry&&(input.action==="prepare-beg"?input.kind==="gag-beg":input.action==="recover-credit"?input.kind.startsWith("gag-"):input.kind==="gag-galaxy"))).parse(await readJson(request));
   const store=new R2VideoStore(user.id);
+  if(input.action==="prepare-beg"){
+    const clip=await startNpcClip(store,"gag-beg");
+    if(["PENDING","SUCCEEDED"].includes(clip.status))await startNpcVoice(store,input.voiceId,"beg");
+    return json({status:clip.status});
+  }
   const result=input.action==="activate-galaxy"?await activateNpcGalaxy(store):input.kind==="voice"?await startNpcVoice(store,input.voiceId):await startNpcClip(store,input.kind,input.retry,{recoverCredit:input.action==="recover-credit",galaxyRevision:input.action==="revise-galaxy"});
   return json({status:result.status});
 }catch(e){return failure(e);}}

@@ -32,7 +32,9 @@ export function useGagSound() {
       const node=ctx.createBufferSource(),filter=ctx.createBiquadFilter(),gain=ctx.createGain();node.buffer=buffer;filter.type="lowpass";filter.frequency.value=frequency;gain.gain.value=level;
       node.connect(filter);filter.connect(gain);gain.connect(bus);node.start(now+at);sources.push(node);node.onended=()=>{node.disconnect();filter.disconnect();gain.disconnect();};
     };
-    if(kind==="gag-spin"||kind==="gag-tornado"){
+    if(kind==="gag-beg"){
+      tone(impact,0.25,180,70,"triangle",0.25);
+    }else if(kind==="gag-spin"||kind==="gag-tornado"){
       for(let i=0;i<5;i++)tone(0.4+i*0.35,0.3,240+i*90,650-i*60,"triangle",0.45);
       tone(meta.playbackSeconds-0.9,0.65,300,65);
     }else if(kind==="gag-galaxy"||kind==="gag-rocket"){

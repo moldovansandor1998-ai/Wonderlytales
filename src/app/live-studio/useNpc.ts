@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { NPC_KINDS, GAG_KINDS, GAG_META, type GagKind, type NpcManifest, type NpcOperation } from "@/lib/live/npc-shared";
-export type NpcAssets={idle:string[];reaction:string;voice:string;gags?:Partial<Record<GagKind,string>>};
+export type NpcAssets={idle:string[];reaction:string;voice:string;begVoice?:string;gags?:Partial<Record<GagKind,string>>};
 const wait=(signal:AbortSignal)=>new Promise<void>((resolve,reject)=>{
   const cancel=()=>{clearTimeout(timer);reject(new DOMException("Stopped","AbortError"));};
   const timer=setTimeout(()=>{signal.removeEventListener("abort",cancel);resolve();},3000);
@@ -39,6 +39,7 @@ export function useNpc(){
           setStatus(`Az egyszer elmentendő jelenet készül: ${NPC_KINDS.indexOf(kind)+1}/${NPC_KINDS.length}`);await request(voiceId,signal,kind);
         }}
         if(result.voice.status==="MISSING"){setStatus("Isti kiabáló ajándékreakciójának mentése…");await request(voiceId,signal,"voice");}
+        if(result.begVoice?.status==="MISSING")await request(voiceId,signal,"gag-beg",false,"prepare-beg");
       }else if(result.clips.some(c=>!c.kind.startsWith("gag-")&&c.status==="MISSING")||result.voice.status==="MISSING")throw new Error("Előbb készítsd el a mentett NPC-alapjeleneteket. Az adásindítás nem generál fizetős videót.");
       const deadline=Date.now()+12*60_000;
       while(!result.ready||(prepare&&result.clips.some(c=>GAG_KINDS.includes(c.kind as GagKind)&&c.status!=="SUCCEEDED"))){
@@ -49,7 +50,7 @@ export function useNpc(){
       }
       setStatus("A jelenetek és a reakcióhang előtöltése…");
       const clips=await Promise.all(result.clips.filter(c=>c.status==="SUCCEEDED"&&c.url).map(async c=>({kind:c.kind,url:await local(c.url!,signal)})));
-      const next={idle:clips.filter(c=>c.kind.startsWith("idle-")).map(c=>c.url),reaction:clips.find(c=>c.kind==="music-gift")!.url,voice:await local(result.voice.url!,signal),gags:Object.fromEntries(clips.filter(c=>c.kind.startsWith("gag-")).map(c=>[c.kind,c.url]))};
+      const next={idle:clips.filter(c=>c.kind.startsWith("idle-")).map(c=>c.url),reaction:clips.find(c=>c.kind==="music-gift")!.url,voice:await local(result.voice.url!,signal),begVoice:result.begVoice?.status==="SUCCEEDED"&&result.begVoice.url?await local(result.begVoice.url,signal):undefined,gags:Object.fromEntries(clips.filter(c=>c.kind.startsWith("gag-")).map(c=>[c.kind,c.url]))};
       signal.throwIfAborted();saved.current={voiceId,assets:next};setAssets(next);return next;
     }finally{setStatus("");}
   }

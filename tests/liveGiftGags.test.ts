@@ -3,9 +3,10 @@ import {BASIC_GAGS,GAG_META,GiftGagPicker,isGalaxyGift,availableGiftGag} from "@
 import {EventQueue,eventSchema} from "@/lib/live/events";
 const gift=eventSchema.parse({id:"g",type:"gift",user:"Peti",gift:"Próba",giftValue:200,count:1});
 describe("Gift choreography",()=>{
- it("gives 199 only speech, but all six gags without repeats from 200 to 999",()=>{
+ it("gives 10–199 the begging scene and all six gags without repeats from 200 to 999",()=>{
   const picker=new GiftGagPicker(()=>0.2);
-  expect(picker.pick({...gift,giftValue:199,count:10000})).toBeUndefined();
+  expect(picker.pick({...gift,giftValue:9,count:10000})).toBeUndefined();
+  for(const value of [10,100,199])expect(picker.pick({...gift,giftValue:value})).toBe("gag-beg");
   const first=Array.from({length:6},()=>picker.pick(gift)!);
   expect(new Set(first)).toEqual(new Set(BASIC_GAGS));
   const next=picker.pick({...gift,giftValue:999});expect(next).not.toBe(first[5]);
@@ -30,6 +31,14 @@ describe("Gift choreography",()=>{
   queue.add({...gift,id:'c',user:'Peti'});queue.add({...gift,id:'d',user:'Anna'});
   expect(queue.size).toBe(2);expect(queue.take()?.user).toBe('Peti');expect(queue.take()?.user).toBe('Anna');
  });
+ it("never merges a 10-point scene into a rose batch or waits eight seconds between gifts",()=>{
+  const queue=new EventQueue({coalesceGifts:true});
+  queue.add({...gift,id:'rose',giftValue:1});queue.add({...gift,id:'beg',giftValue:10});
+  expect(queue.takeGift()).toMatchObject({id:'rose',giftValue:1,count:1});
+  expect(queue.takeGift()).toMatchObject({id:'beg',giftValue:10,count:1});
+  queue.add({...gift,id:'comment',type:'comment'});expect(queue.takeGift()).toBeUndefined();
+  expect(queue.take()?.id).toBe('comment');
+ });
  it("plays saved alternatives when premium generation is blocked, keeping Galaxy exclusive",()=>{
   const saved=Object.fromEntries([...BASIC_GAGS,"gag-galaxy","gag-tornado"].map(kind=>[kind,"saved.mp4"]));
   for(const kind of BASIC_GAGS)expect(availableGiftGag(kind,saved)).toBe(kind);
@@ -37,6 +46,8 @@ describe("Gift choreography",()=>{
   for(const kind of ["gag-bubble","gag-rocket","gag-meteor"] as const)expect(availableGiftGag(kind,saved)).toBe("gag-tornado");
   expect(availableGiftGag("gag-rocket",{"gag-galaxy":"saved.mp4"})).toBeUndefined();
   expect(availableGiftGag("gag-galaxy",{"gag-tornado":"saved.mp4"})).toBeUndefined();
+  expect(availableGiftGag("gag-beg",saved)).toBeUndefined();
+  expect(availableGiftGag("gag-beg",{"gag-beg":"beg.mp4"})).toBe("gag-beg");
   expect(availableGiftGag(undefined,saved)).toBeUndefined();
  });
 });

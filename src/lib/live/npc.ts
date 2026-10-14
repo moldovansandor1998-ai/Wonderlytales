@@ -7,7 +7,7 @@ import { digest, R2VideoStore } from "@/lib/ai-video/storage";
 import { downloadProviderMedia } from "@/lib/ai-video/media";
 import { retrieveMotion } from "./motion";
 import { AvatarError } from "./avatar";
-import { MUSIC_GIFT_LINE, NPC_KINDS, GAG_META, type GagKind, type NpcKind } from "./npc-shared";
+import { GAG_BEG_LINE, MUSIC_GIFT_LINE, NPC_KINDS, GAG_META, type GagKind, type NpcKind } from "./npc-shared";
 
 type Store = Pick<R2VideoStore,"readRecord"|"writeRecord"|"putAsset"|"putChunk"|"completeImage"|"assetBytes">;
 type Record = {status:"SUBMITTING"|"PENDING"|"SUCCEEDED"|"FAILED"|"UNCERTAIN"; createdAt:string; taskId?:string; assetId?:string; attempts?:number; providerStatus?:number; error?:string; creditRecoveryUsed?:boolean; approved?:boolean; previousAttempt?:Record};
@@ -21,6 +21,7 @@ export const npcRecordId = (kind:NpcKind) => {
 const ids = Object.fromEntries(NPC_KINDS.map(kind=>[kind,npcRecordId(kind)])) as {[K in NpcKind]:string};
 const base = "One continuous locked-off full body shot. Keep both exact people, masks, hats, rabbit ears, clothes, chair and cabin unchanged. The standing witch wears a blue medical mask, the seated man an opaque black mouth covering. Both masks remain firmly on and opaque. No talking mouth animation, no camera motion, no cuts, no text. Start AND finish in the exact supplied resting pose, with one second of quiet breathing at both ends. ";
 const prompts: {[K in NpcKind]:string} = {
+  "gag-beg": "0-1.5s: seated Isti uncrosses his arms, slides forward off the chair and lowers BOTH KNEES onto the floor directly in front of the empty chair. 1.5-5s: keep both knees visibly on the floor; he clasps his palms together at chest height and repeatedly begs toward the camera with exaggerated pleading eyes and tiny bows. His torso stays upright. Ali stays standing left and points at him, shoulders shaking with laughter. 5-6s: Isti remains kneeling, desperately offers both open palms toward the viewer. Full body, clearly visible knees on floor, chair behind him. Comedic begging, not sitting, not squatting. Both masks remain solid and opaque.",
   "gag-mud": "0-0.7s: standing Ali brings a wide tray piled high with glossy brown foam shaped like cartoon poop directly under seated Isti's chin. 0.7-1.8s: Ali clearly pushes the back of Isti's hat, plunging his entire masked face DOWN into the soft foam. Huge brown splat shoots sideways. 1.8-4s: Isti pulls his face UP coated in brown foam, eyes wide, fists clenched; Ali points and shakes with laughter. Keep the messy aftermath in the final frame. Show the complete DOWN-THEN-UP action, not a prop being removed.",
   "gag-cream": "0-0.6s: Ali raises TWO whipped cream spray cans and points them at seated Isti. 0.6-2.5s: thick white jets visibly shoot from both cans onto Isti's entire face and hat, building a giant ridiculous mountain of cream. Isti flails his hands. 2.5-4s: Ali plants a bright red cherry on top; Isti angrily parts the cream around his eyes. Keep cream visible at end. Clear cause and effect, broad body gestures.",
   "gag-pie": "0-1s: Ali visibly swings a huge round cream pie from his side toward seated Isti. 1-2s: the pie hits Isti squarely in the masked face with a spectacular white cream explosion, his torso recoils. 2-4s: the plate slowly slides DOWN off his face, revealing furious eyes and a thick cream-covered hat. Ali doubles over laughing. The plate falls only AFTER impact. End on the messy furious reaction, no cleanup.",
@@ -44,7 +45,7 @@ export function npcPayload(kind:NpcKind, image:string, galaxyRevision=false) {
     // Gags play forward to an aftermath; matching first/last frames had reversed the action.
     promptImage:gag?[{uri:image,position:"first"}]:[{uri:image,position:"first"},{uri:image,position:"last"}]};
 }
-const voiceRecordId = (voiceId:string) => {const hash=digest(`npc-music-gift-v1:${voiceId}`);return `${hash.slice(0,8)}-${hash.slice(8,12)}-4${hash.slice(13,16)}-8${hash.slice(17,20)}-${hash.slice(20,32)}`;};
+const voiceRecordId = (voiceId:string,kind:"music"|"beg"="music") => {const hash=digest(kind==="beg"?`npc-beg-v1:${voiceId}:${GAG_BEG_LINE}`:`npc-music-gift-v1:${voiceId}`);return `${hash.slice(0,8)}-${hash.slice(8,12)}-4${hash.slice(13,16)}-8${hash.slice(17,20)}-${hash.slice(20,32)}`;};
 export async function startNpcClip(store:Store, kind:NpcKind, retry=false, options:{recoverCredit?:boolean;galaxyRevision?:boolean}={}) {
   if(options.galaxyRevision&&(kind!=="gag-galaxy"||retry||options.recoverCredit))throw new AvatarError("NPC_RETRY_NOT_ALLOWED",409);
   if(options.recoverCredit&&(retry||options.galaxyRevision||!kind.startsWith("gag-")))throw new AvatarError("NPC_RETRY_NOT_ALLOWED",409);
@@ -81,8 +82,8 @@ export async function startNpcClip(store:Store, kind:NpcKind, retry=false, optio
     return next;
   }catch(error){await store.writeRecord("live-backdrop",id,{...record,status:providerStatus&&providerStatus<500?"FAILED":"UNCERTAIN",providerStatus,error:providerError},claim.etag);throw error;}
 }
-export async function startNpcVoice(store:Store,voiceId:string) {
-  const id=voiceRecordId(voiceId),old=await store.readRecord<Record>("live-backdrop",id);
+export async function startNpcVoice(store:Store,voiceId:string,kind:"music"|"beg"="music") {
+  const id=voiceRecordId(voiceId,kind),old=await store.readRecord<Record>("live-backdrop",id);
   if(old)return old.value;
   if(!process.env.ELEVENLABS_API_KEY)throw new AvatarError("VOICE_PROVIDER_ERROR");
   const record:Record={status:"SUBMITTING",createdAt:new Date().toISOString()};
@@ -91,7 +92,7 @@ export async function startNpcVoice(store:Store,voiceId:string) {
   if(!claim)throw new AvatarError("NPC_UNCERTAIN",409);
   try {
     await reserveProductionBudget("tts");
-    const response=await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}?output_format=mp3_44100_128`,{method:"POST",signal:AbortSignal.timeout(60000),headers:{"xi-api-key":process.env.ELEVENLABS_API_KEY,"Content-Type":"application/json"},body:JSON.stringify({text:`[angry] [shouting] ${MUSIC_GIFT_LINE}`,model_id:"eleven_v3",language_code:"hu",voice_settings:{stability:0.5,similarity_boost:0.8}})});
+    const response=await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}?output_format=mp3_44100_128`,{method:"POST",signal:AbortSignal.timeout(60000),headers:{"xi-api-key":process.env.ELEVENLABS_API_KEY,"Content-Type":"application/json"},body:JSON.stringify({text:kind==="beg"?`[pleading] ${GAG_BEG_LINE}`:`[angry] [shouting] ${MUSIC_GIFT_LINE}`,model_id:"eleven_v3",language_code:"hu",voice_settings:{stability:0.5,similarity_boost:0.8}})});
     if(!response.ok)throw new AvatarError("VOICE_PROVIDER_ERROR");
     const bytes=Buffer.from(await response.arrayBuffer());
     if(bytes.length<100||bytes.length>4_000_000)throw new AvatarError("VOICE_PROVIDER_ERROR");
@@ -123,7 +124,8 @@ export async function readNpc(store:Store,voiceId:string) {
   const approved=!!revision?.value.approved;
   const clips=await Promise.all(NPC_KINDS.map(async kind=>({kind,...await (kind==="music-gift"?readNpcReaction(store):readAsset(store,kind==="gag-galaxy"&&approved?GALAXY_REVISION_ID:ids[kind],"mp4"))})));
   const voice=await readAsset(store,voiceRecordId(voiceId),"mp3");
-  return {clips,voice,galaxyRevision:{...galaxyRevision,approved},ready:clips.filter(c=>!c.kind.startsWith("gag-")).every(c=>c.status==="SUCCEEDED")&&voice.status==="SUCCEEDED"};
+  const begVoice=await readAsset(store,voiceRecordId(voiceId,"beg"),"mp3");
+  return {clips,voice,begVoice,galaxyRevision:{...galaxyRevision,approved},ready:clips.filter(c=>!c.kind.startsWith("gag-")).every(c=>c.status==="SUCCEEDED")&&voice.status==="SUCCEEDED"};
 }
 export async function activateNpcGalaxy(store:Store){
   const saved=await store.readRecord<Record>("live-backdrop",GALAXY_REVISION_ID);

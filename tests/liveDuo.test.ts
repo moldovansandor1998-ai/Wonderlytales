@@ -32,6 +32,13 @@ describe('Two-character live dialogue',()=>{
     expect(new Set(lines).size).toBe(12);
     expect(giftDialogue({...event,count:100},0).turns).toHaveLength(1);
   });
+  it('always uses Isti and the cached words for a begging scene',()=>{
+    for(const index of [0,1,2]){
+      const reply=giftDialogue({...event,giftValue:10},index,'gag-beg');
+      expect(reply.turns).toHaveLength(1);expect(reply.turns[0]).toMatchObject({speaker:'isti',text:'Légyszi, kétszáz pont feletti legyen, mert ez kevés, te inas!'});
+      expect(giftEffect({...event,giftValue:10},0,'gag-beg')?.duration).toBe(6000);
+    }
+  });
   it('keeps a fresh punchline and rejects echoes instead of inventing a canned reply',()=>{
     const input={event:{...event,type:'comment' as const,user:'Peti 🔥',text:'dagadt geci'},history:[],replyIndex:1};
     const schema=compactDialogueSchema(input);

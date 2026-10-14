@@ -13,6 +13,7 @@ export const eventSchema = z.object({
 });
 /** Unit value, never count multiplied by value: rose streaks stay small. */
 export const isBigGift = (event: {type: string; giftValue?: number}) => event.type === "gift" && (event.giftValue ?? 0) >= 200;
+export const isBegGift = (event: {type: string; giftValue?: number}) => event.type === "gift" && (event.giftValue ?? 0) >= 10 && (event.giftValue ?? 0) < 200;
 export type LiveEvent = z.infer<typeof eventSchema>;
 export type Emotion = "neutral" | "happy" | "laugh" | "thanks";
 export type Reply = { text: string; emotion: Emotion };
@@ -52,7 +53,7 @@ export class EventQueue {
     if (this.seen.size > 2000) this.seen.delete(this.seen.values().next().value!);
     this.prune();
     if (event.type === "gift" && this.options.coalesceGifts) {
-      const old = this.pending.find(item => item.type === "gift" && !isBigGift(item) && !isBigGift(event));
+      const old = this.pending.find(item => item.type === "gift" && !isBigGift(item) && !isBigGift(event) && isBegGift(item) === isBegGift(event));
       if (old) {
         old.count = Math.min(10000, old.count + event.count);
         old.contributors = [...new Set([...(old.contributors || [old.user]), ...(event.contributors || [event.user])])].slice(0, 3);
@@ -82,11 +83,11 @@ export class EventQueue {
     this.received.set(event.id, (this.options.now || Date.now)());
     return true;
   }
-  take() {
+  take(giftsOnly = false) {
     this.prune();
     const now = (this.options.now || Date.now)();
     const gift = this.pending.findIndex(e => e.type === "gift" && (isBigGift(e) || now - this.lastSmallGiftAt >= (this.options.smallGiftCooldownMs ?? 0)));
-    const comment = this.pending.findIndex(e => e.type !== "gift");
+    const comment = giftsOnly ? -1 : this.pending.findIndex(e => e.type !== "gift");
     const index = gift >= 0 && (this.giftStreak < 2 || comment < 0) ? gift : comment;
     if (index < 0) return undefined;
     const [event] = this.pending.splice(index, 1);
@@ -95,6 +96,7 @@ export class EventQueue {
     this.giftStreak = event.type === "gift" ? this.giftStreak + 1 : 0;
     return event;
   }
+  takeGift() { return this.take(true); }
   clear() { this.pending = []; this.received.clear(); this.giftStreak = 0; this.lastSmallGiftAt = -Infinity; }
   get size() { return this.pending.length; }
   snapshot() { return [...this.pending]; }
