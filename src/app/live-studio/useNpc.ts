@@ -63,5 +63,7 @@ export function useNpc(){
     try{await request(voiceId,signal,kind,false,action);}
     finally{saved.current=undefined;if(!signal.aborted)await request(voiceId,signal);}
   }
-  return {assets,status,ensure,manifest,inspect,retryClip,recoverClip};
+  // Async playback may hold an older render; read the completed preload synchronously.
+  const currentAssets=()=>saved.current?.assets;
+  return {assets,currentAssets,status,ensure,manifest,inspect,retryClip,recoverClip};
 }
