@@ -1,14 +1,18 @@
 "use client";
 import type { RefObject } from "react";
+import NpcPlayer, { type NpcPlayback } from "./NpcPlayer";
+import type { NpcAssets } from "./useNpc";
+import type { MotionFrame } from "./useMotion";
 import MotionVideo from "./MotionVideo";
 import GiftMagic from "./GiftMagic";
 import BackdropVideo from "./BackdropVideo";
 import { CAST } from "@/lib/live/duo";
 import type { StageState } from "@/lib/live/stage";
-export default function Stage({ state, full = false, playbackRef, onBackdropError }: { state: StageState; full?: boolean; playbackRef?: RefObject<HTMLVideoElement>; onBackdropError?: (message: string) => void }) {
+export default function Stage({ state, full = false, playbackRef, onBackdropError, npcAssets, npcRef, onNpcFrame }: { state: StageState; full?: boolean; playbackRef?: RefObject<HTMLVideoElement>; onBackdropError?: (message: string) => void; npcAssets?: NpcAssets; npcRef?: RefObject<NpcPlayback>; onNpcFrame?: (frame:MotionFrame)=>void }) {
   return <div className={`relative isolate aspect-[9/16] overflow-hidden bg-black ${full ? "h-[100dvh] w-[min(100vw,56.25dvh)]" : "w-full max-w-sm rounded-2xl shadow-xl"}`}>
     {/* eslint-disable-next-line @next/next/no-img-element */}
     <img src={state.image} alt={state.name} className="h-full w-full object-cover" />
+    {state.npc && (npcAssets ? <NpcPlayer ref={npcRef} assets={npcAssets} active={state.npc.active} onError={onBackdropError} onFrame={onNpcFrame} /> : state.npc.frame && <MotionVideo frame={{...state.npc.frame,playing:state.npc.active&&state.npc.frame.playing}} />)}
     {state.backdrop && <BackdropVideo url={state.backdrop.url} active={state.backdrop.active} poster={state.image} onError={onBackdropError} />}
     {playbackRef ? <video ref={playbackRef} playsInline aria-label="A karakter képe és hangja" className={`absolute inset-0 h-full w-full object-cover bg-black ${state.motion ? "" : "invisible"}`} /> : state.motion && <MotionVideo key={state.motion.id} frame={state.motion} />}
     <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/90" />

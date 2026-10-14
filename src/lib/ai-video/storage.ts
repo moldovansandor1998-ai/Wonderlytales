@@ -36,6 +36,16 @@ export function imageMetadata(b: Buffer): { width: number; height: number; mime:
       p += length;
     }
   }
+  if (b.length >= 30 && b.toString('ascii',0,4)==='RIFF' && b.toString('ascii',8,12)==='WEBP') {
+    for(let p=12;p+8<=b.length;) {
+      const kind=b.toString('ascii',p,p+4),size=b.readUInt32LE(p+4),data=p+8;
+      if(data+size>b.length)break;
+      if(kind==='VP8X'&&size>=10){width=b.readUIntLE(data+4,3)+1;height=b.readUIntLE(data+7,3)+1;}
+      if(kind==='VP8 '&&size>=10&&b[data+3]===0x9d&&b[data+4]===1&&b[data+5]===0x2a){width=b.readUInt16LE(data+6)&0x3fff;height=b.readUInt16LE(data+8)&0x3fff;}
+      if(kind==='VP8L'&&size>=5&&b[data]===0x2f){const bits=b.readUInt32LE(data+1);width=(bits&0x3fff)+1;height=((bits>>>14)&0x3fff)+1;}
+      if(width&&height){mime='image/webp';break;}p=data+size+(size%2);
+    }
+  }
   if (!mime || width < 300 || height < 300 || width > 16000 || height > 16000 || width / height < 0.4 || width / height > 2.5)
     throw new WaveSpeedError('INVALID_IMAGE', 400);
   return { width, height, mime };
