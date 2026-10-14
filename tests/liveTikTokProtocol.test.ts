@@ -14,11 +14,16 @@ describe("installed TikTok connector v3 wire payloads",()=>{
     expect(queue.add(event)).toBe(false);
   });
   it("waits for a native gift streak to finish and preserves its name and count",()=>{
-    const gift=Object.assign(WebcastGiftMessage.decode(new Uint8Array()),{common:Object.assign(CommonMessageData.decode(new Uint8Array()),{msgId:"1234567890123456790"}),user:Object.assign(User.decode(new Uint8Array()),{nickname:"Tesztelő"}),gift:Object.assign(Gift.decode(new Uint8Array()),{type:1,name:"Rose"}),repeatEnd:0,repeatCount:3});
+    const gift=Object.assign(WebcastGiftMessage.decode(new Uint8Array()),{common:Object.assign(CommonMessageData.decode(new Uint8Array()),{msgId:"1234567890123456790"}),user:Object.assign(User.decode(new Uint8Array()),{nickname:"Tesztelő"}),gift:Object.assign(Gift.decode(new Uint8Array()),{type:1,name:"Rose",diamondCount:1}),repeatEnd:0,repeatCount:3});
     expect(normalizeEvent("gift",WebcastGiftMessage.decode(WebcastGiftMessage.encode(gift).finish()))).toBeNull();
     gift.repeatEnd=1;
     const event=eventSchema.parse(normalizeEvent("gift",WebcastGiftMessage.decode(WebcastGiftMessage.encode(gift).finish())));
-    expect(event).toMatchObject({gift:"Rose",count:3});expect(giftEffect(event)?.kind).toBe("petals");
+    expect(event).toMatchObject({gift:"Rose",count:3});expect(event.giftValue).toBe(1);expect(giftEffect(event)).toBeUndefined();
+  });
+  it("preserves the real unit price from a decoded expensive gift",()=>{
+    const message=Object.assign(WebcastGiftMessage.decode(new Uint8Array()),{common:Object.assign(CommonMessageData.decode(new Uint8Array()),{msgId:"8877"}),gift:Object.assign(Gift.decode(new Uint8Array()),{name:"Big gift",diamondCount:201}),repeatEnd:1,repeatCount:1,user:Object.assign(User.decode(new Uint8Array()),{nickname:"Teszt"})});
+    const event=eventSchema.parse(normalizeEvent("gift",WebcastGiftMessage.decode(WebcastGiftMessage.encode(message).finish())));
+    expect(event.giftValue).toBe(201);expect(giftEffect(event)?.duration).toBe(3000);
   });
   it("uses the current displayId when no nickname is provided",()=>{
     const message=Object.assign(WebcastChatMessage.decode(new Uint8Array()),{content:"Szia",user:Object.assign(User.decode(new Uint8Array()),{displayId:"viewer_handle"})});

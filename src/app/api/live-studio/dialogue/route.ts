@@ -8,6 +8,6 @@ export async function POST(request: NextRequest) {
   try {
     await access(request, true);
     const input = dialogueInput.parse(await readJson(request));
-    return await generateLiveReply(dialogueMessages(input), compactDialogueSchema(input), request.signal, 300);
+    return await generateLiveReply(dialogueMessages(input), compactDialogueSchema(input), request.signal, 160);
   } catch (error) { return apiError(error); }
 }

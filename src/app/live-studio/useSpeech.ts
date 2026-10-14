@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import { playMp3Stream } from "@/lib/live/audio-stream";
 import type { Alignment } from "@/lib/live/speech";
 
 export function useSpeech() {
@@ -44,16 +45,9 @@ export function useSpeech() {
       });
     }
     if (!voiceId) throw new Error("Előbb válaszd ki a karakter ElevenLabs-hangját.");
-    const response = await fetch("/api/live-studio/speech", {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({text, voiceId}), signal});
-    if (!response.ok) throw new Error("A hangkészítés nem sikerült. Ellenőrizd a Voice ID-t, a bejelentkezést és a stúdió költségkeretét.");
-    const data: {audio: string; alignment: Alignment | null} = await response.json();
-    signal.throwIfAborted();
-    const player = element.current;
-    if (!player) throw new Error("A hanglejátszó nem elérhető.");
-    const bytes = Uint8Array.from(atob(data.audio), char => char.charCodeAt(0));
-    const url = URL.createObjectURL(new Blob([bytes], {type:"audio/mpeg"}));
-    try { await playAudio(url,signal,data.alignment,onStart); }
-    finally { URL.revokeObjectURL(url); }
+    const response = await fetch("/api/live-studio/speech/stream", {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({text, voiceId}), signal});
+    if (!response.ok) throw new Error("A hangkészítés nem sikerült. Ellenőrizd a hangot és a stúdió költségkeretét.");
+    await playMp3Stream(response, signal, (url, playbackSignal) => playAudio(url, playbackSignal, null, onStart));
   }
   async function playAudio(url:string,signal:AbortSignal,alignment:Alignment|null=null,onStart?:()=>void) {
     signal.throwIfAborted();

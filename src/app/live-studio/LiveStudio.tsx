@@ -1,12 +1,12 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { replySchema, EventQueue, rehearsalReply, songRequest, type LiveEvent, type Reply, type Emotion } from "@/lib/live/events";
+import { replySchema, EventQueue, rehearsalReply, songRequest, type LiveEvent, type Reply, type Emotion, isBigGift } from "@/lib/live/events";
 import { readAIResponse } from "@/lib/live/client";
 import type { StageState } from "@/lib/live/stage";
 import Stage from "./Stage";
 import DuoVoices from "./DuoVoices";
-import { CAST, DUO_IMAGE, dialogueSchema, giftEffect, playDialogue, rehearsalDialogue, type CastVoices, type Dialogue, type GiftEffect, type Speaker } from "@/lib/live/duo";
+import { CAST, DUO_IMAGE, dialogueSchema, giftEffect, playDialogue, rehearsalDialogue, giftDialogue, type CastVoices, type Dialogue, type GiftEffect, type Speaker } from "@/lib/live/duo";
 import { useMotion } from "./useMotion";
 import { useNpc } from "./useNpc";
 import { useMusicBed } from "./useMusicBed";
@@ -15,7 +15,7 @@ import MusicPanel from "./MusicPanel";
 import { DJ_MOODS, type MusicTrack } from "@/lib/live/dj";
 import type { NpcPlayback } from "./NpcPlayer";
 import type { MotionFrame } from "./useMotion";
-import { NPC_IMAGE, DEFAULT_MUSIC_GIFTS, MUSIC_GIFT_LINE, isMusicGift } from "@/lib/live/npc-shared";
+import { NPC_IMAGE, DEFAULT_MUSIC_GIFTS, GAG_KINDS, isMusicGift } from "@/lib/live/npc-shared";
 import MotionHistory, { type Clip } from "./MotionHistory";
 import { useMobileStage } from "./useMobileStage";
 import { useTikTokConnection, type ConnectionMode } from "./useTikTokConnection";
@@ -71,7 +71,7 @@ export default function LiveStudio() {
   const operation = useRef<AbortController | null>(null);
   const [auto, setAuto] = useState(false);
   const autoRef = useRef(false);
-  const queue = useRef(new EventQueue({maxComments:4, commentMaxAgeMs:30000}));
+  const queue = useRef(new EventQueue({maxComments:2, commentMaxAgeMs:10000, coalesceGifts:true, smallGiftCooldownMs:8000}));
   const [pending, setPending] = useState<LiveEvent[]>([]);
   const [dropped, setDropped] = useState(0);
   const [logs, setLogs] = useState<Log[]>([]);
@@ -80,7 +80,13 @@ export default function LiveStudio() {
   const [limit, setLimit] = useState(100);
   const replyCount = useRef(0);
   const processRef = useRef<() => Promise<void>>(async () => {});
-  const [testGift, setTestGift] = useState("Zene");
+  const [testGift, setTestGift] = useState("rózsa");
+  const [testGiftValue,setTestGiftValue]=useState(1);
+  const [testGiftCount,setTestGiftCount]=useState(1);
+  const giftReplyCount=useRef(0),gagCount=useRef(0);
+  const retryQueueTimer=useRef<ReturnType<typeof setTimeout>>();
+  const replyStartedAt=useRef(0);
+  const [firstAudioMs,setFirstAudioMs]=useState<number>();
   const [testUser, setTestUser] = useState("Próbanéző");
   const [testText, setTestText] = useState("Ali, miért duzzog már megint Isti?");
   const [connectionMode, setConnectionMode] = useState<ConnectionMode>("cloud");
@@ -127,7 +133,7 @@ export default function LiveStudio() {
     const publish = () => c.postMessage({type:"state", state:stageRef.current});
     c.onmessage = e => { if (e.data?.type === "ready") publish(); };
     const heartbeat = setInterval(publish, 2000);
-    return () => { controller.abort(); autoRef.current = false; operation.current?.abort(); clearTimeout(trialGiftTimer.current); clearInterval(heartbeat); c.close(); };
+    return () => { controller.abort(); autoRef.current = false; operation.current?.abort(); clearTimeout(retryQueueTimer.current); clearTimeout(trialGiftTimer.current); clearInterval(heartbeat); c.close(); };
   }, []);
   useEffect(() => {
     if (!ready) return;
@@ -156,7 +162,7 @@ export default function LiveStudio() {
   function update(fieldName: "name" | "personality" | "voiceId" | "voiceName", value: string) {
     setCharacters(current => current.map(c => c.id === character.id ? {...c, [fieldName]:value} : c));
   }
-  function pause(stopBackdrop=true) { autoRef.current = false; setAuto(false); if(stopBackdrop){setBackdropActive(false);musicBed.stop();dj.stop();} operation.current?.abort(); clearTimeout(trialGiftTimer.current); trialRemaining.current=null; setEffect(undefined); }
+  function pause(stopBackdrop=true) { autoRef.current = false; setAuto(false); if(stopBackdrop){setBackdropActive(false);musicBed.stop();dj.stop();} operation.current?.abort(); clearTimeout(retryQueueTimer.current); clearTimeout(trialGiftTimer.current); trialRemaining.current=null; setEffect(undefined); }
   function stopAll() { tiktok.disconnect(); setAvatarStop(n => n + 1); pause(); queue.current.clear(); setPending([]); dj.stop(); setCaption("A műsor szünetel."); setEmotion("neutral"); }
   function addLog(log: Log) { history.current = [...history.current, log].slice(-30); setLogs(history.current); }
   const onBackdropError=useCallback((reason:string)=>{
@@ -171,29 +177,22 @@ export default function LiveStudio() {
       await Promise.all([speech.unlock(),musicBed.unlock(), dj.unlock()]);
       await npc.ensure(castVoices.isti,controller.signal,prepare);controller.signal.throwIfAborted();
       setBackdropActive(true);musicBed.start();dj.start();setCaption("Ali figyel, Isti duzzog. A zene folyamatosan változik.");
-      setMessage(prepare?"A három alapjelenet és a felállós reakció elmentve. A következő adások ezeket használják.":"Mentett NPC-műsor és háttérzene • nincs új generálás");
+      setMessage(prepare?"Az alapjelenetek és a három rövid ajándékgeg elmentve.":"Mentett NPC-műsor és háttérzene • nincs új generálás");
       if(!prepare)mobile.open();
     } catch(error) { if(!controller.signal.aborted)setMessage(error instanceof Error?error.message:"Az NPC-jelenetek nem érhetők el.");musicBed.stop(); }
     finally { if(operation.current===controller){operation.current=null;setBusy(false);} }
   }
   async function playMusicGift(signal:AbortSignal) {
-    const assets=npc.assets,player=npcPlayer.current;
-    if(!assets||!player)throw new Error("Előbb indítsd el a mentett NPC-jelenetet.");
+    if(!npcPlayer.current)throw new Error("Előbb indítsd el a mentett NPC-jelenetet.");
+    const available=GAG_KINDS.filter(kind=>npc.assets?.gags?.[kind]);
+    if(!available.length)throw new Error("A rövid gegeket először készítsd el az előkészítés gombbal.");
     dj.cue("drama");
-    await player.react(signal,async()=>{
-      await new Promise<void>((resolve,reject)=>{
-        const cancel=()=>{clearTimeout(timer);reject(new DOMException("Stopped","AbortError"));};
-        const timer=setTimeout(()=>{signal.removeEventListener("abort",cancel);resolve();},4200);
-        signal.addEventListener("abort",cancel,{once:true});if(signal.aborted)cancel();
-      });
-      await speech.playSaved(assets.voice,signal,()=>{setSpeaker("isti");setCaption(MUSIC_GIFT_LINE);setEmotion("neutral");});
-    });
-    setSpeaker(undefined);setCaption("Ali és Isti figyelnek. Jöhet a következő komment!");
+    await npcPlayer.current.react(signal,async()=>{},available[gagCount.current++%available.length]);
   }
   async function previewMusicGift(){
     if(operation.current||autoRef.current||!backdropActive)return;
     const controller=new AbortController();operation.current=controller;setBusy(true);setMessage("");
-    try{await speech.unlock();await playMusicGift(controller.signal);setMessage("A mentett zenés ajándékreakció lejátszódott. Nem indult hang- vagy videógenerálás.");}
+    try{await speech.unlock();await playMusicGift(controller.signal);setMessage("A három másodperces ajándékgeg lejátszódott.");}
     catch(error){if(!controller.signal.aborted)setMessage(error instanceof Error?error.message:"Reakcióhiba");}
     finally{if(operation.current===controller){operation.current=null;setBusy(false);}}
   }
@@ -219,7 +218,7 @@ export default function LiveStudio() {
       if(trial){
         queue.current.add({id:crypto.randomUUID(),type:"comment",user:testUser.trim()||"Próbanéző",text:testText.trim()||"Ali, miért duzzog már megint Isti?",count:1});
         setPending(queue.current.snapshot());
-        trialGiftTimer.current=setTimeout(()=>enqueueRef.current({id:crypto.randomUUID(),type:"gift",user:testUser.trim()||"Próbanéző",text:"",gift:testGift,giftId:musicGiftId||undefined,count:1}),1500);
+        trialGiftTimer.current=setTimeout(()=>enqueueRef.current({id:crypto.randomUUID(),type:"gift",user:testUser.trim()||"Próbanéző",text:"",gift:testGift,giftId:musicGiftId||undefined,giftValue:testGiftValue,count:testGiftCount}),1500);
       }else if(!connected)tiktok.connect(connectionMode,username,pairing);
     }catch(error){
       pause();dj.stop();if(!controller.signal.aborted||error instanceof Error&&error.name!=="AbortError")setMessage(error instanceof Error?error.message:"A műsor nem indult el.");
@@ -239,24 +238,25 @@ export default function LiveStudio() {
     finally { operation.current = null; setBusy(false); if (autoRef.current) void processRef.current(); }
   }
   async function speakDialogue(dialogue: Dialogue, event: LiveEvent, signal: AbortSignal) {
-    if(continuousRef.current) {
-      await playDialogue(dialogue,castVoices,"eleven",signal,async(turn,voiceId)=>{
-        await speech.say(turn.text,"eleven",voiceId,signal,()=>{setSpeaker(turn.speaker);setCaption(turn.text);setEmotion(turn.emotion);dj.emotion(turn.emotion,turn.text);});
-      });
-      return;
-    }
-    let first = true;
-    setEffect(undefined);
-    await playDialogue(dialogue, castVoices, voiceMode, signal, async (turn, voiceId) => {
-      const onStart=()=>{setSpeaker(turn.speaker);setCaption(turn.text);setEmotion(turn.emotion);dj.emotion(turn.emotion,turn.text);if(first){first=false;setEffect(giftEffect(event));}};
-      if(motionMode && voiceMode==="eleven") await motion.say(turn,voiceId,signal,onStart);
-      else await speech.say(turn.text,voiceMode,voiceId,signal,onStart);
+    setEffect(giftEffect(event));
+    const visual = continuousRef.current && isBigGift(event) && npc.assets?.gags && Object.keys(npc.assets.gags).length
+      ? playMusicGift(signal).catch(error=>{if(!signal.aborted)setMessage(error instanceof Error?error.message:"Geg lejátszási hiba");})
+      : Promise.resolve();
+    const voice = playDialogue(dialogue,castVoices,continuousRef.current?"eleven":voiceMode,signal,async(turn,voiceId)=>{
+      const onStart=()=>{
+        if(replyStartedAt.current){setFirstAudioMs(Math.round(performance.now()-replyStartedAt.current));replyStartedAt.current=0;}
+        setSpeaker(turn.speaker);setCaption(turn.text);setEmotion(turn.emotion);dj.emotion(turn.emotion,turn.text);
+      };
+      if(!continuousRef.current&&motionMode&&voiceMode==="eleven")await motion.say(turn,voiceId,signal,onStart);
+      else await speech.say(turn.text,continuousRef.current?"eleven":voiceMode,voiceId,signal,onStart);
     });
+    await Promise.all([visual,voice]);
+    setCaption("");setSpeaker(undefined);
   }
   async function demoScene() {
     if (operation.current) return;
     const controller = new AbortController(); operation.current = controller; setBusy(true); setMessage("");
-    const event: LiveEvent = {id:crypto.randomUUID(), type:"gift", user:"Próbanéző", text:"", gift:testGift, count:1};
+    const event: LiveEvent = {id:crypto.randomUUID(), type:"gift", user:"Próbanéző", text:"", gift:testGift, giftValue:testGiftValue,count:testGiftCount};
     try { if (voiceMode === "eleven") await speech.unlock(motionMode ? motion.element.current : speech.element.current); await speakDialogue(rehearsalDialogue(event), event, controller.signal); }
     catch (e) { setEffect(undefined); if (!controller.signal.aborted) setMessage(e instanceof Error ? e.message : "Jelenethiba"); }
     finally { operation.current = null; setBusy(false); }
@@ -268,6 +268,7 @@ export default function LiveStudio() {
       if (play && voiceMode === "eleven") await speech.unlock(motionMode ? motion.element.current : speech.element.current);
       controller.signal.throwIfAborted();
       const event: LiveEvent = {id:crypto.randomUUID(), type:"comment", user:testUser.trim(), text:testText.trim(), count:1};
+      replyStartedAt.current=performance.now();
       const recent = history.current.filter(l => !l.error && l.source === "ai").slice(-8).map(l => ({user:l.event.user, text:l.event.text || l.event.gift || "", reply:l.reply.slice(0,520)}));
       const response = await fetch("/api/live-studio/dialogue", {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({event, history:recent, replyIndex:replyCount.current}), signal:controller.signal});
       const dialogue = dialogueSchema.parse(await readAIResponse(response));
@@ -276,20 +277,26 @@ export default function LiveStudio() {
         await speakDialogue(dialogue, event, controller.signal);
         addLog({event, reply:dialogue.turns.map(turn => `${CAST[turn.speaker].name}: ${turn.text}`).join(" · "), source:"ai"});
         replyCount.current++; setReplies(replyCount.current);
-        setMessage("Az egyszeri AI-kommentpróba befejeződött. Mindkét szereplő válasza lejátszódott.");
+        setMessage("Az egyszeri AI-kommentpróba befejeződött. A rövid válasz lejátszódott.");
       }
     } catch (e) { if (!controller.signal.aborted) setMessage(e instanceof Error ? e.message : "AI-hiba"); }
     finally { operation.current = null; setBusy(false); }
   }
   async function processNext() {
     if (operation.current || !autoRef.current) return;
+    clearTimeout(retryQueueTimer.current);
     if (replyCount.current >= limit) { pause(); setMessage("Elérted az adás válaszkorlátját. A folytatáshoz növeld a korlátot."); return; }
     const event = queue.current.take(); setPending(queue.current.snapshot()); setDropped(queue.current.dropped);
-    if (!event) return;
+    if (!event) {
+      if(queue.current.size)retryQueueTimer.current=setTimeout(()=>{if(autoRef.current)void processRef.current();},250);
+      return;
+    }
+    clearTimeout(retryQueueTimer.current);
+    replyStartedAt.current=performance.now();
     const controller = new AbortController(); operation.current = controller; setBusy(true); setMessage("");
     try {
       let spoken: string;
-      const musicReaction=continuousRef.current&&isMusicGift(event,musicGiftNames,musicGiftId);
+      const savedGift=scene==="duo"&&event.type==="gift";
       const recent = history.current.filter(l => !l.error && l.source === "ai").slice(-8).map(l => ({user:l.event.user, text:l.event.text || l.event.gift || "", reply:l.reply.slice(0,520)}));
       const requested = event.type === "comment" ? songRequest(event.text) : null;
       let started = false;
@@ -297,10 +304,10 @@ export default function LiveStudio() {
         const matches = tracks.filter(track => normalize(track.title) === normalize(requested));
         started = autoMusic && matches.length === 1 ? await playTrack(matches[0]) : false;
       }
-      if(musicReaction){await playMusicGift(controller.signal);spoken=`Mc Isti: ${MUSIC_GIFT_LINE}`;}
-      else if (scene === "duo") {
+      if (scene === "duo") {
         let dialogue: Dialogue;
-        if (mode === "rehearsal") dialogue = rehearsalDialogue(event, started);
+        if (savedGift) dialogue=giftDialogue(event,giftReplyCount.current++);
+        else if (mode === "rehearsal") dialogue = rehearsalDialogue(event, started);
         else {
           const response = await fetch("/api/live-studio/dialogue", {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({event, history:recent, replyIndex:replyCount.current, music:requested ? {requested, started} : undefined}), signal:controller.signal});
           dialogue = dialogueSchema.parse(await readAIResponse(response));
@@ -319,8 +326,8 @@ export default function LiveStudio() {
         await speech.say(reply.text, voiceMode, character.voiceId, controller.signal);
         spoken = reply.text;
       }
-      addLog({event, reply:spoken, source:musicReaction?"saved":mode}); replyCount.current++; setReplies(replyCount.current);
-      if(continuousRef.current){setSpeaker(undefined);setCaption("Ali és Isti figyelnek. Jöhet a következő komment!");}
+      addLog({event, reply:spoken, source:savedGift?"saved":mode}); replyCount.current++; setReplies(replyCount.current);
+      if(continuousRef.current){setSpeaker(undefined);setCaption("");}
       if(trialRemaining.current!==null&&--trialRemaining.current<=0){pause();setMessage("Az automata műsorpróba kész: a komment és az ajándék válasza is magától lejátszódott. A próba két válasz után megállt.");setCaption("Automata műsorpróba befejezve.");}
     } catch (e) {
       setEffect(undefined);
@@ -337,7 +344,7 @@ export default function LiveStudio() {
     setDropped(queue.current.dropped);
     if(autoRef.current){
       dj.event(event,isMusicGift(event,musicGiftNames,musicGiftId),queue.current.size);
-      if(event.type==="gift")setEffect(giftEffect(event));
+
     }
     const requested = event.type === "comment" ? songRequest(event.text) : null;
     if (requested) setRequests(current => [...current, {user:event.user, title:requested}].slice(-30));
@@ -383,19 +390,19 @@ export default function LiveStudio() {
     <header className="flex flex-wrap justify-between items-center gap-4"><div><p className="text-xs uppercase tracking-[0.25em] text-amber-400">WonderlyTales</p><h1 className="text-3xl font-bold">Élő karakterstúdió</h1><p className="mt-2 text-zinc-400">Magyar műsorvezető • Kommentek és ajándékok • Zenekérések</p></div><button className="rounded-lg bg-red-700 px-4 py-3 text-white font-bold" onClick={stopAll}>Mindent leállít</button></header>
     <section className="space-y-3 rounded-2xl border border-emerald-700 bg-emerald-950/20 p-5">
       <h2 className="text-2xl font-semibold">Automata műsor</h2>
-      <p className="text-sm text-zinc-200">Maszkolt Ali és Isti, váltakozó NPC-mozgások és folyamatosan változó háttérzene. A kommentekre két rövid odaszólás érkezik: Ali zeneajándékot kér, Isti pedig gyakran visszakérdez: „Ti adóztok?!” Nagy forgalomnál a legfrissebb négy komment várakozik, a 30 másodpercnél régebbiek kimaradnak. A kiválasztott zenés ajándékra Isti feláll és kiabál, majd visszaül. A megszólalásokhoz nem készül új videó.</p>
+      <p className="text-sm text-zinc-200">Ali és Isti felváltva, egy rövid poénnal reagálnak a konkrét kommentre. A hang már készülés közben elindul. A kis ajándékokat összevonjuk; 200 pont/db felett legfeljebb három másodperces, váltakozó geg következik. A mozgó alapjelenet és a hangulathoz igazodó DJ közben folyamatos.</p>
       <label className="block">Adás TikTok-felhasználóneve<input className={field} disabled={busy||auto||connected||tiktok.busy} placeholder="@felhasznalonev" maxLength={33} value={username} onChange={e=>setUsername(e.target.value)} /></label>
       <div className="flex flex-wrap gap-2"><button className={button} disabled={busy||auto||tiktok.busy} onClick={()=>void startShow()}>Automata műsor indítása</button><button className="rounded-lg border border-emerald-500 px-4 py-2 disabled:opacity-40" disabled={busy||auto||connected||tiktok.busy} onClick={()=>void startShow(true)}>Automata műsorpróba – komment + ajándék</button><button className="rounded-lg border border-zinc-500 px-4 py-2 disabled:opacity-40" disabled={busy||auto||tiktok.busy} onClick={()=>void previewBackdrop()}>Mentett NPC-műsor és zene próbája</button>{(auto||backdropActive)&&<button className="rounded-lg bg-red-700 px-4 py-2" onClick={stopAll}>Automata műsor leállítása</button>}</div>
       <p className="text-xs text-zinc-400">A TikTok-adást egyszer el kell indítanod a Mobil játék módban. Utána ez a gomb a kommentfigyelőt, a válaszadást és a telefonos adásképet együtt indítja. A próba TikTok nélkül, a lent megadott kommentből és ajándékból két új választ játszik le, majd megáll.</p>
-      <p className="text-xs text-amber-200">A kommentválaszok szöveget és hangot készítenek; nincs válaszonkénti videógenerálás. A zenés ajándékreakció mentett képet és hangot használ. Az adás válaszkorlátjánál a műsor megáll.</p>
+      <p className="text-xs text-amber-200">A kommentválaszok szöveget és hangot készítenek; nincs válaszonkénti videógenerálás. A nagy ajándékok előre mentett gegeket használnak. Az adás válaszkorlátjánál a műsor megáll.</p>
       <details className="rounded-lg border border-zinc-700 p-3"><summary className="cursor-pointer">NPC-jelenetek és zenés ajándék beállítása</summary><div className="mt-3 space-y-3">
-        <p className="text-sm">Első előkészítés: három 8 másodperces alapmozgás és három összefűzött mozdulatból álló felállós reakció, összesen 360 Runway API-kredit, plusz egy elmentett kiabálás hangköltsége. Az előkészítés ismételt megnyomása a már elindított feladatokat folytatja.</p>
-        <button className={button} disabled={busy||auto} onClick={()=>void previewBackdrop(true)}>NPC-jelenetek elkészítése vagy ellenőrzése</button>
+        <p className="text-sm">Három új rövid geg: habkakás kellék, krémes pite és gumicsirke. Egyszer készülnek el, adás közben ugyanazokat játsszuk. A már mentett alapjeleneteket az előkészítés megtartja. Új adás indításakor nincs videógenerálás.</p>
+        <button className={button} disabled={busy||auto} onClick={()=>void previewBackdrop(true)}>NPC-jelenetek és rövid gegek előkészítése</button>
         <label className="block">Zenés ajándék nevei (vesszővel elválasztva)<input className={field} maxLength={400} value={musicGiftNames} disabled={busy||auto} onChange={e=>{setMusicGiftNames(e.target.value);setMusicGiftId("");}} /></label>
         <label className="block">Pontos TikTok ajándékazonosító (ha ismert)<input className={field} inputMode="numeric" maxLength={30} value={musicGiftId} disabled={busy||auto} onChange={e=>setMusicGiftId(e.target.value.replace(/\D/g,""))} /></label>
-        <p className="text-xs text-zinc-400">Az azonosító elsőbbséget élvez. Ha nincs megadva, csak a pontosan egyező ajándéknevek indítják a reakciót. A kommentbe írt „zene” nem ajándék. Az alábbi listában a már beérkezett valódi ajándékot egy érintéssel kiválaszthatod.</p>
-        {logs.filter(l=>l.event.type==="gift").slice(-5).map(l=><button key={l.event.id} className="mr-2 rounded border border-zinc-600 p-2 text-sm" disabled={busy||auto} onClick={()=>{setMusicGiftNames(l.event.gift||"");setMusicGiftId(l.event.giftId||"");}}>Zenés reakció ehhez: {l.event.gift}{l.event.giftId?` (#${l.event.giftId})`:""}</button>)}
-        <button className={button} disabled={busy||auto||!backdropActive||!npc.assets} onClick={()=>void previewMusicGift()}>Mentett felállós reakció próbája</button>
+        <p className="text-xs text-zinc-400">Az azonosító elsőbbséget élvez. Ha nincs megadva, csak a pontosan egyező ajándéknevek váltják a DJ hangulatát. A kommentbe írt „zene” nem ajándék. Az alábbi listában a már beérkezett valódi ajándékot egy érintéssel kiválaszthatod.</p>
+        {logs.filter(l=>l.event.type==="gift").slice(-5).map(l=><button key={l.event.id} className="mr-2 rounded border border-zinc-600 p-2 text-sm" disabled={busy||auto} onClick={()=>{setMusicGiftNames(l.event.gift||"");setMusicGiftId(l.event.giftId||"");}}>DJ-hangulatváltás ehhez: {l.event.gift}{l.event.giftId?` (#${l.event.giftId})`:""}</button>)}
+        <button className={button} disabled={busy||auto||!backdropActive||!npc.assets} onClick={()=>void previewMusicGift()}>Rövid ajándékgeg próbája</button>
         {npc.assets&&<div className="flex flex-wrap gap-3 text-sm text-amber-300">{npc.assets.idle.map((url,i)=><a key={url} href={url} download={`npc-alap-${i+1}.mp4`}>Alapjelenet {i+1} letöltése</a>)}<a href={npc.assets.reaction} download="isti-felallos-reakcio.mp4">Felállós jelenet letöltése</a><a href={npc.assets.voice} download="isti-kiabalas.mp3">Kiabálás letöltése</a></div>}
       </div></details>
       {npc.status&&<p role="status" className="text-sm text-emerald-200">{npc.status}</p>}
@@ -415,7 +422,7 @@ export default function LiveStudio() {
           <p className="text-xs text-zinc-400">{service?.motion?.configured ? "Mindkét karakter bekötve." : "A videómódhoz mindkét Runway-karakter beállítása szükséges."} Egy megszólalás legfeljebb 30 másodperc; legfeljebb 12 Runway API-kredit, plusz a saját hang költsége. Egy kétfős válasz legfeljebb 24 kredit. A Runway webes Pro-kerete külön egyenleg. A készülő videó leállítható, de a már elindított generálás díja megmaradhat.</p>
           {busy && motion.status && <p role="status" className="text-sm text-violet-300">{motion.status}</p>}
           <label className="block">Jelenet<select className={field} disabled={busy || auto} value={scene} onChange={e => {pause(); setScene(e.target.value as "solo" | "duo"); setSpeaker(undefined); history.current=[]; setLogs([]); setCaption("Kezdődhet a műsor!");}}><option value="duo">Ali boszorkány és a duzzogó Mc Isti</option><option value="solo">Egyszereplős karakter</option></select></label>
-          {scene === "duo" && <><p className="text-sm text-zinc-300">Ali és Isti röviden visszaszólnak a nézőknek és egymásnak. Isti néha Alinak is odaszúr a „te dagadt kétszáz kilós” fordulattal. A jelmez marad, a beszéd hétköznapi trash-komédia. A két hang egymás után szólal meg.</p><p className="text-xs text-zinc-400">Rózsa → rózsaszirmok · Szív → szívecskék · Más ajándék → zöld varázsköd</p><button className={button} disabled={busy || auto} onClick={() => void demoScene()}>Technikai hangpróba – rögzített tesztszöveg</button><button className="ml-2 rounded-lg border border-violet-400 px-4 py-2 text-sm disabled:opacity-40" disabled={busy || auto} onClick={() => {setSpeaker(undefined); setCaption("Varázseffekt próba – hang nélkül."); setEffect(giftEffect({id:crypto.randomUUID(),type:"gift",user:"Próbanéző",text:"",gift:testGift,count:1}));}}>Varázseffekt próba hang nélkül</button></>}
+          {scene === "duo" && <><p className="text-sm text-zinc-300">Ali és Isti röviden visszaszólnak a nézőknek és egymásnak. Isti néha Alinak is odaszúr a „te dagadt kétszáz kilós” fordulattal. A jelmez marad, a beszéd hétköznapi trash-komédia. A kommentekre egy szereplő válaszol.</p><p className="text-xs text-zinc-400">Apró ajándék → rövid beszólás · 200 pont/db felett → 3 másodperces geg</p><button className={button} disabled={busy || auto} onClick={() => void demoScene()}>Technikai hangpróba – rögzített tesztszöveg</button><button className="ml-2 rounded-lg border border-violet-400 px-4 py-2 text-sm disabled:opacity-40" disabled={busy || auto} onClick={() => {setSpeaker(undefined); setCaption("Varázseffekt próba – hang nélkül."); setEffect(giftEffect({id:crypto.randomUUID(),type:"gift",user:"Próbanéző",text:"",gift:testGift,giftValue:testGiftValue,count:testGiftCount}));}}>Varázseffekt próba hang nélkül</button></>}
         </section>
         {scene === "solo" && <section className={panel}><h2 className="text-xl font-semibold">Az adás karaktere</h2>
           <div className="flex gap-2"><select aria-label="Karakter" className={field} disabled={busy || auto} value={character.id} onChange={e => { pause(); history.current=[]; setLogs([]); setSelected(e.target.value); setCaption("Üdv a műsorban!"); }}>{characters.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}</select><button className={button} disabled={busy || auto} onClick={() => { const id=crypto.randomUUID(); setCharacters(c=>[...c,{...INITIAL,id,name:"Új karakter",voiceId:undefined,voiceName:""}]); setSelected(id); history.current=[]; setLogs([]); }}>Új</button></div>
@@ -434,11 +441,13 @@ export default function LiveStudio() {
         <section className={panel}><h2 className="text-xl font-semibold">Kommentek és ajándékok</h2>
           <div className="grid gap-3 sm:grid-cols-2"><label>Válaszmód<select className={field} disabled={busy || auto} value={mode} onChange={e=>setMode(e.target.value as "ai" | "rehearsal")}><option value="ai">AI – élő, kommentre épülő párbeszéd</option><option value="rehearsal">Hangteszt – előre megírt próbaszövegek</option></select></label><label>Válaszkorlát ebben az adásban<input className={field} type="number" min={1} max={500} value={limit} onChange={e=>setLimit(Math.max(1,Math.min(500,Number(e.target.value)||1)))} /></label></div>
           <button className={button} disabled={!auto && (busy || (mode === "ai" && !service?.ai) || (voiceMode==="eleven" && (scene === "duo" ? !castVoices.ali || !castVoices.isti : !character.voiceId)))} onClick={toggleAuto}>{auto?"Válaszadás szüneteltetése":"Automatikus válaszadás indítása"}</button>
-          <p className="text-xs text-zinc-400">AI-módban Ali az aktuális kommentre csipkelődő poénnal válaszol, Isti röviden visszaszól, gyakran megkérdezi: „Ti adóztok?!”, és néha Alit is ugratja. Az utolsó nyolc AI-párbeszédre emlékeznek. Az ajándékok elsőbbséget kapnak; két ajándékreakció után egy várakozó komment következik. A válasz szövege {service?.aiProvider === "wavespeed" ? "WaveSpeed-kérést használ (0,01 USD / kérés)" : service?.aiProvider === "gateway" ? "a Vercel AI Gateway keretét használja" : "a beállított AI-szolgáltató keretét használja"}. Ez külön keret a Runway-kreditektől. A közös jelenetben egy válasz két megszólalásból áll, így két hangkészítést használ. Hiba esetén a sor megáll. A próbamód előre megírt szöveget használ; ElevenLabs választásakor a hangkészítés ebben a módban is keretet fogyaszt.</p>
+          <p className="text-xs text-zinc-400">Egy kommentre egy szereplő válaszol, legfeljebb 12 szóban. Megszólításra az adott karakter felel, egyébként váltják egymást. Nincs automatikus ajándékkérés. A rózsák és a legfeljebb 200 pontos ajándékok rövid beszólást kapnak; a sorozatokat összevonjuk. A 200 pont/db feletti ajándékhoz 3 másodperces geg jár. Sok kommentnél a két legfrissebb vár, a 10 másodpercnél régebbiek kimaradnak.</p>
           <div className="grid gap-2 sm:grid-cols-[140px_1fr]"><input aria-label="Próbanéző neve" className={field} value={testUser} maxLength={80} onChange={e=>setTestUser(e.target.value)} /><input aria-label="Próbakomment" className={field} value={testText} maxLength={500} onChange={e=>setTestText(e.target.value)} /></div>
-          {scene === "duo" && <div className="space-y-2"><div className="flex flex-wrap gap-2"><button className={button} disabled={busy || auto || !service?.ai || !testUser.trim() || !testText.trim()} onClick={() => void previewAI()}>AI-kommentpróba hang nélkül</button><button className={button} disabled={busy || auto || !service?.ai || !testUser.trim() || !testText.trim() || (voiceMode === "eleven" && (!service?.voice || !castVoices.ali || !castVoices.isti)) || (motionMode && !service?.motion?.configured)} onClick={() => void previewAI(true)}>{motionMode && voiceMode === "eleven" ? "Egyszeri AI-videópróba" : "Egyszeri AI-hangpróba"}</button></div><p className="text-xs text-zinc-400">Mindkét próba új választ ír a kommentre. A hang nélküli próba csak szöveget készít. Az egyszeri lejátszás a kiválasztott hangot és videómódot használja, két megszólalás után megáll. Videómódban a generálásra várni kell; ez még nem azonnali élő mozgás.</p>{aiPreview && <div role="status" className="rounded-lg border border-emerald-800 bg-emerald-950/20 p-3 space-y-2">{aiPreview.turns.map(turn => <p key={turn.speaker}><strong>{CAST[turn.speaker].name}:</strong> {turn.text}</p>)}</div>}</div>}
-          <label className="block text-sm">Próbaajándék típusa<select className={field} value={testGift} onChange={e=>setTestGift(e.target.value)}><option value="Zene">Zene – felállás és kiabálás</option><option value="rózsa">Rózsa – szirmok</option><option value="szív">Szív – szívecskék</option><option value="varázspálca">Varázspálca – zöld köd</option></select></label>
-          <div className="flex flex-wrap gap-2"><button className={button} disabled={!testUser.trim() || !testText.trim()} onClick={()=>enqueue({id:crypto.randomUUID(),type:"comment",user:testUser.trim(),text:testText.trim(),count:1})}>Próbakomment</button><button className={button} disabled={!testUser.trim()} onClick={()=>enqueue({id:crypto.randomUUID(),type:"gift",user:testUser.trim(),text:"",gift:testGift,count:1})}>Próbaajándék</button><button className="rounded-lg border border-zinc-600 px-3" onClick={()=>{queue.current.clear();setPending([]);}}>Várakozók törlése</button></div>
+          {scene === "duo" && <div className="space-y-2"><div className="flex flex-wrap gap-2"><button className={button} disabled={busy || auto || !service?.ai || !testUser.trim() || !testText.trim()} onClick={() => void previewAI()}>AI-kommentpróba hang nélkül</button><button className={button} disabled={busy || auto || !service?.ai || !testUser.trim() || !testText.trim() || (voiceMode === "eleven" && (!service?.voice || !castVoices.ali || !castVoices.isti)) || (motionMode && !service?.motion?.configured)} onClick={() => void previewAI(true)}>{motionMode && voiceMode === "eleven" ? "Egyszeri AI-videópróba" : "Egyszeri AI-hangpróba"}</button></div><p className="text-xs text-zinc-400">Mindkét próba új választ ír a kommentre. A hang nélküli próba csak szöveget készít. Az egyszeri lejátszás a kiválasztott hangot és videómódot használja, egy rövid válasz után megáll. Videómódban a generálásra várni kell; ez még nem azonnali élő mozgás.</p>{aiPreview && <div role="status" className="rounded-lg border border-emerald-800 bg-emerald-950/20 p-3 space-y-2">{aiPreview.turns.map(turn => <p key={turn.speaker}><strong>{CAST[turn.speaker].name}:</strong> {turn.text}</p>)}</div>}</div>}
+          <label className="block text-sm">Próbaajándék típusa<select className={field} value={testGift} onChange={e=>setTestGift(e.target.value)}><option value="Zene">Zene</option><option value="rózsa">Rózsa – rövid beszólás</option><option value="szív">Szív</option><option value="varázspálca">Varázspálca</option></select></label>
+          <div className="grid grid-cols-2 gap-3"><label>Ajándék értéke (pont/db)<input className={field} type="number" min={0} max={1000000} value={testGiftValue} onChange={e=>setTestGiftValue(Math.max(0,Math.min(1000000,Number(e.target.value)||0)))} /></label><label>Darabszám<input className={field} type="number" min={1} max={10000} value={testGiftCount} onChange={e=>setTestGiftCount(Math.max(1,Math.min(10000,Number(e.target.value)||1)))} /></label></div>
+          {firstAudioMs!==undefined&&<p className="text-sm text-emerald-300" role="status">Legutóbbi válasz hangindulása: {(firstAudioMs/1000).toFixed(1)} mp</p>}
+          <div className="flex flex-wrap gap-2"><button className={button} disabled={!testUser.trim() || !testText.trim()} onClick={()=>enqueue({id:crypto.randomUUID(),type:"comment",user:testUser.trim(),text:testText.trim(),count:1})}>Próbakomment</button><button className={button} disabled={!testUser.trim()} onClick={()=>enqueue({id:crypto.randomUUID(),type:"gift",user:testUser.trim(),text:"",gift:testGift,giftValue:testGiftValue,count:testGiftCount})}>Próbaajándék</button><button className="rounded-lg border border-zinc-600 px-3" onClick={()=>{queue.current.clear();setPending([]);}}>Várakozók törlése</button></div>
           {pending.length>0 && <div className="max-h-40 overflow-auto space-y-1 text-sm">{pending.map(e=><p key={e.id}><strong>{e.user}</strong>: {e.type==="gift"?`🎁 ${e.count} ${e.gift}`:e.text}</p>)}</div>}
           {logs.length>0 && <details><summary className="cursor-pointer">Elhangzott válaszok és hibák ({logs.length})</summary><div className="max-h-64 overflow-auto space-y-3 mt-2">{[...logs].reverse().map((l,i)=><div key={`${l.event.id}-${i}`} className={`rounded-lg p-3 text-sm ${l.error?"bg-red-950/40":"bg-zinc-900"}`}><strong>{l.event.user}</strong>: {l.event.text || l.event.gift}<p className="mt-1 text-zinc-300">{l.reply}</p>{l.error && <button className="text-amber-300 mt-2" onClick={()=>enqueue({...l.event,id:crypto.randomUUID()})}>Újrapróbálás a sorban</button>}</div>)}</div></details>}
         </section>

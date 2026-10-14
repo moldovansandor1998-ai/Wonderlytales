@@ -6,9 +6,12 @@ export const eventSchema = z.object({
   user: z.string().trim().min(1).max(80),
   text: z.string().trim().max(500).default(""),
   gift: z.string().trim().max(100).optional(),
+  giftValue: z.number().int().min(0).max(1000000).optional(),
   giftId: z.string().regex(/^\d{1,30}$/).optional(),
   count: z.number().int().min(1).max(10000).default(1),
 });
+/** Unit value, never count multiplied by value: rose streaks stay small. */
+export const isBigGift = (event: {type: string; giftValue?: number}) => event.type === "gift" && (event.giftValue ?? 0) > 200;
 export type LiveEvent = z.infer<typeof eventSchema>;
 export type Emotion = "neutral" | "happy" | "laugh" | "thanks";
 export type Reply = { text: string; emotion: Emotion };
@@ -32,8 +35,9 @@ export class EventQueue {
   private pending: LiveEvent[] = [];
   private received = new Map<string, number>();
   private giftStreak = 0;
+  private lastSmallGiftAt = -Infinity;
   dropped = 0;
-  constructor(private options: { maxComments?: number; commentMaxAgeMs?: number; now?: () => number } = {}) {}
+  constructor(private options: { maxComments?: number; commentMaxAgeMs?: number; smallGiftCooldownMs?: number; coalesceGifts?: boolean; now?: () => number } = {}) {}
   private prune() {
     const now = (this.options.now || Date.now)();
     this.pending = this.pending.filter(event => {
@@ -46,6 +50,19 @@ export class EventQueue {
     this.seen.add(event.id);
     if (this.seen.size > 2000) this.seen.delete(this.seen.values().next().value!);
     this.prune();
+    if (event.type === "gift" && this.options.coalesceGifts) {
+      const old = this.pending.find(item => item.type === "gift" && !isBigGift(item) && !isBigGift(event));
+      if (old) {
+        old.count = Math.min(10000, old.count + event.count);
+        if (old.user !== event.user) old.user = "Nézők";
+        if (old.gift !== event.gift) old.gift = "ajándék";
+        return true;
+      }
+      // Bound visual bursts as well: duplicate large gifts share one reaction.
+      const same = this.pending.find(item => item.type === "gift" && item.giftId === event.giftId && item.gift === event.gift && item.giftValue === event.giftValue);
+      if (same) { same.count = Math.min(10000, same.count + event.count); return true; }
+      if (this.pending.filter(item => item.type === "gift").length >= 4) { this.dropped++; return false; }
+    }
     if (event.type !== "gift" && this.pending.filter(item => item.type !== "gift").length >= (this.options.maxComments ?? 50)) {
       const oldest = this.pending.findIndex(item => item.type !== "gift");
       // Opt-in freshness mode: replace the oldest comment, never a gift.
@@ -60,22 +77,24 @@ export class EventQueue {
       this.received.delete(this.pending[replace].id);
       this.pending.splice(replace, 1);
     }
-    this.pending.push(event);
+    this.pending.push({...event});
     this.received.set(event.id, (this.options.now || Date.now)());
     return true;
   }
   take() {
     this.prune();
-    const gift = this.pending.findIndex(e => e.type === "gift");
+    const now = (this.options.now || Date.now)();
+    const gift = this.pending.findIndex(e => e.type === "gift" && (isBigGift(e) || now - this.lastSmallGiftAt >= (this.options.smallGiftCooldownMs ?? 0)));
     const comment = this.pending.findIndex(e => e.type !== "gift");
     const index = gift >= 0 && (this.giftStreak < 2 || comment < 0) ? gift : comment;
     if (index < 0) return undefined;
     const [event] = this.pending.splice(index, 1);
     this.received.delete(event.id);
+    if (event.type === "gift" && !isBigGift(event)) this.lastSmallGiftAt = now;
     this.giftStreak = event.type === "gift" ? this.giftStreak + 1 : 0;
     return event;
   }
-  clear() { this.pending = []; this.received.clear(); this.giftStreak = 0; }
+  clear() { this.pending = []; this.received.clear(); this.giftStreak = 0; this.lastSmallGiftAt = -Infinity; }
   get size() { return this.pending.length; }
   snapshot() { return [...this.pending]; }
 }

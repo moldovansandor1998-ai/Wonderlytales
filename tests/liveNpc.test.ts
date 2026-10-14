@@ -33,6 +33,13 @@ describe("bounded saved NPC assets",()=>{
  it("uses the same first and last frames, 8 seconds, and no generated audio",()=>{
   for(const kind of ["idle-breathe","idle-glance","idle-shrug","music-gift"] as const){const payload=npcPayload(kind,"data:image/webp;base64,test");expect(payload).toMatchObject({model:"veo3.1_fast",duration:8,audio:false,ratio:"720:1280"});expect(payload.promptImage[0].uri).toBe(payload.promptImage[1].uri);expect(payload.promptText.length).toBeLessThanOrEqual(1000);}
  });
+ it("saves three distinct four-second gags once each using the existing bounded budget",async()=>{
+  for(const kind of ["gag-mud","gag-pie","gag-chicken"] as const){
+    const payload=npcPayload(kind,"frame");expect(payload.duration).toBe(4);expect(payload.promptText.length).toBeLessThanOrEqual(1000);
+    await startNpcClip(store,kind);await startNpcClip(store,kind);
+  }
+  expect(fetch).toHaveBeenCalledTimes(3);expect(reserveProductionBudget).toHaveBeenCalledWith("runway_npc_4s");
+ });
  it("submits each fixed clip once and preserves the source in the gallery",async()=>{
   await startNpcClip(store,"idle-breathe");await startNpcClip(store,"idle-breathe");expect(fetch).toHaveBeenCalledTimes(1);expect(reserveProductionBudget).toHaveBeenCalledTimes(1);expect(reserveProductionBudget).toHaveBeenCalledWith("runway_npc_8s");expect(store.completeImage).toHaveBeenCalledTimes(1);
  });
