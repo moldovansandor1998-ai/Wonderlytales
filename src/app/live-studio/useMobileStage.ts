@@ -43,11 +43,17 @@ export function useMobileStage() {
     setActive(true); setControls(true);
     const target = container.current;
     if (target?.requestFullscreen && !document.fullscreenElement) {
-      void target.requestFullscreen().then(() => { usedFullscreen.current = true; }).catch(() => {});
+      void target.requestFullscreen({ navigationUI: "hide" }).then(async () => {
+        usedFullscreen.current = true;
+        // Android screen broadcasts should stay portrait instead of shrinking into a landscape canvas.
+        const orientation = screen.orientation as ScreenOrientation & { lock?: (orientation: string) => Promise<void> };
+        await orientation?.lock?.("portrait").catch(() => {});
+      }).catch(() => {});
     }
   }
   function close() {
     usedFullscreen.current = false; setActive(false); setControls(false);
+    screen.orientation?.unlock?.();
     if (document.fullscreenElement === container.current) void document.exitFullscreen().catch(() => {});
   }
   return { container, active, controls, setControls, open, close };

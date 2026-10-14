@@ -9,7 +9,7 @@ import BackdropVideo from "./BackdropVideo";
 import { CAST } from "@/lib/live/duo";
 import type { StageState } from "@/lib/live/stage";
 export default function Stage({ state, full = false, playbackRef, onBackdropError, npcAssets, npcRef, onNpcFrame }: { state: StageState; full?: boolean; playbackRef?: RefObject<HTMLVideoElement>; onBackdropError?: (message: string) => void; npcAssets?: NpcAssets; npcRef?: RefObject<NpcPlayback>; onNpcFrame?: (frame:MotionFrame)=>void }) {
-  return <div className={`relative isolate aspect-[9/16] overflow-hidden bg-black ${full ? "h-[100dvh] w-[min(100vw,56.25dvh)]" : "w-full max-w-sm rounded-2xl shadow-xl"}`}>
+  return <div data-live-stage={full ? "full" : "preview"} className={`relative isolate overflow-hidden bg-black ${full ? "h-[100dvh] w-screen landscape:w-[56.25dvh] shrink-0" : "aspect-[9/16] w-full rounded-2xl shadow-xl"}`}>
     {/* eslint-disable-next-line @next/next/no-img-element */}
     <img src={state.image} alt={state.name} className="h-full w-full object-cover" />
     {state.npc && (npcAssets ? <NpcPlayer ref={npcRef} assets={npcAssets} active={state.npc.active} onError={onBackdropError} onFrame={onNpcFrame} /> : state.npc.frame && <MotionVideo frame={{...state.npc.frame,playing:state.npc.active&&state.npc.frame.playing}} />)}
