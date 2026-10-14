@@ -1,7 +1,8 @@
 import { dialogueSchema, type Dialogue } from "./duo";
 import { readAIResponse } from "./client";
+import { audioContentType } from "./audio-format";
 
-/** Split one server response into incremental MP3 playback and final caption/history. */
+/** Split one server response into incremental audio playback and final caption/history. */
 export async function readStreamingResponse(response: Response, signal: AbortSignal) {
   if(!response.body)throw new Error("Üres válaszfolyam.");
   const reader=response.body.getReader(),decoder=new TextDecoder();
@@ -44,5 +45,6 @@ export async function readStreamingResponse(response: Response, signal: AbortSig
     finally{signal.removeEventListener("abort",abort);await reader.cancel().catch(()=>{});}
   })();
   const dialogue=await first;
-  return {dialogue,audio:new Response(audioBody,{headers:{"Content-Type":"audio/mpeg"}}),completed};
+  const format=response.headers.get("X-Live-Audio-Format");
+  return {dialogue,audio:new Response(audioBody,{headers:{"Content-Type":audioContentType(format==="pcm"?"pcm":"mp3")}}),completed};
 }

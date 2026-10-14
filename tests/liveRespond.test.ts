@@ -27,6 +27,14 @@ describe('Comment to streamed speech in one request',()=>{
   expect((await POST(request({...payload,voices:{ali:'',isti:'valid'}}))).status).toBe(400);
   expect(generateLiveReply).not.toHaveBeenCalled();expect(streamSpeech).not.toHaveBeenCalled();
  });
+ it('negotiates PCM explicitly and keeps MP3 for old clients',async()=>{
+  vi.mocked(streamedResponse).mockReturnValue(new Response('test'));
+  for(const format of ['pcm','mp3','unknown']){
+   const req=new NextRequest('https://studio.example/api/live-studio/respond',{method:'POST',headers:{origin:'https://studio.example',accept:'application/x-ndjson','content-type':'application/json','X-Live-Audio-Format':format},body:JSON.stringify(payload)});
+   expect((await POST(req)).status).toBe(200);
+   expect(streamedResponse).toHaveBeenLastCalledWith(expect.objectContaining({voices:payload.voices}),req.signal,format==='pcm'?'pcm':'mp3');
+  }
+ });
  it('never generates voice after an AI failure',async()=>{
   vi.mocked(generateLiveReply).mockResolvedValue(new Response(JSON.stringify({error:'AI_INVALID_REPLY'}),{status:502}) as any);
   expect((await POST(request())).status).toBe(502);expect(streamSpeech).not.toHaveBeenCalled();

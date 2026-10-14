@@ -29,6 +29,11 @@ describe('Incremental ElevenLabs session',()=>{
   speech.send('Béla, itt az első mondat.');controller.abort(new Error('gift interruption'));
   await expect(speech.finish()).rejects.toThrow('gift interruption');expect(socket.readyState).toBe(3);expect(sockets.all).toHaveLength(1);
  });
+ it('requests raw PCM only when the client negotiated it',async()=>{
+  const controller=new AbortController();await openSpeechSocket('AliVoice',controller.signal,vi.fn(),'pcm');
+  expect(sockets.all[0].url).toContain('output_format=pcm_24000');
+  expect(reserveProductionBudget).toHaveBeenCalledOnce();controller.abort();
+ });
  it('fails closed when the budget is unavailable',async()=>{
   vi.mocked(reserveProductionBudget).mockRejectedValueOnce(new Error('budget'));
   await expect(openSpeechSocket('AliVoice',new AbortController().signal,vi.fn())).rejects.toThrow('budget');expect(sockets.all).toHaveLength(0);

@@ -6,7 +6,7 @@ export const maxDuration = 45;
 export async function POST(request: NextRequest) {
   try {
     await access(request, true);
-    return await streamSpeech(speechInput.parse(await readJson(request)), request.signal);
+    return await streamSpeech(speechInput.parse(await readJson(request)), request.signal, request.headers.get("X-Live-Audio-Format")==="pcm"?"pcm":"mp3");
   } catch (error) {
     if (error instanceof Error && ["ELEVENLABS_NOT_CONFIGURED", "VOICE_RATE_LIMIT", "VOICE_PROVIDER_ERROR"].includes(error.message)) return json({error:error.message},503);
     return apiError(error);

@@ -30,4 +30,10 @@ describe('Live audio streaming',()=>{
   const fetch=vi.fn().mockRejectedValue(new Error('network'));vi.stubGlobal('fetch',fetch);
   expect((await POST(request())).status).toBe(503);expect(fetch).toHaveBeenCalledOnce();expect(reserveProductionBudget).toHaveBeenCalledOnce();
  });
+ it('streams PCM without a second reservation for freshly voiced gifts',async()=>{
+  const fetch=vi.fn().mockResolvedValue(new Response(new Uint8Array([1,2,3,4])));vi.stubGlobal('fetch',fetch);
+  const req=request();req.headers.set('X-Live-Audio-Format','pcm');const result=await POST(req);
+  expect(result.headers.get('content-type')).toContain('audio/pcm');
+  expect(fetch.mock.calls[0][0]).toContain('output_format=pcm_24000');expect(reserveProductionBudget).toHaveBeenCalledOnce();
+ });
 });

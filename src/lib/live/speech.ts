@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { reserveProductionBudget } from "@/lib/budget";
+import { audioContentType, providerAudioFormat, type LiveAudioFormat } from "./audio-format";
 
 const alignmentSchema = z.object({
   characters: z.array(z.string()).max(10000),
@@ -9,21 +10,22 @@ const alignmentSchema = z.object({
 export type Alignment = z.infer<typeof alignmentSchema>;
 export const speechInput = z.object({ text: z.string().trim().min(1).max(1000), voiceId: z.string().regex(/^[a-zA-Z0-9]{1,100}$/) });
 
-/** Pass the first MP3 bytes through immediately; one reservation and one provider call. */
-export async function streamSpeech(input: z.infer<typeof speechInput>, signal: AbortSignal) {
+/** Pass audio through immediately; one reservation and one provider call. */
+export async function streamSpeech(input: z.infer<typeof speechInput>, signal: AbortSignal, format: LiveAudioFormat = "mp3") {
   const key = process.env.ELEVENLABS_API_KEY;
   if (!key) throw new Error("ELEVENLABS_NOT_CONFIGURED");
   signal.throwIfAborted();
   const startedAt = Date.now();
   await reserveProductionBudget("tts");
-  const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${input.voiceId}/stream?output_format=mp3_44100_64`, {
-    method: "POST", headers: { "xi-api-key": key, "Content-Type": "application/json", Accept: "audio/mpeg" },
+  signal.throwIfAborted();
+  const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${input.voiceId}/stream?output_format=${providerAudioFormat(format)}`, {
+    method: "POST", headers: { "xi-api-key": key, "Content-Type": "application/json", Accept: format === "pcm" ? "application/octet-stream" : "audio/mpeg" },
     body: JSON.stringify({ text: input.text, model_id: "eleven_flash_v2_5", language_code: "hu", voice_settings: { stability: 0.4, similarity_boost: 0.75, use_speaker_boost: false } }),
     signal: AbortSignal.any([signal, AbortSignal.timeout(30000)]),
   });
   if (!response.ok || !response.body) throw new Error(response.status === 429 ? "VOICE_RATE_LIMIT" : "VOICE_PROVIDER_ERROR");
   console.info("live_speech_stream", { firstByteMs: Date.now() - startedAt, characters: input.text.length });
-  return new Response(response.body, { headers: { "Content-Type": "audio/mpeg", "Cache-Control": "no-store", "X-Content-Type-Options": "nosniff" } });
+  return new Response(response.body, { headers: { "Content-Type": audioContentType(format), "Cache-Control": "no-store, no-transform", "X-Content-Type-Options": "nosniff" } });
 }
 
 /** One bounded paid attempt per utterance; no implicit retry after an ambiguous failure. */

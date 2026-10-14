@@ -1,14 +1,19 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { playMp3Stream } from "@/lib/live/audio-stream";
+import { playPcmStream } from "@/lib/live/pcm-stream";
+import type { LiveAudioFormat } from "@/lib/live/audio-format";
 import type { Alignment } from "@/lib/live/speech";
 
 export function useSpeech() {
   const element = useRef<HTMLAudioElement>(null);
+  const audioContext = useRef<AudioContext | null>(null);
   const [speaking, setSpeaking] = useState(false);
   const [timed, setTimed] = useState(false);
   const [word, setWord] = useState("");
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
+  useEffect(() => () => { void audioContext.current?.close().catch(() => {}); audioContext.current = null; }, []);
+  const audioFormat = (): LiveAudioFormat => audioContext.current?.state === "running" ? "pcm" : "mp3";
   useEffect(() => {
     if (!("speechSynthesis" in window)) return;
     const refresh = () => setVoices(window.speechSynthesis.getVoices().filter(v => v.lang.toLowerCase().startsWith("hu")));
@@ -18,6 +23,17 @@ export function useSpeech() {
 
   async function unlock(player: HTMLMediaElement | null = element.current) {
     if (!player) throw new Error("A hanglejátszó nem elérhető.");
+    // Resume inside the user gesture, before any network or media awaits. Keep
+    // MP3 available if this browser does not allow Web Audio playback.
+    let resumed = Promise.resolve();
+    if (typeof AudioContext !== "undefined") {
+      try {
+        const current = audioContext.current;
+        const context = current && current.state !== "closed" ? current : new AudioContext({latencyHint:"interactive"});
+        audioContext.current = context;
+        resumed = context.resume().catch(() => {});
+      } catch { /* The existing media element remains the fallback. */ }
+    }
     const bytes = new Uint8Array(844);
     const view = new DataView(bytes.buffer);
     const put = (at: number, value: string) => [...value].forEach((c, i) => bytes[at + i] = c.charCodeAt(0));
@@ -25,7 +41,7 @@ export function useSpeech() {
     view.setUint16(20, 1, true); view.setUint16(22, 1, true); view.setUint32(24, 8000, true); view.setUint32(28, 16000, true);
     view.setUint16(32, 2, true); view.setUint16(34, 16, true); put(36, "data"); view.setUint32(40, 800, true);
     const url = URL.createObjectURL(new Blob([bytes], {type:"audio/wav"}));
-    try { player.src = url; await player.play(); player.pause(); player.removeAttribute("src"); player.load(); }
+    try { player.src = url; await Promise.all([player.play(), resumed]); player.pause(); player.removeAttribute("src"); player.load(); }
     finally { URL.revokeObjectURL(url); }
   }
 
@@ -45,8 +61,15 @@ export function useSpeech() {
       });
     }
     if (!voiceId) throw new Error("Előbb válaszd ki a karakter ElevenLabs-hangját.");
-    const response = prepared || await fetch("/api/live-studio/speech/stream", {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({text, voiceId}), signal});
+    const response = prepared || await fetch("/api/live-studio/speech/stream", {method:"POST", headers:{"Content-Type":"application/json","X-Live-Audio-Format":audioFormat()}, body:JSON.stringify({text, voiceId}), signal});
     if (!response.ok) throw new Error("A hangkészítés nem sikerült. Ellenőrizd a hangot és a stúdió költségkeretét.");
+    if (response.headers.get("Content-Type")?.startsWith("audio/pcm")) {
+      const context = audioContext.current;
+      if (!context || context.state !== "running") { await response.body?.cancel(); throw new Error("Indítsd újra a műsort a hang engedélyezéséhez."); }
+      try { await playPcmStream(response, context, signal, () => { setSpeaking(true); onStart?.(); }); }
+      finally { setSpeaking(false); setWord(""); }
+      return;
+    }
     await playMp3Stream(response, signal, (url, playbackSignal) => playAudio(url, playbackSignal, null, onStart));
   }
   async function playAudio(url:string,signal:AbortSignal,alignment:Alignment|null=null,onStart?:()=>void) {
@@ -84,5 +107,5 @@ export function useSpeech() {
 
   }
   const playSaved=(url:string,signal:AbortSignal,onStart?:()=>void)=>playAudio(url,signal,null,onStart);
-  return { element, speaking, timed, word, say, unlock, playSaved };
+  return { element, speaking, timed, word, say, unlock, playSaved, audioFormat };
 }

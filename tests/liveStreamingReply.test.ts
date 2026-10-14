@@ -80,6 +80,15 @@ describe('Incremental live reply',()=>{
   const reply=await pending,reader=reply.audio.body!.getReader();controller.abort(new GiftInterruption());
   await expect(reply.completed).rejects.toThrow('Ajándék');await expect(reader.read()).rejects.toThrow('Ajándék');expect(stream.cancel).toHaveBeenCalledOnce();
  });
+ it('preserves negotiated PCM through the browser response splitter',async()=>{
+  const stream=feed();stream.response.headers.set('X-Live-Audio-Format','pcm');
+  const pending=readStreamingResponse(stream.response,new AbortController().signal);
+  const turn={speaker:'ali',text:'Béla, Isti ma is ülősztrájkot tart.',emotion:'laugh'};
+  stream.put(JSON.stringify({type:'turn',turn})+'\n');const result=await pending;
+  expect(result.audio.headers.get('content-type')).toBe('audio/pcm; rate=24000; channels=1; encoding=s16le');
+  stream.put(JSON.stringify({type:'audio',audio:'AQIDBA=='})+'\n');stream.put(JSON.stringify({type:'done',dialogue:{turns:[turn]}})+'\n');stream.end();
+  expect(new Uint8Array(await result.audio.arrayBuffer())).toEqual(new Uint8Array([1,2,3,4]));await result.completed;
+ });
  it('settles the old voice before a gift can play and never cancels preparation',async()=>{
   const priority=new GiftPriority(),controller=new AbortController();let audible=true;
   const playing=priority.playComment(controller,()=>new Promise<void>((_,reject)=>controller.signal.addEventListener('abort',()=>{audible=false;reject(controller.signal.reason);},{once:true})));

@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
   try {
     await access(request,true);
     const input = inputSchema.parse(await readJson(request));
-    if(request.headers.get("accept")?.includes("application/x-ndjson"))return streamedResponse(input,request.signal);
+    if(request.headers.get("accept")?.includes("application/x-ndjson"))return streamedResponse(input,request.signal,request.headers.get("X-Live-Audio-Format")==="pcm"?"pcm":"mp3");
     const generated = await generateLiveDialogue(input, request.signal);
     if (!generated.ok) return generated;
     const dialogue = dialogueSchema.parse(await generated.json());

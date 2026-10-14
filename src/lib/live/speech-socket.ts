@@ -1,14 +1,15 @@
 import WebSocket from "ws";
 import { reserveProductionBudget } from "@/lib/budget";
+import { providerAudioFormat, type LiveAudioFormat } from "./audio-format";
 
 /** One authenticated, bounded TTS session per reply. Text and audio flow concurrently. */
-export async function openSpeechSocket(voiceId: string, signal: AbortSignal, onAudio: (base64: string) => void) {
+export async function openSpeechSocket(voiceId: string, signal: AbortSignal, onAudio: (base64: string) => void, format: LiveAudioFormat = "mp3") {
   const key = process.env.ELEVENLABS_API_KEY;
   if (!key) throw new Error("ELEVENLABS_NOT_CONFIGURED");
   signal.throwIfAborted();
   await reserveProductionBudget("tts");
   signal.throwIfAborted();
-  const socket = new WebSocket(`wss://api.elevenlabs.io/v1/text-to-speech/${voiceId}/stream-input?model_id=eleven_flash_v2_5&language_code=hu&output_format=mp3_44100_64&auto_mode=true`, {
+  const socket = new WebSocket(`wss://api.elevenlabs.io/v1/text-to-speech/${voiceId}/stream-input?model_id=eleven_flash_v2_5&language_code=hu&output_format=${providerAudioFormat(format)}&auto_mode=true`, {
     headers:{"xi-api-key":key}, handshakeTimeout:10000, maxPayload:1_000_000,
   });
   let resolveOpen!: () => void, rejectOpen!: (error: Error) => void;
