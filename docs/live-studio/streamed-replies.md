@@ -11,13 +11,16 @@ length and unrelated-pizza checks still apply. No partial words, hidden reasonin
 JSON framing or generic filler are spoken. An invalid reply can be repaired once
 only before any speech was submitted. There is no repair/replay after speech starts.
 
-The existing model and low reasoning setting are retained. Streaming requests ask
-for priority service; actual service tier and token usage are logged. Current
-catalog prices (2026-10-14) are $4/M input, $5/M cache writes and $20/M output.
+The first production test with GPT-6.1 Sol priority still took 6.8 seconds to
+audible playback (first sentence 5,240 ms; audio 5,363 ms). The streamed path
+therefore uses GPT-5.4 Mini with reasoning disabled and priority service. The
+same character, humor and validation rules are retained. Actual service tier,
+preflight, first-text timing and token usage are logged. Current catalog prices
+(2026-10-14) including the regional premium are at most $1.65/M input and $9.90/M output.
 The 8,000-byte input ceiling plus framing and at most 800 output tokens fit the
 existing $0.06 reservation. Oldest history entries are removed if necessary; the
 current comment and character rules are never truncated. Non-streaming calls keep
-the standard tier. Daily budget/authentication/origin checks remain in place.
+GPT-6.1 Sol and the standard tier. Daily budget/authentication/origin checks remain in place.
 
 Speech connection setup overlaps model preparation. A ready gift's video and
 local sound effects start before freshly generated donor speech. The saved

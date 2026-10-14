@@ -5,11 +5,12 @@ import { getVercelOidcToken } from "@vercel/oidc";
 import { readCompletionStream } from "./completion-stream";
 
 export const LIVE_MODEL = "openai/gpt-6.1-sol";
+export const LIVE_STREAM_MODEL = "openai/gpt-5.4-mini";
 // 20,000 input bytes + framing, including $2.50/M cache writes, and
 // <=800 combined reasoning/output tokens at $10/M in standard processing.
 export const LIVE_AI_RESERVATION_USD = 0.06;
-// Priority: <=8,000 UTF-8 bytes + framing at $5/M cache writes, <=800 output
-// tokens at $20/M. Worst case stays below the existing $0.06 reservation.
+// Streaming mini priority: <=8,000 UTF-8 bytes + framing at <=$1.65/M input,
+// <=800 output tokens at <=$9.90/M, below the existing $0.06 reservation.
 export const LIVE_FAST_INPUT_BYTES = 8000;
 type LiveTextStream = {onText:(text:string)=>Promise<void>; toReply:(text:string)=>unknown};
 
@@ -22,7 +23,7 @@ export function liveAiProvider(): "gateway" | "story" | "wavespeed" | null {
 export function liveAIConfiguration() {
   const provider = liveAiProvider();
   return { configured: provider === "gateway" ? !!(process.env.AI_GATEWAY_API_KEY || process.env.VERCEL_OIDC_TOKEN || process.env.VERCEL) : !!provider,
-    provider, model: provider === "gateway" ? LIVE_MODEL : provider === "wavespeed" ? "google/gemini-3.1-flash-lite" : process.env.STORY_MODEL || "gpt-4o" };
+    provider, model: provider === "gateway" ? LIVE_STREAM_MODEL : provider === "wavespeed" ? "google/gemini-3.1-flash-lite" : process.env.STORY_MODEL || "gpt-4o" };
 }
 
 function parseReply<T>(content: unknown, schema: z.ZodType<T>) {
@@ -37,6 +38,7 @@ function parseReply<T>(content: unknown, schema: z.ZodType<T>) {
 export async function generateLiveReply<T>(messages: {role: string; content: string}[], schema: z.ZodType<T>, signal: AbortSignal, maxTokens: number, stream?: LiveTextStream) {
   const startedAt = Date.now();
   const provider = liveAiProvider();
+  const model = provider === "gateway" ? (stream ? LIVE_STREAM_MODEL : LIVE_MODEL) : liveAIConfiguration().model;
   if (!provider) return json({ error: "AI_NOT_CONFIGURED" }, 503);
   if (Buffer.byteLength(JSON.stringify(messages), "utf8") > (stream ? LIVE_FAST_INPUT_BYTES : 20000) || maxTokens > 800) return json({ error: "AI_INPUT_TOO_LARGE" }, 400);
   signal.throwIfAborted();
@@ -50,6 +52,8 @@ export async function generateLiveReply<T>(messages: {role: string; content: str
     if (budget && !(budget.configured_services[service] >= ceiling)) return json({ error: "AI_BUDGET_NOT_CONFIGURED" }, 503);
   }
   await reserveProductionBudget(provider === "gateway" ? "live_ai" : "story");
+  const preflightMs = Date.now() - startedAt;
+  let firstTextMs: number | undefined;
   const bounded = AbortSignal.any([signal, AbortSignal.timeout(35000)]);
   const headers = { Authorization: `Bearer ${key}`, "Content-Type": "application/json" };
   try {
@@ -57,9 +61,9 @@ export async function generateLiveReply<T>(messages: {role: string; content: str
       const base = provider === "gateway" ? "https://ai-gateway.vercel.sh/v1" : process.env.STORY_BASE_URL || "https://api.openai.com/v1";
       const response = await fetch(`${base.replace(/\/$/, "")}/chat/completions`, {
         method: "POST", headers,
-        body: JSON.stringify({ model: liveAIConfiguration().model, messages,
+        body: JSON.stringify({ model, messages,
           ...(stream ? {stream:true,stream_options:{include_usage:true}} : {response_format:{type:"json_object"}}),
-          ...(provider === "gateway" ? {max_completion_tokens:800,reasoning_effort:"low",service_tier:stream?"priority":"default"} : {max_tokens:maxTokens}) }),
+          ...(provider === "gateway" ? {max_completion_tokens:800,reasoning_effort:stream?"none":"low",service_tier:stream?"priority":"default"} : {max_tokens:maxTokens}) }),
         signal: bounded,
       });
       if (!response.ok) {
@@ -71,9 +75,12 @@ export async function generateLiveReply<T>(messages: {role: string; content: str
         console.warn("live_ai_provider_error", { status: response.status, code: error });
         return json({ error }, 502);
       }
-      const data = stream ? await readCompletionStream(response, bounded, stream.onText) : await response.json();
+      const data = stream ? await readCompletionStream(response, bounded, async text => {
+        if(firstTextMs===undefined)firstTextMs=Date.now()-startedAt;
+        await stream.onText(text);
+      }) : await response.json();
       if (data.error || data.choices?.[0]?.finish_reason === "length") return json({ error: "AI_INVALID_REPLY" }, 502);
-      console.info("live_ai_reply", { durationMs: Date.now() - startedAt, model: liveAIConfiguration().model, serviceTier:data.service_tier, streamed:!!stream, inputTokens: data.usage?.prompt_tokens, outputTokens: data.usage?.completion_tokens, reasoningTokens:data.usage?.completion_tokens_details?.reasoning_tokens });
+      console.info("live_ai_reply", { durationMs: Date.now() - startedAt, preflightMs, firstTextMs, model, serviceTier:data.service_tier, streamed:!!stream, inputTokens: data.usage?.prompt_tokens, outputTokens: data.usage?.completion_tokens, reasoningTokens:data.usage?.completion_tokens_details?.reasoning_tokens });
       const content = data.choices?.[0]?.message?.content;
       return parseReply(stream && typeof content === "string" ? stream.toReply(content) : content, schema);
     }

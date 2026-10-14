@@ -27,11 +27,11 @@ describe('Incremental live reply',()=>{
   expect(result.turns[0].text).toBe('Béla, Isti ma is ülősztrájkot tart. Csak még követelése sincs.');
   expect(reserveProductionBudget).toHaveBeenCalledOnce();
  });
- it('uses priority within the existing reservation and keeps unsupported reasoning disabled out of requests',async()=>{
+ it('uses the low-latency model without reasoning within the existing reservation',async()=>{
   const stream=feed();const fetch=vi.fn().mockResolvedValue(stream.response);vi.stubGlobal('fetch',fetch);
   const pending=generateStreamingDialogue(input,new AbortController().signal,vi.fn());
   stream.put(sse('Isti ma is ülősztrájkot tart.'));stream.put('data: [DONE]\n\n');stream.end();await pending;
-  expect(JSON.parse(fetch.mock.calls[0][1].body)).toMatchObject({stream:true,service_tier:'priority',reasoning_effort:'low',max_completion_tokens:800});
+  expect(JSON.parse(fetch.mock.calls[0][1].body)).toMatchObject({model:'openai/gpt-5.4-mini',stream:true,service_tier:'priority',reasoning_effort:'none',max_completion_tokens:800});
   expect(JSON.parse(fetch.mock.calls[0][1].body)).not.toHaveProperty('response_format');
   const tooLong=await generateLiveReply([{role:'user',content:'x'.repeat(8001)}],z.any(),new AbortController().signal,220,{onText:vi.fn(),toReply:t=>t});
   expect(tooLong.status).toBe(400);expect(fetch).toHaveBeenCalledOnce();
