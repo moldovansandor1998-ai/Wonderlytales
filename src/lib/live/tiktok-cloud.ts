@@ -2,7 +2,7 @@ import type { WebSocket } from "ws";
 import { eventSchema } from "./events";
 import { createEventNormalizer } from "../../../tools/tiktok-bridge/normalize.mjs";
 import { claimTikTokSession } from "./tiktok-session";
-import { tikTokFailure } from "./tiktok-error";
+import { tikTokFailure, tikTokDiagnostics } from "./tiktok-error";
 
 /** No TikTok credentials are accepted or forwarded: only public LIVE events. */
 export async function serveTikTokSocket(ws:WebSocket, ownerId:string) {
@@ -24,7 +24,7 @@ export async function serveTikTokSocket(ws:WebSocket, ownerId:string) {
     const fail = (message:string,code?:string) => { status(false,message,true,code); stop(1000,"Stopped"); };
     const report = (error:unknown) => {
       const detail=tikTokFailure(error);
-      console.warn("live_tiktok_connect_failed",{code:detail.code,signerConfigured:!!process.env.EULER_STREAM_API_KEY});
+      console.warn("live_tiktok_connect_failed",JSON.stringify({code:detail.code,signerConfigured:!!process.env.EULER_STREAM_API_KEY,diagnostics:tikTokDiagnostics(error)}));
       return detail;
     };
     const authTimer = setTimeout(()=>stop(1008,"Connection message required"),10000);
