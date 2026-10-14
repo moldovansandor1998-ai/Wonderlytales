@@ -13,13 +13,15 @@ describe('Two-character live dialogue',()=>{
     ]});
     expect(result.turns.map(turn=>turn.speaker)).toEqual(['ali','isti']);
     expect(result.turns[0].text).toContain('zeneajándékot');
-    expect(result.turns[0].text.split(/\s+/).length).toBeLessThanOrEqual(11);
+    expect(result.turns[0].text.split(/\s+/).length).toBeLessThanOrEqual(15);
     expect(result.turns[1].text.split(/\s+/).length).toBeLessThanOrEqual(7);
     expect(result.turns[1].text.length).toBeLessThanOrEqual(60);
     expect(dialogueSchema.safeParse(result).success).toBe(true);
     expect(shortSpokenLine('Ti adóztok?!')).toBe('Ti adóztok?!');
     expect(shortSpokenLine('Ali, te dagadt kétszáz kilós!')).toBe('Ali, te dagadt kétszáz kilós!');
     expect(shortSpokenLine('Ez rövid. Ezt már ne mondd el.')).toBe('Ez rövid.');
+    expect(shortSpokenLine('Mert valaki megint nem hozta a kedvenc nasiját.',10,85)).toBe('Mert valaki megint nem hozta a kedvenc nasiját.');
+    expect(shortSpokenLine('Mert valaki megint nem hozta a kedvenc nasiját.',6,52)).toBe('Mert valaki megint nem hozta.');
   });
   it('uses the reply counter for recurring jokes beyond the eight-turn history window',()=>{
     expect(dialogueMessages({event,history:[],replyIndex:12})[0].content).toContain('ISTI MOST röviden forduljon a nézőkhöz');

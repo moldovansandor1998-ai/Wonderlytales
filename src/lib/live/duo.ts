@@ -30,6 +30,10 @@ export function shortSpokenLine(text: string, maxWords = 7, maxChars = 60): stri
     if ([...result, word].join(" ").length > maxChars - 1) break;
     result.push(word);
   }
+  // If the provider exceeds the emergency limit, do not leave a dangling article/conjunction.
+  if (result.length < words.length) {
+    while (result.length > 1 && /^(a|az|egy|és|de|hogy|mert|vagy|ha|is)$/iu.test(result[result.length - 1])) result.pop();
+  }
   const line = result.join(" ") || sentence.slice(0, maxChars - 1);
   return /[.!?]$/u.test(line) ? line : `${line.replace(/[,;:–—-]+$/u, "")}.`;
 }
@@ -45,7 +49,8 @@ export function compactDialogueSchema(input: DialogueInput) {
   return dialogueSchema.transform(dialogue => ({ turns: dialogue.turns.map(turn => ({
     ...turn,
     text: turn.speaker === "ali"
-      ? `${shortSpokenLine(turn.text, 6, 52)} ${musicInvitations[index % musicInvitations.length]}`
+      // Leave a small margin above the six-word prompt so a complete short sentence survives.
+      ? `${shortSpokenLine(turn.text, 10, 85)} ${musicInvitations[index % musicInvitations.length]}`
       : shortSpokenLine(turn.text),
   })) }));
 }
