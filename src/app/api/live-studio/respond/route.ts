@@ -11,8 +11,10 @@ const voice = z.string().regex(/^[a-zA-Z0-9]{1,100}$/);
 const inputSchema = dialogueInput.extend({voices:z.object({ali:voice,isti:voice})});
 /** One authenticated request from incoming comment through first audio bytes. */
 export async function POST(request: NextRequest) {
+  const startedAt=Date.now();
   try {
     await access(request,true);
+    console.info("live_response_admission",{authMs:Date.now()-startedAt,region:process.env.VERCEL_REGION});
     const input = inputSchema.parse(await readJson(request));
     if(request.headers.get("accept")?.includes("application/x-ndjson"))return streamedResponse(input,request.signal,request.headers.get("X-Live-Audio-Format")==="pcm"?"pcm":"mp3");
     const generated = await generateLiveDialogue(input, request.signal);

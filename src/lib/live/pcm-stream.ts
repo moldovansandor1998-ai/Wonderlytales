@@ -22,10 +22,12 @@ export async function playPcmStream(response: Response, context: AudioContext, s
   signal.throwIfAborted();
   if (!response.body || context.state !== "running") throw new Error("Indítsd újra a hangot a Hangpróba gombbal.");
   const reader = response.body.getReader(), decoder = new PcmDecoder();
+  const startedAt = performance.now();
   const bounded = AbortSignal.any([signal, AbortSignal.timeout(45000)]);
   const sources = new Set<AudioBufferSourceNode>();
   let nextAt = context.currentTime, bytes = 0, ended = false, settled = false;
   let announced = false, startTimer: ReturnType<typeof setTimeout> | undefined;
+  let firstBytesMs: number | undefined;
   let resolveDone!: () => void, rejectDone!: (error: unknown) => void;
   const done = new Promise<void>((resolve, reject) => { resolveDone = resolve; rejectDone = reject; });
   const finish = (error?: unknown) => {
@@ -52,6 +54,7 @@ export async function playPcmStream(response: Response, context: AudioContext, s
         const chunk = await reader.read();
         if (settled) return;
         if (chunk.done) break;
+        if (firstBytesMs === undefined) firstBytesMs = Math.round(performance.now() - startedAt);
         bytes += chunk.value.byteLength;
         if (bytes > 8_000_000) throw new Error("Túl hosszú hangfolyam.");
         const samples = decoder.decode(chunk.value);
@@ -71,6 +74,7 @@ export async function playPcmStream(response: Response, context: AudioContext, s
           if (firstSound >= 0) {
             announced = true;
             const delay = at - context.currentTime + firstSound / PCM_SAMPLE_RATE + (context.outputLatency || 0) + (context.baseLatency || 0);
+            console.info("live_audio_client", {format:"pcm",firstBytesMs,scheduleMs:Math.round((at-context.currentTime)*1000),silenceMs:Math.round(firstSound/PCM_SAMPLE_RATE*1000),deviceMs:Math.round(((context.outputLatency||0)+(context.baseLatency||0))*1000)});
             startTimer = setTimeout(() => { if (!settled && !bounded.aborted && context.state === "running") onStart?.(); }, Math.max(0, delay * 1000));
           }
         }
