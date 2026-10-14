@@ -42,3 +42,7 @@ existing Supabase project is in Tokyo (ap-northeast-1). The respond and streamed
 speech functions are therefore pinned to hnd1, close to the database, without
 caching or skipping authentication or budget checks. Request cancellation is
 enabled on these paths so a stopped/interrupted client also aborts upstream work.
+Only these two exact POST paths omit the duplicate middleware getUser round trip;
+their own access(request, true) still validates the current user, studio role and
+same-site origin before any paid operation. Other routes/methods retain middleware
+authentication. Tests cover unauthenticated, forbidden and cross-origin streams.

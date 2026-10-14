@@ -3,15 +3,26 @@ import {NextRequest} from 'next/server';
 vi.mock('@/lib/auth',()=>({requireStudioUser:vi.fn()}));
 vi.mock('@/lib/live/ai',()=>({generateLiveReply:vi.fn()}));
 vi.mock('@/lib/live/speech',()=>({streamSpeech:vi.fn()}));
+vi.mock('@/lib/live/respond-stream',()=>({streamedResponse:vi.fn()}));
 import {requireStudioUser} from '@/lib/auth';
 import {generateLiveReply} from '@/lib/live/ai';
 import {streamSpeech} from '@/lib/live/speech';
+import {streamedResponse} from '@/lib/live/respond-stream';
 import {POST} from '@/app/api/live-studio/respond/route';
 const payload={event:{id:'1',type:'comment',user:'Teszt',text:'Isti, táncolni nem tudsz?'},voices:{ali:'AliVoice',isti:'IstiVoice'}};
 const request=(body:unknown=payload)=>new NextRequest('https://studio.example/api/live-studio/respond',{method:'POST',headers:{origin:'https://studio.example','content-type':'application/json'},body:JSON.stringify(body)});
 describe('Comment to streamed speech in one request',()=>{
  beforeEach(()=>{vi.clearAllMocks();vi.mocked(requireStudioUser).mockResolvedValue({id:'u',email:'u@example.com',role:'studio'});});
  afterEach(()=>vi.unstubAllGlobals());
+ it('authenticates and checks origin for incremental responses before opening any paid stream',async()=>{
+  const streamed=(origin='https://studio.example')=>new NextRequest('https://studio.example/api/live-studio/respond',{method:'POST',headers:{origin,accept:'application/x-ndjson','content-type':'application/json'},body:JSON.stringify(payload)});
+  vi.mocked(requireStudioUser).mockRejectedValueOnce(new Error('UNAUTHORIZED'));
+  expect((await POST(streamed())).status).toBe(401);
+  vi.mocked(requireStudioUser).mockRejectedValueOnce(new Error('FORBIDDEN'));
+  expect((await POST(streamed())).status).toBe(403);
+  expect((await POST(streamed('https://evil.example'))).status).toBe(403);
+  expect(streamedResponse).not.toHaveBeenCalled();expect(generateLiveReply).not.toHaveBeenCalled();expect(streamSpeech).not.toHaveBeenCalled();
+ });
  it('validates all voices before any paid generation',async()=>{
   expect((await POST(request({...payload,voices:{ali:'',isti:'valid'}}))).status).toBe(400);
   expect(generateLiveReply).not.toHaveBeenCalled();expect(streamSpeech).not.toHaveBeenCalled();

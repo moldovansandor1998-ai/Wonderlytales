@@ -12,6 +12,10 @@ export function decideRoute(pathname: string, authEnabled: boolean, hasUser: boo
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
+  // These POST handlers already call access(request, true) before parsing input,
+  // reserving budget or contacting a provider. Let that authoritative check run
+  // once, near the database, instead of repeating getUser at the edge first.
+  if (req.method === "POST" && ["/api/live-studio/respond", "/api/live-studio/speech/stream"].includes(pathname)) return NextResponse.next();
   const enabled = !!(process.env.NEXT_PUBLIC_SUPABASE_URL && (process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY));
   if (!enabled) return NextResponse.next();
   if (PUBLIC_PATHS.some((p) => pathname.startsWith(p))) return NextResponse.next();
