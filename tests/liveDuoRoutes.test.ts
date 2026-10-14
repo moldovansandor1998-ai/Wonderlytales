@@ -31,11 +31,11 @@ describe('Duo API boundaries',()=>{
     const response=await POST(request());expect(response.status).toBe(502);expect(fetch).toHaveBeenCalledOnce();
   });
   it('returns one short response even if the provider adds another voice',async()=>{
-    const dialogue={turns:[{speaker:'ali',text:'Szia!',emotion:'happy'},{speaker:'isti',text:'Én is köszönök.',emotion:'neutral'}]};
+    const dialogue={turns:[{speaker:'ali',text:'Isti már integet, csak közben elfelejtette, kinek!',emotion:'happy'},{speaker:'isti',text:'Én is köszönök.',emotion:'neutral'}]};
     vi.stubGlobal('fetch',vi.fn().mockResolvedValue(new Response(JSON.stringify({choices:[{message:{content:JSON.stringify(dialogue)}}]}))));
     const response=await POST(request());expect(response.status).toBe(200);
     const actual=await response.json();
-    expect(actual.turns[0].text).toBe('Szia!');
+    expect(actual.turns[0].text).toBe('Néző, Isti már integet, csak közben elfelejtette, kinek!');
     expect(actual.turns).toHaveLength(1);
   });
 });

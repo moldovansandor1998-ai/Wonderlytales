@@ -9,9 +9,10 @@ export const eventSchema = z.object({
   giftValue: z.number().int().min(0).max(1000000).optional(),
   giftId: z.string().regex(/^\d{1,30}$/).optional(),
   count: z.number().int().min(1).max(10000).default(1),
+  contributors: z.array(z.string().trim().min(1).max(80)).max(3).optional(),
 });
 /** Unit value, never count multiplied by value: rose streaks stay small. */
-export const isBigGift = (event: {type: string; giftValue?: number}) => event.type === "gift" && (event.giftValue ?? 0) > 200;
+export const isBigGift = (event: {type: string; giftValue?: number}) => event.type === "gift" && (event.giftValue ?? 0) >= 200;
 export type LiveEvent = z.infer<typeof eventSchema>;
 export type Emotion = "neutral" | "happy" | "laugh" | "thanks";
 export type Reply = { text: string; emotion: Emotion };
@@ -54,12 +55,12 @@ export class EventQueue {
       const old = this.pending.find(item => item.type === "gift" && !isBigGift(item) && !isBigGift(event));
       if (old) {
         old.count = Math.min(10000, old.count + event.count);
-        if (old.user !== event.user) old.user = "Nézők";
+        old.contributors = [...new Set([...(old.contributors || [old.user]), ...(event.contributors || [event.user])])].slice(0, 3);
         if (old.gift !== event.gift) old.gift = "ajándék";
         return true;
       }
       // Bound visual bursts as well: duplicate large gifts share one reaction.
-      const same = this.pending.find(item => item.type === "gift" && item.giftId === event.giftId && item.gift === event.gift && item.giftValue === event.giftValue);
+      const same = this.pending.find(item => item.type === "gift" && item.user === event.user && item.giftId === event.giftId && item.gift === event.gift && item.giftValue === event.giftValue);
       if (same) { same.count = Math.min(10000, same.count + event.count); return true; }
       if (this.pending.filter(item => item.type === "gift").length >= 4) { this.dropped++; return false; }
     }

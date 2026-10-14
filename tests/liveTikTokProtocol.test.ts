@@ -23,7 +23,7 @@ describe("installed TikTok connector v3 wire payloads",()=>{
   it("preserves the real unit price from a decoded expensive gift",()=>{
     const message=Object.assign(WebcastGiftMessage.decode(new Uint8Array()),{common:Object.assign(CommonMessageData.decode(new Uint8Array()),{msgId:"8877"}),gift:Object.assign(Gift.decode(new Uint8Array()),{name:"Big gift",diamondCount:201}),repeatEnd:1,repeatCount:1,user:Object.assign(User.decode(new Uint8Array()),{nickname:"Teszt"})});
     const event=eventSchema.parse(normalizeEvent("gift",WebcastGiftMessage.decode(WebcastGiftMessage.encode(message).finish())));
-    expect(event.giftValue).toBe(201);expect(giftEffect(event)?.duration).toBe(3000);
+    expect(event.giftValue).toBe(201);expect(giftEffect(event)?.duration).toBe(4000);
   });
   it("uses the current displayId when no nickname is provided",()=>{
     const message=Object.assign(WebcastChatMessage.decode(new Uint8Array()),{content:"Szia",user:Object.assign(User.decode(new Uint8Array()),{displayId:"viewer_handle"})});
