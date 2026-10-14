@@ -42,10 +42,39 @@ verification steps.
 The Mini production test reached audible playback at 3.5 seconds, but preflight
 alone took 1,352 ms. Runtime logs placed the function in Cleveland while the
 existing Supabase project is in Tokyo (ap-northeast-1). The respond and streamed
-speech functions are therefore pinned to hnd1, close to the database, without
-caching or skipping authentication or budget checks. Request cancellation is
+speech functions request hnd1 in deployment configuration, close to the database,
+without caching or skipping authentication or budget checks. Runtime log labels
+still report cle1, so the observed improvement cannot be attributed to a verified
+physical region change. Request cancellation is
 enabled on these paths so a stopped/interrupted client also aborts upstream work.
 Only these two exact POST paths omit the duplicate middleware getUser round trip;
 their own access(request, true) still validates the current user, studio role and
 same-site origin before any paid operation. Other routes/methods retain middleware
 authentication. Tests cover unauthenticated, forbidden and cross-origin streams.
+
+## Production verification, 2026-10-14
+
+Code commit: `72c931d8534236627fd6146724553fd46ec7b45a`.
+Production deployment: `dpl_4WecTjKiky7rJjVtw3vNkVNCfchi` (READY).
+
+| Case | Browser event/click to first audible playback |
+| --- | --- |
+| Fresh Luna comment, Ali / sulking question | 2.3 seconds |
+| Fresh Luna comment, Ali / sitting question | 2.5 seconds |
+| 10-point saved begging reaction while comment prepares | 0.1 seconds |
+| 1-point rose with freshly voiced donor name | 1.1 seconds |
+
+The last two comment traces reported first audio bytes at 1,392 / 1,590 ms,
+preflight at 150 / 144 ms, priority service and zero reasoning tokens. These
+two samples do not establish a percentile or a latency guarantee. The comment
+goal of near-instant playback is only partially achieved; it is still over two
+seconds end-to-end in this browser. A real phone-to-TikTok-to-viewer broadcast
+was not started or measured. Gift playback can also delay a queued comment.
+
+Seventy targeted tests passed across eleven files, including auth/origin checks,
+budget failures, partial streams, cancellation, gift priority and prerecorded
+gift preload. The final model configuration's eighteen relevant tests were rerun
+successfully. TypeScript and production builds passed. All browser trials were
+stopped afterwards; TikTok remained disconnected.
+
+![Production first-audio result](verification/live-latency-20261014.jpg)
