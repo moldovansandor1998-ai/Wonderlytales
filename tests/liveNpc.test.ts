@@ -41,7 +41,7 @@ describe("bounded saved NPC assets",()=>{
   expect(fetch).toHaveBeenCalledTimes(6);expect(reserveProductionBudget).toHaveBeenCalledWith("runway_npc_4s");
  });
  it("plays gags forward without a forced reset and uses distinct, valid versioned storage slots",()=>{
-  for(const kind of GAG_KINDS){const payload=npcPayload(kind,"frame");expect(payload.promptImage).toEqual([{uri:"frame",position:"first"}]);expect(payload.duration).toBe(GAG_META[kind].duration);expect(payload.promptText.length).toBeLessThanOrEqual(1000);expect(npcRecordId(kind)).toMatch(/^[a-f0-9-]{36}$/);}
+  for(const kind of GAG_KINDS.filter(kind=>kind!=="gag-beg")){const payload=npcPayload(kind,"frame");expect(payload.promptImage).toEqual([{uri:"frame",position:"first"}]);expect(payload.duration).toBe(GAG_META[kind].duration);expect(payload.promptText.length).toBeLessThanOrEqual(1000);expect(npcRecordId(kind)).toMatch(/^[a-f0-9-]{36}$/);}
   expect(new Set(GAG_KINDS.map(npcRecordId)).size).toBe(GAG_KINDS.length);
   expect(npcRecordId("idle-breathe")).toBe("00000000-0000-4000-8001-000000000001");
   expect(npcRecordId("gag-mud")).not.toBe("00000000-0000-4000-8001-000000000005");
@@ -69,7 +69,11 @@ describe("bounded saved NPC assets",()=>{
  it("adds begging without changing existing clip slots and caches its exact Isti line independently",async()=>{
   expect(npcRecordId("gag-mud")).toBe("00000000-0000-4000-8001-000000000212");
   expect(npcRecordId("gag-meteor")).toBe("00000000-0000-4000-8001-000000000222");
-  expect(npcPayload("gag-beg","frame").promptText).toContain("BOTH KNEES");
+  expect(()=>npcPayload("gag-beg","frame")).toThrow("NPC_KEYFRAME_REQUIRED");
+  const kneeling=npcPayload("gag-beg","frame",false,"kneeling-frame");
+  expect(kneeling.promptText).toContain("BOTH KNEES");expect(kneeling.promptText.length).toBeLessThanOrEqual(1000);
+  expect(kneeling.promptImage).toEqual([{uri:"frame",position:"first"},{uri:"kneeling-frame",position:"last"}]);
+  expect(npcRecordId("gag-beg")).toBe("00000000-0000-4000-8001-000000000401");
   const fetcher=vi.fn(async(_url:any,_options:any)=>new Response(new Uint8Array(200)));vi.stubGlobal("fetch",fetcher);
   await startNpcVoice(store,"IstiVoice","beg");await startNpcVoice(store,"IstiVoice","beg");
   expect(fetcher).toHaveBeenCalledOnce();expect(JSON.parse(fetcher.mock.calls[0][1].body).text).toContain(GAG_BEG_LINE);

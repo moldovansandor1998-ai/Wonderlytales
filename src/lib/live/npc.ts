@@ -15,13 +15,14 @@ export const GALAXY_REVISION_ID="00000000-0000-4000-8001-000000000301";
 const canRecoverCredit=(record:Record)=>record.status==="FAILED"&&record.error==="NPC_CREDITS_REQUIRED"&&!!record.providerStatus&&record.providerStatus>=400&&record.providerStatus<500&&!record.taskId&&!record.assetId&&!record.creditRecoveryUsed;
 // Keep the original idle records; revised gags get their own immutable asset slots.
 export const npcRecordId = (kind:NpcKind) => {
+  if(kind==="gag-beg")return "00000000-0000-4000-8001-000000000401";
   const index=NPC_KINDS.indexOf(kind);
   return `00000000-0000-4000-8001-${String(kind.startsWith("gag-")?208+index:index+1).padStart(12,"0")}`;
 };
 const ids = Object.fromEntries(NPC_KINDS.map(kind=>[kind,npcRecordId(kind)])) as {[K in NpcKind]:string};
 const base = "One continuous locked-off full body shot. Keep both exact people, masks, hats, rabbit ears, clothes, chair and cabin unchanged. The standing witch wears a blue medical mask, the seated man an opaque black mouth covering. Both masks remain firmly on and opaque. No talking mouth animation, no camera motion, no cuts, no text. Start AND finish in the exact supplied resting pose, with one second of quiet breathing at both ends. ";
 const prompts: {[K in NpcKind]:string} = {
-  "gag-beg": "0-1.5s: seated Isti uncrosses his arms, slides forward off the chair and lowers BOTH KNEES onto the floor directly in front of the empty chair. 1.5-5s: keep both knees visibly on the floor; he clasps his palms together at chest height and repeatedly begs toward the camera with exaggerated pleading eyes and tiny bows. His torso stays upright. Ali stays standing left and points at him, shoulders shaking with laughter. 5-6s: Isti remains kneeling, desperately offers both open palms toward the viewer. Full body, clearly visible knees on floor, chair behind him. Comedic begging, not sitting, not squatting. Both masks remain solid and opaque.",
+  "gag-beg": "0-2s: Isti uncrosses his arms, moves FORWARD completely off the chair, and lowers BOTH KNEES to the rug in front of it, matching the supplied final kneeling image. His shins fold backwards along the floor. 2-6s: remain kneeling upright on BOTH KNEES with palms pressed together in a comically desperate plea toward camera. Tiny pleading hand and shoulder gestures only. The chair is EMPTY behind him. Ali stays standing left, amused. Finish in the exact supplied kneeling pose. No sitting or squatting. Both masks remain solid, opaque and intact throughout; no mouth, lips, teeth or holes appear on the masks. No head thrown back, no speech animation.",
   "gag-mud": "0-0.7s: standing Ali brings a wide tray piled high with glossy brown foam shaped like cartoon poop directly under seated Isti's chin. 0.7-1.8s: Ali clearly pushes the back of Isti's hat, plunging his entire masked face DOWN into the soft foam. Huge brown splat shoots sideways. 1.8-4s: Isti pulls his face UP coated in brown foam, eyes wide, fists clenched; Ali points and shakes with laughter. Keep the messy aftermath in the final frame. Show the complete DOWN-THEN-UP action, not a prop being removed.",
   "gag-cream": "0-0.6s: Ali raises TWO whipped cream spray cans and points them at seated Isti. 0.6-2.5s: thick white jets visibly shoot from both cans onto Isti's entire face and hat, building a giant ridiculous mountain of cream. Isti flails his hands. 2.5-4s: Ali plants a bright red cherry on top; Isti angrily parts the cream around his eyes. Keep cream visible at end. Clear cause and effect, broad body gestures.",
   "gag-pie": "0-1s: Ali visibly swings a huge round cream pie from his side toward seated Isti. 1-2s: the pie hits Isti squarely in the masked face with a spectacular white cream explosion, his torso recoils. 2-4s: the plate slowly slides DOWN off his face, revealing furious eyes and a thick cream-covered hat. Ali doubles over laughing. The plate falls only AFTER impact. End on the messy furious reaction, no cleanup.",
@@ -38,12 +39,13 @@ const prompts: {[K in NpcKind]:string} = {
   "idle-shrug": "The seated man makes one tiny disgruntled shoulder adjustment while keeping arms folded, then relaxes. The witch blinks, barely moving. Return precisely to the starting pose.",
   "music-gift": "Comedic angry reaction. At 1 second the seated man uncrosses his arms and stands up in front of the chair. At 2 to 5 seconds he stands and gestures angrily at an annoying noise, with one open palm, frustrated raised eyebrows. At 5 seconds he lowers his hands and sits back down. By 7 seconds he has folded his arms and regained the EXACT starting seated pose. The witch remains in place watching amused. Both people stay fully in frame, masks and hats stay on.",
 };
-export function npcPayload(kind:NpcKind, image:string, galaxyRevision=false) {
+export function npcPayload(kind:NpcKind, image:string, galaxyRevision=false, kneelingImage?:string) {
+  if(kind==="gag-beg"&&!kneelingImage)throw new AvatarError("NPC_KEYFRAME_REQUIRED",409);
   const gag=kind.startsWith("gag-");
   return {model:"veo3.1_fast",duration:gag?GAG_META[kind as GagKind].duration:8,ratio:"720:1280",audio:false,
     promptText:(gag ? "Professional slapstick AI parody. Fixed vertical camera, exact same two men, costumes, masks and cabin as reference. Ali stands left in blue medical mask; Isti sits right with black mask and pirate hat. Preserve identities and masks. Big readable fast action, no text, no talking. " : base)+(galaxyRevision?"One wide full-body shot. 0-1s: Isti stands just in front of his chair and bends forward facing right; Ali stands to his LEFT. 1-2s: Ali lifts his RIGHT KNEE high, then straightens that leg horizontally; his clearly visible BOOT contacts Isti's padded backside. Hold this unmistakable side-on KICK pose for half a second. 2-4s: ONLY AFTER boot contact, Isti shoots upward with flailing arms in a purple-blue spiral of stars. 4-6s: Isti drops safely onto the chair with a comic bounce and shakes a fist. Ali lowers the kicking leg. Both masks stay opaque. The visible physical kick causes the flight, not a magic hand gesture. Safe theatrical slapstick, no injury.":prompts[kind]),
     // Gags play forward to an aftermath; matching first/last frames had reversed the action.
-    promptImage:gag?[{uri:image,position:"first"}]:[{uri:image,position:"first"},{uri:image,position:"last"}]};
+    promptImage:kind==="gag-beg"?[{uri:image,position:"first"},{uri:kneelingImage!,position:"last"}]:gag?[{uri:image,position:"first"}]:[{uri:image,position:"first"},{uri:image,position:"last"}]};
 }
 const voiceRecordId = (voiceId:string,kind:"music"|"beg"="music") => {const hash=digest(kind==="beg"?`npc-beg-v1:${voiceId}:${GAG_BEG_LINE}`:`npc-music-gift-v1:${voiceId}`);return `${hash.slice(0,8)}-${hash.slice(8,12)}-4${hash.slice(13,16)}-8${hash.slice(17,20)}-${hash.slice(20,32)}`;};
 export async function startNpcClip(store:Store, kind:NpcKind, retry=false, options:{recoverCredit?:boolean;galaxyRevision?:boolean}={}) {
@@ -59,6 +61,7 @@ export async function startNpcClip(store:Store, kind:NpcKind, retry=false, optio
   const budget=await getProductionBudget();
   if(!budget||(budget.configured_services[service]??0)<(service==="runway_npc_4s"?0.4:0.8))throw new AvatarError("NPC_BUDGET_NOT_CONFIGURED",409);
   const image=await readFile(path.join(process.cwd(),"public/live-studio/ali-isti-masked.webp"));
+  const kneelingImage=kind==="gag-beg"?await readFile(path.join(process.cwd(),"public/live-studio/ali-isti-kneeling.webp")):undefined;
   if(kind==="idle-breathe"){const sha=digest(image);await store.putChunk(sha,0,image);await store.completeImage(sha,image.length);}
   const record:Record={status:"SUBMITTING",createdAt:new Date().toISOString(),attempts:(old?(old.value.attempts||1):0)+1,...(old?{previousAttempt:old.value}:{}),creditRecoveryUsed:options.recoverCredit||old?.value.creditRecoveryUsed};
   if(!await store.writeRecord("live-backdrop",id,record,retry||options.recoverCredit?old!.etag:undefined))return (await store.readRecord<Record>("live-backdrop",id))!.value;
@@ -67,7 +70,7 @@ export async function startNpcClip(store:Store, kind:NpcKind, retry=false, optio
   let providerStatus:number|undefined,providerError:string|undefined;
   try {
     await reserveProductionBudget(service);
-    const response=await fetch("https://api.dev.runwayml.com/v1/image_to_video",{method:"POST",signal:AbortSignal.timeout(45000),headers:{Authorization:`Bearer ${process.env.RUNWAYML_API_SECRET}`,"X-Runway-Version":"2024-11-06","Content-Type":"application/json"},body:JSON.stringify(npcPayload(kind,`data:image/webp;base64,${image.toString("base64")}`,options.galaxyRevision))});
+    const response=await fetch("https://api.dev.runwayml.com/v1/image_to_video",{method:"POST",signal:AbortSignal.timeout(45000),headers:{Authorization:`Bearer ${process.env.RUNWAYML_API_SECRET}`,"X-Runway-Version":"2024-11-06","Content-Type":"application/json"},body:JSON.stringify(npcPayload(kind,`data:image/webp;base64,${image.toString("base64")}`,options.galaxyRevision,kneelingImage?`data:image/webp;base64,${kneelingImage.toString("base64")}`:undefined))});
     if(!response.ok){
       providerStatus=response.status;
       const body=await response.json().catch(()=>({}));
