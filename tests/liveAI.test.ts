@@ -10,13 +10,15 @@ const schema = z.object({text:z.string()});
 const messages = [{role:'system',content:'Return JSON.'},{role:'user',content:'Hello'}];
 const run = () => generateLiveReply(messages,schema,new AbortController().signal,700);
 describe('Bounded live AI gateway',()=>{
-  beforeEach(()=>{vi.clearAllMocks();vi.stubEnv('LIVE_AI_GATEWAY_ENABLED','true');vi.stubEnv('AI_GATEWAY_API_KEY','');vi.mocked(getVercelOidcToken).mockResolvedValue('fresh-token');vi.mocked(getProductionBudget).mockResolvedValue({configured_services:{live_ai:0.05}} as never);});
+  beforeEach(()=>{vi.clearAllMocks();vi.stubEnv('LIVE_AI_GATEWAY_ENABLED','true');vi.stubEnv('AI_GATEWAY_API_KEY','');vi.mocked(getVercelOidcToken).mockResolvedValue('fresh-token');vi.mocked(getProductionBudget).mockResolvedValue({configured_services:{live_ai:0.06}} as never);});
   afterEach(()=>{vi.unstubAllEnvs();vi.unstubAllGlobals();});
   it('uses a fresh OIDC token and the pinned model after reserving the live budget',async()=>{
     const fetch=vi.fn(async(_url,options)=>{
       expect(reserveProductionBudget).toHaveBeenCalledWith('live_ai');
       expect(options.headers.Authorization).toBe('Bearer fresh-token');
-      expect(JSON.parse(options.body)).toMatchObject({model:'openai/gpt-4.1',max_tokens:700,temperature:0.8});
+      expect(JSON.parse(options.body)).toMatchObject({model:'openai/gpt-6.1-sol',max_completion_tokens:800,reasoning_effort:'low',service_tier:'default'});
+      expect(JSON.parse(options.body)).not.toHaveProperty('temperature');
+      expect(JSON.parse(options.body)).not.toHaveProperty('max_tokens');
       return new Response(JSON.stringify({choices:[{message:{content:'{"text":"Hello"}'}}]}));
     });vi.stubGlobal('fetch',fetch);
     expect(await (await run()).json()).toEqual({text:'Hello'});
@@ -30,7 +32,7 @@ describe('Bounded live AI gateway',()=>{
     expect(reserveProductionBudget).not.toHaveBeenCalled();
   });
   it('requires the verified reservation for the full model before any paid attempt',async()=>{
-    vi.mocked(getProductionBudget).mockResolvedValueOnce({configured_services:{live_ai:0.02}} as never);
+    vi.mocked(getProductionBudget).mockResolvedValueOnce({configured_services:{live_ai:0.05}} as never);
     const fetch=vi.fn();vi.stubGlobal('fetch',fetch);
     expect(await (await run()).json()).toEqual({error:'AI_BUDGET_NOT_CONFIGURED'});
     expect(reserveProductionBudget).not.toHaveBeenCalled();expect(fetch).not.toHaveBeenCalled();

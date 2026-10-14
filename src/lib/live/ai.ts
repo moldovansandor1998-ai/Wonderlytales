@@ -3,9 +3,10 @@ import { json } from "@/lib/ai-video/http";
 import type { z } from "zod";
 import { getVercelOidcToken } from "@vercel/oidc";
 
-export const LIVE_MODEL = "openai/gpt-4.1";
-// 20,000 input bytes + framing at $2/M and <=800 output tokens at $8/M.
-export const LIVE_AI_RESERVATION_USD = 0.05;
+export const LIVE_MODEL = "openai/gpt-6.1-sol";
+// 20,000 input bytes + framing, including $2.50/M cache writes, and
+// <=800 combined reasoning/output tokens at $10/M in standard processing.
+export const LIVE_AI_RESERVATION_USD = 0.06;
 
 export function liveAiProvider(): "gateway" | "story" | "wavespeed" | null {
   if (process.env.LIVE_AI_GATEWAY_ENABLED === "true") return "gateway";
@@ -51,7 +52,8 @@ export async function generateLiveReply<T>(messages: {role: string; content: str
       const base = provider === "gateway" ? "https://ai-gateway.vercel.sh/v1" : process.env.STORY_BASE_URL || "https://api.openai.com/v1";
       const response = await fetch(`${base.replace(/\/$/, "")}/chat/completions`, {
         method: "POST", headers,
-        body: JSON.stringify({ model: liveAIConfiguration().model, messages, response_format: { type: "json_object" }, max_tokens: maxTokens, ...(provider === "gateway" ? {temperature:0.8} : {}) }),
+        body: JSON.stringify({ model: liveAIConfiguration().model, messages, response_format: { type: "json_object" },
+          ...(provider === "gateway" ? {max_completion_tokens:800,reasoning_effort:"low",service_tier:"default"} : {max_tokens:maxTokens}) }),
         signal: bounded,
       });
       if (!response.ok) {
@@ -65,7 +67,7 @@ export async function generateLiveReply<T>(messages: {role: string; content: str
       }
       const data = await response.json();
       if (data.error || data.choices?.[0]?.finish_reason === "length") return json({ error: "AI_INVALID_REPLY" }, 502);
-      console.info("live_ai_reply", { durationMs: Date.now() - startedAt, model: liveAIConfiguration().model, inputTokens: data.usage?.prompt_tokens, outputTokens: data.usage?.completion_tokens });
+      console.info("live_ai_reply", { durationMs: Date.now() - startedAt, model: liveAIConfiguration().model, inputTokens: data.usage?.prompt_tokens, outputTokens: data.usage?.completion_tokens, reasoningTokens:data.usage?.completion_tokens_details?.reasoning_tokens });
       return parseReply(data.choices?.[0]?.message?.content, schema);
     }
     const base = "https://api.wavespeed.ai/api/v3";
