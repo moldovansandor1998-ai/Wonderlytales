@@ -10,6 +10,8 @@ import { CAST, DUO_IMAGE, dialogueSchema, giftEffect, playDialogue, rehearsalDia
 import { useMotion } from "./useMotion";
 import { useNpc } from "./useNpc";
 import { useMusicBed } from "./useMusicBed";
+import { MusicDirector, MUSIC_MOODS, nextDjTrack, type MusicMood } from "@/lib/live/music-director";
+import { readMusic, writeMusic, deleteMusic, type SavedTrack } from "@/lib/live/music-library";
 import type { NpcPlayback } from "./NpcPlayer";
 import type { MotionFrame } from "./useMotion";
 import { NPC_IMAGE, DEFAULT_MUSIC_GIFTS, MUSIC_GIFT_LINE, isMusicGift } from "@/lib/live/npc-shared";
@@ -20,7 +22,7 @@ import AvatarPreview from "./AvatarPreview";
 import { useSpeech } from "./useSpeech";
 
 type Character = { id: string; name: string; personality: string; image: string; voiceId?: string; voiceName?: string };
-type Track = { id: string; title: string; url: string };
+type Track = SavedTrack & { url: string; saved: boolean };
 type Log = { event: LiveEvent; reply: string; source?: "ai" | "rehearsal" | "saved"; error?: boolean };
 const INITIAL: Character = { id: "pirate", name: "Mc Isti", voiceName: "Mc istia", voiceId: "f9YzCDZYS8Zjl6RbHErx", personality: "Pukkancs, sértődős, nagyszájú magyar trash-karikatúra. Az aktuális kommentre rövid felháborodással reagál, aztán önironikusan visszakozik. Hétköznapi beszéd, semmi kalózos vagy hajós szófordulat. Kitalált AI-paródia, nem a valódi személy.", image: "/live-studio/pirate.png" };
 const button = "rounded-lg bg-amber-400 px-4 py-2 text-black font-semibold disabled:opacity-40";
@@ -97,13 +99,20 @@ export default function LiveStudio() {
   const [autoMusic, setAutoMusic] = useState(true);
   const [backgroundMusic,setBackgroundMusic]=useState(true);
   const playedTracks=useRef(new Set<string>());
-  const musicBed=useMusicBed(volume,isSpeaking,backgroundMusic&&!currentTrack);
+  const musicGeneration=useRef(0);
+  const musicChanging=useRef(false);
+  const [musicLoading,setMusicLoading]=useState(true);
+  const [musicUploading,setMusicUploading]=useState(false);
+  const [djEnabled,setDjEnabled]=useState(true);
+  const [djMood,setDjMood]=useState<MusicMood>("groove");
+  const director=useRef(new MusicDirector());
+  const musicBed=useMusicBed(volume,isSpeaking,backgroundMusic&&!currentTrack,djEnabled?djMood:"groove");
   const music = useRef<HTMLAudioElement>(null);
   const objectUrls = useRef(new Set<string>());
   const channel = useRef<BroadcastChannel | null>(null);
   const outputId = useRef("");
   const activeTrack = tracks.find(t => t.id === currentTrack);
-  const state: StageState = {name:scene === "duo" ? "Ali és Mc Isti" : character.name, image:scene === "duo" ? continuous ? NPC_IMAGE : DUO_IMAGE : character.image, caption, speaking:isSpeaking, emotion, connected, song:activeTrack?.title || (continuous&&musicBed.playing&&backgroundMusic?"Változó instrumentális háttérzene":""), scene, speaker, effect, motion:motion.frame, npc:continuous&&npc.assets?{frame:npcFrame,active:backdropActive}:undefined, showStatus:continuous ? auto ? busy ? "Készül a következő válasz…" : connected ? "A műsor fut • Kommenteket és ajándékokat figyelünk" : "Alapvideó fut • TikTok-kapcsolódás / próba" : busy ? "A műsor előkészítése…" : backdropActive ? "Alapvideó fut • Automatikus válaszadás szünetel" : "A műsor szünetel" : undefined};
+  const state: StageState = {name:scene === "duo" ? "Ali és Mc Isti" : character.name, image:scene === "duo" ? continuous ? NPC_IMAGE : DUO_IMAGE : character.image, caption, speaking:isSpeaking, emotion, connected, song:activeTrack?.title || (continuous&&musicBed.playing&&backgroundMusic?`DJ • ${MUSIC_MOODS[djEnabled?djMood:"groove"].label}`:""), scene, speaker, effect, motion:motion.frame, npc:continuous&&npc.assets?{frame:npcFrame,active:backdropActive}:undefined, showStatus:continuous ? auto ? busy ? "Készül a következő válasz…" : connected ? "A műsor fut • Kommenteket és ajándékokat figyelünk" : "Alapvideó fut • TikTok-kapcsolódás / próba" : busy ? "A műsor előkészítése…" : backdropActive ? "Alapvideó fut • Automatikus válaszadás szünetel" : "A műsor szünetel" : undefined};
   const stageRef = useRef(state); stageRef.current = state;
 
   useEffect(() => {
@@ -129,7 +138,7 @@ export default function LiveStudio() {
     const publish = () => c.postMessage({type:"state", state:stageRef.current});
     c.onmessage = e => { if (e.data?.type === "ready") publish(); };
     const heartbeat = setInterval(publish, 2000);
-    return () => { controller.abort(); autoRef.current = false; operation.current?.abort(); clearTimeout(trialGiftTimer.current); clearInterval(heartbeat); c.close(); objectUrls.current.forEach(url => URL.revokeObjectURL(url)); };
+    return () => { controller.abort(); autoRef.current = false; musicGeneration.current++; music.current?.pause(); operation.current?.abort(); clearTimeout(trialGiftTimer.current); clearInterval(heartbeat); c.close(); objectUrls.current.forEach(url => URL.revokeObjectURL(url)); };
   }, []);
   useEffect(() => {
     if (!ready) return;
@@ -142,9 +151,33 @@ export default function LiveStudio() {
     catch { setMessage("A jelenet hangbeállításai nem lettek elmentve."); }
   }, [ready, scene, castVoices]);
   useEffect(() => { if (ready) { try { localStorage.setItem("wonderly-live-username-v1",username); } catch { /* The current session can still run without persistent settings. */ } } }, [ready,username]);
-  useEffect(() => { channel.current?.postMessage({type:"state", state}); }, [character.name, character.image, caption, isSpeaking, motion.frame, emotion, connected, activeTrack?.title, scene, speaker, effect, continuous, npcFrame, npc.assets, backdropActive, auto, busy, backgroundMusic, musicBed.playing]);
+  useEffect(() => { channel.current?.postMessage({type:"state", state}); }, [character.name, character.image, caption, isSpeaking, motion.frame, emotion, connected, activeTrack?.title, scene, speaker, effect, continuous, npcFrame, npc.assets, backdropActive, auto, busy, backgroundMusic, musicBed.playing, djEnabled, djMood]);
   useEffect(()=>{if(ready){try{localStorage.setItem("wonderly-live-music-gift-v1",JSON.stringify({names:musicGiftNames,id:musicGiftId}));}catch{}}},[ready,musicGiftNames,musicGiftId]);
-  useEffect(() => { if (music.current) music.current.volume = isSpeaking ? volume * 0.2 : volume; }, [isSpeaking, volume, currentTrack]);
+  useEffect(() => {
+    let canceled=false;
+    void readMusic().then(saved=>{
+      if(canceled)return;
+      setTracks(saved.map(track=>{const url=URL.createObjectURL(track.file);objectUrls.current.add(url);return {...track,mood:track.mood in MUSIC_MOODS?track.mood:"any",url,saved:true};}));
+    }).catch(()=>{if(!canceled)setMessage("A mentett zenék nem érhetők el. Erre az adásra továbbra is tölthetsz be hangfájlokat.");})
+      .finally(()=>{if(!canceled)setMusicLoading(false);});
+    return()=>{canceled=true;};
+  },[]);
+  useEffect(()=>{
+    if(!musicBed.playing||!djEnabled)return;
+    const timer=setInterval(()=>setDjMood(director.current.mood(Date.now())),1000);
+    return()=>clearInterval(timer);
+  },[musicBed.playing,djEnabled]);
+  function resetDj(){director.current.start(Date.now());setDjMood("groove");}
+  function cueDj(event:LiveEvent){
+    if(!djEnabled)return;
+    const now=Date.now(),accent=director.current.event(event,isMusicGift(event,musicGiftNames,musicGiftId),now);
+    setDjMood(director.current.mood(now));if(accent)musicBed.accent();
+  }
+  function reactDj(nextEmotion:Emotion,line:string){
+    if(!djEnabled)return;
+    const now=Date.now();director.current.reaction(nextEmotion,line,now);setDjMood(director.current.mood(now));
+  }
+  function stopMusic(){musicGeneration.current++;musicChanging.current=false;music.current?.pause();setCurrentTrack("");musicBed.stop();}
 
   async function replayOnStage(clip: Clip) {
     if (operation.current || auto || !clip.url) return;
@@ -159,19 +192,20 @@ export default function LiveStudio() {
   function update(fieldName: "name" | "personality" | "voiceId" | "voiceName", value: string) {
     setCharacters(current => current.map(c => c.id === character.id ? {...c, [fieldName]:value} : c));
   }
-  function pause(stopBackdrop=true) { autoRef.current = false; setAuto(false); if(stopBackdrop){setBackdropActive(false);musicBed.stop();} operation.current?.abort(); clearTimeout(trialGiftTimer.current); trialRemaining.current=null; setEffect(undefined); }
+  function pause(stopBackdrop=true) { autoRef.current = false; setAuto(false); if(stopBackdrop){setBackdropActive(false);stopMusic();} operation.current?.abort(); clearTimeout(trialGiftTimer.current); trialRemaining.current=null; setEffect(undefined); }
   function stopAll() { tiktok.disconnect(); setAvatarStop(n => n + 1); pause(); queue.current.clear(); setPending([]); music.current?.pause(); setCurrentTrack(""); setCaption("A műsor szünetel."); setEmotion("neutral"); }
   function addLog(log: Log) { history.current = [...history.current, log].slice(-30); setLogs(history.current); }
   const onBackdropError=useCallback((reason:string)=>{
     autoRef.current=false;setAuto(false);setBackdropActive(false);operation.current?.abort();clearTimeout(trialGiftTimer.current);
-    musicBed.stop();setMessage(reason);
+    stopMusic();setMessage(reason);
   },[]);
   async function previewBackdrop(prepare=false) {
     if(operation.current||autoRef.current)return;
     const controller=new AbortController();operation.current=controller;setBusy(true);setMessage("");
     setContinuous(true);continuousRef.current=true;setScene("duo");setMotionMode(false);setSpeaker(undefined);
     try {
-      await Promise.all([speech.unlock(),musicBed.unlock(), ...(tracks.length ? [speech.unlock(music.current)] : [])]);
+      resetDj();
+      await Promise.all([speech.unlock(),musicBed.unlock(music.current), ...(tracks.length ? [speech.unlock(music.current)] : [])]);
       await npc.ensure(castVoices.isti,controller.signal,prepare);controller.signal.throwIfAborted();
       setBackdropActive(true);musicBed.start();setCaption("Ali figyel, Isti duzzog. A zene folyamatosan változik.");
       setMessage(prepare?"A három alapjelenet és a felállós reakció elmentve. A következő adások ezeket használják.":"Mentett NPC-műsor és háttérzene • nincs új generálás");
@@ -195,7 +229,7 @@ export default function LiveStudio() {
   async function previewMusicGift(){
     if(operation.current||autoRef.current||!backdropActive)return;
     const controller=new AbortController();operation.current=controller;setBusy(true);setMessage("");
-    try{await speech.unlock();await playMusicGift(controller.signal);setMessage("A mentett zenés ajándékreakció lejátszódott. Nem indult hang- vagy videógenerálás.");}
+    try{await speech.unlock();cueDj({id:crypto.randomUUID(),type:"gift",user:"DJ-próba",text:"",gift:musicGiftNames.split(",")[0]||"Zene",giftId:musicGiftId||undefined,count:1});await playMusicGift(controller.signal);setMessage("A mentett zenés ajándékreakció lejátszódott. Nem indult hang- vagy videógenerálás.");}
     catch(error){if(!controller.signal.aborted)setMessage(error instanceof Error?error.message:"Reakcióhiba");}
     finally{if(operation.current===controller){operation.current=null;setBusy(false);}}
   }
@@ -211,11 +245,12 @@ export default function LiveStudio() {
     queue.current.clear();setPending([]);trialRemaining.current=trial?2:null;
     if(!trial)mobile.open();
     try {
-      await Promise.all([speech.unlock(),musicBed.unlock(), ...(tracks.length ? [speech.unlock(music.current)] : [])]);
+      resetDj();
+      await Promise.all([speech.unlock(),musicBed.unlock(music.current), ...(tracks.length ? [speech.unlock(music.current)] : [])]);
       await npc.ensure(castVoices.isti,controller.signal);
       controller.signal.throwIfAborted();
       musicBed.start();
-      const firstTrack=tracks.find(track=>!playedTracks.current.has(track.id));
+      const firstTrack=nextDjTrack(tracks,playedTracks.current,"groove");
       if(firstTrack)await playTrack(firstTrack);
       controller.signal.throwIfAborted();
       autoRef.current=true;setAuto(true);setBackdropActive(true);setCaption("Ali és Isti figyelnek. Jöhetnek a kommentek!");
@@ -244,14 +279,14 @@ export default function LiveStudio() {
   async function speakDialogue(dialogue: Dialogue, event: LiveEvent, signal: AbortSignal) {
     if(continuousRef.current) {
       await playDialogue(dialogue,castVoices,"eleven",signal,async(turn,voiceId)=>{
-        await speech.say(turn.text,"eleven",voiceId,signal,()=>{setSpeaker(turn.speaker);setCaption(turn.text);setEmotion(turn.emotion);});
+        await speech.say(turn.text,"eleven",voiceId,signal,()=>{setSpeaker(turn.speaker);setCaption(turn.text);setEmotion(turn.emotion);reactDj(turn.emotion,turn.text);});
       });
       return;
     }
     let first = true;
     setEffect(undefined);
     await playDialogue(dialogue, castVoices, voiceMode, signal, async (turn, voiceId) => {
-      const onStart=()=>{setSpeaker(turn.speaker);setCaption(turn.text);setEmotion(turn.emotion);if(first){first=false;setEffect(giftEffect(event));}};
+      const onStart=()=>{setSpeaker(turn.speaker);setCaption(turn.text);setEmotion(turn.emotion);reactDj(turn.emotion,turn.text);if(first){first=false;setEffect(giftEffect(event));}};
       if(motionMode && voiceMode==="eleven") await motion.say(turn,voiceId,signal,onStart);
       else await speech.say(turn.text,voiceMode,voiceId,signal,onStart);
     });
@@ -289,6 +324,7 @@ export default function LiveStudio() {
     if (replyCount.current >= limit) { pause(); setMessage("Elérted az adás válaszkorlátját. A folytatáshoz növeld a korlátot."); return; }
     const event = queue.current.take(); setPending(queue.current.snapshot()); setDropped(queue.current.dropped);
     if (!event) return;
+    cueDj(event);
     const controller = new AbortController(); operation.current = controller; setBusy(true); setMessage("");
     try {
       let spoken: string;
@@ -318,7 +354,7 @@ export default function LiveStudio() {
           const response = await fetch("/api/live-studio/reply", {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({event, character:{name:character.name, personality:character.personality}, history:recent.slice(-6).map(h => ({...h, reply:h.reply.slice(0,350)})), music:requested ? {requested, started} : undefined}), signal:controller.signal});
           reply = replySchema.parse(await readAIResponse(response));
         }
-        controller.signal.throwIfAborted(); setSpeaker(undefined); setCaption(reply.text); setEmotion(reply.emotion);
+        controller.signal.throwIfAborted(); setSpeaker(undefined); setCaption(reply.text); setEmotion(reply.emotion);reactDj(reply.emotion,reply.text);
         await speech.say(reply.text, voiceMode, character.voiceId, controller.signal);
         spoken = reply.text;
       }
@@ -371,10 +407,55 @@ export default function LiveStudio() {
   function connect() { tiktok.connect(connectionMode, username, pairing); }
   async function playTrack(track: Track): Promise<boolean> {
     if(playedTracks.current.has(track.id)){setMessage("Ez a szám már elhangzott. Ebben a műsorban nem ismételjük meg.");return false;}
-    setCurrentTrack(track.id);
-    const player = music.current; if (!player) return false;
-    player.src = track.url; player.volume = isSpeaking ? volume * 0.2 : volume;
-    try { await player.play(); playedTracks.current.add(track.id);return true; } catch {setCurrentTrack(""); setMessage("A zenét a lejátszó indítógombjával indítsd el."); return false; }
+    const player=music.current;if(!player||musicChanging.current)return false;
+    const token=++musicGeneration.current;musicChanging.current=true;
+    try {
+      await musicBed.unlock(player);
+      if(token!==musicGeneration.current)return false;
+      if(!player.paused&&!player.ended){musicBed.fadeTrack(0,0.3);await new Promise(resolve=>setTimeout(resolve,320));}
+      if(token!==musicGeneration.current)return false;
+      musicBed.fadeTrack(0,0);player.src=track.url;player.volume=1;setCurrentTrack(track.id);
+      await player.play();
+      if(token!==musicGeneration.current){player.pause();return false;}
+      playedTracks.current.add(track.id);musicBed.start();musicBed.fadeTrack(1,0.8);return true;
+    } catch {
+      if(token===musicGeneration.current){setCurrentTrack("");setMessage("A zenefájl nem indult el. Válassz másik fájlt vagy próbáld újra a lejátszást.");}
+      return false;
+    } finally {if(token===musicGeneration.current)musicChanging.current=false;}
+  }
+  function nextMusic(){
+    const next=nextDjTrack(tracks,playedTracks.current,djEnabled?director.current.mood(Date.now()):"groove");
+    if(next)void playTrack(next);else {music.current?.pause();setCurrentTrack("");}
+  }
+  async function previewDj(){
+    const token=musicGeneration.current;
+    try{resetDj();await musicBed.unlock(music.current);if(token!==musicGeneration.current)return;musicBed.start();setMessage("DJ hangpróba elindult. A hangulatgombokkal kipróbálhatod a váltásokat.");}
+    catch{setMessage("A zene indításához engedélyezd a böngésző hangját, majd próbáld újra.");}
+  }
+  function previewDjMood(mood:MusicMood){
+    const now=Date.now();director.current.start(now);director.current.set(mood,now,3,22000);setDjMood(mood);if(mood==="party")musicBed.accent();
+  }
+  async function importMusic(files:File[]){
+    setMusicUploading(true);
+    const selected=files.filter(file=>file.size>0&&file.size<=100*1024*1024).slice(0,Math.max(0,30-tracks.length));
+    let unsaved=0;
+    for(const file of selected){
+      const track:SavedTrack={id:crypto.randomUUID(),title:file.name.replace(/\.[^.]+$/,""),mood:"any",file};
+      let saved=true;try{await writeMusic(track);}catch{saved=false;unsaved++;}
+      const url=URL.createObjectURL(file);objectUrls.current.add(url);setTracks(current=>[...current,{...track,url,saved}]);
+    }
+    setMusicUploading(false);
+    setMessage(unsaved?`${unsaved} zene csak erre az alkalomra töltődött be; a böngésző nem tudta elmenteni.`:selected.length?`${selected.length} zene elmentve ezen az eszközön. Legközelebb automatikusan betöltődik.`:"Legfeljebb 30 zenét tölthetsz be, fájlonként maximum 100 MB méretben.");
+  }
+  async function tagMusic(track:Track,mood:MusicMood|"any"){
+    const updated={...track,mood};let saved=true;
+    try{await writeMusic({id:track.id,title:track.title,file:track.file,mood});}catch{saved=false;setMessage("A hangulat módosítása most csak erre az adásra érvényes.");}
+    setTracks(current=>current.map(item=>item.id===track.id?{...updated,saved}:item));
+  }
+  async function removeMusic(track:Track){
+    try{await deleteMusic(track.id);}catch{setMessage("A mentett zenét nem sikerült törölni. Próbáld újra.");return;}
+    if(currentTrack===track.id)stopMusic();
+    setTracks(current=>current.filter(item=>item.id!==track.id));objectUrls.current.delete(track.url);URL.revokeObjectURL(track.url);
   }
 
   return <div className="space-y-6 pb-12">
@@ -449,7 +530,24 @@ export default function LiveStudio() {
           <p role="status" className="text-sm">{bridgeStatus}</p><p className="text-xs text-zinc-400">Az ellenőrzés nem indít adást vagy AI-generálást. A TikTok-kapcsolat nem hivatalos összekötőt használ, ezért szolgáltatói hiba vagy korlátozás esetén leállhat. Szerveres módban fiókonként egy kapcsolat futhat.</p>
           {connectionMode === "local" && <a className="text-sm text-amber-300 underline" href="https://github.com/moldovansandor1998-ai/Wonderlytales/tree/main/tools/tiktok-bridge" target="_blank" rel="noreferrer">Összekötő és indítási útmutató ↗</a>}
         </section>
-        <section className={panel}><h2 className="text-xl font-semibold">Zene és kívánságlista</h2><p className="text-sm text-amber-200">Kért zenei irány: DESH, T. Danny, Finni. Az eredeti számokhoz töltsd be a hangfájlokat; az instrumentális háttér nem ezeknek az előadóknak a zenéje.</p><label className="flex items-center gap-2"><input type="checkbox" checked={backgroundMusic} onChange={e=>setBackgroundMusic(e.target.checked)} />Folyamatos, változó instrumentális háttérzene</label><p className="text-sm text-zinc-300">A műsorral együtt indul, új dallamváltozatokat játszik, és beszédkor lehalkul. Nincs ismétlődő hangfájl vagy fizetős zenegenerálás. A betöltött saját zenék a műsorral automatikusan indulnak, egymás után egyszer szólnak, majd visszatér az instrumentális háttér.</p><label className="block">Saját, közvetítésre jogosított zenék<input className="block mt-2" type="file" accept="audio/*" multiple onChange={e=>{const files=Array.from(e.target.files || []);const added=files.filter(f=>f.size<=100*1024*1024).slice(0,30).map(f=>{const url=URL.createObjectURL(f);objectUrls.current.add(url);return{id:crypto.randomUUID(),title:f.name.replace(/\.[^.]+$/,""),url};});setTracks(t=>[...t,...added]);}} /></label><label className="block">Hangerő<input className="block w-full" type="range" min={0} max={1} step={0.05} value={volume} onChange={e=>setVolume(Number(e.target.value))} /></label><p className="text-xs text-zinc-400">Beszéd közben a zene a beállított hangerő ötödére halkul. A nézők így kérhetnek számot: !zene számcím. A pontosan egyező című, előre betöltött szám automatikusan indulhat. A zenefájlok az oldal bezárásáig maradnak betöltve.</p><label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={autoMusic} onChange={e=>setAutoMusic(e.target.checked)} />Pontos címre érkező zenekérések automatikus lejátszása</label>{tracks.map(t=><button key={t.id} className="mr-2 rounded-lg border border-zinc-600 px-3 py-2 text-sm" disabled={playedTracks.current.has(t.id)} onClick={()=>playTrack(t)}>▶ {t.title}</button>)}{requests.length>0 && <div className="space-y-2">{requests.map((r,i)=>{const matches=tracks.filter(t=>normalize(t.title)===normalize(r.title));return <div key={`${r.user}-${i}`} className="flex gap-2 items-center rounded-lg bg-zinc-900 p-2 text-sm"><span className="flex-1">{r.user}: {r.title}</span>{matches.length===1?<button className="text-amber-300" onClick={()=>playTrack(matches[0])}>Lejátszás</button>:<span className="text-zinc-500">Válassz zenét a listából</span>}</div>;})}</div>}<audio ref={music} controls className="w-full" onEnded={()=>{const next=tracks.find(t=>!playedTracks.current.has(t.id));if(next)void playTrack(next);else setCurrentTrack("");}} onError={()=>{setCurrentTrack("");setMessage("A zenefájl nem játszható le; folytatódik az instrumentális háttér.");}} /></section>
+        <section className={panel}>
+          <h2 className="text-xl font-semibold">DJ és zenekönyvtár</h2>
+          <p className="text-sm text-amber-200">Kért előadók: DESH, T. Danny, Finni. Eredeti dalaik még nincsenek betöltve. A saját instrumentális alap külön zene.</p>
+          <label className="flex items-center gap-2"><input type="checkbox" checked={djEnabled} onChange={e=>{setDjEnabled(e.target.checked);resetDj();}} />Hangulatkövető DJ</label>
+          <p role="status" className="text-sm text-emerald-200">DJ-hangulat: {MUSIC_MOODS[djEnabled?djMood:"groove"].label}{!currentTrack&&musicBed.playing?` • ${MUSIC_MOODS[djEnabled?djMood:"groove"].bpm} BPM`:""}{musicBed.playing?" • szól":" • áll"}</p>
+          <p className="text-sm text-zinc-300">A kommentek és a szereplők reakciói alakítják a hangulatot. Zeneajándéknál felpörög, csendesebb részeknél megnyugszik. Beszéd alatt finoman lehalkul, utána visszaúszik. A betöltött dalokat végigjátssza; a következőt a megadott hangulathoz választja, ismétlés nélkül.</p>
+          <div className="flex flex-wrap gap-2"><button className={button} disabled={busy||auto} onClick={()=>void previewDj()}>DJ hangpróba</button>{Object.entries(MUSIC_MOODS).map(([key,value])=><button key={key} className="rounded-lg border border-zinc-600 px-3 py-2 disabled:opacity-40" disabled={!musicBed.playing||!djEnabled} onClick={()=>previewDjMood(key as MusicMood)}>{value.label}</button>)}<button className="rounded-lg border border-zinc-600 px-3 py-2" onClick={stopMusic}>Zene leállítása</button></div>
+          <label className="flex items-center gap-2"><input type="checkbox" checked={backgroundMusic} onChange={e=>setBackgroundMusic(e.target.checked)} />Saját instrumentális alap, ha nincs betöltött dal</label>
+          <label className="block">Közvetítésre használható hangfájlok<input className="block mt-2" type="file" accept="audio/*" multiple disabled={musicLoading||musicUploading} onChange={e=>{const files=Array.from(e.target.files||[]);e.target.value="";void importMusic(files);}} /></label>
+          <p className="text-xs text-zinc-400">A mentett zenék ezen az eszközön, ebben a böngészőben a következő megnyitáskor is betöltődnek, és a műsorral indulnak. A böngészőadatok törlése ezeket is eltávolítja. Maximum 30 fájl, darabonként 100 MB.</p>
+          {musicLoading&&<p className="text-sm">Mentett zenék betöltése…</p>}
+          <label className="block">Zene hangereje<input className="block w-full" type="range" min={0} max={1} step={0.05} value={volume} onChange={e=>setVolume(Number(e.target.value))} /></label>
+          <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={autoMusic} onChange={e=>setAutoMusic(e.target.checked)} />Pontos címre érkező !zene kérések lejátszása</label>
+          {tracks.map(track=><div key={track.id} className="flex flex-wrap items-center gap-2 rounded-lg bg-zinc-900 p-2"><button className="min-w-0 flex-1 text-left text-sm disabled:text-zinc-500" disabled={playedTracks.current.has(track.id)} onClick={()=>void playTrack(track)}>{currentTrack===track.id?"♫":playedTracks.current.has(track.id)?"✓":"▶"} {track.title}{!track.saved?" (csak most)":""}</button><select className="rounded bg-zinc-800 p-2 text-sm" aria-label={`${track.title} hangulata`} value={track.mood} onChange={e=>void tagMusic(track,e.target.value as MusicMood|"any")}><option value="any">Bármilyen hangulat</option>{Object.entries(MUSIC_MOODS).map(([key,value])=><option key={key} value={key}>{value.label}</option>)}</select><button className="text-sm text-zinc-400" aria-label={`${track.title} törlése`} onClick={()=>void removeMusic(track)}>Törlés</button></div>)}
+          {currentTrack&&<p className="text-sm">Most szól: {activeTrack?.title} <button className="ml-2 text-amber-300" onClick={nextMusic}>Következő</button></p>}
+          {requests.length>0&&<div className="space-y-2">{requests.map((request,index)=>{const matches=tracks.filter(track=>normalize(track.title)===normalize(request.title));return <div key={`${request.user}-${index}`} className="flex items-center gap-2 rounded-lg bg-zinc-900 p-2 text-sm"><span className="flex-1">{request.user}: {request.title}</span>{matches.length===1?<button className="text-amber-300" onClick={()=>void playTrack(matches[0])}>Lejátszás</button>:<span className="text-zinc-500">Még nincs betöltve</span>}</div>;})}</div>}
+          <audio ref={music} onEnded={()=>{if(currentTrack&&!musicChanging.current)nextMusic();}} onError={()=>{if(!musicChanging.current){setCurrentTrack("");setMessage("A zenefájl nem játszható le; folytatódik az instrumentális háttér.");}}} />
+        </section>
         <MotionHistory disabled={busy || auto} stopSignal={avatarStop} onStageReplay={clip=>void replayOnStage(clip)} />
         <AvatarPreview configuration={service?.avatar} disabled={speechBusy || auto} stopSignal={avatarStop} onActive={active => {setAvatarTesting(active); if (active) {pause(); music.current?.pause(); setCurrentTrack("");}}} />
         <section className={panel}><h2 className="text-xl font-semibold">Telefonos adás előkészítése</h2><ol className="list-decimal pl-5 space-y-2 text-sm"><li>Add meg felül a TikTok-felhasználónevedet. Az automata műsorpróba külön adás nélkül is ellenőrzi a teljes válaszfolyamatot.</li><li>A TikTokban válaszd a Mobil játék módot, álló (9:16) adásképet, és kapcsold be az MI által generált tartalom jelölését. A fekvő TikTok-vászon kicsinyíti az álló képet.</li><li>A képernyőközvetítés engedélyezése után térj vissza a böngészőbe, és nyomd meg az „Automata műsor indítása” gombot.</li><li>A mozgó jelenet, a kommentfigyelés és a reakciók ezután maguktól működnek. Másik készüléken ellenőrizd a közvetített képet és hangot.</li></ol><p className="text-xs text-zinc-400">A telefon képernyője és az előhívott vezérlők is látszhatnak az adásban. A rendszerhang továbbítását a saját telefonodon kell kipróbálni; a böngészős próba önmagában ezt nem igazolja.</p></section>
