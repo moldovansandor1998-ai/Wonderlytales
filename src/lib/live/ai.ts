@@ -27,6 +27,7 @@ function parseReply<T>(content: unknown, schema: z.ZodType<T>) {
 
 /** One paid submission per event; subsequent WaveSpeed requests only retrieve that task. */
 export async function generateLiveReply<T>(messages: {role: string; content: string}[], schema: z.ZodType<T>, signal: AbortSignal, maxTokens: number) {
+  const startedAt = Date.now();
   const provider = liveAiProvider();
   if (!provider) return json({ error: "AI_NOT_CONFIGURED" }, 503);
   if (Buffer.byteLength(JSON.stringify(messages), "utf8") > 20000 || maxTokens > 800) return json({ error: "AI_INPUT_TOO_LARGE" }, 400);
@@ -60,7 +61,7 @@ export async function generateLiveReply<T>(messages: {role: string; content: str
       }
       const data = await response.json();
       if (data.error || data.choices?.[0]?.finish_reason === "length") return json({ error: "AI_INVALID_REPLY" }, 502);
-      console.info("live_ai_reply", { model: liveAIConfiguration().model, inputTokens: data.usage?.prompt_tokens, outputTokens: data.usage?.completion_tokens });
+      console.info("live_ai_reply", { durationMs: Date.now() - startedAt, model: liveAIConfiguration().model, inputTokens: data.usage?.prompt_tokens, outputTokens: data.usage?.completion_tokens });
       return parseReply(data.choices?.[0]?.message?.content, schema);
     }
     const base = "https://api.wavespeed.ai/api/v3";

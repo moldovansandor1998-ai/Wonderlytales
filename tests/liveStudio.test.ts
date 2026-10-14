@@ -5,6 +5,15 @@ import { reserveProductionBudget } from '@/lib/budget';
 import { timedSpeech } from '@/lib/live/speech';
 const event = (id: string) => eventSchema.parse({id, type:'comment', user:'Néző', text:'Szia'});
 describe('Live event handling', () => {
+  it('coalesces 100 roses into one line and lets comments through during the gift cooldown',()=>{
+    let now=0;const queue=new EventQueue({coalesceGifts:true,smallGiftCooldownMs:8000,now:()=>now});
+    for(let i=0;i<100;i++)queue.add({...event(`rose-${i}`),type:'gift',gift:'Rose',giftValue:1});
+    expect(queue.size).toBe(1);expect(queue.take()?.count).toBe(100);
+    queue.add({...event('next-rose'),type:'gift',gift:'Rose',giftValue:1});queue.add(event('fresh-comment'));
+    expect(queue.take()?.id).toBe('fresh-comment');expect(queue.take()).toBeUndefined();
+    queue.add({...event('big'),type:'gift',gift:'Big',giftValue:201});expect(queue.take()?.id).toBe('big');
+    now=8000;expect(queue.take()?.id).toBe('next-rose');expect(queue.add(event('rose-0'))).toBe(false);
+  });
   it('keeps only recent comments during bursts without evicting gifts or allowing replays',()=>{
     let now=0;
     const queue=new EventQueue({maxComments:4,commentMaxAgeMs:30000,now:()=>now});

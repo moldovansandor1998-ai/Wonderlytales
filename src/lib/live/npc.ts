@@ -7,20 +7,23 @@ import { digest, R2VideoStore } from "@/lib/ai-video/storage";
 import { downloadProviderMedia } from "@/lib/ai-video/media";
 import { retrieveMotion } from "./motion";
 import { AvatarError } from "./avatar";
-import { MUSIC_GIFT_LINE, NPC_KINDS, type NpcKind } from "./npc-shared";
+import { MUSIC_GIFT_LINE, NPC_KINDS, GAG_KINDS, type NpcKind } from "./npc-shared";
 
 type Store = Pick<R2VideoStore,"readRecord"|"writeRecord"|"putAsset"|"putChunk"|"completeImage"|"assetBytes">;
 type Record = {status:"SUBMITTING"|"PENDING"|"SUCCEEDED"|"FAILED"|"UNCERTAIN"; createdAt:string; taskId?:string; assetId?:string};
 const ids = Object.fromEntries(NPC_KINDS.map((kind,i)=>[kind,`00000000-0000-4000-8001-00000000000${i+1}`])) as {[K in NpcKind]:string};
 const base = "One continuous locked-off full body shot. Keep both exact people, masks, hats, rabbit ears, clothes, chair and cabin unchanged. The standing witch wears a blue medical mask, the seated man an opaque black mouth covering. Both masks remain firmly on and opaque. No talking mouth animation, no camera motion, no cuts, no text. Start AND finish in the exact supplied resting pose, with one second of quiet breathing at both ends. ";
 const prompts: {[K in NpcKind]:string} = {
+  "gag-mud": "Fast obvious slapstick comedy: the witch Ali raises a tray holding a large silly brown cartoon poop-shaped foam prop, gently pushes the seated Isti's hat and head face-first into this fake prop, then Isti pops up indignantly with a little brown stage slime on his hat. Clearly absurd theatrical prop, not realistic excrement. No injury. One quick readable action, both masks stay intact. Return to the original pose.",
+  "gag-pie": "Fast slapstick: the witch Ali plants a huge whipped cream pie into the seated Isti's masked face. A theatrical burst of white cream sprays sideways. Isti jerks back in comic indignation, hat wobbles. No injury. One quick readable action, masks remain on. Return to original pose.",
+  "gag-chicken": "Fast slapstick: the witch Ali gently bonks the seated Isti on his big pirate hat with an oversized yellow squeaky rubber chicken. The floppy chicken bends comically, the hat drops crookedly over Isti's eyes. Isti straightens his hat in furious embarrassment. No injury. One quick readable action, masks remain on. Return to original pose.",
   "idle-breathe": "Very subtle natural breathing and a single blink. The seated man keeps his arms folded, the witch calmly watches. No broad gestures. Return precisely to the starting pose.",
   "idle-glance": "The seated man briefly glances up at the witch with his eyes, then looks forward again. The witch gives one tiny head tilt then returns. Barely perceptible breathing. Return precisely to the starting pose.",
   "idle-shrug": "The seated man makes one tiny disgruntled shoulder adjustment while keeping arms folded, then relaxes. The witch blinks, barely moving. Return precisely to the starting pose.",
   "music-gift": "Comedic angry reaction. At 1 second the seated man uncrosses his arms and stands up in front of the chair. At 2 to 5 seconds he stands and gestures angrily at an annoying noise, with one open palm, frustrated raised eyebrows. At 5 seconds he lowers his hands and sits back down. By 7 seconds he has folded his arms and regained the EXACT starting seated pose. The witch remains in place watching amused. Both people stay fully in frame, masks and hats stay on.",
 };
 export function npcPayload(kind:NpcKind, image:string) {
-  return {model:"veo3.1_fast",duration:8,ratio:"720:1280",audio:false,promptText:base+prompts[kind],promptImage:[{uri:image,position:"first"},{uri:image,position:"last"}]};
+  return {model:"veo3.1_fast",duration:GAG_KINDS.includes(kind as typeof GAG_KINDS[number])?4:8,ratio:"720:1280",audio:false,promptText:(kind.startsWith("gag-") ? "Locked-off shot, exact same two people, clothing, masks and cabin. AI parody slapstick with fake stage props. One fast visual gag, visible within the first second, no intro or waiting, no text, no speech, no camera cuts. " : base)+prompts[kind],promptImage:[{uri:image,position:"first"},{uri:image,position:"last"}]};
 }
 const voiceRecordId = (voiceId:string) => {const hash=digest(`npc-music-gift-v1:${voiceId}`);return `${hash.slice(0,8)}-${hash.slice(8,12)}-4${hash.slice(13,16)}-8${hash.slice(17,20)}-${hash.slice(20,32)}`;};
 export async function startNpcClip(store:Store, kind:NpcKind) {
@@ -28,8 +31,9 @@ export async function startNpcClip(store:Store, kind:NpcKind) {
   const id=ids[kind],old=await store.readRecord<Record>("live-backdrop",id);
   if(old)return old.value;
   if(!process.env.RUNWAYML_API_SECRET)throw new AvatarError("MOTION_NOT_CONFIGURED");
+  const service=kind.startsWith("gag-")?"runway_npc_4s":"runway_npc_8s";
   const budget=await getProductionBudget();
-  if(!budget||(budget.configured_services.runway_npc_8s??0)<0.8)throw new AvatarError("NPC_BUDGET_NOT_CONFIGURED",409);
+  if(!budget||(budget.configured_services[service]??0)<(service==="runway_npc_4s"?0.4:0.8))throw new AvatarError("NPC_BUDGET_NOT_CONFIGURED",409);
   const image=await readFile(path.join(process.cwd(),"public/live-studio/ali-isti-masked.webp"));
   if(kind==="idle-breathe"){const sha=digest(image);await store.putChunk(sha,0,image);await store.completeImage(sha,image.length);}
   const record:Record={status:"SUBMITTING",createdAt:new Date().toISOString()};
@@ -37,7 +41,7 @@ export async function startNpcClip(store:Store, kind:NpcKind) {
   const claim=await store.readRecord<Record>("live-backdrop",id);
   if(!claim)throw new AvatarError("NPC_UNCERTAIN",409);
   try {
-    await reserveProductionBudget("runway_npc_8s");
+    await reserveProductionBudget(service);
     const response=await fetch("https://api.dev.runwayml.com/v1/image_to_video",{method:"POST",signal:AbortSignal.timeout(45000),headers:{Authorization:`Bearer ${process.env.RUNWAYML_API_SECRET}`,"X-Runway-Version":"2024-11-06","Content-Type":"application/json"},body:JSON.stringify(npcPayload(kind,`data:image/webp;base64,${image.toString("base64")}`))});
     if(!response.ok)throw new AvatarError("NPC_GENERATION_FAILED");
     const taskId=z.string().uuid().parse((await response.json()).id);
@@ -85,7 +89,7 @@ async function readAsset(store:Store,id:string,extension:"mp4"|"mp3") {
 export async function readNpc(store:Store,voiceId:string) {
   const clips=await Promise.all(NPC_KINDS.map(async kind=>({kind,...await (kind==="music-gift"?readNpcReaction(store):readAsset(store,ids[kind],"mp4"))})));
   const voice=await readAsset(store,voiceRecordId(voiceId),"mp3");
-  return {clips,voice,ready:clips.every(c=>c.status==="SUCCEEDED")&&voice.status==="SUCCEEDED"};
+  return {clips,voice,ready:clips.filter(c=>!c.kind.startsWith("gag-")).every(c=>c.status==="SUCCEEDED")&&voice.status==="SUCCEEDED"};
 }
 
 const REACTION_MASTER="00000000-0000-4000-8001-000000000104";

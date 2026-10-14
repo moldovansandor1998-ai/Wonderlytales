@@ -1,7 +1,9 @@
 import type { LiveEvent } from "./events";
 
 export const NPC_IMAGE = "/live-studio/ali-isti-masked.webp";
-export const NPC_KINDS = ["idle-breathe", "idle-glance", "idle-shrug", "music-gift"] as const;
+export const GAG_KINDS = ["gag-mud", "gag-pie", "gag-chicken"] as const;
+export type GagKind = typeof GAG_KINDS[number];
+export const NPC_KINDS = ["idle-breathe", "idle-glance", "idle-shrug", "music-gift", ...GAG_KINDS] as const;
 export type NpcKind = typeof NPC_KINDS[number];
 export const MUSIC_GIFT_LINE = "Ne dobd azt a szart, a kurva anyád!";
 export const DEFAULT_MUSIC_GIFTS = "Zene, Music, Music Note, Musical Notes";

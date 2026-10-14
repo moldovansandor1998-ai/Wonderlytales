@@ -49,6 +49,6 @@ describe('Dynamic live AI with existing WaveSpeed connection', () => {
   it('preserves full dialogue memory and confirmed music state outside the system prompt', () => {
     const messages = dialogueMessages({ event, history: [{ user: 'Peti', text: 'előző komment', reply: 'Ali: korábbi tréfa. Isti: elismerem.' }], music: {requested:'próbadal', started:false} });
     expect(JSON.parse(messages[1].content)).toMatchObject({ studioMusic: {requested:'próbadal', started:false}, recentConversation: [{ user: 'Peti' }] });
-    expect(messages[0].content).toContain('meghunyászkodik');
+    expect(messages[0].content).toContain('studioMusic.started=true');
   });
 });
