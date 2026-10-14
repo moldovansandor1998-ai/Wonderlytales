@@ -202,7 +202,7 @@ export default function LiveStudio() {
   }
   async function playGiftGag(signal:AbortSignal,kind:GagKind) {
     if(!npcPlayer.current)throw new Error("Előbb indítsd el a mentett NPC-jelenetet.");
-    if(!npc.assets?.gags?.[kind])throw new Error(`${GAG_META[kind].label}: a jelenet még nincs elmentve. Készítsd elő a gegeket.`);
+    if(!npc.currentAssets()?.gags?.[kind])throw new Error(`${GAG_META[kind].label}: a jelenet még nincs elmentve. Készítsd elő a gegeket.`);
     dj.cue("drama");
     let stopSound:(()=>void)|undefined;
     try { await npcPlayer.current.react(signal,async()=>{stopSound=gagSound.play(kind,signal);},kind); }
@@ -210,8 +210,8 @@ export default function LiveStudio() {
   }
   function pickReadyGag(event:LiveEvent){
     const requested=gagPicker.current.pick(event);
-    if(requested==="gag-beg"&&!npc.assets?.begVoice)return undefined;
-    return availableGiftGag(requested,npc.assets?.gags);
+    if(requested==="gag-beg"&&!npc.currentAssets()?.begVoice)return undefined;
+    return availableGiftGag(requested,npc.currentAssets()?.gags);
   }
   async function previewMusicGift(){
     if(operation.current||autoRef.current||!backdropActive)return;
@@ -220,7 +220,7 @@ export default function LiveStudio() {
       await Promise.all([speech.unlock(),gagSound.unlock()]);
       const event:LiveEvent={id:crypto.randomUUID(),type:"gift",user:testUser.trim()||"Próbanéző",text:"",gift:"Gegpróba",giftValue:250,count:1};
       const kind=previewGag==="random"?pickReadyGag(event):previewGag;
-      if(!kind||!npc.assets?.gags?.[kind])throw new Error("Ez a jelenet még nincs elmentve. Válassz egy elkészült geget.");
+      if(!kind||!npc.currentAssets()?.gags?.[kind])throw new Error("Ez a jelenet még nincs elmentve. Válassz egy elkészült geget.");
       const dialogue=giftDialogue(event,giftReplyCount.current++,kind);
       await speakDialogue(dialogue,event,controller.signal,undefined,kind);
       setMessage(`${GAG_META[kind].label} • ${GAG_META[kind].playbackSeconds} másodperces jelenet lejátszva.`);
@@ -283,7 +283,7 @@ export default function LiveStudio() {
         setSpeaker(turn.speaker);setCaption(turn.text);setEmotion(turn.emotion);dj.emotion(turn.emotion,turn.text);
       };
       if(!continuousRef.current&&motionMode&&voiceMode==="eleven")await motion.say(turn,voiceId,signal,onStart);
-      else if(selected==="gag-beg"&&npc.assets?.begVoice)await speech.playSaved(npc.assets.begVoice,signal,onStart);
+      else if(selected==="gag-beg"&&npc.currentAssets()?.begVoice)await speech.playSaved(npc.currentAssets()!.begVoice!,signal,onStart);
       else await speech.say(turn.text,continuousRef.current?"eleven":voiceMode,voiceId,signal,onStart,prepared);
     });
     await voice;

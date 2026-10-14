@@ -13,3 +13,5 @@ Verification: 70 targeted tests, TypeScript, and production build passed. Tests 
 Identified TikTok V3 streaks now forward the first packet using a stable donor/gift/group ID. Later ticks and the final packet do not replay it. An unidentifiable legacy streak still uses its final packet rather than risk mixing senders. The displayed count is the first received count, not final streak accounting. Both server and standalone bridges use the same bounded normalizer. Five normalizer tests and a WebSocket forwarding regression cover the change.
 
 Visual QA rejected the initial begging video because Isti remained seated. The corrected version uses an explicitly generated kneeling end keyframe and a new immutable slot (401); it reuses the already saved voice. The first failed choreography is preserved in storage but not selected for playback.
+
+The first browser rehearsal exposed a stale-render asset lookup: the initial async comment handler could not see the just-completed preload when a gift arrived. Playback now reads the saved asset ref synchronously, while React state continues to drive rendering. A hook regression tests this exact before-next-render condition.
