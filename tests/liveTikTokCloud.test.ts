@@ -46,6 +46,18 @@ describe("cloud TikTok connection",()=>{
     s.close(1000);await done;expect(upstream.disconnect).toHaveBeenCalledOnce();expect(release).toHaveBeenCalledOnce();
     expect(upstream.created.mock.calls[0][1]).toMatchObject({processInitialData:false,enableExtendedGiftInfo:false});
   });
+  it("forwards an identified gift streak immediately and never replays its closing event",async()=>{
+    const s=new Socket();const done=run(s);s.input({type:"connect",username:"test_user"});
+    await vi.waitFor(()=>expect(s.sent.some(e=>e.connected===true)).toBe(true));
+    const gift={groupId:"987",giftId:123,gift:{type:1,name:"Small gift",diamondCount:10},user:{id:"u1",nickname:"Peti"},repeatEnd:0,repeatCount:1};
+    upstream.handlers.get("gift")?.(gift);
+    expect(s.sent.filter(e=>e.type==="event")).toHaveLength(1);
+    expect(s.sent.at(-1)).toMatchObject({type:"event",event:{type:"gift",giftValue:10,count:1}});
+    upstream.handlers.get("gift")?.({...gift,repeatCount:5});
+    upstream.handlers.get("gift")?.({...gift,repeatEnd:1,repeatCount:5});
+    expect(s.sent.filter(e=>e.type==="event")).toHaveLength(1);
+    s.close(1000);await done;
+  });
   it("does not stop a healthy connection on a single message decoding error",async()=>{
     const s=new Socket();const done=run(s);s.input({type:"connect",username:"test_user"});
     await vi.waitFor(()=>expect(s.sent.some(e=>e.connected===true)).toBe(true));
