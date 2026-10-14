@@ -54,6 +54,7 @@ export default function LiveStudio() {
   const mobile = useMobileStage();
   const [motionMode,setMotionMode]=useState(true);
   const [continuous,setContinuous]=useState(false);
+  const [backdropActive,setBackdropActive]=useState(false);
   const continuousRef=useRef(false);
   const trialRemaining=useRef<number|null>(null);
   const trialGiftTimer=useRef<ReturnType<typeof setTimeout>>();
@@ -77,7 +78,10 @@ export default function LiveStudio() {
   const [username, setUsername] = useState("");
   const [pairing, setPairing] = useState("");
   const enqueueRef = useRef<(event: LiveEvent) => void>(() => {});
-  const tiktok = useTikTokConnection(event => enqueueRef.current(event), () => pause());
+  const tiktok = useTikTokConnection(event => enqueueRef.current(event), reason => {
+    pause(false); setMessage(reason); setSpeaker(undefined);
+    setCaption("Ali és Isti várják a kommentkapcsolatot."); mobile.setControls(true);
+  });
   const connected = tiktok.connected, bridgeStatus = tiktok.status;
   const [tracks, setTracks] = useState<Track[]>([]);
   const [currentTrack, setCurrentTrack] = useState("");
@@ -89,7 +93,7 @@ export default function LiveStudio() {
   const channel = useRef<BroadcastChannel | null>(null);
   const outputId = useRef("");
   const activeTrack = tracks.find(t => t.id === currentTrack);
-  const state: StageState = {name:scene === "duo" ? "Ali és Mc Isti" : character.name, image:scene === "duo" ? DUO_IMAGE : character.image, caption, speaking:isSpeaking, emotion, connected, song:activeTrack?.title || "", scene, speaker, effect, motion:motion.frame, backdrop:continuous&&backdrop.url?{url:backdrop.url,active:auto}:undefined, showStatus:continuous ? auto ? busy ? "Készül a következő válasz…" : "A műsor fut • Kommenteket és ajándékokat figyelünk" : busy ? "A műsor előkészítése…" : "A műsor szünetel" : undefined};
+  const state: StageState = {name:scene === "duo" ? "Ali és Mc Isti" : character.name, image:scene === "duo" ? DUO_IMAGE : character.image, caption, speaking:isSpeaking, emotion, connected, song:activeTrack?.title || "", scene, speaker, effect, motion:motion.frame, backdrop:continuous&&backdrop.url?{url:backdrop.url,active:backdropActive}:undefined, showStatus:continuous ? auto ? busy ? "Készül a következő válasz…" : connected ? "A műsor fut • Kommenteket és ajándékokat figyelünk" : "Alapvideó fut • TikTok-kapcsolódás / próba" : busy ? "A műsor előkészítése…" : backdropActive ? "Alapvideó fut • Automatikus válaszadás szünetel" : "A műsor szünetel" : undefined};
   const stageRef = useRef(state); stageRef.current = state;
 
   useEffect(() => {
@@ -125,7 +129,7 @@ export default function LiveStudio() {
     catch { setMessage("A jelenet hangbeállításai nem lettek elmentve."); }
   }, [ready, scene, castVoices]);
   useEffect(() => { if (ready) { try { localStorage.setItem("wonderly-live-username-v1",username); } catch { /* The current session can still run without persistent settings. */ } } }, [ready,username]);
-  useEffect(() => { channel.current?.postMessage({type:"state", state}); }, [character.name, character.image, caption, isSpeaking, motion.frame, emotion, connected, activeTrack?.title, scene, speaker, effect, continuous, backdrop.url, auto, busy]);
+  useEffect(() => { channel.current?.postMessage({type:"state", state}); }, [character.name, character.image, caption, isSpeaking, motion.frame, emotion, connected, activeTrack?.title, scene, speaker, effect, continuous, backdrop.url, backdropActive, auto, busy]);
   useEffect(() => { if (music.current) music.current.volume = isSpeaking ? volume * 0.2 : volume; }, [isSpeaking, volume, currentTrack]);
 
   async function replayOnStage(clip: Clip) {
@@ -141,13 +145,23 @@ export default function LiveStudio() {
   function update(fieldName: "name" | "personality" | "voiceId" | "voiceName", value: string) {
     setCharacters(current => current.map(c => c.id === character.id ? {...c, [fieldName]:value} : c));
   }
-  function pause() { autoRef.current = false; setAuto(false); operation.current?.abort(); clearTimeout(trialGiftTimer.current); trialRemaining.current=null; setEffect(undefined); }
+  function pause(stopBackdrop=true) { autoRef.current = false; setAuto(false); if(stopBackdrop)setBackdropActive(false); operation.current?.abort(); clearTimeout(trialGiftTimer.current); trialRemaining.current=null; setEffect(undefined); }
   function stopAll() { tiktok.disconnect(); setAvatarStop(n => n + 1); pause(); queue.current.clear(); setPending([]); music.current?.pause(); setCurrentTrack(""); setCaption("A műsor szünetel."); setEmotion("neutral"); }
   function addLog(log: Log) { history.current = [...history.current, log].slice(-30); setLogs(history.current); }
-  const onBackdropError=useCallback(()=>{
-    autoRef.current=false;setAuto(false);operation.current?.abort();clearTimeout(trialGiftTimer.current);
-    setMessage("A mozgó alapjelenet lejátszása megszakadt. A műsor megállt; ellenőrizd a kapcsolatot, majd indítsd újra.");
+  const onBackdropError=useCallback((reason:string)=>{
+    autoRef.current=false;setAuto(false);setBackdropActive(false);operation.current?.abort();clearTimeout(trialGiftTimer.current);
+    setMessage(reason);
   },[]);
+  async function previewBackdrop() {
+    if(operation.current||autoRef.current)return;
+    const controller=new AbortController();operation.current=controller;setBusy(true);setMessage("");
+    setContinuous(true);continuousRef.current=true;setScene("duo");setSpeaker(undefined);mobile.open();
+    try {
+      await backdrop.ensure(controller.signal,false);controller.signal.throwIfAborted();
+      setBackdropActive(true);setCaption("Mentett alapvideó • Nincs új generálás");
+    } catch(error) { if(!controller.signal.aborted)setMessage(error instanceof Error?error.message:"Az alapvideó nem érhető el."); }
+    finally { if(operation.current===controller){operation.current=null;setBusy(false);} }
+  }
   async function startShow(trial=false) {
     if(operation.current||autoRef.current)return;
     if(!trial&&!/^[a-zA-Z0-9_.]{2,32}$/.test(username.replace(/^@/,"").trim())){setMessage("Add meg annak a TikTok-fióknak a felhasználónevét, amelyiken az adás fut.");return;}
@@ -163,7 +177,7 @@ export default function LiveStudio() {
       await speech.unlock(motion.element.current);
       await backdrop.ensure(controller.signal);
       controller.signal.throwIfAborted();
-      autoRef.current=true;setAuto(true);setCaption("Ali és Isti figyelnek. Jöhetnek a kommentek!");
+      autoRef.current=true;setAuto(true);setBackdropActive(true);setCaption("Ali és Isti figyelnek. Jöhetnek a kommentek!");
       if(trial){
         queue.current.add({id:crypto.randomUUID(),type:"comment",user:testUser.trim()||"Próbanéző",text:testText.trim()||"Ali, miért duzzog már megint Isti?",count:1});
         setPending(queue.current.snapshot());
@@ -325,7 +339,7 @@ export default function LiveStudio() {
       <h2 className="text-2xl font-semibold">Automata műsor</h2>
       <p className="text-sm text-zinc-200">Egy indítás után folyamatos mozgó jelenet megy. Ajándékra azonnal megjelenik Ali varázseffektje. A kommentekre és ajándékokra új AI-párbeszéd készül a saját hangokon, a beszélő videók maguktól lejátszódnak, majd visszatér a mozgó alapjelenet.</p>
       <label className="block">Adás TikTok-felhasználóneve<input className={field} disabled={busy||auto||connected||tiktok.busy} placeholder="@felhasznalonev" maxLength={33} value={username} onChange={e=>setUsername(e.target.value)} /></label>
-      <div className="flex flex-wrap gap-2"><button className={button} disabled={busy||auto||tiktok.busy} onClick={()=>void startShow()}>Automata műsor indítása</button><button className="rounded-lg border border-emerald-500 px-4 py-2 disabled:opacity-40" disabled={busy||auto||connected||tiktok.busy} onClick={()=>void startShow(true)}>Automata műsorpróba – komment + ajándék</button>{auto&&<button className="rounded-lg bg-red-700 px-4 py-2" onClick={stopAll}>Automata műsor leállítása</button>}</div>
+      <div className="flex flex-wrap gap-2"><button className={button} disabled={busy||auto||tiktok.busy} onClick={()=>void startShow()}>Automata műsor indítása</button><button className="rounded-lg border border-emerald-500 px-4 py-2 disabled:opacity-40" disabled={busy||auto||connected||tiktok.busy} onClick={()=>void startShow(true)}>Automata műsorpróba – komment + ajándék</button><button className="rounded-lg border border-zinc-500 px-4 py-2 disabled:opacity-40" disabled={busy||auto||tiktok.busy} onClick={()=>void previewBackdrop()}>Mentett alapvideó próbája – új generálás nélkül</button>{(auto||backdropActive)&&<button className="rounded-lg bg-red-700 px-4 py-2" onClick={stopAll}>Automata műsor leállítása</button>}</div>
       <p className="text-xs text-zinc-400">A TikTok-adást egyszer el kell indítanod a Mobil játék módban. Utána ez a gomb a kommentfigyelőt, a válaszadást és a telefonos adásképet együtt indítja. A próba TikTok nélkül, a lent megadott kommentből és ajándékból két új választ játszik le, majd megáll.</p>
       <p className="text-xs text-amber-200">Az alapmozgás egyszer készül el (5 mp, 60 Runway API-kredit), utána ismétlődik, új generálás nélkül. Minden új kétfős válasz AI-, hang- és legfeljebb 24 Runway API-kreditet használ. A beszélő válaszokra várni kell; közben az alapjelenet mozog. Az adás válaszkorlátjánál a műsor megáll.</p>
       {backdrop.status&&<p role="status" className="text-sm text-emerald-200">{backdrop.status}</p>}

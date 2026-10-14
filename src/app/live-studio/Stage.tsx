@@ -5,7 +5,7 @@ import GiftMagic from "./GiftMagic";
 import BackdropVideo from "./BackdropVideo";
 import { CAST } from "@/lib/live/duo";
 import type { StageState } from "@/lib/live/stage";
-export default function Stage({ state, full = false, playbackRef, onBackdropError }: { state: StageState; full?: boolean; playbackRef?: RefObject<HTMLVideoElement>; onBackdropError?: () => void }) {
+export default function Stage({ state, full = false, playbackRef, onBackdropError }: { state: StageState; full?: boolean; playbackRef?: RefObject<HTMLVideoElement>; onBackdropError?: (message: string) => void }) {
   return <div className={`relative isolate aspect-[9/16] overflow-hidden bg-black ${full ? "h-[100dvh] w-[min(100vw,56.25dvh)]" : "w-full max-w-sm rounded-2xl shadow-xl"}`}>
     {/* eslint-disable-next-line @next/next/no-img-element */}
     <img src={state.image} alt={state.name} className="h-full w-full object-cover" />
