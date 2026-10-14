@@ -7,13 +7,14 @@ vi.mock("@vercel/functions",()=>({experimental_upgradeWebSocket:vi.fn(async()=>n
 const upstream = vi.hoisted(()=>({connect:vi.fn(),disconnect:vi.fn(),created:vi.fn(),handlers:new Map<string,(data?:unknown)=>void>()}));
 vi.mock("tiktok-live-connector",()=>({
   TikTokLiveConnection:class {constructor(...args:unknown[]){upstream.created(...args);}on(event:string,handler:(data?:unknown)=>void){upstream.handlers.set(event,handler);}connect=upstream.connect;disconnect=upstream.disconnect;},
-  WebcastEvent:{CHAT:"chat",GIFT:"gift",FOLLOW:"follow",STREAM_END:"streamEnd"},ControlEvent:{DISCONNECTED:"disconnected",ERROR:"error"}
+  WebcastEvent:{CHAT:"chat",GIFT:"gift",FOLLOW:"follow",STREAM_END:"streamEnd",CONTROL_MESSAGE:"controlMessage"},ControlEvent:{DISCONNECTED:"disconnected",ERROR:"error"}
 }));
 import { requireStudioUser } from "@/lib/auth";
 import { claimTikTokSession } from "@/lib/live/tiktok-session";
 import { experimental_upgradeWebSocket } from "@vercel/functions";
 import { serveTikTokSocket } from "@/lib/live/tiktok-cloud";
 import { GET } from "@/app/api/live-studio/tiktok/route";
+import { ControlAction } from "tiktok-live-proto/v3";
 class Socket extends EventEmitter {
   readyState=1;bufferedAmount=0;sent:Record<string,unknown>[]=[];closeCode=0;
   send(value:string){this.sent.push(JSON.parse(value));}
@@ -65,5 +66,27 @@ describe("cloud TikTok connection",()=>{
     const second=new Socket();const ended=run(second);second.input({type:"connect",username:"test_user"});
     await vi.waitFor(()=>expect(second.sent.some(e=>e.connected===true)).toBe(true));upstream.handlers.get("streamEnd")?.();await ended;
     expect(second.closeCode).toBe(1000);expect(second.sent.at(-1)).toMatchObject({terminal:true});
+  });
+  it("keeps a paused stream connected and forwards comments and gifts after unpause",async()=>{
+    const s=new Socket();const done=run(s);s.input({type:"connect",username:"test_user"});
+    await vi.waitFor(()=>expect(s.sent.some(e=>e.connected===true)).toBe(true));
+    upstream.handlers.get("controlMessage")?.({action:ControlAction.CONTROL_ACTION_STREAM_PAUSED});
+    expect(s.readyState).toBe(1);expect(s.sent.at(-1)).toMatchObject({connected:true,terminal:false});
+    upstream.handlers.get("controlMessage")?.({action:ControlAction.CONTROL_ACTION_STREAM_UNPAUSED});
+    upstream.handlers.get("chat")?.({msgId:"resumed-comment",comment:"Hallotok?",nickname:"Teszt"});
+    upstream.handlers.get("gift")?.({msgId:"resumed-gift",gift:{type:0,name:"Heart",diamondCount:10},repeatEnd:1,nickname:"Teszt"});
+    expect(s.sent.filter(e=>e.type==="event").map(e=>(e.event as {type:string}).type)).toEqual(["comment","gift"]);
+    s.close(1000);await done;
+  });
+  it("treats SDK streamEnd suspension as recoverable, releases the lease, but keeps actual end terminal",async()=>{
+    const release=vi.fn().mockResolvedValue(undefined);vi.mocked(claimTikTokSession).mockResolvedValue(release);
+    const s=new Socket();const done=run(s);s.input({type:"connect",username:"test_user"});
+    await vi.waitFor(()=>expect(s.sent.some(e=>e.connected===true)).toBe(true));
+    upstream.handlers.get("streamEnd")?.({action:ControlAction.CONTROL_ACTION_STREAM_SUSPENDED});await done;
+    expect(s.sent.at(-1)).toMatchObject({connected:false,terminal:false,code:"TIKTOK_SUSPENDED"});expect(s.closeCode).toBe(1012);expect(release).toHaveBeenCalledOnce();
+    const ended=new Socket();const endRun=run(ended);ended.input({type:"connect",username:"test_user"});
+    await vi.waitFor(()=>expect(ended.sent.some(e=>e.connected===true)).toBe(true));
+    upstream.handlers.get("streamEnd")?.({action:ControlAction.CONTROL_ACTION_STREAM_ENDED});await endRun;
+    expect(ended.sent.at(-1)).toMatchObject({terminal:true,code:"TIKTOK_ENDED"});expect(ended.closeCode).toBe(1000);
   });
 });

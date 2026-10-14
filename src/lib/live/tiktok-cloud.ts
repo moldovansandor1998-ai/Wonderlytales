@@ -7,6 +7,7 @@ import { tikTokFailure } from "./tiktok-error";
 /** No TikTok credentials are accepted or forwarded: only public LIVE events. */
 export async function serveTikTokSocket(ws:WebSocket, ownerId:string) {
   return new Promise<void>(resolve => {
+    const counts = { comment:0, gift:0, follow:0 };
     let finished = false, started = false, release:(()=>Promise<void>)|null = null;
     let connection:import("tiktok-live-connector").TikTokLiveConnection|null = null;
     let upstreamReady = false;
@@ -16,6 +17,7 @@ export async function serveTikTokSocket(ws:WebSocket, ownerId:string) {
     const finish = () => {
       if (finished) return;
       finished = true; clearTimeout(authTimer); clearTimeout(lifetime); clearTimeout(connectTimer); clearInterval(heartbeat);
+      if (upstreamReady) console.info("live_tiktok_session_closed", { counts });
       void Promise.allSettled([connection?.disconnect(), release?.()]).finally(resolve);
     };
     const stop = (code:number, message:string) => { ws.close(code,message); finish(); };
@@ -42,10 +44,12 @@ export async function serveTikTokSocket(ws:WebSocket, ownerId:string) {
         if (input.type !== "connect" || typeof input.username !== "string" || !/^[a-zA-Z0-9_.]{2,32}$/.test(input.username)) {stop(1008,"Invalid username");return;}
         release = await claimTikTokSession(ownerId);
         if (finished) { await release?.(); return; }
-        if (!release) { fail("Már fut kommentkapcsolat, vagy túl gyors az újracsatlakozás. Bontsd a másik kapcsolatot; várj néhány másodpercet."); return; }
+        if (!release) { fail("Már fut kommentkapcsolat, vagy túl gyors az újracsatlakozás. Bontsd a másik kapcsolatot; várj néhány másodpercet.","TIKTOK_SESSION_BUSY"); return; }
         status(false,"TikTok-adás keresése…");
-        connectTimer = setTimeout(()=>fail("A TikTok-kapcsolat nem épült fel időben. Ellenőrizd a felhasználónevet és az aktív LIVE-adást."),25000);
-        const {TikTokLiveConnection, WebcastEvent, ControlEvent} = await import("tiktok-live-connector");
+        connectTimer = setTimeout(()=>fail("A TikTok-kapcsolat nem épült fel időben. Ellenőrizd a felhasználónevet és az aktív LIVE-adást.","TIKTOK_TIMEOUT"),25000);
+        const [{TikTokLiveConnection, WebcastEvent, ControlEvent}, {ControlAction}] = await Promise.all([
+          import("tiktok-live-connector"), import("tiktok-live-proto/v3"),
+        ]);
         if (finished) return;
         // Native gift events include names. An optional gift-catalog request must not block connecting.
         connection = new TikTokLiveConnection(input.username,{processInitialData:false,enableExtendedGiftInfo:false,
@@ -56,12 +60,35 @@ export async function serveTikTokSocket(ws:WebSocket, ownerId:string) {
           if (finished || ws.bufferedAmount > 65536) return;
           const event = normalizeEvent(type,data);
           const parsed = eventSchema.safeParse(event);
-          if (parsed.success) send({type:"event",event:parsed.data});
+          if (parsed.success) {
+            counts[type]++;
+            if (counts[type] === 1) console.info("live_tiktok_first_event", { type });
+            send({type:"event",event:parsed.data});
+          } else if (event) console.warn("live_tiktok_invalid_event", { type });
         };
         connection.on(WebcastEvent.CHAT,data=>forward("comment",data));
         connection.on(WebcastEvent.GIFT,data=>forward("gift",data));
         connection.on(WebcastEvent.FOLLOW,data=>forward("follow",data));
-        connection.on(WebcastEvent.STREAM_END,()=>fail("A TikTok-adás véget ért. A kommentfigyelő megállt."));
+        connection.on(WebcastEvent.CONTROL_MESSAGE, data => {
+          if (data.action === ControlAction.CONTROL_ACTION_STREAM_PAUSED) {
+            console.info("live_tiktok_paused");
+            status(true,"A TikTok-adás szünetel. A kommentfigyelő várja a folytatást.");
+          } else if (data.action === ControlAction.CONTROL_ACTION_STREAM_UNPAUSED) {
+            console.info("live_tiktok_resumed");
+            status(true,`@${input.username} – az adás folytatódott, kommentek és ajándékok csatlakoztatva`);
+          }
+        });
+        connection.on(WebcastEvent.STREAM_END, data => {
+          // The SDK emits streamEnd AND disconnects for suspension as well as actual end.
+          if (data?.action === ControlAction.CONTROL_ACTION_STREAM_SUSPENDED) {
+            console.info("live_tiktok_suspended");
+            status(false,"A TikTok-adás átmenetileg szünetel. A kapcsolatot automatikusan helyreállítjuk.",false,"TIKTOK_SUSPENDED");
+            stop(1012,"Stream suspended");
+          } else {
+            console.info("live_tiktok_ended");
+            fail("A TikTok-adás véget ért. A kommentfigyelő megállt.","TIKTOK_ENDED");
+          }
+        });
         connection.on(ControlEvent.DISCONNECTED,()=>{if(!finished&&upstreamReady){status(false,"A TikTok-kapcsolat helyreállítása… Az alapvideó tovább fut.");stop(1012,"Upstream disconnected");}});
         // The SDK emits ERROR before rejecting connect(), and also for individual undecodable messages.
         // Await connect() for its actual reason; message decoding errors must not tear down a healthy socket.
@@ -70,6 +97,7 @@ export async function serveTikTokSocket(ws:WebSocket, ownerId:string) {
         clearTimeout(connectTimer);
         if (finished) { await connection.disconnect(); return; }
         upstreamReady = true;
+        console.info("live_tiktok_connected");
         status(true,`@${input.username} – kommentek és ajándékok csatlakoztatva`);
       } catch (error) {
         if (finished) return;
