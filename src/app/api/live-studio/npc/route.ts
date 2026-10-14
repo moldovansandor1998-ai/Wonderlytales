@@ -14,8 +14,8 @@ export async function GET(request:NextRequest){try{
 }catch(e){return failure(e);}}
 export async function POST(request:NextRequest){try{
   const user=await access(request,true);
-  const input=z.object({kind:z.enum([...NPC_KINDS,"voice"]),voiceId:voice}).strict().parse(await readJson(request));
+  const input=z.object({kind:z.enum([...NPC_KINDS,"voice"]),voiceId:voice,retry:z.boolean().default(false)}).strict().parse(await readJson(request));
   const store=new R2VideoStore(user.id);
-  const result=input.kind==="voice"?await startNpcVoice(store,input.voiceId):await startNpcClip(store,input.kind);
+  const result=input.kind==="voice"?await startNpcVoice(store,input.voiceId):await startNpcClip(store,input.kind,input.retry);
   return json({status:result.status});
 }catch(e){return failure(e);}}

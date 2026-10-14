@@ -53,6 +53,14 @@ describe("bounded saved NPC assets",()=>{
   vi.mocked(getProductionBudget).mockResolvedValueOnce({configured_services:{}} as any);await expect(startNpcClip(store,"idle-glance")).rejects.toThrow("NPC_BUDGET");expect(fetch).not.toHaveBeenCalled();
   vi.mocked(fetch).mockRejectedValueOnce(new Error("network"));await expect(startNpcClip(store,"idle-glance")).rejects.toThrow("network");expect((await startNpcClip(store,"idle-glance")).status).toBe("UNCERTAIN");expect(fetch).toHaveBeenCalledTimes(1);
  });
+ it("records definitive provider rejections and permits only one explicit bounded retry",async()=>{
+  vi.mocked(fetch).mockResolvedValueOnce(new Response(JSON.stringify({error:"Too many concurrent tasks"}),{status:429}));
+  await expect(startNpcClip(store,"gag-bubble")).rejects.toThrow("NPC_CAPACITY_LIMIT");
+  expect((await startNpcClip(store,"gag-bubble")).status).toBe("FAILED");expect(fetch).toHaveBeenCalledTimes(1);
+  await startNpcClip(store,"gag-bubble",true);expect(fetch).toHaveBeenCalledTimes(2);
+  await expect(startNpcClip(store,"gag-bubble",true)).rejects.toThrow("NPC_RETRY_NOT_ALLOWED");
+  expect(fetch).toHaveBeenCalledTimes(2);
+ });
  it("saves the fixed shout once per selected voice and reuses it",async()=>{
   vi.mocked(fetch).mockResolvedValue(new Response(new Uint8Array(200)));
   await startNpcVoice(store,"IstiVoice");await startNpcVoice(store,"IstiVoice");expect(fetch).toHaveBeenCalledTimes(1);expect(store.putAsset).toHaveBeenCalledTimes(1);

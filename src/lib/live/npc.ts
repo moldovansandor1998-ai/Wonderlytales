@@ -10,7 +10,7 @@ import { AvatarError } from "./avatar";
 import { MUSIC_GIFT_LINE, NPC_KINDS, GAG_META, type GagKind, type NpcKind } from "./npc-shared";
 
 type Store = Pick<R2VideoStore,"readRecord"|"writeRecord"|"putAsset"|"putChunk"|"completeImage"|"assetBytes">;
-type Record = {status:"SUBMITTING"|"PENDING"|"SUCCEEDED"|"FAILED"|"UNCERTAIN"; createdAt:string; taskId?:string; assetId?:string};
+type Record = {status:"SUBMITTING"|"PENDING"|"SUCCEEDED"|"FAILED"|"UNCERTAIN"; createdAt:string; taskId?:string; assetId?:string; attempts?:number; providerStatus?:number; error?:string; previousAttempt?:{status:string;taskId?:string;createdAt:string}};
 // Keep the original idle records; revised gags get their own immutable asset slots.
 export const npcRecordId = (kind:NpcKind) => {
   const index=NPC_KINDS.indexOf(kind);
@@ -43,29 +43,38 @@ export function npcPayload(kind:NpcKind, image:string) {
     promptImage:gag?[{uri:image,position:"first"}]:[{uri:image,position:"first"},{uri:image,position:"last"}]};
 }
 const voiceRecordId = (voiceId:string) => {const hash=digest(`npc-music-gift-v1:${voiceId}`);return `${hash.slice(0,8)}-${hash.slice(8,12)}-4${hash.slice(13,16)}-8${hash.slice(17,20)}-${hash.slice(20,32)}`;};
-export async function startNpcClip(store:Store, kind:NpcKind) {
+export async function startNpcClip(store:Store, kind:NpcKind, retry=false) {
   if(kind==="music-gift")return startNpcReaction(store);
   const id=ids[kind],old=await store.readRecord<Record>("live-backdrop",id);
-  if(old)return old.value;
+  if(old&&!retry)return old.value;
+  if(retry&&(!kind.startsWith("gag-")||!old||!["FAILED","UNCERTAIN"].includes(old.value.status)||(old.value.attempts||1)>=2))throw new AvatarError("NPC_RETRY_NOT_ALLOWED",409);
   if(!process.env.RUNWAYML_API_SECRET)throw new AvatarError("MOTION_NOT_CONFIGURED");
   const service=kind.startsWith("gag-")&&GAG_META[kind as GagKind].duration===4?"runway_npc_4s":"runway_npc_8s";
   const budget=await getProductionBudget();
   if(!budget||(budget.configured_services[service]??0)<(service==="runway_npc_4s"?0.4:0.8))throw new AvatarError("NPC_BUDGET_NOT_CONFIGURED",409);
   const image=await readFile(path.join(process.cwd(),"public/live-studio/ali-isti-masked.webp"));
   if(kind==="idle-breathe"){const sha=digest(image);await store.putChunk(sha,0,image);await store.completeImage(sha,image.length);}
-  const record:Record={status:"SUBMITTING",createdAt:new Date().toISOString()};
-  if(!await store.writeRecord("live-backdrop",id,record))return (await store.readRecord<Record>("live-backdrop",id))!.value;
+  const record:Record={status:"SUBMITTING",createdAt:new Date().toISOString(),attempts:(old?(old.value.attempts||1):0)+1,...(old?{previousAttempt:{status:old.value.status,taskId:old.value.taskId,createdAt:old.value.createdAt}}:{})};
+  if(!await store.writeRecord("live-backdrop",id,record,retry?old!.etag:undefined))return (await store.readRecord<Record>("live-backdrop",id))!.value;
   const claim=await store.readRecord<Record>("live-backdrop",id);
   if(!claim)throw new AvatarError("NPC_UNCERTAIN",409);
+  let providerStatus:number|undefined,providerError:string|undefined;
   try {
     await reserveProductionBudget(service);
     const response=await fetch("https://api.dev.runwayml.com/v1/image_to_video",{method:"POST",signal:AbortSignal.timeout(45000),headers:{Authorization:`Bearer ${process.env.RUNWAYML_API_SECRET}`,"X-Runway-Version":"2024-11-06","Content-Type":"application/json"},body:JSON.stringify(npcPayload(kind,`data:image/webp;base64,${image.toString("base64")}`))});
-    if(!response.ok)throw new AvatarError("NPC_GENERATION_FAILED");
+    if(!response.ok){
+      providerStatus=response.status;
+      const body=await response.json().catch(()=>({}));
+      const detail=typeof body.error==="string"?body.error:typeof body.message==="string"?body.message:"";
+      providerError=/credit|insufficient/i.test(detail)?"NPC_CREDITS_REQUIRED":response.status===429||/rate|concurren|capacity/i.test(detail)?"NPC_CAPACITY_LIMIT":"NPC_GENERATION_FAILED";
+      console.warn("live_npc_rejected",{kind,status:providerStatus,error:providerError});
+      throw new AvatarError(providerError,503);
+    }
     const taskId=z.string().uuid().parse((await response.json()).id);
     const next:Record={...record,status:"PENDING",taskId};
     if(!await store.writeRecord("live-backdrop",id,next,claim.etag))throw new AvatarError("NPC_UNCERTAIN",409);
     return next;
-  }catch(error){await store.writeRecord("live-backdrop",id,{...record,status:"UNCERTAIN"},claim.etag);throw error;}
+  }catch(error){await store.writeRecord("live-backdrop",id,{...record,status:providerStatus&&providerStatus<500?"FAILED":"UNCERTAIN",providerStatus,error:providerError},claim.etag);throw error;}
 }
 export async function startNpcVoice(store:Store,voiceId:string) {
   const id=voiceRecordId(voiceId),old=await store.readRecord<Record>("live-backdrop",id);
@@ -91,7 +100,7 @@ async function readAsset(store:Store,id:string,extension:"mp4"|"mp3") {
   const saved=await store.readRecord<Record>("live-backdrop",id);
   if(!saved)return {status:"MISSING"};
   if(saved.value.assetId)return {status:"SUCCEEDED",url:`/api/ai-video/assets/${saved.value.assetId}${extension==="mp3"?"?type=mp3":""}`};
-  if(!saved.value.taskId||saved.value.status!=="PENDING")return {status:saved.value.status};
+  if(!saved.value.taskId||saved.value.status!=="PENDING")return {status:saved.value.status,error:saved.value.error,attempts:saved.value.attempts||1};
   const task=await retrieveMotion(saved.value.taskId);
   if(task.status==="FAILED"||task.status==="CANCELLED"){
     await store.writeRecord("live-backdrop",id,{...saved.value,status:"FAILED"},saved.etag);return {status:"FAILED"};

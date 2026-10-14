@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { NPC_KINDS, GAG_KINDS, type GagKind, type NpcManifest } from "@/lib/live/npc-shared";
+import { NPC_KINDS, GAG_KINDS, GAG_META, type GagKind, type NpcManifest } from "@/lib/live/npc-shared";
 export type NpcAssets={idle:string[];reaction:string;voice:string;gags?:Partial<Record<GagKind,string>>};
 const wait=(signal:AbortSignal)=>new Promise<void>((resolve,reject)=>{
   const cancel=()=>{clearTimeout(timer);reject(new DOMException("Stopped","AbortError"));};
@@ -10,13 +10,15 @@ const wait=(signal:AbortSignal)=>new Promise<void>((resolve,reject)=>{
 export function useNpc(){
   const [assets,setAssets]=useState<NpcAssets>();
   const [status,setStatus]=useState("");
+  const [manifest,setManifest]=useState<NpcManifest>();
   const cache=useRef(new Map<string,string>());
   const saved=useRef<{voiceId:string;assets:NpcAssets}>();
   useEffect(()=>()=>{cache.current.forEach(url=>URL.revokeObjectURL(url));cache.current.clear();},[]);
-  async function request(voiceId:string,signal:AbortSignal,kind?:string){
-    const response=await fetch(`/api/live-studio/npc?voiceId=${encodeURIComponent(voiceId)}`,{signal,cache:"no-store",...(kind?{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({kind,voiceId})}:{})});
+  async function request(voiceId:string,signal:AbortSignal,kind?:string,retry=false){
+    const response=await fetch(`/api/live-studio/npc?voiceId=${encodeURIComponent(voiceId)}`,{signal,cache:"no-store",...(kind?{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({kind,voiceId,retry})}:{})});
     const data=await response.json();
-    if(!response.ok)throw new Error(data.error==="NPC_BUDGET_NOT_CONFIGURED"?"A jelenetkészítés költségkerete nincs beállítva.":`A mentett NPC-műsor nem érhető el (${data.error||response.status}). Újrapróbálás nem indít új generálást.`);
+    if(!response.ok)throw new Error(`${kind&&kind in GAG_META?GAG_META[kind as GagKind].label+": ":""}`+(data.error==="NPC_BUDGET_NOT_CONFIGURED"?"A jelenetkészítés költségkerete nincs beállítva.":`A mentett NPC-műsor nem érhető el (${data.error||response.status}). Újrapróbálás nem indít új generálást.`));
+    if(!kind)setManifest(data);
     return data as NpcManifest;
   }
   async function local(source:string,signal:AbortSignal){
@@ -51,5 +53,10 @@ export function useNpc(){
       signal.throwIfAborted();saved.current={voiceId,assets:next};setAssets(next);return next;
     }finally{setStatus("");}
   }
-  return {assets,status,ensure};
+  async function inspect(voiceId:string,signal:AbortSignal){return request(voiceId,signal);}
+  async function retryClip(voiceId:string,kind:GagKind,signal:AbortSignal){
+    await request(voiceId,signal,kind,true);
+    return request(voiceId,signal);
+  }
+  return {assets,status,ensure,manifest,inspect,retryClip};
 }
