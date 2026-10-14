@@ -39,10 +39,10 @@ export function useNpc(){
           setStatus(`Az egyszer elmentendő jelenet készül: ${NPC_KINDS.indexOf(kind)+1}/${NPC_KINDS.length}`);await request(voiceId,signal,kind);
         }}
         if(result.voice.status==="MISSING"){setStatus("Isti kiabáló ajándékreakciójának mentése…");await request(voiceId,signal,"voice");}
-      }else if(result.clips.some(c=>c.status==="MISSING")||result.voice.status==="MISSING")throw new Error("Előbb készítsd el a mentett NPC-jeleneteket. Az adásindítás nem generál fizetős videót.");
+      }else if(result.clips.some(c=>!c.kind.startsWith("gag-")&&c.status==="MISSING")||result.voice.status==="MISSING")throw new Error("Előbb készítsd el a mentett NPC-alapjeleneteket. Az adásindítás nem generál fizetős videót.");
       const deadline=Date.now()+12*60_000;
-      while(!result.ready||result.clips.some(c=>GAG_KINDS.includes(c.kind as GagKind)&&c.status!=="SUCCEEDED")){
-        if([...result.clips,result.voice].some(c=>["FAILED","UNCERTAIN"].includes(c.status)))throw new Error("Egy jelenet készítése ellenőrzést igényel. Nem indult új fizetős próbálkozás.");
+      while(!result.ready||(prepare&&result.clips.some(c=>GAG_KINDS.includes(c.kind as GagKind)&&c.status!=="SUCCEEDED"))){
+        if([...result.clips.filter(c=>prepare||!c.kind.startsWith("gag-")),result.voice].some(c=>["FAILED","UNCERTAIN"].includes(c.status)))throw new Error("Egy jelenet készítése ellenőrzést igényel. Nem indult új fizetős próbálkozás.");
         if(Date.now()>deadline)throw new Error("A jelenetek még készülnek. Következő indításkor ugyanazokat ellenőrizzük.");
         setStatus(`Jelenetek készülnek: ${result.clips.filter(c=>c.status==="SUCCEEDED").length}/${NPC_KINDS.length}. Újraindításkor sem készül másolat.`);
         await wait(signal);result=await request(voiceId,signal);
@@ -55,8 +55,8 @@ export function useNpc(){
   }
   async function inspect(voiceId:string,signal:AbortSignal){return request(voiceId,signal);}
   async function retryClip(voiceId:string,kind:GagKind,signal:AbortSignal){
-    await request(voiceId,signal,kind,true);
-    return request(voiceId,signal);
+    try{await request(voiceId,signal,kind,true);}
+    finally{if(!signal.aborted)await request(voiceId,signal);}
   }
   return {assets,status,ensure,manifest,inspect,retryClip};
 }

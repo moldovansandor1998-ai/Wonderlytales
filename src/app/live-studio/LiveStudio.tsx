@@ -16,7 +16,7 @@ import { DJ_MOODS, type MusicTrack } from "@/lib/live/dj";
 import type { NpcPlayback } from "./NpcPlayer";
 import type { MotionFrame } from "./useMotion";
 import { useGagSound } from "./useGagSound";
-import { NPC_IMAGE, DEFAULT_MUSIC_GIFTS, GAG_KINDS, GAG_META, GiftGagPicker, type GagKind, isMusicGift } from "@/lib/live/npc-shared";
+import { NPC_IMAGE, DEFAULT_MUSIC_GIFTS, GAG_KINDS, GAG_META, GiftGagPicker, availableGiftGag, type GagKind, isMusicGift } from "@/lib/live/npc-shared";
 import MotionHistory, { type Clip } from "./MotionHistory";
 import { useMobileStage } from "./useMobileStage";
 import { useTikTokConnection, type ConnectionMode } from "./useTikTokConnection";
@@ -203,13 +203,17 @@ export default function LiveStudio() {
     try { await npcPlayer.current.react(signal,async()=>{stopSound=gagSound.play(kind,signal);},kind); }
     finally {stopSound?.();}
   }
+  function pickReadyGag(event:LiveEvent){
+    return availableGiftGag(gagPicker.current.pick(event),npc.assets?.gags);
+  }
   async function previewMusicGift(){
     if(operation.current||autoRef.current||!backdropActive)return;
     const controller=new AbortController();operation.current=controller;setBusy(true);setMessage("");
     try{
       await Promise.all([speech.unlock(),gagSound.unlock()]);
       const event:LiveEvent={id:crypto.randomUUID(),type:"gift",user:testUser.trim()||"Próbanéző",text:"",gift:"Gegpróba",giftValue:250,count:1};
-      const kind=previewGag==="random"?gagPicker.current.pick(event)!:previewGag;
+      const kind=previewGag==="random"?pickReadyGag(event):previewGag;
+      if(!kind||!npc.assets?.gags?.[kind])throw new Error("Ez a jelenet még nincs elmentve. Válassz egy elkészült geget.");
       const dialogue=giftDialogue(event,giftReplyCount.current++,kind);
       await speakDialogue(dialogue,event,controller.signal,undefined,kind);
       setMessage(`${GAG_META[kind].label} • ${GAG_META[kind].playbackSeconds} másodperces jelenet lejátszva.`);
@@ -259,7 +263,7 @@ export default function LiveStudio() {
     finally { operation.current = null; setBusy(false); if (autoRef.current) void processRef.current(); }
   }
   async function speakDialogue(dialogue: Dialogue, event: LiveEvent, signal: AbortSignal, prepared?: Response, gag?:GagKind) {
-    const selected=gag || (continuousRef.current ? gagPicker.current.pick(event) : undefined);
+    const selected=gag || (continuousRef.current ? pickReadyGag(event) : undefined);
     let visual=Promise.resolve(),visualStarted=false;
     setEffect(undefined);
     const voice = playDialogue(dialogue,castVoices,continuousRef.current?"eleven":voiceMode,signal,async(turn,voiceId)=>{
@@ -336,7 +340,7 @@ export default function LiveStudio() {
       }
       if (scene === "duo") {
         let dialogue: Dialogue;let prepared:Response|undefined;
-        const gag=savedGift?gagPicker.current.pick(event):undefined;
+        const gag=savedGift&&continuousRef.current?pickReadyGag(event):undefined;
         if (savedGift) dialogue=giftDialogue(event,giftReplyCount.current++,gag);
         else if (mode === "rehearsal") dialogue = rehearsalDialogue(event, started);
         else {
@@ -421,13 +425,14 @@ export default function LiveStudio() {
     <header className="flex flex-wrap justify-between items-center gap-4"><div><p className="text-xs uppercase tracking-[0.25em] text-amber-400">WonderlyTales</p><h1 className="text-3xl font-bold">Élő karakterstúdió</h1><p className="mt-2 text-zinc-400">Magyar műsorvezető • Kommentek és ajándékok • Zenekérések</p></div><button className="rounded-lg bg-red-700 px-4 py-3 text-white font-bold" onClick={stopAll}>Mindent leállít</button></header>
     <section className="space-y-3 rounded-2xl border border-emerald-700 bg-emerald-950/20 p-5">
       <h2 className="text-2xl font-semibold">Automata műsor</h2>
-      <p className="text-sm text-zinc-200">Névre szóló, rövid visszaszólások, teljes csattanóval. 1–199 pont: beszólás. 200–999 pont: hat látványos geg kevert sorrendben. A Galaxis saját felrúgós jelenetet kap; a nagyobb ajándékokhoz 5–6 másodperces nagyjelenet jár. A mozgó alapjelenet és a DJ folyamatos.</p>
+      <p className="text-sm text-zinc-200">Névre szóló, rövid visszaszólások, teljes csattanóval. 1–199 pont: beszólás. 200–999 pont: hat látványos geg kevert sorrendben. A Galaxis saját csillagos kilövést kap; a nagyobb ajándékokhoz 5–6 másodperces nagyjelenet jár. A mozgó alapjelenet és a DJ folyamatos.</p>
       <label className="block">Adás TikTok-felhasználóneve<input className={field} disabled={busy||auto||connected||tiktok.busy} placeholder="@felhasznalonev" maxLength={33} value={username} onChange={e=>setUsername(e.target.value)} /></label>
       <div className="flex flex-wrap gap-2"><button className={button} disabled={busy||auto||tiktok.busy} onClick={()=>void startShow()}>Automata műsor indítása</button><button className="rounded-lg border border-emerald-500 px-4 py-2 disabled:opacity-40" disabled={busy||auto||connected||tiktok.busy} onClick={()=>void startShow(true)}>Automata műsorpróba – komment + ajándék</button><button className="rounded-lg border border-zinc-500 px-4 py-2 disabled:opacity-40" disabled={busy||auto||tiktok.busy} onClick={()=>void previewBackdrop()}>Mentett NPC-műsor és zene próbája</button>{(auto||backdropActive)&&<button className="rounded-lg bg-red-700 px-4 py-2" onClick={stopAll}>Automata műsor leállítása</button>}</div>
       <p className="text-xs text-zinc-400">A TikTok-adást egyszer el kell indítanod a Mobil játék módban. Utána ez a gomb a kommentfigyelőt, a válaszadást és a telefonos adásképet együtt indítja. A próba TikTok nélkül, a lent megadott kommentből és ajándékból két új választ játszik le, majd megáll.</p>
       <p className="text-xs text-amber-200">A kommentválaszok szöveget és hangot készítenek; nincs válaszonkénti videógenerálás. A nagy ajándékok előre mentett gegeket használnak. Az adás válaszkorlátjánál a műsor megáll.</p>
+      {npc.manifest&&npc.manifest.clips.some(clip=>clip.kind.startsWith("gag-")&&clip.status!=="SUCCEEDED")&&<p role="status" className="rounded-lg border border-amber-700 p-3 text-sm text-amber-200">{npc.manifest.clips.filter(clip=>clip.kind.startsWith("gag-")&&clip.status==="SUCCEEDED").length}/{GAG_KINDS.length} ajándékgeg kész. A műsor a kész jelenetekkel indul. A hiányzó nagyjelenetek helyett egy elkészült geg játszódik le, hozzá illő beszólással; a csillagos kilövés kizárólag a Galaxisé.{npc.manifest.clips.some(clip=>clip.error==="NPC_CREDITS_REQUIRED")?" A további videókhoz Runway API-egyenleg szükséges.":""}</p>}
       <details className="rounded-lg border border-zinc-700 p-3"><summary className="cursor-pointer">NPC-jelenetek és rövid ajándékgegek</summary><div className="mt-3 space-y-3">
-        <p className="text-sm">Hat 4 másodperces geg: habkakás tál, dupla tejszínhab, óriáspite, nyálkavödör, pörgő szék és konfettiágyú. Egy kevert körben mind a hat sorra kerül. Galaxis: felrúgás csillagcsíkkal. Nagyobb ajándékok: habtornádó, óriás buborék, rakétaszék és kozmikus pitezápor. Az előkészítés megőrzi a korábbi alapjeleneteket.</p>
+        <p className="text-sm">Hat 4 másodperces geg: habkakás tál, dupla tejszínhab, óriáspite, nyálkavödör, rázós szék és konfettiágyú. Egy kevert körben mind a hat sorra kerül. Galaxis: csillagos kilövés; a kifejezett felrúgós változat még hiányzik. Nagyobb ajándékok: habtornádó, óriás buborék, rakétaszék és kozmikus pitezápor. Az előkészítés megőrzi a korábbi alapjeleneteket.</p>
         <button className={button} disabled={busy||auto} onClick={()=>void previewBackdrop(true)}>NPC-jelenetek és rövid gegek előkészítése</button>
         <button className={button} disabled={busy||auto} onClick={()=>void inspectNpc()}>Mentett gegek állapotának frissítése</button>
         {npc.manifest&&<ul aria-label="Mentett gegek állapota" className="space-y-2 text-sm">{npc.manifest.clips.filter(clip=>clip.kind.startsWith("gag-")).map(clip=><li key={clip.kind} className="flex flex-wrap items-center gap-3"><span>{GAG_META[clip.kind as GagKind].label}: {clip.status==="SUCCEEDED"?"Elkészült":clip.status==="PENDING"?"Készül":clip.status==="MISSING"?"Még nincs elkészítve":clip.status==="SUBMITTING"?"Indítás alatt":"Ellenőrzést igényel"}{clip.error?` (${clip.error})`:""}</span>{clip.url&&<a className="text-amber-300 underline" href={clip.url} download={`${clip.kind}.mp4`}>{GAG_META[clip.kind as GagKind].label} ellenőrzése / letöltése</a>}{["FAILED","UNCERTAIN"].includes(clip.status)&&(clip.attempts||1)<2&&<button className={button} disabled={busy||auto} onClick={()=>void inspectNpc(clip.kind as GagKind)}>Új próbálkozás: {GAG_META[clip.kind as GagKind].label}</button>}</li>)}</ul>}
@@ -479,7 +484,7 @@ export default function LiveStudio() {
           <p className="text-xs text-zinc-400">Egy kommentre egy szereplő felel, a néző nevét kimondva, 1–2 rövid, teljes mondattal. A kis ajándékoknál változatos beszólás és időnként nagyobb csínyre hívás; a rózsasorozatot összevonjuk. 200 ponttól 4–6 másodperces, hanghatásos geg jár. Sok kommentnél a két legfrissebb vár, a 10 másodpercnél régebbiek kimaradnak.</p>
           <div className="grid gap-2 sm:grid-cols-[140px_1fr]"><input aria-label="Próbanéző neve" className={field} value={testUser} maxLength={80} onChange={e=>setTestUser(e.target.value)} /><input aria-label="Próbakomment" className={field} value={testText} maxLength={500} onChange={e=>setTestText(e.target.value)} /></div>
           {scene === "duo" && <div className="space-y-2"><div className="flex flex-wrap gap-2"><button className={button} disabled={busy || auto || !service?.ai || !testUser.trim() || !testText.trim()} onClick={() => void previewAI()}>AI-kommentpróba hang nélkül</button><button className={button} disabled={busy || auto || !service?.ai || !testUser.trim() || !testText.trim() || (voiceMode === "eleven" && (!service?.voice || !castVoices.ali || !castVoices.isti)) || (motionMode && !service?.motion?.configured)} onClick={() => void previewAI(true)}>{motionMode && voiceMode === "eleven" ? "Egyszeri AI-videópróba" : "Egyszeri AI-hangpróba"}</button></div><p className="text-xs text-zinc-400">Mindkét próba új választ ír a kommentre. A hang nélküli próba csak szöveget készít. Az egyszeri lejátszás a kiválasztott hangot és videómódot használja, egy rövid válasz után megáll. Videómódban a generálásra várni kell; ez még nem azonnali élő mozgás.</p>{aiPreview && <div role="status" className="rounded-lg border border-emerald-800 bg-emerald-950/20 p-3 space-y-2">{aiPreview.turns.map(turn => <p key={turn.speaker}><strong>{CAST[turn.speaker].name}:</strong> {turn.text}</p>)}</div>}</div>}
-          <label className="block text-sm">Próbaajándék típusa<select className={field} value={testGift} onChange={e=>setTestGift(e.target.value)}><option value="Zene">Zene</option><option value="rózsa">Rózsa – rövid beszólás</option><option value="szív">Szív</option><option value="varázspálca">Varázspálca</option><option value="Galaxis">Galaxis – felrúgós jelenet</option></select></label>
+          <label className="block text-sm">Próbaajándék típusa<select className={field} value={testGift} onChange={e=>setTestGift(e.target.value)}><option value="Zene">Zene</option><option value="rózsa">Rózsa – rövid beszólás</option><option value="szív">Szív</option><option value="varázspálca">Varázspálca</option><option value="Galaxis">Galaxis – csillagos kilövés</option></select></label>
           <div className="grid grid-cols-2 gap-3"><label>Ajándék értéke (pont/db)<input className={field} type="number" min={0} max={1000000} value={testGiftValue} onChange={e=>setTestGiftValue(Math.max(0,Math.min(1000000,Number(e.target.value)||0)))} /></label><label>Darabszám<input className={field} type="number" min={1} max={10000} value={testGiftCount} onChange={e=>setTestGiftCount(Math.max(1,Math.min(10000,Number(e.target.value)||1)))} /></label></div>
           {firstAudioMs!==undefined&&<p className="text-sm text-emerald-300" role="status">Legutóbbi válasz hangindulása: {(firstAudioMs/1000).toFixed(1)} mp</p>}
           <div className="flex flex-wrap gap-2"><button className={button} disabled={!testUser.trim() || !testText.trim()} onClick={()=>enqueue({id:crypto.randomUUID(),type:"comment",user:testUser.trim(),text:testText.trim(),count:1})}>Próbakomment</button><button className={button} disabled={!testUser.trim()} onClick={()=>enqueue({id:crypto.randomUUID(),type:"gift",user:testUser.trim(),text:"",gift:testGift,giftValue:testGiftValue,count:testGiftCount})}>Próbaajándék</button><button className="rounded-lg border border-zinc-600 px-3" onClick={()=>{queue.current.clear();setPending([]);}}>Várakozók törlése</button></div>

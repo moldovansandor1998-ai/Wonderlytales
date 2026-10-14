@@ -11,9 +11,9 @@ export const GAG_META: Record<GagKind, {label:string; duration:4|6; playbackSeco
   "gag-cream": {label:"Dupla tejszínhab",duration:4,playbackSeconds:4,impact:0.8},
   "gag-pie": {label:"Óriáspite",duration:4,playbackSeconds:4,impact:1.3},
   "gag-slime": {label:"Nyálkavödör",duration:4,playbackSeconds:4,impact:1.2},
-  "gag-spin": {label:"Pörgő szék",duration:4,playbackSeconds:4,impact:0.7},
+  "gag-spin": {label:"Rázós szék",duration:4,playbackSeconds:4,impact:0.7},
   "gag-confetti": {label:"Konfettiágyú",duration:4,playbackSeconds:4,impact:1},
-  "gag-galaxy": {label:"Galaxis – Pista a Holdra megy",duration:6,playbackSeconds:6,impact:1.5},
+  "gag-galaxy": {label:"Galaxis – csillagos kilövés",duration:6,playbackSeconds:6,impact:1.5},
   "gag-tornado": {label:"Habtornádó",duration:6,playbackSeconds:5,impact:1.1},
   "gag-bubble": {label:"Óriás buborék",duration:6,playbackSeconds:5,impact:1.1},
   "gag-rocket": {label:"Rakétaszék",duration:6,playbackSeconds:6,impact:1.5},
@@ -24,7 +24,7 @@ export const GAG_LINES: Record<GagKind,Record<"ali"|"isti",readonly string[]>> =
  "gag-cream":{ali:["Pista, készül a habosított változatod!", "Pucu, végre édes lett a pofád!", "Pista, még egy cseresznye, és mehetsz a vitrinbe!"],isti:["Ali, inasom vagy, nem cukrászom!", "Nem baj, hagyjadddd! Legalább nem száraz a műsor.", "Ali, ezt még a tortából is levonom!"]},
  "gag-pie":{ali:["Pista, ma tányérral együtt kéred!", "Pucu, nyisd nagyra! Ja, a maszk marad.", "Pista, ez házhoz ment, pofára címezve!"],isti:["Ali, harminckét négyzetméter pizzát ettem, erre hozol még pitét?!", "Nem baj, hagyjadddd! A tányér kicsit ropogós.", "Ali, ezt még a számládhoz csapom!"]},
  "gag-slime":{ali:["Pista, indul a zöldprogram!", "Pucu, most már tényleg folyik belőled az ész!", "Pista, ezt az arcpakolást én kevertem!"],isti:["Ali, te ezt a mosógépből hoztad?!", "Nem baj, hagyjadddd! Most már zöld utam van.", "Ali, a vödröt legalább bérelted?!"]},
- "gag-spin":{ali:["Pista, most te kevered a műsort!", "Pucu, végre forog körülötted a világ!", "Pista, ez az ingyenes centrifuga!"],isti:["Ali, állítsd meg, a NAV-ot már kétszer láttam!", "Inasom vagy! Nem körhintás.", "Nem baj, hagyjadddd! Már a szék is szédül."]},
+ "gag-spin":{ali:["Pista, ez a szék se bír már veled!", "Pucu, indul a fapados masszázs!", "Pista, ez az ingyenes centrifuga!"],isti:["Ali, állítsd meg, kiesik az apróm!", "Inasom vagy! Nem masszőröm.", "Nem baj, hagyjadddd! Már a szék is szédül."]},
  "gag-confetti":{ali:["Pista, ünnepelünk! Téged csomagolunk be.", "Pucu, kapsz egy kis díszkivilágítást!", "Pista, ez a konfetti legalább színesíti a fejed!"],isti:["Ali, ezt te porszívózod fel! Inasom vagy!", "Nem baj, hagyjadddd! Én vagyok az ajándék.", "Ali, még a sértődésemet is becsomagoltad!"]},
  "gag-galaxy":{ali:["Pista megy a Holdra! Kapaszkodj a kalapodba!", "Pucu, feladlak csomagként a Tejútra!", "Pista, a NAV idáig már nem követ!"],isti:["Ali, az űrben is az inasom vagy!", "Nem baj, hagyjadddd! Legalább elkerülöm a NAV-ot.", "Ali, te dagadt! Visszafelé rád szállok!"]},
  "gag-tornado":{ali:["Pista, indul a habverő!", "Pucu, készül a családi kiszerelésű botrány!", "Pista, ez most tényleg felkavar!"],isti:["Ali, ez nem habverő, ez a rohadt mosógéped!", "Nem baj, hagyjadddd! Már fel se tudok háborodni.", "Ali, inasom vagy! Takarítsd fel!"]},
@@ -44,6 +44,17 @@ export function isGalaxyGift(event: LiveEvent, giftId = "") {
   if(event.type!=="gift")return false;
   if(giftId.trim())return event.giftId===giftId.trim();
   return ["galaxy","galaxis"].includes(normalizeGift(event.gift || ""));
+}
+/** A missing premium clip must not stop the show or announce a scene we cannot play. */
+export function availableGiftGag(requested:GagKind|undefined, available:Partial<Record<GagKind,unknown>>={}):GagKind|undefined {
+  if(!requested)return undefined;
+  if(available[requested])return requested;
+  // Keep the space kick exclusive to Galaxy gifts.
+  if(requested==="gag-galaxy")return undefined;
+  const alternatives:GagKind[]=BASIC_GAGS.includes(requested as typeof BASIC_GAGS[number])
+    ? [...BASIC_GAGS]
+    : ["gag-rocket","gag-meteor","gag-tornado","gag-bubble",...BASIC_GAGS];
+  return alternatives.find(kind=>available[kind]);
 }
 /** Six random draws without replacement; avoid a repeat across bag boundaries, too. */
 export class GiftGagPicker {

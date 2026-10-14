@@ -1,5 +1,5 @@
 import {describe,it,expect} from "vitest";
-import {BASIC_GAGS,GAG_META,GiftGagPicker,isGalaxyGift} from "@/lib/live/npc-shared";
+import {BASIC_GAGS,GAG_META,GiftGagPicker,isGalaxyGift,availableGiftGag} from "@/lib/live/npc-shared";
 import {EventQueue,eventSchema} from "@/lib/live/events";
 const gift=eventSchema.parse({id:"g",type:"gift",user:"Peti",gift:"Próba",giftValue:200,count:1});
 describe("Gift choreography",()=>{
@@ -29,5 +29,14 @@ describe("Gift choreography",()=>{
   expect(queue.take()).toMatchObject({count:2,user:'Peti',contributors:['Peti','Anna']});
   queue.add({...gift,id:'c',user:'Peti'});queue.add({...gift,id:'d',user:'Anna'});
   expect(queue.size).toBe(2);expect(queue.take()?.user).toBe('Peti');expect(queue.take()?.user).toBe('Anna');
+ });
+ it("plays saved alternatives when premium generation is blocked, keeping Galaxy exclusive",()=>{
+  const saved=Object.fromEntries([...BASIC_GAGS,"gag-galaxy","gag-tornado"].map(kind=>[kind,"saved.mp4"]));
+  for(const kind of BASIC_GAGS)expect(availableGiftGag(kind,saved)).toBe(kind);
+  expect(availableGiftGag("gag-galaxy",saved)).toBe("gag-galaxy");
+  for(const kind of ["gag-bubble","gag-rocket","gag-meteor"] as const)expect(availableGiftGag(kind,saved)).toBe("gag-tornado");
+  expect(availableGiftGag("gag-rocket",{"gag-galaxy":"saved.mp4"})).toBeUndefined();
+  expect(availableGiftGag("gag-galaxy",{"gag-tornado":"saved.mp4"})).toBeUndefined();
+  expect(availableGiftGag(undefined,saved)).toBeUndefined();
  });
 });
