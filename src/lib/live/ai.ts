@@ -25,7 +25,7 @@ function parseReply<T>(content: unknown, schema: z.ZodType<T>) {
   } catch { return json({ error: "AI_INVALID_REPLY" }, 502); }
 }
 
-/** One paid submission per event; subsequent WaveSpeed requests only retrieve that task. */
+/** One paid submission per call; subsequent WaveSpeed requests only retrieve that task. */
 export async function generateLiveReply<T>(messages: {role: string; content: string}[], schema: z.ZodType<T>, signal: AbortSignal, maxTokens: number) {
   const startedAt = Date.now();
   const provider = liveAiProvider();

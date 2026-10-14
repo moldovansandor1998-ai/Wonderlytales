@@ -32,18 +32,32 @@ describe('Two-character live dialogue',()=>{
     expect(new Set(lines).size).toBe(12);
     expect(giftDialogue({...event,count:100},0).turns).toHaveLength(1);
   });
-  it('keeps the punchline and always addresses the commenter, including a one-word provider echo',()=>{
+  it('keeps a fresh punchline and rejects echoes instead of inventing a canned reply',()=>{
     const input={event:{...event,type:'comment' as const,user:'Peti 🔥',text:'dagadt geci'},history:[],replyIndex:1};
     const schema=compactDialogueSchema(input);
-    expect(schema.parse({turns:[{speaker:'isti',text:'Harminckét négyzetméter pizzát ettem! Szerinted hová kellett volna rakni?',emotion:'laugh'}]}).turns[0].text).toBe('Peti, Harminckét négyzetméter pizzát ettem! Szerinted hová kellett volna rakni?');
-    const repaired=schema.parse({turns:[{speaker:'isti',text:'dagadt',emotion:'laugh'}]}).turns[0].text;
-    expect(repaired).toMatch(/^Peti, /);expect(repaired).toContain('pizzát');expect(repaired.split(' ').length).toBeGreaterThan(6);
+    const fresh='A széknek mondd, az tart engem egész nap!';
+    expect(schema.parse({turns:[{speaker:'isti',text:fresh,emotion:'laugh'}]}).turns[0].text).toBe(`Peti, ${fresh}`);
+    expect(schema.safeParse({turns:[{speaker:'isti',text:'dagadt',emotion:'laugh'}]}).success).toBe(false);
+    expect(schema.safeParse({turns:[{speaker:'ali',text:fresh,emotion:'laugh'}]}).success).toBe(false);
     expect(spokenName('@Zsófi_123🔥')).toBe('Zsófi');
     expect(spokenName('https://example.com')).toBe('Néző');
     expect(giftDialogue({...event,gift:'Zene',count:1},0).turns[0].text).not.toMatch(/rózsa|csokor|váza/iu);
     expect(giftDialogue({...event,gift:'Zene',count:100},0).turns[0].text).not.toContain('virágbolt');
     expect(giftDialogue({...event,user:'Laci',count:100},1).turns[0].text).toMatch(/^Laci, 100/);
     expect(giftDialogue({...event,user:'Peti',contributors:['Peti','Anna'],count:100},1).turns[0].text).toMatch(/^Peti, Anna, /);
+  });
+  it('rejects unprompted pizza even when the recent conversation contains it',()=>{
+    const line={turns:[{speaker:'isti',text:'Harminckét négyzetméter pizzát ettem! Szerinted hová kellett volna rakni?',emotion:'laugh'}]};
+    const input={event:{...event,text:'dagadt geci'},history:[{user:'Anna',text:'Mi a kedvenc pizzád?',reply:'Ali: Anna, Pista bármilyen pizzának örül.'}],replyIndex:1};
+    expect(compactDialogueSchema(input).safeParse(line).success).toBe(false);
+    expect(compactDialogueSchema({...input,event:{...event,text:'Isti, mennyi pizzát ettél?'}}).safeParse(line).success).toBe(true);
+  });
+  it('detects recycled punchlines across commenter names and punctuation changes',()=>{
+    const input={event:{...event,user:'Bence',text:'Táncolj!'},history:[{user:'Peti',text:'Miért ülsz?',reply:'Mc Isti: Peti, Mert állva még azt hinnék, dolgozom!'}],replyIndex:1};
+    for(const text of ['Bence, Mert állva még azt hinnék, dolgozom.', 'Táncoljak? Mert állva még azt hinnék, dolgozom!']) {
+      expect(compactDialogueSchema(input).safeParse({turns:[{speaker:'isti',text,emotion:'laugh'}]}).success).toBe(false);
+    }
+    expect(shortSpokenLine('Ez az első. Ez a második. Ez lenne a csattanó!')).toBe('');
   });
   it('waits for complete playback before using the other voice',async()=>{
     let finishFirst!:()=>void;

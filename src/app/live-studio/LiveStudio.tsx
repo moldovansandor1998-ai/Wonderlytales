@@ -77,6 +77,8 @@ export default function LiveStudio() {
   const [dropped, setDropped] = useState(0);
   const [logs, setLogs] = useState<Log[]>([]);
   const history = useRef<Log[]>([]);
+  const previewHistory = useRef<{user:string;text:string;reply:string}[]>([]);
+  const silentPreviewCount = useRef(0);
   const [replies, setReplies] = useState(0);
   const [limit, setLimit] = useState(100);
   const replyCount = useRef(0);
@@ -291,9 +293,9 @@ export default function LiveStudio() {
     catch (e) { setEffect(undefined); if (!controller.signal.aborted) setMessage(e instanceof Error ? e.message : "Jelenethiba"); }
     finally { operation.current = null; setBusy(false); }
   }
-  async function getDialogue(event:LiveEvent,recent:{user:string;text:string;reply:string}[],signal:AbortSignal,withAudio:boolean,music?:{requested:string;started:boolean}) {
+  async function getDialogue(event:LiveEvent,recent:{user:string;text:string;reply:string}[],signal:AbortSignal,withAudio:boolean,music?:{requested:string;started:boolean},replyIndex=replyCount.current) {
     const combined=withAudio&&(continuousRef.current||voiceMode==="eleven")&&!motionMode;
-    const response=await fetch(combined?"/api/live-studio/respond":"/api/live-studio/dialogue",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({event,history:recent,replyIndex:replyCount.current,music,...(combined?{voices:castVoices}:{})}),signal});
+    const response=await fetch(combined?"/api/live-studio/respond":"/api/live-studio/dialogue",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({event,history:recent,replyIndex,music,...(combined?{voices:castVoices}:{})}),signal});
     if(combined&&response.ok&&response.headers.get("X-Live-Dialogue"))return {dialogue:dialogueSchema.parse(JSON.parse(decodeURIComponent(response.headers.get("X-Live-Dialogue")!))),audio:response};
     return {dialogue:dialogueSchema.parse(await readAIResponse(response)),audio:undefined};
   }
@@ -306,8 +308,10 @@ export default function LiveStudio() {
       const event: LiveEvent = {id:crypto.randomUUID(), type:"comment", user:testUser.trim(), text:testText.trim(), count:1};
       replyStartedAt.current=performance.now();
       const recent = history.current.filter(l => !l.error && l.source === "ai").slice(-8).map(l => ({user:l.event.user, text:l.event.text || l.event.gift || "", reply:l.reply.slice(0,520)}));
-      const {dialogue,audio}=await getDialogue(event,recent,controller.signal,play);
+      const {dialogue,audio}=await getDialogue(event,[...recent,...previewHistory.current].slice(-8),controller.signal,play,undefined,replyCount.current+silentPreviewCount.current);
       controller.signal.throwIfAborted(); setAIPreview(dialogue);
+      previewHistory.current=[...previewHistory.current,{user:event.user,text:event.text,reply:dialogue.turns.map(turn=>`${CAST[turn.speaker].name}: ${turn.text}`).join(" · ")}].slice(-8);
+      if (!play) silentPreviewCount.current++;
       if (play) {
         await speakDialogue(dialogue, event, controller.signal,audio);
         addLog({event, reply:dialogue.turns.map(turn => `${CAST[turn.speaker].name}: ${turn.text}`).join(" · "), source:"ai"});

@@ -19,6 +19,15 @@ describe('Comment to streamed speech in one request',()=>{
  it('never generates voice after an AI failure',async()=>{
   vi.mocked(generateLiveReply).mockResolvedValue(new Response(JSON.stringify({error:'AI_INVALID_REPLY'}),{status:502}) as any);
   expect((await POST(request())).status).toBe(502);expect(streamSpeech).not.toHaveBeenCalled();
+  expect(generateLiveReply).toHaveBeenCalledTimes(2);
+ });
+ it('voices only the successful fresh reply after an unusable first attempt',async()=>{
+  const dialogue={turns:[{speaker:'isti',text:'Teszt, A lábam indulna, de én még ülök!',emotion:'laugh'}]};
+  vi.mocked(generateLiveReply).mockResolvedValueOnce(new Response(JSON.stringify({error:'AI_INVALID_REPLY'}),{status:502}) as any).mockResolvedValueOnce(new Response(JSON.stringify(dialogue)) as any);
+  vi.mocked(streamSpeech).mockResolvedValue(new Response(new Uint8Array([1]),{headers:{'content-type':'audio/mpeg'}}));
+  expect((await POST(request())).status).toBe(200);
+  expect(generateLiveReply).toHaveBeenCalledTimes(2);expect(streamSpeech).toHaveBeenCalledOnce();
+  expect(streamSpeech).toHaveBeenCalledWith({text:dialogue.turns[0].text,voiceId:'IstiVoice'},expect.any(AbortSignal));
  });
  it('uses the selected speaker and exposes the exact UTF-8 caption alongside the audio',async()=>{
   const dialogue={turns:[{speaker:'isti',text:'A padló fél tőlem!',emotion:'laugh'}]};
