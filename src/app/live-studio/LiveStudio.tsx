@@ -8,8 +8,11 @@ import Stage from "./Stage";
 import DuoVoices from "./DuoVoices";
 import { CAST, DUO_IMAGE, dialogueSchema, giftEffect, playDialogue, rehearsalDialogue, type CastVoices, type Dialogue, type GiftEffect, type Speaker } from "@/lib/live/duo";
 import { useMotion } from "./useMotion";
-import { useBackdrop } from "./useBackdrop";
-import { airDialogue } from "@/lib/live/show";
+import { useNpc } from "./useNpc";
+import { useMusicBed } from "./useMusicBed";
+import type { NpcPlayback } from "./NpcPlayer";
+import type { MotionFrame } from "./useMotion";
+import { NPC_IMAGE, DEFAULT_MUSIC_GIFTS, MUSIC_GIFT_LINE, isMusicGift } from "@/lib/live/npc-shared";
 import MotionHistory, { type Clip } from "./MotionHistory";
 import { useMobileStage } from "./useMobileStage";
 import { useTikTokConnection, type ConnectionMode } from "./useTikTokConnection";
@@ -18,7 +21,7 @@ import { useSpeech } from "./useSpeech";
 
 type Character = { id: string; name: string; personality: string; image: string; voiceId?: string; voiceName?: string };
 type Track = { id: string; title: string; url: string };
-type Log = { event: LiveEvent; reply: string; source?: "ai" | "rehearsal"; error?: boolean };
+type Log = { event: LiveEvent; reply: string; source?: "ai" | "rehearsal" | "saved"; error?: boolean };
 const INITIAL: Character = { id: "pirate", name: "Mc Isti", voiceName: "Mc istia", voiceId: "f9YzCDZYS8Zjl6RbHErx", personality: "Pukkancs, sértődős, nagyszájú magyar trash-karikatúra. Az aktuális kommentre rövid felháborodással reagál, aztán önironikusan visszakozik. Hétköznapi beszéd, semmi kalózos vagy hajós szófordulat. Kitalált AI-paródia, nem a valódi személy.", image: "/live-studio/pirate.png" };
 const button = "rounded-lg bg-amber-400 px-4 py-2 text-black font-semibold disabled:opacity-40";
 const field = "block w-full rounded-lg border border-zinc-700 bg-zinc-900 p-2";
@@ -50,9 +53,13 @@ export default function LiveStudio() {
   const [aiPreview, setAIPreview] = useState<Dialogue | null>(null);
   const speech = useSpeech();
   const motion = useMotion();
-  const backdrop = useBackdrop();
+  const npc = useNpc();
+  const npcPlayer=useRef<NpcPlayback>(null);
+  const [npcFrame,setNpcFrame]=useState<MotionFrame>();
+  const [musicGiftNames,setMusicGiftNames]=useState(DEFAULT_MUSIC_GIFTS);
+  const [musicGiftId,setMusicGiftId]=useState("");
   const mobile = useMobileStage();
-  const [motionMode,setMotionMode]=useState(true);
+  const [motionMode,setMotionMode]=useState(false);
   const [continuous,setContinuous]=useState(false);
   const [backdropActive,setBackdropActive]=useState(false);
   const continuousRef=useRef(false);
@@ -71,7 +78,7 @@ export default function LiveStudio() {
   const [limit, setLimit] = useState(100);
   const replyCount = useRef(0);
   const processRef = useRef<() => Promise<void>>(async () => {});
-  const [testGift, setTestGift] = useState("rózsa");
+  const [testGift, setTestGift] = useState("Zene");
   const [testUser, setTestUser] = useState("Próbanéző");
   const [testText, setTestText] = useState("Ali, miért duzzog már megint Isti?");
   const [connectionMode, setConnectionMode] = useState<ConnectionMode>("cloud");
@@ -88,17 +95,23 @@ export default function LiveStudio() {
   const [requests, setRequests] = useState<{user:string; title:string}[]>([]);
   const [volume, setVolume] = useState(0.35);
   const [autoMusic, setAutoMusic] = useState(true);
+  const [backgroundMusic,setBackgroundMusic]=useState(true);
+  const playedTracks=useRef(new Set<string>());
+  const musicBed=useMusicBed(volume,isSpeaking,backgroundMusic&&!currentTrack);
   const music = useRef<HTMLAudioElement>(null);
   const objectUrls = useRef(new Set<string>());
   const channel = useRef<BroadcastChannel | null>(null);
   const outputId = useRef("");
   const activeTrack = tracks.find(t => t.id === currentTrack);
-  const state: StageState = {name:scene === "duo" ? "Ali és Mc Isti" : character.name, image:scene === "duo" ? DUO_IMAGE : character.image, caption, speaking:isSpeaking, emotion, connected, song:activeTrack?.title || "", scene, speaker, effect, motion:motion.frame, backdrop:continuous&&backdrop.url?{url:backdrop.url,active:backdropActive}:undefined, showStatus:continuous ? auto ? busy ? "Készül a következő válasz…" : connected ? "A műsor fut • Kommenteket és ajándékokat figyelünk" : "Alapvideó fut • TikTok-kapcsolódás / próba" : busy ? "A műsor előkészítése…" : backdropActive ? "Alapvideó fut • Automatikus válaszadás szünetel" : "A műsor szünetel" : undefined};
+  const state: StageState = {name:scene === "duo" ? "Ali és Mc Isti" : character.name, image:scene === "duo" ? continuous ? NPC_IMAGE : DUO_IMAGE : character.image, caption, speaking:isSpeaking, emotion, connected, song:activeTrack?.title || (continuous&&musicBed.playing&&backgroundMusic?"Változó instrumentális háttérzene":""), scene, speaker, effect, motion:motion.frame, npc:continuous&&npc.assets?{frame:npcFrame,active:backdropActive}:undefined, showStatus:continuous ? auto ? busy ? "Készül a következő válasz…" : connected ? "A műsor fut • Kommenteket és ajándékokat figyelünk" : "Alapvideó fut • TikTok-kapcsolódás / próba" : busy ? "A műsor előkészítése…" : backdropActive ? "Alapvideó fut • Automatikus válaszadás szünetel" : "A műsor szünetel" : undefined};
   const stageRef = useRef(state); stageRef.current = state;
 
   useEffect(() => {
     try {
       setUsername(localStorage.getItem("wonderly-live-username-v1") || "");
+      const giftSettings=JSON.parse(localStorage.getItem("wonderly-live-music-gift-v1")||"null");
+      if(typeof giftSettings?.names==="string")setMusicGiftNames(giftSettings.names.slice(0,400));
+      if(typeof giftSettings?.id==="string"&&/^\d{0,30}$/.test(giftSettings.id))setMusicGiftId(giftSettings.id);
       const duo = JSON.parse(localStorage.getItem("wonderly-live-duo-v1") || "null");
       if (duo?.scene === "solo" || duo?.scene === "duo") setScene(duo.scene);
       if (typeof duo?.voices?.ali === "string" && typeof duo?.voices?.isti === "string" && /^[a-zA-Z0-9]{1,100}$/.test(duo.voices.ali) && /^[a-zA-Z0-9]{1,100}$/.test(duo.voices.isti)) setCastVoices(duo.voices);
@@ -129,7 +142,8 @@ export default function LiveStudio() {
     catch { setMessage("A jelenet hangbeállításai nem lettek elmentve."); }
   }, [ready, scene, castVoices]);
   useEffect(() => { if (ready) { try { localStorage.setItem("wonderly-live-username-v1",username); } catch { /* The current session can still run without persistent settings. */ } } }, [ready,username]);
-  useEffect(() => { channel.current?.postMessage({type:"state", state}); }, [character.name, character.image, caption, isSpeaking, motion.frame, emotion, connected, activeTrack?.title, scene, speaker, effect, continuous, backdrop.url, backdropActive, auto, busy]);
+  useEffect(() => { channel.current?.postMessage({type:"state", state}); }, [character.name, character.image, caption, isSpeaking, motion.frame, emotion, connected, activeTrack?.title, scene, speaker, effect, continuous, npcFrame, npc.assets, backdropActive, auto, busy, backgroundMusic, musicBed.playing]);
+  useEffect(()=>{if(ready){try{localStorage.setItem("wonderly-live-music-gift-v1",JSON.stringify({names:musicGiftNames,id:musicGiftId}));}catch{}}},[ready,musicGiftNames,musicGiftId]);
   useEffect(() => { if (music.current) music.current.volume = isSpeaking ? volume * 0.2 : volume; }, [isSpeaking, volume, currentTrack]);
 
   async function replayOnStage(clip: Clip) {
@@ -145,43 +159,66 @@ export default function LiveStudio() {
   function update(fieldName: "name" | "personality" | "voiceId" | "voiceName", value: string) {
     setCharacters(current => current.map(c => c.id === character.id ? {...c, [fieldName]:value} : c));
   }
-  function pause(stopBackdrop=true) { autoRef.current = false; setAuto(false); if(stopBackdrop)setBackdropActive(false); operation.current?.abort(); clearTimeout(trialGiftTimer.current); trialRemaining.current=null; setEffect(undefined); }
+  function pause(stopBackdrop=true) { autoRef.current = false; setAuto(false); if(stopBackdrop){setBackdropActive(false);musicBed.stop();} operation.current?.abort(); clearTimeout(trialGiftTimer.current); trialRemaining.current=null; setEffect(undefined); }
   function stopAll() { tiktok.disconnect(); setAvatarStop(n => n + 1); pause(); queue.current.clear(); setPending([]); music.current?.pause(); setCurrentTrack(""); setCaption("A műsor szünetel."); setEmotion("neutral"); }
   function addLog(log: Log) { history.current = [...history.current, log].slice(-30); setLogs(history.current); }
   const onBackdropError=useCallback((reason:string)=>{
     autoRef.current=false;setAuto(false);setBackdropActive(false);operation.current?.abort();clearTimeout(trialGiftTimer.current);
     setMessage(reason);
   },[]);
-  async function previewBackdrop() {
+  async function previewBackdrop(prepare=false) {
     if(operation.current||autoRef.current)return;
     const controller=new AbortController();operation.current=controller;setBusy(true);setMessage("");
-    setContinuous(true);continuousRef.current=true;setScene("duo");setSpeaker(undefined);mobile.open();
+    setContinuous(true);continuousRef.current=true;setScene("duo");setMotionMode(false);setSpeaker(undefined);
     try {
-      await backdrop.ensure(controller.signal,false);controller.signal.throwIfAborted();
-      setBackdropActive(true);setCaption("Mentett alapvideó • Nincs új generálás");
-    } catch(error) { if(!controller.signal.aborted)setMessage(error instanceof Error?error.message:"Az alapvideó nem érhető el."); }
+      await Promise.all([speech.unlock(),musicBed.unlock()]);
+      await npc.ensure(castVoices.isti,controller.signal,prepare);controller.signal.throwIfAborted();
+      setBackdropActive(true);musicBed.start();setCaption("Ali figyel, Isti duzzog. A zene folyamatosan változik.");
+      setMessage(prepare?"A három alapjelenet és a felállós reakció elmentve. A következő adások ezeket használják.":"Mentett NPC-műsor és háttérzene • nincs új generálás");
+      if(!prepare)mobile.open();
+    } catch(error) { if(!controller.signal.aborted)setMessage(error instanceof Error?error.message:"Az NPC-jelenetek nem érhetők el.");musicBed.stop(); }
     finally { if(operation.current===controller){operation.current=null;setBusy(false);} }
+  }
+  async function playMusicGift(signal:AbortSignal) {
+    const assets=npc.assets,player=npcPlayer.current;
+    if(!assets||!player)throw new Error("Előbb indítsd el a mentett NPC-jelenetet.");
+    await player.react(signal,async()=>{
+      await new Promise<void>((resolve,reject)=>{
+        const cancel=()=>{clearTimeout(timer);reject(new DOMException("Stopped","AbortError"));};
+        const timer=setTimeout(()=>{signal.removeEventListener("abort",cancel);resolve();},1600);
+        signal.addEventListener("abort",cancel,{once:true});if(signal.aborted)cancel();
+      });
+      await speech.playSaved(assets.voice,signal,()=>{setSpeaker("isti");setCaption(MUSIC_GIFT_LINE);setEmotion("neutral");});
+    });
+    setSpeaker(undefined);setCaption("Ali és Isti figyelnek. Jöhet a következő komment!");
+  }
+  async function previewMusicGift(){
+    if(operation.current||autoRef.current||!backdropActive)return;
+    const controller=new AbortController();operation.current=controller;setBusy(true);setMessage("");
+    try{await speech.unlock();await playMusicGift(controller.signal);setMessage("A mentett zenés ajándékreakció lejátszódott. Nem indult hang- vagy videógenerálás.");}
+    catch(error){if(!controller.signal.aborted)setMessage(error instanceof Error?error.message:"Reakcióhiba");}
+    finally{if(operation.current===controller){operation.current=null;setBusy(false);}}
   }
   async function startShow(trial=false) {
     if(operation.current||autoRef.current)return;
     if(!trial&&!/^[a-zA-Z0-9_.]{2,32}$/.test(username.replace(/^@/,"").trim())){setMessage("Add meg annak a TikTok-fióknak a felhasználónevét, amelyiken az adás fut.");return;}
     if(!trial&&connectionMode==="local"&&!pairing.trim()){setMessage("Add meg a helyi összekötő párosítási kódját, vagy válaszd a szerveres kapcsolatot.");return;}
-    if(!service?.ai||!service.voice||!service.motion?.configured){setMessage("Az automata műsorhoz AI-válaszadó, mindkét karakter és a saját hangok szükségesek.");return;}
+    if(!service?.ai||!service.voice){setMessage("Az automata műsorhoz AI-válaszadó, mindkét karakter és a saját hangok szükségesek.");return;}
     if(replyCount.current+(trial?2:1)>limit){setMessage("Növeld az adás válaszkorlátját a műsor indítása előtt.");return;}
     const controller=new AbortController();operation.current=controller;setBusy(true);setMessage("");
-    setScene("duo");setMode("ai");setVoiceMode("eleven");setMotionMode(true);setContinuous(true);continuousRef.current=true;
+    setScene("duo");setMode("ai");setVoiceMode("eleven");setMotionMode(false);setContinuous(true);continuousRef.current=true;
     setSpeaker(undefined);setCaption("Ali figyel, Isti duzzog. A műsor mindjárt indul.");setEffect(undefined);
     queue.current.clear();setPending([]);trialRemaining.current=trial?2:null;
     if(!trial)mobile.open();
     try {
-      await speech.unlock(motion.element.current);
-      await backdrop.ensure(controller.signal);
+      await Promise.all([speech.unlock(),musicBed.unlock()]);
+      await npc.ensure(castVoices.isti,controller.signal);
       controller.signal.throwIfAborted();
-      autoRef.current=true;setAuto(true);setBackdropActive(true);setCaption("Ali és Isti figyelnek. Jöhetnek a kommentek!");
+      musicBed.start();autoRef.current=true;setAuto(true);setBackdropActive(true);setCaption("Ali és Isti figyelnek. Jöhetnek a kommentek!");
       if(trial){
         queue.current.add({id:crypto.randomUUID(),type:"comment",user:testUser.trim()||"Próbanéző",text:testText.trim()||"Ali, miért duzzog már megint Isti?",count:1});
         setPending(queue.current.snapshot());
-        trialGiftTimer.current=setTimeout(()=>enqueueRef.current({id:crypto.randomUUID(),type:"gift",user:testUser.trim()||"Próbanéző",text:"",gift:testGift,count:1}),1500);
+        trialGiftTimer.current=setTimeout(()=>enqueueRef.current({id:crypto.randomUUID(),type:"gift",user:testUser.trim()||"Próbanéző",text:"",gift:testGift,giftId:musicGiftId||undefined,count:1}),1500);
       }else if(!connected)tiktok.connect(connectionMode,username,pairing);
     }catch(error){
       pause();if(!controller.signal.aborted||error instanceof Error&&error.name!=="AbortError")setMessage(error instanceof Error?error.message:"A műsor nem indult el.");
@@ -201,9 +238,9 @@ export default function LiveStudio() {
     finally { operation.current = null; setBusy(false); if (autoRef.current) void processRef.current(); }
   }
   async function speakDialogue(dialogue: Dialogue, event: LiveEvent, signal: AbortSignal) {
-    if(continuousRef.current&&motionMode&&voiceMode==="eleven") {
-      await airDialogue(dialogue,castVoices,signal,motion.prepare,async(clip,turn,playSignal)=>{
-        await motion.play(clip.url,clip.requestId,playSignal,()=>{setSpeaker(turn.speaker);setCaption(turn.text);setEmotion(turn.emotion);});
+    if(continuousRef.current) {
+      await playDialogue(dialogue,castVoices,"eleven",signal,async(turn,voiceId)=>{
+        await speech.say(turn.text,"eleven",voiceId,signal,()=>{setSpeaker(turn.speaker);setCaption(turn.text);setEmotion(turn.emotion);});
       });
       return;
     }
@@ -251,6 +288,7 @@ export default function LiveStudio() {
     const controller = new AbortController(); operation.current = controller; setBusy(true); setMessage("");
     try {
       let spoken: string;
+      const musicReaction=continuousRef.current&&isMusicGift(event,musicGiftNames,musicGiftId);
       const recent = history.current.filter(l => !l.error && l.source === "ai").slice(-8).map(l => ({user:l.event.user, text:l.event.text || l.event.gift || "", reply:l.reply.slice(0,520)}));
       const requested = event.type === "comment" ? songRequest(event.text) : null;
       let started = false;
@@ -258,7 +296,8 @@ export default function LiveStudio() {
         const matches = tracks.filter(track => normalize(track.title) === normalize(requested));
         started = autoMusic && matches.length === 1 ? await playTrack(matches[0]) : false;
       }
-      if (scene === "duo") {
+      if(musicReaction){await playMusicGift(controller.signal);spoken=`Mc Isti: ${MUSIC_GIFT_LINE}`;}
+      else if (scene === "duo") {
         let dialogue: Dialogue;
         if (mode === "rehearsal") dialogue = rehearsalDialogue(event, started);
         else {
@@ -279,7 +318,7 @@ export default function LiveStudio() {
         await speech.say(reply.text, voiceMode, character.voiceId, controller.signal);
         spoken = reply.text;
       }
-      addLog({event, reply:spoken, source:mode}); replyCount.current++; setReplies(replyCount.current);
+      addLog({event, reply:spoken, source:musicReaction?"saved":mode}); replyCount.current++; setReplies(replyCount.current);
       if(continuousRef.current){setSpeaker(undefined);setCaption("Ali és Isti figyelnek. Jöhet a következő komment!");}
       if(trialRemaining.current!==null&&--trialRemaining.current<=0){pause();setMessage("Az automata műsorpróba kész: a komment és az ajándék válasza is magától lejátszódott. A próba két válasz után megállt.");setCaption("Automata műsorpróba befejezve.");}
     } catch (e) {
@@ -327,35 +366,46 @@ export default function LiveStudio() {
   }
   function connect() { tiktok.connect(connectionMode, username, pairing); }
   async function playTrack(track: Track): Promise<boolean> {
+    if(playedTracks.current.has(track.id)){setMessage("Ez a szám már elhangzott. Ebben a műsorban nem ismételjük meg.");return false;}
     setCurrentTrack(track.id);
     const player = music.current; if (!player) return false;
     player.src = track.url; player.volume = isSpeaking ? volume * 0.2 : volume;
-    try { await player.play(); return true; } catch { setMessage("A zenét a lejátszó indítógombjával indítsd el."); return false; }
+    try { await player.play(); playedTracks.current.add(track.id);return true; } catch {setCurrentTrack(""); setMessage("A zenét a lejátszó indítógombjával indítsd el."); return false; }
   }
 
   return <div className="space-y-6 pb-12">
     <header className="flex flex-wrap justify-between items-center gap-4"><div><p className="text-xs uppercase tracking-[0.25em] text-amber-400">WonderlyTales</p><h1 className="text-3xl font-bold">Élő karakterstúdió</h1><p className="mt-2 text-zinc-400">Magyar műsorvezető • Kommentek és ajándékok • Zenekérések</p></div><button className="rounded-lg bg-red-700 px-4 py-3 text-white font-bold" onClick={stopAll}>Mindent leállít</button></header>
     <section className="space-y-3 rounded-2xl border border-emerald-700 bg-emerald-950/20 p-5">
       <h2 className="text-2xl font-semibold">Automata műsor</h2>
-      <p className="text-sm text-zinc-200">Egy indítás után folyamatos mozgó jelenet megy. Ajándékra azonnal megjelenik Ali varázseffektje. A kommentekre és ajándékokra új AI-párbeszéd készül a saját hangokon, a beszélő videók maguktól lejátszódnak, majd visszatér a mozgó alapjelenet.</p>
+      <p className="text-sm text-zinc-200">Maszkolt Ali és Isti, váltakozó NPC-mozgások és folyamatosan változó háttérzene. A kommentekre friss párbeszéd hangzik el a saját hangokon. A kiválasztott zenés ajándékra Isti feláll és kiabál, majd visszaül. A megszólalásokhoz nem készül új videó.</p>
       <label className="block">Adás TikTok-felhasználóneve<input className={field} disabled={busy||auto||connected||tiktok.busy} placeholder="@felhasznalonev" maxLength={33} value={username} onChange={e=>setUsername(e.target.value)} /></label>
-      <div className="flex flex-wrap gap-2"><button className={button} disabled={busy||auto||tiktok.busy} onClick={()=>void startShow()}>Automata műsor indítása</button><button className="rounded-lg border border-emerald-500 px-4 py-2 disabled:opacity-40" disabled={busy||auto||connected||tiktok.busy} onClick={()=>void startShow(true)}>Automata műsorpróba – komment + ajándék</button><button className="rounded-lg border border-zinc-500 px-4 py-2 disabled:opacity-40" disabled={busy||auto||tiktok.busy} onClick={()=>void previewBackdrop()}>Mentett alapvideó próbája – új generálás nélkül</button>{(auto||backdropActive)&&<button className="rounded-lg bg-red-700 px-4 py-2" onClick={stopAll}>Automata műsor leállítása</button>}</div>
+      <div className="flex flex-wrap gap-2"><button className={button} disabled={busy||auto||tiktok.busy} onClick={()=>void startShow()}>Automata műsor indítása</button><button className="rounded-lg border border-emerald-500 px-4 py-2 disabled:opacity-40" disabled={busy||auto||connected||tiktok.busy} onClick={()=>void startShow(true)}>Automata műsorpróba – komment + ajándék</button><button className="rounded-lg border border-zinc-500 px-4 py-2 disabled:opacity-40" disabled={busy||auto||tiktok.busy} onClick={()=>void previewBackdrop()}>Mentett NPC-műsor és zene próbája</button>{(auto||backdropActive)&&<button className="rounded-lg bg-red-700 px-4 py-2" onClick={stopAll}>Automata műsor leállítása</button>}</div>
       <p className="text-xs text-zinc-400">A TikTok-adást egyszer el kell indítanod a Mobil játék módban. Utána ez a gomb a kommentfigyelőt, a válaszadást és a telefonos adásképet együtt indítja. A próba TikTok nélkül, a lent megadott kommentből és ajándékból két új választ játszik le, majd megáll.</p>
-      <p className="text-xs text-amber-200">Az alapmozgás egyszer készül el (5 mp, 60 Runway API-kredit), utána ismétlődik, új generálás nélkül. Minden új kétfős válasz AI-, hang- és legfeljebb 24 Runway API-kreditet használ. A beszélő válaszokra várni kell; közben az alapjelenet mozog. Az adás válaszkorlátjánál a műsor megáll.</p>
-      {backdrop.status&&<p role="status" className="text-sm text-emerald-200">{backdrop.status}</p>}
+      <p className="text-xs text-amber-200">A kommentválaszok szöveget és hangot készítenek; nincs válaszonkénti videógenerálás. A zenés ajándékreakció mentett képet és hangot használ. Az adás válaszkorlátjánál a műsor megáll.</p>
+      <details className="rounded-lg border border-zinc-700 p-3"><summary className="cursor-pointer">NPC-jelenetek és zenés ajándék beállítása</summary><div className="mt-3 space-y-3">
+        <p className="text-sm">Első előkészítés: három 8 másodperces alapmozgás és egy felállós reakció, összesen 320 Runway API-kredit, plusz egy elmentett kiabálás hangköltsége. Az előkészítés ismételt megnyomása a már elindított feladatokat folytatja.</p>
+        <button className={button} disabled={busy||auto} onClick={()=>void previewBackdrop(true)}>NPC-jelenetek elkészítése vagy ellenőrzése</button>
+        <label className="block">Zenés ajándék nevei (vesszővel elválasztva)<input className={field} maxLength={400} value={musicGiftNames} disabled={busy||auto} onChange={e=>{setMusicGiftNames(e.target.value);setMusicGiftId("");}} /></label>
+        <label className="block">Pontos TikTok ajándékazonosító (ha ismert)<input className={field} inputMode="numeric" maxLength={30} value={musicGiftId} disabled={busy||auto} onChange={e=>setMusicGiftId(e.target.value.replace(/\D/g,""))} /></label>
+        <p className="text-xs text-zinc-400">Az azonosító elsőbbséget élvez. Ha nincs megadva, csak a pontosan egyező ajándéknevek indítják a reakciót. A kommentbe írt „zene” nem ajándék. Az alábbi listában a már beérkezett valódi ajándékot egy érintéssel kiválaszthatod.</p>
+        {logs.filter(l=>l.event.type==="gift").slice(-5).map(l=><button key={l.event.id} className="mr-2 rounded border border-zinc-600 p-2 text-sm" disabled={busy||auto} onClick={()=>{setMusicGiftNames(l.event.gift||"");setMusicGiftId(l.event.giftId||"");}}>Zenés reakció ehhez: {l.event.gift}{l.event.giftId?` (#${l.event.giftId})`:""}</button>)}
+        <button className={button} disabled={busy||auto||!backdropActive||!npc.assets} onClick={()=>void previewMusicGift()}>Mentett felállós reakció próbája</button>
+        {npc.assets&&<div className="flex flex-wrap gap-3 text-sm text-amber-300">{npc.assets.idle.map((url,i)=><a key={url} href={url} download={`npc-alap-${i+1}.mp4`}>Alapjelenet {i+1} letöltése</a>)}<a href={npc.assets.reaction} download="isti-felallos-reakcio.mp4">Felállós jelenet letöltése</a><a href={npc.assets.voice} download="isti-kiabalas.mp3">Kiabálás letöltése</a></div>}
+      </div></details>
+      {npc.status&&<p role="status" className="text-sm text-emerald-200">{npc.status}</p>}
     </section>
     <div className="grid gap-6 xl:grid-cols-[minmax(280px,380px)_1fr]">
       <aside className="space-y-4"><div ref={mobile.container} className={mobile.active ? "fixed inset-0 z-[100] grid place-items-center bg-black" : ""}>
-        <Stage state={state} full={mobile.active} playbackRef={motion.element} onBackdropError={onBackdropError} />
+        <Stage state={state} full={mobile.active} playbackRef={motion.element} onBackdropError={onBackdropError} npcAssets={npc.assets} npcRef={npcPlayer} onNpcFrame={setNpcFrame} />
         {mobile.active && <><button aria-label="Mobil adáskép vezérlőinek megjelenítése" className="absolute inset-0 z-10 cursor-default" onClick={()=>mobile.setControls(!mobile.controls)} />{mobile.controls && <div className="absolute inset-x-3 top-[max(12px,env(safe-area-inset-top))] z-20 space-y-2 rounded-xl bg-black/90 p-3 text-white">
           <div className="flex flex-wrap gap-2"><button className={button} onClick={mobile.close}>Vissza a vezérléshez</button><button className="rounded-lg bg-red-700 px-4 py-2 font-bold" onClick={stopAll}>Mindent leállít</button></div>
           <p className="text-xs">Érintsd meg a képet a vezérlőkhöz. A gombok 6 másodperc után eltűnnek.</p>
-          <p role="status" className="text-sm">{message || backdrop.status || (busy ? motion.status : "") || bridgeStatus}</p>
+          <p role="status" className="text-sm">{message || npc.status || (busy ? motion.status : "") || bridgeStatus}</p>
         </div>}</>}
       </div><button className={`${button} w-full`} onClick={mobile.open}>Telefonos adáskép – kép és hang együtt</button><p className="text-xs text-zinc-400">A telefonon ezt az oldalt tartsd előtérben a TikTok képernyőközvetítése alatt. Az adáskép nem indít közvetítést. A kép megérintésével előhívhatod a vezérlőket.</p><button className={`${button} w-full`} onClick={() => {const popup = window.open(`/live-studio/output#${outputId.current}`, "wonderly-live-output", "width=540,height=960"); if (!popup) setMessage("Engedélyezd a felugró ablakot az adáskép megnyitásához.");}}>Tiszta adáskép külön ablakban ↗</button><p className="text-xs text-zinc-400">A LIVE Studio az adáskép ablakát rögzítse. A hang a vezérlő stúdiófülön szól; ezt hagyd nyitva.</p><div className={panel}><h2 className="font-semibold">Állapot</h2><p className="text-sm">AI: {service ? service.ai ? `beállítva (${service.aiModel || "AI"})` : "nincs beállítva" : "ellenőrzés…"}<br/>ElevenLabs: {service ? service.voice ? "beállítva" : "nincs beállítva" : "ellenőrzés…"}<br/>TikTok: {bridgeStatus}<br/>Elhangzott válasz: {replies} / {limit}<br/>Várakozó: {pending.length}{dropped > 0 && <><br/>Torlódás miatt kihagyva: {dropped}</>}</p>{speech.timed && <p className="text-xs text-emerald-300">Beszédidőzítés rendelkezésre áll{speech.word ? ` • ${speech.word}` : ""}</p>}</div></aside>
       <div className="space-y-5">
         <section className={panel}><h2 className="text-xl font-semibold">Műsorjelenet</h2>
-          <label className="flex items-center gap-2"><input type="checkbox" checked={motionMode} disabled={busy || auto || scene!=="duo" || voiceMode!=="eleven" || !service?.motion?.configured} onChange={e=>setMotionMode(e.target.checked)} />Runway beszélő videó a kommentekhez</label>
+          <label className="flex items-center gap-2"><input type="checkbox" checked={motionMode} disabled={busy || auto || continuous || scene!=="duo" || voiceMode!=="eleven" || !service?.motion?.configured} onChange={e=>setMotionMode(e.target.checked)} />Runway beszélő videó külön kézi próbákhoz</label>
           <p className="text-xs text-zinc-400">{service?.motion?.configured ? "Mindkét karakter bekötve." : "A videómódhoz mindkét Runway-karakter beállítása szükséges."} Egy megszólalás legfeljebb 30 másodperc; legfeljebb 12 Runway API-kredit, plusz a saját hang költsége. Egy kétfős válasz legfeljebb 24 kredit. A Runway webes Pro-kerete külön egyenleg. A készülő videó leállítható, de a már elindított generálás díja megmaradhat.</p>
           {busy && motion.status && <p role="status" className="text-sm text-violet-300">{motion.status}</p>}
           <label className="block">Jelenet<select className={field} disabled={busy || auto} value={scene} onChange={e => {pause(); setScene(e.target.value as "solo" | "duo"); setSpeaker(undefined); history.current=[]; setLogs([]); setCaption("Kezdődhet a műsor!");}}><option value="duo">Ali boszorkány és a duzzogó Mc Isti</option><option value="solo">Egyszereplős karakter</option></select></label>
@@ -381,7 +431,7 @@ export default function LiveStudio() {
           <p className="text-xs text-zinc-400">AI-módban Ali az aktuális kommentre csipkelődő poénnal válaszol, Isti előbb felháborodik, aztán önironikusan beadja a derekát. Az utolsó nyolc AI-párbeszédre emlékeznek. Az ajándékok elsőbbséget kapnak; két ajándékreakció után egy várakozó komment következik. A válasz szövege {service?.aiProvider === "wavespeed" ? "WaveSpeed-kérést használ (0,01 USD / kérés)" : service?.aiProvider === "gateway" ? "a Vercel AI Gateway keretét használja" : "a beállított AI-szolgáltató keretét használja"}. Ez külön keret a Runway-kreditektől. A közös jelenetben egy válasz két megszólalásból áll, így két hangkészítést használ. Hiba esetén a sor megáll. A próbamód előre megírt szöveget használ; ElevenLabs választásakor a hangkészítés ebben a módban is keretet fogyaszt.</p>
           <div className="grid gap-2 sm:grid-cols-[140px_1fr]"><input aria-label="Próbanéző neve" className={field} value={testUser} maxLength={80} onChange={e=>setTestUser(e.target.value)} /><input aria-label="Próbakomment" className={field} value={testText} maxLength={500} onChange={e=>setTestText(e.target.value)} /></div>
           {scene === "duo" && <div className="space-y-2"><div className="flex flex-wrap gap-2"><button className={button} disabled={busy || auto || !service?.ai || !testUser.trim() || !testText.trim()} onClick={() => void previewAI()}>AI-kommentpróba hang nélkül</button><button className={button} disabled={busy || auto || !service?.ai || !testUser.trim() || !testText.trim() || (voiceMode === "eleven" && (!service?.voice || !castVoices.ali || !castVoices.isti)) || (motionMode && !service?.motion?.configured)} onClick={() => void previewAI(true)}>{motionMode && voiceMode === "eleven" ? "Egyszeri AI-videópróba" : "Egyszeri AI-hangpróba"}</button></div><p className="text-xs text-zinc-400">Mindkét próba új választ ír a kommentre. A hang nélküli próba csak szöveget készít. Az egyszeri lejátszás a kiválasztott hangot és videómódot használja, két megszólalás után megáll. Videómódban a generálásra várni kell; ez még nem azonnali élő mozgás.</p>{aiPreview && <div role="status" className="rounded-lg border border-emerald-800 bg-emerald-950/20 p-3 space-y-2">{aiPreview.turns.map(turn => <p key={turn.speaker}><strong>{CAST[turn.speaker].name}:</strong> {turn.text}</p>)}</div>}</div>}
-          <label className="block text-sm">Próbaajándék típusa<select className={field} value={testGift} onChange={e=>setTestGift(e.target.value)}><option value="rózsa">Rózsa – szirmok</option><option value="szív">Szív – szívecskék</option><option value="varázspálca">Varázspálca – zöld köd</option></select></label>
+          <label className="block text-sm">Próbaajándék típusa<select className={field} value={testGift} onChange={e=>setTestGift(e.target.value)}><option value="Zene">Zene – felállás és kiabálás</option><option value="rózsa">Rózsa – szirmok</option><option value="szív">Szív – szívecskék</option><option value="varázspálca">Varázspálca – zöld köd</option></select></label>
           <div className="flex flex-wrap gap-2"><button className={button} disabled={!testUser.trim() || !testText.trim()} onClick={()=>enqueue({id:crypto.randomUUID(),type:"comment",user:testUser.trim(),text:testText.trim(),count:1})}>Próbakomment</button><button className={button} disabled={!testUser.trim()} onClick={()=>enqueue({id:crypto.randomUUID(),type:"gift",user:testUser.trim(),text:"",gift:testGift,count:1})}>Próbaajándék</button><button className="rounded-lg border border-zinc-600 px-3" onClick={()=>{queue.current.clear();setPending([]);}}>Várakozók törlése</button></div>
           {pending.length>0 && <div className="max-h-40 overflow-auto space-y-1 text-sm">{pending.map(e=><p key={e.id}><strong>{e.user}</strong>: {e.type==="gift"?`🎁 ${e.count} ${e.gift}`:e.text}</p>)}</div>}
           {logs.length>0 && <details><summary className="cursor-pointer">Elhangzott válaszok és hibák ({logs.length})</summary><div className="max-h-64 overflow-auto space-y-3 mt-2">{[...logs].reverse().map((l,i)=><div key={`${l.event.id}-${i}`} className={`rounded-lg p-3 text-sm ${l.error?"bg-red-950/40":"bg-zinc-900"}`}><strong>{l.event.user}</strong>: {l.event.text || l.event.gift}<p className="mt-1 text-zinc-300">{l.reply}</p>{l.error && <button className="text-amber-300 mt-2" onClick={()=>enqueue({...l.event,id:crypto.randomUUID()})}>Újrapróbálás a sorban</button>}</div>)}</div></details>}
@@ -395,7 +445,7 @@ export default function LiveStudio() {
           <p role="status" className="text-sm">{bridgeStatus}</p><p className="text-xs text-zinc-400">Az ellenőrzés nem indít adást vagy AI-generálást. A TikTok-kapcsolat nem hivatalos összekötőt használ, ezért szolgáltatói hiba vagy korlátozás esetén leállhat. Szerveres módban fiókonként egy kapcsolat futhat.</p>
           {connectionMode === "local" && <a className="text-sm text-amber-300 underline" href="https://github.com/moldovansandor1998-ai/Wonderlytales/tree/main/tools/tiktok-bridge" target="_blank" rel="noreferrer">Összekötő és indítási útmutató ↗</a>}
         </section>
-        <section className={panel}><h2 className="text-xl font-semibold">Zene és kívánságlista</h2><label className="block">Saját, közvetítésre jogosított zenék<input className="block mt-2" type="file" accept="audio/*" multiple onChange={e=>{const files=Array.from(e.target.files || []);const added=files.filter(f=>f.size<=100*1024*1024).slice(0,30).map(f=>{const url=URL.createObjectURL(f);objectUrls.current.add(url);return{id:crypto.randomUUID(),title:f.name.replace(/\.[^.]+$/,""),url};});setTracks(t=>[...t,...added]);}} /></label><label className="block">Hangerő<input className="block w-full" type="range" min={0} max={1} step={0.05} value={volume} onChange={e=>setVolume(Number(e.target.value))} /></label><p className="text-xs text-zinc-400">Beszéd közben a zene a beállított hangerő ötödére halkul. A nézők így kérhetnek számot: !zene számcím. A pontosan egyező című, előre betöltött szám automatikusan indulhat. A zenefájlok az oldal bezárásáig maradnak betöltve.</p><label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={autoMusic} onChange={e=>setAutoMusic(e.target.checked)} />Pontos címre érkező zenekérések automatikus lejátszása</label>{tracks.map(t=><button key={t.id} className="mr-2 rounded-lg border border-zinc-600 px-3 py-2 text-sm" onClick={()=>playTrack(t)}>▶ {t.title}</button>)}{requests.length>0 && <div className="space-y-2">{requests.map((r,i)=>{const matches=tracks.filter(t=>normalize(t.title)===normalize(r.title));return <div key={`${r.user}-${i}`} className="flex gap-2 items-center rounded-lg bg-zinc-900 p-2 text-sm"><span className="flex-1">{r.user}: {r.title}</span>{matches.length===1?<button className="text-amber-300" onClick={()=>playTrack(matches[0])}>Lejátszás</button>:<span className="text-zinc-500">Válassz zenét a listából</span>}</div>;})}</div>}<audio ref={music} controls className="w-full" onEnded={()=>setCurrentTrack("")} /></section>
+        <section className={panel}><h2 className="text-xl font-semibold">Zene és kívánságlista</h2><label className="flex items-center gap-2"><input type="checkbox" checked={backgroundMusic} onChange={e=>setBackgroundMusic(e.target.checked)} />Folyamatos, változó instrumentális háttérzene</label><p className="text-sm text-zinc-300">A műsorral együtt indul, új dallamváltozatokat játszik, és beszédkor lehalkul. Nincs ismétlődő hangfájl vagy fizetős zenegenerálás. A saját zenék egymás után egyszer szólnak, majd visszatér az instrumentális háttér.</p><label className="block">Saját, közvetítésre jogosított zenék<input className="block mt-2" type="file" accept="audio/*" multiple onChange={e=>{const files=Array.from(e.target.files || []);const added=files.filter(f=>f.size<=100*1024*1024).slice(0,30).map(f=>{const url=URL.createObjectURL(f);objectUrls.current.add(url);return{id:crypto.randomUUID(),title:f.name.replace(/\.[^.]+$/,""),url};});setTracks(t=>[...t,...added]);}} /></label><label className="block">Hangerő<input className="block w-full" type="range" min={0} max={1} step={0.05} value={volume} onChange={e=>setVolume(Number(e.target.value))} /></label><p className="text-xs text-zinc-400">Beszéd közben a zene a beállított hangerő ötödére halkul. A nézők így kérhetnek számot: !zene számcím. A pontosan egyező című, előre betöltött szám automatikusan indulhat. A zenefájlok az oldal bezárásáig maradnak betöltve.</p><label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={autoMusic} onChange={e=>setAutoMusic(e.target.checked)} />Pontos címre érkező zenekérések automatikus lejátszása</label>{tracks.map(t=><button key={t.id} className="mr-2 rounded-lg border border-zinc-600 px-3 py-2 text-sm" disabled={playedTracks.current.has(t.id)} onClick={()=>playTrack(t)}>▶ {t.title}</button>)}{requests.length>0 && <div className="space-y-2">{requests.map((r,i)=>{const matches=tracks.filter(t=>normalize(t.title)===normalize(r.title));return <div key={`${r.user}-${i}`} className="flex gap-2 items-center rounded-lg bg-zinc-900 p-2 text-sm"><span className="flex-1">{r.user}: {r.title}</span>{matches.length===1?<button className="text-amber-300" onClick={()=>playTrack(matches[0])}>Lejátszás</button>:<span className="text-zinc-500">Válassz zenét a listából</span>}</div>;})}</div>}<audio ref={music} controls className="w-full" onEnded={()=>{const next=tracks.find(t=>!playedTracks.current.has(t.id));if(next)void playTrack(next);else setCurrentTrack("");}} onError={()=>{setCurrentTrack("");setMessage("A zenefájl nem játszható le; folytatódik az instrumentális háttér.");}} /></section>
         <MotionHistory disabled={busy || auto} stopSignal={avatarStop} onStageReplay={clip=>void replayOnStage(clip)} />
         <AvatarPreview configuration={service?.avatar} disabled={speechBusy || auto} stopSignal={avatarStop} onActive={active => {setAvatarTesting(active); if (active) {pause(); music.current?.pause(); setCurrentTrack("");}}} />
         <section className={panel}><h2 className="text-xl font-semibold">Telefonos adás előkészítése</h2><ol className="list-decimal pl-5 space-y-2 text-sm"><li>Add meg felül a TikTok-felhasználónevedet. Az automata műsorpróba külön adás nélkül is ellenőrzi a teljes válaszfolyamatot.</li><li>A TikTokban válaszd a Mobil játék módot, és kapcsold be az MI által generált tartalom jelölését.</li><li>A képernyőközvetítés engedélyezése után térj vissza a böngészőbe, és nyomd meg az „Automata műsor indítása” gombot.</li><li>A mozgó jelenet, a kommentfigyelés és a reakciók ezután maguktól működnek. Másik készüléken ellenőrizd a közvetített képet és hangot.</li></ol><p className="text-xs text-zinc-400">A telefon képernyője és az előhívott vezérlők is látszhatnak az adásban. A rendszerhang továbbítását a saját telefonodon kell kipróbálni; a böngészős próba önmagában ezt nem igazolja.</p></section>

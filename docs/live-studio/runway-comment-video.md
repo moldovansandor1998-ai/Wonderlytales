@@ -85,3 +85,44 @@ Célzott ellenőrzés: 28 teszt (késői play-megszakítás, telefonos előtérb
 A csatlakoztatott TikTok Live Connector 2.5.0 a protobuf v3 eseményeket adja át. A komment szövege `content`, az ajándék neve/típusa `gift.name` / `gift.type`, a felhasználó azonosítója `displayId`. A régi normalizáló kizárólag a korábbi `comment` / `giftDetails` mezőket olvasta, ezért az aktív kapcsolatról érkező kommentet üresként eldobta, az ajándéksorozatot pedig nem megfelelően kezelte. A közös szerveres/helyi adapter mindkét formátumot támogatja. A regressziós teszt az alkalmazásban telepített `tiktok-live-proto/v3` kódolójával és dekódolójával készít valódi bináris eseményt, és ellenőrzi a válaszsorba kerülést, az ajándéksorozat lezárását és a rózsaszirom-effektet.
 
 A nézői TikTok-kép fekvő keretbe kicsinyített álló képernyője és a telefon mikrofonjának továbbítása külön közvetítési beállítás. A stúdió weboldala ezeket nem tudja átállítani. A mobil TikTok elrendezés- és hangbeállításait a készüléken kell ellenőrizni; az alapvideó néma, a beszélő klipek tartalmazzák a hangot.
+
+## 2026-10-14: masked NPC show and cached music-gift reaction
+
+The automatic show now generates fresh text and ElevenLabs speech only. It never
+calls the per-reply Runway avatar-video endpoint. Ali wears a medical mask and
+Isti an opaque black mouth cover in the new `ali-isti-masked.webp` reference.
+The reference is an imagegen edit of the existing duo image; identities, costume,
+room and camera are preserved, with the witch lowered into a resting pose.
+
+Preparation is explicit and owner-scoped: three subtle 8-second idle variants
+and one stand/gesture/sit reaction. Each uses Runway's `veo3.1_fast` with audio
+false and the same image for first and last frame (80 API credits per clip,
+320 total; current Runway pricing verified 2026-10-14). The dedicated budget
+service is `runway_npc_8s: 0.80`; daily limit and all other services are unchanged.
+The fixed angry Hungarian line is generated once per selected Isti voice with
+Eleven v3 and saved to private R2. No automatic retry after uncertain submission.
+MP4 assets and the source WebP are preserved in the owner's gallery.
+
+The browser caches the complete clips and shout as blob URLs before starting.
+Two video players keep the previous final frame visible until the next clip
+plays; idle variants do not repeat consecutively. Reactions wait for the next
+idle boundary, play once, and return to idle after both picture and voice finish.
+The saved voice starts 1.6 seconds into the reaction. STOP aborts the voice and
+pending reaction and stops music. Live output receives the active NPC frame.
+
+Music is an original Web Audio instrumental arrangement, continuously composed
+from changing chords, bass and mallet figures, with soft envelopes and reverb.
+It is not a looping recording and incurs no generation charge. Speech ducks it;
+video switches do not restart it. Optional uploaded tracks each play once per
+page session then return to the evolving instrumental bed.
+
+Native TikTok gift IDs are retained by the v3/legacy adapter. A configured exact
+ID takes precedence over exact normalized names. Comments never trigger the
+saved music-gift action. Default names are Zene, Music, Music Note, Musical Notes;
+these are matching defaults, not a claim that a particular account's gift catalog
+uses them. The operator can select an actually received gift from history.
+Streak completion and event dedup remain upstream of the reaction queue.
+
+Validation: targeted budget/idempotency, matching, native protocol and dialogue
+checks; production build. Actual user-phone TikTok layout and system-audio
+capture remain device checks; browser verification cannot prove those settings.

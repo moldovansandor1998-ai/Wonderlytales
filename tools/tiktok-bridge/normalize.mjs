@@ -13,5 +13,6 @@ export function normalizeEvent(type, data) {
   const count = Math.max(1, Math.min(10000, Math.floor(Number(data.repeatCount) || 1)));
   const nativeId = data.common?.msgId || data.msgId;
   const id = nativeId ? `${type}:${text(nativeId, 100)}` : `${type}:${createHash('sha256').update(JSON.stringify([uid, comment, gift, count, String(data.common?.createTime ?? Math.floor(Date.now() / 3000))])).digest('hex').slice(0, 32)}`;
-  return { id, type, user, text: comment, gift, count };
+  const rawGiftId = type === 'gift' ? text(Number(data.giftId) > 0 ? data.giftId : data.gift?.id ?? '', 30) : '';
+  return { id, type, user, text: comment, gift, count, ...(/^[1-9]\d*$/.test(rawGiftId) ? {giftId: rawGiftId} : {}) };
 }

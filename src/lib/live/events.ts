@@ -6,6 +6,7 @@ export const eventSchema = z.object({
   user: z.string().trim().min(1).max(80),
   text: z.string().trim().max(500).default(""),
   gift: z.string().trim().max(100).optional(),
+  giftId: z.string().regex(/^\d{1,30}$/).optional(),
   count: z.number().int().min(1).max(10000).default(1),
 });
 export type LiveEvent = z.infer<typeof eventSchema>;

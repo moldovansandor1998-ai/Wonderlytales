@@ -52,8 +52,13 @@ export function useSpeech() {
     if (!player) throw new Error("A hanglejátszó nem elérhető.");
     const bytes = Uint8Array.from(atob(data.audio), char => char.charCodeAt(0));
     const url = URL.createObjectURL(new Blob([bytes], {type:"audio/mpeg"}));
-    setTimed(!!data.alignment);
-    try {
+    try { await playAudio(url,signal,data.alignment,onStart); }
+    finally { URL.revokeObjectURL(url); }
+  }
+  async function playAudio(url:string,signal:AbortSignal,alignment:Alignment|null=null,onStart?:()=>void) {
+    signal.throwIfAborted();
+    const player=element.current;if(!player)throw new Error("A hanglejátszó nem elérhető.");
+    setTimed(!!alignment);
       await new Promise<void>((resolve, reject) => {
         let finished = false;
         const done = (error?: Error) => {
@@ -70,7 +75,7 @@ export function useSpeech() {
         player.onplaying = () => { setSpeaking(true); if (!started) { started = true; onStart?.(); } }; player.onpause = () => setSpeaking(false);
         player.onended = () => done(); player.onerror = () => done(new Error("A hangfájl nem játszható le."));
         player.ontimeupdate = () => {
-          const a = data.alignment;
+          const a = alignment;
           if (!a) return;
           const i = a.character_start_times_seconds.findIndex((s, index) => s <= player.currentTime && a.character_end_times_seconds[index] > player.currentTime);
           if (i < 0) { setWord(""); return; }
@@ -82,7 +87,8 @@ export function useSpeech() {
         player.src = url;
         void player.play().catch(() => done(new Error("A böngésző letiltotta a hangot. Kattints a Hangpróba gombra, majd indítsd újra a sort.")));
       });
-    } finally { URL.revokeObjectURL(url); }
+
   }
-  return { element, speaking, timed, word, say, unlock };
+  const playSaved=(url:string,signal:AbortSignal,onStart?:()=>void)=>playAudio(url,signal,null,onStart);
+  return { element, speaking, timed, word, say, unlock, playSaved };
 }
