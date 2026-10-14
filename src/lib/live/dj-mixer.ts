@@ -60,8 +60,23 @@ export class DjMixer {
     for (const deck of this.decks) deck.filter.frequency.setTargetAtTime(frequency, this.context.currentTime, 0.6);
   }
   start() { this.started = true; this.tick(); }
-  async next() { const track = nextDjTrack(this.tracks, this.unavailable(), this.mood); return track ? this.play(track) : false; }
+  async next() {
+    if (this.loading || this.mixing) return false;
+    const track = this.nextTrack(false, true);
+    return track ? this.play(track) : false;
+  }
   private unavailable() { return new Set([...this.played, ...this.failed]); }
+  private nextTrack(exactOnly: boolean, repeat: boolean) {
+    const next = nextDjTrack(this.tracks, this.unavailable(), this.mood, exactOnly);
+    if (next || !repeat) return next;
+    const first = this.tracks.find(track => !this.failed.has(track.id));
+    if (!first) return;
+    const player = this.decks[this.active]?.player;
+    // A one-song library must reach the end before starting the same song again.
+    if (first.id === this.current?.id && player && !player.ended && !player.error) return;
+    this.played.clear();
+    return first;
+  }
   private tick() {
     if (!this.started || this.loading || this.mixing || this.context.state !== "running") return;
     const player = this.decks[this.active]?.player;
@@ -70,7 +85,7 @@ export class DjMixer {
     if (broken && this.current) this.failed.add(this.current.id);
     const moodChange = this.adaptive && this.current && this.current.mood !== this.mood && this.current.mood !== "any" && Date.now() - this.changedAt >= 30000;
     if (!this.current || ending || broken || moodChange) {
-      const next = nextDjTrack(this.tracks, this.unavailable(), this.mood, !!moodChange && !ending && !broken);
+      const next = this.nextTrack(!!moodChange && !ending && !broken, !this.current || ending || broken);
       if (next) void this.play(next);
       else if (player?.ended || broken) { player.pause(); this.current = undefined; this.active = -1; this.onTrack(); }
     }

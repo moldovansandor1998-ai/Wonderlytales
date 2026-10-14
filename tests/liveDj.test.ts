@@ -131,12 +131,36 @@ describe("two-deck playback", () => {
     mixer.configure(tracks, "party", true, 0.5, false);
     expect(gain.setTargetAtTime).toHaveBeenLastCalledWith(0.5, 0, 0.45);
   });
-  it("releases the last track so the instrumental bed can return", async () => {
+  it("repeats the only uploaded song after its end without overlapping it early", async () => {
     mixer.configure([tracks[0]], "groove", true, 0.4, false);
     await mixer.play(tracks[0]); await vi.advanceTimersByTimeAsync(400);
+    FakeAudio.instances[0].currentTime = 118;
+    await vi.advanceTimersByTimeAsync(300); expect(changed).toHaveBeenCalledTimes(1);
     FakeAudio.instances[0].ended = true;
-    await vi.advanceTimersByTimeAsync(300); expect(changed).toHaveBeenLastCalledWith();
-    const calls = changed.mock.calls.length;
-    await vi.advanceTimersByTimeAsync(3000); expect(changed).toHaveBeenCalledTimes(calls);
+    await vi.advanceTimersByTimeAsync(300);
+    expect(changed.mock.calls.map(([track])=>track?.id)).toEqual(["a","a"]);
+    expect(FakeAudio.instances[1].src).toBe("blob:a");
+  });
+  it("plays the complete uploaded playlist, then starts again at the first file", async () => {
+    const songs=tracks.map(track=>({...track,mood:"any" as const}));
+    mixer.configure(songs,"groove",true,0.4,false);mixer.start();
+    for(let index=0;index<3;index++){
+      await vi.advanceTimersByTimeAsync(3000);
+      FakeAudio.instances[index%2].ended=true;
+      await vi.advanceTimersByTimeAsync(300);
+    }
+    expect(changed.mock.calls.map(([track])=>track?.id)).toEqual(["a","b","c","a"]);
+    expect([...mixer.played]).toEqual(["a"]);
+    mixer.stop();const calls=changed.mock.calls.length;
+    await vi.advanceTimersByTimeAsync(3000);expect(changed).toHaveBeenCalledTimes(calls);
+  });
+  it("does not retry failed files forever or invent music for an empty library", async () => {
+    mixer.configure([],"groove",true,0.4,false);mixer.start();
+    await vi.advanceTimersByTimeAsync(1000);expect(changed).not.toHaveBeenCalled();
+    mixer.configure([tracks[0]],"groove",true,0.4,false);
+    FakeAudio.instances[0].play.mockRejectedValue(new Error("decode"));
+    await vi.advanceTimersByTimeAsync(3000);
+    expect(FakeAudio.instances[0].play).toHaveBeenCalledOnce();
+    expect(error).toHaveBeenCalledOnce();expect(changed).not.toHaveBeenCalled();
   });
 });
