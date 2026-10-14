@@ -66,7 +66,7 @@ export function giftDialogue(event: LiveEvent, index: number): Dialogue {
     `${event.count} darab? Ali, nyiss virágboltot!`,
     `Ennyi ajándék, és Isti még mindig reklamál.`,
     `${event.count} darab, egyetlen sértődéssel elintézem.`,
-    `Ali, számold te! Nekem elfogyott a türelmem.`,
+    `Isti, számold te! Nekem elfogyott a türelmem.`,
   ][index % 4];
   else if (!/r[oó]zsa|rose|vir[aá]g|flower/iu.test(event.gift || "")) text = lines.slice(2)[Math.floor(index / 2) % 4];
   if (isBigGift(event)) text = ["Ali! Ezt még levonom a fizetésedből!", "Pucu, ez a prémium arcpakolás!", "A trón marad, a méltóság elment.", "Isti, még a kalapod is röhög!"][index % 4];
