@@ -2,7 +2,7 @@
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
 import type { NpcAssets } from "./useNpc";
 import type { MotionFrame } from "./useMotion";
-import type { GagKind } from "@/lib/live/npc-shared";
+import { GAG_META, type GagKind } from "@/lib/live/npc-shared";
 export type NpcPlayback={react:(signal:AbortSignal,onStart:()=>Promise<void>,kind?:GagKind)=>Promise<void>};
 const NpcPlayer=forwardRef<NpcPlayback,{assets:NpcAssets;active:boolean;onError?:(message:string)=>void;onFrame?:(frame:MotionFrame)=>void}>(function NpcPlayer({assets,active,onError,onFrame},ref){
   const a=useRef<HTMLVideoElement>(null),b=useRef<HTMLVideoElement>(null),gag=useRef<HTMLVideoElement>(null);
@@ -22,16 +22,15 @@ const NpcPlayer=forwardRef<NpcPlayback,{assets:NpcAssets;active:boolean;onError?
         const cancel=()=>done(new DOMException("Stopped","AbortError"));cancelReaction.current=cancel;
         const watchdog=setTimeout(()=>done(new Error("A rövid geg nem indult el.")),8000);
         signal.addEventListener("abort",cancel,{once:true});
-        video.onloadedmetadata=()=>{video.playbackRate=kind?4/3:1.5;if(!kind)video.currentTime=Math.min(4,video.duration/3);};
-        video.onplaying=()=>{if(started)return;started=true;setGagVisible(true);timer=setTimeout(()=>done(),3000);};
+        video.onloadedmetadata=()=>{video.playbackRate=kind?GAG_META[kind].duration/GAG_META[kind].playbackSeconds:1.5;if(!kind)video.currentTime=Math.min(4,video.duration/3);};
+        video.onplaying=()=>{if(started)return;started=true;setGagVisible(true);clearTimeout(watchdog);void onStart().catch(error=>done(error));timer=setTimeout(()=>done(),kind?GAG_META[kind].playbackSeconds*1000:3000);};
         video.ontimeupdate=()=>callbacks.current.onFrame?.({id:kind||"music-gift",url,position:video.currentTime,playing:!video.paused});
         video.onended=()=>done();video.onerror=()=>done(new Error("A rövid geg nem játszható le."));
         video.src=url;void video.play().catch(()=>done(new Error("A böngésző nem indította el a geget.")));
         if(signal.aborted)cancel();
       });
     } finally {reacting.current=false;cancelReaction.current=undefined;}
-    // Kept for compatibility with saved-scene callers; normal gifts speak concurrently outside.
-    signal.throwIfAborted();await onStart();
+    signal.throwIfAborted();
   }}),[active,assets]);
   useEffect(()=>{
     const players=[a.current!,b.current!];let disposed=false,current=0,last=-1,switching=false,lastFrame=0;

@@ -1,11 +1,11 @@
 import {beforeEach,afterEach,describe,it,expect,vi} from "vitest";
-import {isMusicGift} from "@/lib/live/npc-shared";
+import {isMusicGift,BASIC_GAGS,GAG_KINDS,GAG_META} from "@/lib/live/npc-shared";
 import {eventSchema,EventQueue} from "@/lib/live/events";
 import {normalizeEvent} from "../tools/tiktok-bridge/normalize.mjs";
 vi.mock("@/lib/budget",()=>({getProductionBudget:vi.fn(),reserveProductionBudget:vi.fn()}));
 vi.mock("@/lib/live/motion",()=>({retrieveMotion:vi.fn()}));
 import {getProductionBudget,reserveProductionBudget} from "@/lib/budget";
-import {startNpcClip,startNpcVoice,npcPayload,reactionPayload,readNpc} from "@/lib/live/npc";
+import {startNpcClip,startNpcVoice,npcPayload,reactionPayload,readNpc,npcRecordId} from "@/lib/live/npc";
 import {imageMetadata} from "@/lib/ai-video/storage";
 import {readFileSync} from "node:fs";
 const event={id:"1",type:"gift" as const,user:"Néző",text:"",gift:"Zene",count:1};
@@ -33,12 +33,18 @@ describe("bounded saved NPC assets",()=>{
  it("uses the same first and last frames, 8 seconds, and no generated audio",()=>{
   for(const kind of ["idle-breathe","idle-glance","idle-shrug","music-gift"] as const){const payload=npcPayload(kind,"data:image/webp;base64,test");expect(payload).toMatchObject({model:"veo3.1_fast",duration:8,audio:false,ratio:"720:1280"});expect(payload.promptImage[0].uri).toBe(payload.promptImage[1].uri);expect(payload.promptText.length).toBeLessThanOrEqual(1000);}
  });
- it("saves three distinct four-second gags once each using the existing bounded budget",async()=>{
-  for(const kind of ["gag-mud","gag-pie","gag-chicken"] as const){
+ it("saves six distinct four-second gags once each using the existing bounded budget",async()=>{
+  for(const kind of BASIC_GAGS){
     const payload=npcPayload(kind,"frame");expect(payload.duration).toBe(4);expect(payload.promptText.length).toBeLessThanOrEqual(1000);
     await startNpcClip(store,kind);await startNpcClip(store,kind);
   }
-  expect(fetch).toHaveBeenCalledTimes(3);expect(reserveProductionBudget).toHaveBeenCalledWith("runway_npc_4s");
+  expect(fetch).toHaveBeenCalledTimes(6);expect(reserveProductionBudget).toHaveBeenCalledWith("runway_npc_4s");
+ });
+ it("plays gags forward without a forced reset and uses distinct, valid versioned storage slots",()=>{
+  for(const kind of GAG_KINDS){const payload=npcPayload(kind,"frame");expect(payload.promptImage).toEqual([{uri:"frame",position:"first"}]);expect(payload.duration).toBe(GAG_META[kind].duration);expect(payload.promptText.length).toBeLessThanOrEqual(1000);expect(npcRecordId(kind)).toMatch(/^[a-f0-9-]{36}$/);}
+  expect(new Set(GAG_KINDS.map(npcRecordId)).size).toBe(GAG_KINDS.length);
+  expect(npcRecordId("idle-breathe")).toBe("00000000-0000-4000-8001-000000000001");
+  expect(npcRecordId("gag-mud")).not.toBe("00000000-0000-4000-8001-000000000005");
  });
  it("submits each fixed clip once and preserves the source in the gallery",async()=>{
   await startNpcClip(store,"idle-breathe");await startNpcClip(store,"idle-breathe");expect(fetch).toHaveBeenCalledTimes(1);expect(reserveProductionBudget).toHaveBeenCalledTimes(1);expect(reserveProductionBudget).toHaveBeenCalledWith("runway_npc_8s");expect(store.completeImage).toHaveBeenCalledTimes(1);

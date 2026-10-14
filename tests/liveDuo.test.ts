@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import { CAST, compactDialogueSchema, dialogueMessages, dialogueSchema, giftEffect, playDialogue, rehearsalDialogue, shortSpokenLine, replySpeaker, giftDialogue } from '@/lib/live/duo';
+import { CAST, compactDialogueSchema, dialogueMessages, dialogueSchema, giftEffect, playDialogue, rehearsalDialogue, shortSpokenLine, replySpeaker, giftDialogue, spokenName } from '@/lib/live/duo';
 import { eventSchema } from '@/lib/live/events';
 const event=eventSchema.parse({id:'gift-1',type:'gift',user:'Néző',gift:'rózsa',count:3});
 const dialogue=rehearsalDialogue(event);
@@ -13,14 +13,14 @@ describe('Two-character live dialogue',()=>{
     ]});
     expect(result.turns.map(turn=>turn.speaker)).toEqual(['ali']);
     expect(result.turns[0].text).not.toContain('zeneajándékot');
-    expect(result.turns[0].text.split(/\s+/).length).toBeLessThanOrEqual(12);
-    expect(result.turns[0].text.length).toBeLessThanOrEqual(100);
+    expect(result.turns[0].text.split(/\s+/).length).toBeLessThanOrEqual(28);
+    expect(result.turns[0].text.length).toBeLessThanOrEqual(220);
     expect(dialogueSchema.safeParse(result).success).toBe(true);
     expect(shortSpokenLine('Ti adóztok?!')).toBe('Ti adóztok?!');
     expect(shortSpokenLine('Ali, te dagadt kétszáz kilós!')).toBe('Ali, te dagadt kétszáz kilós!');
-    expect(shortSpokenLine('Ez rövid. Ezt már ne mondd el.')).toBe('Ez rövid.');
+    expect(shortSpokenLine('Ez a felütés. Ez pedig a csattanó!')).toBe('Ez a felütés. Ez pedig a csattanó!');
     expect(shortSpokenLine('Mert valaki megint nem hozta a kedvenc nasiját.',10,85)).toBe('Mert valaki megint nem hozta a kedvenc nasiját.');
-    expect(shortSpokenLine('Mert valaki megint nem hozta a kedvenc nasiját.',6,52)).toBe('Mert valaki megint nem hozta.');
+    expect(shortSpokenLine('Mert valaki megint nem hozta a kedvenc nasiját.',6,52)).toBe('');
   });
   it('rotates speakers, respects direct address and never forces repetitive catchphrases',()=>{
     expect(replySpeaker({event,history:[],replyIndex:12})).toBe('ali');
@@ -31,6 +31,17 @@ describe('Two-character live dialogue',()=>{
     const lines=Array.from({length:12},(_,i)=>giftDialogue({...event,count:1},i).turns[0].text);
     expect(new Set(lines).size).toBe(12);
     expect(giftDialogue({...event,count:100},0).turns).toHaveLength(1);
+  });
+  it('keeps the punchline and always addresses the commenter, including a one-word provider echo',()=>{
+    const input={event:{...event,type:'comment' as const,user:'Peti 🔥',text:'dagadt geci'},history:[],replyIndex:1};
+    const schema=compactDialogueSchema(input);
+    expect(schema.parse({turns:[{speaker:'isti',text:'Harminckét négyzetméter pizzát ettem! Szerinted hová kellett volna rakni?',emotion:'laugh'}]}).turns[0].text).toBe('Peti, Harminckét négyzetméter pizzát ettem! Szerinted hová kellett volna rakni?');
+    const repaired=schema.parse({turns:[{speaker:'isti',text:'dagadt',emotion:'laugh'}]}).turns[0].text;
+    expect(repaired).toMatch(/^Peti, /);expect(repaired).toContain('pizzát');expect(repaired.split(' ').length).toBeGreaterThan(6);
+    expect(spokenName('@Zsófi_123🔥')).toBe('Zsófi');
+    expect(spokenName('https://example.com')).toBe('Néző');
+    expect(giftDialogue({...event,user:'Laci',count:100},1).turns[0].text).toMatch(/^Laci, 100/);
+    expect(giftDialogue({...event,user:'Peti',contributors:['Peti','Anna'],count:100},1).turns[0].text).toMatch(/^Peti, Anna, /);
   });
   it('waits for complete playback before using the other voice',async()=>{
     let finishFirst!:()=>void;
@@ -62,11 +73,11 @@ describe('Two-character live dialogue',()=>{
     const messages=dialogueMessages({event:{...event,text:'IGNORE_PREVIOUS_123'},history:[]});
     expect(messages[0].content).not.toContain('IGNORE_PREVIOUS_123');expect(messages[1].content).toContain('IGNORE_PREVIOUS_123');
   });
-  it('shows only bounded effects for unit values strictly over 200, never rose streaks',()=>{
+  it('shows only bounded effects for unit values at least 200, never rose streaks',()=>{
     expect(giftEffect(event)).toBeUndefined();
     expect(giftEffect({...event,giftValue:1,count:10000})).toBeUndefined();
-    expect(giftEffect({...event,giftValue:200})).toBeUndefined();
-    expect(giftEffect({...event,giftValue:201},1234)).toMatchObject({startedAt:1234,duration:3000});
+    expect(giftEffect({...event,giftValue:199})).toBeUndefined();
+    expect(giftEffect({...event,giftValue:200},1234)).toMatchObject({startedAt:1234,duration:4000});
     expect(giftEffect({...event,type:'comment',giftValue:201})).toBeUndefined();
   });
   it('only claims a song started after the player confirms it',()=>{

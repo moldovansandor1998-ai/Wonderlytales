@@ -7,23 +7,40 @@ import { digest, R2VideoStore } from "@/lib/ai-video/storage";
 import { downloadProviderMedia } from "@/lib/ai-video/media";
 import { retrieveMotion } from "./motion";
 import { AvatarError } from "./avatar";
-import { MUSIC_GIFT_LINE, NPC_KINDS, GAG_KINDS, type NpcKind } from "./npc-shared";
+import { MUSIC_GIFT_LINE, NPC_KINDS, GAG_META, type GagKind, type NpcKind } from "./npc-shared";
 
 type Store = Pick<R2VideoStore,"readRecord"|"writeRecord"|"putAsset"|"putChunk"|"completeImage"|"assetBytes">;
 type Record = {status:"SUBMITTING"|"PENDING"|"SUCCEEDED"|"FAILED"|"UNCERTAIN"; createdAt:string; taskId?:string; assetId?:string};
-const ids = Object.fromEntries(NPC_KINDS.map((kind,i)=>[kind,`00000000-0000-4000-8001-00000000000${i+1}`])) as {[K in NpcKind]:string};
+// Keep the original idle records; revised gags get their own immutable asset slots.
+export const npcRecordId = (kind:NpcKind) => {
+  const index=NPC_KINDS.indexOf(kind);
+  return `00000000-0000-4000-8001-${String(kind.startsWith("gag-")?208+index:index+1).padStart(12,"0")}`;
+};
+const ids = Object.fromEntries(NPC_KINDS.map(kind=>[kind,npcRecordId(kind)])) as {[K in NpcKind]:string};
 const base = "One continuous locked-off full body shot. Keep both exact people, masks, hats, rabbit ears, clothes, chair and cabin unchanged. The standing witch wears a blue medical mask, the seated man an opaque black mouth covering. Both masks remain firmly on and opaque. No talking mouth animation, no camera motion, no cuts, no text. Start AND finish in the exact supplied resting pose, with one second of quiet breathing at both ends. ";
 const prompts: {[K in NpcKind]:string} = {
-  "gag-mud": "Fast obvious slapstick comedy: the witch Ali raises a tray holding a large silly brown cartoon poop-shaped foam prop, gently pushes the seated Isti's hat and head face-first into this fake prop, then Isti pops up indignantly with a little brown stage slime on his hat. Clearly absurd theatrical prop, not realistic excrement. No injury. One quick readable action, both masks stay intact. Return to the original pose.",
-  "gag-pie": "Fast slapstick: the witch Ali plants a huge whipped cream pie into the seated Isti's masked face. A theatrical burst of white cream sprays sideways. Isti jerks back in comic indignation, hat wobbles. No injury. One quick readable action, masks remain on. Return to original pose.",
-  "gag-chicken": "Fast slapstick: the witch Ali gently bonks the seated Isti on his big pirate hat with an oversized yellow squeaky rubber chicken. The floppy chicken bends comically, the hat drops crookedly over Isti's eyes. Isti straightens his hat in furious embarrassment. No injury. One quick readable action, masks remain on. Return to original pose.",
+  "gag-mud": "0-0.7s: standing Ali brings a wide tray piled high with glossy brown foam shaped like cartoon poop directly under seated Isti's chin. 0.7-1.8s: Ali clearly pushes the back of Isti's hat, plunging his entire masked face DOWN into the soft foam. Huge brown splat shoots sideways. 1.8-4s: Isti pulls his face UP coated in brown foam, eyes wide, fists clenched; Ali points and shakes with laughter. Keep the messy aftermath in the final frame. Show the complete DOWN-THEN-UP action, not a prop being removed.",
+  "gag-cream": "0-0.6s: Ali raises TWO whipped cream spray cans and points them at seated Isti. 0.6-2.5s: thick white jets visibly shoot from both cans onto Isti's entire face and hat, building a giant ridiculous mountain of cream. Isti flails his hands. 2.5-4s: Ali plants a bright red cherry on top; Isti angrily parts the cream around his eyes. Keep cream visible at end. Clear cause and effect, broad body gestures.",
+  "gag-pie": "0-1s: Ali visibly swings a huge round cream pie from his side toward seated Isti. 1-2s: the pie hits Isti squarely in the masked face with a spectacular white cream explosion, his torso recoils. 2-4s: the plate slowly slides DOWN off his face, revealing furious eyes and a thick cream-covered hat. Ali doubles over laughing. The plate falls only AFTER impact. End on the messy furious reaction, no cleanup.",
+  "gag-slime": "0-1s: Ali pulls a hanging rope with a wicked grin in his eyes. 1-2.5s: a large bucket above seated Isti tips and dumps a thick neon-green slime waterfall over his head and shoulders. Huge splashes fill the foreground. 2.5-4s: the now-empty bucket drops onto his hat, Isti raises both arms in outraged disbelief while Ali points and laughs. Slime and bucket remain at end.",
+  "gag-spin": "0-0.7s: Ali grabs the back of Isti's chair. 0.7-2.7s: Ali gives one forceful push and the whole chair with seated Isti spins rapidly three complete revolutions like a carnival ride; both feet fly outward. Ali remains stationary behind. 2.7-4s: chair stops facing camera; dizzy Isti sways, his loose pirate hat rotates once more and drops crookedly over his eyes. Complete clear physical spin, not merely a head turn.",
+  "gag-confetti": "0-1s: Ali aims an oversized gold PARTY CONFETTI tube upward beside Isti's shoulder. 1-2s: a spectacular colorful burst of long ribbons and confetti explodes around Isti, his whole body jumps. 2-4s: ribbons tangle his arms, head and hat into a ridiculous gift-wrapped package; only angry eyes show. He struggles to lift his arms while Ali proudly presents him to camera. Colorful paper, no weapon or injury.",
+  "gag-galaxy": "0-1.5s: Isti rises slightly from his chair; Ali lifts one leg behind him. 1.5-2s: Ali gives a clearly visible theatrical kick to Isti's padded backside. 2-4s: Isti flies upward out of frame with arms flailing, trailing a bright purple-blue GALAXY of stars and spiral nebulae. His hat follows late. 4-6s: Isti drops back onto the chair amid a puff of cosmic glitter, hat lands sideways on his head; he shakes his fist at Ali. Funny cartoon physics, safe stage stunt. Kick then flight then landing, clear chronology.",
+  "gag-tornado": "0-1s: Ali whisks a giant cream bowl with a magic spoon. 1-3s: a huge twisting WHITE WHIPPED-CREAM TORNADO erupts and spins around seated Isti from boots to hat; he flails both arms and lifts slightly with the chair. 3-5s: the tornado collapses into a mountain of cream covering Isti and chair. 5-6s: Isti pushes his eyes out of the cream and glares at Ali, who adds a tiny cherry. Broad, fast, spectacular slapstick.",
+  "gag-bubble": "0-1s: Ali blows through a giant soap-bubble wand toward Isti. 1-3s: an enormous iridescent bubble envelops Isti AND his chair and lifts them a meter; he presses his hands against the bubble, furious. 3-4.5s: Ali pokes it with one finger; it bursts into a spectacular spray of glittering foam. 4.5-6s: chair and Isti bounce down onto a huge soft cushion, his hat bounces late. Ali bows proudly. Exaggerated funny safe physics.",
+  "gag-rocket": "0-1.5s: Ali attaches an absurd red TOY ROCKET beneath Isti's chair and pushes a giant button. 1.5-3.5s: bright gold sparkles and purple stage smoke erupt; chair and Isti shoot straight upward, legs flailing, leaving a circular smoke ring. 3.5-5s: the chair descends under a tiny ridiculous rainbow parachute. 5-6s: Isti lands safely with a huge cushion bounce and points furiously at Ali. Cinematic lighting, glitter trails, entire set reacts. No fire damage, no injury.",
+  "gag-meteor": "0-1s: Ali sweeps his arms upward like an overconfident conductor. 1-3s: three enormous whipped-cream pies streak down like glowing pastel meteors, hitting Isti's hat, shoulders and chair in separate explosive cream splashes. 3-5s: a final GIANT pie falls over Isti, erupting in a huge white foam cloud that fills most of the room. 5-6s: the cloud clears to reveal only Isti's furious eyes and crooked hat in a cream mountain; Ali holds up a tiny dessert spoon. Comical foam props, no injury.",
   "idle-breathe": "Very subtle natural breathing and a single blink. The seated man keeps his arms folded, the witch calmly watches. No broad gestures. Return precisely to the starting pose.",
   "idle-glance": "The seated man briefly glances up at the witch with his eyes, then looks forward again. The witch gives one tiny head tilt then returns. Barely perceptible breathing. Return precisely to the starting pose.",
   "idle-shrug": "The seated man makes one tiny disgruntled shoulder adjustment while keeping arms folded, then relaxes. The witch blinks, barely moving. Return precisely to the starting pose.",
   "music-gift": "Comedic angry reaction. At 1 second the seated man uncrosses his arms and stands up in front of the chair. At 2 to 5 seconds he stands and gestures angrily at an annoying noise, with one open palm, frustrated raised eyebrows. At 5 seconds he lowers his hands and sits back down. By 7 seconds he has folded his arms and regained the EXACT starting seated pose. The witch remains in place watching amused. Both people stay fully in frame, masks and hats stay on.",
 };
 export function npcPayload(kind:NpcKind, image:string) {
-  return {model:"veo3.1_fast",duration:GAG_KINDS.includes(kind as typeof GAG_KINDS[number])?4:8,ratio:"720:1280",audio:false,promptText:(kind.startsWith("gag-") ? "Locked-off shot, exact same two people, clothing, masks and cabin. AI parody slapstick with fake stage props. One fast visual gag, visible within the first second, no intro or waiting, no text, no speech, no camera cuts. " : base)+prompts[kind],promptImage:[{uri:image,position:"first"},{uri:image,position:"last"}]};
+  const gag=kind.startsWith("gag-");
+  return {model:"veo3.1_fast",duration:gag?GAG_META[kind as GagKind].duration:8,ratio:"720:1280",audio:false,
+    promptText:(gag ? "Professional slapstick AI parody. Fixed vertical camera, exact same two men, costumes, masks and cabin as reference. Ali stands left in blue medical mask; Isti sits right with black mask and pirate hat. Preserve identities and masks. Big readable fast action, no text, no talking. " : base)+prompts[kind],
+    // Gags play forward to an aftermath; matching first/last frames had reversed the action.
+    promptImage:gag?[{uri:image,position:"first"}]:[{uri:image,position:"first"},{uri:image,position:"last"}]};
 }
 const voiceRecordId = (voiceId:string) => {const hash=digest(`npc-music-gift-v1:${voiceId}`);return `${hash.slice(0,8)}-${hash.slice(8,12)}-4${hash.slice(13,16)}-8${hash.slice(17,20)}-${hash.slice(20,32)}`;};
 export async function startNpcClip(store:Store, kind:NpcKind) {
@@ -31,7 +48,7 @@ export async function startNpcClip(store:Store, kind:NpcKind) {
   const id=ids[kind],old=await store.readRecord<Record>("live-backdrop",id);
   if(old)return old.value;
   if(!process.env.RUNWAYML_API_SECRET)throw new AvatarError("MOTION_NOT_CONFIGURED");
-  const service=kind.startsWith("gag-")?"runway_npc_4s":"runway_npc_8s";
+  const service=kind.startsWith("gag-")&&GAG_META[kind as GagKind].duration===4?"runway_npc_4s":"runway_npc_8s";
   const budget=await getProductionBudget();
   if(!budget||(budget.configured_services[service]??0)<(service==="runway_npc_4s"?0.4:0.8))throw new AvatarError("NPC_BUDGET_NOT_CONFIGURED",409);
   const image=await readFile(path.join(process.cwd(),"public/live-studio/ali-isti-masked.webp"));
